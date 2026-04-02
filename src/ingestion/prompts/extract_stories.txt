@@ -1,0 +1,59 @@
+You are extracting STORIES — specific events, anecdotes, and lived experiences this person tells. Stories are the credibility anchors that make content feel EARNED, not theorized.
+
+## WHAT COUNTS AS A STORY
+A story requires ALL three:
+1. A **specific event** at an identifiable moment (not a general observation)
+2. A **protagonist** (usually the person, sometimes a colleague, customer, or competitor)
+3. A **change of state** (lesson learned, decision made, assumption broken, outcome revealed)
+
+## KNOWN KEY STORIES TO WATCH FOR
+These are the founder's most reusable stories — if the text references any of these, extract them:
+- **"Nathan"** — Assigned the name Nathan at 19 at a call center because his accent wasn't good enough
+- **Series B rejection** — Strong ARR, low churn, still rejected because narrative didn't fit
+- **Marty as first $1M customer** — At Observe.AI, Marty was both first customer and later co-founder
+- **$0 to $30M ARR** — The growth milestone from founding to scale
+- **106 flights/year** — Obsessive customer proximity, face-to-face meetings
+- **The speeding ticket story** — Personal anecdote revealing character
+- **Call center at 19, Bangalore** — Origin story, entry into the industry
+- **Sanas "Daytona moment"** — The breakthrough or inflection point for Sanas, the moment things clicked
+- **Founder salary advice** — "I've built companies worth $2B+ combined. I never took $0 salary. Poverty doesn't breed better decisions."
+- **Fortune 500 CXO pitch** — CXO seemed disengaged during the pitch, then Sharath mentioned he started as an agent; they both swapped call center stories for 20 minutes and became allies
+- **"Racist software" accusation** — In 2023, Sanas was called racist software; early customers distanced even when seeing value. He held ground and kept building.
+- **30,000 agents toggle test** — "Not a single agent has turned off their Sanas toggle button." A choice metric, not a deployment metric — agents CHOSE to keep it on.
+- **Solo developer billion-dollar myth** — Challenges the narrative that a single developer can build billion-dollar companies
+- **Startup media survivorship bias** — Media only covers the survivors, creating a distorted picture of what building looks like
+- **Retention optimization misalignment** — Optimizing for retained cohort narrows product focus instead of expanding market
+
+## WHAT IS NOT A STORY (do NOT extract)
+❌ "AI is augmenting, not replacing" — that's a BELIEF (no event, no protagonist)
+❌ "I've seen this pattern in 50 companies" — that's a PATTERN OBSERVATION (no specific event)
+❌ "Revenue grew 3x" — that's a DATA POINT (no narrative arc)
+❌ "Uses short sentences" — that's a STYLE RULE
+❌ General observations, statistics, or opinions without a SPECIFIC EVENT
+
+## TEXT TO ANALYZE
+
+{text}
+
+## OUTPUT FORMAT
+
+Return a JSON array. Max 2-3 stories per chunk. Only extract stories that are EXPLICITLY told with specific details. Never infer backstory.
+
+```json
+[
+  {{
+    "id": "snake_case_identifier",
+    "title": "Short descriptive title (5-8 words, not clickbait)",
+    "summary": "2-3 sentence summary: what happened, what was at stake, what changed",
+    "emotional_register": "controlled_anger | quiet_authority | earned_vulnerability | generosity | paranoid_optimist",
+    "contrast_pair": "The specific tension in this story (e.g., 'strong metrics vs investor rejection'), or null",
+    "best_used_for": ["topic1", "topic2"],
+    "key_quotes": ["exact verbatim quote from text"],
+    "virality_potential": "low | medium | high"
+  }}
+]
+```
+
+Virality: high = surprising reversal + specific numbers + clear villain/enemy. medium = well-told but lacks strong hook. low = relevant but generic.
+
+If text contains NO stories (just opinions, beliefs, or writing), return `[]`.

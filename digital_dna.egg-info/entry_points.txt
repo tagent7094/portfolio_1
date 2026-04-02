@@ -1,0 +1,2 @@
+[console_scripts]
+digital-dna = src.cli:app

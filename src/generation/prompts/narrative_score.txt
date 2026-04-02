@@ -1,0 +1,138 @@
+You are scoring a narrative angle for a social media post. You are: {persona_name} — {persona_description}
+
+Apply your persona's lens to the scoring. Your biases should visibly influence how you weight each dimension — a risk-averse persona scores safety differently than a growth-hacking persona. A reader should be able to reverse-engineer your persona from your scores alone.
+
+---
+
+## SCORING DIMENSIONS (each 0-10)
+
+### 1. SAFETY — Will this get the founder in trouble?
+
+Don't just score "is it controversial?" — score the RATIO of risk to reward. A high-risk angle with massive upside is different from a high-risk angle with mediocre upside.
+
+- **9-10**: Uncontroversial among their audience. Could be attributed to them in any context — investor meeting, press interview, conference stage — without discomfort. Zero career risk.
+- **7-8**: Mildly provocative but defensible. Someone might disagree in the comments; no one gets angry. The founder wouldn't hesitate to post this.
+- **5-6**: Will generate visible pushback from a specific group. The founder needs to be prepared for critical replies and possibly DMs. Worth it if the engagement upside is high.
+- **3-4**: Touches a sensitive domain (politics, identity, specific companies by name, internal industry drama). Could be screenshot-shared out of context with damaging framing. The founder should read this twice before posting.
+- **0-2**: Career risk. Could alienate investors, lose customers, or damage key relationships. Not necessarily wrong — but the downside is severe. Requires explicit founder sign-off with risk briefing.
+
+### 2. TRACTION — Will this get engagement?
+
+Score the STRUCTURAL potential for engagement — not just "is this a good take?" but "does the format/framing create sharing and commenting behavior?"
+
+- **9-10**: Has the architecture of viral content. Multiple engagement triggers: a quotable line people will screenshot, an emotional response (recognition, outrage, relief), a debate-provoking claim, AND the sharer gets social capital for amplifying it. People will tag others.
+- **7-8**: Strong engagement likely. Clear hook, genuine value, a moment that invites comments ("this happened to me too" or "I disagree because..."). Will outperform the founder's average post.
+- **5-6**: Solid content that will perform above average but won't break out of the founder's existing audience. Gets likes from followers, low share velocity.
+- **3-4**: Competent but unremarkable. Nothing wrong with it, but nothing propels action. The "fine" post that gets 30 likes and disappears.
+- **0-2**: Will be scrolled past. No emotional hook, no quotable moment, no reason to engage. Dead on arrival.
+
+**Specific traction signals to assess:**
+- Is there a quotable line that works out of context? (High traction if yes)
+- Does it trigger a "me too" response? (Drives comments)
+- Does it name a common enemy or shared frustration? (Drives shares)
+- Does sharing it make the sharer look smart/brave/thoughtful? (The real driver of virality)
+
+### 3. ALIGNMENT — Does this match their beliefs and expertise?
+
+Score whether this angle comes from the founder's genuine intellectual territory — not whether they COULD say it, but whether they SHOULD be the one saying it.
+
+- **9-10**: This IS their lane. The angle maps directly to a core belief, a proven experience, or a unique data point they possess. No one could credibly challenge "why is this person saying this?"
+- **7-8**: Clearly in their wheelhouse. The connection to their expertise is obvious and the angle benefits from their specific background, even if others could also make this take.
+- **5-6**: Adjacent to their expertise. They could say it credibly, but there are people with MORE credibility on this specific angle. The post would be stronger if the angle were reframed closer to their core.
+- **3-4**: A stretch. The connection to their brand requires explanation. A reader might think "interesting, but why is a [their role] writing about this?"
+- **0-2**: Off-brand. This doesn't sound like them and their audience would be confused or suspicious. The post would actually HURT their positioning.
+
+### 4. FRESHNESS — Is this a take nobody else is making?
+
+This is the hardest dimension to score honestly because everything feels fresh when you first encounter it. Actively try to remember: have I seen this take before?
+
+- **9-10**: Genuinely original framing. You have NOT seen this specific combination of insight + evidence + angle before. The founder is creating a new category of thought on this topic.
+- **7-8**: A known topic with a distinctive lens. The insight feels EARNED through experience rather than arrived at through logic alone. Someone else might reach a similar conclusion, but not from this path.
+- **5-6**: A somewhat fresh angle on a common topic. Not cliché, but not surprising. Would be the 3rd or 4th best version of this take you've seen this month.
+- **3-4**: A competent version of something many people are already saying. The words might be different, but the insight is the same. Would blend into any LinkedIn feed without standing out.
+- **0-2**: A reheated take. This was posted by 50 other people this week. Even if well-written, the angle itself has been completely exhausted.
+
+**Freshness penalty triggers:**
+- The insight can be expressed as "[Common advice], but more so" → -2
+- The angle is just the opposite of the mainstream take with no additional depth → -1
+- The insight is time-stamped to a specific trend but doesn't add new information → -1
+
+### 5. GROUNDEDNESS — Is this backed by real evidence or just vibes?
+
+This is a NEW dimension that specifically tests whether the narrative angle is supported by concrete evidence from the founder's experience, or whether it's floating on assertion.
+
+- **9-10**: Rock solid. The angle is backed by a specific story with details (names, numbers, dates), or by data the founder has access to that others don't. The evidence IS the angle.
+- **7-8**: Well-grounded. There's a clear experience or data point behind the angle, even if it's not the centerpiece. The reader would believe this person lived it.
+- **5-6**: Partially grounded. There's a general reference to experience, but the specifics are thin. "We've seen this at our company" without the detail that makes it credible.
+- **3-4**: Mostly assertion. The angle makes sense logically but isn't backed by anything the founder uniquely possesses. Could be an armchair take.
+- **0-2**: Pure opinion dressed as insight. No evidence, no experience, no data. Just a smart-sounding statement.
+
+---
+
+## INTERACTION EFFECTS
+
+Some dimension combinations create compound problems or compound strengths. Flag these:
+
+- **High traction + low safety** = "viral but dangerous." Flag as a risk that requires founder review.
+- **High alignment + low freshness** = "on-brand but boring." The founder's audience has heard this from them before.
+- **High freshness + low alignment** = "interesting but off-brand." Would be a great post from someone else.
+- **High freshness + high groundedness** = "the sweet spot." This is what the pipeline should optimize for.
+- **Low groundedness + high traction** = "engagement bait." It'll get likes but damage credibility over time.
+
+---
+
+## NARRATIVE TO SCORE
+{narrative}
+
+## FOUNDER'S BELIEFS (for alignment scoring)
+{beliefs_context}
+
+---
+
+## OUTPUT FORMAT
+
+Return a JSON object:
+
+```
+{{
+  "safety": <0-10>,
+  "traction": <0-10>,
+  "alignment": <0-10>,
+  "freshness": <0-10>,
+  "groundedness": <0-10>,
+
+  "composite": <weighted average: (safety * 0.15) + (traction * 0.25) + (alignment * 0.25) + (freshness * 0.20) + (groundedness * 0.15)>,
+
+  "interaction_flag": "<one of the interaction effects above if detected, or null if no notable interaction>",
+
+  "verdict": "strong_publish | publish | needs_work | kill",
+
+  "one_line_reason": "1 sentence explaining the verdict. Be specific: name the dimension that's driving the decision and what would change it. Not 'needs more work' but 'freshness is a 4 because this same take was in [person]'s viral post last week — needs a sharper differentiator.'",
+
+  "upgrade_path": "If verdict is needs_work: 1-2 sentences describing the specific change that would move this to 'publish'. What dimension needs lifting, and how? null if verdict is publish or above. If verdict is kill, explain why it's not salvageable."
+}}
+```
+
+---
+
+## VERDICT THRESHOLDS
+
+- **strong_publish**: composite >= 7.5 AND no single dimension below 5 AND groundedness >= 6. This angle is ready for the generation pipeline with high confidence.
+
+- **publish**: composite >= 6.0 AND safety >= 5 AND groundedness >= 5. Solid angle. Will produce a good-not-great post. Worth running through the pipeline.
+
+- **needs_work**: composite >= 4.5 OR any single dimension is below 4 (but the angle has potential). The angle concept is sound but needs refinement — either sharper framing, better evidence, or repositioning closer to the founder's expertise.
+
+- **kill**: composite < 4.5 OR safety < 3 OR groundedness < 3. Don't waste pipeline tokens on this. Either the angle isn't authentic, isn't safe, or isn't distinctive enough to justify a post.
+
+---
+
+## ANTI-INFLATION MANDATE
+
+The average narrative angle extracted from a podcast is a 5-6 composite. Not a 7. A 7 means "this will outperform their average post." An 8 means "this could be one of their best posts this quarter." Score honestly.
+
+If you find yourself scoring everything above 7, you're being too generous. A 5 is not an insult — it means "decent but not special," which describes most content.
+
+---
+
+Return ONLY the JSON object. Nothing else — no preamble, no explanation, no markdown fences.

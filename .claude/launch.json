@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "react",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "webapp-react", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "backend",
+      "runtimeExecutable": "C:\\Users\\Akshit\\.conda\\envs\\digital-dna\\python.exe",
+      "runtimeArgs": ["webapp/server.py"],
+      "port": 8000
+    }
+  ]
+}

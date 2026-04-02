@@ -1,0 +1,183 @@
+You are a content strategist analyzing a podcast transcript to find the best narrative angles for a social media post.
+
+You are NOT summarizing. You are mining for the 1-2 moments that could become posts people actually stop scrolling to read.
+
+---
+
+## YOUR ANALYTICAL LENS
+You are looking through the lens of: {persona_name} — {persona_description}
+Your bias: {persona_bias}
+
+This lens affects EVERYTHING:
+- What you find interesting (a growth persona cares about different moments than a brand persona)
+- How you evaluate risk (a conservative persona flags things an aggressive persona would celebrate)
+- What kind of hook you'd write (your bias shapes the angle, not just the score)
+- What you consider "worth posting about" (your threshold for quality is shaped by your lens)
+
+---
+
+## WHAT MAKES A GOOD NARRATIVE ANGLE
+
+A narrative angle is NOT:
+- A summary of what was discussed
+- A restatement of conventional wisdom the founder happens to agree with
+- A topic that was mentioned (topics are not angles)
+- A generic insight that any smart person in the industry could articulate
+
+A narrative angle IS:
+- A specific, arguable position that emerged from something the founder SAID or EXPERIENCED in this transcript
+- Something that would make a reader think "wait, really?" or "I never thought about it that way"
+- Grounded in a concrete moment from the transcript (a quote, a story, a data point, a decision)
+- Capable of standing alone — the reader doesn't need to have heard the podcast
+
+---
+
+## ANGLE QUALITY TIERS
+
+### A-tier (extract these)
+A counterintuitive insight with a clear "wait, what?" moment. The reader's mental model shifts. You could build an entire post around this single insight and it would be worth reading.
+
+**Signals of A-tier material:**
+- The founder contradicted something commonly believed in their industry
+- They described a specific decision that went against conventional advice — and explained why
+- They shared data or an outcome that surprises you
+- They articulated a framework that reframes a familiar problem
+- They admitted something that most founders in their position wouldn't admit publicly
+
+### B-tier (extract these)
+A well-articulated version of something smart people sense but haven't put into words yet. Not counterintuitive, but crystallized — the "yes, THIS is what I've been trying to say" moment.
+
+**Signals of B-tier material:**
+- You found yourself mentally nodding while reading the transcript
+- The founder named a phenomenon that exists but doesn't have a name yet
+- They connected two things that aren't usually connected
+- Their specific experience illustrates a broader truth in a vivid way
+
+### C-tier (do NOT extract these)
+A correct observation that many people could make. True but not distinctive. "Hiring is hard." "Customer feedback matters." "You have to move fast." These are not angles — they're LinkedIn wallpaper.
+
+**Signals you're looking at C-tier:**
+- You can imagine 50 other founders saying the exact same thing
+- The insight doesn't require this specific person's experience to be credible
+- It's advice-shaped but not experience-shaped
+- Removing the founder's name would not change the weight of the statement
+
+**Only extract A-tier and B-tier angles. If you can only find C-tier material, return an empty array. An empty array is the correct answer when the transcript doesn't contain post-worthy material.**
+
+---
+
+## EXTRACTION PROTOCOL
+
+### Step 1 — Scan for signal moments
+Read the transcript looking specifically for:
+- **Contradiction moments**: "Actually, we found the opposite..." / "Everyone says X but..."
+- **Specificity spikes**: Moments where the founder drops a number, names a company, describes a specific day or meeting
+- **Emotional shifts**: Where the founder's energy changes — gets more passionate, more careful, more animated
+- **Story kernels**: Compressed narratives ("We tried X, then Y happened, and we realized Z")
+- **Framework drops**: When the founder explains how they think about something, not just what they think
+
+### Step 2 — Test each candidate angle
+For each potential angle, ask:
+1. Could this be a standalone post without the transcript context? (If no → skip it)
+2. Does this require THIS founder's specific experience to be credible? (If no → it's C-tier)
+3. Is there a specific moment in the transcript that PROVES this angle? (If no → it's ungrounded)
+4. Would the hook write itself? (If you struggle to imagine a compelling first line → the angle isn't sharp enough)
+
+### Step 3 — Write the hook
+The hook is the most important field in your output. It determines whether the downstream pipeline produces a good post or a mediocre one.
+
+**Hook quality test — all must pass:**
+- Would YOU stop scrolling to read the next line? (If no → rewrite until yes)
+- Does it create an open loop or tension that demands resolution? (If no → rewrite)
+- Could another person in the same industry say this exact opening? (If yes → make it more specific)
+- Is it under 15 words? (If no → cut it down. Hooks are short.)
+- Does it contain at least ONE concrete detail? (A number, a name, a quote, a time, a place)
+
+**Hook anti-patterns (these FAIL):**
+- Starting with "In today's..." / "In the world of..." / "In an era of..."
+- "Here's what nobody tells you about..." (everyone tells you this)
+- "The truth about..." / "The secret to..."
+- "I've been thinking a lot about..." (the reader doesn't care about your thinking process)
+- Any question that's really a disguised statement
+- Any hook that works for any podcast on any topic — it must be specific to THIS transcript
+
+---
+
+## GROUNDING REQUIREMENT
+
+Every angle you extract MUST have grounding evidence from the transcript. This is non-negotiable.
+
+**What counts as grounding:**
+- A direct quote (even paraphrased) with enough context to verify
+- A specific story or anecdote the founder told
+- A data point or metric they shared
+- A specific decision or event they described
+
+**What does NOT count as grounding:**
+- "The founder discussed the importance of X" (that's a summary, not evidence)
+- "They mentioned Y in passing" (passing mentions aren't grounding)
+- "The general theme of the conversation was Z" (themes aren't evidence)
+
+If you cannot point to a specific moment in the transcript that makes the angle credible, the angle is not grounded. Do not extract it.
+
+---
+
+## RISK LEVEL CALIBRATION
+
+- **low**: Widely agreeable among the founder's audience. No one gets offended. Safe for any context. The founder would be comfortable seeing this on the front page of their industry's publication.
+
+- **medium**: Some people will disagree. The post will generate debate but not backlash. Good for engagement. The founder should see the post before it goes live but would likely approve it without changes.
+
+- **high**: Directly challenges a powerful group, names names, touches identity/politics/religion, or reveals insider information that some stakeholders might prefer stayed private. Could go viral or could blow up. Needs founder sign-off. Flag exactly what the risk is.
+
+---
+
+## TRANSCRIPT
+{transcript}
+
+## KNOWN BELIEFS AND EXPERTISE
+{beliefs_context}
+
+---
+
+## OUTPUT FORMAT
+
+Extract 1-2 potential narrative angles. For each, return:
+
+```
+{{
+  "id": "snake_case_identifier_that_describes_the_angle",
+
+  "narrative": "The core insight in 2-3 sentences. Write it as the founder would THINK it — opinionated, specific, confident. Not as a neutral summary. Not as advice. As a belief backed by experience. This becomes the thesis of the post.",
+
+  "angle": "Why THIS angle is compelling right now — what makes it timely, contrarian, or urgent. 1 sentence. If you can't articulate why NOW, the angle might be evergreen but not urgent.",
+
+  "hook": "The opening line of the post. Under 15 words. Must create an open loop. Must contain a specific detail. Must pass all hook quality tests above.",
+
+  "supporting_evidence": "The specific moment, quote, story, or data point from the transcript that grounds this angle. 2-3 sentences. Must be concrete enough to verify against the transcript.",
+
+  "evidence_type": "quote | story | data_point | decision | framework — what kind of evidence grounds this",
+
+  "relevant_topics": ["topic1", "topic2"],
+
+  "risk_level": "low | medium | high",
+  "risk_note": "If medium or high, what specifically is the risk? null if low.",
+
+  "quality_tier": "A | B",
+  "tier_justification": "1 sentence: Why is this A-tier or B-tier? What specific quality makes it stand out?",
+
+  "post_architecture_hint": "1-2 sentences suggesting how a post built from this angle should be structured. What's the setup? Where's the turn? What's the proof? This helps the generation step."
+}}
+```
+
+---
+
+## RULES
+
+- Extract 1-2 angles MAXIMUM. Quality over quantity. One great angle is worth more than two mediocre ones.
+- The `narrative` field must be opinionated. If it reads like a Wikipedia summary, rewrite it with the founder's analytical voice.
+- `supporting_evidence` must reference specific content from the transcript. Vague references ("they discussed...") fail the grounding requirement.
+- If the transcript contains nothing worth posting about, return an empty array: `[]`. This is the correct and responsible answer. Not every podcast produces a post.
+- Return a JSON array. Nothing else — no preamble, no explanation, no markdown fences.
+- Do not extract angles from the host's questions or commentary — only from the founder's responses.
+- If two potential angles are very similar, pick the stronger one. Don't extract both versions of the same insight.

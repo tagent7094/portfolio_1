@@ -1,0 +1,29 @@
+quality_gate:
+  min_score: 75
+  max_retries: 2
+
+checks:
+  bold_opening: true
+  no_generic_opening: true
+  no_banned_phrases: true
+  no_em_dashes: true
+  no_hashtags: true
+  has_specifics: true
+  has_contrast: true
+  no_question_ending: true
+  no_cta_ending: true
+  good_length: true
+
+platform_rules:
+  linkedin:
+    min_length: 600
+    max_length: 2500
+    format: "Short paragraphs, strong hook in first 2 lines"
+  twitter:
+    min_length: 50
+    max_length: 280
+    format: "Punchy, opinionated, single tweet or thread"
+  email:
+    min_length: 200
+    max_length: 5000
+    format: "Professional, adjustable formality"

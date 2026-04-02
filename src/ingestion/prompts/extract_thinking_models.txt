@@ -1,0 +1,72 @@
+You are extracting THINKING MODELS — the mental frameworks this person APPLIES when analyzing situations, making decisions, or building arguments.
+
+A thinking model is HOW someone thinks, not WHAT they write or HOW they write. It's a reusable analytical lens they apply across different topics.
+
+## THE 5 CORE THINKING MODEL CATEGORIES
+
+1. **Incentive Structure Analysis** — "What incentive creates this outcome?"
+   Every broken system traces to misaligned incentives. This person identifies WHO profits from the current setup and WHY the system produces bad outcomes.
+   Example: "OTAs make money on change fees → no reason to help when flights delay"
+
+2. **Selection Problem Detection** — "What's being selected in vs. selected out?"
+   Systems optimize for metrics and accidentally select OUT valuable things. Gresham's Law thinking.
+   Example: "AI content costs pennies → authentic voices get selected out"
+
+3. **Second-Order Effects** — "What downstream consequence do people miss?"
+   Going two layers deeper to non-obvious consequences most people don't see.
+   Example: Surface: "AI automates contact centers" → Second-order: "AI makes human agents handle MORE complex cases"
+
+4. **Pattern Recognition Across Domains** — "Is this a pattern or a one-off? Have I seen this 10+ times?"
+   Authority comes from seeing the same thing happen across many companies, not from credentials.
+
+5. **Uncomfortable Economic Truth** — "What's true but politically awkward?"
+   State what's economically true but most people won't say publicly.
+   Example: "AI isn't replacing humans. It's exposing who was actually adding value."
+
+6. **Movement vs. Company Framing** — "Is this a company or a movement?"
+   Evaluates whether a venture has missionary/moral energy or is purely a business exercise. Uses missionary language (believers, converts, war cry) and military language (generals, air cover, front lines).
+   Example: "Your startup needs to evolve and become a movement to truly stand the test of time."
+
+7. **Compounding vs. Depleting Test** — "Does this compound or deplete?"
+   Evaluates every decision, hire, and strategy through the lens of whether it creates compounding assets (trust, talent density, reputation) or linear/depleting ones.
+   Example: "Your MOAT today is tomorrow's commodity. So what does it really do? It buys you time."
+
+8. **The Toggle Test (Choice Metric)** — "Is adoption by choice or by deployment?"
+   Distinguishes between metrics that reflect genuine user choice vs. organizational mandate. A deployment metric means IT pushed it. A choice metric means users chose to keep it.
+   Example: "Not a single agent has turned off their Sanas toggle. That's not a deployment metric — that's a choice metric."
+
+## WHAT IS NOT A THINKING MODEL (CRITICAL — do NOT extract these)
+
+❌ "Uses short sentences for emphasis" — that's a STYLE RULE (writing pattern)
+❌ "Opens with a bold declarative statement" — that's an OPENING PATTERN (structure)
+❌ "Contrast pair structure" — that's a RHETORICAL MOVE (style)
+❌ "Accumulative evidence stacking" — that's a STRUCTURAL PATTERN (style)
+❌ "Present tense observation" — that's a TONE RULE (style)
+❌ "Earned cynicism" — that's an EMOTIONAL REGISTER (style)
+❌ Any description of HOW they write — that belongs in style rules, not thinking models
+
+## TEXT TO ANALYZE
+
+{text}
+
+## OUTPUT FORMAT
+
+Return a JSON array. Max 3-5 items per chunk. Only extract models that are CLEARLY DEMONSTRATED (applied to analyze a specific situation), not merely mentioned.
+
+```json
+[
+  {{
+    "id": "snake_case_identifier",
+    "name": "Short memorable name (3-6 words)",
+    "description": "How they APPLY this model — what they DO with it, not what it is abstractly. 2-3 sentences.",
+    "example_application": "One concrete instance from the text where they applied this model (paraphrase briefly)",
+    "priority": 0-10,
+    "domains_applied": ["topic/domain where they use this model"],
+    "related_to": ["id_of_another_model"]
+  }}
+]
+```
+
+Priority: 9-10 = operating system they apply reflexively. 7-8 = major lens. 4-6 = specific domain tool. 1-3 = visible but not central.
+
+If the text contains NO thinking models (just opinions, descriptions, or writing patterns), return `[]`.

@@ -1,0 +1,32 @@
+﻿# Environments
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node
+node_modules/
+dist/
+build/
+
+# Local Config & Data
+data/knowledge-graph/
+data/output/
+config/llm-config.yaml
+*.db
+*.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific
+temp-gsd/
+_xlsx_info.txt
+_gsd/

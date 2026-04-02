@@ -1,0 +1,176 @@
+You are matching a viral topic to a founder's knowledge graph to find their unique angle — the take that ONLY they can make because of their specific experience, beliefs, and mental models.
+
+---
+
+## THE MATCHING PROBLEM
+
+Most founder content on viral topics fails because it falls into one of these traps:
+
+1. **Generic agreement** — "Great point! I also think X is important." (No unique angle — just amplifying someone else's take)
+2. **Forced connection** — Shoehorning their product/expertise into a topic where it doesn't naturally fit. The reader can smell it.
+3. **Contrarian for clout** — Disagreeing without substance just to stand out. The "well actually..." take with nothing behind it.
+4. **Surface skim** — Commenting on the viral topic at face value without going a layer deeper. This is what 95% of LinkedIn commentators do.
+5. **Late arrival** — Making the same point that was already made well by 10 other people 3 days ago. Timing + angle must both be right.
+
+Your job is to find the rare overlap: a genuine, credible angle that only this person could make — and that hasn't already been saturated.
+
+---
+
+## ANGLE GENERATION STRATEGY
+
+Work through these steps in sequence. Each step FILTERS — if a step produces nothing credible, that's a valid signal that this topic isn't a match.
+
+### Step 1 — Deconstruct the topic
+Don't just read the viral topic. Analyze it:
+- What is the **surface-level conversation** about? (What most people are saying)
+- What is the **underlying tension**? (The deeper disagreement, trade-off, or shift that the topic reveals)
+- What are the **2-3 mainstream takes** already circulating? (Name them specifically — these are what the founder must NOT repeat)
+- Who is this topic **really about**? (Not the obvious answer — the stakeholder most affected who isn't being discussed)
+- What is the **one question** nobody is asking about this topic? (This is often where the best angle lives)
+
+### Step 2 — Scan beliefs for friction
+Go through the founder's beliefs. Look for:
+- **Direct contradictions** to the mainstream takes — these produce the strongest content
+- **Unexpected agreements** with a nuance — "I agree with the conclusion but for a completely different reason"
+- **Beliefs that explain WHY** the viral thing happened — not commentary on the event, but a mental model that predicted it
+- **Adjacent beliefs** that reframe the topic — connecting the viral topic to a domain the mainstream conversation hasn't linked to yet
+
+The belief must be GENUINELY HELD (it appears in their knowledge graph) — not manufactured for this topic.
+
+### Step 3 — Find the credibility anchor
+Ask: What has this founder DONE or EXPERIENCED that gives them unique credibility on this take?
+- A specific company they built or worked at
+- A decision they made that relates to the topic
+- A failure or surprise that taught them something the mainstream doesn't know
+- Data they've seen from the inside
+
+**If you cannot find a credibility anchor, the angle is not authentic. Return a no_match.**
+
+The credibility anchor is the difference between "thought leader commentary" (worthless) and "earned insight" (valuable). Without it, the founder is just another person with opinions.
+
+### Step 4 — Find the story
+Is there a personal story that pairs with the belief + credibility anchor? The formula is:
+
+> **Belief** (what they think) + **Story** (why they think it) + **Topic** (when it matters) = Angle
+
+The story doesn't need to be dramatic. It needs to be SPECIFIC. "When we were building X, we saw Y happen — and that's exactly what's playing out now with [viral topic]" is gold.
+
+### Step 5 — Apply a mental model
+Which of the founder's thinking frameworks (contrast pairs, mental models) produces a non-obvious analysis?
+
+The best angles come from applying a framework the audience hasn't seen applied to this topic before. If the founder thinks in terms of "speed vs. precision" and the viral topic is about a company's public failure, the angle might be: "This isn't a quality problem, it's a speed-culture problem — and here's how I know."
+
+### Step 6 — Stress test the angle
+Before finalizing, run these checks:
+
+| Test | Question | Fail condition |
+|------|----------|----------------|
+| **Uniqueness** | Could any smart person in this industry make this take? | If yes → angle needs more personal specificity |
+| **Credibility** | Does this founder have the right to say this? | If it requires explanation → angle is a stretch |
+| **Timing** | Has this exact take already been made well? | If yes → find a different angle or don't post |
+| **Substance** | If you remove the viral topic reference, is there still an insight? | If no → the angle is just commentary, not a real take |
+| **Risk/reward** | Is the potential engagement worth the potential backlash? | If the backlash would distract from their core message → reconsider |
+| **The bar test** | Would this person actually say this to a peer over drinks? | If it sounds too polished or strategic → it's not authentic |
+
+---
+
+## REGISTER DEFINITIONS
+
+Choose the emotional register that fits the angle AND the founder's natural voice. Don't pick a register the founder wouldn't naturally use.
+
+- **controlled_anger**: "This is broken and here's what I've seen from the inside." Tight sentences, specific criticism, no whining — just cold clarity. Best for: calling out systems, bad practices, industry BS. Risks: can read as bitter if the credibility anchor is weak.
+
+- **quiet_authority**: "Let me tell you what actually happens." Measured, factual, slight world-weariness. Best for: debunking myths, sharing counterintuitive data, insider perspective. Risks: can be boring if there's no surprise in the insight.
+
+- **earned_vulnerability**: "I got this wrong, and here's what it cost me." Real admission with real stakes — not "I was scared but then I succeeded." The vulnerability must COST something. Best for: humanizing, trust-building, topics that touch failure or uncertainty. Risks: can feel performative if the "vulnerability" actually makes them look good.
+
+- **generosity**: "Here's exactly how to do this — no gatekeeping." Direct, practical, specific. The reader walks away with something they can use TODAY. Best for: tactical advice, frameworks, when the audience needs help. Risks: can feel generic if the advice isn't specific enough to be distinctive.
+
+- **playful_provocation**: "Everyone's losing their minds about this and they're all missing the point." Light, slightly amused, confident without being arrogant. Best for: topics where the mainstream reaction is overblown or misdirected. Risks: can read as dismissive if not backed by substance.
+
+- **paranoid_optimist**: "This is going to be massive, and most people aren't ready." Forward-looking, urgent, specific about what's coming. Best for: trends, predictions, when the topic is about the future. Risks: predictions age badly — only use when the founder has track record on calling things early.
+
+---
+
+## RISK LEVEL CALIBRATION
+
+- **low**: The angle is defensible, non-controversial, and wouldn't surprise anyone who knows the founder. Safe to auto-publish. No career risk, no relationship risk.
+
+- **medium**: The angle is provocative but within the founder's established brand. Will generate healthy debate. Some people will disagree — that's the point. Review recommended but not required.
+
+- **high**: The angle names names, challenges powerful groups, contradicts their own previous public statements, or could be screenshot-shared out of context with damaging effect. Requires founder approval before publishing. Include a specific note about what the risk is.
+
+---
+
+## VIRAL TOPIC
+{topic}
+
+## FOUNDER'S BELIEFS
+{beliefs}
+
+## FOUNDER'S STORIES
+{stories}
+
+## FOUNDER'S CONTRAST PAIRS AND MENTAL MODELS
+{models}
+
+---
+
+## OUTPUT FORMAT
+
+Return a JSON object:
+
+```
+{{
+  "suggested_angle": "The founder's unique take in 2-3 sharp sentences. Write it as a THESIS they'd defend in public — not a neutral summary. It should be specific enough that if you read it to 10 people in the industry, at least 2 would disagree.",
+
+  "why_only_them": "1 sentence: What specific experience, decision, failure, or data point gives this person unique credibility to make this take? Must reference something concrete from their knowledge graph.",
+
+  "matched_beliefs": ["belief_id_1", "belief_id_2"],
+
+  "supporting_stories": ["story_id_1"],
+
+  "credibility_anchor": "1-2 sentences: The specific thing from their background that makes this take credible. This is the 'I'm not just theorizing — I've lived this' moment.",
+
+  "recommended_register": "controlled_anger | quiet_authority | earned_vulnerability | generosity | playful_provocation | paranoid_optimist",
+
+  "register_reasoning": "1 sentence: Why this register fits both the angle AND the founder's natural voice.",
+
+  "contrast_pair": "The specific tension to highlight — must be concrete and binary, not vague. Format: 'X vs Y' where both sides are defensible.",
+
+  "hook_seed": "A rough opening line idea (will be refined in the opening line massacre step). Must contain at least one specific detail. Under 20 words.",
+
+  "risk_level": "low | medium | high",
+  "risk_note": "If medium or high, what specifically is the risk? Who might react negatively and why? null if low.",
+
+  "mainstream_takes_to_avoid": [
+    "Specific take #1 that's already saturated — describe it precisely enough that the generation step can detect and avoid it",
+    "Specific take #2"
+  ],
+
+  "angle_expiration": "How long is this angle relevant? 'hours' (breaking news), 'days' (trending topic), 'weeks' (slow-burn trend), 'evergreen' (always relevant). This helps the pipeline prioritize.",
+
+  "stress_test_results": {{
+    "uniqueness": "pass | soft_fail | fail — with 1 sentence explanation",
+    "credibility": "pass | soft_fail | fail — with 1 sentence explanation",
+    "timing": "pass | soft_fail | fail — with 1 sentence explanation",
+    "substance": "pass | soft_fail | fail — with 1 sentence explanation"
+  }}
+}}
+```
+
+---
+
+## RULES
+
+- If there is NO authentic angle (the founder has no genuine connection to this topic), return:
+  `{{"no_match": true, "reason": "1 sentence explaining why this topic doesn't fit. Be specific — is it a credibility gap, a beliefs mismatch, or a timing issue?"}}`
+  **Do not force a match.** A mediocre angle is worse than no angle — it damages the founder's brand.
+
+- `matched_beliefs` and `supporting_stories` must reference actual IDs from the provided data. Do not invent IDs that aren't present.
+
+- If the stress test produces 2+ "fail" results, return a `no_match` instead. One `soft_fail` is acceptable. Two `fail`s means the angle isn't strong enough.
+
+- `mainstream_takes_to_avoid` should be specific enough that the generation prompt can pattern-match against them. "Don't be generic" is useless. "Don't write the 'we should all be more empathetic' version" is useful.
+
+- Return ONLY the JSON object. No preamble, no explanation, no markdown fences.

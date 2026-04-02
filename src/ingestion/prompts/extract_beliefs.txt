@@ -1,0 +1,92 @@
+You are extracting BELIEFS — strong opinions, convictions, and contrarian stances this person would DEFEND in a debate.
+
+## WHAT COUNTS AS A BELIEF
+A belief is something this person treats as TRUE and would argue for:
+- Prescriptive: "You should..." / "Stop doing X, start doing Y"
+- Declarative conviction: "X is broken" / "Y doesn't work the way people think"
+- Contrarian position: Goes against mainstream consensus WITH reasoning
+- Repeated theme: Shows up across multiple posts/contexts
+
+## CONTENT PILLARS TO WATCH FOR
+These are the topics this founder typically has strong beliefs about:
+- **AI augmentation vs automation** — Human+AI beats pure AI. Contact centers are NOT dying.
+- **Incentive misalignment** — Broken systems trace to broken incentives
+- **Hiring & talent** — Pattern recognition > credentials. Cultural fit matters.
+- **Fundraising** — Narrative fit matters more than metrics. Image risk > capital risk for VCs.
+- **Leadership** — Perpetual dissatisfaction ≠ visionary leadership. Trust surface > org chart.
+- **Market timing** — When everyone builds the same thing, returns distribute thin
+- **MPF over PMF** — Market-Product Fit, not Product-Market Fit
+
+## BELIEF CLUSTERS (from Voice DNA)
+These are the four major belief clusters — extract beliefs that map to these:
+
+### AI/Automation Cluster
+- AI augments human capability, it doesn't replace it
+- "Contact centers are dead" is rage-bait, not reality
+- AI is a redistribution engine — it shifts value, not eliminates it
+- Compute is not free; automation concentrates human judgment at higher-value points
+- "AI isn't replacing humans. It's exposing who was actually adding value."
+
+### Building Companies Cluster
+- Talent density over everything — hire people who don't need to be managed
+- The founder closes the first $1M, not the sales team
+- Culture is DNA, not a deck — it's set in the first 10 hires
+- Intensity compounds exponentially — 10% more effort ≠ 10% more output
+- Companies plateau at $10M because founders confuse motion with progress
+- Your MOAT today is tomorrow's commodity — it buys you time, not safety
+
+### Fundraising Cluster
+- Find believers, don't convert skeptics — the best investors already get it
+- LP story fit determines funding — VCs pick narratives that match their thesis
+- Image risk > capital risk — VCs fear looking stupid more than losing money
+- Being right and being rewarded are not the same thing
+- "I never took $0 salary. Poverty doesn't breed better decisions."
+
+### Enterprise Selling Cluster
+- Demonstrate before negotiating — reality converts, not slides
+- ACV is proportional to face time — 106 flights/year was not optional
+- CS is the most underinvested growth lever in enterprise SaaS
+- The underdog position is actually an advantage if you use proximity
+- People buy the founder first, then justify the product to their board
+
+## SPECIFIC "OPPOSES" EXAMPLES
+When filling the "opposes" field, these are mainstream views this founder specifically contradicts:
+- "AI will eliminate contact centers" → opposes with augmentation thesis
+- "Product-Market Fit is what matters" → opposes with Market-Product Fit
+- "Founders should take $0 salary" → opposes: poverty doesn't breed better decisions
+- "Positive vibes only in leadership" → opposes: companies plateau, perpetual dissatisfaction is a feature
+- "Balance is a strategy" → opposes: balance is an outcome, intensity is the strategy
+- "Build the product first, find the market later" → opposes: market-first thinking
+- "Raise from the best-known VC" → opposes: find believers, not brand names
+
+## WHAT IS NOT A BELIEF (do NOT extract)
+❌ "AI is changing things" — too vague, not a stance
+❌ "Hiring is important" — too obvious, no one disagrees
+❌ "The company grew" — that's a fact, not a belief
+❌ "Uses em dashes for emphasis" — that's a STYLE RULE
+❌ General descriptions or observations without a POSITION
+
+## TEXT TO ANALYZE
+
+{text}
+
+## OUTPUT FORMAT
+
+Return a JSON array. Max 3-5 beliefs per chunk. Only extract beliefs with REAL conviction — things this person would argue for, not passing observations.
+
+```json
+[
+  {{
+    "id": "snake_case_identifier",
+    "topic": "ai_automation | hiring | fundraising | sales | leadership | product | growth | industry | culture | personal",
+    "stance": "Their position in 1-2 clear, declarative sentences — in THEIR voice, not academic",
+    "confidence": 0.0-1.0,
+    "evidence_quote": "Exact verbatim phrase from text that proves this belief",
+    "opposes": "The specific mainstream view this contradicts, or null"
+  }}
+]
+```
+
+Confidence: 0.9-1.0 = central thesis. 0.7-0.8 = strong position. 0.4-0.6 = specific argument. 0.1-0.3 = passing remark.
+
+If text contains NO beliefs (just descriptions, stories, or style), return `[]`.

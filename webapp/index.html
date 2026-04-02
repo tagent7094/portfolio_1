@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital DNA</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1><span class="logo">D</span> Digital DNA</h1>
+            <select id="founder-selector" onchange="switchFounder(this.value)">
+                <option value="sharath">Sharath</option>
+            </select>
+        </div>
+        <nav>
+            <button class="active" onclick="showSection('dashboard', this)">Dashboard</button>
+            <button onclick="showSection('generate', this)">Generate</button>
+            <button onclick="showSection('graph', this)">Graph</button>
+            <button onclick="showSection('coverage', this)">Coverage</button>
+            <button onclick="showSection('history', this)">History</button>
+            <button onclick="showSection('config', this)">Config</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Dashboard -->
+        <div id="dashboard" class="section active">
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card"><div class="number" id="stat-nodes">-</div><div class="label">Nodes</div></div>
+                <div class="stat-card"><div class="number" id="stat-edges">-</div><div class="label">Edges</div></div>
+                <div class="stat-card"><div class="number" id="stat-beliefs">-</div><div class="label">Beliefs</div></div>
+                <div class="stat-card"><div class="number" id="stat-stories">-</div><div class="label">Stories</div></div>
+                <div class="stat-card"><div class="number" id="stat-styles">-</div><div class="label">Style Rules</div></div>
+                <div class="stat-card"><div class="number" id="stat-models">-</div><div class="label">Thinking Models</div></div>
+            </div>
+
+            <div class="card">
+                <h2>Ingest Founder Data</h2>
+                <p class="muted">
+                    Place your founder files (.md, .txt, .csv, .json) in <code>data/founder-data/</code> then click ingest.
+                </p>
+                <button class="btn btn-primary" id="btn-ingest" onclick="runIngest()">Run Ingestion</button>
+                <div id="ingest-status" style="margin-top: 12px;"></div>
+            </div>
+
+            <div class="card">
+                <h2>Personality Card</h2>
+                <div id="personality-card" class="personality-card-content">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Generate -->
+        <div id="generate" class="section">
+            <div class="card">
+                <h2>Generate from Viral Topic</h2>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1">
+                        <label>Viral Topic</label>
+                        <input type="text" id="topic-input" placeholder='e.g. "AI agents replacing contact center workers"'>
+                    </div>
+                    <div class="form-group" style="width:150px">
+                        <label>Platform</label>
+                        <select id="topic-platform">
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="email">Email</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Creativity Slider -->
+                <div class="creativity-slider-group">
+                    <label>Creativity</label>
+                    <div class="slider-row">
+                        <span class="slider-label-left">Proven Patterns</span>
+                        <input type="range" id="creativity-slider" min="0" max="100" value="50" oninput="updateCreativityLabel(this.value)">
+                        <span class="slider-label-right">Creative Freedom</span>
+                    </div>
+                    <div class="slider-value" id="creativity-value">50% — Balanced</div>
+                </div>
+                <button class="btn btn-primary" id="btn-gen-topic" onclick="generateTopic()">Generate Post</button>
+                <div id="topic-status" style="margin-top: 12px;"></div>
+            </div>
+
+            <!-- Pipeline Stepper (5 stages) -->
+            <div id="pipeline-viz" class="pipeline-stepper" style="display:none;">
+                <div class="step pending" data-stage="generate" id="step-generate">
+                    <div class="step-indicator">1</div>
+                    <div class="step-label">Generate<br><small>10 variants</small></div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step pending" data-stage="vote" id="step-vote">
+                    <div class="step-indicator">2</div>
+                    <div class="step-label">Audience Vote<br><small>5 agents</small></div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step pending" data-stage="refine" id="step-refine">
+                    <div class="step-indicator">3</div>
+                    <div class="step-label">Refine<br><small>top posts</small></div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step pending" data-stage="massacre" id="step-massacre">
+                    <div class="step-indicator">4</div>
+                    <div class="step-label">Opening<br><small>massacre</small></div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step pending" data-stage="humanize" id="step-humanize">
+                    <div class="step-indicator">5</div>
+                    <div class="step-label">Humanize<br><small>& score</small></div>
+                </div>
+            </div>
+
+            <!-- Stage Panels -->
+            <div id="stage-panels" style="display:none;">
+
+                <!-- Stage 1: Generated Posts -->
+                <div id="panel-generate" class="stage-panel" style="display:none;">
+                    <div class="card">
+                        <h2>Stage 1: Generated Posts <span id="gen-count" class="badge">0/10</span></h2>
+                        <div class="posts-grid" id="posts-grid"></div>
+                    </div>
+                </div>
+
+                <!-- Stage 2: Audience Voting -->
+                <div id="panel-vote" class="stage-panel" style="display:none;">
+                    <div class="card">
+                        <h2>Stage 2: Audience Voting</h2>
+                        <div id="voting-matrix"></div>
+                        <div id="vote-summary" style="margin-top:16px;"></div>
+                    </div>
+                </div>
+
+                <!-- Stage 3: Refinement -->
+                <div id="panel-refine" class="stage-panel" style="display:none;">
+                    <div class="card">
+                        <h2>Stage 3: Refinement</h2>
+                        <div id="refinement-panels"></div>
+                    </div>
+                </div>
+
+                <!-- Stage 4: Opening Line Massacre -->
+                <div id="panel-massacre" class="stage-panel" style="display:none;">
+                    <div class="card">
+                        <h2>Stage 4: Opening Line Massacre</h2>
+                        <div id="opening-lines-grid" class="openings-grid"></div>
+                        <div id="opening-votes" style="margin-top:12px;"></div>
+                        <div id="opening-winner" style="margin-top:12px;"></div>
+                    </div>
+                </div>
+
+                <!-- Stage 5: Final Result -->
+                <div id="panel-final" class="stage-panel" style="display:none;">
+                    <div class="card">
+                        <h2>Stage 5: Final Post</h2>
+                        <div class="final-result">
+                            <div class="quality-badge" id="final-quality"></div>
+                            <textarea id="final-post" rows="12" readonly></textarea>
+                            <div class="score-grid" id="final-scores"></div>
+                            <div class="post-actions">
+                                <button class="btn btn-primary" onclick="copyPost()">Copy Post</button>
+                                <button class="btn btn-secondary" onclick="rescorePost()">Re-Score</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Podcast Section -->
+            <div class="card" style="margin-top: 24px;">
+                <h2>Generate from Podcast Transcript</h2>
+                <div class="form-group">
+                    <label>Paste Transcript</label>
+                    <textarea id="podcast-input" rows="6" placeholder="Paste the podcast transcript here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Platform</label>
+                    <select id="podcast-platform">
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="twitter">Twitter</option>
+                        <option value="email">Email</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="btn-gen-podcast" onclick="generatePodcast()">Generate Post</button>
+                <div id="podcast-status" style="margin-top: 12px;"></div>
+                <div id="podcast-output" class="output-box" style="margin-top: 16px; display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Graph Visualization -->
+        <div id="graph" class="section">
+            <div class="card graph-main-card">
+                <div class="graph-header">
+                    <h2>Knowledge Graph</h2>
+                    <div class="graph-controls">
+                        <div class="filter-group">
+                            <label>Filter:</label>
+                            <button class="filter-btn active" data-type="all" onclick="filterGraph('all', this)">All</button>
+                            <button class="filter-btn" data-type="belief" onclick="filterGraph('belief', this)">Beliefs</button>
+                            <button class="filter-btn" data-type="story" onclick="filterGraph('story', this)">Stories</button>
+                            <button class="filter-btn" data-type="style_rule" onclick="filterGraph('style_rule', this)">Style</button>
+                            <button class="filter-btn" data-type="thinking_model" onclick="filterGraph('thinking_model', this)">Models</button>
+                            <button class="filter-btn" data-type="contrast_pair" onclick="filterGraph('contrast_pair', this)">Contrasts</button>
+                        </div>
+                        <button class="btn btn-small btn-accent" onclick="showAddNodeModal()">+ Add Node</button>
+                    </div>
+                </div>
+                <p class="muted graph-hint">Click category nodes to expand/collapse. Click leaf nodes to edit. Hover to highlight connections.</p>
+                <div id="graph-container" style="width:100%;height:650px;background:#0a0c12;border:1px solid var(--border);border-radius:8px;"></div>
+            </div>
+
+            <div class="graph-sidebar">
+                <div class="card">
+                    <h2>Node Editor</h2>
+                    <div id="node-detail" class="node-detail">
+                        <p class="muted">Click a node to view & edit details</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>All Nodes</h2>
+                    <div class="form-group">
+                        <input type="text" id="node-search" placeholder="Search nodes..." oninput="filterNodeList()">
+                    </div>
+                    <ul class="node-list" id="node-list">
+                        <li class="muted">Loading...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Node Modal -->
+        <div id="add-node-modal" class="modal-overlay" style="display:none;">
+            <div class="modal-card">
+                <h2>Add New Node</h2>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="new-node-type">
+                        <option value="belief">Belief</option>
+                        <option value="story">Story</option>
+                        <option value="style_rule">Style Rule</option>
+                        <option value="thinking_model">Thinking Model</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ID (short, snake_case)</label>
+                    <input type="text" id="new-node-id" placeholder="e.g. ai_replaces_jobs">
+                </div>
+                <div class="form-group">
+                    <label>Label / Title</label>
+                    <input type="text" id="new-node-label" placeholder="e.g. AI Will Replace Jobs">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="addNode()">Create</button>
+                    <button class="btn btn-secondary" onclick="closeAddNodeModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coverage -->
+        <div id="coverage" class="section">
+            <div class="card">
+                <h2>Node Coverage</h2>
+                <p class="muted">Shows which knowledge graph nodes have been used in past posts and which topics remain untapped.</p>
+                <div class="coverage-overview" id="coverage-overview">
+                    <div class="coverage-bar-container">
+                        <div class="coverage-bar-label">Overall Coverage</div>
+                        <div class="coverage-bar"><div class="coverage-bar-fill" id="coverage-fill" style="width:0%"></div></div>
+                        <div class="coverage-pct" id="coverage-pct">0%</div>
+                    </div>
+                </div>
+                <div id="coverage-by-type" class="coverage-types" style="margin-top:16px;"></div>
+            </div>
+
+            <div class="card">
+                <h2>Node Heatmap</h2>
+                <div id="coverage-heatmap" class="heatmap-grid"></div>
+            </div>
+
+            <div class="card">
+                <h2>Untapped Opportunities</h2>
+                <div id="coverage-opportunities"></div>
+            </div>
+        </div>
+
+        <!-- History -->
+        <div id="history" class="section">
+            <div class="card">
+                <h2>Generated Posts</h2>
+                <div id="history-list">
+                    <p class="muted">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Config -->
+        <div id="config" class="section">
+            <div class="card">
+                <h2>LLM Configuration</h2>
+                <div class="form-group">
+                    <label>Provider</label>
+                    <select id="cfg-provider">
+                        <option value="ollama">Ollama (Local)</option>
+                        <option value="lmstudio">LM Studio (Local)</option>
+                        <option value="nvidia">NVIDIA NIM (Cloud)</option>
+                        <option value="anthropic">Anthropic (Claude API)</option>
+                        <option value="openai">OpenAI (GPT API)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Model</label>
+                    <input type="text" id="cfg-model" placeholder="e.g. llama3.1:8b">
+                </div>
+                <div class="form-group">
+                    <label>Base URL</label>
+                    <input type="text" id="cfg-url" placeholder="e.g. http://localhost:11434">
+                </div>
+                <div class="form-group">
+                    <label>API Key <span class="muted">(for NVIDIA / Anthropic / OpenAI)</span></label>
+                    <input type="password" id="cfg-apikey" placeholder="Leave empty to use env variable">
+                </div>
+                <button class="btn btn-primary" onclick="saveConfig()">Save Configuration</button>
+                <div id="config-status" style="margin-top: 12px;"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/app.js"></script>
+</body>
+</html>

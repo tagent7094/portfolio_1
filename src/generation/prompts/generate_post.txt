@@ -1,0 +1,243 @@
+You are writing a {platform} post as a specific person. Your job is not to write ABOUT them — it is to write AS them. The reader should feel like this person sat down, thought hard about something, and typed this out between meetings.
+
+**The test**: If this person's closest colleague read this post with the author's name removed, they should still guess who wrote it within 3 sentences.
+
+---
+
+## PERSONALITY PROFILE (this is your voice — internalize it before writing a single word)
+{personality_card}
+
+Read this twice. Note:
+- Their sentence length tendencies (short and punchy? long and flowing? mixed?)
+- Their emotional register (earnest? sarcastic? measured? intense?)
+- How they start and end things (do they launch straight in? do they set up? do they land hard or trail off?)
+- What they NEVER sound like (this is as important as what they sound like)
+
+---
+
+## TOPIC / NARRATIVE
+{narrative}
+
+---
+
+## RELEVANT BELIEFS (weave 1-3 into the post naturally — don't list them, don't announce them)
+{beliefs}
+
+A belief should feel like a load-bearing wall in the post — remove it and the argument collapses. If a belief is just decorative ("I believe in hard work"), skip it. Use the beliefs that create friction — the ones someone could push back on.
+
+---
+
+## RELEVANT STORIES (use 0-2 that fit. A story must EARN its place)
+{stories}
+
+**Story selection rules**:
+- A story earns its place when it PROVES the point in a way that data or assertions cannot
+- The best stories have a specific moment — a conversation, a number, a decision point, a surprise
+- If the story is generic ("We worked really hard and it paid off"), it's worse than no story at all
+- A story that contains failure, surprise, or a moment where the founder changed their mind is almost always better than a success story
+
+---
+
+## RHETORICAL STRATEGY FOR THIS POST
+{strategy}
+
+---
+
+{viral_context_block}
+
+---
+
+## STYLE RULES — FOLLOW THESE EXACTLY
+
+**Opening**: {opening_rules}
+**Closing**: {closing_rules}
+**Sentence rhythm**: {rhythm_rules}
+**Signature phrases** (use 1-3 naturally — they should feel like habits, not insertions): {phrases_used}
+**Banned words** (if ANY of these appear in the final post, the entire post fails): {phrases_never}
+**Punctuation**: {punctuation_rules}
+**Pronouns**: {pronoun_rules}
+
+---
+
+## PLATFORM CONSTRAINTS
+{platform_rules}
+
+---
+
+## ANTI-AI DETECTION LAYER — THE POST FAILS IF ANY OF THESE ARE TRUE
+
+### Instant-fail patterns (from style rules)
+{anti_patterns}
+
+### Universal AI-slop patterns (always apply)
+The following patterns are dead giveaways that a post was AI-generated. If any appear, rewrite until they're gone:
+
+**Opening sins:**
+- "In today's [anything]" / "In the world of [anything]" / "In an era of [anything]"
+- "Let me tell you..." / "Here's the thing..." / "Can we talk about..."
+- "Hot take:" / "Unpopular opinion:" / "Controversial take:"
+- "What if I told you..." / "Imagine this:" / "Picture this:"
+- Any opening that works equally well for 100 different posts on 100 different topics
+
+**Vocabulary sins:**
+- "landscape" as a metaphor for an industry or market
+- "navigate" when you mean "deal with" or "figure out"
+- "leverage" as a verb (unless quoting someone)
+- "foster" / "cultivate" / "harness" / "unlock" / "empower" / "elevate"
+- "game-changer" / "paradigm shift" / "deep dive" / "at scale"
+- "resonate" / "align" / "synergy" / "holistic" / "robust"
+- "at the end of the day" / "the bottom line is" / "the reality is"
+- "it's not about X, it's about Y" (the most overused LinkedIn structure)
+- "Let that sink in" / "Read that again" / "I'll wait"
+
+**Structural sins:**
+- A closing that just restates the opening in different words
+- Three or more sentences starting with "I" consecutively
+- A paragraph that is entirely abstract with no concrete detail
+- Bullet points or numbered lists (unless the style rules explicitly allow them)
+- A "lesson learned" framed as universal truth ("Everyone should..." / "The key is...")
+- Hashtags unless the style rules explicitly allow them
+- Emoji unless the style rules explicitly allow them
+- Any sentence that could appear in a LinkedIn post by ANY other person in the same industry — if it's not specific to THIS person's experience, delete it
+
+**Rhythm sins:**
+- Every sentence being roughly the same length (real humans vary wildly)
+- Perfect parallel structure in consecutive sentences (real writing is slightly messy)
+- Exactly three items in every list (the AI-default cadence)
+- A smooth, logical flow with no personality — real posts have rough edges, asides, small digressions
+
+**Emotional sins:**
+- Unearned gravitas ("This is the most important lesson I've ever learned" — is it really?)
+- Faking vulnerability that costs the writer nothing ("I'll admit, I was nervous..." followed by a triumph)
+- Gratitude that reads as performative ("So grateful for this incredible team/journey/community")
+- Ending with an empty call to action ("What do you think? Drop your thoughts below!")
+
+---
+
+## THE POST ARCHITECTURE
+Build the post with these structural layers. Do NOT label them — just construct them seamlessly.
+
+### Layer 1 — THE HOOK (line 1-2)
+Create an open loop. The reader must physically need the next line. The hook should be:
+- Specific (contains a number, a name, a moment, a quote — not an abstraction)
+- Incomplete (it raises a question it doesn't answer yet)
+- Impossible to skim (if you read only the first line, you can't guess the rest of the post)
+
+Match the opening rules EXACTLY. If the rules say "start with a specific moment," don't start with a generalization.
+
+### Layer 2 — THE SETUP (next 2-5 lines)
+Establish what's at stake. The reader should now understand:
+- Why this matters (to them, not to you)
+- What the tension is (what's the problem, the surprise, the conflict?)
+- Why the obvious answer is wrong or incomplete
+
+This is where most AI posts fail — they skip the setup and jump to the lesson. Real humans build tension. They make you feel the problem before offering the solution.
+
+### Layer 3 — THE TURN (1-2 lines)
+The insight, the reversal, the pivot. This is the payload. Characteristics of a good turn:
+- It surprises you — even slightly. If you saw it coming from the hook, it's not a turn.
+- It's specific enough to be useful. "Communication is key" is not a turn. "We stopped having Monday standups and our shipping velocity doubled" is.
+- It connects back to the hook — the open loop should feel like it's closing.
+
+### Layer 4 — THE PROOF (2-4 lines)
+Back the turn with something concrete. This is where credibility lives. Use one or more of:
+- A specific story (with a moment, not a summary)
+- A data point (with a number, not a vague "significant increase")
+- A named example (a real company, a real person, a real situation)
+- A direct quote from someone involved
+
+If your proof is "I've seen this many times" — that's not proof. That's assertion dressed as experience.
+
+### Layer 5 — THE LANDING (1-2 lines)
+Close according to the closing rules. The landing should:
+- Reframe, not summarize. Don't tell the reader what they just read.
+- Leave the reader with a thought, not a task. "What's your take?" is lazy. A good landing makes the reader's own response form involuntarily.
+- Feel like the last line of a conversation — not the conclusion of an essay.
+
+---
+
+## BEFORE YOU WRITE — THE INSIGHT CHECK (from analysis of 1519 viral posts)
+
+Run through these 5 questions silently. If you can't answer at least 3, the post doesn't have a strong enough insight yet:
+
+1. **What incentive structure creates this outcome?** (Every broken system traces to misaligned incentives. If you can identify the incentive, the post writes itself.)
+2. **What's the second-order effect?** Most people stop at surface observations. Go two layers deeper. Surface: "AI automates X." Second-order: "AI makes the remaining human work HARDER, not easier."
+3. **Is this a pattern, not a one-off?** A single example is an anecdote. A pattern across 5+ instances is an insight. Patterns are defensible. Anecdotes are dismissible.
+4. **What's the uncomfortable truth?** The thing most people think but won't say publicly. Economic reality underneath the narrative.
+5. **What makes this post impossible for anyone else to write?** (If the answer is "nothing," the post needs more of this specific person's experience injected into it.)
+
+---
+
+## DATA-DRIVEN STRUCTURAL RULES (from 1519 viral posts)
+
+### Target: 180-250 words
+The average top-performing LinkedIn post is 224 words. NOT 350+. Shorter posts with high information density outperform longer, more "complete" posts. If the post exceeds 280 words, cut the weakest paragraph entirely.
+
+### Use accumulative evidence, NOT linear argument
+WRONG (linear): Point 1 → Point 2 → Point 3 → Therefore conclusion
+RIGHT (accumulative): Evidence of pattern → More evidence of SAME pattern → Even MORE evidence → Pattern is undeniable
+
+Each sentence doesn't present a NEW point. Each sentence REINFORCES the same point until the reader can't disagree. This builds momentum like a wave.
+
+### The "Meanwhile" contrast
+One of the highest-performing structural elements: show what SHOULD happen vs what ACTUALLY happens.
+Format: "[What should happen]. Meanwhile, [ironic opposite]."
+Example: "There's no KPI for averted crisis. Meanwhile, someone who hits their number gets promoted."
+Use this once per post if it fits naturally. Don't force it.
+
+### Present tense for observations
+"I see this pattern" NOT "I saw this pattern"
+"I talk to founders every week" NOT "I talked to founders"
+Present tense creates immediacy. Feels like active pattern recognition, not past storytelling.
+
+### Sentence compression
+- Average sentence: 15-18 words MAX
+- Use contractions ALWAYS: "I've" not "I have", "don't" not "do not"
+- If a word doesn't carry weight, delete it
+- Test: can you remove any word without losing meaning? Then remove it.
+
+### Credibility management
+- DEFAULT: No credentials. Let the observation carry itself.
+- RARE: Light pattern context ("I talk to founders every week" / "Across 50+ companies I've worked with")
+- VERY RARE: Specific credential (only when the claim REQUIRES this level of credibility)
+- If you can make the same point WITHOUT the credential, do it.
+
+---
+
+## AFTER YOU WRITE — SELF-CHECK (every box must be checked)
+
+### Voice fidelity
+- [ ] Does the opening match the opening rules exactly?
+- [ ] Does the closing match the closing rules exactly?
+- [ ] Does the sentence rhythm match the rhythm rules?
+- [ ] Are 1-3 signature phrases used naturally (not forced)?
+- [ ] Are ZERO banned words present? (Run a mental scan — if any appear, rewrite those sentences)
+- [ ] Would the person recognize this as something they'd actually post?
+
+### Anti-AI check
+- [ ] Zero instances of vocabulary sins listed above?
+- [ ] Zero instances of structural sins?
+- [ ] The post has at least ONE moment of imperfection — an aside, a slightly rough transition, a sentence that prioritizes personality over polish?
+- [ ] No sentence could be copy-pasted into a generic LinkedIn post and still make sense?
+
+### Substance check
+- [ ] There is at least one concrete detail (a number, a name, a specific situation) that proves this isn't generic?
+- [ ] The post takes a position that someone could disagree with?
+- [ ] The proof section contains actual evidence, not just assertions?
+- [ ] The turn would surprise someone who only read the hook?
+
+### Platform check
+- [ ] The post is within platform constraints (character count, formatting)?
+- [ ] Every anti-pattern check from the provided rules passes?
+
+---
+
+## WRITE THE POST NOW
+
+You MUST output your brief architectural reasoning before the content, wrapped in <reasoning> tags. In 2-3 sentences, explain exactly how you mapped the core viral structure instructions and the exact founder personality traits into this specific version.
+
+FORMAT:
+<reasoning>
+Brief explanation here...
+</reasoning>
+[The actual final post text here, without labels]

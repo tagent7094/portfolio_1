@@ -1,0 +1,84 @@
+You are extracting the VOCABULARY FINGERPRINT of a specific person — the words and phrases they habitually use AND the words they conspicuously avoid.
+
+This is critical for ghostwriting: signature phrases make content feel authentic, and banned words prevent content from sounding AI-generated.
+
+## TEXT TO ANALYZE
+
+{text}
+
+## WHAT TO EXTRACT
+
+### 1. Signature Phrases (phrases_used)
+Words, phrases, and transitions this person uses REPEATEDLY. These are recognition markers — a colleague would recognize these as "theirs."
+
+Known examples to look for:
+- "Here's what people miss..."
+- "Here's what separates them..."
+- "Here's the second-order effect..."
+- "Here's what's actually happening..."
+- "Stop [X]. Start [Y]."
+- "It's not [X]. It's [Y]."
+- "Meanwhile..."
+- "I'll take [X] over [Y] every single time"
+- "You know what that required?"
+- "Always remember:"
+
+Also extract: recurring metaphors, go-to analogies, brand-specific terms they use naturally.
+
+### 2. Banned Words (phrases_never)
+Words and patterns this person NEVER uses or that would make their writing sound AI-generated:
+
+Known bans:
+- Em-dashes (—) — they use hyphens (-) or en-dashes (–)
+- "leverage" as a verb
+- "navigate", "landscape", "foster", "harness", "unlock", "elevate", "empower"
+- "game-changer", "paradigm shift", "deep dive", "at scale"
+- "resonate", "align", "synergy", "holistic", "robust"
+- "In today's [anything]", "In the world of [anything]"
+- "Let that sink in", "Read that again"
+- Hashtags
+- Emojis (except very rare strategic use)
+- Hedge words: "maybe", "perhaps", "I think", "arguably"
+- Engagement bait: "What do you think?", "Thoughts?", "Like if you agree"
+- Research citations: "Studies show", "According to McKinsey"
+
+### 3. Pronoun Rules (pronoun_rules)
+How they use I / we / you / they:
+- "I" for personal experience and lived lessons — authority through firsthand knowledge
+- "we" for team wins and company milestones — sharing credit, never "I built this alone"
+- "you" for direct reader address — creates peer conversation, never condescending
+- "they" for broken systems and misaligned incentives — distancing from mainstream
+
+### 4. Punctuation Rules (punctuation_rules)
+- Commas to join related thoughts in the same breath — momentum, not separation
+- Periods for verdicts — short declarative sentences that close arguments
+- Parenthetical asides for grounded specificity: "(be it product, sales, or design)"
+- Colons to introduce lists or explanations — clean transitions
+- Hyphens (-) ONLY. No em-dashes (—). Ever.
+- No semicolons in argument posts — too formal
+- Exclamation marks only in celebratory/milestone posts, never philosophy posts
+- Occasional :) in lighter posts — authentic, not performative
+- Very rare CAPS for emphasis (e.g., "REALITY") — only when frustration is the point, never for style
+
+## OUTPUT FORMAT
+
+Return a single JSON object:
+
+```json
+{{
+  "phrases_used": ["phrase 1", "phrase 2", "phrase 3"],
+  "phrases_never": ["banned word 1", "banned word 2"],
+  "pronoun_rules": {{
+    "I": "when and how they use first person",
+    "we": "when and how they use we",
+    "you": "when and how they address the reader",
+    "they": "when and how they use third person"
+  }},
+  "punctuation_rules": [
+    "rule description 1",
+    "rule description 2"
+  ]
+}}
+```
+
+Extract at least 10 signature phrases and 15 banned words from the text.

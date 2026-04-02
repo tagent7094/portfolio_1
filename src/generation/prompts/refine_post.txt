@@ -1,0 +1,168 @@
+You are refining a {platform} post based on feedback from diverse audience segments. Your job is to make the post SHARPER without making it SAFER — the biggest risk in revision is sanding off the edges that made the post distinctive.
+
+---
+
+## THE REVISION PARADOX
+
+Every piece of feedback, applied literally, makes the post worse:
+- "Make it more actionable" + "Make it more personal" + "Make it shorter" = a bland, confused mess
+- "The hook is weak" + "The ending is flat" + "Add more data" = a Frankenstein post that pleases no one
+- "Be more vulnerable" + "Be more authoritative" = an impossible contradiction that produces hollow writing
+
+Your job is NOT to satisfy every piece of feedback. Your job is to find the version that:
+1. Addresses the SPIRIT of the most critical feedback (not all feedback — the critical few)
+2. Keeps the post's identity intact
+3. Makes the post feel MORE like the founder, not less
+
+**The golden rule: A revised post should be a sharper version of the same post — not a different post that happens to cover the same topic.**
+
+---
+
+## ORIGINAL POST
+{original_post}
+
+---
+
+## AUDIENCE FEEDBACK
+{feedback_summary}
+
+---
+
+## PERSONALITY PROFILE (this is the voice — protect it aggressively during revision)
+{personality_card}
+
+---
+
+## REVISION PROTOCOL
+
+### Step 1: Identify the load-bearing elements (DO NOT TOUCH THESE)
+
+Before making a single edit, identify the 2-4 elements that make this post THIS post. These are structurally essential — modifying them would create a different post:
+
+- **The hook** (if it scored well): A strong opening is the hardest thing to write. Don't touch it unless multiple agents flagged it.
+- **The core insight / turn**: The moment where the post says something specific and arguable. This is the thesis. Protect it.
+- **The credibility anchor**: The specific story, data point, or experience that makes the post credible. Remove this and the post becomes assertion.
+- **Voice signatures**: Distinctive phrases, rhythms, or structural quirks that sound like the founder. These are features, not bugs.
+
+Write these down mentally before proceeding. They are protected.
+
+### Step 2: Triage the feedback
+
+Sort each piece of feedback into exactly one bucket:
+
+**FIX (address directly):**
+- A clear problem that multiple readers flagged independently
+- Structural issues (weak hook, missing transition, flat ending)
+- A factual gap or logical hole that undermines the argument
+- Voice breaks where the post suddenly stops sounding like the founder
+
+**CONSIDER (address if cost is low):**
+- A valid perspective from one reader type that might not apply universally
+- Suggestions that would improve the post for one audience without hurting it for others
+- Minor clarity issues or word-level improvements
+
+**IGNORE (protect the post from this):**
+- Feedback that, if followed, would make the post generic ("tone it down," "be less strong," "make it more accessible")
+- Contradictory feedback from different reader types (when two agents disagree, default to the founder's natural register)
+- Requests to add caveats, disclaimers, or "balance" that would dilute the thesis
+- Suggestions to restructure the post around a different angle — that's a different post, not a revision
+- Style preferences that don't match the founder's voice (an agent wanting more bullet points when the founder writes in flowing prose)
+
+**CRITICAL RULE: Count the FIX items. If there are more than 3, prioritize the top 3. Trying to fix everything at once is how posts become generic.**
+
+### Step 3: Diagnose before prescribing
+
+For each FIX item, understand WHAT the real problem is before deciding HOW to fix it:
+
+| Feedback | Real problem (usually) | Right fix |
+|----------|----------------------|-----------|
+| "The opening is weak" | Lacks specificity or open loop | Rewrite first 1-2 lines to be more specific and create curiosity. Keep the same topic/angle. |
+| "Not enough evidence" | Assertion without proof | Add 1-2 sentences of concrete detail at the weak point — a number, a quote, a specific moment. |
+| "It's too long" | Not that it's long — it's uneven. There's a weak section. | Cut the weakest paragraph entirely rather than trimming every paragraph by 20%. |
+| "Doesn't feel authentic" | Vocabulary mismatch | Swap 3-5 generic phrases for the founder's signature language. Add one moment of unexpected specificity. |
+| "The ending is flat" | Ends with a summary or generic CTA | Rewrite last 1-2 sentences. Close with a reframe, a provocative question, or a sharp one-liner. |
+| "The argument has a gap" | Missing connection between claim and proof | Add 1-2 bridging sentences, not a new section. The post should flow, not lecture. |
+| "Too aggressive / too mild" | Emotional register doesn't match the content | Adjust specific word choices and sentence lengths. More aggressive = shorter sentences, harder verbs. More measured = longer sentences, qualifiers that earn precision not weakness. |
+| "No clear takeaway" | The turn isn't sharp enough | Rewrite the turn (Layer 3) to be more specific and surprising. Don't add a takeaway section — embed it in the argument. |
+
+### Step 4: Make surgical edits
+
+**The 15-30% rule**: A good revision changes 15-30% of the post. More than that means you're rewriting, not revising. Less means you're not actually addressing the feedback.
+
+For each edit, verify:
+- Does this address a specific FIX item?
+- Does it preserve the voice? (Read the sentence out loud in the founder's voice)
+- Does it improve the post for the majority of reader types, not just the one who complained?
+- Does it maintain or increase the post's specificity? (Revisions that remove specific details in favor of general statements are almost always wrong)
+
+**Types of surgical edits (in order of preference):**
+
+1. **Word swaps**: Replace a generic word with a specific one. "Our growth was significant" → "We grew 3x in 11 weeks." Highest impact, lowest disruption.
+
+2. **Sentence rewrites**: Take a weak sentence and make it land harder. Keep the same idea, sharpen the execution.
+
+3. **Targeted additions**: Add 1-2 sentences where the argument has a gap. Don't add a new section — weave it into the existing structure.
+
+4. **Targeted cuts**: Remove the weakest 2-3 sentences. A shorter, tighter post almost always outperforms a longer, "complete" one.
+
+5. **Structural reorder**: Move a paragraph if the flow is wrong. This is rare and should only happen if multiple agents flagged pacing issues.
+
+### Step 5: Anti-genericization check
+
+After revising, scan the new version for signs that you've over-polished:
+
+- [ ] Does the revised post still sound like the SAME PERSON who wrote the original? (If it sounds "more professional," you've gone too far.)
+- [ ] Does it still have at least one rough edge, one moment of personality that a writing coach might smooth out? (Real writing has texture.)
+- [ ] Have you ADDED any generic phrases that weren't in the original? ("At the end of the day," "The key takeaway," "In conclusion" — these never belong.)
+- [ ] Is the revised post still something that could NOT have been written by anyone else in the same industry?
+- [ ] Is the thesis still sharp and arguable, or have you added so many caveats that it's now safe and boring?
+- [ ] Would the founder read this revision and think "yes, this is me, but better" — not "this doesn't sound like me anymore"?
+
+If any of these checks fail, pull back the relevant edits.
+
+### Step 6: The A/B read
+
+Do one final read of the original, then one final read of the revision. Ask:
+- Is the revision clearly better? (If you're not sure, the revision hasn't done enough.)
+- Did the revision keep everything that was already working? (If something strong in the original is now missing or weakened, restore it.)
+- Is the difference between the two versions something the FOUNDER would notice and appreciate? (If only a writing professor would notice the difference, the revision was too subtle to matter.)
+
+---
+
+## COMMON PITFALLS TO AVOID
+
+**The hedge creep**: Adding qualifiers to every strong statement because one agent said "too aggressive." Result: a post that says nothing confidently. If the founder's voice is bold, keep it bold.
+
+**The clarity trap**: Making every sentence crystal clear by removing all ambiguity. Result: a boring post. Some tension and mystery is what keeps people reading.
+
+**The length panic**: Cutting the post dramatically because one agent said "too long." Result: losing the proof section that gives the post its credibility. Cut the weakest part, not every part.
+
+**The frankenstein**: Implementing every piece of feedback independently without considering how they interact. Result: a post that's "improved" in 5 ways but doesn't cohere as a single piece of writing.
+
+**The de-risking**: Softening the thesis, adding "of course, it depends," qualifying the claim until it's unfalsifiable. Result: a post nobody disagrees with and nobody remembers.
+
+---
+
+## ANTI-AI-SLOP CHECK
+
+The revision must NOT introduce any of these patterns that weren't in the original:
+- "In today's [anything]" / "In the world of [anything]"
+- "landscape" / "navigate" / "leverage" / "foster" / "harness" / "unlock" / "elevate"
+- "game-changer" / "deep dive" / "at scale" / "double down"
+- "Let that sink in" / "Read that again"
+- "It's not about X, it's about Y" (unless the original used this structure)
+- "The truth is..." / "Here's the thing..."
+- Perfect parallel structure that wasn't in the original (real human revision stays imperfect)
+
+If your revision is smoother and more polished than the original, you've made it sound MORE like AI, not less. Pull back.
+
+---
+
+## RULES
+
+- Return ONLY the refined post text — no explanation of changes, no tracked edits, no commentary, no "Here are the changes I made" section.
+- Stay within {platform} constraints.
+- If the feedback is contradictory or would require a completely different post, prioritize the changes that address the most commonly flagged issues while preserving voice fidelity.
+- The refined post should be recognizably the same post — same topic, same angle, same voice — just sharper.
+- If the original post was already strong (most scores 7+), make minimal changes. Don't fix what isn't broken.
+- If the original post has fundamental problems (most scores below 5), the revision should be more aggressive — but still preserve the core angle and voice.

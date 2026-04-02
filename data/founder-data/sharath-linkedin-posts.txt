@@ -1,0 +1,3231 @@
+﻿Post
+	Number of likes
+	Number of comments
+	Reposts
+	At 19, I was moonlighting at a call center while studying in Bangalore, India. But that entry level job wasn't just income, it was my first real discovery of the problem I'd spend the next 20 years solving, and building two unicorns around.
+
+
+That 19-year-old kid is the reason a million agents have Sanas running on their desktops today.
+
+
+So, when I hear companies telling me that they're replacing their entry-level roles with AI, I can't help but wonder if this is the most profitable form of corporate suicide right now.
+
+
+Think about what you're actually saying.
+
+
+Entry-level developers become senior engineers. Entry-level salespeople become CROs. Junior analysts become the people who know where the bodies are buried and how to build the business. You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.
+
+
+History is not kind to industries or even civilizations who stopped training their next batch of leaders. Manufacturing did the same with apprenticeships. Germany didn't. Look at who still makes things that matter.
+
+
+The contact center industry is living this right now. Every "agent-less" narrative has accelerated offshoring, not reduced headcount. Because someone still has to handle the call the AI couldn't close. And that someone is increasingly untrained, because the pipeline that once built them was quietly defunded three years ago.
+
+
+There's only so much talent that walks in the door already formed. Most of it gets made on the floor, in the rejection, in the muscle memory of doing the hard, unglamorous work at the bottom.
+
+
+When you automate away the bottom, you don't get a leaner company. You get a company with a missing generation.
+
+
+The entry-level role was never just a cost center. It was always your R&D lab for people.
+	163
+	10
+	0
+	Everyone is wrong about which incumbents AI will kill.
+
+
+The conventional wisdom: the companies everyone writes off as too slow to adapt are AI's primary victims. Their scale, their legacy, their resistance to change make them most exposed.
+
+
+That logic ignores what actually makes a business defensible.
+
+
+Technology is roughly 5% of most companies' moat. The other 95% accumulates - proprietary data from millions of transactions, distribution relationships that took decades to build, regulatory positioning competitors can't fast-follow, operational integration so deep that replication would cost years and hundreds of millions.
+
+
+AI replicates the 5%. It doesn't touch the 95%.
+
+
+So disruption isn't uniform. Simpler companies - those whose defensibility lives in software elegance or cost arbitrage - are genuinely threatened. Their moat is exactly what AI commoditizes. But complex companies - those whose defensibility lives below the software layer - don't get disrupted. They get amplified. AI hands them analytical capability without giving any attacker access to the structural conditions that made them defensible in the first place.
+
+
+The companies most likely to die from AI are the simple ones. The ones most likely to win are the ones everyone assumed would lose.
+
+
+So before you bet against an old, slow "legacy" company - ask yourself what percentage of their moat is actually software. Then ask how exposed the rest of it is.
+	50
+	3
+	0
+	The worst operators I know can name exactly who the CEO trusts. They've optimized their entire careers around guessing what those 6 people would decide.
+
+
+Every startup's growth is bounded by how many people the founder can trust with important outcomes. A founder who trusts 8 people in a company of 500 has built an 8-person company - with 492 people waiting for direction. The org chart shows delegation. The trust surface shows reality.
+
+
+Every decision that requires CEO review creates latency and signals distrust. The organization learns from that signal. People stop exercising judgment and start optimizing for approval. The best operators leave, because being told your judgment doesn't count is worse than being overworked.
+
+
+This compounds. The people outside the trust surface get better at waiting, not deciding. The people inside it get exhausted carrying weight that should be distributed. The company develops antibodies against accountability.
+
+
+If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.
+	90
+	6
+	3
+	Most founder advice optimizes for not failing instead of winning.
+
+
+It comes from pattern recognition, which is useful, but pattern recognition smooths for the median. It tells you what worked across a portfolio, not what unlocked the outlier. The advice becomes: don't burn too much, don't hire too fast, don't overpromise. All true, all reasonable, all oriented around survival.
+
+
+But the companies that matter didn't survive their way to scale. They made asymmetric bets that consensus would have called reckless. They ignored the advice that would have kept them capital-efficient and small.
+
+
+This doesn't mean all aggressive bets are good, it means the frame is wrong. Advice that helps you not die is different from advice that helps you build something nonlinear. The first comes from seeing lots of companies, the second comes from being inside one while it worked.
+
+
+The founders who listen too carefully to pattern-based advice end up building reasonable companies with reasonable outcomes. Nothing breaks, nothing explodes, nothing matters.
+
+
+If your board keeps steering you toward de-risking, ask whether they're optimizing for your outcome or their portfolio shape.
+	60
+	4
+	1
+	Startups treat retention like a success metric when it's actually a signal of constraint.
+
+
+High retention doesn't mean you built something great, it means you're serving a specific type of customer well. Low retention doesn't mean the product is broken, it means you're attracting people the product wasn't designed for.
+
+
+The dangerous part is when leadership optimizes for the metric instead of the insight. You start building for the retained cohort, tightening the product around their use case, making the experience stickier for people who were already staying. This feels like progress because retention improves, but you're just making the product fit fewer people.
+
+
+Meanwhile, the growth motion keeps pulling in customers who don't match the tightened profile, so churn stays high despite all the retention work. The problem isn't that you're not retaining enough, it's that your acquisition and product are solving for different people.
+
+
+Most retention optimization is actually just narrowing who your product works for. You're not getting better at serving the market, you're getting better at serving the people who already fit.
+
+
+If your retention work isn't changing who you acquire, you're optimizing the wrong layer.
+	46
+	4
+	0
+	The interview process rewards people who've learned how to be interviewed. What you're selecting for, with ruthless efficiency, is not talent - it's people who are excellent at joining organizations.
+
+
+They know the questions, they've calibrated their answers, they understand the social choreography of making a room feel good about a decision. The loop becomes a performance optimized for comfort, not capability.
+
+
+What gets killed isn't any specific candidate. It's the company's capacity to surprise itself.
+
+
+I've watched this pattern across hundreds of hiring decisions at Sanas, Observe, and across the Carya portfolio. The greatest hires were probably controversial in the interview process. Someone fought for them. The candidates who get hired by unanimous decisions are rarely the ones who change anything.
+
+
+We keep hiring the candidate who makes everyone comfortable, which means a candidate who confirms existing assumptions about what good looks like. Hirability and talent correlate, but that correlation breaks at the extremes - which is exactly where it matters most.
+
+
+Be the person who fights for the outlier, or accept that you'll keep hiring people who are great at being hired.
+	107
+	3
+	1
+	During our Series B, we were in an unusual position. The numbers were real - strong ARR, zero churn over six months, Fortune 100 customers, gross margins that made enterprise software investors sit up. By any objective measure, the business was working.
+
+
+We still got passed on repeatedly by investors.
+
+
+They weren't wrong about the numbers. They were wrong about the narrative. "AI replaces agents" was the story capital wanted to fund in that window. "AI empowers agents" - our thesis - was harder to back. It required believing the mainstream narrative had overcorrected, and that contact center demand would hold.
+
+
+That's a contrarian story. Not the one most LPs were asking for.
+
+
+The investors who passed weren't evaluating our business. They were evaluating whether our narrative fit the story they'd need to tell their LPs if it didn't work out. That's a different evaluation entirely - and it selects for different companies.
+
+
+The investors who said yes weren't necessarily smarter about AI. They just believed a different story about where value would accumulate. As it turned out, they were right.
+
+
+But after nine fundraises, I've learned something that took me a long time to accept: being right and being rewarded for being right are not the same thing. The round gets funded when your story fits the story your investor needs to tell their investors. Most of the time, nobody's consciously aware this is happening.
+
+
+The uncomfortable part is that conviction and correctness don't always travel together - and in this industry, the verdict doesn't arrive for a decade.
+
+
+So choose investors who understand your business. Not just investors who are fluent in your narrative.
+	272
+	5
+	2
+	The 'one-person billion-dollar company' is the most dangerous lie in tech right now. Peter Steinberger's OpenAI deal proves it, and everyone's learning the wrong lesson.
+
+
+The headlines say "solo developer builds billion-dollar AI." Meta and OpenAI fought a bidding war. The story goes viral. And founders everywhere start believing they can code their way to a unicorn exit alone.
+
+
+But look at what actually happened:
+
+
+Steinberger bootstrapped PSPDFKit for 10+ years. Self-funded it. Built software used by Dropbox, SAP, and Apple, managed 70 people and ran an investment consortium for 4+ years.
+
+
+Then he timed the agent wave perfectly and created OpenClaw, hyper-personalized AI agents that went open-source viral.
+
+
+OpenClaw worked because it arrived at the exact intersection of his expertise and the market's readiness. Six months earlier? Too soon. Two years later? Too late. That timing only looks like luck when you ignore the decade of pattern recognition that created it.
+
+
+The danger isn't that the story is false. It's that it's dangerously incomplete. A generation of builders will mistake "solo hacking" for strategy when it's actually the result of years of compounding expertise hitting the market at exactly the right moment.
+
+
+The media loves weekend hacks. They rarely cover the decade of unglamorous work that makes "overnight success" inevitable.
+
+
+So stop romanticizing the lone builder myth. Ask instead: what invisible leverage made this possible? What team, what infrastructure, what years of unsexy grinding created the conditions for this moment?
+
+
+Because billion-dollar moments don't start with a line of code. They start years earlier, with work nobody photographs.
+	211
+	23
+	2
+	Startup media creates the opposite of what it celebrates.
+
+
+Every story about a founder who "prioritized mental health" and "maintained work-life balance" while building a unicorn creates a generation of founders who think that's the path. It's not.
+
+
+The selection problem is brutal, media covers outliers, not averages. The founder who succeeded despite taking weekends off is news. The 1,000 founders who succeeded by grinding themselves to dust aren't.
+
+
+This creates survivorship bias at scale. New founders optimize for the exception, not the rule, then wonder why their balanced approach isn't working.
+
+
+So, the narrative about sustainable startup building is preventing people from building startups sustainably. They try the balanced approach, fail, and conclude they weren't cut out for it.
+
+
+It’s not that balance doesn’t work. It’s that balance is usually an outcome, not a strategy. The few founders who had it early either had massive leverage like distribution, capital, or timing, or smoothed the story in retrospect.
+
+
+So stop reading founder stories. Start watching founder behavior. Or better yet, watch your customers.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	97
+	7
+	0
+	2025, $50M ARR, profitability & Daytona!
+
+
+2025 officially ended for us on Jan 31 (we follow a Feb-Jan fiscal like many SaaS companies), and it was a landmark year for Sanas. It was the year we grew up, became a $50M ARR company, and our core business became profitable. As a founder, for me, building a $50M ARR company and getting our core to be profitable was a first and something me and all of us at Sanas are extremely proud of.
+
+
+It was exhausting, invigorating, exciting, and incredibly fulfilling in the end. Yet the journey still feels like it’s just at the starting line. I’ve never felt more alive or more motivated to move forward. Grateful for this moment and excited to chase the coveted $100M ARR club in 2026.
+
+
+A few years ago, my good friend Anant got me into watches, and I’ve been fortunate to build a small collection over time. I’ve always admired the craftsmanship and history behind them, and I finally got hold of one I’ve always wanted.
+
+
+The story of the Daytona feels deeply relatable to what we went through at Sanas. It was once a watch nobody wanted, and today, it’s considered ungettable and priceless.
+
+
+In 2023, some called Sanas a "racist software," and because of that, some of our early customers didn’t want to be associated with us, even when they saw immense value.
+
+
+Fast forward to today:
+- From $0 to $50M+ ARR in 10 quarters
+- 3 consecutive $10M+ new-business quarters in 2025
+- $11.5M in new business in Q4-25 alone
+- 1M agents who use Sanas by their choice
+- 10 Fortune 100 customers
+- 90% of the top 25 global BPOs
+
+
+And in the last 6 months, we have seen zero churn, with half of our customers paying us over $1M.
+
+
+So, from being not wanted to now being omnipresent in the CX world, we had our “Daytona” moment. So, I chose to mark the occasion!
+
+
+Thanks Anant for getting the ungettable :)
+
+
+Shawn, Monal, Marty, Saralynn, Nitesh, Ashish, Manish
+	542
+	62
+	5
+	AI is the electrical grid moment for cognition.
+
+
+Before electricity, capability was local. You could do what you personally could do or what animals and humans near you could do.
+
+
+After electricity, capability became distributed. You accessed industrial levels of kinetic energy anywhere.
+
+
+Likewise, before AI, cognitive capability was local. You could think what you personally could think or what specialists you hired could think. But after AI, cognitive capability becomes distributed. You access sophisticated analysis in any domain from anywhere.
+
+
+The constraint changed from "can I afford a specialist?" to "do I know what problem to solve?"
+
+
+Those whose value was "I have knowledge you don't" are being commoditized. That knowledge is now broadly accessible through AI.
+
+
+Those whose value is "I know which problems matter, and how to direct AI at them" are becoming disproportionately valuable.
+
+
+With AI, the cognitive grid is being built right now. The winners won't be the ones with exclusive knowledge. They'll be the ones with judgment and direction.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés, Swapnil, Andy, Deepinder, Aakrit, Don, Kishlaya, Amarpreet, Bing, Etan, Abhijeet, Tarek, Keshava, Mohit, Radhika, Mat, Ishaan, Jugal, Purva, Carya, Neelesh
+	152
+	7
+	1
+	I've built companies worth $2B+ combined. I never took $0 salary. Anyone telling you 'real founders' starve is either lying, has family money, or wants you poor so you're desperate enough to accept their terms.
+
+
+The founders who actually accept $0 with no backup don't last long enough to post about it. They're too busy trying to survive.
+
+
+I now back 40+ companies through Carya. Yes, I want massive wins to return the fund. But I always advise founders to pay themselves properly. Because if you're struggling to pay rent, why would I trust you with a million-dollar check?
+
+
+Desperation doesn't create good judgment. It creates panic decisions. You'll hire wrong, spend wrong, and optimize for survival instead of building.
+
+
+The founders posting about $0 salaries either have safety nets they're not mentioning or they're performing for an audience that doesn't understand how businesses actually get built.
+
+
+I'd rather back a founder making $150K who's focused on the business than one making $0 who's distracted by basic survival.
+
+
+Pay yourself. Anyone suggesting otherwise doesn't understand that poverty doesn't breed better decision-making. It breeds desperation. And desperate founders burn capital faster than confident ones.
+	262
+	35
+	1
+	Companies led by 'positive vibes only' founders plateau at $10M!
+
+
+They celebrate every win, teams feel great, and standards never rise. On the other side, the competitor who's perpetually dissatisfied ships better version, out-executes and wins the market.
+
+
+It's not about being mean or not appreciating talent & good work, it's being honest about the gap between current state and the possible state. There's a difference between demoralizing your team and maintaining urgency.
+
+
+I've had conversations with my team that weren't comfortable. Moments where I said, "This is good. It's not where we need to be, and here's the distance we still have to cover." It's just being honest about the delta.
+
+
+Your best people don't want endless celebration. They want to know the real score. They want leadership that respects them enough to be honest about what winning actually requires.
+
+
+The ones who leave because you held a high standard were going to leave anyway, just slower, after lowering the bar for everyone else.
+
+
+The founders I know who broke through $50M, $100M, none of them ran "positive vibes only" cultures. They ran honest ones. Where feedback was specific, where the gap between current and possible was called out, constantly.
+
+
+Comfort feels kind, but it's actually the cruelest thing you can offer someone who's capable of more.
+	145
+	22
+	4
+	The information that reaches you is filtered by who you hired to deliver it. By hire five, you're not seeing the market. You're seeing what your team lets you see.
+
+
+I've watched this so many times.
+
+
+A founder hires one person who's great at fundraising optics. That person hires two more who speak the same language. Within 18 months, the entire company thinks in deck slides and ARR multiples. The founder didn't decide to become that. They became it through a thousand small decisions that each felt tactical.
+
+
+Your early team doesn't just execute your vision. They filter what information reaches you. They shape which opportunities you even see.
+
+
+- Hire people who optimize for investor narratives, and you stop seeing customer problems. You start seeing fundable narratives.
+- Hire people who optimize for shipping velocity, and you stop seeing quality. You start seeing features.
+- Hire people who optimize for consensus, and you stop seeing decisions. You start seeing meetings.
+
+
+By the time you realize it, you're not leading the company anymore. You're being led by the logic your early decisions installed.
+
+
+Your early hires don't just build the company - they build the lens you see it through.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	144
+	8
+	4
+	No company suffers from too much founder intensity reaching the front lines.
+
+
+They suffer when the middle management "protects" their team from the that intensity & urgency. And if this protection is left unchecked, it guarantees a competitive death.
+
+
+Intensity compounds exponentially. When you move from 95th percentile effort to 99th, you don't get 4% better results. You get 10x or 100x better results. The reverse is also true. Drop a few percentiles and you don’t become average, you become irrelevant.
+
+
+Managers who act as “translators” of leadership expectations collapse that exponential. They believe they’re being kind. In reality, they’re institutionalizing mediocrity.
+
+
+Audit your org chart for intensity buffers versus intensity amplifiers. Remove layers that dilute urgency. Design the company so energy travels with minimal loss from the top to the individual contributors.
+	125
+	35
+	1
+	The "products need soul" crowd is about to learn a painful lesson about enterprise procurement.
+
+
+I've closed over $50M in contracts. You know what never came up in a single procurement review? Whether our product "felt alive."
+
+
+You know what always came up? Uptime, security, integration complexity, total cost of ownership.
+
+
+Here's what the consumer-product thinkers don't understand about B2B: your buyer isn't your user. The person signing the check is optimizing for risk reduction, not emotional resonance. They need to justify their decision to a CFO who doesn't care if the software has personality.
+
+
+I've watched startups with beautiful, emotionally resonant products get demolished in enterprise sales by uglier competitors who could demonstrate reliability, prove ROI, and navigate compliance.
+
+
+The "products need soul" narrative is a luxury belief. It works when you're building for consumers spending $10/month. It falls apart when you're asking a CXO to bet their job on your vision.
+
+
+Technical excellence isn't sufficient, but it's still necessary - and in enterprise, it's usually the tiebreaker.
+	73
+	9
+	0
+	I've closed over $50M in contracts, and here's what I've learned: the bigger the title, the heavier the armor they're wearing.
+
+
+CEOs, COOs, VPs, they all started somewhere normal. They took customer service calls, made cold calls, got rejected hundreds of times. That person still exists. They've just learned to hide it behind executive presence.
+
+
+When you walk into a meeting treating them like their title, you're reinforcing that armor. You're making them play the role. And roles don't buy things. People do.
+
+
+I remember pitching to a Fortune 500 CXO who seemed completely disengaged. Then I mentioned I started as an agent taking calls. His entire demeanor changed. Turns out he did too. We spent 20 minutes swapping stories about angry customers before we even talked business.
+
+
+The meeting I thought was going nowhere turned into our biggest deal that quarter.
+
+
+Here's what people miss: executives are exhausted from everyone treating them like their title. When you treat them like a human, you're not being casual. You're being refreshing.
+
+
+Stop selling to the position. Start talking to the person who remembers what it was like before the title.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	164
+	13
+	2
+	Nobody talks about why learning velocity actually matters.
+
+
+It's not because the field moves fast, it's because the field moves in unpredictable directions.
+
+
+If AI was just moving fast in a straight line, experienced people would catch up. They'd learn the new tools, update their frameworks, and their pattern recognition would still apply.
+
+
+But AI doesn't move in a straight line. It jumps sideways. Entire approaches become obsolete overnight while adjacent approaches you dismissed suddenly become the only thing that works.
+
+
+That's the actual skill: not learning, but unlearning. Discarding knowledge you worked hard to acquire because it's now actively hurting you.
+
+
+Most people can't do this. Their identity is wrapped up in what they know. Admitting their expertise is obsolete feels like admitting they're obsolete.
+
+
+The people who thrive treat knowledge like inventory. It has carrying costs. Old inventory doesn't just sit there doing nothing - it takes up space where new inventory should go.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	100
+	4
+	5
+	I've watched three startups burn through $4M building beautiful products nobody needed.
+
+
+The design was stunning and the UX was flawless, but the companies are dead.
+
+
+I keep hearing founders say the bar is "lovable products" now, not viable ones. As if delight can substitute for solving real problems. It can't.
+
+
+Here's what gets lost in this conversation: lovability is a multiplier, not a foundation. If you multiply zero by anything, you still get zero.
+
+
+Start with a painful problem. Build something that solves it, even if it's ugly. Validate that people will pay for it and then invest in making it lovable. The order matters.
+
+
+The founders I've backed who skipped the viability step ran out of runway while polishing pixels. The ones who nailed viability first had the luxury of making it lovable later.
+
+
+Don't confuse the finish line with the starting point.
+	142
+	16
+	4
+	In 2015, a $15 billion company bet everything on mobile-only. They shut down their website entirely. Within 18 months, investors had marked them down to $5.5 billion, and they quietly brought the website back.
+
+
+Every generation thinks its insight is the permanent one. It never is.
+
+
+- Five years ago: “Remote work is the permanent shift.” Then companies started mandating return to office.
+- Two years ago: “Generative AI changes everything forever.” Now we are seeing the limitation curves.
+
+
+Today, the “emotional resonance over utility” take feels profound. In five years, we will have overcorrected so hard that someone will write the opposite essay: “We forgot that software needs to actually work.”
+
+
+I have been through enough cycles to know the pattern. We discover a neglected truth, we overcorrect toward it, then we swing back. The pendulum never stops in the middle.
+
+
+The companies that survive are not the ones who ride the current swing the hardest. They are the ones who build for both polarities and do not get whiplash when the narrative flips.
+
+
+Bet on balance, not on permanent truths. There are not any.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	127
+	4
+	1
+	Deep customer empathy can shrink your ambition.
+
+
+This sounds backwards. Everyone says get closer to customers, understand their world & feel their pain.
+
+
+But here's what happens when you fully absorb a customer's reality: you absorb their constraints too, their budget limits, their technical limits, their organizational limits and you start designing inside those constraints without questioning if the constraints are real.
+
+
+That's how you become a feature factory. Building small improvements to fit inside a world you've accepted as fixed.
+
+
+The companies that changed industries didn't empathize with constraints. They rejected them.
+- Uber didn't accept "taxi dispatch is hard to fix."
+- Airbnb didn't accept "hotels are just expensive."
+
+
+They saw the problem and refused the premise. Too much empathy makes you incremental. You need enough distance to ask: what if everything they believe about their limitations is wrong?
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	81
+	23
+	1
+	There's a dangerous pattern I see in how companies respond to negative feedback: they assume loud complaints represent the market.
+
+
+They don't.
+
+
+Thousands of people complained about an ad. Do you know how many people saw it and didn't care? Millions. The silent majority who watched it, moved on with their lives, and kept buying the product.
+
+
+But companies panic over the vocal minority. They pull campaigns, apologize, and change direction based on feedback from people who were probably never their core customers anyway.
+
+
+I've watched companies destroy good products because a small group of users complained loudly. The leadership assumed those complaints were signals. They weren't. They were noise. When we launched Sanas, we received our share of feedback - we are diluting individual identity, we are making everyone sound American, we are making people inauthentic.
+
+
+And guess who didn't say anything? Our customers and the end users. That's the cohort which matters. Everything else is just noise.
+
+
+The truth is, anything bold will generate complaints. If you're trying to do something memorable, someone will hate it. That's not a signal to retreat. It's confirmation you're actually saying something.
+
+
+Stop optimizing for zero complaints. Start optimizing for impact.
+
+
+The brands that matter aren't the ones everyone likes. They're the ones some people love.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	106
+	8
+	2
+	Everyone keeps asking if we're in an AI bubble. That's the wrong question.
+
+
+The real question is, "Can you build a real business while everyone else is building on hype?" The hardest part about building during a bubble is staying focused on fundamentals when everyone around you is getting rich on narratives.
+
+
+I speak to 500+ contact center leaders every year, and they're the ones living the reality of automation vs augmentation in contact centers. While the funding environment says that AI will replace everything tomorrow. The actual adoption reality is much slower, more pragmatic, more focused on augmentation than replacement.
+
+
+There’s a massive disconnect in the market, investors are funding "AI agents will eliminate contact centers" & customers are buying "AI helps our agents perform better."
+
+
+This is classic bubble behavior. The narrative gets ahead of reality and valuations follow the narrative, not the reality. Eventually, they converge, and most of the capital evaporates. But the technology still matters. The companies solving actual customer problems (automation or augmentation) with AI will survive. The ones selling the narrative won't.
+
+
+We built Sanas during the peak of "contact centers are dead" hype. It was a contrarian position, but it aligned with what the largest contact centers globally actually needed. So, they signed up with us.
+
+
+We grew because we built for reality, not narrative. Bubbles don’t kill real businesses, they just make it harder to see who’s building one.
+	95
+	6
+	2
+	Thanks for having me, Adrian!
+
+
+Real-time speech translation has been science fiction for decades because nobody could crack the synchronous piece. Everything was delayed, unnatural, broke the flow of conversation.
+
+
+We're fixing that at Sanas. Speech-to-speech, no text in between & emotion preserved. The Babelfish concept is closer than people think.
+
+
+Enjoyed the conversation about what becomes possible when language stops being a barrier.
+	28
+	1
+	0
+	Super excited to share that Anant S. 'from Baroda' is now our Chief Sales Officer :)
+
+
+Fifteen years ago, Anant and I were both trying to explain internet infrastructure to Fortune 500 companies. Even back then, he was the guy who could get on a call with the most skeptical CTOs and turn them into believers - not with slides or anything fancy, but through trust, through being the real guy he is.
+
+
+I've always found Anant's story very inspirational, it's a Baroda to San Francisco story of grit & resilience. He left India, rebuilt his career from scratch in the US, and become the sales leader every founder wants, but very few are lucky enough to find.
+
+
+He's been by my side in both my startups and helped us build the GTM motion that took us from early traction to scale. At Sanas, he was one of the first people I called, "I'm going this again. Will you come?"
+
+
+He said, "You bet." Back then, we were at $2M ARR. Today, we’re at $50M ARR.
+
+
+I could not have asked for a better sales leader to build Sanas with. He celebrates the team’s wins louder than his own, and he knows that true success is measured in customers who become friends, champions, and advocates.
+
+
+Now we’re setting our sights on $200M ARR.
+
+
+No pressure, Anant. And congratulations, my friend - this was long overdue.
+
+
+Shawn, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés, Ganesh, Steven, Amine, David
+	395
+	72
+	2
+	Every person you hire wants to hire someone below them.
+
+
+It's not evil, it's rational. Everyone knows headcount = compensation, influence & status. So hiring accelerates exponentially while actual valuable work grows slowly. Eventually, a company develops an internal economy where the supply of real work cannot keep up with the demand for work.
+
+
+Result: people create "hyperrealistic work-like activities" like pre-meetings, deck reviews, analyses of marginal improvements. These activities look identical to real work but produce zero value.
+
+
+So, your biggest problem isn't being understaffed. It’s being overstaffed with people who must invent fake work to justify their existence.
+
+
+Most founders miss this (I've also made this mistake at times). They hire great people but create no meaningful work for them. And no high-performer sits idle, they generate complexity: meetings about meetings, decks previewing other decks, analyses where the cost exceeds the maximum possible benefit.
+
+
+And this isn't a people problem. It’s a supply-demand mismatch: you hired 15 people but only have 8 people’s worth of real work. The remaining 7 will, inevitably, manufacture activity.
+
+
+Our job as is identifying what actually matters, say no to everything else, create clarity so talented people aren't trapped "performing" fake work.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	115
+	6
+	0
+	The most dangerous hires I've made were the ones who had all the answers.
+
+
+They had opinions on everything. They walked into interviews with confidence. They never said "I don't know." And they were disasters.
+
+
+Why? Because they stopped learning the moment they decided they were experts.
+
+
+The best people I've worked with have the opposite energy. They're comfortable with uncertainty. They ask more questions than they answer. They default to "let me figure that out" instead of pretending they already know.
+
+
+Here's what separates them: they've hit enough problems to know how much they don't know. That awareness makes them better, not worse.
+The people who think Googling answers makes them frauds are actually the ones doing real work. They're solving problems, not performing expertise.
+
+
+Meanwhile, the confident ones are stuck reapplying solutions from three years ago that don't work anymore. They memorized patterns that are now obsolete. And they don't even realize it.
+
+
+I'll take someone who says "I don't know, but I'll find out" over someone who pretends to know every single time.
+
+
+Comfort with uncertainty is the skill that matters.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	173
+	13
+	3
+	Just wrapped up an energizing Mastermind session, and it reminded me why I love being in rooms where founders and operators collide.
+Founders bring vision, courage, and the spark. Operators bring the structure, momentum, and repeatability that let that spark scale. When those two perspectives connect intentionally, something powerful happens: clarity sharpens, execution accelerates, and growth becomes inevitable rather than accidental.
+
+
+What I shared today was simple:
+
+
+Operators exist to make founders wildly successful.
+
+
+We turn ambition into operating cadence. We translate ideas into accountable rhythms. We build systems that let founders stay in their genius zone while the business scales responsibly around them.
+If you’re a founder aiming for your next chapter, whether that’s doubling revenue, professionalizing the org, or stepping into a more strategic role, find an operator who can elevate your vision without diluting its soul.
+Great companies aren’t built by lone heroes.
+
+
+They’re built by courageous founders paired with disciplined operators who obsess about doing the right things, the right way, at the right time.
+Grateful for the conversations today. The future looks bright.
+hashtag#mastermind hashtag#payingitforward
+	134
+	7
+	8
+	Everyone loves romanticizing being "politically unsavvy" like it's some badge of honor. It's not. It's just being bad at reading people.
+
+
+I've built two companies and raised over $350M, closed contracts worth over $60M.
+
+
+You know what that required? Understanding what investors care about, navigating their concerns, building relationships with the right people at the right time.
+
+
+That's politics as well. And it's essential.
+
+
+The people who claim they're "too authentic for politics" are usually just bad at influence. They think being direct means being blunt. They confuse honesty with inability to adapt their message.
+
+
+Building anything requires getting people on board. Customers, investors, employees, partners. If you can't navigate different personalities and agendas, you're not principled. You're just inflexible.
+
+
+I hired my leadership team not just for competence but for their ability to build relationships. Anant can walk into any room and read it. That's political savvy, and it's why we've grown from $0 to $40M in ARR.
+
+
+The "quiet confidence" thing sounds nice. But confidence without influence is just being comfortable with limited impact.
+
+
+Learn to navigate people. Or stay small.
+	110
+	3
+	0
+	The WHY behind WHAT you are building is your strongest differentiator.
+
+
+I learned this earlier this week in my meeting with Sowmyanarayan Sampath, Verizon Consumer's CEO. From the moment the conversation began, he shifted the focus away from himself, away from titles and metrics, and directly toward purpose. He asked two simple and foundational questions:
+- Why do you really want to partner with Verizon?
+- Why are you building Sanas?
+
+
+The entire 90 minute conversation felt grounded in service, not authority. He listened to my answers with genuine curiosity, not scrutiny. It was clear that his intent was to understand before being understood. By doing that, he helped surface a deeper answer from me about why I am building Sanas: to bridge communication for billions of people so no accent or language limits them, and so one day my son can say, “My dad built that.”
+
+
+Leaders like Sampath remind you that humility is not softness. It is clarity, it is strength and it is the ability to make someone else the center of the room so the best ideas can rise & deeper relationships can be built.
+
+
+Thank you, Sampath. So much to learn from you.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	254
+	6
+	2
+	CX Today & Rhys - thanks for the call out, Sanas SDK is live!
+As always we are determined to make the world population understand each other, ‘human to human’ or ‘human to machine’ :-)
+	30
+	2
+	0
+	Waiting for perfect market conditions is how you miss every opportunity.
+
+
+I hear this constantly: "The market's overheated, I'll wait for the correction." You know what happens to people who wait? They never start. The correction comes, and then they say, "It's too risky, let me wait for recovery." The recovery happens, and they say, "It's too late, I missed it."
+
+
+There's never a perfect time to build. Markets are always either too hot or too cold. Timing the market is often how you lose.
+
+
+We started Sanas, when everyone said that contact centers would die. We went against the narratives flooded by thought leaders and we built a real business.
+
+
+You don't build value when you're obsessed about narratives, you build it when you're obsessed about your customers.
+
+
+The founders complaining about irrational markets are usually the ones not shipping. They're too busy analyzing macro trends to build anything.
+
+
+Great companies get built in terrible markets. Because they build somethign that people need.
+
+
+Stop waiting for the market to be ready. Start building.
+	97
+	14
+	1
+	You don't get credit for problems you prevent.
+
+
+This is why metrics break companies. There's always a person who spots a disaster coming and quietly fixes it. Unfortunately, in only metrics driven organisation, this person gets no recognition.
+
+
+There's no KPI for "averted crisis." Meanwhile, someone who hits their number, often by creating future problems, gets promoted.
+
+
+Some of my best performers weren't the ones crushing visible metrics, they were the ones I couldn't quantify. For example, spending disproportionately high time with a customer to convert him in our biggest champion.
+
+
+Sure, we should quatify inputs and outputs, but often introduction of metrics makes unmeasured work as in work becomes invisible work. And invisible work feels like no work.
+
+
+This creates a selection problem. Over time, you lose the people who do unmeasured high value work, because they're not getting rewarded. You keep the people who optimize dashboards. Eventually, you have a company that's great at metrics and terrible at business.
+
+
+The fix isn't complicated: put someone in charge who's done the unmeasured work themselves. Someone who knows what matters can't always be tracked.
+
+
+Most companies fail because they measure themselves to death, not because they didn't measure enough.
+	125
+	21
+	3
+	Everyone's building the same company right now.
+
+
+I talk to founders every week. Five years ago, they all had different ideas. Now? Everyone's pitching some version of "AI for X industry." Different words, same thesis.
+
+
+This is what happens when a trend becomes obvious. Capital floods in, talent follows, and suddenly you have 1,000 companies solving the same problem with the same tools raising at the same insane valuations.
+
+
+And when everyone's building the same thing, returns get distributed across all players. Even if the market is huge, your slice shrinks with every new competitor.
+
+
+I've seen this pattern multiple times. In both cases, the companies that started when the trend was obvious ended up fighting for relevance. And the ones that started early, when it was contrarian, captured the value.
+
+
+The best investments happen when you're early and alone. The worst happen when you're late and crowded. Of course, they are some exceptions to this, but it's not smart to benchmark exceptions.
+
+
+Today, AI is crowded.
+
+
+Yes, the technology will create value. But will it create value for shareholders? Probably not. Most of this capital will get recycled into infrastructure players, and everyone else will fight over margin.
+
+
+Obvious trends create obvious outcomes. And obvious outcomes rarely make great returns.
+	189
+	35
+	5
+	History was supposed to be our anchor. Now it's just another content category.
+
+
+I've noticed something in the past year. When I'm in meetings, people reference historical events that feel slightly off. Not completely wrong, but not quite right either. When I dig deeper, they saw it in an AI generated video or read it in a synthetic article.
+
+
+We're creating a generation that has no original sources. Everything is filtered through models trained on data that was already biased, incomplete, or wrong.
+
+
+Here's the second order effect nobody's talking about: when you lose a shared historical foundation, you lose the ability to learn from mistakes. If we can't agree on what happened, we can't agree on why it happened, which means we can't avoid repeating it.
+
+
+We think this is about entertainment. It's not. It's about the infrastructure of knowledge.
+
+
+Every AI recreation, every synthetic interview, every plausible but fake historical moment adds noise to the signal. Eventually, there's so much noise that the signal disappears completely.
+
+
+We're not losing history to censorship or book burning. We're losing it to abundance. Too many versions, all equally convincing, none provably true.
+
+
+The past is becoming as uncertain as the future.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Andrés
+	120
+	15
+	2
+	Sanas has a ‘soul’, it feels right ‘investing’ in Sanas products, it’s always so ‘much fun’ dealing with you team, our teams are ‘in love’ with your team… these aren’t normal phrases associated in buying cycles for B2B software companies selling to F500 enterprises. I had a customer who sent a THANK YOU note after signing a million dollar contract!
+As we had another successful quarter where we added an additional 10m ARR it feels surreal and also makes you feel grateful being surrounded by such an incredible set of humans selling impactful AI products which empowers fellow humans.
+I have been told there aren’t many B2B companies who sell enterprise software with 1M ACV’s, 90% gross margins, insane NRR & do back to back 10m quarters with a 7 member sales team.
+(not everyone gets lucky having the one & only Anant S. running revenue, the Christian Gunnar Wathne, Ben Warner, Jon Heaps trifecta running sales and Manish Pandya, Ankit Dubey, Christine Caballero trifecta running CS :-)).
+To everyone at Sanas who WERE with us and who ARE with us - thank you! Incredibly proud building a generational company with you all and its mine and Shawn Zhang commitment to all of you that we will make your time and worthwhile as we build a happy & an incredible company.
+hashtag#aiforgood
+hashtag#marchtoabillionvoices
+Michael L. Johnson Saralynn M. Monal P. Nitesh Varshney Ashish Nagpal
+	195
+	14
+	7
+	Unpopular opinion: There’s a massive gap between what is conscious and what merely acts like conscious. But in the race to innovate or raise funding, many AI startups have blurred that line.
+
+
+Today’s systems can talk, comfort, advise, and even empathize in ways that feel real. But underneath that convincing surface, there is no awareness, only outputs generated by patterns in data. These systems don’t feel joy, or loss, or hope. They can describe those things with detail, but they do so without experience.
+
+
+So the real question isn’t whether AI is conscious, it’s whether we can handle how convincing the performance has become.
+
+
+Because when the reflection looks back at us and talks, many people start believing it’s alive. For some, the simulation becomes sacred, for others, it becomes a friend. But what’s truly at stake isn’t the birth of synthetic minds, it’s the reshaping of human ones.
+
+
+That’s why the challenge isn’t only technical, it’s also ethical. If people are confusing AI with real human-like consciousness, then something in the design has gone wrong. Honest design doesn’t mean making AI less capable. It means being clear about what it can and can’t do.
+
+
+The responsibility lies with creators. We need to build systems that are powerful but clear. Interfaces that build trust, not illusion. It’s not anti-progress to remind users that they’re interacting with code. In fact, that clarity is what enables real trust.
+
+
+This is why I’m uneasy with startups branding themselves as “AI-coaches” or “AI-SDRs.” These labels suggest the AI is equal to a human in those roles. That sets the wrong expectations, and when the system doesn’t live up to the name, trust is lost.
+
+
+In the end, the impact of AI isn’t just about what it can do. It’s about what people think it can do. And when belief moves faster than reality, that’s when things start to break.
+
+
+P.S. As a parent, I hope my son grows up in a world where we build technology that enhances humanity, not replaces it, and a world shaped by creators who remember that awareness isn’t about intelligence, but about presence, empathy, and love.
+
+
+Supriya
+	120
+	25
+	1
+	Three months ago, Sanas did something I never thought we’d have to do: we filed a lawsuit to protect our rights. Throughout my career as an entrepreneur and business leader, I’ve always known how important it is to stand up for innovators. I’ve always known that backing your team requires decisive action. Up until now, I’ve never had to take this particular step, but I’m proud that we have.
+
+
+Standing strong is especially important when you’re leading a company like Sanas that has created technologies that have never existed before. We have built tools that bring people together and improve lives. If we don’t defend our rights, we put that kind of innovation at risk, and that’s bad for everyone.
+
+
+Just last week, we launched a real-time language translation tool that allows users to speak in a different language but in their own voice - the sound, inflection, intonation and other detail that convey meaning beyond the words themselves. There’s a reason we use the word “voice” to mean our unique identity. In so many ways, it is our voice, and how we use that voice, that makes us who we are.
+
+
+When you work with inventors who are changing the world, copycats are inevitable. I welcome fair competition, and recognize that imitation can be flattering. But when copying crosses the line into stealing, there have to be consequences.
+
+
+We want our innovators to know that we will always have their backs. We want our team to know that we won’t let other people take advantage of the hard work they put into making this company a success.
+
+
+And we want our customers to know that when they partner with us, we stand with them too. We won’t let them be disadvantaged by those who take shortcuts, who go with imitators who haven’t put in the work and don’t actually own what they sell.
+
+
+We’ve made the details of the lawsuits publicly available, krisplitigation.com. We’ve brought one in the United States District Court and one in the High Court of Delhi, India. They include claims for patent infringement, trade secret misappropriation, and false advertising.
+
+
+I won’t go into all the details, but our opponent’s response has been, to put it mildly, shocking. For example, our opponent now says it should be illegal for Sanas to give away our noise cancellation software for free. It isn’t, and we aren’t about to back down. But it gives you a sense of what we’re dealing with. I’d encourage you to take a look yourself.
+
+
+In the meantime, we’re going to keep innovating, and we’re always going to stand up for the incredible people at Sanas who are transforming how the people of the world interact.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Maxim, Andrés
+	327
+	16
+	82
+	Today, we are launching real time language translation, Sanas' first consumer product, and this one is closest to my heart
+
+
+I feel most confident speaking in my mother tongue, Sankethi (Sanskrit). It’s what we speak at home. My son understands it, but doesn’t speak it, a familiar story for many immigrant families where the language gap grows across generations. Children unable to connect with grandparents, parents struggling with daily tasks, and communities growing more distant.
+
+
+The result is isolation, loss of confidence, and disconnection.
+
+
+We’re not live with Sankethi yet, but it’d come soon, and I can’t wait to see the first conversation between my son and my parents in Sankethi :)
+
+
+That’s my “why.” But the need for a language bridge goes far beyond me:
+- Brilliant developers held back by limited English.
+- Patients waiting 30 minutes for a live interpreter just to have a 5-minute conversation with a doctor.
+- 911 callers waiting for over 7 minutes in case they need non-English responder on the calls. 7 minutes in an emergency is an eternity.
+- Businesses locked out of markets, for example only ~5% of Brazil speaks English.
+
+
+Real-time translation lets people speak in their own voice and emotion, without delay or a third-party interpreter. It makes conversations personal again.
+
+
+In two years, real-time language translation will be as common as captions on video calls.
+
+
+From the beginning, Sanas has been about removing the friction that blocks people from understanding each other. And this launch brings us one step closer to a world where no voice is lost in translation.
+
+
+I already call my family only on Sanas now, and they’re delighted. Their words, not mine: “Sanas is everything FaceTime could not be.”
+
+
+You can try it here - https://lnkd.in/g-NZMk_V
+
+
+Deep gratitude to Anant, Shawn, Jason, Sushen and Scott. They made this product theirs, from idea to reality, and set a new bar for what speed and ownership look like.
+
+
+Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Carya Venture Partners, Andrés, Ram, Ganesh, David, Amine, Steven, Gokul
+	486
+	63
+	21
+	Congrats on the raise Keshava Murthy, Harsh Sahu and the entire team at Matters.AI! It’s been an absolute joy watching you all scale from an idea to raising your first round to hiring the core team to onboarding your first customer to now see you build a category defining product designed to keep enterprises safe as they scale!
+Congratulations on a fantastic journey and all the very best as you build Matters.AI into an enterprise.
+Lastly, thank you for letting me, Andrés Pérez Soderi, Sai Supriya Sharath, Andy Lee, Marty Massih Sarim and the team at Carya Venture Partners to have front row seats to see you all build & scale!
+	31
+	1
+	0
+	The more we automate, the more we raise the price of human judgment.
+
+
+Take sales, for example:
+- Before AI SDRs, humans decided who to reach out to, what to write, and how to personalize the message.
+- Once AI took over that layer, human judgment moved upstream. Which segments should we prioritize? What case studies resonate most? Who in sales should take the lead next?
+
+
+The same shift is happening in contact centers:
+- AI resolves the routine like password resets, account updates, and policy summaries.
+- That pushes the most emotionally charged and complex cases upstream to human agents.
+
+
+Metrics already show this shift.
+- We used to associate high FCR (first contact resolution) with better CSAT.
+- Now, even with lower FCR, CSAT is improving, because both agents and customers know these aren’t one-call problems. The complexity is baked in.
+
+
+Therefore, automation doesn’t eliminate human judgment, it concentrates it. It removes the easy parts so all that’s left are the hard ones requiring experience, empathy & strategic thinking.
+
+
+Human judgment will either be a multiplier or a liability, depending on whether we treat it as an asset to amplify or a cost to optimize.
+
+
+What this means for startups: we are going to see super high talent density and much leaner teams driving impact. This is already happening, we’re seeing early-stage teams hit revenue and valuation milestones that once required 3x the headcount.
+
+
+The future belongs to companies that know where not to automate, and how to turn judgment into leverage.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Carya Venture Partners, Andrés
+	131
+	11
+	3
+	Carya Venture Partners is grateful to be a part of this journey, thank you Anand Chandrasekaran for the call out!
+Andrés Pérez Soderi Michael Greenbaum Andy Lee Sai Supriya Sharath Marty Massih Sarim
+	33
+	0
+	0
+	Even after powering over half a million voices, hearing the before-and-after clips of these agents still gives me goosebumps.
+
+
+And now, we are extending the Sanas-magic to power voices in Africa & the Middle East.
+
+
+I’ve spoken before about how the cost savings promised by Agentic technologies haven't quite lived up to expectations. Ironically, that gap has accelerated offshoring rather than slowing it down. In many cases, companies made cost-cutting commitments to boards and leadership based on these technologies, and when the ROI didn’t materialize, offshoring became the fallback strategy.
+
+
+A classic Cobra Effect: where perverse incentives lead to the exact opposite outcome.
+
+
+Now, we’re seeing more demand than ever in contact centers, not just in traditional markets like India and the Philippines, but in newer regions like MEA and LATAM, which are experiencing a significant influx of projects.
+
+
+For us, this is a pivotal moment: a chance to enable and uplift hundreds of thousands of agents in these emerging regions, helping them perform on par with their global counterparts.
+
+
+Let's hashtag#marchtoabillionvoices
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Carya Venture Partners, Andrés
+	162
+	5
+	12
+	“Hire great people, then get out of the way” only works if you actually hired great people.
+
+
+I’ve seen both sides:
+- With high talent density, you can give the team a big problem, a small problem, or even something repetitive. They'll find breakthroughs without you having to prescribe steps.
+- With low talent density, the same freedom can quietly blow up your company.
+
+
+The truth is, autonomy is earned, not granted. Most companies skip that part, and pay for it later.
+
+
+Here's how we run it at Sanas:
+1. Talent density - Raise the bar, so default judgment is high
+2. No context gap - Over-communicate, share the “why,” the risks, the constraints, and the scars from past failures.
+3. Control the blast radius - Innovate in bounded zones so mistakes don’t sink the whole company.
+
+
+When we built noise cancellation, we kept accent translation out. When we built language translation, we kept other products out. When we expanded to LATAM, we ring-fenced it from the Philippines & India teams. And we over-communicate constantly about what has helped us in the past, what fails, and why we are doing it.
+
+
+Autonomy is powerful, but only in the right hands, with the right guardrails. Anything less is just gambling.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Carya Venture Partners, Andrés
+	160
+	6
+	1
+	Sam Altman is wrong about this.
+
+
+AI will make customer service more efficient, but it’s not eliminating the $500B contact center industry, and we need to stop pretending it is. These dystopian takes are mostly rage-bait, not reality.
+
+
+I’m not speaking as an outsider. I’ve been a CX agent, built products in this space, invested in both automation and augmentation tech, and founded two unicorns. So, I’m not guessing, I’m reporting from the field.
+
+
+Sure, agentic startups are building incredible products and are gaining momentum. But they’re mostly handling first-touch, rules-based, low-EQ tasks. That work never belonged with human agents to begin with.
+
+
+In fact, there’s been no meaningful automation of conversations over 2 minutes that require both IQ and EQ. Much of what we’re seeing is “voice as the new keyboard,” not true call deflection.
+
+
+I've spoken to over 500 CX leaders in the past year, and no one is seeing any meaningful call volume deflection from human to machine in core use cases. Here's what's actually happening (on the ground... the REALITY):
+
+
+- Most companies that went all-in on agentic tools are returning to contact centers. And there's even more offshoring to hit the same cost-saving goals, because the AI-as-a-cost-killer promise hasn’t held up.
+
+
+- We are celebrating false positives like Oracle and Salesforce replacing CX staff. They are not contact-center driven businesses.
+
+
+- AI has lowered the cost of assistance, so customers are reaching out more. By the time they get through a chatbot or AI agent, they’re frustrated or facing serious issues - meaning human agents now handle the hardest & the most emotionally charged cases.
+
+
+Not only are such narratives far from reality, they're doing real damage:
+1. Inflating valuations of agentic startups with unrealistic TAM assumptions.
+2. Pushing enterprises (not contact centers) into swinging between hype and reality with massive change management costs.
+
+
+TLDR: The narrative that “AI will take over customer service” is reductive, oversimplified, and detached from how contact centers actually work. We’re not heading toward agentless CX. And "Contact centers are dead" is a rage-bait which has been wrong for 3 years, and still is.
+	132
+	28
+	9
+	Here's the difference between a founder who gets funded and one who doesn't:
+
+
+We have all learned that we need to tell stories, but most of those stories are too abstract, they are not lived experiences.
+
+
+"We implemented in a fortune 500 company, and went live in 2 months, the ROI was XX"
+
+
+This is not a lived experience, that's a rhetoric. The lived experience is something line this:
+
+
+"We signed up our biggest customer not by an intro, but by a cold call to their India leadership. They shrugged it off earlier, but we kept sending case studies, industry reports, and then one day they heard about us from their customer. And then they called us, negotiated a very small pilot, and signed up. We thought we had won a massive account, but it took similar effort for their other regions, and eventually all those local wins led us to an invite from global leadership, which now had multiple ROI case studies from their own company, so a global rollout was the most obvious step."
+
+
+This is a lived reality. It has details, and that's what makes a story believable. It could even help you get buy-in from a major player's local team, or even from HQ.
+
+
+So, stop using vague lines like, "Users love our product," OR "Our ROI is XYZ." Share the lived experience, quote your customer's exact line which made them an internal hero.
+
+
+Your customers, potential hires, investors - all of them can see through a made up story and a lived reality.
+	135
+	16
+	1
+	Mediocrity kills startups.
+
+
+Every culture deck loves “candor, learning, freedom, responsibility.” But none of it works without talent density.
+
+
+If you compromise on talent density, your company becomes a theatre. People stop solving problems, they just act like they are.
+
+
+With high talent density, even a mediocre day produces incremental progress. And with low talent density, you're faking momentum, and everyone figures that out eventually.
+
+
+Always remember that the cost of keeping a misfit is paid by your best people. They carry extra weight, they lose trust in leadership, and eventually they leave.
+
+
+Build the org around this sequence:
+1) hire only people who raise the mean talent density
+2) set a brutally clear bar
+3) give real autonomy
+4) protect the bar with fast feedback and, if you required, decisive exits.
+
+
+And if you want to check how you are doing in terms of talent density, just ask privately your best performers if they'd rejoin your company today, knowing what they know. If the answer is no, take a hard look at your talent density. Because top talent doesn’t like working around mediocrity.
+
+
+I stay personally involved in hiring and talent progression. Still, we sometimes miss. When that happens, the best thing you can do for your company, for your top talent, and even for the person who isn’t a fit, is to move decisively. Because often, it's not about lack of talent or attitude. It's just a fitment issue. And the longer you delay, the higher the cost, for everyone.
+	116
+	14
+	1
+	Had a wonderful time yesterday at the Capgemini HQ speaking on a panel hosted by nasscom.
+
+
+Thank you to NASSCOM, especially Praveen, for bringing together such an incredible panel. It was great to share my journey, coming to the US from India and building Observe.AI & Sanas. Conversations like these help me relive my journey. And as they say, the journey is the reward :)
+
+
+Really enjoyed the engaging conversation with fellow panelists Anand and Trevor, and our fantastic moderator Priya, who made the discussion both insightful and authentic. We touched on everything from the evolving perception of founders in India and the US, to navigating global markets, raising capital, and building companies in the age of AI.
+
+
+Grateful for the opportunity to connect with the visiting delegation of Indian startups, wishing you all the best as you build and scale globally!
+
+
+Shawn, Anant, Monal, Michael, Saralynn, Nitesh, Ashish, Manish
+Activate to view larger image,
+	157
+	6
+	5
+	Liquidity makes you braver, not softer.
+
+
+I’m pro‑secondary when it’s done right. Not because founders or early teammates "deserve a payday," but because constant financial stress kills ambition. You don’t get daring, long-term bets from people who are stressed about rent. You get it from people who can actually breathe, and then go harder.
+
+
+Give limited, fair liquidity to the ones who’ve earned it. Then double down on the mission. Make it crystal clear the real upside is still ahead. That’s how you keep the missionaries, lose the mercenaries, and build a team that knows performance actually moves the needle.
+
+
+This isn’t softness. It’s strategy.
+
+
+You’re asking people to push a boulder uphill in a chaotic market. Don’t just yell from the top, get down there, help them gear up, then point to an even steeper slope. The compounding you want, real progress, trust, resilience, comes from a team that’s financially steady enough to go all-in.
+
+
+Fuel the fire. Don’t burn people to keep it going.
+	155
+	5
+	0
+	This was a trillion-dollar week!
+
+
+For me, an AI founder based in the Bay Area, this week felt validating, generated a lot of hope, made me feel piss-poor, and left me with a little bit of paranoia.
+
+
+Every other day, we've come across massive announcements with insane numbers that would leave many of us kind of... numb.
+
+
+Start of this week – a much-relatable company like ElevenLabs gets valued at $6B. And then there were massive fundraises and secondary sales, valuing Anthropic at $180B and OpenAI at $500B.
+
+
+Midweek – Sierra raised $350M at a $10B valuation, 100x of revenue. And then we started hearing that Elon might become the world’s first trillionaire, as his board wants him to flood the already crowded streets with millions of robo-taxis.
+
+
+And just when we thought the week was already crazy enough, all the big tech CEOs flew to meet POTUS and pledged hundreds of billions to "Make America Great Again."
+
+
+So yeah, by Friday, over a trillion dollars shook hands.
+
+
+Now, I've seen hype cycles, and I've seen bust cycles, and what I’m seeing now makes me question – is this "true automation" trillion-dollar hype real? Or is FOMO fueling these insane numbers?
+
+
+I know AI has immense value. I’ve built 2 startups and funded over 30 in the space. But often, hype and FOMO lead to very high expectations, which eventually turn into heartbreaks. And that makes building in the space much harder for everyone else, while benefitting only a few hundred people. I sincerely hope, with AI, technology lasts beyond the hype cycle - but yes, for now, I’m feeling just a bit paranoid :)
+
+
+What do you all think?
+- A cautiously optimistic AI enthusiast
+
+
+P.S. We might have a Powerball winner today for $1.8B, and I really hope it’s a Bay Area founder :)
+
+
+Swapnil, Andrés, Shawn, Anant, Marty, Monal, Andy, Deepinder, Aakrit, Don, Kishlaya, Amarpreet, Bing, Etan, Abhijeet, Tarek, Keshava, Mohit, Radhika, Mat, Ishaan, Jugal, Purva
+	136
+	21
+	0
+	The biggest risk a startup faces is losing its DNA.
+
+
+It doesn’t happen all at once. It’s not a hostile takeover or some dramatic power shift. It’s the slow, friendly drift. It happens when you bring in (or even promote) people, even the most well-intentioned, who don’t fully understand or align with the culture you’ve spent years building.
+
+
+Every hire, every promotion, adds something new to the mix, some things are great, some are not.
+
+
+Take the example of asking someone to lead a new challenge. Their metrics for success may look completely different from someone working on an existing business unit. So, the risk takers need to have that cushion, and if they don’t get that distinction. Then you might end up creating a culture where AOPs matter more than creating something new. Where keeping the status quo becomes more important than playing bold.
+
+
+Over time, that can slowly shift the company away from the bold, innovative spirit that made it successful in the first place.
+
+
+I believe being bold, taking risks and leading with empathy is how we got here. And that’s how we’ll keep growing.
+
+
+As we scale, I’m always thinking about how we can hire and promote the right people, not just the most talented or skilled, but those who will understand, protect, and evolve our culture in a way that doesn’t distort it. It’s a fine line between growth and drift.
+
+
+The team you hire (or promote) doesn’t just execute your vision, they shape it. So, protect the DNA. Because that’s what makes you, YOU.
+
+
+PS: I hired five new leaders into my team this year and, to be honest, I was nervous with every single one. Nervous about whether I could set them up for success. Nervous about whether they would fit the DNA.
+
+
+Grateful that they’ve fit into the Sanas jigsaw puzzle even better than I imagined.
+
+
+Saralynn, Michael, Nitesh, Manish, and Ashish Nagpal, thank you for taking the leap with me, Shawn, Anant, Marty Massih Sarim and Monal in building Sanas into a category-defining company.
+	189
+	13
+	0
+	10 years ago, I was a nobody.
+
+
+I still have a long way to go, but I’m incredibly grateful for everything that’s come my way.
+
+
+Back in 2015, 11 years into my career, I sent this message applying for a sales leadership role. Instead, I ended up joining a much smaller startup, Unbxd, at that time. That move gave me my first shot at enterprise sales in the US. And it changed everything, I didn't know it then :)
+
+
+Since then, I’ve had the chance to build Observe.AI, Sanas, and Carya Venture Partners, and help dozens of startups with their US GTM.
+
+
+Along the way, I often meet exceptional talent who say things like “our last startup missed it” or “we were too early.” And every time, I’m reminded of those outreach messages I sent a decade ago.
+
+
+So here’s what I’ve learned, you’re not behind schedule. You’re just one right stint away from hitting escape velocity.
+
+
+Until then, keep grinding. The pieces will come together. And when they do, they’ll compound faster than you think.
+
+
+Pavan, Prashant, Swapnil, Andrés, Anant, Marty, Monal, Andy, Supriya, Deepinder, Aakrit, Don, Kishlaya, Amarpreet, Bing, Etan, Abhijeet, Tarek, Keshava, Mohit, Radhika
+	613
+	102
+	3
+	Thank you Marius Maree, the team at UnitedHealthcare, our partner Alorica & our good friend Jack Madrid for this incredible opportunity to present at the Make it matter summit in Manila!
+All of us Sanas are grateful in aligning our mission with yours to make the world a better place ‘one conversation at a time’!
+Shawn Zhang - you were awesome brother! You should present more often :-)
+Anant S. Monal P. Marty Massih Sarim
+	36
+	0
+	0
+	I grew up in a country where you demonstrated value before you negotiated price, and where showing your work was survival.
+
+
+And in India, it's very common to come across businessmen who aren't 'polished' and simply rely the value of their product, service, distribution or network.
+
+
+Turns out, reality converts better than polish, every single time.
+
+
+That has instinctively built in Sanas as well - long back we just stopped talking theories and started showing a real agent using Sanas, live. The before and after made some large contact center CXOs pull in their teams and say, "Listen to this, let's get Sanas."
+
+
+Pitch decks, case studies, white-papers are good but I believe that people decide to buy first and then look up all of those to justify their choice. And that buying decision is led by witnessing change firsthand.
+
+
+Shawn, Anant, Monal, Marty, Saralynn, Nitesh, Ashish, Manish, Michael, Carya Venture Partners, Andrés, Supriya
+	241
+	9
+	3
+	Saurabh Vij & NEO team… this is BIG!!!
+congrats and super proud of you all!!
+Gokul Rajaram Andrew Maas Andy Lee Andrés Pérez Soderi Marty Massih Sarim Steven Schlenker David Greenbaum Ganesh Bell
+	23
+	1
+	0
+	Aug 2024: $10.2M ARR —> Aug 2025: 30.7M ARR [10M+ ARR Q2-25]. The buzz and momentum with Sanas is so REAL!
+Anant S. - 50M+ ARR by end of 2025 my friend, no pressure :-)
+Monal P., Shawn Zhang, Nitesh Varshney, Michael L. Johnson, Saralynn M., Marty Massih Sarim, Manish Pandya Christian Gunnar Wathne Eric Latsey, Rahaf Ebbini, Mackenzie Periatt, Hamed Razzaghi, Raul H. Garcia Letona, Kurt Singleton, Pavel Rodl, Ben Warner, Zack Y. Tiffany O'Malley, Jon Heaps
+	575
+	32
+	9
+	Happy to have played a small part in your journey, Bing. You've always had the drive, the vision, and the ability to make things happen. I have no doubt you'll continue to do amazing things 🚀
+	36
+	0
+	0
+	System of agents at work! One of the best I have seen! Kudos to Saurabh Vij and the Neo team!
+	28
+	1
+	0
+	Founders don’t need more mentors.
+
+
+But one of the biggest mistakes founders make is 'collecting' mentors when what they really need is sponsors.
+
+
+I had plenty of “mentors” telling me how they would price, hire, fundraise. Those were nice conversations but the real inflection in my journey came when one person did more than advise, he walked me into a boardroom, vouched for me in front of a prospect we had, and stayed in the meeting while I stumbled through the pitch.
+
+
+That customer signed up with us.
+
+
+That wasn't mentorship, that was sponsorship. He spent his reputational capital to secure a win for me. And that win changed the slope of my curve.
+
+
+How to earn a sponsor: ship after advice, report back outcomes, make the “ask” specific (“Will you intro me to X?”), then over‑deliver so lending their name was a good trade.
+
+
+You don’t need ten sponsors, one believer changes everything.
+
+
+That’s the belief behind Carya Venture Partners, to sponsor founders, and to back them with our reputational capital, not just our checks.
+
+
+Andrés Pérez Soderi, Andy Lee, Sai Supriya Sharath, Marty Massih Sarim, Anant S., Michael Greenbaum, Luke Bender, Patricia Peña Garcia
+	314
+	13
+	1
+	AI is caught in narrative inertia.
+
+
+One day, building a services arm alongside your product is seen as a red flag. The next, it’s celebrated as visionary.
+
+
+One day, you're told your product should speak for itself. The next, you're cheered for building a consulting layer for enterprise adoption.
+
+
+One day, product-led is the only way to scale. The next, enterprise-led growth is the new religion.
+
+
+But these narratives are oversimplified and time-sensitive. What’s considered “bad business” in one cycle becomes “pragmatic” in the next.
+
+
+Historically:
+- Services = linear scaling, “uncool,” anti-venture.
+- Product = leverage, scalability, "real tech."
+
+
+But AI has flipped the script.
+
+
+Enterprise AI requires customization. It needs trust, integration, and handholding. The clean abstractions of SaaS don’t hold up in the real world. And so, services are cool again, rebranded as go-to-market muscle.
+
+
+This isn’t hypocrisy, it’s context. Most advice is rooted in what worked last time, not in what’s needed this time.
+
+
+So don’t get stuck chasing narrative approval. Markets don’t reward ideological purity, they reward solving hard & painful problems.
+
+
+Narratives change, good businesses endure.
+	111
+	14
+	1
+	We didn’t hire a Head of Finance until we raised $100M.
+
+
+Because for the first $100M, I wanted to own the financial narrative myself. I’ve seen this twice now, until Series B, the only thing that’s constant is unpredictability. The model changes every quarter. The story rewrites itself. It's chaos, and as a founder, you need to be deep in it.
+
+
+Here’s how I thought about our rounds at Sanas:
+- Seed: Prove the product works.
+- Series A: Prove the market wants it, and sign every major BPO.
+- Series B: Own speech understanding as a category.
+
+
+Hiring a head of finance too early is like bringing on a translator before you know what language you’re speaking. Not because they aren't good, but because there aren’t enough stable levers yet to work with. You have to define the story before you can manage and forecast it.
+
+
+That said, in capital intensive or regulated startups, early finance leadership can add real value. It all depends on the business model, the founder’s style, and how fast things are evolving.
+
+
+Once we hit a stage where consistency, clarity, and strategic planning became essential, bringing on Michael as our Head of Finance was a no-brainer.
+
+
+It's common to come across super high IQ leaders in finance, but we wanted to have a combination of IQ + EQ, as I believe emotional intelligence is super important to build & scale the mission of Sanas of empowering a billion voices with speech AI. So, while Michael comes with a stellar profile, what really caught my eye was his stint with Khan Academy he worked closely with philanthropic partners to scale its global impact. That showed us he’s not just an operator, he’s a missionary, like the rest of us at Sanas :)
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	342
+	31
+	0
+	Figma just filed for their IPO and what really caught my eye is how they've mastered both horizontal and vertical growth!
+
+
+70% of their revenue comes from enterprise customers, despite having the best PLG motion. And the 70% of those started with just one user.
+
+
+Their PLG and sales-led motions feed each other, creating what I call a compound GTM strategy:
+- PLG drives horizontal growth (start small, spread across teams)
+- Sales drives vertical growth (go deeper into the org)
+
+
+This kind of chain reaction is what powers exponential growth, think HubSpot, Calendly, DocuSign.
+
+
+Now, at Sanas, we don’t have a PLG motion, but I see strong parallels in how we’re growing, through similar chain reactions, sparked by our product's value. And some of our largest customers have come through such chain reactions.
+
+
+Here’s how it often plays out:
+- We get adopted at a contact center.
+- They introduce us to their customer, the brand.
+- The brand sees success and brings us into other centers they work with, across regions, operations, and use cases.
+- Now, this new contact center also continues with this chain reaction & takes us to other brands
+- And the cycle continues
+
+
+Each layer reinforces the next. Each touchpoint compounds our reach.
+
+
+That’s our version of compound GTM, not a PLG + Sales led motion, but a network-led motion, driven by results. Where success with one stakeholder cascades across the entire ecosystem.
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	147
+	9
+	1
+	AI is reshaping how customers seek help!
+
+
+We now have agents (quite literally) everywhere. Assistance is low-cost, fast, and always-on. That’s great, but it's also changing human behavior in subtle but important ways.
+
+
+Because of low-cost and always-on agents, brands are increasing touch-points with their customers - chat, voice bots, interactive FAQs, self-serve flows.
+
+
+So, customers are becoming more self-directed in the early stages of problem-solving. They're trying every option themselves before they decide to dial up the support - meaning more frustrated & emotionally charged customers are calling the contact centers.
+
+
+If you don't get them immediately, they'd lose patience.
+
+
+AI isn’t replacing human agents, it’s making their role more concentrated & filtered. The human agents are no longer the first line of support. They’re the last line, tasked with resolving the most complex, nuanced, and emotionally sensitive issues.
+
+
+The volumes might get handled by AI Agents, but the thing which might actually make or break your brand's identity will be defined by how empowered your human agents manning the last line of supports are.
+
+
+Eventually, the better your AI gets, the tougher the problems your human agents have to solve.
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	155
+	4
+	1
+	Startup founders talk a lot about PMF. Kishlaya and Malika had their ears to the ground while building Bling and getting there!
+
+
+I invested in Bling because of Kish’s war stories, his drive (quite literally) to Mexico to close a deal, the momentum they were building, and most of all, his hunger to learn.
+
+
+If Kish thinks he can learn something from you, he immediately becomes your student, and the kind who keeps coming back for doubt classes.
+
+
+Kishlaya and Malika have shown that you don’t need a huge team or endless resources. Just grit, perseverance, and a deep ability to listen to the market. That alone can build a million-dollar revenue company.
+
+
+It took them two years to hit $1M ARR, and just six months to double it. Because they have a rare talent, the ability to separate signal from noise, and act on it fast. They have earned every bit of their traction.
+
+
+Bling
+	125
+	4
+	3
+	Finally! I’ve been waiting for you to post this one for a long time.
+
+
+Kudos to you and Vaishali for creating Tagent and becoming the de facto voice of founders! It’s been a privilege to watch you both grow Tagent, one founder story at a time.
+
+
+Last but not least, thank you for letting me play a small part in supporting you on your entrepreneurial journey. I’m especially grateful for all the therapy, yes, talking to you, sharing war stories, being vulnerable, and brainstorming ideas has been one of the most therapeutic experiences. I’m sure every founder who works with you has felt the same!
+
+
+Cheers to Tagent, a founder’s confidant, therapist, and most importantly, a very good friend. 😊
+	45
+	6
+	0
+	Super excited to see Hoomanely launch its first product!
+
+
+So much progress has been made in human health and longevity, yet most pet products have remained largely “feel-good” solutions, aimed more at human gratification than real well-being for our pets.
+
+
+That’s why Hoomanely stands out!
+
+
+I’ve seen firsthand how Supriya, Harshal, and Vipin have spent the last 15 months deeply committed to research, gathering market feedback, iterating constantly & even building their own LLMs ground up.
+
+
+Rooting for the Hoomanely team and for a healthier, longer, happier life for our pets!
+	61
+	1
+	0
+	People often ask me how I find the time to talk to so many early-stage founders.
+
+
+I don’t want to give a generic answer about “giving back” or “doing good for the ecosystem. The truth is, those conversations are the closest thing I've found to therapy, and I need them as much as they do.
+
+
+I’ve been through the zero-to-Series B grind twice. The adrenaline highs, the gut punches, the constant pressure, you never really “get used to it.” You’re always carrying a chip on your shoulder and staring down existential risk.
+
+
+Over the past 6-7 years, I’ve spent more and more time with early-stage founders, and I’ve realized how deeply therapeutic those conversations are. Their wins: a key hire, a successful fundraise, or a big deal, feel like my personal wins too.
+
+
+Each founder opens a new micro-startup world. It takes me back to my own early days, but now with a chance to help them build with more clarity than I had, and a little less fear.
+
+
+Every time a founder comes back and shares something positive, it sends quite signal that things are working fine, you're on right path, in control. It creates a feedback loop that keeps me pumped up, even while building Sanas.
+
+
+Maybe that’s the power of side quests. They create space to reset, regain perspective, and give your brain a break from always running in survival mode.
+	170
+	12
+	1
+	Excited on July 1 launch, being a pet parent I know how much of a game changer this could be… one extra day, one extra moment with hashtag#champ feels so good and feels so right… super proud of Sai Supriya Sharath, Harshal Hinger, Vipin and the entire team at Hoomanely for building something that is so essential!
+	36
+	1
+	0
+	I’ve seen a lot of leaders confuse “perpetual dissatisfaction” with visionary leadership.
+
+
+They believe that if they ever show satisfaction, the team will relax. So every 1:1 becomes a list of what’s missing. Every review is about what’s not good enough.
+
+
+But you don’t build high-performing teams by making them feel like they’re never enough. You build them:
+- By balancing ambition with acknowledgment.
+- By pushing hard, but pausing to celebrate.
+- By being urgent, but also sustainable.
+
+
+Yes, startups demand high standards. Yes, you’re expected to stretch, be accountable, and perform under pressure.
+
+
+But high expectations don't require hostility & drive doesn't need to come from fear.
+
+
+- You can expect excellence and recognize progress.
+- You can raise the bar without burning people out.
+
+
+Satisfaction doesn't mean complacency. Let’s stop pretending it does.
+	174
+	9
+	1
+	Excited to be a part of this session, we will be sharing something exciting plus it’s always a pleasure to chat with Brian Johnson, who has been a great champion and partner for Sanas!
+Transcom, Michael DeSalles - thank you for the opportunity to share all the exciting things we are working on at Sanas, brainstorm on how ‘AI in CX’ is being applied to empower agents at some of the largest enterprises globally and the success we have had with Transcom over the past year!
+Anant S., Ashish Kanoongo, Monal P., Shawn Zhang, Marty Massih Sarim
+	37
+	2
+	0
+	This is not the time to pick sides in AI!
+
+
+Right now, we have split ourselves into two camps – automation vs augmentation. We're quick to defend one and dismiss the other, but in doing so, we’re missing the bigger picture.
+
+
+This isn’t a binary debate with a toggle switch; it's a tectonic shift in how we think about work, how teams are structured, and how we look at the composition of the labor force.
+
+
+When I look at contact centers, I think of AI as an opportunity to evolve human capital to do more nuanced and higher-value work.
+
+
+Take IKEA, for example: they re-skilled their contact center agents in interior design, turning them into remote consultants. So, these employees aren't just more skilled now, they are also contributing to over 3% of IKEA's revenue.
+
+
+So, what really happened? AI amplified human potential. It took repetitive, low-value tasks off their plate and moved humans up the value chain, empowering them to become specialists, not just support staff.
+
+
+That's how AI will transform contact centers.
+
+
+Thanks, Karishma & The Washington Post for capturing how AI is transforming Indian call centers in your article. Sharing the link to the article in the comments.
+
+
+Sanas, Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	100
+	9
+	5
+	Once you cross $10M ARR, Net Retention > Net New.
+
+
+Still, I keep seeing startups over-index on hiring top-notch Sales VPs while settling for “okayish” Customer Success leaders.
+
+
+That’s why CS remains one of the most under-invested (and as a result, under-leveraged) growth levers in most enterprise-facing companies.
+
+
+The traditional CS playbook is reactive - focused on firefighting, ticket metrics, QBRs, and chasing NPS, which doesn’t reliably predict churn.
+
+
+When we built the CS function at Sanas, we deliberately avoided that institutional bias. We didn’t want someone to repeat the same rinse-and-repeat CS motions. We wanted someone to ask:
+
+
+“Why is this function structured this way in the first place?”
+
+
+So, we hired someone who had never run CS before, but who could:
+- Own revenue, not just renewals
+- Think beyond QBRs and build real strategic partnerships
+- Treat post-sale like go-to-market, not customer support
+
+
+There’s a crazy rush right now in AI adoption across the enterprise. Getting in the door is easier than it’s ever been. The hard part is staying in! Your net retention is your core revenue driver.
+
+
+Always remember: You have not really closed the deal until the customer has renewed.
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya, Ankit, Christine, Carlos
+	257
+	13
+	1
+	Yes it’s great to build a company with fewer people and revenue per employee is an important metric but there is a reason why some companies are built to last… it requires investing in people, investing in building a brand, investing in building deep product moats, invest in R&D, investing in sales enablement, investing in customer success. Yes, AI will make us run companies efficiently and as a founder it’s your responsibility to embrace AI and enable your teams to embrace this tectonic shift happening around us. But it can’t replace people, functions, processes and most importantly procurement cycles with large enterprise companies :-) … these systems, people and processes are in place to make companies make informed long term decisions. It’s always important for founders to remember (especially in B2B enterprise) the harder it is to get in it’s harder to get replaced.
+It’s different schools of thought and hence it’s important for founders to understand the DNA they are out to build and set the right expections with their team and investors on how you are building your moat and eventually your legacy. Very insightful Jugal Anchalia
+
+
+Sanas Anant S. Ashish Kanoongo Michael L. Johnson Monal P. Shawn Zhang Maxim Serebryakov Andrés Pérez Soderi Marty Massih Sarim Manish Pandya Nitesh Varshney
+	26
+	1
+	0
+	We didn’t start Sanas to create a movement.
+
+
+We started it to solve a problem every one of us on the founding team had faced - bias because of our accents. That pain was real and personal. And it became the 'why' behind Sanas.
+
+
+These are the tiny sparks in every founder’s journey. And it grows when more people find meaning in that spark – they become your customers, teammates, and investors.
+
+
+That’s how a movement forms. Not by design, but by momentum.
+
+
+And this week at CCW, we felt that momentum increase as we announced a major step forward:
+Real time language translation - live, seamless and, mostly importantly, still humane.
+
+
+Because while bridging accents helps people understand each other better, bridging language unlocks true human connection – amplifying global trade, education, art, collaboration, opportunity, and belonging.
+
+
+With every voice we empower and every connection we enable, Sanas is quietly marching toward a billion voices - turning momentum into movement, one voice, one connection at a time.
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	259
+	14
+	7
+	If you're attending mega-events like CCW just to generate leads, you've already missed the point.
+
+
+I've been to CCW many times, for my startups at different stages, and each time, I have one goal: 10 genuine conversations. These could turn into sales, partnerships, hires, or even just future beers.
+
+
+Yet, every year, I see people rushing to the next "target," making interactions feel transactional and shallow. Whether you're speaking with a customer, investor, or partner, treat each conversation like it's the most important of your day.
+
+
+That's how relationships are built. For me, the real ROI at events like CCW is not leads, it's meaningful connections.
+
+
+Oh, if you want to maximize your surface area of meaningful relationships, bring your cavalry along!
+
+
+The Sanas team is at hashtag#CCW, booth 230. Let’s connect!
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	262
+	13
+	2
+	We came across a lot of noise in the early days of Sanas. Mostly from people who haven't spent a day in their lives in contact centers.
+
+
+Here's what we heard from them:
+
+
+“Sanas is racist.”
+“It’s forcing people to sound American.”
+“It’s erasing individuality.”
+
+
+But you know who didn't say any of that?
+The very people Sanas was built for: the agents and contact center veterans.
+
+
+Here’s what they’ve always told us:
+“I feel confident now.”
+“I’m not scared to take calls anymore.”
+“This changed my life.”
+“Before Sanas, callers made me feel useless.”
+
+
+These aren’t marketing lines. These are real voices which are finally being heard, without being judged for how they sound.
+
+
+For our users, Sanas isn’t just a tool. It’s a vehicle for dignity, opportunity, and economic mobility. At the end of the day, it’s their voices that define the success of our products. So, that's who we listen to. Always.
+	161
+	13
+	8
+	I've raised over $350M for my companies, and here’s something most early-stage founders get wrong:
+
+
+They spend too much time convincing people to invest in them, trying to create demand: building the category, as they say. They forget they just need to raise capital, and end up making it their mission to make others believe.
+
+
+You're building a company, not a religion!
+
+
+Find people who believe in the space and are looking to invest in similar categories. Check their portfolios, watch their press releases and talks, understand if they “get your space.”
+
+
+I’ve watched The Dropout, Super Pumped, WeCrashed, and other startup-centric shows. They make it look like founders convince naysayers about the ‘category’ they’re building. That’s fiction. :)
+
+
+VCs rarely change their opinions on categories. What changes their minds is YOU, your team and your ability. So, just identify the right VCs, present them with the opportunity, and don’t sweat it when they don’t get it. Someone else will.
+
+
+Always remember, you only need one person to believe in you. It takes time, but it’s worth investing the time to find that one believer!
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	355
+	41
+	0
+	Noise cancellation was invented in the 1930s. By the 1980s, noise-cancelling headphones hit the market.
+
+
+It’s 2025 now, 45 years later, and noise cancellation still isn’t a utility. We're still paying extra to access something that should be built-in, especially in work settings where clarity matters most.
+
+
+Last year at CCW, we launched our own noise cancellation product to help users block out distractions during calls. But we realized: doing it for just one side of the conversation was only half the job.
+
+
+Today, I am excited to announce the next step: noise cancellation on both sides of the call. Because communication isn’t complete unless both people are heard, clearly.
+
+
+Let’s stop treating noise cancellation like a luxury. It's time it became the standard.
+
+
+Sanas, Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	57
+	3
+	0
+	The 'image risk' in Venture Capital outweighs the 'capital risk.'
+
+
+And a lot of really great ideas get filtered out not because they're too risky, but because if they fail, they would 'look like' risky bets.
+
+
+I believe most investors don't fear the risk of missing the next Figma or Airbnb, they fear backing the next Juicero. And I am sure that the next Figma will get rejected 9 out of 10 times, just to play safe.
+
+
+I've seen this during our fundraise as well. We went against the mainstream narrative that contact centers are not going to get replaced, and we need to build for the agents. We had the biggest logos in the industry, we had traction, and our customers loved us. Still, a lot of investors we met were hesitant, as we didn't fit the mould of "AI as replacement for humans."
+
+
+Now, this can't be fixed, and this is how the system works.
+
+
+The only way to navigate this is building a compelling narrative. I lean on the MAYA principle coined by Raymond Loewy, which is an abbreviation for Most Advanced Yet Acceptable, and says that to sell something surprising, make it familiar; and to sell something familiar, make it surprising.
+
+
+We managed to do this during our fundraise. We are not living in denial that AI won't take away jobs in contact centers, but we also believe that voice AI is not a replacement for human connection. Beyond the first-level (or second-level) conversations, it's the human connections, empathy, and curiosity which actually create differentiation in a brand's identity and customer support.
+
+
+So, it's the founder's job - not just to build product and team, but also the narrative around their mission, to find backers who don't think they're going too far with you.
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	98
+	12
+	0
+	When my dad got a job, it lasted a lifetime.
+
+
+He mastered one skill, relied on it for decades, and then retired with certainty.
+
+
+That model doesn’t exist anymore.
+
+
+When I started my career in 2006, BPOs were booming.
+Then came IT services.
+Next, product-led companies took over.
+
+
+Each shift demanded new skills, and those who didn’t evolve got left behind.
+(Remember cold calling? It's almost extinct)
+
+
+Today, the pace of change is even faster.
+
+
+AI has made ‘professional relevance’ a moving target. We all have read enough about ‘vibe coding’ in the last 30 days :-)
+
+
+Millennials and Gen Z can’t count on staying in one job, or even one industry, for life.
+
+
+That changes the very idea of a career. It's no longer a marathon that you can run at a steady pace.
+
+
+It’s a sprint track now: short bursts, fast pivots, and constant restarts.
+
+
+The only skills that matter is reinvention & quick adaptation!
+
+
+PS: Here's my son, who has already moved beyond the AI and Agentic era and is preparing to go to Mars - staying ahead in the race for professional relevance :)
+	291
+	11
+	0
+	We are about to witness Darwinism in cognitive load on human minds!
+
+
+Historically, major shifts happened over generations. People had time to adapt. There was room for coexistence:
+- Horse carts and cars shared roads.
+- Manual and machine farming coexisted.
+- Artisans and assembly lines still exist side by side.
+
+
+From agriculture to writing, telephone, industrial revolution, internet, and social media. All these changes brought huge cognitive shifts, but they were spaced out, giving humans time to adapt.
+
+
+Not anymore!
+
+
+Now, we are facing a barrage of changes, all at once, compressed into a single decade, with AI.
+
+
+Every field: workforce, healthcare, agriculture, and others, is being ripped apart and reassembled with AI.
+
+
+So, the right question to ask isn't "Will I get to keep my job?" (sure, you will)
+It's - "Can I keep up with the cognitive load?"
+
+
+In the long run, it won't be about the opportunities, access, or geography.
+It will be about the ability and willingness to keep up with the cognitive complexity.
+
+
+We are not talking about this yet, but we are not heading into a job shortage.
+We are heading into a talent shortage.
+
+
+We need cognitively agile talent more than ever as AI commoditises the busywork.
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	175
+	12
+	1
+	AI is a Redistribution Engine!
+
+
+It won't kill jobs & industries - it would reshape them.
+
+
+It would automate the low leverage busywork layer, humans will move up the value chain and the industry will evolve - NOT replaced.
+
+
+Like any major redistribution force, opportunities may appear to shrink in the short term. But in the long run, we’ll see that human-centric roles will be amplified.
+
+
+What does this shift look like?
+- Developers won’t just write code: they’ll design systems, solve problems, and adopt product thinking.
+- Designers won’t just make logos or edit videos: they’ll define brand identities, and master storytelling.
+- Doctors won’t just handle routine checkups: AI will assist with diagnostics, while they focus on complex cases and advanced care.
+- Contact center agents will move from script-following to managing high-complexity issues & becoming revenue drivers.
+
+
+Basically, in a world where everyone can code, write, or design with AI, what would set humans apart won’t be a low leverage expertise, it’ll be our taste, judgment, curiosity & the ability to empathise and build human to human connections.
+
+
+I believe that the value isn’t in doing more, it’s in knowing what’s worth doing.
+
+
+Image credits: Timo Elliott
+
+
+Amine Baji, David Greenbaum, Steven Schlenker, Ram Gupta, Ganesh Bell, Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	85
+	8
+	8
+	Going to your investors with ONLY good news is a fatal mistake!
+
+
+Your investors are your partners, quite literally, and they should know every detail about the business - the good, the bad, and the ugly!
+
+
+They’re not just here to pat you on the back when you do well; they’re there to support you, open doors, soundboard with you, and co-create the business with you.
+
+
+When I started building Sanas, I made it a point to keep our investors aware of what’s happening - through thick and thin. It’s always been the case that our investors have told us that if we need more money, they can always cut a cheque for us. In fact, all our existing investors also participated in our recently closed Series B.
+
+
+And this is common among most solid founders I know - they all have amazing relationships with their investors.
+
+
+So founders, talk to your investors more often - don’t hesitate to over-communicate as well! They are your partners, so treat them like it!
+
+
+Amine Baji, David Greenbaum, Steven Schlenker, Ram Gupta, Ganesh Bell, Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	122
+	5
+	0
+	Don’t try to build a startup within a startup!
+
+
+It almost always fails.
+
+
+The only time it doesn’t is when that new initiative is the top priority of the founder. That’s when the entire ecosystem rallies around you, product, tech, legal, finance, leadership, to make it succeed.
+
+
+In every other case, you end up as a super expensive lone wolf, racing against time, trying to make things happen without enough resources or support. And because you’re not generating revenue yet, no one’s incentivized to care about your "startup."
+
+
+I’ve been in that position before in past roles. High hopes, big vision, but no real shot at success.
+
+
+That’s why we do things differently at Sanas.
+
+
+When we take a big bet, it starts with our founders and execs. They carry it from zero to one, navigating the internal friction, setting the foundation, and getting early traction.
+
+
+Only after that do we hand it off to other leaders, who now have something real to scale.
+
+
+Don’t expect miracles :-) Build baseline, remove bottlenecks, fuel momentum, and expect intensity for your team to thrive on!
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	201
+	7
+	7
+	Temporary behavioral shifts aren’t long-term market signals!
+
+
+Remember Clubhouse? Everyone wanted the invite, founders were pitching "Clubhouse for ABC." Twitter built Spaces, Spotify built Greenroom and audio looked like THE next big social format!
+
+
+Soon fatigue set in, retention tanked & hyped moved on!
+
+
+Same happened with NFT & Web3 - everyone was building Shopify for NFTs or Instagram for NFTs. Until, it all fizzled out!
+
+
+Because tech inflection points need real use cases & chasing hype without depth leads to irrelevance. I think it's super important to ask fundamental questions like:
+
+
+- "Are you confusing contextual spikes as breakthroughs?"
+- "Are you solving a real pain or just riding the wave?"
+
+
+You've got to ask the WHY before HOW, and this era of Gen AI & Agentic startups seems to have cracked this. Founders are talking to users. Solving real problems. Shipping what their users want, and are willing to pay for.
+
+
+AI startups rewriting play-books of GTM, Product, CX, Risk, Security and beyond.
+
+
+GenAI is more than a contextual spike & not only it's here to stay, it'll permanently change the way we look at humans & machines working together.
+
+
+Sanas, Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, Manish, Carya Venture Partners, Andrés, Supriya
+	179
+	13
+	0
+	We’re looking at AI Agents the wrong way!
+
+
+We are force-fitting AI Agents into the problems which are easily handled by humans. And that has led to this whole automation & replacement debate.
+
+
+Take BPOs, for example, everyone seems to be racing to “kill the contact center” with automation - and they’re missing the bigger opportunity.
+
+
+The true potential of AI isn’t in replacing humans for cheaper or faster results. It’s in unlocking entirely new value, like
+
+
+- Expanding into smaller cities without compromising talent quality
+- Accessing larger talent pools, unrestricted by accents or language
+- Reducing attrition caused by accent-based abuse
+- Improving sales conversions with more neutral, understandable speech
+- Helping more people meet English proficiency benchmarks set by global clients
+
+
+These are value multipliers and growth levers unlocked by Sanas in contact centers. We've attributed directly to revenue growth, better hiring funnels, lower churn, faster onboarding, and dramatically reduced training costs.
+
+
+Let’s stop asking what AI can replace - and start asking what it can unlock when paired with humans.
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish
+	330
+	29
+	10
+	Build with bias, scale with signal - this really doesn't apply if you're building for enterprises.
+
+
+This is a great advice if you're in fast-moving, low-friction markets like B2C or SMBs. You can afford to move fast, break things, and pivot your way to PMF.
+
+
+But building for enterprises is a super high-context play - when you are building for enterprises, there's so much to learn (& un-learn) about the market. You are navigating a whole ecosystem of legacy, workflows, different stakeholders, compliance, info-sec, procurement cycles & much more. There's a high cost to switch your market & its context.
+
+
+I am a big believer of picking your arena first & then listening deeply to extract what to build. I've built both my startups after identifying the markets first and then doing 100s of calls with the market leaders to catch the signals.
+
+
+What's the pain? Is it real? Is it repeatable? Is it monetisable?
+
+
+Be biased towards which market to build in, but build with the signals you get from the market.
+
+
+PS: Here's my signal catchers of Sanas :) Decoders of what to build!
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish
+	227
+	6
+	1
+	"Just walk into your office and be yourself!"
+
+
+I love how Ashish B. described Sanas: "It has given a swagger to our employees, and they don't have to get fired for their accents."
+
+
+The way we sound becomes a huge factor in our success (or failure), whether it’s in interviews, sales calls, investor's pitch, customer support, teaching, or any situation where we interact with people. We're expected to fit into a mould to sound similar!
+
+
+Somewhere along the way, this became the norm: being "you" isn't enough! And we have to sound a certain way to get the job, go through accent training, and "fix" our mother tongue influence.
+
+
+I remember going through accent training in my college days to work at contact centers. I also know countless leaders who’ve "fixed" their accents and adopted aliases like Nathan, John, or Mike to climb the ladder. And no one questioned it, even I didn't!
+
+
+But it doesn’t have to be this way anymore. Injecting AI into speech is now creating a level playing field for everyone, agnostic to how we sound!
+
+
+Let's embrace authentic voices and celebrate being ourselves. We are more than how we speak - we are the ideas, values, and individuality we bring on the table!
+
+
+Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish
+	106
+	2
+	2
+	Thanks for sharing this Jim Iyoob, the legend! Appreciate how much you have helped us as we have matured our product in the last 24 months, a true #lifesaver!
+Agree, we are truly blessed with a stellar on-the-ground team. I strongly believe this as an investment to build the right product versus deeming this as cost. The feedback Ashish Kanoongo, Ankit Dubey, Christine Caballero and team get from customers like you by being on the ground is precious and I think it’s the only way to build stellar products. Thanks again for the shout-out!
+	31
+	0
+	0
+	Sanas turns 5 :)
+
+
+On 1st April 2020, five years ago, Sanas was just a college project at Stanford – born out of a simple desire to help a friend.
+
+
+These 5 years of building Sanas into a movement have been extremely fulfilling, inspiring, and humbling. We're proud to build a movement on a decisive purpose to solve speech understanding globally.
+
+
+We have been dismissed, we have been ridiculed, we have seen failures and near-death moments. And I guess that's what it takes to build a movement from an idea!
+
+
+We share our inception day with Apple – and I'd like to quote Steve Jobs here: "The people who are crazy enough to think they can change the world are the ones who do."
+
+
+Three immigrant founders of Sanas were crazy enough to think they can change the world. And they did.
+
+
+- From barely being able to go live 20 months ago… to crossing $20M in revenue.
+- From an app and model that took 3 excruciating years to build… to one that will be on a million devices by the end of 2025.
+- From pushing through the noise around automation that almost created self-doubt… to building what we believe is “the most humane company in the world.”
+
+
+We’ve redefined speech understanding. And in the process, we've built a $500M company! A testament to what 250 folks, driven by a shared purpose, can achieve when they build with heart and innovate with empathy.
+
+
+Me, Maxim, Shawn, Anant, Monal, Marty, Ashish, Saralynn, Michael, Nitesh, Ashish, and all the extraordinary humans who work at Sanas are super grateful to our customers, investors, and most importantly, to our 200,000 contact center agents who use our products every day.
+
+
+Thank you for believing in us, thank you for investing with us, and thank you for being patient with us as we went through a few topsy-turvy years to get to where we are today.
+
+
+We are building a human-centric future – breaking communication barriers, one conversation at a time, and in the process creating an incredible legacy that we will all be proud of. Let's #MarchToABillionVoices.
+
+
+Amine, Ram, Ganesh, David, Steven, Andrés
+	366
+	35
+	12
+	Weren't contact centers supposed to be dead?
+
+
+6 months ago, after coming across the narrative, "GenAI will end call centers," countless times in our Series B discussions, I wrote on why I think call centers won't die with GenAI.
+
+
+And as we can see, they're NOT! In fact, they're thriving.
+
+
+Building a compelling narrative requires presenting a big 'enemy' or a huge dragon to tame. In this mainstream narrative, humans in call centers became that 'enemy,' and AI replacing humans became the story everyone wanted to hear.
+
+
+Many startups, even the big players like Klarna, jumped on this narrative & replaced their support teams with chatbots & agentic solutions. Investors poured in billions into agentic startups, and listed contact centers saw their stocks plummet.
+
+
+Even we, at Sanas, paused to ask some hard questions on pivoting & on building agentic products, but I'm glad that we didn't go that route. Genuine human interactions require eliminating barriers like accent bias & disruptive noise. And if we enable that, there will be more trade, better understanding, less abuse & discrimination... and so much more. That's the dragon we want to tame!
+
+
+Now, I'm glad to see the rationality being restored, where even Klarna's CEO revised his stance – acknowledging the value of human interactions.
+
+
+The best technologies have always augmented human capabilities & I believe GenAI too will serve humanity first!
+
+
+Read our blog on this here - https://lnkd.in/gcs9HmmR
+
+
+Andy, Michael, Max & Alorica; Daniel, Thomas, Miranda & TP; Janesh & Wyndham; Sudhir & Everise; Rajesh & ResultsCX; Ashish & Trajector; Brian & Transcom; Chris & iQor; Ratna & Concentrix; Ritesh & Firstsource; Ramesh & Sagility; Frank & VXI; Adarsh, Kapil & ienergizer; Pankaj, Kishore & FusionCX; Manish & TaskUs; Jim & Etech; Foundever; Sutherland
+
+
+Amine, Ram, Ganesh, David, Steven, Gokul, Maxim, Shawn, Andrés, Marty, Monal, Ashish, Anant, Supriya, Michael, Saralynn
+
+
+#CX #ContactCenters #AI #Agentic hashtag#Human hashtag#Voice hashtag#Speech
+	175
+	16
+	10
+	What's your WAR CRY?
+
+
+Your startup needs to evolve and become a movement to truly stand the test of time - without that, you'll eventually fizzle out.
+
+
+At Sanas, if you talk to anyone, you'll feel the passion and energy with which they describe why we exist - to make speech understanding a level playing field. Many of our early team members are immigrants, and they’ve all faced some form of bias. For them, joining and building Sanas is about "righting a wrong."
+
+
+Building a startup is hard - whether you’re a founder or an employee. Founders are driven by the mission, and even when times are tough, they have significant equity to motivate them to push forward. But for employees, you need to offer more than just salary, ESOPs, or recognition. You need to give them purpose. A war cry!
+
+
+Maxim, Shawn, Anant, Saralynn, Marty, Monal, Ashish, Sabina, Michael, Ashish
+	163
+	5
+	1
+	Founders sharing their stories is like providing 'air-cover' to the GTM and customer success teams!
+
+
+It’s easy to hand off customer interactions to sales or success teams, but having face-time with customers and sharing my journey of building Sanas helps create relatability—humanizing Sanas and providing credibility to my team to march ahead!
+
+
+With 106 flights last year, the air-cover metaphor is getting literal for me! :)
+
+
+Maxim, Shawn, Anant, Saralynn, Marty, Monal, Ashish, Sabina, Michael
+
+
+hashtag#Startup hashtag#Sales hashtag#GTM hashtag#Founders
+	243
+	15
+	0
+	Most founders run out of capital chasing PMF!
+
+
+They end up building something, only to realize the market doesn’t need it—or the market that does need it is way too small. Some even try different markets to find the fit—it’s like trying to find a problem for your solution.
+
+
+You need to start by identifying the right market—one big enough to get the revenue flowing. Then, talk to people in that market to figure out a real problem they’ll pay for—and one that YOU actually enjoy solving.
+
+
+With both Sanas and Observe.AI, we knew from day one that contact centers were a massive market. All we had to do was identify the right problem—the industry literally tells you what to solve if you just ask. And you’ll likely have your first customers even before you ship your product.
+
+
+Stop chasing PMF. Go for MPF—market-product fit!
+
+
+Maxim Serebryakov, Shawn Zhang, Anant S., Saralynn, Marty Massih Sarim, Monal P., Ashish Kanoongo, Sabina Zaeimian, Sai Supriya Sharath, Andrés Pérez Soderi, Carya Venture Partners
+
+
+hashtag#PMF hashtag#MPF hashtag#Startups hashtag#Founders hashtag#Customer hashtag#CX hashtag#AI
+	132
+	15
+	3
+	Everyone loves underdogs! And wants to help them out.
+
+
+Contrary to what we often hear — you don’t have to act like an enterprise to sell to enterprises. A lot of founders make this mistake, and it’s a rabbit hole. You can’t win that game; you need to change the rules in your favor!
+
+
+Tell your story — you’re new to the game, you’re aware that there’s a problem, you know how you can help solve it, and you just need that shot.
+
+
+This approach worked for me at Observe.AI, it is working for me at Sanas, and it has worked for so many founders we've invested with Carya Venture Partners. Sure, you’ll hear a lot of NOs, but you’ll always find one or two people who’ll give you your shot.
+
+
+Maxim Serebryakov, Shawn Zhang, Anant S., Saralynn, Marty Massih Sarim, Monal P., Ashish Kanoongo, Sabina Zaeimian, Sai Supriya Sharath, Andrés Pérez Soderi, Carya Venture Partners
+	149
+	6
+	1
+	The founders in the US are much better exposed to going to market and telling their stories that resonate with customers, investors, and even their teams.
+
+
+There's a gap in Indian founders when it comes to building their own narratives.
+
+
+In India, we have very strong engineers and very solid product folks, but when it comes to storytelling, we shy away. It's almost like a cultural reluctance to "toot our own horn," and that's holding us back.
+
+
+Even the best products end up in the shadows without a compelling story. This comes naturally to the founders in the US, or Indian founders spending a lot of time in the US.
+
+
+You've built an amazing product. Great! Now, get your story out—LinkedIn, Twitter, sales calls, events—even if it means getting a little "shameless."
+
+
+Maxim Serebryakov, Shawn Zhang, Anant S., Saralynn, Marty Massih Sarim, Monal P., Ashish Kanoongo, Sabina Zaeimian
+	182
+	19
+	0
+	Sometimes you build a product because you NEED to build it. www.sanas.ai/agent-stories
+Folks have asked us (sometimes criticized) why we built Sanas - this is why the hashtag#world needs accent translation technology. Sometimes when I see hashtag#click-bait hashtag#media use a technology that empowers people to create divide you feel disgusted on how the world is filled with hypocrites. But we don’t care, we built Sanas to do good and we will continue to build “speech understanding products” to change the world and be a part of every ‘human to human’ interaction.
+Maxim Serebryakov Shawn Zhang Anant S. Saralynn M. Marty Massih Sarim Monal P. Ashish Kanoongo Michael L. Johnson Sabina Zaeimian
+	103
+	11
+	16
+	As we announce our Series B funding, I’ve got another special update that’s even closer to my heart!
+
+
+Your early team members shape EVERYTHING about your company: how far you’ll go, how fast you’ll get there, and the culture you’ll build along the way. And I’ve been lucky to have an absolute best team right from the start—Anant, Ashish, Marty, and Monal!
+
+
+They've moved mountains for us and have made what Sanas is today. To me, this team has always been the founding team, and today, we are officially recognizing them as Founding Members!
+
+
+Folks, I’m grateful for everything you've done, and I can’t wait to shift gears and accelerate as we hashtag#MarchToABillionVoices and build our legacy!
+
+
+Maxim Serebryakov, Shawn Zhang
+	383
+	31
+	4
+	We did it again! We have raised a $65M Series B, backed by the very best, with a French twist!
+
+
+Our Series B is led by Quadrille Capital, with all existing investors - Insight Partners, Quiet Capital, DN Capital, Alorica participating & [drumroll please] TP joining as an investor & strategic partner. Sanas' survival and resurgence in past 2 years is one for the big screen, someday :)
+
+
+A big THANK YOU to the 150,000+ contact center agents using Sanas. Your support, feedback & love drives us & this milestone pushes us closer to our mission of touching a billion voices!
+
+
+This raise isn't to survive; but to thrive. Am I bragging? A little, this is my 9th fundraise :) With this funding, we will:
+
+
+1. Boost R&D for our Speech Understanding stack
+2. Invest in our team & their growth
+3. Invest in our brand – legacies are built by owning a category, and we will own 'Human to Human' communications
+
+
+It takes a village to build a company, & I'm grateful to all our believers:
+
+
+Amine & Quadrille - we met Amine & team amidst the noise of AI, Agentic, & Contact Centers dying! But we all aligned on the need for 'human to human' connections despite GenAI disruption. Brands that recognize this will remain premium. Grateful to them for believing in our anti-thesis & joining our mission to enable 8+ billion people understand each other.
+
+
+Daniel, Thomas & TP team - thank you for trusting us & sharing our belief that deploying Sanas is 'the right thing' for the agents, beyond improving KPIs. Grateful to have you as partners & friends in our journey to a billion voices!
+
+
+Andy, Michael, Max, Bong, Harry & Alorica team - we wouldn't be here without your leap of faith! Thanks for being our 1st customer, for your patience and for believing in us over past 3 years.
+
+
+Janesh, Joe & Wyndham team - thanks for being the first brand to believe in us!
+
+
+Sudhir, Maneesh, Saurabh & Everise team - thank you for giving us the big break into healthcare & for your leap of faith in deploying us across metro Manila!
+
+
+Olga, Derek & UPS team - thanks for allowing us to be part of your legacy!
+
+
+Ashish & Trajector; Brian & Transcom; Chris & iQor; Ratna & Concentrix; Ritesh & Firstsource; Ramesh, Srikanth & Sagility; Frank & VXI; Adarsh, Kapil & ienergizer; Pankaj, Kishore & FusionCX; Manish & TaskUs; Jim & Etech; Foundever; Sutherland
+
+
+All the 214 folks at Sanas - thank you for believing in 3 outsiders (yours truly, Maxim & Shawn) aiming to change the world. It wasn't all roses & it took guts to stick with us. Anant, Marty, Ashish, Monal - our founding members, & our newest leaders Sara & Michael - thanks for continuous belief!
+
+
+Ram, Ganesh, David, Steven, Gokul - you have been mentors, co-founders along this ride, thank you! Wouldn’t have imagined this with anyone else!
+
+
+General Catalyst, Human Capital, Village Global - thanks for believing in us when we were just an idea!
+
+
+Thanks for the shoutout, GlobeNewswire - https://shorturl.at/bVf6q
+
+
+Thank you all! hashtag#MarchToABillionVoices
+	519
+	146
+	23
+	At Sanas, we are excited to present our new website & rebrand; there are a few businesses where ‘purpose’ takes over commercial nuances of building a business and we have always built Sanas with ‘purpose’ & ‘passion’ top of mind. Also kudos to the team behind this launch who have embodied with ‘intent’ to launch something so special and beautiful. Would love to get your feedback!
+Anant S. - In all the years I have known you, ‘THIS’ is truly special!!
+You, Marybeth and the whole marketing team have outdone yourselves and congratulations on a job well done. Very grateful and proud of all of you!
+Maxim Serebryakov Shawn Zhang
+	49
+	2
+	1
+	If individuals who are accomplished enough to speak with the US President face bias due to their accents, imagine the daily struggles faced by millions of contact center agents in India, the Philippines, LATAM, and beyond!
+
+
+When you're shut down simply because you're not understood, it affects more than just a conversation – it shuts down ideas, questions, curiosity, and even livelihoods.
+
+
+This is exactly why Sanas was created: to eliminate this bias and make speech understanding a level playing field for all.
+
+
+We will fix this. We will ensure that everyone has a voice at the table, because every voice matters, regardless of accent.
+
+
+Since we're committed to speech understanding & accent translation, we’ve gone deeper to talk about why accents exist in the first place. Read our blog here: https://lnkd.in/gvpVxn_P
+
+
+Image Credits: The Indian Express.
+
+
+Maxim, Shawn, Monal, Saralynn, Ashish, Ankit, Christine, Carlos, Carya Venture Partners, Supriya, Andrés, Ram Gupta, David Greenbaum, Ganesh Bell
+
+
+hashtag#Accent hashtag#AI hashtag#President hashtag#Trump hashtag#NoBias hashtag#CX
+	95
+	6
+	5
+	I Can’t understand? Someone give Sanas to the hashtag#president
+
+
+Not sure how many times we need to hear this… hashtag#nobias hashtag#accent
+
+
+Anant S. Maxim Serebryakov Shawn Zhang Saralynn M. Monal P. Marty Massih Sarim Ashish Kanoongo Ram Gupta David Greenbaum Ganesh Bell
+	54
+	2
+	3
+	Your customer success team is your force multiplier!
+
+
+The difference between a good company and a great one isn’t just the product or how well you sell—it’s what happens after the sale. That’s when your CS team steps in, carrying the majority of your ARR. For us, it’s 70%.
+
+
+No product is perfect. Things break. But how you handle it when things break makes all the difference. You’ve got to show up, fix what’s broken, and make sure your customers feel heard and taken care of. It’s really about first principles—doing what’s best for the customer and staying truly obsessed with that.
+
+
+Founders do the zero-to-one, but it’s the customers who take you from one-to-hundred. So, keep your eyes and ears on your customers at all times—and build a solid CS team - our CS fort is held by Ashish who anchors our ARR while Anant & Marty hunt for more :)
+
+
+Maxim, Shawn, Monal, Saralynn, Ashish, Ankit, Christine, Carlos, Carya Venture Partners, Supriya, Andrés
+	249
+	12
+	5
+	Founders, the first million is on YOU!
+
+
+As a founder, you must earn your first million yourself — you can’t outsource it to your VP of Sales.
+
+
+For both of my startups, we crossed $2M ourselves before handing the baton over to Sales.
+
+
+When you're building an enterprise-facing business, your early customers sign up because of you — your WHY, WHAT, and HOW — essentially, your story.
+
+
+At this stage, there are no case studies, no ROI analysis, and no customers to provide testimonials. It’s all about the conviction of the founder. If you outsource this role to a sales leader too early, you’re setting both yourself and your sales leader up for failure. Don’t make that mistake. Sell yourself, build your playbook, and only then hand over the baton to your sales leaders.
+
+
+PS: I really lucked out at Sanas with Anant, who took over the baton and grew us from $2M to $20M in the past 18 months… all credit to him!
+
+
+Maxim, Shawn, Marty, Ashish, Monal, Carya Venture Partners, Andrés, Supriya
+
+
+hashtag#ARR hashtag#Revenue hashtag#Startups hashtag#Founders hashtag#Sales
+	264
+	25
+	7
+	Can you win a war if your Generals keep resigning mid-battle?
+
+
+Short answer: No. The Generals have too much context & shared purpose to be easily replaced in the middle of a war.
+
+
+To me, building a startup feels like that. You’re in the front-lines, and not only do you need to be incredibly selective about who you bring on as your generals, but you also need to ensure they stay with you. That’s why, when I started building Sanas, I made it a priority to get my most trusted, missionaries into the right positions.
+
+
+And like any warfront, no battle is the same. Most of the people I brought onboard were stepping into challenges they had never faced before:
+
+
+1. Anant – Never did marketing, but now he’s shaping our entire marketing strategy and GTM.
+2. Ashish – No prior experience in customer success, yet he’s the one who built our entire relationship management playbook.
+3. Monal – Never worked in speech AI, came in for customer success, but took ownership of product management.
+4. Marty – Never worked in an AI startup, but now he’s leading our growth and scaling us.
+
+
+Our entire leadership team is full of "misfits" – people who have the heart, the drive, and the shared purpose to make things happen, regardless of how unpredictable the battlefield gets.
+
+
+Maxim Serebryakov, Shawn Zhang, Ashish Nagpal, Saralynn Malott, Carya Venture Partners, Sai Supriya Sharath, Andrés Pérez Soderi
+	303
+	18
+	6
+	"What's in it for me?" – This question does more harm than good!
+
+
+When I started my journey as a founder, I was fortunate to connect with solid net-givers—people who helped me far beyond my expectations, without asking for anything in return. Honestly, I was confused at first and used to discuss this with my wife, Supriya, wondering about the "motive" behind their generosity.
+
+
+But over the years, I came to realize that the impact of value creation for others is contagious.
+
+
+Genuine connections are built without keeping score. When you start any relationship with "What's in it for me?", you miss the chance to build something deeper and more meaningful.
+
+
+The best things in life come when you stop asking, "What's in it for me?" and start asking, "How can I help?"
+
+
+To all the net givers in my life - a big THANK YOU!
+
+
+Ram Gupta, Marty Massih Sarim, Anant S., Andy Lee, Ganesh Bell, David Greenbaum, Sudhir Agarwal, Thomas Mackenbrock, Steven Schlenker, Andy Vitus, Y Combinator, Jishnu B., Gokul Rajaram
+	132
+	14
+	1
+	Meeting your customers is way more important than people give it credit for!
+
+
+I took 106 flights last year and met with over 200 customers in person—it's hard but essential. If you're not meeting your customers regularly, you're missing out on building the strong relationships that help them buy into your vision.
+
+
+Here’s something every enterprise-facing founder should always remember:
+
+
+1. Your product isn't perfect – and it never will be. That’s why it’s essential to build relationships with your customers so they can help you co-create a product that truly solves their needs. It’s a partnership, not a one-way street.
+
+
+2. If you only solve ONE problem, you’ll soon be obsolete. Markets evolve fast. To stay ahead, think beyond your initial use case. Build an ecosystem of adjacent use cases around your customer. Focus on transformations, not just problems.
+
+
+Your ACV is directly proportional to the face time you have with your customers. The more time you spend with them, the deeper the relationship, and the more value you can co-create together.
+
+
+Don’t just sell a product—sell a vision. Build an ecosystem, and be there for their transformation.
+
+
+Joe, Janesh, Maxim, Shawn, Marty, Anant, Ashish, Monal P., Carya Venture Partners, Andrés, Supriya
+	145
+	8
+	5
+	What’s common in the hustle of building $100M ARR SaaS companies?
+
+
+Three things: MOAT, Scale of Ambition, and Grit.
+
+
+1. MOAT – Your MOAT today is tomorrow’s commodity. Crazy, but true. So, what does it really do? It buys you time. Time to build more, scale faster, and create stronger relationships with your customers. The stronger your MOAT, the more time you have to make the run to $100M ARR.
+
+
+2. Scale of Ambition – Many SaaS companies hit a “zombie” phase: they don’t die, but they don’t grow either. You solved a great problem — great. But how many people are actually willing to pay for that solution? Your ambition to scale must match the size of the market opportunity.
+
+
+3. Grit – You’ve got your MOAT and your ambition, but most of us underestimate how hard it is to keep pushing forward. You’ll get knocked down a lot. If you're lucky, you might hit $100M ARR in 10 years — 10 years of survival, heartbreak, emotional roller coasters, and a deep love for your mission. That’s grit!
+
+
+To sum up – Identify your MOAT, aim big, and stay in the game for the long haul.
+
+
+We often overestimate what we can do in a month, but underestimate what we can achieve in 10 years.
+
+
+Maxim, Shawn, Marty, Anant, Monal, Ashish, Ashish, Carya Venture Partners, Andrés, Supriya, Sanas
+	130
+	12
+	2
+	Customer support is the new battleground for brands. Creation, distribution, and support are the three pillars that build a brand and 2/3 are being commoditized by AI and it will be interesting to see how brands evolve support to differentiate…
+
+
+In the past, companies spent most of their time cracking the code on creation and distribution. Over the last two decades, technology has almost completely removed the distribution barrier—you can build from anywhere and sell to anyone. Today, even creation is being commoditized, thanks to generative AI. It’s easier than ever to create what you want to sell.
+
+
+So, I believe it’s in support and customer experience (CX) where the rubber meets the road. When I started Sanas, or Carya Venture Partners or EverAI Labs the intent was to (1) find / partner with entrepreneurs who build technologies that truly change the way customer experience can be scaled with technology but with a ‘Human’ in the loop and (2) with EverAI Labs we created a platform to give brands that platform that helps them bring their entire CX tech stack together so that they can visualize how the experience they provide via their frontline agents can be measured from ‘Hire to Retire’.
+
+
+When a customer buys from you, they’re not just making a purchase—they’re joining your community. And when they want to be heard, they want to speak to someone who represents your brand, not a bot. This is where products like Sanas who puts the ‘Human’ at the forefront starts making a lot of sense, a classic example of leveraging technology to get the brand experience right.
+
+
+Look at any premium brand: when you call, you speak to a human. They actively invest in making customers feel heard and understood. You can’t build a cult-like following through bots—you need to engage with your customers yourself.
+
+
+If you don’t, your competitors will.
+
+
+Sudhir Agarwal, Saurabh Sodhani, Maxim Serebryakov, Shawn Zhang, Monal P., Ashish Kanoongo, Anant S., Marty Massih Sarim, Andrés Pérez Soderi, Andy Lee, Sai Supriya Sharath
+	215
+	3
+	3
+	SDRs are the unsung heroes in both startups and enterprises!
+
+
+They face more rejections than anyone else, but the joy of landing "that one meeting" supersedes every "no" they encounter along the way. :)
+
+
+Last night, I had the chance to chat with some incredible leaders — CROs, CMOs, CEOs, and investors. They all do different things now, but most of them started their careers as SDRs (Sales Development Representatives). This title didn’t even exist back then - we were all just hustling back then to sell :)
+
+
+One thing that stood out in my conversations: not a single leader thinks AI will replace their SDRs. Instead, they see AI as a way to supercharge their SDRs - taking mundane tasks off their plates, making them more efficient, and aggregating prospect information to enable more personalized and relevant outreach.
+
+
+This was our thesis when Marty and I decided to back Praveen in building Leadgenerator.io.
+
+
+Our SDRs stand on the front lines to make our vision a reality — let’s equip them with the right ammunition to win!
+
+
+Big thanks to Praveen for hosting me and the other leaders at the Leadgenerator.io Growth Summit 2024!
+
+
+Marty, Ashwin, Sharath, Vineet, NEETI, Sidharth, Binod, Subhash, Bhaskar, Andrés, Carya Venture Partners, Anant, Ashish, Monal, Supriya, Maxim, Shawn
+
+
+hashtag#AI hashtag#AgenticAI hashtag#SDR hashtag#Carya
+	156
+	8
+	6
+	Entrepreneurship isn’t a zero-sum game.
+
+
+When someone around us breaks barriers and achieves what was once thought impossible, it ignites a spark within us. It says, “If they can do it, so can I.”
+
+
+This reminds me of Roger Bannister, the first person to run a mile in under 4 minutes—a feat once considered impossible. After he broke the mental (and physical) barrier, others followed suit. In just 47 days, his record was beaten, and to date, over 1700 people have run a mile in under 4 minutes.
+
+
+Building a business is no different. There’s enough room for everyone, and it’s not about competing until there’s only one winner—it’s about everyone pushing the boundaries together.
+
+
+I’ve seen this in startup hubs like Bangalore and the Bay Area, where the mindset is one of abundance. People help you when you reach out, they share how they made it, and it’s contagious how someone’s success creates a ripple effect throughout the entire community.
+
+
+It’s like a rising tide that lifts all boats.
+
+
+Andy, Andrés, Supriya, Marty, Ryan, Maxim, Shawn, Monal, Ashish, Anant S., Carya Venture Partners
+	191
+	9
+	2
+	Excited to moderate a panel for my dear friend Praveen Kumar and for Leadgenerator.io! Please join me for this incredible event which is bringing together some of the best go-to/market folks in Bangalore for an awesome evening at hashtag#theleelapalace to network and discussing emerging trends feasible with AI in the demand generation spectrum.
+Have always had incredible respect for Praveen Kumar and have considered him to be an authority when it comes to demand generation, the lifeblood for every enterprise or startup and have been incredible grateful to have had an opportunity to be an early investor at Leadgenerator.io with my good friend Marty Massih Sarim and my fund Carya Venture Partners.
+Excited to attend the event and looking forward meeting friends and learning on how startups and enterprises are leveraging Leadgenerator.io to supercharge their GTM efforts.
+Andrés Pérez Soderi, Anant S., Sai Supriya Sharath
+	43
+	3
+	1
+	Proud husband moment :-) Sai Supriya Sharath is champ’s mom first (our 13 yr old, 4 legged furball), then Sid’s mother (our 6 yr old human) and my better half next, it’s been an unquestioned order of business and we all love her for that. I have known sup for 17 yrs and everyone who knows her will always talk about her unwavering love for animals and how passionate she has always been in supporting the pet community by creating awareness and contributing to shelter and care of animals in need. Hence I wasn’t surprised when she shared she wants to dive deeper into hashtag#petcare with a primary focus on marrying physical intelligence, AI, data and partnering with leading universities into creating a Hoomanely, a startup focused on hashtag#petlongevity. All the very best Sai Supriya Sharath, Harshal Hinger and Vipin Ravindran! Proud of what you all are building and will always be your biggest cheerleader!
+Andrés Pérez Soderi, Marty Massih Sarim
+Carya Venture Partners
+	103
+	6
+	3
+	Define the WHY of your startup before anything else!
+
+
+It’s beyond ROI, features, and competition. It’s the narrative that explains why your idea needs to exist in the world—what problem you’re solving, and why anyone should care.
+
+
+Narratives build connections, communities, and eventually movements, as people want to be part of something bigger than themselves. This is why more and more companies are crafting narratives that form communities.
+
+
+At Sanas, we have a shared purpose that goes beyond accent translation or noise cancellation. It’s about building speech understanding so people can connect with each other confidently, without barriers.
+
+
+Listening to Anant talk about the WHY of Sanas reminds me of my first meeting with Maxim, Shawn and Andrés. Since that day, we’ve incrementally built our tribe—those who’ve joined our mission to solve for speech understanding. Starting with employees, extending to investors, and growing into a vibrant community of customers who believe in our mission.
+
+
+Your WHY will not only define your product—it will attract the right people to help you build it!
+
+
+Marty, Monal, Ashish, Ganesh Bell, David Greenbaum, Ram Gupta, Sai Supriya Sharath, Carya Venture Partners
+
+
+hashtag#Community hashtag#Sanas hashtag#AI hashtag#Tribe hashtag#Startup hashtag#Speech
+	122
+	11
+	8
+	Are you trading your time to build immediate value or create long-term leverage?
+
+
+We’re all trading our time, and when it comes to work, I often ask myself: What am I trading my time for?
+
+
+While building my third startup, I’ve learned to prioritize creating leverage over chasing short-term wins. Building immediate value offers rewards that are directly proportional to your efforts, but building leverage can provide compounding returns over time.
+
+
+Here are a few examples of leverage-building actions:
+- Waiting four years for your patent.
+- Perfecting your AI models with 430+ Indian dialects.
+- Hiring research scientists before salespeople.
+- Going enterprise-first—while it might seem borderline foolish to aim for your first customer to have a $10M TCV, it builds leverage.
+
+
+At times, building immediate value is necessary to keep the ship afloat, but it’s long-term leverage that propels you into uncharted waters. It’s often boring, has delayed gratification, and isn’t flashy—but the rewards are always worth the wait.
+
+
+So, what are you building today: immediate value, or long-term leverage?
+
+
+Maxim Serebryakov, Shawn Zhang, Marty Massih Sarim, Monal P., Anant S., Ashish Kanoongo, Andrés Pérez Soderi, Sai Supriya Sharath, Carya Venture Partners
+	127
+	5
+	0
+	Remember Jian Yang’s app, SeeFood, from Silicon Valley?
+
+
+It was a "hot dog detector" that scanned food images and told you whether it was a Hot Dog or Not Hot Dog. As expected, it flopped.
+
+
+But after shutting down SeeFood, Jian Yang’s product was acquired for $4M by the company where he was interviewing. Why? Because they realized the same algorithm could be repurposed to filter inappropriate adult content online—NOW THAT'S A REAL PROBLEM.
+
+
+That’s the power of product positioning: Same technology, different positioning, different results!
+
+
+Over the years, I’ve seen even the best products fail due to poor positioning. So, how do you get it right? Talk to as many people as you can! Use those conversations to build your positioning and narrative.
+
+
+At Sanas, we initially positioned ourselves as an 'accent translation' company. However, after speaking with customers, we realized that we were actually enabling people across the globe to understand each other better. As a result, we repositioned ourselves as a 'speech understanding company.' Since then, we have developed a Noise Cancellation product and are working on Speech Restoration and Speech Enhancement products — all with the spirit of facilitating real-time speech understanding.
+
+
+Positioning your product correctly is as important as building it. Make sure you get it right.
+
+
+Maxim, Shawn, Marty, Ashish, Anant, Monal, Supriya, Andrés, Carya Venture Partners
+	155
+	9
+	4
+	Trust Your Instinct!
+
+
+Most founders have powerful instincts and a deep sense of conviction—things that are hard to quantify but crucial for writing their own David vs. Goliath story.
+
+
+But as companies scale, instinct often takes a backseat, and we start relying more on data and reports to mitigate risk. I believe this is where founders risk losing what made their companies special in the first place—those bold, instinct-driven moves that set them apart.
+
+
+Many breakthroughs happen because someone dares to do something the reports don’t predict—like developing Accent Translation for contact centers, even when conventional wisdom might not have suggested it.
+
+
+So, I always tell my team and the founders I’ve invested in to find a balance and not let reports and industry outlooks override their intuition.
+
+
+When you're building a movement or a category-defining company, a lot of conventional wisdom might not be applicable anyway.
+
+
+Maxim, Shawn, Marty, Anant, Ashish, Monal, Carya Venture Partners, Supriya, Andrés
+
+
+hashtag#Startups hashtag#AI hashtag#Sanas hashtag#Entrepreneurship
+	136
+	7
+	2
+	Christian Gunnar Wathne, welcoming you to Sanas brings me so much joy! Great to have you on-board brother, let’s build another hashtag#unicorn together!
+Anant S. - proud of you!
+	43
+	5
+	0
+	At Sanas, everyone has a unique story—an experience that ignited their passion for accent translation and the need for real-time speech understanding. As Maxim says, we have an army of missionaries on this mission, with each team member embodying a deep sense of ownership and enthusiasm for our cause.
+
+
+Here’s the shared belief I see in everyone at Sanas:
+
+
+"I am the founder of Sanas, where I am building products to solve for speech understanding in real time. I believe this will empower millions of people around the globe and have a real impact on how we communicate. I’m excited to build this every day, and I have a lot of fun working with my team. Seeing everyone walk into work motivates me to make Sanas a category-defining company that will change the world, generate success, and be a lot of fun. Thank you for being part of this adventure! Let's put our best work forward and enjoy the journey!"
+
+
+Together, we’re not just building products; we’re shaping the future of communication. Our daily work is driven by a commitment to innovation, impact, and, most importantly, fun!
+
+
+PS: I still have decent handwriting, and I have told my team that I will be mad if anyone erases it from the whiteboard :) And, I will keep writing it again and again :)
+Shawn, Marty, Monal, Ashish, Anant, Andrés, Supriya, Carya Venture Partners
+
+
+hashtag#Sanas hashtag#Culture hashtag#AccentTranslation hashtag#Leadership hashtag#AI hashtag#Impact
+	149
+	8
+	4
+	Just returned to SFO after an incredible two weeks in Bangalore and Manila, with a huge charter of “so much to do.”
+
+
+This time, my customers shared something unique: they urged us to focus less on ROI and more on:
+1. How can we launch quickly?
+2. How fast can we scale?
+3. What friction points do you see with us, and how have you solved them with others?
+4. Do you have enough implementation folks on your end to handle thousands of seats?
+
+
+I've been selling SaaS for years, and these inputs are truly a first for me. :)
+
+
+In my entire career, exec meetings revolve around ROI. Now, I have leaders telling me, “We get it. Can we just move faster, and what can we do to eliminate friction from both our ends?"
+
+
+Seeing a Sanas demo is already at the 'sales done' stage, and every CX leader knows the benefits:
+1. Sanas saves costs related to accent training.
+2. Sanas helps in managing agent attrition.
+3. Sanas helps me grow my talent pool and allows me to expand to tier 2 and 3 cities where employee loyalty is high.
+
+
+Happier agents boost business metrics and drive better business impact. Every exec I met told me, “Sanas is leveling the playing field for accents, and it is helping us tap into a much larger talent pool.” So stop selling and start scaling!
+
+
+ROI is important, but it’s not the only thing. People are still the epicenter of CX organizations, and when you build a product that brings a smile to people on every call, it just becomes a very powerful tool—more powerful than AHT, FCR, NPS, or CSAT.
+
+
+Customer advocacy like this is a powerful reminder that our work is about so much more than just numbers. As long as we provide value to agents and contact centers, we’ll keep knocking down those numbers!
+
+
+Alorica, Concentrix, TP, Everise, Sutherland, Firstsource, iQor, Continuum Global Solutions, Fusion CX, Transcom, iEnergizer, Sagility, Cognizant, Qualfon, TaskUs, Foundever, VXI Global Solutions, Startek, GlowTouch Technologies, Capgemini
+
+
+Maxim Serebryakov, Shawn Zhang, Marty Massih Sarim, Anant S., Monal P., Ashish Kanoongo, Andrés Pérez Soderi, Ishita Matharu, Sai Supriya Sharath, Carya Venture Partners
+	189
+	9
+	3
+	“To be the best, you must define what 'best' means, and it’s an ongoing process.”
+
+
+I read this in Shoe Dog by Phil Knight, and it has stayed with me over the years. Once you want to be the best, it’s on you to keep moving the bar higher and striving to rise.
+
+
+I’m thrilled to share that Sanas has been recognized as a leader in Accent Translation Solutions! What truly resonated with me was Frost & Sullivan’s remark: “There is no other technology on the market that can match Sanas's exceptional performance.”
+
+
+We've touched the lives of 100K agents already, and we're just getting started. As we move forward, we will continue to raise the bar and define what it means to be the BEST! :)
+
+
+Check out the report by Frost & Sullivan - https://lnkd.in/gcmx96YT
+
+
+Ganesh Bell, David Greenbaum, Ram Gupta, Janesh P., Joe DeLuca, Andy Lee, Michael Clifton, Sudhir Agarwal, Jeremy Jepperson, Dave Palmer, Sidharth Mukherjee, Ratna Puri, Subramanya C, Pankaj Dhanuka, Kishore Saraogi, Kapil Pal, Adarsh Kumar, Jim Iyoob
+
+
+Maxim, Shawn, Marty, Andrés, Anant, Ishita, Ashish, Monal, Supriya, Carya Venture Partners
+
+
+hashtag#AI hashtag#Tech hashtag#AccentTranslation hashtag#ContactCenters hashtag#Sanas
+	158
+	10
+	10
+	“There is no other technology on the market that can match Sanas's exceptional performance” - Frost & Sullivan
+Sometimes it’s ok to brag :-)
+Sanas is now live on over 100,000 agents globally across our suite of speech understanding products!
+hashtag#accenttranslation hashtag#noisecancellation
+Anant S., Maxim Serebryakov, Ashish Kanoongo, Ishita Matharu, Marty Massih Sarim, Monal P., Shawn Zhang
+	71
+	3
+	2
+	First clients are always the best!
+
+
+Marty Massih Sarim was one of the early clients of Observe.AI. He started us off with a six-figure contract and ultimately rewarded us with our first million-dollar deal! Swapnil, Akash, and I are forever grateful to him for getting us started, and we still have the copy of the $250K cheque hanging on our walls. :)
+
+
+I recall reaching out to Marty during the early days of Observe.AI. He believed in our vision and agreed to co-create the product with us. At the time, Marty was backing several CX and AI companies and had the foresight and risk appetite of trying something completely new.
+
+
+Eventually, Marty and I ended up doing a lot of amazing work together, founding Carya Venture Partners to invest in other AI startups, which ultimately led us to join Sanas.
+
+
+A huge shoutout to Marty for his unwavering trust and support over the years. He truly is a lifesaver. :)
+
+
+Maxim, Shawn Zhang, Monal P., Ashish Kanoongo, Jithendra Vepa, Anant S., Ishita Matharu, Andrés Pérez Soderi, Sai Supriya Sharath
+
+
+hashtag#FirstClient hashtag#Gratitude hashtag#Startups hashtag#AI hashtag#CustomerExperience
+	258
+	16
+	3
+	Ratan Tata once said about JRD Tata, "I followed someone who had very large shoes. He left me a great legacy, and I tried to follow that legacy."
+
+
+Now, Ratan Tata himself has left a legacy that entrepreneurs around the world strive to follow. Like millions of Indians, his loss feels like a personal loss to me as well.
+
+
+He showed us that true success goes beyond profits. His legacy isn't just about building successful companies—it’s about building with purpose, integrity, and a deep sense of responsibility to society.
+
+
+His values will continue to inspire us all, reminding us that leadership is about making a meaningful impact on the world, one that lasts far beyond our lifetime.
+	121
+	3
+	0
+	In the early days of a startup, it’s the founder’s passion and vision that attract those first team members. They’re not just signing up for a job—they’re betting on a dream.
+
+
+As we grow, however, things inevitably change. New team members join, goals shift, and chaos (and processes) can creep in. Amid this evolution, it's easy to overlook the original commitments made to our teams.
+
+
+To keep us aligned and motivated, I implement mutual contracts with my directs. These aren’t legal documents but rather honest, personal agreements focused on our commitment to each other's growth and success.
+
+
+As our companies evolve—a happy problem in itself—having these mutual contracts establishes clear expectations and helps us keep our promises intact. This approach builds a culture of accountability and support, enabling us to navigate the challenges of growth together.
+
+
+By staying true to our commitments, we can weather the chaos and emerge stronger as a team.
+
+
+Let’s continue to dream, grow, and support each other on this journey! 🚀
+
+
+Maxim Serebryakov, Shawn Zhang, Andrés Pérez Soderi, Marty Massih Sarim, Ashish Kanoongo, Anant S., Ishita Matharu, Monal P., Carya Venture Partners, Sai Supriya Sharath
+
+
+hashtag#Startups hashtag#Team hashtag#Leadership hashtag#Commitment hashtag#Sanas
+	281
+	8
+	5
+	Thanks for sharing this Amit Kale! Makes us building Sanas worth it & thank TP for the opportunity.
+Maxim Serebryakov Shawn Zhang Monal P. Ashish Kanoongo Anant S. Marty Massih Sarim Ishita Matharu
+	15
+	1
+	1
+	Early mover advantage in AI is real!
+
+
+While late cloud adoption didn’t hurt many businesses, AI is a whole different game. Early adopters gain a significant edge, better-tuned models, deeper data insights, and more optimized operations.
+
+
+Take the contact center industry as an example. Companies that invested early in understanding and leveraging their data are now miles ahead of their peers. Sure, it involved a lot of boring and unglamorous work like data aggregation, standardization, testing various ML models, and training, but now the rewards are undeniable.
+
+
+The earlier you start, the further ahead you'll be. In AI, timing really is everything!
+
+
+A big thank you to all Sanas early adopters who not only made our product better but also led the hashtag#aitransformation wave within their enterprises!
+
+
+Alorica, Everise, TP, Concentrix, TaskUs, Continuum Global Solutions, Fusion CX, iEnergizer, Cognizant, Capgemini, Sutherland, VXI Global Solutions, iQor, Sagility, [24]7.ai, Startek, Transcom, Capita, Etech Global Services
+
+
+Maxim Serebryakov, Shawn Zhang, Andrés Pérez Soderi, Marty Massih Sarim, Ashish Kanoongo, Anant S., Ishita Matharu, Monal P.
+
+
+hashtag#AI hashtag#ArtificialIntelligence hashtag#TechAdoption hashtag#ContactCenters hashtag#EarlyAdoption hashtag#Sanas
+	136
+	12
+	7
+	Interesting anecdote to share. Yes, folks are going gaga about automation and I do believe it’s real and will happen but one thing to note / consider is folks forget automation isn’t free. Cost of labor in most outsourced economies is cheaper than GPT-4o and this will only get more expensive with reasoning and other capabilities.
+hashtag#openai has already announced that the price will go up by 2x next year and though the cost of compute might get cheaper it will never be zero. Enterprise will outsource a lot more and we at Sanas will be at the epicenter of the outsourcing boom bringing people together one conversation at a time, excited on what lies ahead!
+hashtag#callcenter hashtag#automationisntfree hashtag#beaware
+Maxim Serebryakov Shawn Zhang Monal P. Ishita Matharu Ashish Kanoongo Anant S. Marty Massih Sarim Ganesh Bell David Greenbaum Ram Gupta
+	142
+	22
+	7
+	Such a wonderful initiative Humantic AI, thank you for doing this and celebrating one of the most critical stakeholders in a company’s journey!!! All of us at Sanas support this and thank you for recognizing the buyers! Cheers to hashtag#buyersday!
+	22
+	1
+	1
+	The future of communication is speech-driven! It won’t be typed, it will be spoken.
+
+
+I recently tuned into the latest All-In Podcast with hosts David Friedberg, Chamath Palihapitiya, Jason Calacanis, and David O. Sacks, and I couldn’t agree more with their views on the future of communication.
+
+
+We won’t need keyboards anymore—commands will be given through speech. Imagine an interface smaller than the palm of your hand, with which you can speak, and it instantly computes your request and displays it on the screen. That’s how communication will evolve.
+
+
+That said, voice assistants like Siri aren’t quite there yet. We’ve all experienced the funny (or embarrassing) outcomes when they misinterpret our speech.
+
+
+So, we really need an “AutoCorrect” for speech, and this is where I see Sanas stepping in. By injecting speech AI into conversations, Sanas bridges the gap between accents, enabling seamless, speech-driven communication across apps and devices.
+
+
+We’ve chosen to tackle the toughest industry—the contact centers, where there’s zero margin for error in accent translation. With over 35,000 agents using our product daily, we’re getting better every day.
+
+
+As we celebrate International Translation Day today, I’m excited to see how the future of communication unfolds.
+
+
+Ganesh Bell, David Greenbaum, Ram Gupta, Maxim Serebryakov, Shawn Zhang, Andrés Pérez Soderi, Marty Massih Sarim, Monal P., Ashish Kanoongo, Anant S., Ishita Matharu, Sabina Zaeimian, Sai Supriya Sharath, Carya Venture Partners
+
+
+hashtag#AI hashtag#Speech hashtag#Voice hashtag#Sanas hashtag#InternationalTranslationDay
+	118
+	7
+	8
+	Is AI Killing Contact Centers? I don't think so.
+
+
+Last week, I shared my views on a topic that has been on the minds of many in the CX industry: Is AI killing contact centers? My stance is simple: No.
+
+
+I am incredibly humbled by the overwhelming responses I received.
+
+
+The future is one of augmentation — AI empowering humans to perform better, more efficiently, and with greater satisfaction, not eliminating their roles. The advancements in AI are about enabling agents, helping them focus on what matters most: delivering exceptional customer experiences.
+
+
+I’m glad to see that so many CX leaders resonate with this view. Together, we’re moving towards a future where technology and human skill are not at odds, but working hand in hand to create the best outcomes for both customers and agents.
+
+
+Thank you to everyone who shared your insights and supported this conversation. Let’s keep pushing the boundaries of what AI and humans can achieve together.
+
+
+Smita M., Michael, Ramesh Anand, Ajay Dhillon, Jalen Avila, Jonathan Gray, Tiffany O'Malley, Ken Cohen, Ankit Dubey, Frederik Mueller
+
+
+Maxim Serebryakov, Shawn Zhang, Marty Massih Sarim, Anant S., Ishita Matharu, Ashish Kanoongo, Monal P., Andrés Pérez Soderi, Sai Supriya Sharath, Carya Venture Partners
+
+
+hashtag#AI hashtag#ContactCenters hashtag#CustomerExperience hashtag#Augmentation hashtag#CX
+	97
+	11
+	4
+	What a wild ride it’s been building Carya Venture Partners with Marty & team! We both started out as call center agents, dealing with real challenges, and now we’re helping companies solve the same problems we faced firsthand.
+
+
+Marty’s got way more experience under his belt, and I’m learning so much from working with him. Together, we’re turning those tough lessons into real solutions for our portfolio. It’s challenging, but seeing the impact makes it all worth it! Excited for what’s next! 🚀
+
+
+hashtag#StartupLife hashtag#VentureCapital hashtag#Entrepreneurship
+	23
+	1
+	0
+	Is AI killing contact centers? I don’t think so!
+
+
+Contact centers have always been a powerhouse of evolution, but with AI in the mix, things are moving at lightning speed. Leaders in the CX space are diving deep into how AI can enhance customer experiences—and it’s exciting to watch.
+
+
+Having built Observe.AI and Sanas, I often get asked if AI is an existential threat to contact centers.
+
+
+My take? The future is not just automation only, there will be a large amount of human augmentation with AI native software’s with humans still very much in the loop. In fact, the value of that call to a human will get a lot more valuable, here’s why:
+
+
+1. Sensitive industries like healthcare and financial services still need humans. AI adoption is slower here for a reason—people need that human touch.
+
+
+2. Human perception bias—people tend to trust humans more for empathy and thoroughness, especially across different age groups.
+
+
+3. Regulations are coming. The EU is already discussing a “Right to Talk to a Human” law by 2027, and more countries are likely to follow.
+
+
+4. Personalization and rapport matter, especially with high-value purchases. People know how to interact with bots, but they still want a customised, human experience.
+
+
+5. Complex issues go beyond L1 and L2 support. When things get tricky, humans still need to step in.
+
+
+AI will actually create more customer touch-points and more engagement. Think about how Uber made booking rides so easy that it got people who didn’t use the service before to start booking rides. AI will do the same for CX—boosting it several folds. Sure, there will be some adoption challenges, but the future is all about AI augmenting human agents.
+
+
+I have shared my views here - https://lnkd.in/guJZpZsH
+
+
+Ganesh Bell, David Greenbaum, Ram Gupta, Janesh P., Joe DeLuca, Andy Lee, Michael Clifton, Sudhir Agarwal, Jeremy Jepperson, Dave Palmer, Sidharth Mukherjee, Ratna Puri, Subramanya C, Pankaj Dhanuka, Kishore Saraogi, Kapil Pal, Adarsh Kumar
+
+
+Maxim Serebryakov, Shawn Zhang, Marty Massih Sarim, Andrés Pérez Soderi, Anant S., Ishita Matharu, Ashish Kanoongo, Monal P., Sai Supriya Sharath, Carya Venture Partners
+
+
+hashtag#AI hashtag#CustomerExperience hashtag#ContactCenters hashtag#CX hashtag#GenAI hashtag#Innovation hashtag#FutureOfWork
+	118
+	15
+	17
+	How a speeding ticket helped us close our $5.5M seed round?
+
+
+Throwback to when Andrés got behind the wheel to save Sanas. If he hadn’t pursued entrepreneurship, he’d likely be a pro race car driver.
+
+
+Back in 2021, we were college students with a $500K pre-seed round secured and a dedicated team building Sanas. But then came the crunch—we were on the brink with only 4 weeks of runway left. In a frantic scramble, we lined up 4 investors to help us close the seed round.
+
+
+The final signing was in San Francisco, and we were running late. We could have called our investors, but we didn’t want to risk it. And, of course, we had Andrés driving us :)
+
+
+He broke all his records to reach the venue, but just as we were about to arrive, we got pulled over for speeding. Thankfully, the empathetic cop let us off with a ticket after hearing our story. Even the SF cops understand how crucial closing rounds can be for founders!
+
+
+We made it to the meeting—albeit a bit late but with a “receipt” for our delay—and successfully closed our $5.5M seed round. :)
+
+
+Startups are a wild ride, and I learned that quite literally with Andrés 🚀
+
+
+Sharath Keshava Narayana, Shawn Zhang, Marty Massih Sarim, Monal P., Anant S., Ashish Kanoongo, Ishita Matharu, Ben Warner
+
+
+hashtag#Startups hashtag#Funding hashtag#Founders hashtag#Hustle hashtag#Sanas
+	314
+	31
+	5
+	Hire folks an inch taller than you, and you'll soon be leading an army of giants!
+
+
+Anant has been that giant for both my startups—earlier, he shaped sales at Observe.AI, and now he’s making waves at Sanas. I’ve known him for 15 years, and he’s been my go-to guy whenever I’ve needed to transition from founder-led sales to bringing in a dedicated sales leader.
+
+
+Finding a solid VP of Sales becomes crucial for founders after achieving product-market fit. It’s not just about filling a role; it’s about bringing in a partner who can take the reins and lead the sales team from the front.
+
+
+And by the way, Anant has played a pivotal role in our growth from $0 to $12M over the past five quarters! That’s the kind of magic that happens when you have an army of giants.
+
+
+Maxim Serebryakov, Shawn Zhang, Marty Massih Sarim, Monal P., Ashish Kanoongo, Andrés Pérez Soderi, Ishita Matharu, Carya Venture Partners, Sai Supriya Sharath
+
+
+hashtag#Sales hashtag#Leadership hashtag#Startup hashtag#Hiring hashtag#AI hashtag#PMF hashtag#FoundingTeam
+	330
+	35
+	4
+	Whohoo! Congrats team Sanas! Great work everyone to build the hashtag#sanasmovement!
+	56
+	4
+	0
+	Real growth is about lifting everyone around you.
+
+
+My first startup, HappyFeet, didn’t hit the financial highs we were aiming for, but it was a masterclass in empathy for me.
+
+
+Since then, I’ve co-founded Sanas, Observe.AI, became a founding member of EverAI Labs and started a fund, Carya Venture Partners, to invest in underrepresented founders. If you talk to our customers, they’ll probably say, “These are really nice people to work with.” And it's not just our clients; we strive to be empathetic with everyone we interact with—employees, investors, partners, and beyond.
+
+
+Empathy isn’t just important in personal interactions; it plays a huge role in product design as well. You need to step into your users' shoes to create something so intuitive that they can start using it effortlessly from the first glance.
+
+
+Real growth isn’t just about hitting targets; it’s about making a positive impact on everyone around you.
+
+
+Maxim Serebryakov, Swapnil Jain, Shawn Zhang, Monal P., Marty Massih Sarim, Ashish Kanoongo, Anant S., Ishita Matharu, Sudhir Agarwal, Andrew Maas, Sai Supriya Sharath
+	242
+	17
+	4
+	85% of candidates are rejected at contact center interviews due to their accent. Thus, the 1.7 million agents we see in the hashtag#Philippines are the 15% who made the cut out of around 11 million candidates. Sanas is here to ensure that those 9 million candidates also get jobs and that accent doesn’t remain a barrier to earning a livelihood.
+
+
+We are witnessing a massive change in the contact center industry, and, as with any technology, there is initial apprehension. The contact center agent role is fundamentally about human interaction, requiring high emotional intelligence (EQ) along with IQ. I believe that agent-less contact centers are very far off, if possible at all.
+
+
+Thanks for the mention Saritha Rai, you're doing an amazing work!
+
+
+Maxim Serebryakov, Shawn Zhang, Marty Massih Sarim, Monal P., Ashish Kanoongo, Anant S., Ishita Matharu, Andrés Pérez Soderi, Sai Supriya Sharath
+	67
+	6
+	6
+	AI in contact centres will empower, not replace!
+
+
+Just tuned into the podcast featuring Rebecca Choong and Saritha Rai. Thanks for the shoutout for Sanas, I’ve already received a couple of queries from BPOs! :)
+
+
+I really enjoyed the demo and am thrilled to see such positive feedback about Sanas. Here's the link : https://lnkd.in/geQs9C6c
+
+
+Many people worry that AI might replace agents, but the truth is, AI is here to assist, not replace. It’s natural to be concerned about job security in contact centres, especially in a country like the Philippines where BPOs contribute over 8% of the GDP.
+
+
+But here's the thing: Contact centres are powerhouses, and the agents are the backbone of this massive industry. They bring a unique blend of IQ and EQ that AI can’t replicate. We’re still a long way from a world where AI replaces agents. Right now, AI is here to assist, not replace.
+
+
+I’ve founded two AI startups, Observe.AI and Sanas, focused on enabling agents in BPOs. Additionally, I’ve invested in dozens of startups that are impacting the lives of contact centre agents with AI.
+
+
+While the podcast discussed concerns about job shifts from the Philippines to Africa, my perspective is different. At Sanas, we’re creating jobs in the Philippines and India and driving growth in the BPO sector. This growth and job creation are independent of government investments or efforts.
+
+
+Let’s keep pushing forward and use AI to support and enhance the incredible work being done by contact centre agents around the world.
+
+
+Image Credits: Bloomberg. Kudos to Bloomberg for the amazing work they are doing and also for the shout out for Sanas :)
+
+
+Maxim Serebryakov, Swapnil Jain, Shawn Zhang, Monal P., Anant S., Ishita Matharu, Ashish Kanoongo, Andrés Pérez Soderi, Carya Venture Partners, Sai Supriya Sharath, Sudhir Agarwal, Andrew Maas
+	160
+	17
+	14
+	12 months, 12m ARR has a nice ring to it :-)! It’s taken a village to get to this stage and a big thank you to all the 100+ Sanas ‘preneurs across the world, our hashtag#lifesavers aka our customers, our angels aka our investors and my cofounders - Maxim Serebryakov, Shawn Zhang and Andrés Pérez Soderi for the fabulous journey! As we say within Sanas, over 100,000 agents have hashtag#sanas-it and we love you all!!!
+Anant S., Ashish Kanoongo, Monal P., Ishita Matharu, Marty Massih Sarim & Sabina Zaeimian - thank you for believing in us and taking the ride. None of these accomplishments could be possible without you all! It’s not everyday that you see a company grow from the first million to 12x in an year. Kudos!
+Sudhir Agarwal, Everise & Five9 - thank you for agreeing to be a part of the release, appreciate your support as always!
+Ganesh Bell, David Greenbaum, Steven Schlenker, Ram Gupta, General Catalyst, HUMAN CAPITAL, Village Global, GV (Google Ventures) - thank you for the unwavering support, this has been a fascinating ride so far and it’s still early days!
+	204
+	32
+	14
+	There should be a cool term for “early clients” of startups, just like we have “Angels” for early investors. “Lifesavers” maybe?
+
+
+Early clients & champions, especially in B2B SaaS, really stick their necks out to give founders their first shot. They honestly always have 10 other products to choose from but they chose you because they felt that ‘X’ factor.
+
+
+Having founded two enterprise SaaS companies and invested in over 50, I can tell you finding early "Lifesavers" never gets easy, no matter how many times you do it.
+
+
+As a founder, one of the most humbling experiences is finding early believers who see the potential in what we're building. Put all your energy in finding those believers & once you find them, show them the respect they deserve & stay grateful to them. They are worth it!
+
+
+I personally had Marty Sarim at ERC (Enhanced Resource Centers) who was the first 6 figure client and the first $1 M client at Observe.AI. Similarly we had Andy Lee of Alorica for Sanas! They are true “Lifesavers” and, in many ways, they changed the complete course of our destiny.
+
+
+A huge shoutout to all these early believers who took a chance on us and helped make us who we are today! 🚀
+
+
+Tagging my “Lifesavers” at Sanas & ObserveAI. Tag yours too, let’s make them famous, they deserve it!
+
+
+Sudhir Agarwal of Everise, Janesh P. & Joe DeLuca of Wyndham Hotels & Resorts, Ashish Bisaria of Trajector, Michael Flodin of Continuum Global Solutions, John Singleton, of Assurant, Ratna Puri & Ganesh Kumar of Concentrix, Yoni Epstein, & Shurland Buchanan of itelCX, Tiago Paiva of Talkdesk, Adarsh Kumar & Kapil Pal of iEnergizer
+
+
+Maxim Serebryakov, Swapnil Jain, Shawn Zhang, Monal P., Anant S., Ishita Matharu, Ashish Kanoongo, Andrés Pérez Soderi, Carya Venture Partners
+
+
+hashtag#Lifesavers hashtag#Startups hashtag#EarlyClients hashtag#Grateful hashtag#SaaS hashtag#BuildingTogether
+	171
+	26
+	15
+	So well put Ishita Matharu! Thanks for signing up to be the brand custodian at Sanas. It’s fascinating to see the energy, conviction and drive you bring to work everyday in building the hashtag#sanas hashtag#movement and I am grateful that you chose to help us build a generational company!
+hashtag#choice is not just an overused adjective at Sanas, it’s an operating word and we believe in providing a hashtag#choice to millions of hashtag#humans who prefer having this choice versus NOT. Cheers to many more months and years of working together!
+	19
+	1
+	0
+	Happy Independence Day, India! 🇮🇳
+
+
+India is always my home-base and the core technology hub to my startups Sanas, Observe.AI and many startups I have invested into. Our startups have created thousands of jobs over the years and with Sanas, I’m incredibly proud to share that we’re now empowering contact centre agents in over 20 cities across the country!
+
+
+Our goal is to create over a million jobs in India in the next decade, and we're pleased with our strong start in shifting perceptions of India among global enterprises. We've already created over 5,000 new jobs by bringing contact center operations back to India, thanks to Sanas's accent uniformity and India's top aptitude for this work.
+
+
+This milestone is significant as we work to boost the Indian outsourcing industry, which contributes over 5% to India’s GDP. Being able to create jobs and support contact centres in hiring thousands of agents feels like giving back to the country that has given me so much. I also started out as an agent and the accent bias is etched in my memory which we, at Sanas, intend to eliminate with our accent harmonization product.
+
+
+Maxim Serebryakov, Shawn Zhang, Monal P., Marty Massih Sarim, Anant S., Ishita Matharu, Ashish Kanoongo, Andrés Pérez Soderi, Carya Venture Partners
+
+
+hashtag#IndependenceDay hashtag#India hashtag#ProudMoment hashtag#Sanas hashtag#ObserveAI hashtag#TechForGood
+	195
+	22
+	7
+	Say hi to Nathan! 👋
+
+
+Yep, that’s me, Nathan :-) Got this name assigned to me after my accent neutralization training.
+
+
+My first job was at a contact centre, moonlighting while I was studying my engineering degree in Bangalore when I was 19 yrs old. I guess that's where my love for hashtag#CX & hashtag#contactcenter comes from :-)
+
+
+I remember undergoing a 3-week accent neutralization program and thinking, "Why should I change how I speak when my goal is to resolve customer issues?" Fast forward 20 years, and I’m thrilled to see how the landscape has evolved.
+
+
+Now, at Sanas, we enable over 30,000+ agents in harmonizing their accents while preserving their authenticity and most importantly not having to change the way they speak, naturally! I, unfortunately, sound very different than how I sounded 23 yrs ago…
+
+
+Out of 30,000 agents, not a single agent has turned off their Sanas toggle button. That’s a huge win for us!
+
+
+Here’s to celebrating individuality & authenticity 🚀
+
+
+hashtag#CustomerExperience hashtag#NoBias hashtag#Authenticity hashtag#CX hashtag#Sanas
+
+
+Maxim Serebryakov Shawn Zhang Monal P. Marty Massih Sarim Anant S. Ishita Matharu Ashish Kanoongo Andrés Pérez Soderi Carya Venture Partners
+	289
+	38
+	8
+	Breaking records & setting trends🏅
+
+
+In sports, the bar keeps rising. For example, in 2020, the Javelin throw gold was won at 87.58m. This year, five athletes surpassed it, including Neeraj Chopra. The winner, Arshad Nadeem, even entered the elusive 90m club twice, pushing others to excel.
+
+
+In startups, trendsetters redefine what's possible. I’m proud that my startups, Sanas, Observe.AI, and the founders we’ve invested in at Carya Venture Partners, have done just that, time & again!
+
+
+Before we created Sanas, real-time speech-to-speech synthesis at sub-200ms latency seemed elusive, almost impossible. But we proved it’s both achievable and game-changing. Today, we’re positively impacting the lives of millions of agents with accent harmonization.
+
+
+Just like in sports, we’re all about breaking barriers and setting new standards. Excited to see more innovators join us in pushing the envelope and raising the bar in the CX space. Let’s keep inspiring each other!
+
+
+Maxim Serebryakov, Shawn Zhang, Monal P., Marty Massih Sarim, Anant S., Ashish Kanoongo, Swapnil Jain, Andrés Pérez Soderi, Sai Supriya Sharath, Michael Greenbaum
+
+
+hashtag#BreakingRecords hashtag#BreakingBarriers hashtag#Olympics2024
+	172
+	15
+	6

@@ -1,0 +1,67 @@
+Score this opening line for a LinkedIn post on a scale of 1 to 10.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPENING LINE TO SCORE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"{opening_text}"
+
+Strategy used: {strategy}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+POST BODY (what follows this opening — check for fit and bait-and-switch)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{post_body}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EVALUATE ON THESE FIVE DIMENSIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. stop_scroll (1-10)
+   Would this make someone physically stop their thumb mid-scroll?
+   10 = involuntary stop. 5 = might pause. 1 = keep scrolling without registering it.
+
+2. specificity (1-10)
+   Does it contain a concrete, non-generic detail?
+   10 = a number, quote, or moment too specific to be invented.
+   1 = could apply to any post by any person on any topic.
+
+3. humanness (1-10)
+   Does this sound like a person or like a content template?
+   10 = clearly typed by a specific human with a specific experience.
+   1 = AI-generated, polished, interchangeable.
+
+4. curiosity (1-10)
+   Does the reader NEED to know what comes next?
+   10 = the reader cannot not keep reading.
+   5 = mild interest.
+   1 = the reader already knows where this is going.
+
+5. body_fit (1-10)
+   Does this opening honestly set up the post that follows?
+   10 = perfect tonal and topical bridge into the body.
+   1 = bait-and-switch — the opening promises something the body does not deliver.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SCORING NOTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Overall score = weighted average: stop_scroll (30%) + specificity (25%) +
+  humanness (25%) + curiosity (15%) + body_fit (5%)
+- Round to nearest integer.
+- Apply -2 to overall score if AI-slop patterns are detected (see slop_detected field).
+- Do not inflate. A 7 is genuinely good. An 8 is rare. A 9 or 10 is exceptional.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTPUT — return ONLY this JSON object, no explanation, no markdown fences
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{{
+  "score": <1-10 overall weighted score, integer>,
+  "subscores": {{
+    "stop_scroll": <1-10>,
+    "specificity": <1-10>,
+    "humanness": <1-10>,
+    "curiosity": <1-10>,
+    "body_fit": <1-10>
+  }},
+  "feedback": "<1 to 2 sentences — specific and actionable, not generic praise or generic critique>",
+  "slop_detected": <true or false — did you detect any AI-template patterns in this opening?>
+}}

@@ -1,0 +1,886 @@
+[23:12:21] Ingestion started: 145 chunks, resuming from chunk 0
+[23:12:21] Chunk 1/145 — 1914 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[23:14:14]   ✗ beliefs failed: Model unloaded.
+[23:21:27] Ingestion started: 145 chunks, resuming from chunk 0
+[23:21:27] Chunk 1/145 — 1914 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[23:27:26] Ingestion started: 145 chunks, resuming from chunk 0
+[23:27:26] Chunk 1/145 — 1914 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[23:27:40]   ✗ beliefs failed: Connection error.
+[23:27:54]   ✗ stories failed: Connection error.
+[23:28:08]   ✗ style rules failed: Connection error.
+[23:28:21]   ✗ thinking models failed: Connection error.
+[23:28:21] Chunk 2/145 — 1834 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[23:28:35]   ✗ beliefs failed: Connection error.
+[23:28:49]   ✗ stories failed: Connection error.
+[23:29:02]   ✗ style rules failed: Connection error.
+[23:29:45] Ingestion started: 145 chunks, resuming from chunk 1
+[23:29:45] Chunk 2/145 — 1834 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[23:32:33]   → 0 beliefs
+[23:34:46] Ingestion started: 145 chunks, resuming from chunk 1
+[23:34:46] Chunk 2/145 — 1834 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[23:38:37]   → 0 beliefs
+[23:38:43]   → 0 stories
+[14:14:50] Ingestion started: 30 chunks, resuming from chunk 1
+[14:14:50] Chunk 2/30 — 29886 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[14:23:55]   → 0 beliefs
+[14:31:29]   → 0 stories
+[14:47:39]   ✗ style rules failed: The read operation timed out
+[14:51:04]   → 0 thinking models
+[14:51:04] Chunk 3/30 — 29809 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:00:29]   → 0 beliefs
+[15:06:25]   → 3 stories
+[15:15:07]   → 0 style rules
+[15:24:39]   → 5 thinking models
+[15:24:39] Chunk 4/30 — 29873 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:31:19]   → 0 beliefs
+[15:39:01]   → 0 stories
+[15:56:57] Ingestion started: 55 chunks, resuming from chunk 3
+[15:56:57] Chunk 4/55 — 6172 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:56:58]   ✗ beliefs failed: 404 page not found
+[15:56:58]   ✗ stories failed: 404 page not found
+[15:56:58]   ✗ style rules failed: 404 page not found
+[15:56:58]   ✗ thinking models failed: 404 page not found
+[15:56:58] Chunk 5/55 — 6145 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:56:58]   ✗ beliefs failed: 404 page not found
+[15:56:58]   ✗ stories failed: 404 page not found
+[15:56:58]   ✗ style rules failed: 404 page not found
+[15:56:58]   ✗ thinking models failed: 404 page not found
+[15:56:58] Chunk 6/55 — 6182 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:56:58]   ✗ beliefs failed: 404 page not found
+[15:56:58]   ✗ stories failed: 404 page not found
+[15:56:58]   ✗ style rules failed: 404 page not found
+[15:56:58]   ✗ thinking models failed: 404 page not found
+[15:56:58] Chunk 7/55 — 6080 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:56:58]   ✗ beliefs failed: 404 page not found
+[15:56:58]   ✗ stories failed: 404 page not found
+[15:56:58]   ✗ style rules failed: 404 page not found
+[15:56:58]   ✗ thinking models failed: 404 page not found
+[15:56:58] Chunk 8/55 — 6080 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:56:58]   ✗ beliefs failed: 404 page not found
+[15:56:59]   ✗ stories failed: 404 page not found
+[15:56:59]   ✗ style rules failed: 404 page not found
+[15:56:59]   ✗ thinking models failed: 404 page not found
+[15:56:59] Chunk 9/55 — 5981 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:56:59]   ✗ beliefs failed: 404 page not found
+[15:56:59]   ✗ stories failed: 404 page not found
+[15:56:59]   ✗ style rules failed: 404 page not found
+[15:56:59]   ✗ thinking models failed: 404 page not found
+[15:56:59] Chunk 10/55 — 6190 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:56:59]   ✗ beliefs failed: 404 page not found
+[15:56:59]   ✗ stories failed: 404 page not found
+[15:56:59]   ✗ style rules failed: 404 page not found
+[15:56:59]   ✗ thinking models failed: 404 page not found
+[15:56:59]   Saving incremental graph (0b, 3s, 0r, 5m)
+[15:57:00] Chunk 11/55 — 6158 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:00]   ✗ beliefs failed: 404 page not found
+[15:57:00]   ✗ stories failed: 404 page not found
+[15:57:00]   ✗ style rules failed: 404 page not found
+[15:57:00]   ✗ thinking models failed: 404 page not found
+[15:57:00] Chunk 12/55 — 6167 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:00]   ✗ beliefs failed: 404 page not found
+[15:57:00]   ✗ stories failed: 404 page not found
+[15:57:00]   ✗ style rules failed: 404 page not found
+[15:57:00]   ✗ thinking models failed: 404 page not found
+[15:57:00] Chunk 13/55 — 6126 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:00]   ✗ beliefs failed: 404 page not found
+[15:57:00]   ✗ stories failed: 404 page not found
+[15:57:01]   ✗ style rules failed: 404 page not found
+[15:57:01]   ✗ thinking models failed: 404 page not found
+[15:57:01] Chunk 14/55 — 6034 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:01]   ✗ beliefs failed: 404 page not found
+[15:57:01]   ✗ stories failed: 404 page not found
+[15:57:01]   ✗ style rules failed: 404 page not found
+[15:57:01]   ✗ thinking models failed: 404 page not found
+[15:57:01] Chunk 15/55 — 5987 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:01]   ✗ beliefs failed: 404 page not found
+[15:57:01]   ✗ stories failed: 404 page not found
+[15:57:01]   ✗ style rules failed: 404 page not found
+[15:57:01]   ✗ thinking models failed: 404 page not found
+[15:57:01] Chunk 16/55 — 6149 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:01]   ✗ beliefs failed: 404 page not found
+[15:57:01]   ✗ stories failed: 404 page not found
+[15:57:01]   ✗ style rules failed: 404 page not found
+[15:57:01]   ✗ thinking models failed: 404 page not found
+[15:57:01] Chunk 17/55 — 6166 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:01]   ✗ beliefs failed: 404 page not found
+[15:57:02]   ✗ stories failed: 404 page not found
+[15:57:02]   ✗ style rules failed: 404 page not found
+[15:57:02]   ✗ thinking models failed: 404 page not found
+[15:57:02] Chunk 18/55 — 6025 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:02]   ✗ beliefs failed: 404 page not found
+[15:57:02]   ✗ stories failed: 404 page not found
+[15:57:02]   ✗ style rules failed: 404 page not found
+[15:57:02]   ✗ thinking models failed: 404 page not found
+[15:57:02] Chunk 19/55 — 5737 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:02]   ✗ beliefs failed: 404 page not found
+[15:57:02]   ✗ stories failed: 404 page not found
+[15:57:02]   ✗ style rules failed: 404 page not found
+[15:57:02]   ✗ thinking models failed: 404 page not found
+[15:57:02] Chunk 20/55 — 6092 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:02]   ✗ beliefs failed: 404 page not found
+[15:57:02]   ✗ stories failed: 404 page not found
+[15:57:02]   ✗ style rules failed: 404 page not found
+[15:57:02]   ✗ thinking models failed: 404 page not found
+[15:57:02]   Saving incremental graph (0b, 3s, 0r, 5m)
+[15:57:02] Chunk 21/55 — 6170 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:02]   ✗ beliefs failed: 404 page not found
+[15:57:02]   ✗ stories failed: 404 page not found
+[15:57:02]   ✗ style rules failed: 404 page not found
+[15:57:02]   ✗ thinking models failed: 404 page not found
+[15:57:02] Chunk 22/55 — 5797 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:02]   ✗ beliefs failed: 404 page not found
+[15:57:02]   ✗ stories failed: 404 page not found
+[15:57:03]   ✗ style rules failed: 404 page not found
+[15:57:03]   ✗ thinking models failed: 404 page not found
+[15:57:03] Chunk 23/55 — 6092 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:03]   ✗ beliefs failed: 404 page not found
+[15:57:03]   ✗ stories failed: 404 page not found
+[15:57:03]   ✗ style rules failed: 404 page not found
+[15:57:03]   ✗ thinking models failed: 404 page not found
+[15:57:03] Chunk 24/55 — 5965 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:03]   ✗ beliefs failed: 404 page not found
+[15:57:03]   ✗ stories failed: 404 page not found
+[15:57:03]   ✗ style rules failed: 404 page not found
+[15:57:03]   ✗ thinking models failed: 404 page not found
+[15:57:03] Chunk 25/55 — 5029 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:03]   ✗ beliefs failed: 404 page not found
+[15:57:03]   ✗ stories failed: 404 page not found
+[15:57:03]   ✗ style rules failed: 404 page not found
+[15:57:03]   ✗ thinking models failed: 404 page not found
+[15:57:03] Chunk 26/55 — 6168 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:03]   ✗ beliefs failed: 404 page not found
+[15:57:03]   ✗ stories failed: 404 page not found
+[15:57:03]   ✗ style rules failed: 404 page not found
+[15:57:03]   ✗ thinking models failed: 404 page not found
+[15:57:03] Chunk 27/55 — 6066 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:03]   ✗ beliefs failed: 404 page not found
+[15:57:03]   ✗ stories failed: 404 page not found
+[15:57:03]   ✗ style rules failed: 404 page not found
+[15:57:03]   ✗ thinking models failed: 404 page not found
+[15:57:04] Chunk 28/55 — 6073 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:04]   ✗ beliefs failed: 404 page not found
+[15:57:04]   ✗ stories failed: 404 page not found
+[15:57:04]   ✗ style rules failed: 404 page not found
+[15:57:04]   ✗ thinking models failed: 404 page not found
+[15:57:04] Chunk 29/55 — 2564 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:57:04]   ✗ beliefs failed: 404 page not found
+[15:57:04]   ✗ stories failed: 404 page not found
+[15:57:04]   ✗ style rules failed: 404 page not found
+[15:57:04]   ✗ thinking models failed: 404 page not found
+[15:57:04] Chunk 30/55 — 39 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:04]   ✗ beliefs failed: 404 page not found
+[15:57:04]   ✗ stories failed: 404 page not found
+[15:57:04]   ✗ style rules failed: 404 page not found
+[15:57:04]   ✗ thinking models failed: 404 page not found
+[15:57:04]   Saving incremental graph (0b, 3s, 0r, 5m)
+[15:57:04] Chunk 31/55 — 1330 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:04]   ✗ beliefs failed: 404 page not found
+[15:57:04]   ✗ stories failed: 404 page not found
+[15:57:04]   ✗ style rules failed: 404 page not found
+[15:57:04]   ✗ thinking models failed: 404 page not found
+[15:57:04] Chunk 32/55 — 4340 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:04]   ✗ beliefs failed: 404 page not found
+[15:57:04]   ✗ stories failed: 404 page not found
+[15:57:04]   ✗ style rules failed: 404 page not found
+[15:57:04]   ✗ thinking models failed: 404 page not found
+[15:57:04] Chunk 33/55 — 6181 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:04]   ✗ beliefs failed: 404 page not found
+[15:57:05]   ✗ stories failed: 404 page not found
+[15:57:05]   ✗ style rules failed: 404 page not found
+[15:57:05]   ✗ thinking models failed: 404 page not found
+[15:57:05] Chunk 34/55 — 3493 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:05]   ✗ beliefs failed: 404 page not found
+[15:57:05]   ✗ stories failed: 404 page not found
+[15:57:05]   ✗ style rules failed: 404 page not found
+[15:57:05]   ✗ thinking models failed: 404 page not found
+[15:57:05] Chunk 35/55 — 5050 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:05]   ✗ beliefs failed: 404 page not found
+[15:57:05]   ✗ stories failed: 404 page not found
+[15:57:05]   ✗ style rules failed: 404 page not found
+[15:57:05]   ✗ thinking models failed: 404 page not found
+[15:57:05] Chunk 36/55 — 5908 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:05]   ✗ beliefs failed: 404 page not found
+[15:57:05]   ✗ stories failed: 404 page not found
+[15:57:05]   ✗ style rules failed: 404 page not found
+[15:57:05]   ✗ thinking models failed: 404 page not found
+[15:57:05] Chunk 37/55 — 4619 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:05]   ✗ beliefs failed: 404 page not found
+[15:57:05]   ✗ stories failed: 404 page not found
+[15:57:05]   ✗ style rules failed: 404 page not found
+[15:57:05]   ✗ thinking models failed: 404 page not found
+[15:57:05] Chunk 38/55 — 4729 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:06]   ✗ beliefs failed: 404 page not found
+[15:57:06]   ✗ stories failed: 404 page not found
+[15:57:06]   ✗ style rules failed: 404 page not found
+[15:57:06]   ✗ thinking models failed: 404 page not found
+[15:57:06] Chunk 39/55 — 6172 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:06]   ✗ beliefs failed: 404 page not found
+[15:57:06]   ✗ stories failed: 404 page not found
+[15:57:06]   ✗ style rules failed: 404 page not found
+[15:57:06]   ✗ thinking models failed: 404 page not found
+[15:57:06] Chunk 40/55 — 1106 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:06]   ✗ beliefs failed: 404 page not found
+[15:57:06]   ✗ stories failed: 404 page not found
+[15:57:06]   ✗ style rules failed: 404 page not found
+[15:57:06]   ✗ thinking models failed: 404 page not found
+[15:57:06]   Saving incremental graph (0b, 3s, 0r, 5m)
+[15:57:06] Chunk 41/55 — 5487 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:06]   ✗ beliefs failed: 404 page not found
+[15:57:06]   ✗ stories failed: 404 page not found
+[15:57:06]   ✗ style rules failed: 404 page not found
+[15:57:06]   ✗ thinking models failed: 404 page not found
+[15:57:06] Chunk 42/55 — 721 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[15:57:06]   ✗ beliefs failed: 404 page not found
+[15:57:06]   ✗ stories failed: 404 page not found
+[15:57:06]   ✗ style rules failed: 404 page not found
+[15:57:07]   ✗ thinking models failed: 404 page not found
+[15:57:07] Chunk 43/55 — 38 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:07]   ✗ beliefs failed: 404 page not found
+[15:57:07]   ✗ stories failed: 404 page not found
+[15:57:07]   ✗ style rules failed: 404 page not found
+[15:57:07]   ✗ thinking models failed: 404 page not found
+[15:57:07] Chunk 44/55 — 876 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:07]   ✗ beliefs failed: 404 page not found
+[15:57:07]   ✗ stories failed: 404 page not found
+[15:57:07]   ✗ style rules failed: 404 page not found
+[15:57:07]   ✗ thinking models failed: 404 page not found
+[15:57:07] Chunk 45/55 — 3834 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:07]   ✗ beliefs failed: 404 page not found
+[15:57:07]   ✗ stories failed: 404 page not found
+[15:57:07]   ✗ style rules failed: 404 page not found
+[15:57:07]   ✗ thinking models failed: 404 page not found
+[15:57:07] Chunk 46/55 — 2433 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:07]   ✗ beliefs failed: 404 page not found
+[15:57:07]   ✗ stories failed: 404 page not found
+[15:57:07]   ✗ style rules failed: 404 page not found
+[15:57:07]   ✗ thinking models failed: 404 page not found
+[15:57:07] Chunk 47/55 — 1410 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:07]   ✗ beliefs failed: 404 page not found
+[15:57:07]   ✗ stories failed: 404 page not found
+[15:57:07]   ✗ style rules failed: 404 page not found
+[15:57:08]   ✗ thinking models failed: 404 page not found
+[15:57:08] Chunk 48/55 — 955 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:08]   ✗ beliefs failed: 404 page not found
+[15:57:08]   ✗ stories failed: 404 page not found
+[15:57:08]   ✗ style rules failed: 404 page not found
+[15:57:08]   ✗ thinking models failed: 404 page not found
+[15:57:08] Chunk 49/55 — 3737 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:08]   ✗ beliefs failed: 404 page not found
+[15:57:08]   ✗ stories failed: 404 page not found
+[15:57:08]   ✗ style rules failed: 404 page not found
+[15:57:08]   ✗ thinking models failed: 404 page not found
+[15:57:08] Chunk 50/55 — 3262 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:08]   ✗ beliefs failed: 404 page not found
+[15:57:08]   ✗ stories failed: 404 page not found
+[15:57:08]   ✗ style rules failed: 404 page not found
+[15:57:08]   ✗ thinking models failed: 404 page not found
+[15:57:08]   Saving incremental graph (0b, 3s, 0r, 5m)
+[15:57:08] Chunk 51/55 — 2460 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:08]   ✗ beliefs failed: 404 page not found
+[15:57:08]   ✗ stories failed: 404 page not found
+[15:57:08]   ✗ style rules failed: 404 page not found
+[15:57:08]   ✗ thinking models failed: 404 page not found
+[15:57:08] Chunk 52/55 — 4702 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:08]   ✗ beliefs failed: 404 page not found
+[15:57:08]   ✗ stories failed: 404 page not found
+[15:57:08]   ✗ style rules failed: 404 page not found
+[15:57:08]   ✗ thinking models failed: 404 page not found
+[15:57:08] Chunk 53/55 — 1097 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:08]   ✗ beliefs failed: 404 page not found
+[15:57:09]   ✗ stories failed: 404 page not found
+[15:57:09]   ✗ style rules failed: 404 page not found
+[15:57:09]   ✗ thinking models failed: 404 page not found
+[15:57:09] Chunk 54/55 — 1440 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:09]   ✗ beliefs failed: 404 page not found
+[15:57:09]   ✗ stories failed: 404 page not found
+[15:57:09]   ✗ style rules failed: 404 page not found
+[15:57:09]   ✗ thinking models failed: 404 page not found
+[15:57:09] Chunk 55/55 — 1123 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[15:57:09]   ✗ beliefs failed: 404 page not found
+[15:57:09]   ✗ stories failed: 404 page not found
+[15:57:09]   ✗ style rules failed: 404 page not found
+[15:57:09]   ✗ thinking models failed: 404 page not found
+[15:57:09]   Saving incremental graph (0b, 3s, 0r, 5m)
+[15:57:09] Extraction complete: 0b, 3s, 0r, 5m
+[16:09:13] Ingestion started: 55 chunks, resuming from chunk 55
+[16:09:13] Extraction complete: 0b, 3s, 0r, 5m
+[16:09:46] Final graph: 17 nodes, 22 edges
+[16:09:56] Ingestion complete!
+[16:23:12] Ingestion started: 55 chunks, resuming from chunk 0
+[16:23:12] Chunk 1/55 — 5922 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:23:19]   → 2 beliefs
+[16:23:31]   → 4 stories
+[16:23:46]   → 10 style rules
+[16:24:17]   → 9 thinking models
+[16:24:17] Chunk 2/55 — 6136 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:24:44]   → 7 beliefs
+[16:25:26]   → 5 stories
+[16:26:01]   → 10 style rules
+[16:26:39]   → 9 thinking models
+[16:26:39] Chunk 3/55 — 6090 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:27:33]   → 13 beliefs
+[16:28:02]   → 5 stories
+[16:28:34]   → 10 style rules
+[16:28:57]   → 4 thinking models
+[16:28:57] Chunk 4/55 — 6172 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:29:50]   → 13 beliefs
+[16:30:38]   → 8 stories
+[16:31:05]   → 9 style rules
+[16:31:44]   → 8 thinking models
+[16:31:44] Chunk 5/55 — 6145 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:32:28]   → 9 beliefs
+[16:33:16]   → 7 stories
+[16:34:24]   → 9 style rules
+[16:35:12]   → 7 thinking models
+[16:35:12] Chunk 6/55 — 6182 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:35:52]   → 8 beliefs
+[16:36:33]   → 8 stories
+[16:37:04]   → 11 style rules
+[16:37:40]   → 6 thinking models
+[16:37:40] Chunk 7/55 — 6080 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:38:09]   → 5 beliefs
+[16:38:55]   → 8 stories
+[16:39:57]   → 10 style rules
+[16:40:33]   → 8 thinking models
+[16:40:33] Chunk 8/55 — 6080 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:41:03]   → 7 beliefs
+[16:41:24]   → 3 stories
+[16:41:53]   → 8 style rules
+[16:42:28]   → 7 thinking models
+[16:42:28] Chunk 9/55 — 5981 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:42:57]   → 6 beliefs
+[16:43:27]   → 5 stories
+[16:44:18]   → 15 style rules
+[16:44:48]   → 6 thinking models
+[16:44:48] Chunk 10/55 — 6190 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:45:16]   → 5 beliefs
+[16:45:48]   → 5 stories
+[16:46:30]   → 10 style rules
+[16:47:02]   → 6 thinking models
+[16:47:02]   Saving incremental graph (75b, 58s, 102r, 70m)
+[16:47:06] Chunk 11/55 — 6158 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:48:06]   → 14 beliefs
+[16:49:01]   → 8 stories
+[16:49:35]   → 9 style rules
+[16:49:57]   → 4 thinking models
+[16:49:57] Chunk 12/55 — 6167 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:53:12]   → 9 beliefs
+[16:53:47]   → 6 stories
+[16:54:24]   → 9 style rules
+[16:56:27]   → 9 thinking models
+[16:56:27] Chunk 13/55 — 6126 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:57:02]   → 6 beliefs
+[16:57:41]   → 5 stories
+[16:58:17]   → 11 style rules
+[16:58:58]   → 8 thinking models
+[16:58:58] Chunk 14/55 — 6034 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:59:23]   → 5 beliefs
+[16:59:58]   → 7 stories
+[17:00:39]   → 10 style rules
+[17:01:36]   → 12 thinking models
+[17:01:36] Chunk 15/55 — 5987 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:01:46]   → 0 beliefs
+[17:03:48]   → 7 stories
+[17:05:01]   → 9 style rules
+[17:05:56]   → 10 thinking models
+[17:05:56] Chunk 16/55 — 6149 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:07:05]   → 15 beliefs
+[17:07:58]   → 5 stories
+[17:08:55]   → 13 style rules
+[17:09:43]   → 7 thinking models
+[17:09:43] Chunk 17/55 — 6166 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:10:49]   → 11 beliefs
+[17:11:36]   → 6 stories
+[17:12:27]   → 8 style rules
+[17:13:08]   → 5 thinking models
+[17:13:08] Chunk 18/55 — 6025 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:14:19]   → 10 beliefs
+[17:15:03]   → 5 stories
+[17:15:52]   → 9 style rules
+[17:16:43]   → 6 thinking models
+[17:16:43] Chunk 19/55 — 5737 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:19:37]   → 11 beliefs
+[17:20:32]   → 7 stories
+[17:24:47]   → 13 style rules
+[17:25:40]   → 9 thinking models
+[17:25:40] Chunk 20/55 — 6092 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:28:06]   → 6 beliefs
+[17:28:42]   → 4 stories
+[17:29:23]   → 10 style rules
+[17:30:01]   → 6 thinking models
+[17:30:01]   Saving incremental graph (162b, 118s, 203r, 146m)
+[17:30:03] Chunk 21/55 — 6170 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:32:40]   → 9 beliefs
+[17:33:15]   → 4 stories
+[17:34:12]   → 11 style rules
+[17:36:30]   → 6 thinking models
+[17:36:30] Chunk 22/55 — 5797 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:37:13]   → 7 beliefs
+[17:37:45]   → 4 stories
+[17:38:55]   → 12 style rules
+[17:40:05]   → 10 thinking models
+[17:40:06] Chunk 23/55 — 6092 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:40:22]   → 2 beliefs
+[17:40:40]   → 0 stories
+[17:41:35]   → 11 style rules
+[17:42:33]   → 7 thinking models
+[17:42:33] Chunk 24/55 — 5965 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:46:43]   → 0 beliefs
+[17:47:08]   → 5 stories
+[17:48:00]   → 18 style rules
+[17:48:38]   → 9 thinking models
+[17:48:39] Chunk 25/55 — 5029 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:49:05]   → 6 beliefs
+[17:49:34]   → 8 stories
+[17:50:02]   → 10 style rules
+[17:50:34]   → 6 thinking models
+[17:50:34] Chunk 26/55 — 6168 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:50:59]   → 7 beliefs
+[17:51:21]   → 5 stories
+[17:52:02]   → 12 style rules
+[17:52:24]   → 5 thinking models
+[17:52:24] Chunk 27/55 — 6066 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:53:53]   → 6 beliefs
+[17:54:19]   → 4 stories
+[17:54:57]   → 11 style rules
+[17:55:19]   → 4 thinking models
+[17:55:19] Chunk 28/55 — 6073 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:58:51]   → 0 beliefs
+[17:59:31]   → 5 stories
+[17:59:57]   → 9 style rules
+[18:00:38]   → 8 thinking models
+[18:00:38] Chunk 29/55 — 2564 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[18:01:04]   → 5 beliefs
+[18:01:29]   → 5 stories
+[18:02:18]   → 14 style rules
+[18:02:46]   → 6 thinking models
+[18:02:46] Chunk 30/55 — 39 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:03:09]   → 10 beliefs
+[18:03:35]   → 4 stories
+[18:04:48]   → 16 style rules
+[18:05:27]   → 8 thinking models
+[18:05:27]   Saving incremental graph (214b, 162s, 327r, 215m)
+[18:05:29] Chunk 31/55 — 1330 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:05:32]   → 0 beliefs
+[18:07:11]   → 5 stories
+[18:08:17]   → 11 style rules
+[18:08:22]   → 0 thinking models
+[18:08:22] Chunk 32/55 — 4340 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:08:42]   → 4 beliefs
+[18:09:15]   → 4 stories
+[18:09:48]   → 9 style rules
+[18:10:21]   → 7 thinking models
+[18:10:21] Chunk 33/55 — 6181 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:11:57]   → 8 beliefs
+[18:13:28]   → 7 stories
+[18:14:26]   → 11 style rules
+[18:15:31]   → 15 thinking models
+[18:15:31] Chunk 34/55 — 3493 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:15:46]   → 3 beliefs
+[18:16:05]   → 3 stories
+[18:16:32]   → 9 style rules
+[18:16:56]   → 5 thinking models
+[18:16:56] Chunk 35/55 — 5050 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:17:23]   → 5 beliefs
+[18:17:51]   → 5 stories
+[18:18:36]   → 15 style rules
+[18:18:59]   → 5 thinking models
+[18:18:59] Chunk 36/55 — 5908 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:19:31]   → 6 beliefs
+[18:20:12]   → 6 stories
+[18:20:40]   → 11 style rules
+[18:21:10]   → 6 thinking models
+[18:21:10] Chunk 37/55 — 4619 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:21:34]   → 5 beliefs
+[18:21:58]   → 5 stories
+[18:22:27]   → 10 style rules
+[18:22:48]   → 5 thinking models
+[18:22:48] Chunk 38/55 — 4729 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:23:05]   → 5 beliefs
+[18:23:28]   → 5 stories
+[18:26:11]   → 13 style rules
+[18:26:35]   → 6 thinking models
+[18:26:36] Chunk 39/55 — 6172 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:27:49]   → 10 beliefs
+[18:28:34]   → 7 stories
+[18:29:01]   → 8 style rules
+[18:29:26]   → 6 thinking models
+[18:29:26] Chunk 40/55 — 1106 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:29:32]   → 1 beliefs
+[18:29:40]   → 0 stories
+[18:29:56]   → 6 style rules
+[18:30:01]   → 1 thinking models
+[18:30:01]   Saving incremental graph (261b, 209s, 430r, 271m)
+[18:30:05] Chunk 41/55 — 5487 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:30:29]   → 9 beliefs
+[18:31:15]   → 8 stories
+[18:31:39]   → 8 style rules
+[18:32:13]   → 8 thinking models
+[18:32:14] Chunk 42/55 — 721 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:32:42]   → 9 beliefs
+[18:36:01]   → 0 stories
+[18:36:32]   → 12 style rules
+[18:37:01]   → 9 thinking models
+[18:37:01] Chunk 43/55 — 38 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:37:29]   → 10 beliefs
+[18:37:32]   → 0 stories
+[18:38:06]   → 10 style rules
+[18:38:37]   → 9 thinking models
+[18:38:37] Chunk 44/55 — 876 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:38:53]   → 6 beliefs
+[18:38:57]   → 1 stories
+[18:40:02]   → 13 style rules
+[18:40:41]   → 9 thinking models
+[18:40:41] Chunk 45/55 — 3834 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:41:01]   → 6 beliefs
+[18:41:28]   → 5 stories
+[18:43:40]   → 8 style rules
+[18:43:57]   → 5 thinking models
+[18:43:58] Chunk 46/55 — 2433 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:44:15]   → 6 beliefs
+[18:44:39]   → 4 stories
+[18:45:00]   → 5 style rules
+[18:45:25]   → 4 thinking models
+[18:45:25] Chunk 47/55 — 1410 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:45:50]   → 10 beliefs
+[18:46:19]   → 6 stories
+[18:46:48]   → 10 style rules
+[18:46:59]   → 3 thinking models
+[18:46:59] Chunk 48/55 — 955 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:47:04]   → 0 beliefs
+[18:48:06]   → 5 stories
+[18:48:22]   → 5 style rules
+[18:48:29]   → 0 thinking models
+[18:48:29] Chunk 49/55 — 3737 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:48:47]   → 5 beliefs
+[18:49:22]   → 5 stories
+[18:49:52]   → 5 style rules
+[18:50:08]   → 5 thinking models
+[18:50:08] Chunk 50/55 — 3262 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:50:40]   → 6 beliefs
+[18:51:16]   → 8 stories
+[18:51:41]   → 7 style rules
+[18:52:11]   → 7 thinking models
+[18:52:11]   Saving incremental graph (328b, 251s, 513r, 330m)
+[18:52:15] Chunk 51/55 — 2460 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:52:27]   → 5 beliefs
+[18:52:55]   → 5 stories
+[18:53:31]   → 11 style rules
+[18:53:55]   → 7 thinking models
+[18:53:55] Chunk 52/55 — 4702 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:57:18]   → 0 beliefs
+[18:57:59]   → 9 stories
+[18:58:34]   → 10 style rules
+[18:58:58]   ✗ thinking models failed: The model has crashed without additional information. (Exit code: 18446744072635812000)
+[18:58:58] Chunk 53/55 — 1097 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:59:58]   → 6 beliefs
+[19:00:07]   → 4 stories
+[19:00:17]   → 5 style rules
+[19:01:01]   → 12 thinking models
+[19:01:01] Chunk 54/55 — 1440 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[19:01:31]   → 12 beliefs
+[19:01:52]   → 5 stories
+[19:02:35]   → 15 style rules
+[19:03:16]   → 15 thinking models
+[19:03:16] Chunk 55/55 — 1123 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[19:03:45]   → 10 beliefs
+[19:04:07]   → 4 stories
+[19:04:34]   → 11 style rules
+[19:04:57]   → 5 thinking models
+[19:04:57]   Saving incremental graph (361b, 278s, 565r, 369m)
+[19:05:02] Extraction complete: 361b, 278s, 565r, 369m
+[15:58:36] Ingestion started: 55 chunks, resuming from chunk 0
+[15:58:36] Chunk 1/55 — 5922 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:58:57]   → 7 beliefs
+[15:59:08]   → 3 stories
+[15:59:22]   → 6 style rules
+[15:59:34]   → 5 thinking models
+[15:59:34] Chunk 2/55 — 6136 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[15:59:49]   → 7 beliefs
+[16:00:17]   → 10 stories
+[16:00:35]   → 8 style rules
+[16:00:48]   → 4 thinking models
+[16:00:48] Chunk 3/55 — 6090 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:01:03]   → 7 beliefs
+[16:01:16]   → 3 stories
+[16:01:33]   → 7 style rules
+[16:01:46]   → 5 thinking models
+[16:01:46] Chunk 4/55 — 6172 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:02:02]   → 5 beliefs
+[16:02:26]   → 6 stories
+[16:02:30]   ✗ style rules failed: Model unloaded.
+[16:03:08]   ✗ thinking models failed: Model unloaded.
+[16:03:08] Chunk 5/55 — 6145 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:03:18]   ✗ beliefs failed: Error code: 400 - {'error': {'message': 'Failed to load model "ibm/granite-4-h-tiny". Error: Operation canceled.', 'type': 'invalid_request_error', 'param': 'model', 'code': None}}
+[16:03:19]   ✗ stories failed: Error code: 400 - {'error': {'message': 'Failed to load model "ibm/granite-4-h-tiny". Error: Operation canceled.', 'type': 'invalid_request_error', 'param': 'model', 'code': None}}
+[16:03:20]   ✗ style rules failed: Error code: 400 - {'error': {'message': 'Failed to load model "ibm/granite-4-h-tiny". Error: Operation canceled.', 'type': 'invalid_request_error', 'param': 'model', 'code': None}}
+[16:03:20]   ✗ thinking models failed: Error code: 400 - {'error': {'message': 'Failed to load model "ibm/granite-4-h-tiny". Error: Operation canceled.', 'type': 'invalid_request_error', 'param': 'model', 'code': None}}
+[16:03:20] Chunk 6/55 — 6182 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:03:21]   ✗ beliefs failed: Error code: 400 - {'error': {'message': 'Failed to load model "ibm/granite-4-h-tiny". Error: Operation canceled.', 'type': 'invalid_request_error', 'param': 'model', 'code': None}}
+[16:03:22]   ✗ stories failed: Error code: 400 - {'error': {'message': 'Failed to load model "ibm/granite-4-h-tiny". Error: Operation canceled.', 'type': 'invalid_request_error', 'param': 'model', 'code': None}}
+[16:03:23]   ✗ style rules failed: Error code: 400 - {'error': {'message': 'Failed to load model "ibm/granite-4-h-tiny". Error: Operation canceled.', 'type': 'invalid_request_error', 'param': 'model', 'code': None}}
+[16:05:16] Ingestion started: 55 chunks, resuming from chunk 5
+[16:05:16] Chunk 6/55 — 6182 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:05:44]   → 7 beliefs
+[16:07:40]   → 10 stories
+[16:09:39]   → 14 style rules
+[16:10:04]   → 5 thinking models
+[16:10:04] Chunk 7/55 — 6080 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:10:30]   → 5 beliefs
+[16:11:35]   → 12 stories
+[16:12:02]   → 5 style rules
+[16:12:27]   → 5 thinking models
+[16:12:27] Chunk 8/55 — 6080 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:12:57]   → 7 beliefs
+[16:13:14]   → 1 stories
+[16:14:55]   → 8 style rules
+[16:15:23]   → 5 thinking models
+[16:15:23] Chunk 9/55 — 5981 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:15:50]   → 6 beliefs
+[16:16:30]   → 4 stories
+[16:17:31]   → 7 style rules
+[16:17:57]   → 5 thinking models
+[16:17:57] Chunk 10/55 — 6190 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:18:30]   → 6 beliefs
+[16:19:45]   → 11 stories
+[16:21:47]   → 0 style rules
+[16:22:14]   → 5 thinking models
+[16:22:14]   Saving incremental graph (57b, 60s, 55r, 39m)
+[16:22:18] Chunk 11/55 — 6158 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:22:55]   → 7 beliefs
+[16:23:21]   → 3 stories
+[16:23:50]   → 6 style rules
+[16:24:16]   → 5 thinking models
+[16:24:16] Chunk 12/55 — 6167 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:24:39]   → 7 beliefs
+[16:25:50]   → 8 stories
+[16:26:30]   → 16 style rules
+[16:26:44]   → 5 thinking models
+[16:26:44] Chunk 13/55 — 6126 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:27:12]   → 9 beliefs
+[16:27:30]   → 4 stories
+[16:28:42]   → 0 style rules
+[16:28:56]   → 5 thinking models
+[16:28:56] Chunk 14/55 — 6034 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:29:18]   → 7 beliefs
+[16:29:48]   → 9 stories
+[16:30:27]   → 18 style rules
+[16:30:42]   → 5 thinking models
+[16:30:42] Chunk 15/55 — 5987 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:31:14]   → 11 beliefs
+[16:31:39]   → 6 stories
+[16:32:18]   → 8 style rules
+[16:32:35]   → 5 thinking models
+[16:32:35] Chunk 16/55 — 6149 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:32:55]   → 7 beliefs
+[16:33:23]   → 6 stories
+[16:33:44]   → 7 style rules
+[16:33:58]   → 5 thinking models
+[16:33:58] Chunk 17/55 — 6166 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:34:17]   → 5 beliefs
+[16:34:40]   → 5 stories
+[16:36:51]   → 17 style rules
+[16:37:08]   → 5 thinking models
+[16:37:08] Chunk 18/55 — 6025 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:38:12]   → 7 beliefs
+[16:38:29]   → 3 stories
+[16:38:51]   → 7 style rules
+[16:39:07]   → 5 thinking models
+[16:39:07] Chunk 19/55 — 5737 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:39:37]   → 7 beliefs
+[16:42:02]   → 0 stories
+[16:42:42]   → 19 style rules
+[16:43:00]   → 5 thinking models
+[16:43:00] Chunk 20/55 — 6092 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:43:23]   → 6 beliefs
+[16:43:40]   → 3 stories
+[16:44:12]   → 14 style rules
+[16:44:28]   → 5 thinking models
+[16:44:28]   Saving incremental graph (130b, 107s, 167r, 89m)
+[16:44:28] Chunk 21/55 — 6170 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:45:50]   → 10 beliefs
+[16:47:27]   → 14 stories
+[16:49:16]   → 17 style rules
+[16:49:36]   → 5 thinking models
+[16:49:36] Chunk 22/55 — 5797 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[16:50:00]   → 7 beliefs
+[17:32:49] Ingestion started: 55 chunks, resuming from chunk 21
+[17:32:49] Chunk 22/55 — 5797 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:33:07]   → 7 beliefs
+[17:33:16]   → 2 stories
+[17:33:31]   → 6 style rules
+[17:33:45]   → 5 thinking models
+[17:33:45] Chunk 23/55 — 6092 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:34:08]   → 10 beliefs
+[17:34:38]   → 14 stories
+[17:35:08]   → 15 style rules
+[17:35:19]   → 4 thinking models
+[17:35:19] Chunk 24/55 — 5965 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:35:33]   → 5 beliefs
+[17:35:48]   → 3 stories
+[17:36:16]   → 14 style rules
+[17:36:30]   → 5 thinking models
+[17:36:30] Chunk 25/55 — 5029 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:36:45]   → 7 beliefs
+[17:36:59]   → 3 stories
+[17:38:08]   → 16 style rules
+[17:38:21]   → 5 thinking models
+[17:38:21] Chunk 26/55 — 6168 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:38:36]   → 7 beliefs
+[17:38:57]   → 6 stories
+[17:39:39]   → 6 style rules
+[17:39:52]   → 5 thinking models
+[17:39:52] Chunk 27/55 — 6066 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:40:12]   → 7 beliefs
+[17:40:19]   → 1 stories
+[17:40:41]   → 8 style rules
+[17:40:53]   → 4 thinking models
+[17:40:53] Chunk 28/55 — 6073 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:43:01]   → 0 beliefs
+[17:43:44]   → 12 stories
+[17:44:03]   → 8 style rules
+[17:44:15]   → 4 thinking models
+[17:44:15] Chunk 29/55 — 2564 chars from D:\projects\personal_graph\digital-dna\data\founder-data\sharath-linkedin-posts.txt
+[17:44:33]   → 7 beliefs
+[17:44:45]   → 3 stories
+[17:45:15]   → 16 style rules
+[17:45:27]   → 4 thinking models
+[17:45:27] Chunk 30/55 — 39 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[17:45:41]   → 6 beliefs
+[17:45:59]   → 6 stories
+[17:46:13]   → 5 style rules
+[17:46:27]   → 5 thinking models
+[17:46:27]   Saving incremental graph (196b, 171s, 278r, 135m)
+[17:46:33] Chunk 31/55 — 1330 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[17:46:57]   → 7 beliefs
+[17:47:23]   → 6 stories
+[17:47:57]   → 11 style rules
+[17:48:09]   → 3 thinking models
+[17:48:09] Chunk 32/55 — 4340 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[17:48:38]   → 6 beliefs
+[17:49:08]   → 4 stories
+[17:49:51]   → 8 style rules
+[17:50:30]   → 5 thinking models
+[17:50:30] Chunk 33/55 — 6181 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[17:51:06]   → 7 beliefs
+[17:52:16]   → 7 stories
+[17:56:22]   → 14 style rules
+[17:56:51]   → 5 thinking models
+[17:56:51] Chunk 34/55 — 3493 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[17:57:15]   → 7 beliefs
+[17:57:37]   → 3 stories
+[17:58:16]   → 12 style rules
+[17:58:33]   → 4 thinking models
+[17:58:33] Chunk 35/55 — 5050 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[17:59:00]   → 7 beliefs
+[17:59:42]   → 5 stories
+[18:01:45]   → 18 style rules
+[18:02:10]   → 5 thinking models
+[18:02:10] Chunk 36/55 — 5908 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:02:51]   → 7 beliefs
+[18:03:53]   → 6 stories
+[18:04:52]   → 18 style rules
+[18:05:15]   → 5 thinking models
+[18:05:15] Chunk 37/55 — 4619 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:06:06]   → 16 beliefs
+[18:06:46]   → 5 stories
+[18:07:41]   → 18 style rules
+[18:08:16]   → 5 thinking models
+[18:08:16] Chunk 38/55 — 4729 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:09:11]   → 7 beliefs
+[18:10:18]   → 5 stories
+[18:12:03]   → 19 style rules
+[18:12:53]   → 5 thinking models
+[18:12:53] Chunk 39/55 — 6172 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:13:56]   → 7 beliefs
+[18:15:08]   → 7 stories
+[18:16:09]   → 20 style rules
+[18:16:32]   → 5 thinking models
+[18:16:32] Chunk 40/55 — 1106 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:16:49]   → 6 beliefs
+[18:16:58]   → 1 stories
+[18:17:49]   → 15 style rules
+[18:18:20]   → 5 thinking models
+[18:18:20]   Saving incremental graph (273b, 220s, 431r, 182m)
+[18:18:21] Chunk 41/55 — 5487 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:19:08]   → 7 beliefs
+[18:20:02]   → 7 stories
+[18:22:38]   → 12 style rules
+[18:23:13]   → 5 thinking models
+[18:23:13] Chunk 42/55 — 721 chars from D:\projects\personal_graph\digital-dna\data\founder-data\story-bank-sharath.md
+[18:23:42]   → 5 beliefs
+[18:24:41]   → 11 stories
+[18:25:19]   → 8 style rules
+[18:25:43]   → 5 thinking models
+[18:25:43] Chunk 43/55 — 38 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:26:07]   → 6 beliefs
+[18:26:45]   → 7 stories
+[18:27:14]   → 6 style rules
+[18:27:31]   → 4 thinking models
+[18:27:31] Chunk 44/55 — 876 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:27:57]   → 6 beliefs
+[18:28:33]   → 6 stories
+[18:29:07]   → 8 style rules
+[18:29:31]   → 5 thinking models
+[18:29:31] Chunk 45/55 — 3834 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:30:11]   → 7 beliefs
+[18:30:57]   → 7 stories
+[18:33:38]   → 17 style rules
+[18:34:16]   → 5 thinking models
+[18:34:16] Chunk 46/55 — 2433 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:34:53]   → 7 beliefs
+[18:35:29]   → 4 stories
+[18:36:18]   → 11 style rules
+[18:37:01]   → 8 thinking models
+[18:37:01] Chunk 47/55 — 1410 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:37:33]   → 7 beliefs
+[18:38:05]   → 5 stories
+[18:39:13]   → 13 style rules
+[18:39:36]   → 5 thinking models
+[18:39:37] Chunk 48/55 — 955 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:40:04]   → 7 beliefs
+[18:40:51]   → 8 stories
+[18:41:33]   → 11 style rules
+[18:41:56]   → 5 thinking models
+[18:41:56] Chunk 49/55 — 3737 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:42:38]   → 7 beliefs
+[18:43:35]   → 9 stories
+[18:46:37]   → 13 style rules
+[18:47:09]   → 5 thinking models
+[18:47:09] Chunk 50/55 — 3262 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:47:45]   → 6 beliefs
+[18:48:44]   → 7 stories
+[18:51:18]   → 14 style rules
+[18:52:13]   → 11 thinking models
+[18:52:13]   Saving incremental graph (338b, 291s, 544r, 240m)
+[18:52:14] Chunk 51/55 — 2460 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:52:50]   → 7 beliefs
+[18:53:33]   → 6 stories
+[18:54:09]   → 6 style rules
+[18:54:39]   → 5 thinking models
+[18:54:39] Chunk 52/55 — 4702 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:56:56]   → 10 beliefs
+[18:57:44]   → 6 stories
+[18:58:31]   → 8 style rules
+[18:59:05]   → 5 thinking models
+[18:59:05] Chunk 53/55 — 1097 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[18:59:35]   → 7 beliefs
+[18:59:48]   → 1 stories
+[19:00:41]   → 11 style rules
+[19:01:02]   → 4 thinking models
+[19:01:02] Chunk 54/55 — 1440 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[19:01:29]   → 6 beliefs
+[19:01:54]   → 3 stories
+[19:03:01]   → 17 style rules
+[19:03:26]   → 5 thinking models
+[19:03:26] Chunk 55/55 — 1123 chars from D:\projects\personal_graph\digital-dna\data\founder-data\voice-dna-sharath-v2.md
+[19:03:53]   → 7 beliefs
+[19:04:20]   → 4 stories
+[19:04:58]   → 8 style rules
+[19:05:20]   → 4 thinking models
+[19:05:20]   Saving incremental graph (375b, 311s, 594r, 263m)
+[19:05:21] Extraction complete: 375b, 311s, 594r, 263m
+[19:42:43] Vocabulary: 10 used, 26 banned
+[19:43:45] Personality card: 3618 chars
+[19:43:46] Final graph: 338 nodes, 1819 edges
+[19:43:51] Ingestion complete!

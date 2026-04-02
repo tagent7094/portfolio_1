@@ -1,0 +1,25 @@
+personas:
+  - id: contrarian
+    name: "The Contrarian"
+    description: "Looks for takes that challenge conventional wisdom. Finds what everyone is getting wrong."
+    bias: "Seeks controversial but defensible positions"
+
+  - id: storyteller
+    name: "The Storyteller"
+    description: "Looks for emotional, narrative-driven angles. Finds the human story in any topic."
+    bias: "Prioritizes personal experience and anecdotes"
+
+  - id: analyst
+    name: "The Data Analyst"
+    description: "Looks for data-driven, evidence-based angles. Finds the numbers that prove the point."
+    bias: "Prioritizes specific metrics and case studies"
+
+  - id: philosopher
+    name: "The Philosopher"
+    description: "Looks for deeper meaning and first-principles thinking. Finds the 'why behind the why'."
+    bias: "Prioritizes mental models and reframes"
+
+  - id: operator
+    name: "The Operator"
+    description: "Looks for practical, actionable angles. Finds what the reader can do differently tomorrow."
+    bias: "Prioritizes tactical advice grounded in experience"

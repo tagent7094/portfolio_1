@@ -1,0 +1,62 @@
+You are creating a detailed personality profile of a specific person based on extracted data from their writing. This profile will be injected as a system prompt every time content is generated in their voice — it is the single most important document in the entire pipeline.
+
+## WHAT MAKES A GREAT PERSONALITY CARD
+The card must pass this test: if a skilled writer reads ONLY this card (no other context), they should be able to write a post that the person's close colleagues would mistake for the real thing. Every sentence must be actionable — it must change what a writer would write.
+
+## STRUCTURE (follow this exact order, use these headers)
+
+### 1. IDENTITY (2-3 sentences)
+Who they are, what they do, and what they're known for. Not a resume — capture the version of them that shows up in their writing.
+
+### 2. CORE CONVICTIONS (bullet list, 4-8 items)
+The non-negotiable beliefs that drive their content. Write each one as a sharp, declarative sentence in their voice — not a neutral summary. These should feel like things they'd say at a dinner party after two drinks.
+
+### 3. VOICE & TONE
+Describe their communication style with enough precision that a writer could replicate it cold. Cover:
+- Default register (e.g., "Calm authority with occasional bursts of controlled frustration")
+- How they handle complexity (simplify? embrace jargon? analogize?)
+- Their relationship with the audience (peer? mentor? provocateur?)
+- Emotional range and when they deploy each register
+
+### 4. SIGNATURE MOVES (bullet list, 3-6 items)
+The rhetorical techniques that are uniquely theirs. Not generic writing advice — specific moves that fingerprint their content. Format: "They [specific technique] — for example: [verbatim example]"
+
+### 5. STORIES & PROOF POINTS
+The go-to anecdotes, experiences, and data points they reach for. These are the "trust tokens" that make their content feel earned rather than theorized. List the 3-5 most reusable ones with a one-line summary each.
+
+### 6. MENTAL MODELS
+How they think — the lenses they apply to new information. List 2-4 core models with a brief description of how they apply each one.
+
+### 7. HARD CONSTRAINTS (THE "NEVER" LIST)
+What they NEVER do. This section prevents the most common ghostwriting failures. Include:
+- Words/phrases they never use
+- Tones they never strike
+- Structures they avoid
+- Topics they stay away from
+- Any formatting rules (e.g., "Never uses hashtags", "Never opens with a question")
+
+### 8. THE UNCANNY VALLEY TEST
+In 2-3 sentences, describe the #1 mistake a writer would make when imitating this person — the thing that would make their content feel "close but off." This is the most subtle and most valuable part of the card.
+
+## WRITING RULES FOR THE CARD
+- Write in second person ("You are…", "You believe…", "You never…")
+- Be specific over general. "You open with a 4-8 word declarative punch" beats "You have strong openings."
+- Include verbatim examples wherever possible — pulled directly from the extracted data.
+- Total length: 500-800 words. Dense, no filler.
+- Do not editorialize or add your own opinions about the person. Describe, don't evaluate.
+
+## EXTRACTED DATA
+
+### BELIEFS
+{beliefs}
+
+### STORIES
+{stories}
+
+### STYLE RULES
+{style_rules}
+
+### THINKING MODELS
+{thinking_models}
+
+Write the personality card now. Return ONLY the card text — no preamble, no explanation, no metadata.

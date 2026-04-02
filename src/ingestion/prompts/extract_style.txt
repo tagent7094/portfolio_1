@@ -1,0 +1,96 @@
+You are analyzing the WRITING STYLE of a specific person. Extract the structural patterns, rhetorical moves, and voice constraints that define HOW they write.
+
+## THE 12 ESSENTIAL PATTERNS TO LOOK FOR
+
+### TIER 1: STRUCTURAL (How Posts Are Built)
+1. **Paradoxical Opening** — Starts with something that FEELS WRONG. [Desired trait] = [Disaster outcome].
+   Example: "The most dangerous hires I've made were the ones who had all the answers"
+2. **Accumulative Evidence** — NOT linear (A→B→C) but STACKING (A + A + A). Each sentence reinforces the SAME point until it's undeniable.
+3. **Signature Phrases** — Exact transitions they reuse: "Here's what people miss...", "Here's what separates them...", "Here's the second-order effect..."
+4. **"Meanwhile" Ironic Contrast** — [What should happen] + "Meanwhile" + [Ironic opposite].
+
+### TIER 2: RHYTHM (How Sentences Flow)
+5. **Rhetorical Question → Immediate Answer** — Question creates tension, answer is SHORT (3-8 words max).
+6. **"Not X, Y" Correction** — "It's not [what people think]. It's [what it actually is]."
+7. **Setup-Punch Combo** — Longer buildup → 5-10 word declarative punch.
+8. **Extreme Compression** — Contractions ALWAYS, 15-18 word max sentences, delete every word that doesn't carry weight.
+
+### TIER 3: TONE (How It Sounds)
+9. **Present Tense Observation** — "I see this pattern" not "I saw this pattern"
+10. **Earned Cynicism** — Cynical about narratives and trends, constructive about actions and solutions. NOT bitter.
+11. **Casual Authority Blend** — "Here's what I've learned...", "I'll take X over Y every time"
+12. **Negative Definitions** — "Stop X. Start Y." Define success by what NOT to do.
+
+## VOICE CONSTRAINTS (EQUALLY IMPORTANT)
+- Hyphens (-) not em-dashes (—)
+- Sentence rhythm FLOWS with commas, PIVOTS with "but" — NOT staccato punch-punch-punch
+- No hashtags
+- No emojis (except very rare strategic use)
+- No hedge words ("maybe", "perhaps", "I think", "arguably")
+- No engagement bait ("What do you think?", "Thoughts?")
+- No bullet point lists in prose
+- Contractions everywhere ("I've" not "I have")
+
+## SENTENCE RHYTHM PATTERNS (from Voice DNA)
+- **Certainty compresses** — When certain, sentences get SHORT and declarative. When building a story, sentences breathe with detail and specificity.
+- **Commas for momentum** — Two thoughts in the same exhale get a comma. A verdict gets a period. This creates a reading rhythm that feels like thinking out loud.
+- **Three-beat stack** — Builds pressure through parallel structure, almost always three beats. By the third, conviction is established through accumulation, not logic.
+- **Concession-then-counter** — Gives ground ("Sure, X. But Y.") before taking it back harder. The concession makes the counter feel fair and earned.
+
+## OPENING LINE MECHANICS
+Extract these as rule_type="opening":
+- **Bold declarative** — Immediate tension in a single sentence. No build-up. Sounds like mid-argument at a dinner table.
+- **Personal number + contrarian claim** — "I've built companies worth $2B+ combined..." followed by a stance no one expects.
+- **The reframe opener** — Names a familiar thing, then reveals it's actually something else entirely.
+- **NEVER opens with:** a question, someone else's quote, "Everyone says...", soft build to a punch, "In today's..."
+
+## CLOSING LINE MECHANICS
+Extract these as rule_type="closing":
+- **The verdict** — Single line that reframes or elevates everything above. Not a summary — a conclusion the reader didn't expect.
+- **Operational directive with philosophical weight** — A concrete instruction that carries deeper meaning.
+- **NEVER closes with:** "What do you think?", a CTA, inspirational one-liner, "Like if you agree", softened landing, or hashtags.
+
+## ANTI-PATTERNS TO FLAG (from Ghostwriting System)
+When extracting style_rules, also capture these as anti_pattern entries:
+### Structural anti-patterns:
+- Mirrored parallel structures in pairs/triples (one is fine, two+ is an AI flag)
+- Staccato fragment chains ("Not retention. Not performance. Seats." — sounds like a machine)
+- Perfect symmetry in contrasts (real speech is asymmetric — one side gets more detail)
+- Clean one-liner closer for every section (formulaic)
+### Language anti-patterns:
+- Rhetorical questions as transitions ("But what does that really mean?")
+- Product-page phrasing that could appear on a SaaS landing page
+- Hedge stacking (two+ qualifiers in sequence: "arguably perhaps somewhat")
+### Tone anti-patterns:
+- Performing authority instead of demonstrating it (asserting expertise vs. showing it)
+- Apologetic framing ("I know this is controversial but...")
+- Celebrating own insight ("And that's when I realized something profound")
+
+## WHAT IS NOT A STYLE RULE (do NOT extract these)
+❌ "Believes AI augments rather than replaces" — that's a BELIEF
+❌ "Analyzes incentive structures" — that's a THINKING MODEL
+❌ "Tells story about fundraising" — that's a STORY
+
+## TEXT TO ANALYZE
+
+{text}
+
+## OUTPUT FORMAT
+
+Return a JSON array. Max 5-8 rules per chunk. Prioritize UNIQUE patterns not already obvious from the pattern list above. If a pattern matches one of the 12 above, reference it by name.
+
+```json
+[
+  {{
+    "id": "snake_case_identifier",
+    "rule_type": "opening | closing | rhythm | rhetorical_move | vocabulary | punctuation | pronoun | formatting",
+    "description": "Clear, actionable description a ghostwriter could follow",
+    "examples": ["verbatim example from text"],
+    "anti_pattern": "What they NEVER do — be specific, or null",
+    "platform": "linkedin | twitter | email | universal",
+    "strength": "signature | frequent | occasional"
+  }}
+]
+```
+
+If the text shows NO distinctive style patterns (generic writing), return `[]`.
