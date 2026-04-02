@@ -7,6 +7,21 @@ echo "==========================================="
 echo "🚀 Digital DNA - Mac Initializer"
 echo "==========================================="
 
+# 🛠️ Fix: Ensure npm/node are in the PATH (especially for NVM/Homebrew users)
+# This loads common shell profiles where Node might be defined
+[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
+[ -s "$HOME/.bash_profile" ] && source "$HOME/.bash_profile"
+[ -s "$HOME/.zshrc" ] && source "$HOME/.zshrc"
+# Add common Homebrew/Node paths just in case
+export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+
+if ! command -v npm &> /dev/null; then
+    echo "❌ Error: 'npm' not found. Please install Node.js from https://nodejs.org/"
+    echo "Press any key to exit..."
+    read -n 1
+    exit 1
+fi
+
 echo "🔄 Syncing latest changes from repository..."
 if [ -d ".git" ]; then
     CURRENT_BRANCH=$(git branch --show-current)
