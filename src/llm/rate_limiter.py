@@ -56,6 +56,9 @@ PROVIDER_SPECS: dict[str, dict[str, ProviderSpec]] = {
     "nvidia": {
         "_default": ProviderSpec(rpm=30, context_window=32000, max_output_tokens=4096, chars_per_token=4.0),
     },
+    "openrouter": {
+        "_default": ProviderSpec(rpm=20, context_window=128000, max_output_tokens=8192, chars_per_token=4.0),
+    },
     "lmstudio": {
         "_default": ProviderSpec(rpm=0, context_window=8192, max_output_tokens=2048, chars_per_token=4.0, is_local=True),
     },

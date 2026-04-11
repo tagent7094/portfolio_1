@@ -554,14 +554,20 @@ async def get_coverage(founder_slug: str):
 
 @app.post("/api/ingest")
 async def run_ingest():
-    logger.info("[run_ingest] Starting founder data ingestion...")
+    # Resolve active founder's data directory
+    from src.config.founders import get_active_founder
+    active = get_active_founder()
+    data_dir = active.get("data_dir", str(PROJECT_ROOT / "data" / "founder-data"))
+    founder_slug = active.get("slug", "sharath")
+    logger.info("[run_ingest] Starting ingestion for founder=%s data_dir=%s", founder_slug, data_dir)
+
     try:
         # Run with output visible in terminal — fix env var that breaks Anthropic SDK
         import os as _os
         clean_env = {**_os.environ, "ANTHROPIC_BASE_URL": "https://api.anthropic.com"}
         result = await asyncio.to_thread(
             lambda: subprocess.run(
-                [sys.executable, "-m", "src.cli", "ingest"],
+                [sys.executable, "-m", "src.cli", "ingest", "--data-dir", data_dir],
                 cwd=str(PROJECT_ROOT),
                 text=True,  # No timeout — let it run to completion
                 stdout=sys.stdout, stderr=sys.stderr,
@@ -880,6 +886,7 @@ class PostCustomizeRequest(BaseModel):
     creativity_tone: float = 0.5
     platform: str = "linkedin"
     num_variants: int = 5
+    skip_voting: bool = True
 
 @app.get("/api/posts/browse")
 async def browse_posts(
@@ -932,6 +939,16 @@ async def customize_post(data: PostCustomizeRequest):
         # Save output
         save_to_history(result.customized, data.platform)
 
+        # Track node coverage
+        try:
+            from src.tracking.node_usage import track_node_usage
+            from src.graph.store import load_graph
+            gp = _graph_path(data.founder_slug)
+            graph = load_graph(gp)
+            track_node_usage(result.customized, graph, result.topic, data.platform, data.founder_slug or _active_founder_slug())
+        except Exception:
+            logger.warning("Coverage tracking failed for customize", exc_info=True)
+
         return {
             "status": "ok",
             "original": result.original,
@@ -967,11 +984,21 @@ async def customize_post_full(data: PostCustomizeRequest):
         try:
             result = await asyncio.to_thread(
                 customize_post_full_pipeline,
-                data.text, data.founder_slug, creativity, data.platform, event_bus, data.num_variants,
+                data.text, data.founder_slug, creativity, data.platform, event_bus, data.num_variants, data.skip_voting,
             )
             # Save output
             if result.get("customized"):
                 save_to_history(result.get("customized"), data.platform)
+
+                # Track node coverage
+                try:
+                    from src.tracking.node_usage import track_node_usage
+                    from src.graph.store import load_graph
+                    gp = _graph_path(data.founder_slug)
+                    graph = load_graph(gp)
+                    track_node_usage(result["customized"], graph, result.get("topic", ""), data.platform, data.founder_slug or _active_founder_slug())
+                except Exception:
+                    logger.warning("Coverage tracking failed for full customize", exc_info=True)
 
             event_bus.emit(PipelineEvent(stage="done", status="pipeline_done", data=result))
         except Exception as e:

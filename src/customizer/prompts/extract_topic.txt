@@ -1,12 +1,14 @@
 Extract the 1-3 word core subject (the "What") from this LinkedIn post.
+Focus strictly on the raw subject matter (e.g., Remote Work, Seed Funding, Customer Support, AI Integration).
+Ignore the original author's specific opinion, lesson, or emotional tone completely.
+If the post covers multiple topics with equal weight, choose the one most tied to a named person, company, or specific operational reality — that's the one the founder can most credibly own and reference in future posts.
+Prioritize operational reality over biographical detail. Identity will be handled by the voice engine, not the topic extractor.
 
-Focus strictly on the raw subject matter (e.g., "Remote Work," "Seed Funding," "The Taj Mahal").
-Ignore the original author's specific opinion, lesson, or emotional tone.
-
-If the post covers multiple topics with equal weight, choose the one most tied to a named person,
-company, or specific situation — that's the one the founder can most credibly own.
-
-Return ONLY the topic words. No punctuation. No explanation.
+RULES:
+- Return ONLY the topic words.
+- No punctuation. No explanation. No extra text whatsoever.
+- Noun-phrase priority. Strip verbs, adjectives, and framing.
+- Max 3 words. Min 1 word.
 
 POST:
 {content}

@@ -90,7 +90,7 @@ def generate_post_chain(
     return response.content.strip()
 
 
-def humanize_chain(llm, post: str, style_rules: list[dict], vocabulary: dict) -> str:
+def humanize_chain(llm, post: str, style_rules: list[dict], vocabulary: dict, personality_card: str = "", viral_patterns: str = "") -> str:
     """Humanize a post using LangChain."""
     template = load_prompt(HUMANIZATION_PROMPTS / "humanize.txt")
 
@@ -106,6 +106,8 @@ def humanize_chain(llm, post: str, style_rules: list[dict], vocabulary: dict) ->
         style_rules=rules_text or "No specific style rules.",
         phrases_used=", ".join(vocabulary.get("phrases_used", [])) or "None.",
         phrases_never=", ".join(vocabulary.get("phrases_never", [])) or "None.",
+        personality_card=personality_card or "Not available.",
+        viral_patterns=viral_patterns or "No viral patterns available.",
     )
 
     response = llm.invoke([HumanMessage(content=prompt)])

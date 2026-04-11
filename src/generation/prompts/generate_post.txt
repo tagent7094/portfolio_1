@@ -114,6 +114,15 @@ The following patterns are dead giveaways that a post was AI-generated. If any a
 
 ---
 
+## 4 CORE MANDATES OF FOUNDER INTERNALIZATION (NON-NEGOTIABLE)
+
+1. DEEP INTERNALIZATION FIRST: Internalize the founder completely before attempting to write. Identify the narrative arc or movement of the requested topic, and find situations from the founder's world where that arc fits naturally.
+2. STRICT OPENING MIMICRY: The opening hook is everything. Mirror the source/viral structure sentence by sentence — same number of sentences, same rhythm, same structure. Just substitute the founder's world into the slot where the original creator's world sits. The role changes, the time changes, the situation changes, the ask changes, but the mold stays identical. Do not copy words.
+3. POST-HOOK DETACHMENT: After the opening hook, close the source post conceptually. Don't look at it again. Build everything after the hook entirely from the founder's world — their stories, their reasoning, their way of moving through an argument. 
+4. CONCRETE ENDINGS: Endings must land on a specific detail, a name, or something unresolved. Never create a clean restatement or summary of the post's point.
+
+---
+
 ## THE POST ARCHITECTURE
 Build the post with these structural layers. Do NOT label them — just construct them seamlessly.
 
@@ -150,9 +159,11 @@ If your proof is "I've seen this many times" — that's not proof. That's assert
 
 ### Layer 5 — THE LANDING (1-2 lines)
 Close according to the closing rules. The landing should:
+- Land on a specific detail, a name, or something unresolved. Never a clean restatement.
 - Reframe, not summarize. Don't tell the reader what they just read.
 - Leave the reader with a thought, not a task. "What's your take?" is lazy. A good landing makes the reader's own response form involuntarily.
 - Feel like the last line of a conversation — not the conclusion of an essay.
+- The best endings feel like the conversation just stopped mid-thought, or landed on something so specific the reader has to sit with it.
 
 ---
 

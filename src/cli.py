@@ -164,42 +164,84 @@ def ingest(
 
     _write_log(f"Ingestion started: {len(text_chunks)} chunks, resuming from chunk {start_chunk}")
 
+    # Track consecutive failures to detect fatal errors (billing, auth)
+    consecutive_failures = 0
+    FATAL_ERROR_KEYWORDS = ["credit balance is too low", "authentication", "invalid api key", "unauthorized", "forbidden"]
+
+    def _is_fatal(error_msg: str) -> bool:
+        msg_lower = str(error_msg).lower()
+        return any(kw in msg_lower for kw in FATAL_ERROR_KEYWORDS)
+
     for i in range(start_chunk, len(text_chunks)):
         chunk = text_chunks[i]
         console.print(f"  Processing chunk {i + 1}/{len(text_chunks)}...")
         _write_log(f"Chunk {i + 1}/{len(text_chunks)} — {len(chunk.text)} chars from {chunk.source_file}")
 
+        chunk_had_failure = False
+
         try:
             new_beliefs = extract_beliefs(chunk.text, llm)
             all_beliefs.extend(new_beliefs)
-            _write_log(f"  → {len(new_beliefs)} beliefs")
+            _write_log(f"  -> {len(new_beliefs)} beliefs")
         except Exception as e:
-            _write_log(f"  ✗ beliefs failed: {e}")
+            _write_log(f"  x beliefs failed: {e}")
             console.print(f"    [red]Beliefs extraction failed: {e}[/red]")
+            chunk_had_failure = True
+            if _is_fatal(e):
+                console.print(f"\n  [bold red]FATAL: {e}[/bold red]")
+                console.print(f"  [red]Aborting ingestion. Fix the issue and re-run to resume from chunk {i}.[/red]")
+                _write_log(f"FATAL ERROR — aborting: {e}")
+                raise typer.Exit(1)
 
         try:
             new_stories = extract_stories(chunk.text, llm)
             all_stories.extend(new_stories)
-            _write_log(f"  → {len(new_stories)} stories")
+            _write_log(f"  -> {len(new_stories)} stories")
         except Exception as e:
-            _write_log(f"  ✗ stories failed: {e}")
+            _write_log(f"  x stories failed: {e}")
             console.print(f"    [red]Stories extraction failed: {e}[/red]")
+            chunk_had_failure = True
+            if _is_fatal(e):
+                console.print(f"\n  [bold red]FATAL: {e}[/bold red]")
+                _write_log(f"FATAL ERROR — aborting: {e}")
+                raise typer.Exit(1)
 
         try:
             new_rules = extract_style_rules(chunk.text, llm)
             all_style_rules.extend(new_rules)
-            _write_log(f"  → {len(new_rules)} style rules")
+            _write_log(f"  -> {len(new_rules)} style rules")
         except Exception as e:
-            _write_log(f"  ✗ style rules failed: {e}")
+            _write_log(f"  x style rules failed: {e}")
             console.print(f"    [red]Style rules extraction failed: {e}[/red]")
+            chunk_had_failure = True
+            if _is_fatal(e):
+                console.print(f"\n  [bold red]FATAL: {e}[/bold red]")
+                _write_log(f"FATAL ERROR — aborting: {e}")
+                raise typer.Exit(1)
 
         try:
             new_models = extract_thinking_models(chunk.text, llm)
             all_models.extend(new_models)
-            _write_log(f"  → {len(new_models)} thinking models")
+            _write_log(f"  -> {len(new_models)} thinking models")
         except Exception as e:
-            _write_log(f"  ✗ thinking models failed: {e}")
+            _write_log(f"  x thinking models failed: {e}")
             console.print(f"    [red]Thinking models extraction failed: {e}[/red]")
+            chunk_had_failure = True
+            if _is_fatal(e):
+                console.print(f"\n  [bold red]FATAL: {e}[/bold red]")
+                _write_log(f"FATAL ERROR — aborting: {e}")
+                raise typer.Exit(1)
+
+        # Track consecutive all-fail chunks (provider might be down)
+        if chunk_had_failure:
+            consecutive_failures += 1
+            if consecutive_failures >= 3:
+                console.print(f"\n  [bold red]3 consecutive chunks failed. Provider may be down or out of credits.[/bold red]")
+                console.print(f"  [red]Aborting. Resume from chunk {i + 1} when ready.[/red]")
+                _write_log(f"ABORT: 3 consecutive failures at chunk {i + 1}")
+                raise typer.Exit(1)
+        else:
+            consecutive_failures = 0
 
         # ── Save checkpoint after every chunk ──
         checkpoint_path.parent.mkdir(parents=True, exist_ok=True)

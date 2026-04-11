@@ -93,6 +93,15 @@ This is the new dimension and it's arguably the most important for the pipeline.
 
 ---
 
+## FOUNDER INTERNALIZATION & VIRAL MIMICRY (MANDATE CHECK)
+Evaluate these heavily. If the post violates these, cap the composite score at 5:
+1. **Deep Internalization**: Is the post reliant entirely on the founder's specific context, history, and narrative arc?
+2. **Opening Mimicry/Tension**: Does the hook use strong structural tension without feeling generic or fabricated?
+3. **Post-Hook Detachment**: After the hook, is the post decoupled from standard templates and built fully from the founder's world?
+4. **Concrete Endings**: Does the post end on a specific detail, name, or unsettled thought? (If it summarizes or uses a CTA, it fundamentally violates the rules.)
+
+---
+
 ## COMPOSITE SCORING
 
 The composite is NOT a simple average. Weight it based on what matters most for ghostwritten content:
@@ -126,35 +135,22 @@ If you find yourself routinely scoring above 7, you're calibrated too high.
 
 Return a JSON object:
 
-```
 {{
   "voice_fidelity": <0-10>,
   "hook_strength": <0-10>,
   "argument_quality": <0-10>,
   "engagement_prediction": <0-10>,
   "ai_slop_detection": <0-10>,
-
   "composite": <weighted average using formula above, rounded to 1 decimal>,
-
   "weakest_dimension": "name of the lowest-scoring dimension",
   "strongest_dimension": "name of the highest-scoring dimension",
-
   "ai_slop_flags": [
     "<specific slop pattern detected, with the exact phrase or moment from the post. Empty array if none.>"
   ],
-
   "voice_breaks": [
     "<specific moment in the post where the voice stopped sounding like the founder. Quote the phrase. Empty array if none.>"
   ],
-
   "one_line_fix": "The single most impactful edit that would raise the composite score. Be surgical — not 'make it better' but 'replace [specific line] with [specific alternative]' or 'cut the paragraph starting with [X] — it's assertion without evidence.' Must reference the actual post content.",
-
   "publish_ready": <true if composite >= 7.5 and no dimension below 5 and ai_slop_detection >= 7, false otherwise>,
-
   "revision_priority": "Which dimension should the refine step focus on first? Name the dimension AND why. 1 sentence."
 }}
-```
-
----
-
-Return ONLY the JSON object. Nothing else — no preamble, no explanation, no markdown fences.

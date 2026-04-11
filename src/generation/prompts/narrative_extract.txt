@@ -24,6 +24,9 @@ A narrative angle is NOT:
 - A topic that was mentioned (topics are not angles)
 - A generic insight that any smart person in the industry could articulate
 
+**DEEP INTERNALIZATION MANDATE**: 
+A narrative angle MUST emerge entirely from the founder's lived experiences, specific stories, or deep beliefs. It must rely strictly on the founder's world. If it sounds like generic advice wearing a founder's mask, discard it.
+
 A narrative angle IS:
 - A specific, arguable position that emerged from something the founder SAID or EXPERIENCED in this transcript
 - Something that would make a reader think "wait, really?" or "I never thought about it that way"

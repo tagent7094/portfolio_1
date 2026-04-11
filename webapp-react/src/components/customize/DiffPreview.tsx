@@ -23,11 +23,18 @@ export default function DiffPreview({ result }: Props) {
   const [selectionRange, setSelectionRange] = useState<[number, number] | null>(null)
   const [rewriteCommand, setRewriteCommand] = useState('')
   const [isRewriting, setIsRewriting] = useState(false)
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0)
+  const variants = result.all_variants || []
+  const hasVariants = variants.length > 1
   const activeFounder = useFounderStore(s => s.active)
 
   useEffect(() => {
-    setFinalPost(cleanReasoning(result.customized))
-  }, [result])
+    if (variants[selectedVariantIndex]) {
+      setFinalPost(cleanReasoning(variants[selectedVariantIndex].text))
+    } else {
+      setFinalPost(cleanReasoning(result.customized))
+    }
+  }, [result, selectedVariantIndex, variants])
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(finalPost)
@@ -75,7 +82,37 @@ export default function DiffPreview({ result }: Props) {
 
   return (
     <div className="space-y-4">
-      <h4 className="text-sm font-medium text-gray-300">Result</h4>
+      <div className="flex items-center justify-between">
+        <h4 className="text-sm font-medium text-gray-300">Result</h4>
+        {hasVariants && (
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">Variant:</span>
+            <div className="flex gap-1">
+              {variants.map((v, i) => (
+                <button
+                  key={v.id || i}
+                  onClick={() => setSelectedVariantIndex(i)}
+                  className={clsx(
+                    'flex h-6 w-6 items-center justify-center rounded text-xs font-medium transition-colors',
+                    selectedVariantIndex === i
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                  )}
+                  title={v.strategy || v.engine_name}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {hasVariants && (
+        <div className="text-xs font-medium text-indigo-400 italic">
+          Strategy: {variants[selectedVariantIndex].strategy || variants[selectedVariantIndex].engine_name}
+        </div>
+      )}
 
       {/* Topic & context info */}
       {result.topic && (

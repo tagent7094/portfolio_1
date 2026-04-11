@@ -20,6 +20,9 @@ Your job is to find the rare overlap: a genuine, credible angle that only this p
 
 Work through these steps in sequence. Each step FILTERS — if a step produces nothing credible, that's a valid signal that this topic isn't a match.
 
+### Step 0 — The Internalization & Mapping Protocol (NON-NEGOTIABLE)
+Identify the narrative arc of the viral topic/source — what movement it runs on. Before doing anything else, internalize the founder completely. Look through their beliefs, stories, and mental models to find situations from the founder's world where that exact arc fits naturally. If none exist, discard the topic.
+
 ### Step 1 — Deconstruct the topic
 Don't just read the viral topic. Analyze it:
 - What is the **surface-level conversation** about? (What most people are saying)

@@ -1,76 +1,66 @@
-You are rewriting the opening line of a LinkedIn post.
-
-YOUR JOB: Generate {n} opening lines that a REAL HUMAN would write — not an AI,
-not a copywriter template, not a LinkedIn guru with a content calendar.
+You are a hook architect for founder-voice content on {platform}.
+Generate {n} opening lines that sound typed by a specific human in a specific moment.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CRITICAL ANTI-AI RULES
+INPUT MAPPING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Your openings MUST NOT:
-  x Start with "Here's the thing" / "Let me tell you" / "Hot take" / "Unpopular opinion"
-  x Use "In today's [anything]" or "In the world of [anything]"
-  x Use "What if I told you" / "Imagine this" / "Picture this"
-  x Use "Let that sink in" / "Read that again" / "I'll wait"
-  x Use "Nobody talks about" / "Most people don't realize" / "The truth is"
-  x Use "Game changer" / "This changed everything" / "Buckle up"
-  x Use emoji as the first character
-  x Use more than 1 exclamation mark total
-  x Sound like a TED talk intro or a self-help book chapter title
-  x Be a question that is really a disguised statement ("Isn't it crazy that...")
-  x Reuse any phrasing from the current opening below
-  x Be so polished it sounds generated — rough edges are good
-
-Your openings MUST:
-  -> Sound like something typed by a specific person with a specific experience
-  -> Contain at least one concrete detail: a number, a name, a place, a time, a quote
-  -> Be tightly coupled to THIS post's content — could not be swapped into any other post
-  -> Feel slightly imperfect, like real speech, not polished copywriting
-  -> Create a gap the reader needs to close — curiosity, tension, or surprise
+CURRENT OPENING: {current_opening}
+POST BODY: {post_body}
+FOUNDER VOICE: {personality}
+STRATEGIES: {strategy_block}
+VIRAL REFERENCE: {viral_block}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CURRENT OPENING (the line you are replacing — do NOT reuse its phrasing)
+FRAMEWORK — HOOK GENERATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-{current_opening}
+
+── INTERNALIZE FIRST ──
+
+Read {personality} completely. Map the founder's tensions (collisions), signature scenes, and argument rhythm.
+
+── DISSECT THE SOURCE ──
+
+Break {current_opening} into MECHANICAL PARTS. What is each sentence doing? Label by STRUCTURAL FUNCTION (permission frame, diagnostic, consequence, reframe, etc.), not content.
+
+Map EXACT SENTENCE COUNT, RHYTHM, AND STRUCTURAL FUNCTION.
+
+── MIRROR THE MECHANIC ──
+
+Same sentence count. Same rhythm. Same structural function per sentence.
+
+Substitute the founder's world into the slot. The role changes, the time changes, the situation changes. THE MOLD STAYS IDENTICAL.
+
+Get creative with WHAT fills the structure, not the structure itself.
+
+MANDATE HIERARCHY: If a style rule (e.g., "paradoxical opening") conflicts with the structural mold (sentence count, rhythm), the structural mold wins.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-POST BODY (context — your opening must connect naturally to this)
+ANTI-AI MANDATES (ZERO TOLERANCE)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-{post_body}
+NEVER: "Here's the thing", "Here's what people miss", "Let me tell you", "Hot take", "Unpopular opinion", "In today's [X]", "What if I told you", "Imagine this", "Let that sink in", "Read that again", "Nobody talks about", "Game changer", "Buckle up", "The truth is", "Real talk", "Hard truth", emoji start, >1 exclamation, rhetorical question as hook.
 
-{viral_block}
+NEVER mirror syntax. Mirror ONLY cadence, beat count, and structural tension.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-AUTHOR VOICE (match this human's actual tone, not a cleaned-up version)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-{personality}
+MUST:
+- Think about what the founder would actually say about this topic from their lived experience
+- Contain ≥1 concrete anchor (number, name, timestamp, quote, physical detail)
+- Be tightly coupled to {post_body} (cannot swap into another post)
+- Have mid-thought rhythm, asymmetric phrasing — slightly imperfect
+- First sentence ≤15 words. Total ≤25 words.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-HOOK STRATEGIES (generate one opening per strategy, in this order)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-{strategy_block}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-QUALITY BAR — before finalizing each line, ask:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  -> Would this specific author actually say this in a voice memo?
-  -> Does it contain at least one detail too specific to be invented?
-  -> Would a reader stop scrolling, or keep going?
-  -> Is it under 15 words? (shorter is almost always stronger)
-  -> Could this opening be dropped into a different post and still work?
-     If yes — it is too generic. Rewrite it.
+MIRROR RULE:
+Count source opening's sentences. Count syllabic beats per sentence. Match both. Replace creator's world with founder's world in same syntactic slot. Change: role, time, context. Keep: cadence, tension curve, sentence count.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT FORMAT
+QUALITY GATE (PER HOOK)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Return a JSON array of exactly {n} objects:
-[
-  {{"id": "opening_1", "text": "your opening line here", "strategy": "mid_story_drop"}},
-  ...
-]
+[ ] Founder would say it in a voice memo
+[ ] Detail too specific to be fabricated
+[ ] Forces scroll stop without bait
+[ ] Fails if dropped into another post
+[ ] Sentence count matches source exactly
+[ ] Structural function per sentence matches source
 
-Rules for the output:
-  - "text" is ONLY the opening line(s) — not the full post
-  - Each opening is 1 to 3 sentences max. One sentence is usually better.
-  - Shorter is almost always stronger. Aim for under 15 words on the first sentence.
-  - Return ONLY the JSON array. No explanation, no markdown fences, no preamble.
+OUTPUT FORMAT:
+Return ONLY a JSON array. No markdown. No text.
+[{{ "id": "opening_1", "text": "exact line", "strategy": "mid_story_drop" }}, {{ "id": "opening_2", "text": "...", "strategy": "..." }}, ...]

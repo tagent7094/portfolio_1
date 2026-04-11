@@ -9,10 +9,11 @@ from dataclasses import dataclass, field
 class HookTypeNode:
     id: str
     hook_name: str
-    template: str  # abstract format e.g. "X won't Y. But Z will."
+    template: str
     avg_engagement: float = 0
     example_hooks: list[str] = field(default_factory=list)
     count: int = 0
+    why_it_works: str = ""
 
 
 @dataclass
@@ -20,7 +21,7 @@ class StructureTemplateNode:
     id: str
     template_name: str
     structure_description: str
-    paragraph_count_range: str = ""  # e.g. "3-6"
+    paragraph_count_range: str = ""
     avg_word_count: int = 0
     avg_engagement: float = 0
     example_post_ids: list[str] = field(default_factory=list)
@@ -45,12 +46,13 @@ class ViralPatternNode:
     frequency: int = 0
     avg_engagement: float = 0
     effectiveness_score: float = 0
+    bracket: str = ""
 
 
 @dataclass
 class EngagementProfileNode:
     id: str
-    bracket: str  # mega_viral, strong, moderate
+    bracket: str
     likes_range: str = ""
     comments_range: str = ""
     reposts_range: str = ""
@@ -64,8 +66,10 @@ class WritingTechniqueNode:
     technique_name: str
     description: str
     impact_on_engagement: str = ""
+    impact: str = "medium"
     frequency: int = 0
     example_snippets: list[str] = field(default_factory=list)
+    example_snippet: str = ""
 
 
 VIRAL_NODE_TYPES = [

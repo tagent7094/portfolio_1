@@ -13,6 +13,7 @@ from .lmstudio_provider import LMStudioProvider
 from .api_provider import APIProvider
 from .nvidia_provider import NvidiaProvider
 from .gemini_provider import GeminiProvider
+from .openrouter_provider import OpenRouterProvider
 
 # Load .env from project root
 _PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -49,6 +50,12 @@ PROVIDER_DEFAULTS = {
         "api_key_env": "",
         "default_model": "local-model",
         "models": [],
+    },
+    "openrouter": {
+        "base_url": os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"),
+        "api_key_env": "OPENROUTER_API_KEY",
+        "default_model": "z-ai/glm-4.5-air:free",
+        "models": ["z-ai/glm-4.5-air:free", "google/gemini-2.5-flash-preview", "anthropic/claude-sonnet-4", "openai/gpt-4o-mini", "meta-llama/llama-4-maverick:free", "deepseek/deepseek-chat-v3-0324:free"],
     },
     "ollama": {
         "base_url": os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434"),
@@ -97,12 +104,34 @@ def _resolve_api_key(llm_cfg: dict, provider: str) -> str:
 
 
 def _resolve_base_url(llm_cfg: dict, provider: str) -> str:
-    """Get base URL from config, then fall back to .env defaults."""
-    url = llm_cfg.get("base_url", "")
-    if url:
-        return url
+    """Get base URL for the provider.
+
+    Uses the provider's default URL unless the config explicitly overrides it.
+    Ignores stale base_url values left over from a different provider
+    (e.g. localhost:1234 when provider switched from lmstudio to nvidia).
+    """
     defaults = PROVIDER_DEFAULTS.get(provider, {})
-    return defaults.get("base_url", "")
+    default_url = defaults.get("base_url", "")
+
+    config_url = llm_cfg.get("base_url", "")
+    if not config_url:
+        return default_url
+
+    # Check if config_url looks like it belongs to a DIFFERENT provider
+    # (e.g. localhost when using a cloud provider, or a cloud URL when using local)
+    is_local_url = "localhost" in config_url or "127.0.0.1" in config_url
+    is_local_provider = provider in ("lmstudio", "ollama")
+
+    if is_local_url and not is_local_provider:
+        # Stale local URL for a cloud provider — use provider default instead
+        print(f"\033[36m[LLM Factory]\033[0m Ignoring stale base_url={config_url} for cloud provider {provider}, using default={default_url}", file=sys.stderr, flush=True)
+        return default_url
+    if not is_local_url and is_local_provider:
+        # Cloud URL for a local provider — use provider default instead
+        print(f"\033[36m[LLM Factory]\033[0m Ignoring stale base_url={config_url} for local provider {provider}, using default={default_url}", file=sys.stderr, flush=True)
+        return default_url
+
+    return config_url
 
 
 def create_llm(config_path: str = "config/llm-config.yaml", purpose: str = "generation") -> LLMProvider:
@@ -144,6 +173,8 @@ def create_llm(config_path: str = "config/llm-config.yaml", purpose: str = "gene
             enable_thinking=llm_cfg.get("enable_thinking", False),
             reasoning_budget=llm_cfg.get("reasoning_budget", 16384),
         )
+    elif provider == "openrouter":
+        instance = OpenRouterProvider(model=model, api_key=api_key, base_url=base_url)
     elif provider in ("anthropic", "openai"):
         instance = APIProvider(
             provider=provider, model=model, api_key=api_key,

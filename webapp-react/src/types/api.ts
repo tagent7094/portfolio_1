@@ -182,7 +182,8 @@ export interface CustomizationResult {
   founder_context: any
   viral_context: any
   traceability?: Traceability
-  all_variants?: { id: string; engine_name: string; text: string }[]
+  all_variants?: { id: string; engine_name: string; strategy?: string; text: string; quality?: number }[]
+  is_collection?: boolean
   quality?: { score: number; passed: boolean }
 }
 

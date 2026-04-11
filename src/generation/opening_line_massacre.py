@@ -233,6 +233,7 @@ def _build_generation_prompt(
     personality: str,
     viral_context: dict | None,
     n: int,
+    platform: str = "linkedin",
 ) -> str:
     """Fill the opening_generation.txt template with runtime values."""
     template = load_prompt(PROMPTS_DIR / "opening_generation.txt")
@@ -243,6 +244,7 @@ def _build_generation_prompt(
         "viral_block": _build_viral_block(viral_context),
         "personality": personality[:400] if personality else "Not provided.",
         "strategy_block": _build_strategy_block(n),
+        "platform": platform,
     })
 
 
@@ -252,6 +254,7 @@ def generate_opening_lines(
     viral_context: dict | None,
     llm,
     n: int = 10,
+    platform: str = "linkedin",
 ) -> list[dict]:
     """Generate N alternative opening lines for a post with anti-slop filtering."""
     paragraphs = post_text.strip().split("\n\n")
@@ -265,6 +268,7 @@ def generate_opening_lines(
         personality=personality,
         viral_context=viral_context,
         n=n,
+        platform=platform,
     )
 
     from ..llm.base import LLMProvider
@@ -283,13 +287,21 @@ def generate_opening_lines(
 
     result = parse_llm_json(response)
     if not isinstance(result, list):
-        return [{"id": "opening_0", "text": current_opening, "strategy": "original", "slop_flag": False}]
+        return [{"id": "opening_0", "text": current_opening, "strategy": "mimicry", "slop_flag": False, "slop_penalty": 0}]
 
-    openings = []
-    slop_count = 0
-    for i, item in enumerate(result[:n]):
+    # Always start with the current customized opening as a candidate
+    openings = [{
+        "id": "opening_0", 
+        "text": current_opening, 
+        "strategy": "mimicry", 
+        "slop_flag": _is_slop(current_opening),
+        "slop_penalty": _slop_score_penalty(current_opening)
+    }]
+    
+    slop_count = 1 if openings[0]["slop_flag"] else 0
+    for i, item in enumerate(result[:n-1]): # Leave room for the original
         if isinstance(item, dict) and "text" in item:
-            item["id"] = item.get("id", f"opening_{i}")
+            item["id"] = item.get("id", f"opening_{i+1}")
             item["slop_flag"] = _is_slop(item["text"])
             item["slop_penalty"] = _slop_score_penalty(item["text"])
             if item["slop_flag"]:

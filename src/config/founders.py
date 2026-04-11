@@ -63,12 +63,28 @@ def get_founder_paths(config: dict, slug: str) -> dict:
 
 
 def list_founders(config: dict | None = None) -> list[dict]:
-    """Return list of all registered founders."""
+    """Return list of all registered founders, plus auto-discovered ones."""
     if config is None:
         config = _load_config()
     founders = config.get("founders", {})
     active = founders.get("active", "")
     registry = founders.get("registry", {})
+
+    # Auto-discover unregistered founder folders
+    founders_dir = PROJECT_ROOT / "data" / "founders"
+    if founders_dir.exists():
+        for folder in sorted(founders_dir.iterdir()):
+            if not folder.is_dir():
+                continue
+            if (folder / "founder-data").is_dir():
+                slug = folder.name.lower().replace(" ", "_").replace("-", "_")
+                if slug not in registry:
+                    display_name = folder.name.title()
+                    data_dir_override = f"data/founders/{folder.name}/founder-data"
+                    register_founder(slug, display_name, data_dir_override=data_dir_override)
+                    config = _load_config()
+                    registry = config.get("founders", {}).get("registry", {})
+                    logger.info("Auto-discovered founder: %s (%s)", slug, display_name)
 
     result = []
     for slug, entry in registry.items():
@@ -103,8 +119,18 @@ def set_active_founder(slug: str, config_path: str | Path | None = None):
     logger.info("Active founder set to: %s", slug)
 
 
-def register_founder(slug: str, display_name: str, config_path: str | Path | None = None) -> dict:
-    """Register a new founder with default paths."""
+def register_founder(
+    slug: str,
+    display_name: str,
+    config_path: str | Path | None = None,
+    data_dir_override: str | None = None,
+) -> dict:
+    """Register a new founder with default paths.
+
+    Args:
+        data_dir_override: If provided, use this as the data_dir instead of the slug-based default.
+                          Useful when the folder name has spaces (e.g., "anish popli").
+    """
     config = _load_config(config_path)
     if "founders" not in config:
         config["founders"] = {"active": slug, "registry": {}}
@@ -112,18 +138,21 @@ def register_founder(slug: str, display_name: str, config_path: str | Path | Non
         config["founders"]["registry"] = {}
 
     base = f"data/founders/{slug}"
+    data_dir = data_dir_override or f"{base}/founder-data"
+    # Use same base for knowledge-graph paths (always slug-based, no spaces)
     entry = {
         "display_name": display_name,
-        "data_dir": f"{base}/founder-data",
+        "data_dir": data_dir,
         "graph_path": f"{base}/knowledge-graph/graph.json",
         "personality_card_path": f"{base}/knowledge-graph/personality-card.md",
         "vectors_path": f"{base}/knowledge-graph/chroma",
     }
     config["founders"]["registry"][slug] = entry
 
-    # Create directories
-    for d in ["founder-data", "knowledge-graph"]:
-        (PROJECT_ROOT / base / d).mkdir(parents=True, exist_ok=True)
+    # Create knowledge-graph directory (data_dir may already exist)
+    (PROJECT_ROOT / base / "knowledge-graph").mkdir(parents=True, exist_ok=True)
+    # Also ensure data_dir exists
+    (PROJECT_ROOT / data_dir).mkdir(parents=True, exist_ok=True)
 
     _save_config(config, config_path)
     return {"slug": slug, **entry}

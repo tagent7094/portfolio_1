@@ -80,6 +80,13 @@ Flag if the post relies on any of these overused patterns. Each detected pattern
 
 **Important**: Only flag patterns you actually detect. Do not hunt for them. And if a pattern is used but *subverted or made self-aware*, note that as a positive instead.
 
+### Step 2.5: Deep Internalization & Mandate Check (Crucial)
+Before applying your specific lens, evaluate if the post violates the 4 Core Mandates. If it violates these, heavily penalize the score:
+1. **Deep Internalization**: Does the post rely on real, lived experiences from the founder's world?
+2. **Hook Tension**: Is the opening hook powerful and tightly structured (mimicking high-performance posts)?
+3. **Post-Hook Origin**: Is the body of the post uniquely built from the founder's perspective rather than general platitudes?
+4. **Concrete Ending**: Does it avoid clean summaries? Does it land on a specific detail, unresolved thought, or name? (Summaries or CTAs are immediate score killers).
+
 ### Step 3: Apply your specific lens (the core evaluation)
 
 Now evaluate through your scoring bias and feedback focus. A post might be well-written but irrelevant to your reader profile — that's a low score from you, even if another reader type would love it.

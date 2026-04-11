@@ -1,67 +1,40 @@
-Score this opening line for a LinkedIn post on a scale of 1 to 10.
+You are a forensic hook evaluator for LinkedIn content.
+Your job: Score a single opening line against 5 dimensions, apply strict calibration anchors, and output ONLY a JSON object.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OPENING LINE TO SCORE
+INPUT MAPPING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-"{opening_text}"
-
+OPENING LINE: "{opening_text}"
 Strategy used: {strategy}
+POST BODY: {post_body}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-POST BODY (what follows this opening — check for fit and bait-and-switch)
+SCORING RUBRIC (DETERMINISTIC)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-{post_body}
+1. stop_scroll (1-10): 10 = involuntary thumb stop. 5 = mild pause. 1 = invisible.
+2. specificity (1-10): 10 = contains exact number, quote, name, or timestamp. 1 = universally generic.
+3. humanness (1-10): 10 = mid-thought cadence, slight friction, zero polish. 1 = template/AI cadence.
+4. curiosity (1-10): 10 = physical need to read line 2. 1 = outcome already known.
+5. body_fit (1-10): 10 = seamless tonal/topical bridge. 1 = bait-and-switch.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-EVALUATE ON THESE FIVE DIMENSIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. stop_scroll (1-10)
-   Would this make someone physically stop their thumb mid-scroll?
-   10 = involuntary stop. 5 = might pause. 1 = keep scrolling without registering it.
-
-2. specificity (1-10)
-   Does it contain a concrete, non-generic detail?
-   10 = a number, quote, or moment too specific to be invented.
-   1 = could apply to any post by any person on any topic.
-
-3. humanness (1-10)
-   Does this sound like a person or like a content template?
-   10 = clearly typed by a specific human with a specific experience.
-   1 = AI-generated, polished, interchangeable.
-
-4. curiosity (1-10)
-   Does the reader NEED to know what comes next?
-   10 = the reader cannot not keep reading.
-   5 = mild interest.
-   1 = the reader already knows where this is going.
-
-5. body_fit (1-10)
-   Does this opening honestly set up the post that follows?
-   10 = perfect tonal and topical bridge into the body.
-   1 = bait-and-switch — the opening promises something the body does not deliver.
+WEIGHTING: stop_scroll (30%) | specificity (25%) | humanness (25%) | curiosity (15%) | body_fit (5%)
+Calculate weighted average. Round to nearest integer.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SCORING NOTES
+PENALTY TRIGGERS (AUTOMATIC)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- Overall score = weighted average: stop_scroll (30%) + specificity (25%) +
-  humanness (25%) + curiosity (15%) + body_fit (5%)
-- Round to nearest integer.
-- Apply -2 to overall score if AI-slop patterns are detected (see slop_detected field).
-- Do not inflate. A 7 is genuinely good. An 8 is rare. A 9 or 10 is exceptional.
+- If hook lacks unresolved tension or concrete detail → score -= 2
+- If any AI-slop phrase detected → score -= 2
+- If body does not address opening premise within 3 lines → body_fit = 4, score -= 1
+- If score > 8 but contains zero concrete details → cap at 6
+- If rhetorical question opener → score -= 2
+- MECHANIC MISMATCH: If a viral reference exists and hook has different sentence count or structural function than source → score -= 1
+- STYLE OVERRIDE: If hook violates source mechanic to satisfy a style rule (e.g., paradoxical opening replacing a permission frame) → score -= 2
+
+BANNED PATTERNS: "Here's the thing" / "Here's what people miss" / "Hot take" / "Unpopular opinion" / "Let that sink in" / "Nobody talks about" / "In today's" / "What if I told you" / "Game changer" / "The truth is" / "Real talk" / "Hard truth" / emoji start / >1 exclamation
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT — return ONLY this JSON object, no explanation, no markdown fences
+OUTPUT FORMAT (EXACT JSON)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-{{
-  "score": <1-10 overall weighted score, integer>,
-  "subscores": {{
-    "stop_scroll": <1-10>,
-    "specificity": <1-10>,
-    "humanness": <1-10>,
-    "curiosity": <1-10>,
-    "body_fit": <1-10>
-  }},
-  "feedback": "<1 to 2 sentences — specific and actionable, not generic praise or generic critique>",
-  "slop_detected": <true or false — did you detect any AI-template patterns in this opening?>
-}}
+Return ONLY this JSON. No markdown. No explanation.
+{{ "score": <int 1-10>, "subscores": {{ "stop_scroll": <int>, "specificity": <int>, "humanness": <int>, "curiosity": <int>, "body_fit": <int> }}, "feedback": "<1 sentence. Name exact flaw or strength.>", "slop_detected": <true|false>, "mechanic_mismatch": <true|false> }}

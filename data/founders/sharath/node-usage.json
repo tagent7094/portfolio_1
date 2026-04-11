@@ -26,5 +26,104 @@
       "contrast_what_investors_wanted_to_hear_vs_what_customers_ac"
     ],
     "match_count": 19
+  },
+  {
+    "timestamp": "2026-04-06T15:31:48.648888+00:00",
+    "topic": "AI Hype",
+    "platform": "linkedin",
+    "post_length": 3647,
+    "matched_nodes": [
+      "belief_ai_augmentation_vs_automation",
+      "belief_hiring_pattern_recognition",
+      "belief_talent_pattern",
+      "story_dangerous_hire_who_had_all_answers"
+    ],
+    "match_count": 4
+  },
+  {
+    "timestamp": "2026-04-06T17:21:55.499281+00:00",
+    "topic": "AI Hype",
+    "platform": "linkedin",
+    "post_length": 3549,
+    "matched_nodes": [
+      "belief_what_in_it_for_me_harm",
+      "belief_ai_augmentation_vs_automation",
+      "contrast_not_wanted_vs_omnipresent"
+    ],
+    "match_count": 3
+  },
+  {
+    "timestamp": "2026-04-06T17:34:45.663562+00:00",
+    "topic": "AI Hype",
+    "platform": "linkedin",
+    "post_length": 3655,
+    "matched_nodes": [
+      "belief_customer_success_team_force_multiplier",
+      "belief_trust_instinct",
+      "belief_ai_augmentation_vs_automation",
+      "belief_hiring_pattern_recognition",
+      "belief_dangerous_hires",
+      "belief_talent_pattern",
+      "story_five_new_leaders_dna_nervousness",
+      "model_uncomfortable_economic_truth",
+      "model_pattern_recognition"
+    ],
+    "match_count": 9
+  },
+  {
+    "timestamp": "2026-04-06T17:47:13.336421+00:00",
+    "topic": "Product Management",
+    "platform": "linkedin",
+    "post_length": 2490,
+    "matched_nodes": [
+      "style_opening_statement"
+    ],
+    "match_count": 1
+  },
+  {
+    "timestamp": "2026-04-06T18:03:14.316556+00:00",
+    "topic": "AI Leadership",
+    "platform": "linkedin",
+    "post_length": 1404,
+    "matched_nodes": [
+      "belief_customer_success_team_force_multiplier"
+    ],
+    "match_count": 1
+  },
+  {
+    "timestamp": "2026-04-06T18:15:21.634870+00:00",
+    "topic": "AI Leadership",
+    "platform": "linkedin",
+    "post_length": 1039,
+    "matched_nodes": [
+      "belief_trust_instinct"
+    ],
+    "match_count": 1
+  },
+  {
+    "timestamp": "2026-04-06T18:32:21.400954+00:00",
+    "topic": "AI Leadership",
+    "platform": "linkedin",
+    "post_length": 1341,
+    "matched_nodes": [],
+    "match_count": 0
+  },
+  {
+    "timestamp": "2026-04-06T18:54:47.026582+00:00",
+    "topic": "AI Leadership",
+    "platform": "linkedin",
+    "post_length": 1269,
+    "matched_nodes": [
+      "contrast_survive_vs_thrive"
+    ],
+    "match_count": 1
+  },
+  {
+    "timestamp": "2026-04-06T19:10:37.541153+00:00",
+    "topic": "AI Leadership",
+    "platform": "linkedin",
+    "post_length": 964,
+    "matched_nodes": [],
+    "match_count": 0
   }
 ]

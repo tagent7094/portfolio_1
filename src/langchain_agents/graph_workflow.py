@@ -406,7 +406,7 @@ def opening_line_massacre_node(state: GenerationState) -> dict:
         viral_context = get_viral_context_for_topic(viral_graph, state["topic"], creativity)
 
     # Generate 10 openings
-    openings = generate_opening_lines(post["text"], context, viral_context, llm, n=10)
+    openings = generate_opening_lines(post["text"], context, viral_context, llm, n=10, platform=state.get("platform", "linkedin"))
     _emit(state, "opening_massacre", "generating", {"count": len(openings), "openings": [{"id": o["id"], "text": o["text"], "strategy": o.get("strategy", "")} for o in openings]})
 
     # Audience vote on openings
@@ -454,7 +454,8 @@ def humanize_node(state: GenerationState) -> dict:
     vocab = get_vocabulary_rules(graph)
 
     post_text = state["winning_post"]["text"]
-    humanized = humanize_chain(llm, post_text, style_rules, vocab)
+    personality_card = state.get("personality_card", "")
+    humanized = humanize_chain(llm, post_text, style_rules, vocab, personality_card=personality_card)
 
     attempts = state.get("humanize_attempts", 0) + 1
     _emit(state, "humanize", "completed", {"length": len(humanized), "attempt": attempts})

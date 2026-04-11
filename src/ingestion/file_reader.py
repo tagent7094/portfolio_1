@@ -79,6 +79,99 @@ def read_csv(path: Path) -> list[Chunk]:
     return chunks
 
 
+def read_docx(path: Path) -> list[Chunk]:
+    """Read a .docx file and return chunks.
+
+    Handles both paragraph-based and table-based content.
+    For tables: looks for a content column (post/content/text) and optional engagement columns.
+    """
+    try:
+        from docx import Document
+    except ImportError:
+        print(f"\033[35m[FileReader]\033[0m \033[31m-> Install python-docx: pip install python-docx\033[0m", file=sys.stderr, flush=True)
+        logger.error("python-docx not installed. Run: pip install python-docx")
+        return []
+
+    doc = Document(str(path))
+    chunks = []
+
+    # Try paragraphs first
+    paragraphs = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
+    if paragraphs:
+        text = "\n\n".join(paragraphs)
+        chunks.append(Chunk(text=text, source_file=str(path), platform=detect_platform(path.name, text)))
+
+    # Also extract from tables (many founder data files use tables with post/likes/comments)
+    for table in doc.tables:
+        if len(table.rows) < 2:
+            continue
+        # Get header row
+        headers = [c.text.strip().lower() for c in table.rows[0].cells]
+
+        # Find content column
+        content_idx = None
+        for i, h in enumerate(headers):
+            if h in ("post", "content", "text", "body", "message"):
+                content_idx = i
+                break
+        if content_idx is None:
+            content_idx = 0  # fallback to first column
+
+        # Find engagement columns
+        likes_idx = next((i for i, h in enumerate(headers) if "like" in h), None)
+        comments_idx = next((i for i, h in enumerate(headers) if "comment" in h), None)
+        reposts_idx = next((i for i, h in enumerate(headers) if "repost" in h or "share" in h), None)
+
+        for row in table.rows[1:]:
+            cells = [c.text.strip() for c in row.cells]
+            text = cells[content_idx] if content_idx < len(cells) else ""
+            if not text or len(text) < 20:
+                continue
+
+            engagement = 0
+            if likes_idx is not None and likes_idx < len(cells):
+                try:
+                    engagement += int(cells[likes_idx])
+                except (ValueError, TypeError):
+                    pass
+
+            chunks.append(Chunk(
+                text=text,
+                source_file=str(path),
+                platform=detect_platform(path.name, text),
+                engagement=engagement,
+            ))
+
+    return chunks
+
+
+def read_xlsx(path: Path) -> list[Chunk]:
+    """Read an .xlsx file — treat like CSV with pandas."""
+    import pandas as pd
+    try:
+        df = pd.read_excel(path)
+    except Exception as e:
+        logger.error("Failed to read xlsx %s: %s", path.name, e)
+        return []
+
+    # Same logic as read_csv
+    content_col = None
+    for col in ["content", "text", "body", "post", "message"]:
+        if col in df.columns:
+            content_col = col
+            break
+    if content_col is None:
+        content_col = df.columns[0]
+
+    chunks = []
+    for _, row in df.iterrows():
+        text = str(row[content_col])
+        if not text or text == "nan":
+            continue
+        chunks.append(Chunk(text=text, source_file=str(path), platform=detect_platform(path.name, text)))
+    return chunks
+
+
 def read_json(path: Path) -> list[Chunk]:
     """Read a JSON file and extract text content."""
     data = json.loads(path.read_text(encoding="utf-8", errors="replace"))
@@ -98,6 +191,9 @@ READERS = {
     ".txt": read_text,
     ".csv": read_csv,
     ".json": read_json,
+    ".docx": read_docx,
+    ".xlsx": read_xlsx,
+    ".xls": read_xlsx,
 }
 
 

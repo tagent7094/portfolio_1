@@ -32,6 +32,7 @@ export default function CustomizePage() {
   const [mode, setMode] = useState<PipelineMode>('quick')
   const [numVariants, setNumVariants] = useState<number>(5)
   const [showThinking, setShowThinking] = useState<boolean>(true)
+  const [skipVoting, setSkipVoting] = useState<boolean>(true)
 
   // Post selection state
   const [selectedText, setSelectedText] = useState('')
@@ -89,6 +90,8 @@ export default function CustomizePage() {
         creativity_body: creativity.body / 100,
         creativity_closing: creativity.closing / 100,
         creativity_tone: creativity.tone / 100,
+        num_variants: 5, // Requesting 5 by default for quick mode too as per user's "5 in quick section"
+        skip_voting: true,
       })
       setResult(res)
     } catch (e: any) {
@@ -118,7 +121,8 @@ export default function CustomizePage() {
         creativity_body: creativity.body / 100,
         creativity_closing: creativity.closing / 100,
         creativity_tone: creativity.tone / 100,
-        num_variants: numVariants
+        num_variants: numVariants,
+        skip_voting: skipVoting,
       })
 
       const resp = await fetch('/api/posts/customize/full', {
@@ -180,6 +184,9 @@ export default function CustomizePage() {
             }
             if (stage === 'quality_gate' && status === 'completed') {
               setPipelineLog((prev) => [...prev, `Quality: ${data?.score || 0}% (${data?.passed ? 'PASS' : 'FAIL'})`])
+            }
+            if (stage === 'skip_voting' && status === 'started') {
+              setPipelineLog((prev) => [...prev, `Skipping voting. Humanizing ${data?.count || 0} variants...`])
             }
 
             // Final result
@@ -355,7 +362,7 @@ export default function CustomizePage() {
                   ))}
                 </select>
               </div>
-              <div className="flex items-end mb-2">
+              <div className="flex flex-col justify-end gap-2 pb-1">
                 <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
                   <input
                     type="checkbox"
@@ -364,6 +371,15 @@ export default function CustomizePage() {
                     className="rounded border-gray-700 bg-gray-800 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-gray-900"
                   />
                   Show Thinking
+                </label>
+                <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={skipVoting}
+                    onChange={(e) => setSkipVoting(e.target.checked)}
+                    className="rounded border-gray-700 bg-gray-800 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-gray-900"
+                  />
+                  Skip Voting (Wave 12)
                 </label>
               </div>
             </div>
@@ -446,6 +462,6 @@ export default function CustomizePage() {
           </div>
         )}
       </div>
-    </div>
+    </div >
   )
 }

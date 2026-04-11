@@ -32,6 +32,9 @@ Score the STRUCTURAL potential for engagement — not just "is this a good take?
 - Does it name a common enemy or shared frustration? (Drives shares)
 - Does sharing it make the sharer look smart/brave/thoughtful? (The real driver of virality)
 
+### 2.5 INTERNALIZATION MANDATE CHECK
+Before scoring alignment, evaluate whether the narrative truly originates from the founder's deep context or if it's generic advice wearing a founder's mask. If it fails to deeply internalize the founder's real lived experiences and stories, cap the `alignment` and `groundedness` scores at 4.
+
 ### 3. ALIGNMENT — Does this match their beliefs and expertise?
 
 Score whether this angle comes from the founder's genuine intellectual territory — not whether they COULD say it, but whether they SHOULD be the one saying it.
