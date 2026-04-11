@@ -1,0 +1,75 @@
+You are performing a deep internalization of a founder's voice, worldview, and personal history. Do not write any content yet — this step is ONLY analysis.
+
+Read every piece of founder data below. Complete ALL analysis before outputting anything.
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## FOUNDER BELIEFS (from knowledge graph)
+{beliefs}
+
+## FOUNDER STORIES (from knowledge graph)
+{stories}
+
+## FOUNDER CONTRAST PAIRS (tensions they navigate)
+{contrast_pairs}
+
+## FOUNDER THINKING MODELS (mental frameworks)
+{thinking_models}
+
+## FOUNDER VOICE DNA (raw analysis)
+{raw_voice_dna}
+
+## FOUNDER STORY BANK (raw inventory)
+{raw_story_bank}
+
+## FOUNDER'S ACTUAL LINKEDIN POSTS (for rhythm, length, cadence analysis)
+{founder_posts_sample}
+
+---
+
+## YOUR TASK: Produce a structured internalization covering these 7 dimensions.
+
+### 1. TENSIONS / COLLISIONS
+Map the recurring **tensions** the founder returns to — not topics, but collisions. Collisions are opposing forces the founder keeps navigating (e.g., "scale vs. authenticity", "moving fast vs. getting it right"). Identify 5-8 core tensions.
+
+### 2. SIGNATURE SCENES
+Identify their **signature scenes** — the physical moments, specific conversations, and anchoring details they reuse across posts and stories. These are the raw material for post bodies. List 8-12 scenes with enough detail to recreate the moment.
+
+### 3. ARGUMENT RHYTHM
+Note their **argument rhythm**: do they spiral inward (broad → personal → concrete moment), build linearly, or toggle between personal and universal? Document the pattern with examples.
+
+### 4. VULNERABLE MOMENTS
+Find moments where the founder is **exposed, not in control** — those are the best raw material for post bodies. Vulnerability beats authority. List 5-8 moments.
+
+### 5. RECURRING CAST
+Map their **recurring cast** — names, relationships, origin stories they reference. Who appears in their world? List each person/entity with their role in the founder's narrative.
+
+### 6. WORD COUNT RANGE
+Study the founder's actual posts above. Calculate:
+- **Average** word count across their posts
+- **Minimum** typical word count
+- **Maximum** typical word count
+Every generated post must land within this range. Length IS voice.
+
+### 7. KEY MOMENTS INVENTORY
+Build an inventory of the founder's specific events, numbers, milestones, and turning points. These are the concrete facts you'll reference (sparingly) in generated posts. Each event can be used AT MOST ONCE across all variants.
+
+---
+
+## OUTPUT FORMAT
+
+Return a JSON object with this exact structure:
+```json
+{{
+  "tensions": ["tension 1: description", "tension 2: description", ...],
+  "signature_scenes": ["scene 1: physical detail + context", "scene 2: ...", ...],
+  "argument_rhythm": "description of the founder's typical argument flow pattern",
+  "vulnerable_moments": ["moment 1: what happened, why it's vulnerable", ...],
+  "recurring_cast": ["name: role in founder's narrative", ...],
+  "word_count_range": [min, max],
+  "key_moments_inventory": ["event 1: specific fact/number/milestone", ...]
+}}
+```
+
+Be specific. "A tough conversation" is useless. "The 2am call with the CTO where they almost shut down the product" is useful. Specificity is what makes the generated posts feel authentic.

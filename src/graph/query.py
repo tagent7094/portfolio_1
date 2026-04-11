@@ -308,5 +308,69 @@ def get_merged_context(
     return context
 
 
+def get_deep_founder_context(graph: nx.DiGraph, platform: str) -> dict:
+    """Full unfiltered founder inventory for deep internalization (V2 framework).
+
+    Unlike get_full_context(), this returns ALL beliefs, stories, models, and
+    contrast pairs without topic filtering — needed for the internalization step
+    where the LLM needs the complete founder picture.
+    """
+    _log(f"get_deep_founder_context(platform={platform!r})")
+
+    # Unfiltered: ALL nodes by type
+    beliefs = []
+    stories = []
+    contrast_pairs = []
+    thinking_models = []
+
+    for node_id, data in graph.nodes(data=True):
+        nt = data.get("node_type", "")
+        entry = {**data, "node_id": node_id}
+        if nt == "belief":
+            beliefs.append(entry)
+        elif nt == "story":
+            stories.append(entry)
+        elif nt == "contrast_pair":
+            contrast_pairs.append(entry)
+        elif nt == "thinking_model":
+            thinking_models.append(entry)
+
+    beliefs.sort(key=lambda b: b.get("confidence", 0), reverse=True)
+    stories.sort(key=lambda s: s.get("engagement", 0), reverse=True)
+    thinking_models.sort(key=lambda m: m.get("priority", 0), reverse=True)
+
+    # Filtered by platform (these benefit from filtering)
+    style_rules = get_style_rules_for_platform(graph, platform)
+    vocab = get_vocabulary_rules(graph)
+    personality_card = get_personality_card(graph)
+
+    traceability = {
+        "belief_nodes": [{"node_id": b.get("node_id", ""), "topic": b.get("topic", ""),
+                          "stance": b.get("stance", "")[:80]} for b in beliefs],
+        "story_nodes": [{"node_id": s.get("node_id", ""), "title": s.get("title", "")[:80]} for s in stories],
+        "contrast_pairs": [{"node_id": c.get("node_id", ""), "left": c.get("left", ""),
+                            "right": c.get("right", "")} for c in contrast_pairs],
+        "thinking_models": [{"node_id": m.get("node_id", ""), "name": m.get("name", "")} for m in thinking_models],
+        "style_rule_count": len(style_rules),
+        "vocabulary_phrases_used": len(vocab.get("phrases_used", [])),
+        "vocabulary_phrases_never": len(vocab.get("phrases_never", [])),
+    }
+
+    _log(f"Deep context: {len(beliefs)}B {len(stories)}S {len(contrast_pairs)}CP "
+         f"{len(thinking_models)}TM {len(style_rules)}R")
+
+    return {
+        "beliefs": beliefs,
+        "stories": stories,
+        "style_rules": style_rules,
+        "contrast_pairs": contrast_pairs,
+        "thinking_models": thinking_models,
+        "vocabulary": vocab,
+        "personality_card": personality_card,
+        "platform": platform,
+        "traceability": traceability,
+    }
+
+
 def _log(msg: str):
     print(f"\033[33m[GraphQuery]\033[0m {msg}", file=sys.stderr, flush=True)

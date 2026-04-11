@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react'
-import { Wand2, Loader2, Zap, Sparkles } from 'lucide-react'
+import { Wand2, Loader2, Zap, Sparkles, Flame } from 'lucide-react'
 import clsx from 'clsx'
 import { apiPost } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
@@ -11,7 +11,7 @@ import DiffPreview from '../components/customize/DiffPreview'
 import type { CustomizationResult } from '../types/api'
 
 type Tab = 'browse' | 'custom'
-type PipelineMode = 'quick' | 'full'
+type PipelineMode = 'quick' | 'full' | 'v2'
 
 interface PipelineStep {
   id: string
@@ -25,6 +25,16 @@ const FULL_PIPELINE_STEPS: PipelineStep[] = [
   { id: 'refine', label: 'Refine Top 2', status: 'pending' },
   { id: 'opening_massacre', label: 'Opening Massacre', status: 'pending' },
   { id: 'humanize', label: 'Humanize + Quality Gate', status: 'pending' },
+]
+
+const V2_PIPELINE_STEPS: PipelineStep[] = [
+  { id: 'internalize_founder', label: 'Internalize Founder', status: 'pending' },
+  { id: 'dissect_source', label: 'Dissect Source Post', status: 'pending' },
+  { id: 'generate_adaptations', label: 'Generate 5 Adaptations', status: 'pending' },
+  { id: 'audience_vote', label: 'Audience Voting', status: 'pending' },
+  { id: 'refine', label: 'Refine Top Posts', status: 'pending' },
+  { id: 'quality_filter', label: '11-Point Quality Filter', status: 'pending' },
+  { id: 'track_coverage', label: 'Track Coverage', status: 'pending' },
 ]
 
 export default function CustomizePage() {
@@ -227,7 +237,134 @@ export default function CustomizePage() {
     }
   }, [canCustomize, activeText, active, creativity])
 
-  const handleCustomize = mode === 'quick' ? handleQuickCustomize : handleFullCustomize
+  // V2 Adaptation (SSE streaming)
+  const handleV2Adapt = useCallback(async () => {
+    if (!canCustomize) return
+    setLoading(true)
+    setError(null)
+    setResult(null)
+    setPipelineSteps(V2_PIPELINE_STEPS.map((s) => ({ ...s, status: 'pending' })))
+    setPipelineLog([])
+
+    const abort = new AbortController()
+    abortRef.current = abort
+
+    try {
+      const body = JSON.stringify({
+        source_post: activeText,
+        founder_slug: active,
+        platform: 'linkedin',
+        creativity: creativity.tone / 100,
+        num_variants: 5,
+      })
+
+      const resp = await fetch('/api/posts/adapt-v2/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+        signal: abort.signal,
+      })
+
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
+
+      const reader = resp.body?.getReader()
+      if (!reader) throw new Error('No response stream')
+
+      const decoder = new TextDecoder()
+      let buffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue
+          const json = line.slice(6).trim()
+          if (!json || json === '[DONE]') continue
+
+          try {
+            const event = JSON.parse(json)
+            const { stage, status, data } = event
+
+            // Update pipeline steps
+            setPipelineSteps((prev) =>
+              prev.map((step) => {
+                if (step.id === stage) {
+                  if (status === 'started' || status === 'progress') {
+                    return { ...step, status: 'active' }
+                  }
+                  if (status === 'completed') {
+                    return { ...step, status: 'completed' }
+                  }
+                }
+                return step
+              }),
+            )
+
+            // Log messages
+            if (stage === 'internalize_founder' && status === 'completed') {
+              setPipelineLog((prev) => [...prev, `Internalized: ${data?.tensions_count || 0} tensions, ${data?.scenes_count || 0} scenes`])
+            }
+            if (stage === 'dissect_source' && status === 'completed') {
+              setPipelineLog((prev) => [...prev, `Dissected: ${data?.hook_count || 0} hook sentences, arc: ${data?.narrative_arc || '?'}`])
+            }
+            if (stage === 'generate_adaptations' && status === 'progress') {
+              setPipelineLog((prev) => [...prev, `Adapting variant ${(data?.index ?? 0) + 1}: ${data?.register || '?'}`])
+            }
+            if (stage === 'audience_vote' && status === 'progress') {
+              setPipelineLog((prev) => [...prev, `Vote from: ${data?.agent_name || '?'}`])
+            }
+            if (stage === 'quality_filter' && status === 'progress') {
+              setPipelineLog((prev) => [...prev, `Quality: ${data?.post_id || '?'} — ${data?.passed ? 'PASS' : 'FAIL'} (${data?.failures || 0} failures)`])
+            }
+
+            // Final result
+            if (stage === 'done') {
+              if (data?.error) {
+                setError(data.error)
+              } else {
+                setResult({
+                  original: data.original || activeText,
+                  customized: data.customized || '',
+                  sections: data.sections || {},
+                  topic: data.topic || '',
+                  founder_context: data.founder_context || {},
+                  viral_context: data.viral_context || {},
+                  traceability: data.traceability,
+                  all_variants: data.all_variants,
+                  quality: data.quality,
+                  founder_internalization: data.founder_internalization,
+                  source_dissection: data.source_dissection,
+                  events_used: data.events_used,
+                  v2_quality: data.v2_quality,
+                })
+                setPipelineSteps((prev) => prev.map((s) => ({ ...s, status: 'completed' })))
+              }
+            }
+
+            if (stage === 'error') {
+              setError(data?.error || 'V2 pipeline failed')
+            }
+          } catch {
+            // ignore parse errors
+          }
+        }
+      }
+    } catch (e: any) {
+      if (e.name !== 'AbortError') {
+        setError(e.message || 'V2 adaptation failed')
+      }
+    } finally {
+      setLoading(false)
+      abortRef.current = null
+    }
+  }, [canCustomize, activeText, active, creativity])
+
+  const handleCustomize = mode === 'v2' ? handleV2Adapt : mode === 'quick' ? handleQuickCustomize : handleFullCustomize
 
   return (
     <div className="flex h-full gap-6">
@@ -324,13 +461,27 @@ export default function CustomizePage() {
               )}
             >
               <Sparkles size={14} />
-              Full Pipeline
+              Full
+            </button>
+            <button
+              onClick={() => setMode('v2')}
+              className={clsx(
+                'flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                mode === 'v2'
+                  ? 'bg-violet-600 text-white'
+                  : 'bg-gray-800 text-gray-400 hover:text-gray-200',
+              )}
+            >
+              <Flame size={14} />
+              V2 Adapt
             </button>
           </div>
           <p className="mt-2 text-xs text-gray-500">
             {mode === 'quick'
               ? 'Per-section voice adaptation (fast, 3 LLM calls)'
-              : '5 variants → audience vote → refine → opening massacre → humanize'}
+              : mode === 'full'
+              ? '5 variants → audience vote → refine → opening massacre → humanize'
+              : 'Deep internalization → dissect hook → 5 adapted versions → vote → quality filter'}
           </p>
         </div>
 
@@ -394,26 +545,30 @@ export default function CustomizePage() {
             'flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50',
             mode === 'quick'
               ? 'bg-indigo-600 hover:bg-indigo-500'
-              : 'bg-amber-600 hover:bg-amber-500',
+              : mode === 'full'
+              ? 'bg-amber-600 hover:bg-amber-500'
+              : 'bg-violet-600 hover:bg-violet-500',
           )}
         >
           {loading ? (
             <>
               <Loader2 size={16} className="animate-spin" />
-              {mode === 'quick' ? 'Customizing...' : 'Running Pipeline...'}
+              {mode === 'v2' ? 'Running V2 Adaptation...' : mode === 'quick' ? 'Customizing...' : 'Running Pipeline...'}
             </>
           ) : (
             <>
-              {mode === 'quick' ? <Wand2 size={16} /> : <Sparkles size={16} />}
-              {mode === 'quick' ? 'Quick Customize' : 'Run Full Pipeline'}
+              {mode === 'v2' ? <Flame size={16} /> : mode === 'quick' ? <Wand2 size={16} /> : <Sparkles size={16} />}
+              {mode === 'v2' ? 'Run V2 Adaptation' : mode === 'quick' ? 'Quick Customize' : 'Run Full Pipeline'}
             </>
           )}
         </button>
 
         {/* Full pipeline progress */}
-        {mode === 'full' && showThinking && pipelineSteps.length > 0 && loading && (
+        {(mode === 'full' || mode === 'v2') && pipelineSteps.length > 0 && loading && (
           <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-            <h4 className="mb-3 text-xs font-semibold text-amber-400">Pipeline Progress</h4>
+            <h4 className={clsx('mb-3 text-xs font-semibold', mode === 'v2' ? 'text-violet-400' : 'text-amber-400')}>
+              {mode === 'v2' ? 'V2 Adaptation Progress' : 'Pipeline Progress'}
+            </h4>
             <div className="space-y-2">
               {pipelineSteps.map((step) => (
                 <div key={step.id} className="flex items-center gap-2">

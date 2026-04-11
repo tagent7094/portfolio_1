@@ -1012,6 +1012,63 @@ async def customize_post_full(data: PostCustomizeRequest):
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
 
+## ── V2 Viral Post Adaptation ─────────────────────────────────────────────
+
+class AdaptV2Request(BaseModel):
+    source_post: str
+    founder_slug: str
+    platform: str = "linkedin"
+    creativity: float = 0.5
+    num_variants: int = 5
+
+@app.post("/api/posts/adapt-v2")
+async def adapt_v2(data: AdaptV2Request):
+    """V2 Viral Post Adaptation: deep internalization + structural mirroring."""
+    logger.info("[adapt_v2] founder=%s creativity=%.0f%% variants=%d",
+                data.founder_slug, data.creativity*100, data.num_variants)
+    from src.customizer.customizer_engine import adapt_viral_v2
+    try:
+        result = await asyncio.to_thread(
+            adapt_viral_v2,
+            data.source_post, data.founder_slug, data.platform, data.creativity, None, data.num_variants,
+        )
+        if result.get("customized"):
+            save_to_history(result["customized"], data.platform)
+        return result
+    except Exception as e:
+        logger.exception("V2 adaptation failed")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/posts/adapt-v2/stream")
+async def adapt_v2_stream(data: AdaptV2Request):
+    """V2 Viral Post Adaptation with SSE streaming."""
+    logger.info("[adapt_v2_stream] founder=%s creativity=%.0f%% variants=%d",
+                data.founder_slug, data.creativity*100, data.num_variants)
+
+    from src.generation.pipeline_events import PipelineEvent, PipelineEventBus
+    from src.customizer.customizer_engine import adapt_viral_v2
+
+    event_bus = PipelineEventBus()
+
+    async def run():
+        try:
+            result = await asyncio.to_thread(
+                adapt_viral_v2,
+                data.source_post, data.founder_slug, data.platform, data.creativity, event_bus, data.num_variants,
+            )
+            if result.get("customized"):
+                save_to_history(result["customized"], data.platform)
+        except Exception as e:
+            logger.exception("V2 adaptation pipeline failed")
+            event_bus.emit(PipelineEvent(stage="error", status="pipeline_done", data={"error": str(e)}))
+
+    asyncio.create_task(run())
+    return StreamingResponse(
+        event_bus.stream(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
 @app.get("/api/posts/stats")
 async def posts_stats():
     from src.customizer.post_db import count_posts

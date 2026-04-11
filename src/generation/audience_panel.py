@@ -97,8 +97,12 @@ def _score_single_post(llm, agent: dict, post: dict, personality_card: str) -> d
         result = {}
 
     # Ensure core fields exist with defaults
-    result.setdefault("score", 5)
-    result["score"] = max(1, min(10, int(result["score"])))
+    if result.get("score") is None:
+        result["score"] = 5
+    try:
+        result["score"] = max(1, min(10, int(float(result["score"]))))
+    except (ValueError, TypeError):
+        result["score"] = 5
     result.setdefault("feedback", "No feedback provided.")
     result.setdefault("score_before_penalties", result["score"])
     result.setdefault("score_ceiling_hit", None)

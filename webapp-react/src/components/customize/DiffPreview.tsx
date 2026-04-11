@@ -212,6 +212,76 @@ export default function DiffPreview({ result }: Props) {
         </details>
       )}
 
+      {/* V2: Source Dissection */}
+      {result.source_dissection && (
+        <details className="rounded-lg border border-violet-900/50 bg-violet-950/20">
+          <summary className="cursor-pointer px-3 py-2 text-xs font-medium text-violet-400 hover:text-violet-300">
+            Hook Dissection — {result.source_dissection.hook_mechanics?.length || 0} sentences, arc: {result.source_dissection.narrative_arc}
+          </summary>
+          <div className="space-y-2 px-3 pb-3">
+            {result.source_dissection.hook_mechanics?.map((h, i) => (
+              <div key={i} className="rounded border border-violet-900/30 bg-violet-950/30 p-2">
+                <div className="text-xs text-violet-300 font-medium">{h.structural_function}</div>
+                <div className="text-xs text-gray-400 mt-0.5 italic">&ldquo;{h.sentence}&rdquo;</div>
+                <div className="text-[10px] text-gray-600 mt-0.5">Rhythm: {h.rhythm}</div>
+              </div>
+            ))}
+            <div className="text-xs text-gray-500">
+              Body: {result.source_dissection.body_structure} | Ending: {result.source_dissection.ending_type}
+            </div>
+            {result.source_dissection.virality_reason && (
+              <div className="text-xs text-violet-400/70">Why viral: {result.source_dissection.virality_reason}</div>
+            )}
+          </div>
+        </details>
+      )}
+
+      {/* V2: Founder Internalization Summary */}
+      {result.founder_internalization && (
+        <details className="rounded-lg border border-indigo-900/50 bg-indigo-950/20">
+          <summary className="cursor-pointer px-3 py-2 text-xs font-medium text-indigo-400 hover:text-indigo-300">
+            Founder Internalization — {result.founder_internalization.tensions?.length || 0} tensions, {result.founder_internalization.signature_scenes?.length || 0} scenes
+          </summary>
+          <div className="space-y-2 px-3 pb-3 text-xs">
+            {result.founder_internalization.tensions?.length > 0 && (
+              <div>
+                <span className="font-semibold text-indigo-400">Tensions:</span>
+                <ul className="mt-1 space-y-0.5">
+                  {result.founder_internalization.tensions.map((t, i) => (
+                    <li key={i} className="text-gray-400">{t}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {result.founder_internalization.argument_rhythm && (
+              <div>
+                <span className="font-semibold text-indigo-400">Argument Rhythm:</span>
+                <p className="mt-0.5 text-gray-400">{result.founder_internalization.argument_rhythm}</p>
+              </div>
+            )}
+            {result.founder_internalization.word_count_range && (
+              <div className="text-gray-500">
+                Word count target: {result.founder_internalization.word_count_range[0]}-{result.founder_internalization.word_count_range[1]} words
+              </div>
+            )}
+          </div>
+        </details>
+      )}
+
+      {/* V2: Event Freshness */}
+      {result.events_used && result.events_used.length > 0 && (
+        <details className="rounded-lg border border-amber-900/50 bg-amber-950/20">
+          <summary className="cursor-pointer px-3 py-2 text-xs font-medium text-amber-400 hover:text-amber-300">
+            Event Freshness — {result.events_used.length} events tracked
+          </summary>
+          <ul className="space-y-0.5 px-3 pb-3">
+            {result.events_used.map((e, i) => (
+              <li key={i} className="text-xs text-gray-400">• {e}</li>
+            ))}
+          </ul>
+        </details>
+      )}
+
       {/* Tabs */}
       <div className="flex gap-1 border-b border-gray-800">
         {TABS.map((t) => (

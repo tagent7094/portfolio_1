@@ -2,114 +2,172 @@ import { memo } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 import clsx from 'clsx'
 
-/* ─── Color system matching the D3 HTML knowledge graph ─── */
-
-const TYPE_STYLES: Record<string, { bg: string; ring: string; glow: string }> = {
-  founder: { bg: 'bg-indigo-200', ring: 'ring-indigo-400', glow: 'shadow-indigo-500/20' },
-  category: { bg: 'bg-slate-400', ring: 'ring-slate-500', glow: 'shadow-slate-500/10' },
-  belief: { bg: 'bg-violet-400', ring: 'ring-violet-500', glow: 'shadow-violet-500/20' },
-  story: { bg: 'bg-blue-400', ring: 'ring-blue-500', glow: 'shadow-blue-500/20' },
-  style_rule: { bg: 'bg-amber-400', ring: 'ring-amber-500', glow: 'shadow-amber-500/20' },
-  thinking_model: { bg: 'bg-emerald-400', ring: 'ring-emerald-500', glow: 'shadow-emerald-500/20' },
-  contrast_pair: { bg: 'bg-pink-400', ring: 'ring-pink-500', glow: 'shadow-pink-500/20' },
-  vocabulary: { bg: 'bg-red-400', ring: 'ring-red-500', glow: 'shadow-red-500/20' },
-  viral_brain: { bg: 'bg-amber-300', ring: 'ring-amber-500', glow: 'shadow-amber-500/25' },
-  hook_type: { bg: 'bg-orange-400', ring: 'ring-orange-500', glow: 'shadow-orange-500/20' },
-  structure_template: { bg: 'bg-cyan-400', ring: 'ring-cyan-500', glow: 'shadow-cyan-500/20' },
-  viral_pattern: { bg: 'bg-purple-400', ring: 'ring-purple-500', glow: 'shadow-purple-500/20' },
-  engagement_profile: { bg: 'bg-green-400', ring: 'ring-green-500', glow: 'shadow-green-500/20' },
-  writing_technique: { bg: 'bg-rose-400', ring: 'ring-rose-500', glow: 'shadow-rose-500/20' },
+interface GraphNodeData extends Record<string, unknown> {
+  nodeType?: string
+  group?: string
+  label?: string
+  size?: number
+  isConnected?: boolean
+  isDimmed?: boolean
+  isHovered?: boolean
+  isHit?: boolean
+  zoomLevel?: number
 }
 
-const TYPE_TEXT_COLORS: Record<string, string> = {
-  founder: 'text-indigo-900',
-  category: 'text-slate-900',
-  belief: 'text-violet-950',
-  story: 'text-blue-950',
-  style_rule: 'text-amber-950',
-  thinking_model: 'text-emerald-950',
-  contrast_pair: 'text-pink-950',
-  vocabulary: 'text-red-950',
-  viral_brain: 'text-amber-950',
-  hook_type: 'text-orange-950',
-  structure_template: 'text-cyan-950',
-  viral_pattern: 'text-purple-950',
-  engagement_profile: 'text-green-950',
-  writing_technique: 'text-rose-950',
+/* ─── Color system EXACT match to D3 HTML knowledge graph ─── */
+const TYPE_STYLES: Record<string, { bg: string; ring: string; glow: string; fill: string }> = {
+  // D3 HTML groups
+  purple: { bg: 'bg-[#9d50bb]', ring: 'ring-[#9d50bb]', glow: 'shadow-[#9d50bb]/30', fill: '#9d50bb' },
+  green: { bg: 'bg-[#2ecc71]', ring: 'ring-[#2ecc71]', glow: 'shadow-[#2ecc71]/30', fill: '#2ecc71' },
+  red: { bg: 'bg-[#e74c3c]', ring: 'ring-[#e74c3c]', glow: 'shadow-[#e74c3c]/30', fill: '#e74c3c' },
+  default: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+
+  // Extended types mapped to D3 groups
+  founder: { bg: 'bg-[#9d50bb]', ring: 'ring-[#9d50bb]', glow: 'shadow-[#9d50bb]/40', fill: '#9d50bb' },
+  category: { bg: 'bg-[#9d50bb]', ring: 'ring-[#9d50bb]', glow: 'shadow-[#9d50bb]/30', fill: '#9d50bb' },
+  belief: { bg: 'bg-[#2ecc71]', ring: 'ring-[#2ecc71]', glow: 'shadow-[#2ecc71]/30', fill: '#2ecc71' },
+  story: { bg: 'bg-[#e74c3c]', ring: 'ring-[#e74c3c]', glow: 'shadow-[#e74c3c]/30', fill: '#e74c3c' },
+  style_rule: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  thinking_model: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  contrast_pair: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  vocabulary: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  viral_brain: { bg: 'bg-[#9d50bb]', ring: 'ring-[#9d50bb]', glow: 'shadow-[#9d50bb]/40', fill: '#9d50bb' },
+  hook_type: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  structure_template: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  viral_pattern: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  engagement_profile: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+  writing_technique: { bg: 'bg-[#888]', ring: 'ring-[#666]', glow: 'shadow-[#888]/20', fill: '#888' },
+}
+
+const BASE_SIZE: Record<string, number> = {
+  founder: 56, category: 40, belief: 32, story: 24, style_rule: 20,
+  thinking_model: 20, contrast_pair: 20, vocabulary: 20,
+  viral_brain: 56, hook_type: 24, structure_template: 20,
+  viral_pattern: 20, engagement_profile: 24, writing_technique: 20,
+  // D3 HTML size mapping
+  purple: 40, green: 32, red: 24, default: 20,
 }
 
 /**
  * Graph node for @xyflow/react usage.
  * Mirrors the D3 HTML visual style: circle nodes with hover glow,
- * size-based importance, group-colored fills.
+ * size-based importance, group-colored fills, and adaptive labels.
  */
-function GraphNodeComponent({ data }: NodeProps<Record<string, unknown>>) {
-  const nodeType = (data.nodeType as string) || 'category'
-  const isHub = nodeType === 'founder' || nodeType === 'category' || nodeType === 'viral_brain'
-  const style = TYPE_STYLES[nodeType] || TYPE_STYLES.category
-  const textColor = TYPE_TEXT_COLORS[nodeType] || 'text-slate-900'
-  const label = data.label as string
-  const isConnected = data.isConnected as boolean | undefined
-  const isHighlightDimmed = data.isDimmed as boolean | undefined
+function GraphNodeComponent({ data, selected }: NodeProps) {
+  const d = data as GraphNodeData
+  const nodeType = (d.nodeType as string) || (d.group as string) || 'default'
+  const isHub = nodeType === 'founder' || nodeType === 'category' || nodeType === 'viral_brain' || nodeType === 'purple'
+
+  const style = TYPE_STYLES[nodeType] || TYPE_STYLES.default
+  const baseSize = BASE_SIZE[nodeType] || BASE_SIZE.default
+
+  // Size scaling based on D3 HTML size prop
+  const d3Size = d.size || 1
+  const scaledSize = Math.round(baseSize * (d3Size / 10))
+
+  const label = d.label || ''
+  const isConnected = d.isConnected
+  const isHighlightDimmed = d.isDimmed
+  const zoomLevel = d.zoomLevel || 1
+
+  // Zoom-adaptive label visibility (matching D3 HTML updateLabelVisibility)
+  const shouldShowLabel = (() => {
+    if (isHighlightDimmed) return false
+    if (selected || d.isHovered) return true
+    if (isHub) return zoomLevel > 0.4
+    return zoomLevel > 0.8
+  })()
 
   return (
     <div
       className={clsx(
-        'flex flex-col items-center gap-1 cursor-pointer group transition-opacity duration-200',
+        'flex flex-col items-center gap-1.5 cursor-grab active:cursor-grabbing group transition-all duration-200',
         isHighlightDimmed && 'opacity-[0.08]',
+        'select-none'
       )}
+
     >
-      <Handle type="target" position={Position.Top} className="!bg-transparent !border-0 !w-0.5 !h-0.5" />
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!bg-transparent !border-0 !w-1 !h-1 !opacity-0"
+      />
 
       <div className="relative">
-        {/* Main circle */}
+        {/* Main circle with D3 HTML styling */}
         <div
           className={clsx(
-            'rounded-full transition-all duration-200',
-            'group-hover:scale-[1.3] group-hover:shadow-lg',
+            'rounded-full transition-all duration-200 ease-out',
+            'group-hover:scale-[1.3] group-hover:shadow-xl',
             style.bg,
             style.glow,
-            isHub ? 'h-14 w-14 ring-2 shadow-lg' : 'h-6 w-6 shadow-md',
-            isHub && style.ring,
+            // Size classes
+            isHub ? 'ring-2 shadow-lg' : 'shadow-md',
             // White stroke on hover (matching D3 HTML .node:hover circle)
-            !isHub && 'group-hover:ring-2 group-hover:ring-white',
+            !isHub && 'group-hover:ring-2 group-hover:ring-white/80',
+            // Selection ring
+            selected && 'ring-2 ring-[#6366f1]'
           )}
+          style={{
+            width: scaledSize,
+            height: scaledSize,
+            // Custom glow for hubs/selected/hovered
+            boxShadow: (selected || d.isHovered || isHub) && !isHighlightDimmed
+              ? `0 0 ${isHub ? 25 : 20}px ${style.glow.replace('shadow-', '').replace('/30', '').replace('/40', '')}`
+              : undefined
+          }}
         >
-          {/* Inner label for hubs */}
+          {/* Inner label for hubs (centered text like D3 HTML) */}
           {isHub && (
             <div className={clsx(
               'absolute inset-0 flex items-center justify-center',
               'text-[9px] font-bold leading-none text-center px-1',
-              textColor,
+              'text-[#1a1a1a]'
             )}>
-              {label.length > 8 ? label.slice(0, 7) + '…' : label}
+              {label.length > 10 ? label.slice(0, 9) + '…' : label}
             </div>
           )}
         </div>
 
-        {/* Selection / highlight glow */}
-        {data.isSelected && (
-          <div className="absolute inset-[-4px] rounded-full ring-2 ring-indigo-500/50 animate-pulse" />
-        )}
+        {/* Connected highlight ring (purple glow like D3 HTML) */}
         {isConnected && !isHighlightDimmed && (
-          <div className="absolute inset-[-3px] rounded-full ring-1 ring-purple-500/40" />
+          <div
+            className="absolute inset-[-4px] rounded-full ring-1 ring-[#9d50bb]/40 pointer-events-none"
+            style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+          />
+        )}
+
+        {/* Selection pulse animation */}
+        {selected && (
+          <div className="absolute inset-[-6px] rounded-full ring-2 ring-[#6366f1]/50 animate-pulse pointer-events-none" />
         )}
       </div>
 
-      {/* Label below */}
-      <span
-        className={clsx(
-          'max-w-[110px] truncate text-center leading-tight transition-all duration-200',
-          isHub
-            ? 'text-[11px] font-semibold text-slate-200 mt-0.5'
-            : 'text-[9px] text-[#aaa] group-hover:text-white group-hover:text-sm',
-        )}
-        title={label}
-      >
-        {label}
-      </span>
+      {/* Label below node (zoom-adaptive like D3 HTML) */}
+      {shouldShowLabel && !isHub && (
+        <span
+          className={clsx(
+            'max-w-[120px] truncate text-center leading-tight transition-all duration-200',
+            'text-[9px] group-hover:text-white',
+            d.isHit ? 'text-[#fbbf24] font-medium' : 'text-[#aaaaaa]',
+            selected && 'text-white font-medium',
+            d.isHovered && 'text-white text-[10px]'
+          )}
+          style={{
+            fontSize: shouldShowLabel ? `${Math.max(9, 10 / zoomLevel)}px` : '9px',
+            opacity: isHighlightDimmed ? 0 : (isHub ? 1 : 0.7),
+          }}
+          title={label}
+        >
+          {label.length > 22 ? label.slice(0, 21) + '…' : label}
+        </span>
+      )}
 
-      <Handle type="source" position={Position.Bottom} className="!bg-transparent !border-0 !w-0.5 !h-0.5" />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="!bg-transparent !border-0 !w-1 !h-1 !opacity-0"
+      />
     </div>
   )
 }

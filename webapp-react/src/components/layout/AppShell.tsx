@@ -27,16 +27,27 @@ export default function AppShell() {
   return (
     <div className="flex h-screen flex-col bg-gray-950 text-gray-100">
       {/* Header */}
-      <header className="flex items-center justify-between border-b border-gray-800 px-6 py-3">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500" />
-          <h1 className="text-lg font-bold tracking-tight">Digital DNA</h1>
+      <header className="relative flex items-center justify-between border-b border-white/[0.04] px-6 py-3">
+        {/* Subtle top glow */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent" />
+
+        <div className="flex items-center gap-3.5">
+          <div className="relative h-8 w-8">
+            <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 opacity-80 blur-[6px]" />
+            <div className="relative h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/20" />
+          </div>
+          <div>
+            <h1 className="font-[var(--font-display)] text-[15px] font-semibold tracking-tight text-gray-100">
+              Digital DNA
+            </h1>
+          </div>
         </div>
+
         <FounderSelector />
       </header>
 
       {/* Nav */}
-      <nav className="flex gap-1 border-b border-gray-800 px-6">
+      <nav className="flex gap-0.5 border-b border-white/[0.04] px-5">
         {NAV_ITEMS.map(({ to, label, icon: Icon, ...rest }) => (
           <NavLink
             key={to}
@@ -44,21 +55,28 @@ export default function AppShell() {
             end={'end' in rest}
             className={({ isActive }) =>
               clsx(
-                'flex items-center gap-2 border-b-2 px-4 py-2.5 text-sm font-medium transition-colors',
+                'relative flex items-center gap-2 px-3.5 py-2.5 text-[13px] font-medium transition-all duration-200',
                 isActive
-                  ? 'border-indigo-500 text-indigo-400'
-                  : 'border-transparent text-gray-400 hover:text-gray-200',
+                  ? 'text-gray-100'
+                  : 'text-gray-500 hover:text-gray-300',
               )
             }
           >
-            <Icon size={16} />
-            {label}
+            {({ isActive }) => (
+              <>
+                <Icon size={15} className={isActive ? 'text-indigo-400' : ''} />
+                {label}
+                {isActive && (
+                  <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" />
+                )}
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
       {/* Content */}
-      <main className="flex-1 overflow-auto p-6">
+      <main className="relative flex-1 overflow-auto p-5">
         <Outlet />
       </main>
     </div>

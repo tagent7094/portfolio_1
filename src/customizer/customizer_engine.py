@@ -690,3 +690,41 @@ def rewrite_section(entire_post: str, section_text: str, command: str, founder_s
     result = humanize_chain(lc_llm, result, style_rules, vocab_rules, personality_card=founder_ctx.get('personality_card', ''))
 
     return result.strip()
+
+
+# ── V2 Viral Post Adaptation ────────────────────────────────────────────────
+
+def adapt_viral_v2(
+    source_post: str,
+    founder_slug: str,
+    platform: str = "linkedin",
+    creativity: float = 0.5,
+    event_bus=None,
+    num_variants: int = 5,
+) -> dict:
+    """Run the V2 Viral Post Adaptation Framework.
+
+    Breaks adaptation into dedicated LLM calls: internalize founder,
+    dissect source post, generate 5 adapted versions with event freshness
+    tracking, audience vote, refine, and 11-point quality filter.
+    """
+    import yaml
+    from ..config.founders import get_founder_paths
+    from ..langchain_agents.adaptation_workflow import run_v2_adaptation
+
+    config_path = Path(__file__).parent.parent.parent / "config" / "llm-config.yaml"
+    with open(config_path) as f:
+        config = yaml.safe_load(f)
+
+    paths = get_founder_paths(config, founder_slug)
+    graph_path = paths["graph_path"]
+
+    return run_v2_adaptation(
+        source_post=source_post,
+        platform=platform,
+        founder_slug=founder_slug,
+        graph_path=graph_path,
+        creativity=creativity,
+        event_bus=event_bus,
+        num_variants=num_variants,
+    )

@@ -182,9 +182,46 @@ export interface CustomizationResult {
   founder_context: any
   viral_context: any
   traceability?: Traceability
-  all_variants?: { id: string; engine_name: string; strategy?: string; text: string; quality?: number }[]
+  all_variants?: { id: string; engine_name: string; strategy?: string; text: string; quality?: number; word_count?: number }[]
   is_collection?: boolean
   quality?: { score: number; passed: boolean }
+  // V2 Adaptation fields
+  founder_internalization?: FounderInternalization
+  source_dissection?: SourceDissection
+  events_used?: string[]
+  v2_quality?: V2QualityResult[]
+}
+
+// ── V2 Adaptation ──
+export interface FounderInternalization {
+  tensions: string[]
+  signature_scenes: string[]
+  argument_rhythm: string
+  vulnerable_moments: string[]
+  recurring_cast: string[]
+  word_count_range: [number, number]
+  key_moments_inventory: string[]
+}
+
+export interface SourceDissection {
+  narrative_arc: string
+  hook_mechanics: Array<{ sentence: string; structural_function: string; rhythm: string }>
+  sentence_count: number
+  body_structure: string
+  ending_type: string
+  virality_reason?: string
+}
+
+export interface V2QualityResult {
+  post_id: string
+  quality: {
+    checks: Record<string, boolean>
+    passed: boolean
+    failures_count: number
+    failed_checks?: string[]
+    rewrite_suggestions?: string[]
+    word_count_actual?: number
+  }
 }
 
 // ── Workflow ──

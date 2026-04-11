@@ -3,7 +3,7 @@ import { Save, Loader2, Cpu, Database } from 'lucide-react'
 import { apiGet, apiPost } from '../api/client'
 import type { LLMConfig } from '../types/api'
 
-const PROVIDERS = ['anthropic', 'openai', 'gemini', 'nvidia', 'lmstudio', 'ollama'] as const
+const PROVIDERS = ['anthropic', 'openai', 'gemini', 'nvidia', 'openrouter', 'lmstudio', 'ollama'] as const
 
 interface ProviderDefaults {
   base_url: string

@@ -1,0 +1,80 @@
+You are a quality filter for ghostwritten LinkedIn posts. Evaluate the post below against 11 specific checks from the Viral Post Adaptation Framework v2.
+
+## POST TO EVALUATE
+{post_text}
+
+## HOOK'S PROMISE (from planning step)
+{hook_promise}
+
+## SOURCE POST HOOK MECHANICS (what the opening should mirror)
+{source_hook_mechanics}
+
+## FOUNDER INTERNALIZATION
+{founder_internalization}
+
+## EVENTS USED ACROSS ALL VARIANTS (for freshness check)
+{events_used_all_variants}
+
+## WORD COUNT TARGET RANGE
+{word_count_range}
+
+---
+
+## 11-POINT QUALITY FILTER
+
+Evaluate each check. Be honest and specific. A post that fails more than 1 check should be flagged.
+
+1. **MACRO TEST** — Does the opening hook pass the macro test? Would a GENERAL audience (not just domain experts) relate to it and feel curiosity? Or is it too niche / too intellectual?
+
+2. **VULNERABILITY** — Does the body contain at least one moment where the founder is vulnerable/exposed, not lecturing?
+
+3. **COHESIVE NARRATIVE** — Does the body read as ONE cohesive narrative? Or does it feel like assembled content pieces stitched together?
+
+4. **ENDING** — Does the ending avoid restating the argument and land on a concrete detail (image, name, challenge, admission, physical object)?
+
+5. **PHYSICAL SCENE** — Could you picture a specific physical scene in this post? A moment with a setting, a person, a detail?
+
+6. **FOUNDER INSIDE** — Is the founder INSIDE the experience, or observing from outside?
+
+7. **HOOK DELIVERY** — Does the body deliver on the hook's SPECIFIC promise? Or did it drift to an adjacent topic?
+
+8. **EVENT FRESHNESS** — Is every specific event/number/milestone used only once across all variants? Check against the events list above.
+
+9. **NO RECYCLED LINES** — Would any sentence read as copy-pasted from one of the founder's existing published posts? If so, flag it.
+
+10. **WORD COUNT** — Is the word count within the founder's typical range ({word_count_range})?
+
+11. **DINNER TABLE TEST** — Read it out loud mentally. Does it sound like a person talking, or like AI-assembled content?
+
+---
+
+## OUTPUT FORMAT
+
+Return a JSON object:
+```json
+{{
+  "checks": {{
+    "macro_test": true,
+    "vulnerability": true,
+    "cohesive_narrative": true,
+    "ending_detail": false,
+    "physical_scene": true,
+    "founder_inside": true,
+    "hook_delivery": true,
+    "event_freshness": true,
+    "no_recycled_lines": true,
+    "word_count": true,
+    "dinner_table_test": false
+  }},
+  "passed": false,
+  "failures_count": 2,
+  "failed_checks": ["ending_detail", "dinner_table_test"],
+  "rewrite_suggestions": [
+    "The ending restates the thesis — replace with a concrete image or physical detail",
+    "Paragraph 3 reads like assembled talking points — rewrite as a single flowing thought"
+  ],
+  "word_count_actual": 245
+}}
+```
+
+Be strict. The quality bar is high. If in doubt, fail the check.

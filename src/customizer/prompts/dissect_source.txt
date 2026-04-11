@@ -1,0 +1,61 @@
+You are a structural analyst specializing in viral content mechanics. Your job is to dissect a viral post into its mechanical parts — NOT its content, but its STRUCTURE.
+
+## SOURCE VIRAL POST
+{source_post}
+
+## PLATFORM
+{platform}
+
+---
+
+## YOUR TASK
+
+### 1. NARRATIVE ARC
+Identify the **narrative arc** — what movement does this post run on? (e.g., "contradiction reveal", "progressive escalation", "scene-to-insight pivot", "confession-to-principle")
+
+### 2. HOOK MECHANICS
+Break the opening hook into its **mechanical parts**. For EACH of the opening sentences (typically 1-3 lines before the body begins):
+- What is this sentence DOING structurally? (e.g., "permission frame", "diagnostic question", "consequence statement", "reframe", "scene drop", "specificity bomb", "tension gap")
+- What is its rhythm? (short/punchy, medium/flowing, long/building)
+- How does it connect to the next sentence?
+
+### 3. SENTENCE MAP
+Map the **exact sentence count and structural function** of the opening lines. This is the mold that will be mirrored.
+
+### 4. BODY STRUCTURE
+How is the body organized? (e.g., "single scene explored deeply", "three examples building", "before/after transformation", "progressive revelation")
+
+### 5. ENDING TYPE
+What kind of ending is it? (e.g., "concrete image", "challenge to reader", "quiet admission", "unresolved tension", "physical detail")
+
+### 6. WHY IT WENT VIRAL
+In one sentence: what makes the OPENING of this post work for a GENERAL audience (not just domain experts)?
+
+---
+
+## OUTPUT FORMAT
+
+Return a JSON object with this exact structure:
+```json
+{{
+  "narrative_arc": "description of the movement/arc",
+  "hook_mechanics": [
+    {{
+      "sentence": "exact text of opening sentence 1",
+      "structural_function": "what this sentence does (e.g., permission frame, scene drop)",
+      "rhythm": "short/medium/long"
+    }},
+    {{
+      "sentence": "exact text of opening sentence 2",
+      "structural_function": "what this sentence does",
+      "rhythm": "short/medium/long"
+    }}
+  ],
+  "sentence_count": 2,
+  "body_structure": "description of body organization",
+  "ending_type": "description of ending mechanic",
+  "virality_reason": "why the opening works for a general audience"
+}}
+```
+
+Focus on MECHANICS, not meaning. The content changes; the machine stays the same.
