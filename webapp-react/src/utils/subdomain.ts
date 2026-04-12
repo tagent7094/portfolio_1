@@ -20,7 +20,9 @@ export function getSubdomainSlug(): string | null {
   const parts = host.split('.')
   // sharath.tagent.club → ["sharath","tagent","club"]
   if (parts.length >= 3 && parts.slice(-2).join('.') === 'tagent.club') {
-    return parts[0]
+    // Let's Encrypt rejects underscores in hostnames, so subdomains use hyphens
+    // (e.g. anish-popli.tagent.club) but backend slugs use underscores (anish_popli).
+    return parts[0].replace(/-/g, '_')
   }
   return null
 }

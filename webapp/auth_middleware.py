@@ -48,7 +48,10 @@ def _resolve_subdomain_slug(host: str) -> str | None:
     # sharath.tagent.club -> ["sharath", "tagent", "club"]
     parts = bare.split(".")
     if len(parts) >= 3 and parts[-2] == "tagent" and parts[-1] == "club":
-        return parts[0]
+        # Let's Encrypt rejects underscores in hostnames, so subdomains use hyphens
+        # (e.g. anish-popli.tagent.club) but backend slugs use underscores (anish_popli).
+        # Normalize by converting hyphens → underscores.
+        return parts[0].replace("-", "_")
     return None
 
 
