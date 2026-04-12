@@ -187,6 +187,21 @@ def _active_founder_slug() -> str:
     return config.get("founders", {}).get("active", "sharath")
 
 
+def _personality_card_path(founder_slug: str | None = None) -> str:
+    """Return path to personality card, scoped to auth ContextVar if set."""
+    from src.config.founders import get_active_founder, get_founder_paths
+    from src.auth import context as _auth_context
+    config = _load_config()
+    scoped = _auth_context.get()
+    if scoped:
+        paths = get_founder_paths(config, scoped)
+    elif founder_slug:
+        paths = get_founder_paths(config, founder_slug)
+    else:
+        paths = get_active_founder(config)
+    return paths["personality_card_path"]
+
+
 # --- Static files ---
 
 @app.get("/")
@@ -265,9 +280,8 @@ async def set_ingestion_config(data: ConfigUpdate):
 
 @app.get("/api/graph/stats")
 async def graph_stats():
-    config = _load_config()
-    gp = PROJECT_ROOT / config["stores"]["graph_path"]
-    card_path = PROJECT_ROOT / config["stores"]["personality_card_path"]
+    gp = Path(_graph_path())
+    card_path = Path(_personality_card_path())
     logger.info("[graph_stats] path=%s exists=%s", gp, gp.exists())
 
     if not gp.exists():
@@ -321,8 +335,7 @@ def _node_label(node_id: str, data: dict) -> str:
 @app.get("/api/graph/nodes")
 async def graph_nodes():
     try:
-        config = _load_config()
-        gp = PROJECT_ROOT / config["stores"]["graph_path"]
+        gp = Path(_graph_path())
 
         if not gp.exists():
             return {"nodes": [], "edges": []}
@@ -445,8 +458,7 @@ async def update_edge(data: EdgeUpdate):
 
 @app.get("/api/graph/personality-card")
 async def personality_card():
-    config = _load_config()
-    card_path = PROJECT_ROOT / config["stores"]["personality_card_path"]
+    card_path = Path(_personality_card_path())
     if card_path.exists():
         return {"card": card_path.read_text(encoding="utf-8")}
     return {"card": ""}
