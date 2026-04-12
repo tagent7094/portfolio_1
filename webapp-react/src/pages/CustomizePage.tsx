@@ -379,7 +379,7 @@ export default function CustomizePage() {
             className={clsx(
               'border-b-2 px-4 py-2 text-sm font-medium transition-colors',
               tab === 'browse'
-                ? 'border-indigo-500 text-indigo-400'
+                ? 'border-white/30 text-white'
                 : 'border-transparent text-gray-400 hover:text-gray-200',
             )}
           >
@@ -390,7 +390,7 @@ export default function CustomizePage() {
             className={clsx(
               'border-b-2 px-4 py-2 text-sm font-medium transition-colors',
               tab === 'custom'
-                ? 'border-indigo-500 text-indigo-400'
+                ? 'border-white/30 text-white'
                 : 'border-transparent text-gray-400 hover:text-gray-200',
             )}
           >
@@ -415,7 +415,7 @@ export default function CustomizePage() {
                   setError(null)
                 }}
                 placeholder="Paste a post here to customize it..."
-                className="flex-1 resize-none rounded-lg border border-gray-700 bg-gray-800 p-3 text-sm text-gray-100 placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"
+                className="flex-1 resize-none rounded-lg border border-gray-700 bg-gray-800 p-3 text-sm text-gray-100 placeholder:text-gray-500 focus:border-white/30 focus:outline-none"
               />
               <div className="mt-2 text-right text-xs text-gray-500">
                 {customText.length} characters
@@ -444,7 +444,7 @@ export default function CustomizePage() {
               className={clsx(
                 'flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 mode === 'quick'
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-white text-black'
                   : 'bg-gray-800 text-gray-400 hover:text-gray-200',
               )}
             >
@@ -456,7 +456,7 @@ export default function CustomizePage() {
               className={clsx(
                 'flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 mode === 'full'
-                  ? 'bg-amber-600 text-white'
+                  ? 'bg-white text-black'
                   : 'bg-gray-800 text-gray-400 hover:text-gray-200',
               )}
             >
@@ -468,7 +468,7 @@ export default function CustomizePage() {
               className={clsx(
                 'flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 mode === 'v2'
-                  ? 'bg-violet-600 text-white'
+                  ? 'bg-white text-black'
                   : 'bg-gray-800 text-gray-400 hover:text-gray-200',
               )}
             >
@@ -504,7 +504,7 @@ export default function CustomizePage() {
                 <select
                   value={numVariants}
                   onChange={(e) => setNumVariants(Number(e.target.value))}
-                  className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
                 >
                   {[1, 3, 5, 10].map((num) => (
                     <option key={num} value={num}>
@@ -519,7 +519,7 @@ export default function CustomizePage() {
                     type="checkbox"
                     checked={showThinking}
                     onChange={(e) => setShowThinking(e.target.checked)}
-                    className="rounded border-gray-700 bg-gray-800 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-gray-900"
+                    className="rounded border-gray-700 bg-gray-800 text-white/80 focus:ring-white/30 focus:ring-offset-gray-900"
                   />
                   Show Thinking
                 </label>
@@ -528,7 +528,7 @@ export default function CustomizePage() {
                     type="checkbox"
                     checked={skipVoting}
                     onChange={(e) => setSkipVoting(e.target.checked)}
-                    className="rounded border-gray-700 bg-gray-800 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-gray-900"
+                    className="rounded border-gray-700 bg-gray-800 text-white/80 focus:ring-white/30 focus:ring-offset-gray-900"
                   />
                   Skip Voting (Wave 12)
                 </label>
@@ -543,11 +543,7 @@ export default function CustomizePage() {
           disabled={!canCustomize || loading}
           className={clsx(
             'flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50',
-            mode === 'quick'
-              ? 'bg-indigo-600 hover:bg-indigo-500'
-              : mode === 'full'
-              ? 'bg-amber-600 hover:bg-amber-500'
-              : 'bg-violet-600 hover:bg-violet-500',
+            'bg-white hover:bg-white/90',
           )}
         >
           {loading ? (
@@ -566,7 +562,7 @@ export default function CustomizePage() {
         {/* Full pipeline progress */}
         {(mode === 'full' || mode === 'v2') && pipelineSteps.length > 0 && loading && (
           <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-            <h4 className={clsx('mb-3 text-xs font-semibold', mode === 'v2' ? 'text-violet-400' : 'text-amber-400')}>
+            <h4 className={clsx('mb-3 text-xs font-semibold', mode === 'v2' ? 'text-white' : 'text-white')}>
               {mode === 'v2' ? 'V2 Adaptation Progress' : 'Pipeline Progress'}
             </h4>
             <div className="space-y-2">
@@ -575,16 +571,16 @@ export default function CustomizePage() {
                   <div
                     className={clsx(
                       'h-2 w-2 rounded-full',
-                      step.status === 'completed' && 'bg-green-500',
-                      step.status === 'active' && 'bg-amber-500 animate-pulse',
+                      step.status === 'completed' && 'bg-white/20',
+                      step.status === 'active' && 'bg-white animate-pulse',
                       step.status === 'pending' && 'bg-gray-700',
                     )}
                   />
                   <span
                     className={clsx(
                       'text-xs',
-                      step.status === 'completed' && 'text-green-400',
-                      step.status === 'active' && 'text-amber-300',
+                      step.status === 'completed' && 'text-white',
+                      step.status === 'active' && 'text-white',
                       step.status === 'pending' && 'text-gray-600',
                     )}
                   >
@@ -605,7 +601,7 @@ export default function CustomizePage() {
 
         {/* Error */}
         {error && (
-          <div className="rounded-lg border border-red-800 bg-red-950/50 px-4 py-3 text-sm text-red-300">
+          <div className="rounded-lg border border-white/30 bg-white/10 px-4 py-3 text-sm text-white">
             {error}
           </div>
         )}

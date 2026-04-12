@@ -87,7 +87,7 @@ export default function DashboardPage() {
         <button
           onClick={handleIngest}
           disabled={ingesting}
-          className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-white disabled:opacity-50"
         >
           {ingesting ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
           {ingesting ? 'Ingesting...' : 'Ingest Founder Data'}
@@ -120,7 +120,7 @@ export default function DashboardPage() {
         <div className="flex items-start justify-between">
           <div>
             <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-100">
-              <Zap size={20} className="text-amber-400" />
+              <Zap size={20} className="text-white" />
               Viral Posts Brain
             </h3>
             <p className="mt-1 text-sm text-gray-400">
@@ -133,22 +133,22 @@ export default function DashboardPage() {
           {viralStats && !viralStats.empty && (
             <div className="flex gap-3">
               <div className="text-center">
-                <p className="text-lg font-bold text-amber-400">{viralStats.nodes}</p>
+                <p className="text-lg font-bold text-white">{viralStats.nodes}</p>
                 <p className="text-[10px] uppercase text-gray-500">nodes</p>
               </div>
               <div className="text-center">
-                <p className="text-lg font-bold text-amber-400">{viralStats.edges}</p>
+                <p className="text-lg font-bold text-white">{viralStats.edges}</p>
                 <p className="text-[10px] uppercase text-gray-500">edges</p>
               </div>
               {viralStats.types?.hook_type && (
                 <div className="text-center">
-                  <p className="text-lg font-bold text-emerald-400">{viralStats.types.hook_type}</p>
+                  <p className="text-lg font-bold text-white">{viralStats.types.hook_type}</p>
                   <p className="text-[10px] uppercase text-gray-500">hooks</p>
                 </div>
               )}
               {viralStats.types?.structure_template && (
                 <div className="text-center">
-                  <p className="text-lg font-bold text-blue-400">{viralStats.types.structure_template}</p>
+                  <p className="text-lg font-bold text-white">{viralStats.types.structure_template}</p>
                   <p className="text-[10px] uppercase text-gray-500">structures</p>
                 </div>
               )}
@@ -160,7 +160,7 @@ export default function DashboardPage() {
           <button
             onClick={() => handleBuildViral(false)}
             disabled={buildingViral !== null}
-            className="flex items-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-amber-500 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-white disabled:opacity-50"
           >
             {buildingViral === 'stat' ? (
               <Loader2 size={16} className="animate-spin" />
@@ -173,7 +173,7 @@ export default function DashboardPage() {
           <button
             onClick={() => handleBuildViral(true)}
             disabled={buildingViral !== null}
-            className="flex items-center gap-2 rounded-lg border border-amber-600 px-4 py-2 text-sm font-medium text-amber-400 transition-colors hover:bg-amber-600/10 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-lg border border-white/30 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 disabled:opacity-50"
           >
             {buildingViral === 'llm' ? (
               <Loader2 size={16} className="animate-spin" />

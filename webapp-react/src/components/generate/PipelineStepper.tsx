@@ -27,9 +27,9 @@ export default function PipelineStepper({ stepStates }: Props) {
               <div
                 className={clsx(
                   'flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold transition-all',
-                  state === 'completed' && 'bg-green-600 text-white',
+                  state === 'completed' && 'bg-white/20 text-white',
                   state === 'active' &&
-                    'bg-indigo-600 text-white ring-4 ring-indigo-500/30 animate-pulse',
+                    'bg-white text-black ring-4 ring-white/30 animate-pulse',
                   state === 'pending' &&
                     'border-2 border-gray-700 text-gray-500',
                 )}
@@ -43,8 +43,8 @@ export default function PipelineStepper({ stepStates }: Props) {
               <span
                 className={clsx(
                   'text-xs font-medium',
-                  state === 'active' ? 'text-indigo-400' :
-                  state === 'completed' ? 'text-green-400' :
+                  state === 'active' ? 'text-white' :
+                  state === 'completed' ? 'text-white' :
                   'text-gray-500',
                 )}
               >
@@ -57,7 +57,7 @@ export default function PipelineStepper({ stepStates }: Props) {
               <div
                 className={clsx(
                   'mx-2 h-0.5 flex-1',
-                  state === 'completed' ? 'bg-green-600' : 'bg-gray-700',
+                  state === 'completed' ? 'bg-white/20' : 'bg-gray-700',
                 )}
               />
             )}

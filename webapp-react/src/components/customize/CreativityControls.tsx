@@ -20,10 +20,10 @@ const SLIDERS: { key: keyof CreativityValues; label: string }[] = [
 ]
 
 function creativityLabel(value: number): { text: string; color: string } {
-  if (value <= 20) return { text: 'Keep Original', color: 'text-green-400' }
-  if (value <= 50) return { text: 'Adapt Voice', color: 'text-blue-400' }
-  if (value <= 80) return { text: 'Rewrite', color: 'text-yellow-400' }
-  return { text: 'Full Creative', color: 'text-red-400' }
+  if (value <= 20) return { text: 'Keep Original', color: 'text-white' }
+  if (value <= 50) return { text: 'Adapt Voice', color: 'text-white' }
+  if (value <= 80) return { text: 'Rewrite', color: 'text-white' }
+  return { text: 'Full Creative', color: 'text-white/90' }
 }
 
 export default function CreativityControls({ values, onChange }: Props) {
@@ -44,7 +44,7 @@ export default function CreativityControls({ values, onChange }: Props) {
               max={100}
               value={values[key]}
               onChange={(e) => onChange(key, Number(e.target.value))}
-              className="w-full accent-indigo-500"
+              className="w-full accent-white"
             />
             <span className={clsx('text-xs font-medium', color)}>{text}</span>
           </div>

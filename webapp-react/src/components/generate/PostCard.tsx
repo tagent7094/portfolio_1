@@ -29,7 +29,7 @@ export default function PostCard({ post, streamingText }: Props) {
   return (
     <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
       <div className="mb-2 flex items-center justify-between">
-        <span className="flex items-center gap-1.5 rounded-full bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-indigo-400">
+        <span className="flex items-center gap-1.5 rounded-full bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-white">
           <Cpu size={12} />
           {post.engine_name || post.engine_id}
         </span>
@@ -37,8 +37,8 @@ export default function PostCard({ post, streamingText }: Props) {
       </div>
 
       {reasoning && (
-        <div className="mb-3 rounded border border-indigo-900/50 bg-indigo-950/20 p-2.5 text-xs text-indigo-300">
-          <span className="font-semibold text-indigo-400 block mb-1 uppercase tracking-wider">Reasoning</span>
+        <div className="mb-3 rounded border border-white/50 bg-white/20 p-2.5 text-xs text-white">
+          <span className="font-semibold text-white block mb-1 uppercase tracking-wider">Reasoning</span>
           <span className="italic opacity-80">{reasoning}</span>
         </div>
       )}
@@ -53,7 +53,7 @@ export default function PostCard({ post, streamingText }: Props) {
       {isLong && (
         <button
           onClick={() => setExpanded(!expanded)}
-          className="mt-2 flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300"
+          className="mt-2 flex items-center gap-1 text-xs text-white hover:text-white"
         >
           {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
           {expanded ? 'Show less' : 'Show more'}

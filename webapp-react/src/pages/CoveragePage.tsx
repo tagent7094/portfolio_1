@@ -6,11 +6,11 @@ import { useFounderStore } from '../store/useFounderStore'
 import type { CoverageData } from '../types/api'
 
 function heatColor(value: number): string {
-  if (value >= 0.8) return 'bg-green-600'
+  if (value >= 0.8) return 'bg-white/20'
   if (value >= 0.6) return 'bg-green-700'
-  if (value >= 0.4) return 'bg-yellow-600'
-  if (value >= 0.2) return 'bg-orange-600'
-  if (value > 0) return 'bg-red-600'
+  if (value >= 0.4) return 'bg-white/20'
+  if (value >= 0.2) return 'bg-white'
+  if (value > 0) return 'bg-white/10'
   return 'bg-gray-800'
 }
 
@@ -48,7 +48,7 @@ export default function CoveragePage() {
         </div>
         <div className="h-3 overflow-hidden rounded-full bg-gray-800">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-indigo-600 to-violet-500 transition-all"
+            className="h-full rounded-full bg-gradient-to-r from-white to-white transition-all"
             style={{ width: `${coverage.overall_pct * 100}%` }}
           />
         </div>
@@ -74,7 +74,7 @@ export default function CoveragePage() {
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-gray-800">
               <div
-                className="h-full rounded-full bg-indigo-500"
+                className="h-full rounded-full bg-white"
                 style={{ width: `${data.pct * 100}%` }}
               />
             </div>
@@ -110,7 +110,7 @@ export default function CoveragePage() {
       {coverage.opportunities.length > 0 && (
         <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
           <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-300">
-            <Lightbulb size={16} className="text-amber-400" />
+            <Lightbulb size={16} className="text-white" />
             Untouched Opportunities
           </h3>
           <div className="space-y-1.5">

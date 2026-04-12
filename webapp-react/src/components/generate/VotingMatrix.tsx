@@ -9,10 +9,10 @@ interface Props {
 }
 
 function scoreColor(score: number): string {
-  if (score >= 8) return 'bg-green-600/80 text-green-100'
-  if (score >= 6) return 'bg-yellow-600/80 text-yellow-100'
-  if (score >= 4) return 'bg-orange-600/80 text-orange-100'
-  return 'bg-red-600/80 text-red-100'
+  if (score >= 8) return 'bg-white/20 text-green-100'
+  if (score >= 6) return 'bg-white/20 text-white'
+  if (score >= 4) return 'bg-white/80 text-orange-100'
+  return 'bg-white/10 text-red-100'
 }
 
 export default function VotingMatrix({ posts, votes, agentNames }: Props) {

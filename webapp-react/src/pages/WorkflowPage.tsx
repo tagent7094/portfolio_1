@@ -141,7 +141,7 @@ export default function WorkflowPage() {
           <button
             onClick={() => runMutation.mutate()}
             disabled={runMutation.isPending}
-            className="flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-black transition-colors hover:bg-white disabled:opacity-50"
           >
             {runMutation.isPending ? (
               <Loader2 size={12} className="animate-spin" />
@@ -188,7 +188,7 @@ export default function WorkflowPage() {
               <input
                 type="text"
                 defaultValue={selectedNode.data.label as string}
-                className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
               />
             </div>
 
@@ -209,7 +209,7 @@ export default function WorkflowPage() {
                 <textarea
                   defaultValue={selectedNode.data.prompt as string}
                   rows={4}
-                  className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+                  className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
                 />
               </div>
             )}

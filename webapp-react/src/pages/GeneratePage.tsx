@@ -74,7 +74,7 @@ export default function GeneratePage() {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               placeholder="What should we write about?"
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-500 focus:border-white/30 focus:outline-none"
               onKeyDown={(e) => e.key === 'Enter' && !store.running && handleGenerate()}
             />
           </div>
@@ -86,7 +86,7 @@ export default function GeneratePage() {
             <select
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
             >
               {PLATFORMS.map((p) => (
                 <option key={p} value={p}>
@@ -106,7 +106,7 @@ export default function GeneratePage() {
               max={100}
               value={creativity}
               onChange={(e) => setCreativity(Number(e.target.value))}
-              className="w-full accent-indigo-500"
+              className="w-full accent-white"
             />
           </div>
 
@@ -117,7 +117,7 @@ export default function GeneratePage() {
             <select
               value={numVariants}
               onChange={(e) => setNumVariants(Number(e.target.value))}
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
             >
               {[1, 3, 5, 10].map((num) => (
                 <option key={num} value={num}>
@@ -133,7 +133,7 @@ export default function GeneratePage() {
                 type="checkbox"
                 checked={showThinking}
                 onChange={(e) => setShowThinking(e.target.checked)}
-                className="rounded border-gray-700 bg-gray-800 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-gray-900"
+                className="rounded border-gray-700 bg-gray-800 text-white/80 focus:ring-white/30 focus:ring-offset-gray-900"
               />
               Show Thinking
             </label>
@@ -143,7 +143,7 @@ export default function GeneratePage() {
             {store.running ? (
               <button
                 onClick={handleStop}
-                className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500"
+                className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
               >
                 <StopCircle size={16} />
                 Stop
@@ -171,13 +171,13 @@ export default function GeneratePage() {
                   className="flex items-center gap-2 rounded-lg bg-gray-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-600 disabled:opacity-50"
                   title="Generate a structural variant instantly, skipping voting protocols"
                 >
-                  <Sparkles size={16} className="text-yellow-400" />
+                  <Sparkles size={16} className="text-white" />
                   Quick Fix
                 </button>
                 <button
                   onClick={handleGenerate}
                   disabled={!topic.trim()}
-                  className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-white/90 disabled:opacity-50"
                 >
                   <Sparkles size={16} />
                   Full Generate
@@ -190,7 +190,7 @@ export default function GeneratePage() {
 
       {/* Error */}
       {store.error && (
-        <div className="rounded-lg border border-red-800 bg-red-950/50 px-4 py-3 text-sm text-red-300">
+        <div className="rounded-lg border border-white/30 bg-white/10 px-4 py-3 text-sm text-white">
           {store.error}
         </div>
       )}
@@ -254,7 +254,7 @@ export default function GeneratePage() {
                   <p className="text-sm text-gray-400">{rp.original_text || rp.original || rp.before || ''}</p>
                 </div>
                 <div>
-                  <span className="mb-1 block text-xs font-medium text-indigo-400">
+                  <span className="mb-1 block text-xs font-medium text-white">
                     After
                   </span>
                   <p className="text-sm text-gray-200">{rp.refined_text || rp.refined || rp.after || ''}</p>
@@ -276,7 +276,7 @@ export default function GeneratePage() {
               <div
                 key={line.id}
                 className={`rounded-lg border p-3 text-sm ${store.winningOpening?.text === line.text
-                  ? 'border-green-600 bg-green-950/30 text-green-200'
+                  ? 'border-white/30 bg-white/30 text-green-200'
                   : 'border-gray-800 bg-gray-900 text-gray-300'
                   }`}
               >
@@ -290,8 +290,8 @@ export default function GeneratePage() {
             ))}
           </div>
           {store.winningOpening && (
-            <div className="mt-3 rounded-lg border border-green-700 bg-green-950/40 p-3">
-              <span className="text-xs font-medium text-green-400">
+            <div className="mt-3 rounded-lg border border-white/30 bg-white/40 p-3">
+              <span className="text-xs font-medium text-white">
                 Winner
               </span>
               <p className="text-sm text-green-200">

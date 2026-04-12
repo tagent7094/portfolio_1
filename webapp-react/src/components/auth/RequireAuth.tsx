@@ -15,7 +15,7 @@ export default function RequireAuth() {
   if (status === 'unknown') {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-950">
-        <Loader2 size={20} className="animate-spin text-indigo-400" />
+        <Loader2 size={20} className="animate-spin text-white" />
       </div>
     )
   }

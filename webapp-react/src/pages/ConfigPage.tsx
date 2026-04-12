@@ -51,7 +51,7 @@ function LLMSection({
               const d = providerDefaults[p]
               if (d) onModelChange(d.default_model)
             }}
-            className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
           >
             {PROVIDERS.map((p) => (
               <option key={p} value={p}>{p}</option>
@@ -67,7 +67,7 @@ function LLMSection({
               <select
                 value={models.includes(model) ? model : ''}
                 onChange={(e) => onModelChange(e.target.value)}
-                className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+                className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
               >
                 {models.map((m) => (
                   <option key={m} value={m}>{m}</option>
@@ -81,7 +81,7 @@ function LLMSection({
                 value={model}
                 onChange={(e) => onModelChange(e.target.value)}
                 placeholder="or type custom"
-                className="w-40 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-xs text-gray-400 focus:border-indigo-500 focus:outline-none"
+                className="w-40 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-xs text-gray-400 focus:border-white/30 focus:outline-none"
               />
             </div>
           ) : (
@@ -90,7 +90,7 @@ function LLMSection({
               value={model}
               onChange={(e) => onModelChange(e.target.value)}
               placeholder={isLocal ? 'e.g. ibm/granite-4-h-tiny' : 'Model name'}
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
             />
           )}
         </div>
@@ -102,7 +102,7 @@ function LLMSection({
           <label className="mb-1 block text-xs font-medium text-gray-400">
             API Key
             {defaults?.has_api_key && (
-              <span className="ml-2 text-emerald-500 text-[10px]">loaded from .env</span>
+              <span className="ml-2 text-white/80 text-[10px]">loaded from .env</span>
             )}
           </label>
           <input
@@ -110,7 +110,7 @@ function LLMSection({
             value={apiKey}
             onChange={(e) => onApiKeyChange(e.target.value)}
             placeholder={defaults?.has_api_key ? '••• loaded from .env •••' : 'Paste API key'}
-            className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-600 focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-600 focus:border-white/30 focus:outline-none"
           />
         </div>
       )}
@@ -207,7 +207,7 @@ export default function ConfigPage() {
 
       <LLMSection
         title="Post Generation LLM"
-        icon={<Cpu size={16} className="text-indigo-400" />}
+        icon={<Cpu size={16} className="text-white" />}
         provider={genProvider}
         model={genModel}
         apiKey={genApiKey}
@@ -219,7 +219,7 @@ export default function ConfigPage() {
 
       <LLMSection
         title="Graph Building / Ingestion LLM"
-        icon={<Database size={16} className="text-emerald-400" />}
+        icon={<Database size={16} className="text-white" />}
         provider={ingProvider}
         model={ingModel}
         apiKey={ingApiKey}
@@ -233,13 +233,13 @@ export default function ConfigPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-black transition-colors hover:bg-white/90 disabled:opacity-50"
         >
           {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
           {saving ? 'Saving...' : 'Save Configuration'}
         </button>
         {saved && (
-          <span className="text-sm text-emerald-400 animate-pulse">Saved!</span>
+          <span className="text-sm text-white animate-pulse">Saved!</span>
         )}
       </div>
     </div>

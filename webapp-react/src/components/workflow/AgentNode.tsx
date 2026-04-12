@@ -5,9 +5,9 @@ import clsx from 'clsx'
 
 const STATUS_STYLES: Record<string, string> = {
   idle: 'bg-gray-600',
-  running: 'bg-indigo-500 animate-pulse',
-  done: 'bg-green-500',
-  error: 'bg-red-500',
+  running: 'bg-white animate-pulse',
+  done: 'bg-white/20',
+  error: 'bg-white/10',
 }
 
 const TYPE_ICONS: Record<string, typeof Bot> = {

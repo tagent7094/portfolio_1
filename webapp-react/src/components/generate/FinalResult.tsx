@@ -108,8 +108,8 @@ export default function FinalResult({ result }: Props) {
           className={clsx(
             'flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold',
             quality.passed
-              ? 'bg-green-600/20 text-green-400'
-              : 'bg-red-600/20 text-red-400',
+              ? 'bg-white/20 text-white'
+              : 'bg-white/10 text-white/90',
           )}
         >
           {quality.passed ? (
@@ -128,7 +128,7 @@ export default function FinalResult({ result }: Props) {
           value={finalPost}
           onSelect={handleSelect}
           rows={6}
-          className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 p-4 text-sm leading-relaxed text-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 p-4 text-sm leading-relaxed text-gray-100 focus:outline-none focus:ring-1 focus:ring-white/30"
         />
         <button
           onClick={handleCopy}
@@ -140,8 +140,8 @@ export default function FinalResult({ result }: Props) {
 
       {/* Inline Section Rewrite */}
       {selectedText && (
-        <div className="mt-2 rounded-lg border border-indigo-800 bg-indigo-950/30 p-4 animate-in fade-in slide-in-from-top-2">
-          <div className="text-xs text-indigo-400 mb-2 font-medium">
+        <div className="mt-2 rounded-lg border border-white/30 bg-white/30 p-4 animate-in fade-in slide-in-from-top-2">
+          <div className="text-xs text-white mb-2 font-medium">
             <Wand2 size={12} className="inline mr-1" />
             Rewrite Selected Section
           </div>
@@ -152,14 +152,14 @@ export default function FinalResult({ result }: Props) {
               value={rewriteCommand}
               onChange={(e) => setRewriteCommand(e.target.value)}
               placeholder="e.g. Make this sound more aggressive"
-              className="flex-1 rounded-lg border border-indigo-700/50 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"
+              className="flex-1 rounded-lg border border-white/50 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-500 focus:border-white/30 focus:outline-none"
               onKeyDown={(e) => e.key === 'Enter' && !isRewriting && handleRewriteSection()}
               disabled={isRewriting}
             />
             <button
               onClick={handleRewriteSection}
               disabled={!rewriteCommand.trim() || isRewriting}
-              className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-white disabled:opacity-50"
             >
               {isRewriting ? <Loader2 size={16} className="animate-spin" /> : <Wand2 size={16} />}
               Rewrite
@@ -172,7 +172,7 @@ export default function FinalResult({ result }: Props) {
       <div className="rounded-lg border border-gray-800 bg-gray-950 p-4">
         <button
           onClick={() => setShowFeedback(!showFeedback)}
-          className="flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+          className="flex items-center gap-2 text-sm font-medium text-white hover:text-white transition-colors"
         >
           <RotateCcw size={16} />
           Regenerate with Adjustments
@@ -184,14 +184,14 @@ export default function FinalResult({ result }: Props) {
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               placeholder="E.g. Make it more aggressive, remove the third point..."
-              className="flex-1 rounded-lg border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-600 focus:border-indigo-500 focus:outline-none"
+              className="flex-1 rounded-lg border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-600 focus:border-white/30 focus:outline-none"
               onKeyDown={(e) => e.key === 'Enter' && !isRegenerating && handleRegenerate()}
               disabled={isRegenerating}
             />
             <button
               onClick={handleRegenerate}
               disabled={!feedback.trim() || isRegenerating}
-              className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-white disabled:opacity-50"
             >
               {isRegenerating ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />}
               Apply

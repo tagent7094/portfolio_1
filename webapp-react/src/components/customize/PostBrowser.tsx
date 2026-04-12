@@ -18,10 +18,10 @@ const ENGAGEMENT_OPTIONS = [
 ]
 
 function engagementColor(score: number): string {
-  if (score >= 5000) return 'bg-red-600'
-  if (score >= 1000) return 'bg-orange-600'
-  if (score >= 500) return 'bg-yellow-600'
-  if (score >= 100) return 'bg-blue-600'
+  if (score >= 5000) return 'bg-white/10'
+  if (score >= 1000) return 'bg-white'
+  if (score >= 500) return 'bg-white/20'
+  if (score >= 100) return 'bg-white/20'
   return 'bg-gray-600'
 }
 
@@ -131,13 +131,13 @@ export default function PostBrowser({ onSelectPost, selectedPostId }: Props) {
             value={query}
             onChange={(e) => handleQueryChange(e.target.value)}
             placeholder="Search posts..."
-            className="w-full rounded-lg border border-gray-700 bg-gray-800 py-2 pl-8 pr-3 text-sm text-gray-100 placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-lg border border-gray-700 bg-gray-800 py-2 pl-8 pr-3 text-sm text-gray-100 placeholder:text-gray-500 focus:border-white/30 focus:outline-none"
           />
         </div>
         <select
           value={minEngagement}
           onChange={(e) => setMinEngagement(Number(e.target.value))}
-          className="rounded-lg border border-gray-700 bg-gray-800 px-2 py-2 text-xs text-gray-100 focus:border-indigo-500 focus:outline-none"
+          className="rounded-lg border border-gray-700 bg-gray-800 px-2 py-2 text-xs text-gray-100 focus:border-white/30 focus:outline-none"
         >
           {ENGAGEMENT_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -152,7 +152,7 @@ export default function PostBrowser({ onSelectPost, selectedPostId }: Props) {
         <select
           value={minLikes}
           onChange={(e) => setMinLikes(Number(e.target.value))}
-          className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-2 py-1.5 text-xs text-gray-300 focus:border-indigo-500 focus:outline-none"
+          className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-2 py-1.5 text-xs text-gray-300 focus:border-white/30 focus:outline-none"
         >
           {LIKES_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -161,7 +161,7 @@ export default function PostBrowser({ onSelectPost, selectedPostId }: Props) {
         <select
           value={minComments}
           onChange={(e) => setMinComments(Number(e.target.value))}
-          className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-2 py-1.5 text-xs text-gray-300 focus:border-indigo-500 focus:outline-none"
+          className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-2 py-1.5 text-xs text-gray-300 focus:border-white/30 focus:outline-none"
         >
           {COMMENTS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -170,7 +170,7 @@ export default function PostBrowser({ onSelectPost, selectedPostId }: Props) {
         <select
           value={minReposts}
           onChange={(e) => setMinReposts(Number(e.target.value))}
-          className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-2 py-1.5 text-xs text-gray-300 focus:border-indigo-500 focus:outline-none"
+          className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-2 py-1.5 text-xs text-gray-300 focus:border-white/30 focus:outline-none"
         >
           {REPOSTS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -242,7 +242,7 @@ function PostCard({
       className={clsx(
         'w-full rounded-lg border p-3 text-left transition-colors',
         selected
-          ? 'border-indigo-500 bg-gray-800/80'
+          ? 'border-white/30 bg-gray-800/80'
           : 'border-gray-800 bg-gray-900 hover:border-gray-700',
       )}
     >
