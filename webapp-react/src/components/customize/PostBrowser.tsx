@@ -58,7 +58,7 @@ export default function PostBrowser({ onSelectPost, selectedPostId }: Props) {
   const [page, setPage] = useState(1)
   const [data, setData] = useState<PostBrowseResult | null>(null)
   const [loading, setLoading] = useState(false)
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const fetchPosts = useCallback(
     async (q: string, pg: number, minEng: number, mLikes: number, mComments: number, mReposts: number) => {

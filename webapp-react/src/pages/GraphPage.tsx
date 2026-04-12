@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useRef, useEffect, useLayoutEffect } fr
 import { useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import ForceGraph2D, { type ForceGraphMethods } from 'react-force-graph-2d'
-import { Search, X, Save, Loader2, Maximize2, Zap, User, ChevronRight, Link2, Play, SkipForward } from 'lucide-react'
+import { Search, X, Save, Maximize2, Zap, User, ChevronRight, Link2, Play, SkipForward } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'

@@ -49,7 +49,7 @@ const STEP_MAP: Record<string, string> = {
   track_coverage: 'humanize',
 }
 
-export const usePipelineStore = create<PipelineState>((set, get) => ({
+export const usePipelineStore = create<PipelineState>((set) => ({
   running: false,
   error: null,
   stepStates: {},
