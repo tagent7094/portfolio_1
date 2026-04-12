@@ -19,6 +19,7 @@ build/
 data/knowledge-graph/
 data/output/
 config/llm-config.yaml
+config/founder-auth.yaml
 *.db
 *.sqlite3
 
@@ -30,3 +31,18 @@ Thumbs.db
 temp-gsd/
 _xlsx_info.txt
 _gsd/
+
+# SSH keys (never commit private keys!)
+hostinger_mcp
+hostinger_mcp.pub
+*.pem
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# Local Claude settings
+.claude/settings.local.json
+
+# Screenshots / debug images
+images/

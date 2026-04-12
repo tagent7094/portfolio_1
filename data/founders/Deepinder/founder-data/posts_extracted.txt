@@ -1,0 +1,1484 @@
+--- POST 1 ---
+"We hit 107% of our gross pipeline goals, but we don’t know how."
+
+That's what CMO of over a $5B company told me on our first call. And this is very different than hearing, we hit 70% of our targets, and we need to do better, tell me how can you help.
+
+He said, "It’s always a nice thing when marketing is hitting close to 107% of its gross pipeline goals. You set these goals based on a ton of math and guesstimations, and sure enough, with three days left in the business days left in the quarter, you hit the goal. That’s seems unrealistic that, how did we get here? how do we repeat this?"
+
+Every CMO will recognize this because they have all been in the QBR where the numbers are green, CEO is happy, CFO is willing to give more budget, but nobody in the room can explain which specific decisions made it green.
+
+The danger isn't the quarter you can't explain. It's the quarter after.
+
+Because the board sees 107% and assumes the machine works. So they raise targets. Now you need to replicate something you never understood in the first place, but at 120% scale.
+- You set next quarter's goals based on results you can't attribute.
+- You fund the channels that happened to be running when pipeline showed up.
+- You starve the ones that weren't visible at the right moment.
+
+Every quarter, the gap between your numbers and your understanding of those numbers gets wider.
+
+What I respect about this particular CMO is what he did next. He didn't take the win and move on. He said, "I know what I don't know."
+
+That's rare. Most leaders in his position do one of three things. They try to hack together dashboards internally. They assign some analyst to reverse-engineer attribution after the fact. Or they just choose to fly blind and hope the next quarter is green too.
+
+The ones who actually solve it are the ones who treat the 107% quarter not as a success story but as a warning.
+
+Because a number you can't explain is a number you can't defend. And the first time the board asks why you missed after four quarters of hitting, "we don't know how we did it before either" is not an answer that keeps you in the room.
+
+--- POST 2 ---
+"I don't know whether I should be happy or angry."
+
+That's what a CMO told us when we showed us that her most promising campaign had only 0.4% conversion rate!
+
+So, they signed up with a content syndication vendor, who generated leads for them, this vendor generated over 12,000 leads, got a bigger contract and made the top of the funnel look very impressive.
+
+Then they looked at the funnel with RevSure. They had around 50 of those leads in the pipeline, 99.6% rejection rate. For every 240 leads they celebrated, one became a real opportunity. The other 239 were names in a database that would never buy anything.
+
+Now, the vendor knows this, but their entire business model depends on the marketing team never seeing full-funnel conversion. The vendor has a financial incentive to keep measurement at the top. The marketing team has a reporting incentive. Everyone benefits from the lie continuing.
+
+When someone finally sees the full funnel, they face an impossible choice. Admit you celebrated junk leads. Kill your top lead source. Explain to the board why 12,260 leads produced 51 deals. The person who brings this data to the room becomes the villain.
+
+This CMO decided to bite the bullet, she saved her marketing dollars and directed them to other sources.
+
+She wasn't happy or angry, she was both. Happy because she finally had the truth. Angry because the truth had been one query away for 1 year.
+
+--- POST 3 ---
+A CEO called me last year. He wanted to replace his marketing head. Asked if I knew someone.
+
+I've heard this call before. Pipeline is weak, need someone who could deliver. Different CEO, same story, same conclusion: the person is the problem.
+
+I asked three questions.
+- Who told you marketing isn't working? The CRO.
+- Do marketing and sales agree on pipeline numbers? Never.
+- When the numbers conflict, who do you trust? Sales.
+
+That's the whole story.
+
+The CRO controls the narrative because sales is closer to revenue. The CMO shows up to every meeting with a number that gets contradicted before she finishes her slide. She spends more time defending marketing's right to exist than actually running marketing.
+
+She had made smart budget calls six months ago, killed low-performing channels, and shifted spend. But pipeline from those decisions won't land for two more quarters. And she's being judged on the lagging output of a strategy she already replaced.
+
+I asked him what would change if the new CMO joins. He told me, "Nothing, she'd get the same team, same tools, same culture."
+
+So I explained to him that he wasn’t facing a CMO problem, they had designed a system that made the CMO lose.
+
+Eventually, he decided to double down on her. I spoke to him a few weeks ago, the CMO is nailing in her role there. Funny what happens when you fix the system instead of replacing the person.
+
+--- POST 4 ---
+A VP of Marketing I know got promoted in Q1, but she was put on a performance improvement plan in Q3.
+
+What changed?
+
+One quarter the attribution model credited her channels. The next quarter, it didn't. She didn't change but the attribution logic did.
+
+B2B attribution models are not objective measurement systems. They're political documents. They tell whatever story the last person who configured them wanted to tell.
+
+- First-touch models make demand gen look heroic.
+- Last-touch models make SDR look like the entire engine.
+- Multi-touch models spread credit so thin nobody looks good and nobody can be held accountable for anything.
+
+The VP who felt like she was winning one quarter and drowning the next wasn't experiencing performance volatility. She was experiencing model volatility.
+
+Her actual work didn't change, but the lens did she was being evaluated changed. So, until companies stop confusing the lens with reality, they'll keep promoting and firing the same people for the same invisible reasons.
+
+--- POST 5 ---
+"It almost killed me and my team."
+
+Amisha Gandhi was rebuilding attribution at a previous company from scratch and it was breaking her team.
+
+They had everything from power BI to Snowflake. But they were doing manual pulls the night before every board meeting, triple-checking every number and walking in still not sure whether leadership would trust what she was showing.
+
+The problem wasn't data, she had plenty of it. Marketing had their version, sales had theirs and finance had a third. Nobody agreed on which one was real, so nobody left with a decision.
+
+They had a revenue truth problem.
+
+When she finally got the foundation right, her team found something nobody had been looking for. A segment nobody was targeting was converting faster than anyone expected. Sales confirmed it. One small campaign. It became its own business line.
+
+She built the system to prove marketing's value. It ended up finding new revenue.
+
+Amisha has been CMO at Tipalti, built B2B influencer marketing at SAP from scratch when no enterprise company was touching it, and has run marketing from every seat at the table.
+
+In this episode of Moneyball CMO, we get into:
+
+- The $50K event she killed after two years of zero real prospects
+- How she convinced SAP to fund a channel nobody in enterprise believed in
+- Guerrilla marketing: billboards in target account business districts, outflanking NetSuite at their own conference
+- Why most CMOs have a revenue truth problem and don't know it
+- What the next CMO actually needs to look like
+
+Full podcast link in the comments.
+
+--- POST 6 ---
+The CMO has the shortest average tenure of any C-suite role. Most people think they know why. They don't.
+
+We blame the talent, strategy, or alignment. But here's what actually happens.
+
+Every time a CMO exits, they take two things with them. The demand generation thesis. And the brand narrative. The logic of why this market, this message, this channel mix.
+
+What stays behind is the CRM configuration, the lead scoring model, the channel weights - all outputs of decisions nobody wrote down. Built during a busy quarter by someone who's now gone. Configured the way it is because that's what the last rev ops person knew how to do.
+
+The next CMO inherits that system and spends the first six months trying to reverse-engineer it. Why is the MQL threshold set at that value? Why does this campaign attribute to first-touch and that one to last? Why is the LinkedIn budget four times the search budget?
+
+Nobody knows. The person who decided is gone.
+
+Most CMOs never fully figure it out. So they do the only thing they can. They add their own layer of decisions on top of what they inherited.
+
+By the time they're actually being assessed on what they've built, they realize they've spent the entire tenure excavating someone else's thinking. They never got to lay their own foundation.
+
+This is the flywheel nobody talks about.
+
+CMOs don't keep failing because the role attracts bad talent. They keep failing because every 18 months the institutional memory of how marketing arrived at what it is gets wiped completely clean.
+
+And the next person starts digging from the same spot, before they also leave.
+
+--- POST 7 ---
+Marketers have the job everyone has an opinion on.
+
+Every CEO, CFO, and CRO has an opinion on marketing. Which makes sense, they’ve been on the receiving end of it their whole lives. But somehow that turns into thinking they’re qualified to judge it.
+
+Nobody does this with finance or engineering. No one walks into a meeting and tells the CFO how to structure a balance sheet just because they’ve looked at one before.
+
+But marketing gets that treatment every single day. The CMO is the only C-suite executive whose expertise is routinely overridden by people whose only qualification is being a consumer.
+
+And over time, it changes how a CMO operates.
+
+They stop bringing the raw version of what they’re seeing in the market. Instead, they bring the version they know will land well in the room. The channel that doesn't feel impressive in a board deck gets cut. The message that actually resonates with buyers but sounds too simple in a leadership meeting never ships.
+
+On paper, it looks like the company just has different opinions about marketing. In reality, it’s losing the clearest signal it has about what customers actually think.
+
+So when a CMO underperforms, companies often assume it’s a marketing problem.
+
+What they actually have is a room full of consumers who confused familiarity with expertise, and a CMO who learned very quickly that telling them the truth was a faster path out the door than telling them what they wanted to hear.
+
+--- POST 8 ---
+A CMO I know described her job to me once as feeling like a genius and a fraud in the same quarter.
+
+I've heard that from almost every marketing leader I've spoken to in the last four years. Most people hear that and think, marketing leadership is emotionally demanding.
+
+On one day, she gets excited that finally the CFO is getting her and in the next quarter she has to explain her spends to the leadership. It's a sinusoidal wave of emotions coming from how pipeline looks that quarter.
+
+I hear it and think: something is wrong with what she's measuring. This is what happens with CMOs.
+- The campaigns they ran in January show up in pipeline in April.
+- The brand work they invested in last year closes as revenue this year.
+- The SDR motion they rebuilt in Q1 hits its stride in Q3.
+
+But their board reviews them every 90 days.
+
+So when things look good, they're seeing the echo of decisions they made six months ago. But when things look bad, they're watching a pipeline she can no longer affect. It's already in motion.
+
+So, my friend is not on a rollercoaster.
+
+She's reading last quarter's weather and being asked why today's temperature is wrong.
+
+The CMOs who appear steady aren't necessarily better operators. They've figured out how to stop letting a broken feedback loop tell them who they are.
+
+--- POST 9 ---
+Conversations with Amisha are always grounding for me.
+
+She’s been an advisor in how we’ve thought about the product, the market, and our long-term direction - so having her on the Moneyball CMO podcast was genuinely special.
+
+One idea she shared that really stayed with me, "Influencer marketing in enterprise isn’t there for distribution but for helping buyers reach to a decision."
+
+Enterprise buyers don’t lack content. They’re already educated, well-informed, and already part of the buyer journey, because they are considering your product for solving a problem that is already bothering them.
+
+What they struggle with is decisioning, they are thinking about the risk, hesitating about the internal alignment they have to do - they simply don’t feel confident enough.
+
+That’s where influence actually works, as decision infrastructure. For any B2B marketer working for influencer marketing they should aim for:
+- Building trust, not reach
+- Attach influence to GTM moments, not just campaigns
+- Choose credibility over popularity - focus on trusted operators your ICP already respects
+- Plan how to embed it across sales, exec, and customer motions
+- Measure decision movement, not vanity metrics like engagement or impressions
+
+The right voice unblocks a deal, compresses cycles, aligns a buying committee or makes a buyer feel safer moving forward.
+
+That’s where influence works in enterprise.
+
+This is just a first glimpse of what she shared on the pod. Full episode coming soon, stay tuned!
+
+--- POST 10 ---
+Intercom killed $60M in ARR, on purpose.
+
+Eoghan McCabe, CEO of Intercom recently wrote about his decision as the only way of saving SaaS - to cannibalise itself before someone else does. But I think there is a lesson here for everyone.
+
+Intercom moved 80% of R&D to a product that was single digit revenue generator - Fin, when it was nothing. He calls it creative destruction. I think the more honest word is just: courage.
+
+I've spent four years sitting in on marketing leadership conversations. And the pattern I keep seeing isn't that teams lack good tools or smart people. It's that they're protecting things that stopped working.
+
+The MQL definition that hasn't been revisited in two years. The attribution model that shows marketing in the best light but can't answer the CFO's actual question. The tool they bought in 2022 that three people know how to use and nobody wants to admit isn't working.
+
+Every one of those has a history. Someone fought for the budget. Someone's identity is wrapped up in it. So instead of replacing it, you add another layer on top - another integration, another dashboard, another AI feature on top of a broken foundation.
+
+Intercom's story reads like a big dramatic transformation. But I think what Eoghan is actually describing is just the willingness to have the uncomfortable conversation; with your board, your team, yourself - that the thing you built isn't the thing you need anymore.
+
+I see CMOs who do this. It is never easy and it always costs something in the short-term. But the ones who do it are almost always ahead 18 months later.
+
+The ones who don't are still in the same meeting, defending the same broken model, wondering why the new AI tool didn't fix it.
+
+Image credit: Eoghan McCabe
+
+--- POST 11 ---
+When I started building in public last year, I made one decision - I will not publish any manufactured ‘thought leadership’ content, which any AI tool - could spin up in five minutes.
+
+Instead, I launched the Moneyball CMO series. Real conversations with CMOs running marketing at large brands- What's working inside their orgs, what's broken and what proving ROI looks like when you're accountable to the board.
+I felt that these conversations deserved more than one format. That is why the podcast and newsletter started together.
+
+A month in, here's what I've learned:
+- People aren't overwhelmed by content. But they don’t like to see ChatGPT manufactured or unearned content. So, if you have not lived it, its is better to shut it.
+- Audiences have strong pattern recognition now - they can distinguish if it is earned insight.
+- We're entering a split market. Machine-generated commodity on one end. Authenticated expertise on the other. And the middle - polished, safe, detached content without lived specificity - is getting squeezed out.
+
+--- POST 12 ---
+The CMO seat at a B2B SaaS is the only C-suite role designed to fail.
+
+The issue is rarely the capability of the person in the role. It comes from how the role is positioned inside the company.
+
+Marketing becomes everyone’s side responsibility. Finance owns finance. Sales owns sales. But marketing is the only function where the budget holder does not fully control the levers that determine success.
+
+Without a clear line between marketing activity and company priorities, a CMO’s authority never fully forms.
+
+You can feel it in meetings. A senior executive pushes a different view and the energy changes. The CMO goes from leading the conversation to explaining why the plan makes sense.
+
+The CMOs who hold real authority do one thing consistently. They anchor every conversation in the metric that keeps the company alive.
+
+Revenue.
+
+Every initiative, every campaign, every hire ties back to revenue impact. Conversations start there and end there. When marketing is clearly framed as a revenue engine, influence stops feeling borrowed. Until that connection is obvious, the CEO ends up acting as the real CMO. Control naturally flows to the person closest to the revenue number.
+
+This dynamic has little to do with ego. It has everything to do with clarity. When marketing’s impact on revenue is obvious, trust grows. When it feels abstract, authority shrinks and someone else steps in.
+
+--- POST 13 ---
+Profound raised $96M at a $1B valuation recently.
+
+In last 10 months, the AEO category has grown from 7 tools to over 150. Fifty-four percent of US marketers plan to implement GEO within the next 3-6 months.
+
+The market is racing to track AI visibility. Reasonable response to a real surface shift.
+
+But there is a 46x gap in citation rates across AI platforms for the same brand. Grok cites same brands 27% of the time. ChatGPT cites the same brands 0.59% of the time. Same content, same company in a 30-day window.
+
+So visibility optimisation problem is one thing, the marketers are also going to face an attribution infrastructure problem.
+
+Which platform actually reaches your buyers? That depends on your industry, your buyer persona, your ICP's research behavior.
+- Copilot dominates B2B enterprise workflows.
+- Perplexity leads in finance.
+- ChatGPT drives 77% of AI referral traffic broadly.
+
+The visibility tool tells you where you're cited. It doesn't tell you which citations connect to pipeline for your specific buyers.
+
+The gap isn't solved by optimizing citation rates, which is just a vanity metrics.
+
+It's solved by attribution infrastructure that traces the buyer's full path - where they discovered you, where they engaged, and which surface they converted from.
+
+Marketing ops leaders are buying AI visibility, but none of them will get promoted for telling their Grok citation rate.
+
+What they they need to know is on which surface their last five closed deals started and how they contributed to the Revenue.
+
+--- POST 14 ---
+80% of CMO searches end the same way: hired for execution, fired for not being a mind reader.
+
+The job description says launch campaigns, build pipeline, own the funnel. The actual job is knowing which executive to disappoint this week and in what order.
+
+Product needs market education but sales needs leads tomorrow. Finance approved budget for brand but the board wants performance metrics by Friday. The CEO wants category leadership but also wants to hit this quarter's number. Marketing gets all five mandates, zero decision rights about which one wins.
+
+This is why the role burns people out faster than any other executive seat. You're accountable for outcomes but you don't control the inputs. Product ships late, finance cuts budget mid quarter, sales changes ICP twice in six weeks. Marketing still owns the number.
+
+The CMOs who survive aren't the ones with the best playbooks. They're the ones who can walk into a room of executives with conflicting priorities and get them to pick one problem to solve this quarter. Not acknowledge all the problems, pick one. That forces trade offs nobody wants to make, which is why most companies skip this step and just ask marketing to do everything poorly instead of one thing well.
+
+When a CMO gets that alignment, marketing starts working. When they don't, they get six months to prove execution skills that were never the bottleneck.
+
+--- POST 15 ---
+Nobody gets promoted for stopping bad marketing.
+
+You get credit for campaigns launched, channels scaled, pipeline generated. You don't get credit for the product positioning that would've failed, the brand campaign that would've burned budget, or the market you didn't enter because the unit economics were fiction.
+
+This is why most VP Marketing hires optimize for velocity over judgment. Boards want to see motion. Teams want to see output. Leadership wants to see momentum in the metrics they're watching. The incentive is always to do more.
+
+But the most valuable marketing work is often deciding what not to do. It's killing the rebrand six weeks in when you realize brand wasn't the problem. It's saying no to the enterprise play when your product isn't ready for procurement cycles. It's telling the CEO their favorite tagline doesn't mean anything to the customer.
+
+That work is invisible until you compare the company that did it to the one that didn't. One has focus, the other has thirty initiatives and no momentum. One has a team that trusts leadership, the other has a team that's learned to ignore strategy because it changes every quarter.
+
+The best marketing leaders I know are defined by what they stopped, not what they started. But nobody writes that job description.
+
+--- POST 16 ---
+We just wrapped up our biggest quarter as well as the biggest year at RevSure AI.
+
+In FY2026, we 4x’d our ARR, and in two separate quarters, we added more revenue than we had cumulatively at the start of the year.
+
+What worked for us? We just identified who we're building for. And we went all in. We realized that it's the large enterprises with complex GTM motions - they're the ones who need RevSure AI. The more complex the GTM motion, the faster they recognize the pain. The faster they recognize the pain, the bigger the initial deal. The bigger the initial deal, the faster they expand.
+
+We stopped trying to convince companies with simple motions that they need better attribution. We started finding the ones already operating blind at scale. Those conversations close in weeks, not quarters.
+
+That's when the growth curve broke. Not when we built more features. When we admitted who we're actually built for.
+
+I'm excited for FY2027, it will be the biggest year for RevSure. Again.
+
+--- POST 17 ---
+Two weeks ago, $285 billion in SaaS market value got wiped out in a single day.
+
+Anthropic launched Claude Cowork plugins and the market just figured out what operators already know: software that shows you problems is dying to software that solves them.
+
+Between February 3rd and 5th, the S&P Software & Services Index recorded its worst two-day stretch since 2008. Salesforce and Workday are each down over 40% in 12 months.
+
+Every operator I work with stopped asking for dashboards six months ago. Now they all want the same thing: agents that finish the job.
+
+That's what we built at RevSure AI. Agents that craft personalized emails based on a prospect's full journey and LinkedIn profile. Agents that identify high-engagement leads by seniority, industry, company size, and activity signals, then run outreach automatically.
+
+You configure the flow, set the logic, and the agent executes. They use tools like Gmail, SendGrid, or write directly back to Marketo and HubSpot like they're on your team.
+
+A dashboard tells you what happened. An agent does what needs to happen next.
+
+SaaS gave us dashboards. Agents give us leverage.
+
+The $285 billion wipeout wasn't a market correction. It was the market repricing every piece of software that stops at showing you the answer instead of executing it.
+
+We don't need more tools that show us the problem. We need tools that finish the job.
+
+--- POST 18 ---
+Last week I posted about Salesforce catering to a newer target segment with the MrBeast ad at the Super Bowl.
+
+The comments were fascinating. But I think the core debate missed the point.
+
+The main pushback was: "Brand loyalty doesn't transfer. Yahoo was every teenager's homepage. Blackberry was the cool kid's phone. Gen Z moves from Snapchat to TikTok to Instagram and back. None of that mattered once enterprise buying started."
+
+That argument is correct. But it completely missed the point.
+
+When Yahoo lost to Google, it wasn't a loyalty problem. When Blackberry lost to Apple, it wasn't a loyalty problem either.
+
+The better product won. That's a product story. Not a brand story.
+
+Most people confuse brand loyalty with product superiority. They're not the same thing. And in enterprise, this distinction matters even more.
+
+Enterprise buyers are not fans. They're operators - budget, stack compatibility, risk, internal optics, procurement friction. Nobody says "I know it's worse, but I love the brand." That's not how six-figure decisions work.
+
+So does brand matter? Yes. Just not the way people think.
+
+Brand doesn't win the deal. Brand gets you on the SHORTLIST.
+
+Before the RFP, the comparison matrix or pricing discussions. There's a quiet filtering moment where teams decide which 3-4 vendors are even worth evaluating.
+
+Nobody spends political capital championing a vendor they've never heard of. And nobody spends it on a vendor that feels like their predecessor's legacy stack or ”Dad's software."
+
+That's the real threat Salesforce is fighting. Becoming Irrelevant. If you're not on that list, your product never gets a chance to prove it's better.
+
+MrBeast doesn't guarantee Salesforce wins the deal. He guarantees they make the list.
+
+TLDR: Product wins the deal. Brand gets you on the shortlist.
+
+--- POST 19 ---
+Jason Beddall 10X’d his marketing team’s content output last year. Every efficiency metric went up. Leadership was thrilled.
+
+Then he automated customer outreach, and everything broke. Response rates collapsed, prospects ghosted and buyers could smell the automation from a mile away.
+
+They became more productive and less effective at the same time.
+
+So he drew a line. AI handles everything internal - content production, research, data analysis, ops. But the moment something touches a prospect, it has to be human.
+
+Real understanding of what buyers are dealing with and solving their problem, without any AI automated targeting.
+
+I think a lot of marketing leaders are quietly experiencing this - but not many are talking about it.
+
+We unpacked it on Moneyball CMO, and a few things really stood out:
+1. Efficiency ≠ effectiveness
+Automation helped with output. It hurt when it replaced human touch in outreach.
+
+2. Building attribution in-house has limits
+Jason spent 18 months building. They got to about 65% - then hit a wall.
+
+When he decided to buy RevSure instead of build the remaining 35%, they uncovered $2M in pipeline sitting in their own data. It had been there all along - just fragmented across systems that didn’t talk to each other.
+
+3. Buyer bots are changing the funnel
+Bots are filling out forms, downloading whitepapers, and researching vendors - before a human buyer ever steps in.
+
+At one point he said, “One of my least favourite conversations is about who gets credit for what.”
+
+He’s right.
+
+Attribution shouldn’t be about credit. The real question is whether you’re willing to act when the data challenges decisions you’ve already made.
+
+Full breakdown in this week’s Moneyball CMO newsletter (link in comments).
+
+If you’re a CMO challenging conventional wisdom or know one, tag them. We’d love to feature you.
+
+--- POST 20 ---
+Building AI is easy. Building AI that earns trust is hard.
+
+When we started RevSure, we knew one thing for sure: if AI is going to sit at the heart of revenue decisions, it has to be responsible, governed, and accountable, not a black box people are afraid of.
+
+RevSure is now ISO/IEC 42001:2023 certified, the world’s first international standard for AI Management Systems.
+
+We’re among the early companies globally to meet this bar. It’s validation of years spent thinking deeply about how our AI is designed, deployed, monitored, and continuously improved.
+
+It also builds on the trust foundation we’ve been quietly putting in place: SOC 2 Type II, ISO 27001:2022, and GDPR compliance.
+
+Proud of the team. Grateful to our customers. Onward. 🚀
+
+--- POST 21 ---
+I have a customer who has developed an 'unhealthy' obsession with our dashboards.
+
+He probably knows more than RevSure than me. So, why's he obsessed?
+
+He got sick of the napkin math he used to do when his CMO or CEO used to ask him what's his projection for this month. He used to put together things, cook up a story and then share the most believable narrative, which also had to be politically correct.
+
+So, when he REALLY got visibility into his pipeline, the first thing he told us was that he'd throw the napkins now. And a month later, he told us that he has developed an unhealthy obsession with his pipeline metrics, and with RevSure.
+
+What changed wasn’t curiosity, it was certainty. When people finally trust the numbers, they stop storytelling and start checking, again and again.
+
+True product adoption doesn't look like usage, it looks like obsession.
+
+--- POST 22 ---
+60M people visited MrBeast's Salesforce page during the Super Bowl. Almost none of them will buy enterprise software this quarter.
+
+So "did it work?" is the wrong question.
+
+Salesforce isn't try to buy pipeline, they're buying future preference.
+
+MrBeast's audience is 18-30. Today they're ICs and junior managers. In a few years, many will be VPs choosing CRMs, approving six-figure contracts, building GTM stacks.
+
+That's compound branding.
+
+Most CMOs can't think long-term, not because they lack vision. Because they're playing a political game. They're judged on quarters, pipeline, and narratives they can defend in a boardroom.
+
+I keep seeing CFOs kill brand spend with one question: "What's the pipeline impact this quarter?"
+
+When the CEO personally sponsors the bet, that pressure disappears. The time horizon expands. The politics quiet down.
+
+Salesforce was successful in capturing attention of potential future buyers, because this decision came from the top and gave the org air cover to think long.
+
+That's the real advantage.
+
+Most companies don't have a brand problem. They have a permission problem. And that's the one thing you can't buy with an $8M Super Bowl slot.
+
+--- POST 23 ---
+CFOs hate brand spend because brand teams can't speak their language.
+
+"Awareness" doesn't show up in Salesforce.
+"Long-term value" doesn't close deals this quarter.
+
+So every budget cycle, brand teams play defense - Trust us. It's building equity. You can't measure everything.
+
+And CFOs despise "trust me" budgets.
+
+We had a customer whose CFO asked what their billboard ROI was. The brand team said "Brand doesn't work like that." CFO said ,"Then we're cutting the budget."
+
+We showed them something different. Not attribution of individual billboard views to individual deals, that's impossible. We showed incrementality: in markets where they ran billboards, pipeline increased 37%. In markets where they didn't, pipeline stayed flat.
+
+Clear comparison - pre and post. CFO language.
+
+The conversation flipped completely. From "prove these billboards work" to "how much more should we spend?"
+
+One customer told us, "That's a very key point in moving that conversation forward and justifying additional spend. If we want to go bigger, what does that look like?"
+
+Same board, same CFO, different question. Brand teams stopped defending their budget and started expanding it.
+
+--- POST 24 ---
+Use AI to make your team faster. Don't use it to fake being human.
+
+If I have to define the biggest takeaway from my conversation with Jason Beddall, this would be it.
+
+Jason is a power user of RevSure AI, sometimes I think he knows the product better than I do. So when he agreed to this podcast, I was thrilled. Not because we'd talk about RevSure, but because his perspective is grounded in real, messy marketing experience.
+
+He started in content production and video storytelling 10 years ago, then moved into marketing leadership. Now he runs growth marketing at Ncontracts in the heavily regulated financial compliance space.
+
+Jason's a big believer in knowledge-as-a-service - educating prospects through content, case studies, and resources rather than pitching features.
+
+He told me - how AI helped his team 10X content production. But the moment they automated prospect outreach, everything fell apart. Buyers could smell the inauthenticity.
+
+We also covered:
+- Why "who gets credit" is killing the marketing team's momentum
+- How to find hidden dollars in the marketing pipeline
+- His views on Build vs Buy.
+- The skills that CMOs need in 2026, among other things.
+
+Check out the full episode to see how Jason found $2M in hidden pipeline. Link in the comments.
+
+If you know a CMO doing something different? Tag them, I want to hear their story.
+
+Riddhy Mehta, Alex Cox, Harry Hawk, ⚡️Francisco, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Tom Wentworth
+
+--- POST 25 ---
+A $400M company was starving its best team and overfeeding the other, and they didn't even know about it.
+
+When we told our findings to CMO, she told me that I don't know if I should be angry or happy. Eventually, we grew their pipeline for 105% in 6 months and this was one of the most unique use cases we came across.
+
+So, they had 5 different verticals, and each vertical had different buying cycles, deal sizes, conversion rates. But they compressed everything into averages. And here's the problem with that:
+
+- Average conversion rates mean nothing when one vertical converts at 8% and another converts at 2%
+- Average CAC means nothing if cost per opportunity is $6K for one team and $800 for another
+
+Because of this avg play, everyone got the same budget, and that was a disaster. They overfed underperforming teams and channels and underfed champions.
+
+We asked them to reallocate their budgets, they shifted $100K from Team E to Team A. The results were following.
+Team A:
+- Old budget: $200K - 240 opportunities
+- New budget: $300K - 360 opportunities
+- New pipeline: +120 opportunities
+
+Team E:
+- Old budget: $200K - 30 opportunities
+- New budget: $100K - 15 opportunities
+- Lost pipeline: -15 opportunities
+
+Net gain: +105 opportunities from the same total budget.
+
+Before RevSure AI, they kept asking for more budget while the real answer was dissecting the averages.
+
+Riddhy Mehta, Alex Cox, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Tom Wentworth
+
+--- POST 26 ---
+We caught a $3M revenue deficit 90 days early and also saved hundreds of thousands of dollars for our customer. It’s still the story I’m most proud of.
+
+The VP of marketing we were working with was spending aggressively on conferences and events, so their top of funnel volume looked great, and their pipeline forecasts were green across the board.
+
+But our attribution infrastructure flagged something which Salesforce didn't, conversion rates were quietly collapsing. So, while their volume was good, their quality was not.
+
+When we followed that signal forward, it was clear they were going to miss revenue targets by $3M, it just hadn’t shown up yet. Revenue lag meant the problem was invisible until it was almost too late to fix.
+
+That’s the danger of summary metrics. You optimize what’s visible, usually volume, while quality erodes unnoticed. By the time it hits revenue, you’re already 90 days behind.
+
+Because we caught it early, the customer pulled the plug on events mid-year and shifted spend to ABM. They still missed the original target, but they avoided having to explain a $3M shortfall with no runway left to recover.
+
+You can’t run your GTM motion with a reactive lens on attribution. Otherwise, you end up digging wells after you’re already thirsty.
+
+RevSure AI, Riddhy Mehta, Alex Cox, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Tom Wentworth
+
+--- POST 27 ---
+Buyers are human. They move forward, go backward, pause, and rethink decisions. Yet we’ve built entire marketing operations around the idea that leads follow a fixed path. They don’t.
+
+Last week, I shared my conversation with Ritu Kapoor. While the entire discussion was phenomenal in shedding light on buyers and the challenges marketing teams face, Ritu’s point about the linear buyer journey being a myth stood out.
+
+Watch her break it down in this clip. She sounds calm, but that's absolute chaos she's talking about.
+
+In case you missed it, the latest Moneyball CMO newsletter just dropped: Why Your Marketing Funnel Is Working Against You. I’m sharing the link in the comments. Subscribe for more insights from CMOs who are challenging conventional wisdom.
+
+RevSure AI, Riddhy Mehta, Alex Cox, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Tom Wentworth
+
+--- POST 28 ---
+Sam Altman went from calling ads in AI “uniquely unsettling” to saying “we’ll take great care to do it (ads) right.”
+
+This has left CMOs worried about tracking ChatGPT conversations, buyers are anonymous. But that’s not the real problem they’re about to face.
+
+Buyers were already anonymous, more than 95% of B2B website visitors never fill out a form. They were anyway doing research quietly across LinkedIn, your website, competitor sites, review platforms, and G2.
+
+If you can't connect anonymous research to known accounts NOW, ChatGPT doesn't change anything.
+
+Real attribution infrastructure identifies accounts from anonymous activity. That infra is IP resolution, intent signals, firmographic matching, behavioral patterns.
+
+On the other hand, weak attribution waits for form fills.
+
+The solution isn't "ChatGPT-specific tracking." It's attribution infrastructure that identifies buying committees across ANY channel, anonymous or not.
+
+If you built that infrastructure, ChatGPT would become just another signal. If you didn't, ChatGPT would be another excuse for why you can't prove ROI.
+
+--- POST 29 ---
+We caught a $3M revenue deficit 90 days early and also saved hundreds of thousands of dollars for our customer. It’s still the story I’m most proud of.
+
+The VP of marketing we were working with was spending aggressively on conferences and events, so their top of funnel volume looked great, and their pipeline forecasts were green across the board.
+
+But our attribution infrastructure flagged something which Salesforce didn't, conversion rates were quietly collapsing. So, while their volume was good, their quality was not.
+
+When we followed that signal forward, it was clear they were going to miss revenue targets by $3M, it just hadn’t shown up yet. Revenue lag meant the problem was invisible until it was almost too late to fix.
+
+That’s the danger of summary metrics. You optimize what’s visible, usually volume, while quality erodes unnoticed. By the time it hits revenue, you’re already 90 days behind.
+
+Because we caught it early, the customer pulled the plug on events mid-year and shifted spend to ABM. They still missed the original target, but they avoided having to explain a $3M shortfall with no runway left to recover.
+
+You can’t run your GTM motion with a reactive lens on attribution. Otherwise, you end up digging wells after you’re already thirsty.
+
+--- POST 30 ---
+A VP of Marketing told me last year that she'd rather use Excel than log into one more dashboard.
+
+Not ours. Any dashboard.
+
+She wasn't complaining about data quality. She was complaining about having to remember where to click to get what she needed.
+
+Here's what nobody admits, tools optimize for features, not cognitive load. Every filter you add is a decision someone has to make, every dropdown is a context switch.
+
+You're building friction between the question and the answer.
+
+I have not met a single person who wants to memorize interfaces, they just want answers.
+
+So they avoid the tool entirely - even when the data is good. You're paying for intelligence you're not using because the interface is in the way.
+
+We built Reli Agents because of this.
+
+You ask what you want to see, it delivers. Natural language, no filters, no dashboards, just actionable insight directly fetched from meta-data.
+
+Our early adopters are loving it, one of them said, "RevSure AI's data added so much value we never complained about dashboard complexity. But now even that's gone."
+
+The goal wasn't prettier dashboards. It was removing the interface between marketers and the insights they're already paying for.
+
+--- POST 31 ---
+Salesforce spent $12.8B on marketing last year, and now they're giving $8M and full creative control to MrBeast for a SuperBowl ad.
+
+Just to make 'what works.'
+
+That's the signal most B2B marketers are missing. Salesforce isn't experimenting with a new channel, they're admitting that corporate messaging doesn't work anymore. Enterprise buyers stopped trusting polished PR years ago. They trust creators who don't sound like marketers.
+
+B2B buyers are humans who've been trained by YouTube, TikTok, and Netflix to detect and reject anything that feels like "corporate language." The more polished your message, the faster they scroll past it.
+
+The screening effect applies to content now.
+
+Companies are spending billions building credibility through messaging that actively destroys credibility. HubSpot, Monday, Pipedrive saw this coming, and Salesforce's partnership with MrBeast just made it impossible to ignore.
+
+How do you attribute a MrBeast video to an enterprise deal six months later? You can't. Dark social just got darker.
+
+Marc Benioff
+
+--- POST 32 ---
+This was one of the most insightful conversations I’ve had on the Moneyball CMO series.
+
+I’m excited to share my discussion with Ritu Kapoor, CMO of Observe.AI, who completely dismantled the idea of linear buyer journeys.
+
+Ritu pointed out that GTM funnels track averages, and we have built entire systems around those averages. Then we penalize people for not following the expected path. Every time a lead moves backward, we call it failure. In reality, it is often the most valuable signal.
+
+We also explored why marketers who operate from first principles consistently win and why they remain agnostic to technology, automation, and trends. In the end, the real moat is always taste and first principles.
+
+I’ve shared the full conversation in the comments. If this resonated with you, tag a CMO who should be on the show next.
+
+RevSure AI, Riddhy Mehta, Alex Cox, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Tom Wentworth
+
+--- POST 33 ---
+I showed a CMO how to generate 4x ROI by reallocating $2M from LinkedIn, but he chose to ignore it because "LinkedIn is strategic."
+
+Our attribution model was clear, cut $2M from LinkedIn, move it to Google. The data showed a 4x ROI difference. Our incrementality test confirmed it.
+
+He cut $200K instead. And six months later, their pipeline was down 23%.
+
+This is the pattern I keep seeing. Marketing channels don't fail because they're bad. They fail because they work too well, and then they get saturated.
+
+Andrew Chen wrote about this in 2012: "Over time, all marketing strategies result in shitty clickthrough rates." Everyone floods in, soon novelty wears off and the platforms jack up prices.
+
+The companies that win aren't finding new channels first. They're killing successful channels before the market forces them to. The best teams I know are agnostic to what looks good in board meetings, they focus on how to create and preserve value in reality.
+
+I wrote the full breakdown in this week's Moneyball CMO newsletter, including what to do next. Link in comments.
+
+RevSure AI, Riddhy Mehta, Alex Cox, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Tom Wentworth
+
+--- POST 34 ---
+Making this video has been harder than running RevSure AI.
+
+I'm not a camera person. Never have been. But this felt necessary, because we’re on the edge of real chaos in GTM, and someone needs to say it out loud.
+
+There was a time when B2B GTM was simple. Marketing filled the funnel, sales closed deals, and you could count your tools on one hand. Then things got complicated with more tools, more channels, and more handoffs. By 2020, GTM teams were managing the chaos of tool explosion and fragmented data.
+
+Now we're entering something worse. I call it the Agent Apocalypse.
+
+Everyone's spinning up agents. Inbound agents, outbound agents, prospecting agents, content agents. An army that never sleeps and never talks to each other.
+
+Without shared context, your outbound agent misreads a single click and starts messaging every buyer like they're ready to purchase. Your content agent creates materials that contradict what sales is saying. Your prospecting agent burns leads marketing spent months warming up.
+
+It’s the same handoff and context-loss problem we’ve always had, just happening faster and at scale.
+
+This is why full-funnel visibility isn't optional anymore. If agents are operating across your GTM motion, they need a unified data and context foundation. The teams that will win won’t have the most agents. They’ll have systems of shared context, accountability, and common results.
+
+This video reflects how I see the future of GTM and the problem we’re building to solve at RevSure AI.
+
+Riddhy Mehta, Alex Cox, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Tom Wentworth
+
+--- POST 35 ---
+I am so excited to announce the launch of Moneyball CMO newsletter.
+
+We released the first edition today, which features Tom Wentworth (CMO, incident.io).
+
+Here's what stood out from my conversation with Tom:
+
+1. Marketing Success = AI Adoption × Taste². Everyone will adopt the same AI tools. That scales linearly. But taste, the ability to build memorable brand experiences, scales exponentially.
+
+2. He believes that, attribution is a weapon when you define it too late. So, he made a pact with his CRO that they would never point fingers at each other and if the business is hitting numbers, we both win.
+
+3. He believes that we don't need to hire sellers into a spreadsheet. At Recorded Future, he didn't hire sellers because a model said so but they hired when pipeline justified it. The result? 40x ROI on pipeline before the Mastercard exit.
+
+4. B2B is 3-5 years behind B2C Influencer marketing. Tom's putting real budget behind creator partnerships in 2026.
+
+Tom's been an advisor to RevSure AI since the Recorded Future days. This conversation reminded me why I respect how he operates.
+
+Read the full breakdown on our new newsletter (link in comments).
+
+And if you're a CMO challenging conventional wisdom or know one - tag them. We want to feature you on Moneyball CMO.
+
+Riddhy Mehta, Alex Cox, Jerry Henry, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg
+
+--- POST 36 ---
+Last month, I shared a story about a CEO who replaced their CMO twice in 18 months, but got the same result both times.
+
+Because the real problem wasn't the CMO, it was the infrastructure.
+
+Here's the actual story about this, and also how the third CMO finally broke the spell.
+
+The first thing that the third CMO told us in the meeting was, "I'm completely flying blind, only 20% of my pipeline is explainable, and I can't explain the marketing contribution to remaining 80% of my pipeline."
+
+Both her predecessors had tried to fix the same problem of getting the full-funnel visibility but were failing with their existing attribution vendor, with whom they had a 2 year contract.
+
+The new CMO took one look and knew it wouldn't work. And in three months, she renegotiated out of that contract and chose us instead.
+
+In this video, I am sharing the full story - what was broken, what we offered differently, and why they decided to walk away from their existing contract.
+
+If you’ve ever seen leaders blamed for problems caused by bad systems, this story will feel very familiar.
+
+RevSure AI, Riddhy Mehta, Alex Cox, Jerry Henry, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Tom Wentworth, Ryan Shopp, Dave Kellogg
+
+--- POST 37 ---
+A CMO of a $25M ARR company quit his job after implementing RevSure AI.
+
+This was his first CMO role, and what came next still surprises me.
+
+He turned board meetings into strategy sessions. Instead of explaining numbers to the CFO, he was telling him what was working, which channels were lagging, and why this channel would matter this quarter. He started getting budget approvals mid-quarter.
+
+His company was part of a PE portfolio, and they took him to portfolio-wide conferences to present on attribution, GTM intelligence, and how he was measuring marketing spend.
+
+He became the template other CMOs studied and that visibility compounded.
+
+Today, he’s the CMO of a $100M ARR company and he's one of the strongest evangelist of RevSure.
+
+--- POST 38 ---
+McKinsey & Company just hired a Creator Economy Senior Advisor. While, most of the discussion has focused on what this means for consumer brands. What's getting less attention is how AI companies are increasingly leveraging creators as a GTM channel.
+
+Tech B2C and prosumer brands have been using this channel effectively for a while now:
+- Cluely who reportedly hired 50+ creators to create videos using their product
+- Notion partnered with 50+ YouTube/TikTok creators showing how they use Notion (drove millions of signups)
+- Vercel - v0 Ambassador Program: builders showcasing what they create with the tool
+- Perplexity - Campus Strategist Program: pays students to run marketing campaigns on campus.
+
+Meanwhile, B2B is sitting on a massively underutilized channel. Most B2B companies still think "influencer marketing" means paying someone to post about their SaaS product.
+
+That's not how this works.
+
+In a recent conversation with Tom Wentworth, he shared that "influencer marketing" is by far the most exciting channel for him. His exact words were:
+"If I can activate creators in a real, authentic way, that's a massively underutilized channel in B2B."
+
+Tom is the CMO of incident.io, and he's betting on it for 2026.
+
+It is simple, even B2B buyers trust peer recommendations more than any brand content you'll ever create.
+
+So, probably its time for the B2B companies to start building relationships with creators or power users rather than wait for proof. Once proved, this channel will also start saturating.
+
+Full podcast link in comments.
+
+--- POST 39 ---
+Excited to share our full conversation with Tom Wentworth in the first edition of the Moneyball CMO series.
+
+Tom came from a background in computer science and sales engineering, and today at incident.io, he’s building agents in Claude Code, not just PowerPoint decks. This conversation was anything but ordinary.
+
+He explained that eventually everyone will have access to the same AI tools, but taste is what will scale exponentially. He put it into a formula:
+
+Marketing success = AI adoption × taste².
+
+Tom’s been with us since the early RevSure AI days. Watching how he operates has taught me more than any playbook.
+
+A big shoutout to all the forward-thinking CMOs out there. We’d love to host you on Moneyball CMO. If you are one, or want to nominate someone, please tag them in the comments.
+
+Full video link in the comments.
+
+Riddhy Mehta, Alex Cox, Jerry Henry, Harry Hawk, ⚡️Francisco, Clay Cozby, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram, Weisi Kang, Mari Ström, Kathi Kaplan, Alexa Dennett, Ryan Shopp, Dave Kellogg, Ritu Kapoor
+
+--- POST 40 ---
+A CEO replaced their CMO twice in 18 months and got the same result both times.
+
+Because the problem wasn't the CMO, it was the infrastructure.
+
+You can't hire your way out of broken systems. The second CMO made the same requests as the first, got the same pushback, and left for the same reasons - broken attribution, inadequate data, and decisions driven by half-baked information.
+
+Companies keep hiring new CMOs, hoping the next one will be better at Excel + gut feeling, while quietly setting them up to fail.
+
+Gradually, word travels in marketing circles, and by the time you're hiring the third CMO, the candidate pool is limited to either people who are desperate, inexperienced, or don't know how to spot red flags.
+
+The company thinks it's being selective, but the best candidates have already screened them out. You can't hire your way out of broken systems. You can only hire your way into a worse talent pool.
+
+--- POST 41 ---
+Outreach is valued at $4.4B.
+Salesloft raised at valuation of $2.3B.
+Apollo.io raised $100M at $1.6B valuation.
+
+Everyone's racing to build AI agents that can write emails, make calls, and book meetings. But here's what nobody's talking about: the handoff problem.
+An AI agent can craft a perfect outbound sequence. It can personalize at scale, follow up relentlessly, even book the meeting. But the moment that lead crosses from marketing to SDR to AE, context bleeds at every handoff.
+
+This is the same problem that killed human-driven funnels. And we're about to recreate it with agents.
+
+It's like the Mars Orbiter disaster. One team used metric units, another used imperial. Both were "right" locally. The spacecraft was lost because the boundary didn't share meaning. GTM teams repeat this pattern every quarter.
+
+Marketing's MQL doesn't equal SDR's "accepted" doesn't equal Sales' "qualified." Small semantic drifts compound into pipeline chaos.
+
+Now imagine that chaos multiplied by autonomous agents operating without institutional memory. The agentic era won't be won by the fastest agent builder. It'll be won by whoever solves context preservation across handoffs, human or machine.
+
+--- POST 42 ---
+We don’t lose many deals to competitors. We lose them to “we’ll build it ourselves.” And then we win them back.
+
+I’ve seen the pattern enough times to stop arguing. Teams fall in love with the idea of building in-house because the prototype demo looks promising. What they don’t factor in is the ongoing, compounding cost, not just engineering hours but operational complexity.
+
+Three months later, when the system breaks, it’s never just the tech. It’s everything around it: policies, governance, security, legal frameworks, pricing models. With AI, all of these evolve constantly.
+
+Your prototype doesn’t stay a prototype. It becomes a second product, one that demands continuous updates just to remain viable.
+
+“Build” works only when what you are building is the true differentiator. Most of the time, it is maintenance.
+
+And maintenance compounds. Every new requirement, every pivot, every quick fix makes the system more fragile and more expensive to keep alive. By the time the tech is “working,” the business has already moved on.
+
+If you still want to build, be explicit.
+- What decisions will you be able to make when it is done?
+- Who will own it long-term?
+- Can you handle the operational overhead?
+
+If you can’t answer those, don’t ship the prototype. Buy endurance, build edge.
+
+--- POST 43 ---
+"Credentials don't matter in AI" is lazy thinking. That narrative protects people from accountability.
+
+The narrative goes, "A+ executives are failing at AI startups while 22-year-olds fine-tuning models in dorms are crushing it. Experience is dead!"
+
+It's a half truth, and completely misdiagnosed. But let's think about who benefits from this narrative?
+
+- The young builder who ships fast and breaks things? "Experience doesn't matter" explains why they don't need to understand enterprise complexity.
+- The executive who failed at an AI startup? "The paradigm shifted" explains why their track record didn't translate.
+- The investor who backed the wrong team? "Nobody could have predicted this" conveniently eliminates blame.
+
+Everyone gets an excuse and nobody has to be wrong.
+
+But then some executives are succeeding at AI companies, some young builders are failing. The pattern isn't "credentials vs. no credentials."
+
+It's competence vs. incompetence, same as it ever was. The game has definitely changed, but competence still looks like competence:
+- understanding problems deeply
+- building solutions that work
+- earning trust from customers.
+
+“Credentials don’t matter” is comforting to people who don’t want to investigate why they failed. The uncomfortable truth is that in any era, some people figure it out and some don't. The reasons vary, but the outcome doesn't.
+
+--- POST 44 ---
+Chaos isn't a pit, chaos is a ladder.
+
+And nowhere is that truer than in data. Software companies love to say “garbage in, garbage out.” It’s their evergreen excuse for why their product fails the moment they meet real enterprise data. But the truth is that real companies do not have clean data. They have a decade of system migrations, shortcuts, naming collisions, abandoned fields, accidental conventions, and improvised workarounds baked into every table.
+
+Good data is a utopian concept, it's not because of intent, it's just because data is a high-entropy discipline. And entropy increases over time, meaning the messiness of your data is the natural state. Data doesn't stay clean, it degrades. Fields get misused, definitions drift, new systems get bolted on. Any system designed for a point-in-time snapshot of data quality will become obsolete as the data evolves.
+
+This is why most enterprise AI implementations fail, they're built on fiction, that someone will "fix the data" before the system goes live. That never happens.
+Products which can handle data chaos have an unfair advantage other those who assume perfection in data. Therefore, the only viable product (and pilot) design is one that assumes the mess and builds tolerance for it.
+
+--- POST 45 ---
+Your customer's customer is your REAL customer.
+
+I got off a call where the team spent an hour discussing dashboards, not for the people on the call, but for a CXO who'd eventually see the dashboards and the reports. They cosplayed that CXO.
+
+The person who signs your contract is rarely the person you need to impress. They're a conduit. Your real customer is their boss, their board, their cross-functional peers who can kill the deal or the renewal.
+
+The CMO buying RevSure AI isn't buying for herself.
+- She's buying for the board meeting where she needs to prove marketing ROI.
+- She's buying for the CFO who questions every dollar.
+- She's buying for the CEO who wants pipeline visibility.
+
+I'm not selling to her, I'm arming her for battles I'll never see. If you don't understand the battles your champions are fighting, you're handing them a sword when they need a shield. Or vice versa.
+
+The moment I started building for my customer's customer, our expansion revenue doubled. She alway had data, and information, but RevSure gave her the story that helped her fund campaigns which others wanted to kill, and even kill projects which were not moving the needle.
+
+The real leverage is helping your champion win a room you’ll never be in.
+
+--- POST 46 ---
+No company dies from lack of data. They die when data becomes political instead of analytical.
+
+A CMO told me this a while ago, "As soon as you present a slide that shows a different number than what sales sees, it becomes a debate about the numbers, not a conversation about what you're trying to do." The friction isn't about accuracy. It's about trust.
+
+When the numbers don't match, teams don't fix the funnel & they fight over whose data is right. I call this the "Debate Tax."
+
+And it compounds. Every unresolved dispute breeds more misalignment. Soon, teams stop bringing data to meetings altogether, because they know it'll be challenged. Eventually, the company flies blind by choice. That's more comfortable than fighting. Marketing stops trying to prove ROI because every attempt gets re-litigated.
+
+The irony: the data existed all along. The fragmentation made it weaponizable. When every team has their own dashboard, every team has their own truth. And when everyone has their own truth, nobody has credibility.
+
+This is why we built for the full funnel. When marketing, SDRs, and sales see the same number, the conversation shifts from 'whose data is right' to 'what do we do next.'
+
+--- POST 47 ---
+For 1,500 years, everyone knew the Earth was the center of the universe.
+
+Ptolemy's geocentric model worked well enough, it predicted planetary positions. It fit the theology. And then Copernicus heliocentric model showed the sun was the center. His math was better & his predictions were more accurate.
+
+His book got 'restricted' for 100+ years.
+
+Moving from last-touch to multi-touch attribution is your organization's Copernican moment.
+
+You're about to redistribute credit. Channels that looked dominant will shrink. Channels you were about to cut will show up everywhere. And people will fight it. Not because the data is wrong. Because the implications are uncomfortable.
+
+- The head of paid media doesn't want to see organic getting credit.
+- The events team doesn't want to share influence with email.
+- The VP who championed the big rebrand doesn't want data showing it didn't move the needle.
+
+Your first multi-touch report will be rejected. Plan for it.
+
+- "The methodology must be wrong."
+- "We should look at a different time period."
+- "Can we rerun the analysis?"
+
+This isn't failure, this is the process. Attribution doesn't fail because of bad math. It fails because executives would rather be comfortable than correct.
+
+The Copernican Revolution wasn't rejected because the math was wrong. It was rejected because it was inconvenient.
+
+Before you implement multi-touch, ask yourself: is your leadership ready to be wrong? If not, you're not buying attribution. You're buying expensive confirmation bias.
+
+--- POST 48 ---
+A CMO I know quit her job in 12 months of joining a series B startup.
+
+She joined after spending 15 years at Big Tech, and one of the first things she tried to fix was their messy reporting data. Soon, she found herself questioning everything.
+
+Someone who has never seen the power of data in sales of marketing funnel doesn't really know what they're missing. But someone who's lived in a hyper-regimented system for 15 years knows exactly what "good" looks like.
+
+That awareness becomes a daily source of frustration. They fight for better systems for 12-18 months, and if nothing improves, they quit.
+
+I keep seeing this - companies don't realize they're bleeding their most data-literate operators, the ones who could 10x their GTM motion. Instead, these leaders become the most expensive churn.
+
+Listen to these leaders early, some of our implementations are led by such leaders who looked at RevSure AI as the bridge from chaos to clarity. Bet on their frustrations, or watch them walk away.
+
+--- POST 49 ---
+A CMO recently asked me: “What part of your Full-Funnel AI are you best at? Most startups only nail one thing.”
+
+Fair question.
+
+Most tools were built to solve tiny slices of the GTM motion — Visitors → leads, leads/Accounts → MQLs/MQLs, MQLs/MQAs → meetings, and so on.
+
+That niche-first mindset is exactly why GTM is so fragmented today and precisely why most CMOs have no visibility into the effectiveness of their efforts!
+
+My answer: “We’re best at the full funnel.”
+
+Not because we try to be everything, but because we defined the problem differently.
+
+We didn’t ask, “How do we optimize one stage?” We asked, “Why are these stages disconnected at all?”
+
+I grew up in the world of complex enterprise supply chains, where the supply chain was one interconnected system: Demand → Inventory → Distribution → Production → Raw Materials.
+
+And once you see GTM as a inter-connected system across Marketing, Sales, SDR/BDR, Partners, etc. something becomes obvious:
+
+The biggest problems don’t live inside the stages.
+
+They live between them.
+
+That’s where handoffs break. That’s where insights die. That’s where revenue leaks.
+
+RevSure AI exists to fix those interconnections, the part everyone else ignores.
+
+So what are we best at?
+
+Helping the entire GTM motion work as one system. That’s where the future of GTM is headed.
+
+--- POST 50 ---
+Investment in brand is like buying a chandelier, it lights up the entire room.
+
+And Demand is the flashlight, it focuses on one specific spot. Without the chandelier, you're burning through flashlight batteries trying to illuminate the whole room, one corner at a time. That's expensive, exhausting & inefficient.
+
+If you run demand gen without brand, every email is a cold intro. Every ad requires full context and every campaign starts from zero awareness. Your CAC goes through the roof because you're paying to educate prospects about who you are, what you do, and why they should care. Every. Single. Time.
+
+But when brand does its job? The demand email gets opened because they've seen you before. The ad resonates because they already trust the category. The sales call is warm because your name isn't new.
+
+So, brand makes demand cheaper. Not by magic, by doing the work upfront.
+
+I absolutely loved this metaphor from Ritu Kapoor, our next guest on Moneyball CMO series. Ritu is CMO of Observe.AI and a happy customer of RevSure AI as well :)
+
+More from this conversation + full video dropping soon.
+
+PS: we look forward to talking to forward thinking CMOs on our Moneyball CMO series, if you want to nominate someone, please tag them in the comments.
+
+--- POST 51 ---
+I used to think our biggest competitor was other attribution platforms. I was wrong.
+
+Our biggest competitor is Excel + gut feeling.
+
+Because adopting RevSure AI often means confronting three uncomfortable truths:
+- Your intuition about what's working is probably wrong.
+- Your flagship campaigns might be destroying value.
+- You'll need to defund channels that powerful people care about.
+
+That's not a technology decision. That's a political one.
+
+For example: recently we onboarded a customer whose star campaign was creative resistance in their pipeline, not acceleration. Conversions fell by 50% for every lead that touched it. When we ran the incrementality test, the lift was negative 2.3x.
+
+Marketing has optimized for the wrong signals for years, clicks instead of conversions, engagement instead of revenue, activity instead of outcomes.
+
+Often, the “strategic” initiatives underperform by 5x compared to the small, unfunded experiments everyone ignored.
+
+The encouraging shift I’ve seen over the last three years is that more CMOs are now embracing this complexity. They’re realizing the real unlock isn’t better attribution systems, it’s the courage to act when data contradicts instinct.
+
+Here’s to the CMOs choosing truth over stories. You’re rebuilding how marketing earns trust.
+
+--- POST 52 ---
+The biggest threat to your data is not bad pipelines or models, it's scared people.
+
+I was on a call yesterday with an analytics lead who said something that stunned me: "We normalize the data three times before showing it to the business."
+
+Not because the data is inaccurate, because nobody trusts the raw truth anymore.
+
+- First pass: make the raw data technically correct.
+- Second pass: make it match what leadership expects to see.
+- Third pass: translate it into something digestible.
+
+By the time it reaches to leadership, the data has been filtered through three layers of institutional anxiety. Nobody remembers what the source actually said. They just know it's been "cleaned."
+
+This is what happens when you optimize for comfort instead of truth. Someone, at some point, showed leadership raw data and got punished for it. Maybe it contradicted a narrative. Maybe it raised uncomfortable questions. Maybe it just looked messy.
+
+So the team learned: don't show them reality. Show them a version of reality they can handle.
+
+And now, years later, everyone's forgotten why they're doing it. They just know that "this is how we report here."
+
+The cost? Nobody trusts the numbers anymore, because everyone knows they've been smoothed out. Adjusted & normalized.
+
+You can't make good decisions on data you don't trust, and you can't trust data that's been filtered through fear.
+
+--- POST 53 ---
+CMOs love the phrase "invest more in what's working." It's usually wrong.
+
+It sounds data-driven, it sounds smart, and here's why it's wrong:
+
+Last year, a client asked: "How much should we spend on LinkedIn?"
+
+Their data showed that $800K last quarter generated $12M in pipeline. ROI looked phenomenal.
+
+Client: "Let's double it to $1.6M!"
+Model: "You'll get $15M in pipeline."
+Client: "Why not $24M?"
+Me: "Because markets aren't infinitely scalable."
+
+Long silence.
+
+Here's the reality: You exhaust your best audience first. Then you move to lukewarm prospects. Then you're targeting people who'll never buy but happen to match your ICP on paper.
+
+More spend doesn't mean proportional return. It means diminishing returns.
+
+But here's the brutal part: They were already PAST optimal spend. They were at $800K. Optimal was $600K. They could have cut 25%, gotten 95% of the pipeline, and deployed that $200K somewhere with better ROI.
+
+Instead, they "invested more in what's working."
+
+Six months later, they'd tripled LinkedIn spend to $2.4M.
+- Pipeline was down.
+- ROI cratered.
+
+The challenge isn't that CMOs are spending on the wrong channels, it's that they're overspending on the right ones.
+
+The best marketing leaders don't just know what works. They know exactly how much to spend before returns collapse. "Double down on what's working" is great advice, until you hit diminishing returns. Then it's just expensive denial.
+
+It’s like Bangalore traffic, the first few cars move fast, then everyone piles in, and suddenly nothing moves.
+
+--- POST 54 ---
+A customer of ours once decided to walk away from $1.8M, not because the data was wrong, but because the truth was inconvenient.
+
+Our MMX model told them to cut $2M from LinkedIn and move it to Google. The data was obvious, the incrementality test was statistically significant, and the ROI difference was 4x.
+
+But the decision wasn’t analytical. It was political. The ignored the suggestion, and only cut their budget by $200K, because "LinkedIn is strategic."
+
+This is the pattern everywhere: Spend 6 months building the perfect attribution model. The model surfaces uncomfortable truths. And then the methodology gets questioned, not the spend.
+
+We've created the world's most expensive validation engines. Because companies don't buy attribution to optimize. They buy it to validate.
+
+I once showed a team their flagship PMAX campaigns had statistically significant negative lift. Meaning: they actively decreased conversions compared to doing nothing.
+
+They asked if we could "rerun the analysis."
+
+Attribution models don't fail because of bad math. They fail because of human courage.
+
+The best GTM teams aren’t the ones with the prettiest dashboards.
+They’re the ones willing to act on ugly truths, to kill campaigns that look good in board meetings but destroy value in reality.
+
+So before you buy an attribution platform, ask yourself: are you looking for insights, or permission to keep doing what you're already doing?
+
+--- POST 55 ---
+Attribution is NOT a reporting project.
+
+It’s a data and decision intelligence problem — one that demands rigor across every layer of the marketing analytics stack.
+
+True attribution involves:
+
+1) Data integration across fragmented systems
+2) Harmonization to create a single, trusted source of truth
+3) Measurement and analysis that reflect real buyer journeys
+4) Validation to ensure accuracy and credibility
+5) Insights that guide smarter actions
+6) Visibility into what’s actually driving outcomes
+7) Filtering and segmentation across hundreds of attributes and dimensions
+8) And finally, forward-looking guidance that helps teams make better decisions.
+
+Whenever a marketing team reduces attribution to a mere reporting exercise, it’s bound to deliver sub-optimal impact — limited to basic “justification” rather than optimization and growth.
+
+Attribution done right isn’t about looking back — it’s about seeing clearly ahead.
+
+--- POST 56 ---
+We connected 7 data sources in less than 30 minutes.
+Salesforce, Salesloft, Hubspot, LinkedIn, Google Ads, Facebook, and our web pixel.
+That was day one with RevSure AI
+
+What actually mattered? What came after.
+Multiple working sessions per week with the team, a dedicated Slack channel, the same team every time - no handoffs.
+We worked through every question together, from data hygiene to channel classification - white glove service from the start.
+
+My favorite feature? The Journey Timeline.
+We can now view hundreds, some times thousands of touch points that occurred before an opportunity even opened. From the account to the opportunity or just the primary contact view we were able to see each marketing and sales touch point that drove pipeline at Nasuni.
+
+First & Last Touch serve their own purpose, but when you disregard everything in between you are missing a huge part of the story. A huge thanks to our fabulous RevSure team for helping us fill in the gaps on the full, collaborative journey between Marketing, Business Development, and Sales!
+
+One touch point is never enough!
+
+--- POST 57 ---
+Inefficient handoffs and missing semantics once cost NASA $125M.
+
+In 1998, the Mars Climate Orbiter was lost because of a unit mismatch. One team sent thruster data in pound-seconds. Another expected newton-seconds.
+
+Both were “right” locally, but wrong globally. The boundary didn’t share meaning, so every course correction nudged the spacecraft slightly off. Over time, those small errors compounded. It entered the Martian atmosphere tens of kilometers too low and contact was lost on arrival day.
+
+Every team had verified their part. None had validated the handoffs.
+
+That’s the real lesson: It wasn’t a calculation error that doomed the Mars Orbiter. It was a handoff failure. GTM teams make the same mistake every quarter.
+
+Marketing’s MQL, SDR’s Accepted, Sales’ Qualified - all are locally consistent, but semantically different. A lead becomes an opportunity without shared context.
+
+These small drifts compound. And you end up missing your quarter.
+
+Funnel definitions are your unit system in GTM funnel. Treat them as contracts, not suggestions. Preserve memory across handoffs. Make boundaries unambiguous.
+
+The disaster never lives in the parts. It lives in the interfaces.
+
+--- POST 58 ---
+If everyone agrees on a transformation plan, it’s probably useless.
+
+I used to get frustrated when every new stakeholder joined a sales or implementation call with a fresh objection.
+
+"Buy vs build.," “Just another dashboard,” “What’s the ROI with you?”
+
+It felt like resistance. Now I see it as a signal.
+
+The accounts that started with the most objections often became our most successful implementations. Because those objections weren’t blockers, they were signals that we were touching something deep. It wasn’t just a software change, it was a change in how power and context flow inside the company.
+
+Real transformation creates friction. It forces uncomfortable tradeoffs. If there’s no dissent, no resistance, no turf loss, then you’re just rearranging the org chart.
+
+Consensus feels good, but it’s often the enemy of change. The initiatives that move smoothly rarely move the needle. The ones that start with debate, pushback, and discomfort are the ones that compound over time.
+
+Because transformation isn’t about alignment. It’s about re-wiring how the system works, how data flows, how teams make decisions, how outcomes are measured. That’s bound to hurt before it helps.
+
+If it goes down too smooth, it’s not deep enough.
+
+--- POST 59 ---
+“76% of NVIDIA employees are now millionaires.”
+“1 in 3 has over $20 million.”
+
+Every few weeks I see a post talking about it. And the conclusion people jump to is this:
+“Equity builds ownership. Equity creates performance.”
+
+That’s not causation, that’s correlation.
+
+The best people I’ve worked with never needed equity to care. They cared first, and that’s why they earned equity later. If you took the same NVIDIA engineers and dropped them into another company, they’d still out-perform. Because it’s not the stock options that made them world-class, it’s their craft, their drive, their obsession with building great things.
+
+We cherry-pick narratives that suit us. We want to believe ESOPs create excellence, because it’s convenient, for founders asking for buy-in, or employees asking for upside.
+
+But no one really wants to talk about the other side. Jensen Huang openly says he “tortures” his people to greatness, and they accept it because they believe in the mission. If any other CEO said that, the internet would cancel them overnight.
+
+The truth is, compensation follows culture, not the other way around. Equity didn’t create NVIDIA’s culture of ownership, that culture created the kind of people who deserved equity.
+
+So next time you hear, “everyone at NVIDIA is a millionaire,” remember: that’s the result, not the reason.
+
+--- POST 60 ---
+Many marketers I meet carry “attribution trauma.”
+
+- They’ve tried last-click.
+- They’ve tried multi-touch.
+- They’ve tried custom ML models.
+
+Each time, the model created more debate than clarity. So now, some teams swing to the other extreme: “Let’s not measure at all. Let’s just do good marketing.”
+
+I get it. I’ve been working with marketing teams for 20+ years, across Fortune 1000 B2B and B2C. And here’s what I’ve learned:
+
+Doing good marketing and measuring good marketing are not in opposition. They’re complementary.
+
+No CEO will accept “we don’t measure.” And frankly, neither should marketing leaders.
+
+The answer isn’t avoidance. It’s building the right measurement framework:
+
+- Contextual to your product, business model, and GTM motion
+- Owned by marketing (with support from ops, data, and analytics)
+- Evolving in quality over time so decisions improve, not just reports
+
+Because in the end, measurement isn’t a policing mechanism. It’s a learning mechanism. The better you measure, the faster you can double down on what works, cut what doesn’t, and build trust across the org.
+
+If marketing doesn’t own this, someone else will. And that’s rarely a good outcome.
+
+Don’t let past attribution scars push you into avoidance. Build the framework that works for your business - before it’s too late.
+
+--- POST 61 ---
+Building everything your customers ask for is the fastest way to become irrelevant.
+
+Customer obsession isn’t about saying yes to every request. It’s about asking why the request exists in the first place.
+
+I’ve had customers ask for more dashboards, more reports, more filters. On the surface, that sounds reasonable. But if you keep delivering exactly that, you don’t create clarity, you create clutter and feature bloat. You end up creating reports which nobody reads, and funnels which leak context.
+
+The noise grows, but the answers don’t.
+
+The real friction was never the lack of dashboards or fields. It was that every team saw the funnel in fragments. Marketing saw campaigns, SDRs saw leads and Sales saw opportunities. But no one saw the whole story end to end.
+
+So we solved for the system, not the surface. A single funnel with shared memory, where every touchpoint, every handoff, every next-best action is visible across teams. Suddenly, the original requests disappear. Nobody asks for “just one more dashboard.” They ask, “What’s the fastest path to conversion given everything we already know about this account?”
+
+Because in the end, no one wakes up wanting another feature, but they do wake up thinking about their jobs, and getting better at them. And if you deliver on that, you become the upgrade to how they work, not just hat they work with.
+
+--- POST 62 ---
+EQ has become an excuse to avoid hard conversations.
+
+Does high EQ help? 100%. But we have confused EQ with:
+- sugarcoating the truth
+- sandwiching critical feedbacks between two compliments
+- being overly nice, even when it doesn’t help.
+
+Basically, it has been watered down into politeness theater.
+
+But real EQ is the opposite. It’s having the courage to be direct, the empathy to deliver it with care, and the commitment to help someone grow, even when it’s uncomfortable.
+
+Remember - candour without care is brutal, and care without candour sets up people for failure.
+
+The most challenging and intense stint I had was at Mu Sigma Inc. I couldn't find time for my family back then, we had super intense arguments in our teams. But the core was that the leadership wanted us to win.
+
+I want the same for my team at RevSure AI, they should win, learn and when they look back after 5-10 years, they should look at their stint here as their most intense and rewarding stint. I am committed to their win, and I believe that is the real definition of EQ - building a culture where failures are accepted, wins are rewarded, candour is appreciated and everyone pushes each other to bring out best in us.
+
+Because when you really care about your team, you don’t protect them from hard truths, you prepare them to win.
+
+--- POST 63 ---
+We think buyers want speed. But what they’re really paying for is certainty.
+
+Last month, I was on a call with a CMO and she mentioned that she wanted to know if she's going to miss her pipeline target.
+
+Now, her team had dozens of platforms already for intent, ABM, ads, SDR cadences. And they weren’t slow, they were noisy.
+
+What was missing was a single model that could say: Today is day 67 of the quarter, here’s the $17M in pipe you’ve already generated, here’s the $3.6M likely to convert from in-funnel leads, and here’s the $4M you still need demand to create.
+
+That certainty killed anxiety, it turned guessing into planning. And that's your real moat, replace uncertainty with clarity. Because no CXO craves for faster dashboards, they crave for predictable outcomes.
+
+So the next time you build tools or dashboards, ask yourself: are you helping your buyers move faster, or are you giving them the confidence to know exactly where they stand? The answer will define your real competitive advantage.
+
+--- POST 64 ---
+Build vs Buy is not a technology debate.
+
+It's a timeline debate. And I keep coming across this classic line, "We can build this in-house."
+
+Of course, you can. You can also cook every meal at home, but if your team is flying blind, choosing the "we'll build" option is like promising to learn how to cook after you've already invited 20 guests over.
+
+We had this exact discussion with a CTO and CMO at a large enterprise. The CTO was excited about building. The CMO cut in: “I don’t have visibility now. So, I need a solution that works NOW.”
+
+That urgency is often underestimated. I’ve observed CMOs come and go in the same company because they waited too long for their support teams to figure out how to get them the right visibility, insights and recommendations to course correct and refine their marketing efforts.
+
+Yes, given enough engineers and enough quarters, companies can build anything. But when the cost of waiting outweighs the cost of buying, the debate is already settled.
+
+Buying is not a shortcut, it’s your hallway pass to “time to truth.”
+
+PS: Here are the builders of RevSure AI who are obsessed with powering the CMO's journey to the truth.
+
+--- POST 65 ---
+Enterprise software doesn’t reward noise.
+
+Everyone’s talking about Oracle’s $240B stock jump in a single day. But that wasn’t about one quarter. It was the result of years of slow, boring work that built a order backlog so massive Wall Street couldn’t ignore it.
+
+In enterprise AI, the number that changes your story isn’t this quarter’s revenue. It’s the already‑won, not‑yet‑recognized demand sitting in your pipeline as signed commitments. That’s the “we already chose you number”. When it compounds, the market stops arguing with your narrative and starts repricing your company.
+
+And you don’t get there by stacking features or chasing bottom up dev and social media mindshare. You get there by saying yes to the hard, unglamorous asks that actually unblock deployment: capacity planning, sovereign options, messy integrations, predictable SLAs, Security, Compliance, multi-cloud realities.
+
+AI doesn’t replace the unglamorous work, but it surely makes the payoffs much bigger.
+
+--- POST 66 ---
+Most PMs today aren’t really doing product management.
+
+They’re managing delivery, coordinating stand-ups, copying competitor UIs, and chasing JIRA tickets.
+
+The craft of understanding behaviour, building around psychology, and shaping intuition, has been fading for a while.
+
+Part of this was inevitable. PM became a cool, “mini-CEO” job. It attracted people who were good at managing processes, not necessarily at building products.
+
+But this era is about to end. Because now PMs aren’t just designing for humans. They’re designing for agents. Humans forgive sloppy design. If a filter isn’t obvious on a dashboard, a user will click around until they find it. They bring intuition to the table.
+
+But an AI agent won’t assume. It won’t "intuitively" explore. They’ll only act on the context you encode.
+
+Which means PMs will have to go back to first principles, designing context-rich environments, defining success unambiguously, and building systems where ambiguity equals failure.
+
+This shift will expose mediocrity quickly. Teams will get leaner. And only the PMs who truly understand product thinking, not delivery timelines, will thrive in the age of agents.
+
+--- POST 67 ---
+Everyone loves to say a deal “came inbound.”
+
+But inbound is rarely the start. It’s usually the last mile, after months of nudges, touch-points, and those “Oh, you again” moments.
+
+For example: one of our recent wins didn’t begin with a cold email. A VP of Marketing filled our demo form only after:
+- Hearing about us at a portfolio conference
+- His colleague had already seen our content on LinkedIn
+- And their CMO was already pushing the ROI question internally.
+
+By the time they reached us, the ground was already prepared.
+Events → warm references → inbound request → rigorous due diligence.
+
+It looked like serendipity, but serendipity is rarely luck. It’s earned surface area. The awkward panels, the half-read LinkedIn posts, the reputation that makes your prospect curious enough to reach out.
+
+Inbound isn’t magic. It’s persistence compounding until one day your buyer thinks, “Fine, let’s book the demo.”
+
+--- POST 68 ---
+Back in 2000, I was working in supply chain planning for retailers across the US and Europe.
+
+And this was the time, when the world wasn't as hyper-connected as it's today. So, every detail mattered, a missing spec or unclear instruction could delay shipments, halt assembly lines, or create costly detours.
+
+Additionally, no action could be taken in silos. A tweak in Barcelona might impact the hypermarket in Boston. The only way to run business was being obsessive about context.
+
+However, as we got more connected, tribal knowledge started to fill for context gaps. You could always pick up the phone or send a message and learn from osmosis. So, one could survive even with half baked signals by asking around.
+
+That’s how most software and enterprise sales still run: half‑baked signals stitched together by smart people who “just know.”
+
+But Agents don't "just know."
+
+They don’t have hallway chats, institutional memory, or politics translators. Give them fuzzy stages, inconsistent definitions (“influence” vs. “acceleration”), or undocumented hand‑offs, and they stall.
+
+That’s why early agentic wins cluster in narrow, vertical workflows - coding, GTM ops, support triage, where context can be contained. But agents will soon outnumber humans across more complex operations. When that happens, what worked for supply chain becomes mandatory for everyone: context engineering - one taxonomy, crisp stage definitions, contract‑like hand‑offs, shared memory that survives reorgs.
+
+The challenge ahead isn’t just building smarter models, It’s the system around it. If you don’t engineer context, your agents will engineer chaos.
+
+--- POST 69 ---
+Burnout rarely happens because someone has too much work.
+
+In fact, the top performers I’ve worked with thrive when they’re challenged. They crave responsibility. They’re energized by tough problems, fast pace, and real ownership. That’s where they come alive.
+
+When they do hit a wall, it’s usually not the workload, it’s the environment.
+
+It’s unnecessary bureaucracy. It’s back-to-back meetings with no value. It’s leaders who mistake busyness for results. It’s a culture that slows things down, buries purpose, and isolates excellence.
+
+They don’t burn out from intensity. They burn out from nonsense.
+
+No one’s ever said, “I loved my manager because they protected me from hard work.” What they remember is the leader who removed the friction, who made meaningful work possible.
+
+Create a culture that amplifies impact, and your best people won’t slow down, they’ll double down. Not out of obligation, but because they want to.
+
+--- POST 70 ---
+I used to run QBRs like a news anchor.
+
+Prepared, polished, on script… and completely forgettable.
+
+I’d walk in with the perfect deck with usage stats, trend lines, roadmap updates. Our customers nodded along politely. The driven ones extracted most value from our product and the others required constant pushing.
+
+That’s when I flipped the format. Instead of 'performing' on what we had delivered, I started asking for what we needed from them.
+
+The change was immediate.
+
+POCs turned into multi-year contracts, because champions started pulling us deeper into their ecosystem, teaching us how to read their data, how to navigate their org, how to unlock adoption faster.
+
+A QBR is the one moment you have every stakeholder’s attention, decision-makers, champions, skeptics, at the same table. Don’t waste it reading slides, use it to shape the path forward:
+
+- “Here’s where adoption could stall, and what we’ll need from you.”
+- “Here’s the expansion motion, and the executive air cover required.”
+- “Here’s the blocker we can’t solve without your sponsorship.”
+
+When you flip a QBR from updates to asks, you stop acting like a vendor and start operating like a partner. And that’s when customers lean in, because what they want most is to help you help them succeed.
+
+Riddhy Mehta, Alex Cox, Jerry Henry, E.T. Mac, Harry Hawk, ⚡️Francisco, Clay Cozby, Tom Wentworth, Brian Cox, Annie Eissler, Glen Shillinglaw, Vivek Gautam, Shantanu, Jayaram
+
+--- POST 71 ---
+In the early days of a startup, founders are the concierges of their startups. They know every prospect by name, remember which role each candidate is applying for, and follow up with every customer personally. Nothing slips, because everything is existential.
+
+Every lead, every hire, every dollar has a human guardian.
+
+But as the company scales, dashboards take over. Funnels, stages, and scores replace relationships. GTM motions become process-driven. Efficiency improves, but empathy evaporates.
+
+And this is where things start to break.
+
+Because you can't empathize with a dashboard. They don't feel friction, they don’t notice the hesitation in a prospect’s voice and they can’t tell you why a deal actually went cold.
+
+Take marketing. Today, they measure everything, but experience almost nothing. It's the classic Goodhart’s Law: when metrics become targets, the system loses meaning.
+
+If GTM leaders shadowed their own leads, even for a week, they’d redesign their funnels. They’d fix scoring, stop irrelevant sequences, and see the dead zones, where buyer intent dies from silence.
+
+This empathy gap in modern GTM can be closed by AI Agents. Imagine if every lead had a guardian again, this time, powered by AI. One that could:
+- Carries context across handoffs
+- Detects silences and suggests next best actions
+- Tunes sequences in real time
+- Tracks what actually moves deals forward
+
+When you close the empathy gap, everything improves. Better data, meaningful stages, trustworthy scoring, smarter campaigns, and outreach that respects the buyer journey.
+
+The future of GTM isn’t better reporting, it’s scaling empathy with guardians for every lead.
+
+--- POST 72 ---
+Sam Altman just declared, "We’re entering the “fast-fashion era of SaaS."
+
+And now, we're all about to hear a lot of “premium SaaS is over” takes on LinkedIn and Twitter.
+
+I don’t buy it.
+
+AI makes it effortless to spin up an app. That’s perfect for experiments and low-stakes internal tools. But the second your “quick build” touches pipeline, audits, PII, stage transitions, attribution, or anything you’ll defend in a board deck, fast becomes fragile.
+
+Here’s what I keep seeing:
+- Team hacks together an AI app. Flashy demo.
+- Two quarters of babysitting: re-prompting, re-indexing, patching edge cases, arguing with security, chasing schema drift.
+- Original builder leaves. And the “cheap” tool becomes the most expensive thing in the stack.
+
+Enterprise GTM is not consumer tech. Demos don’t carry you into year two. Context, integrations, governance, support, and boring reliability do. That’s why vertical, opinionated platforms keep winning, because they’ve already absorbed the thousands of messy realities (regions, deal sizes, policy exceptions, data residency, who’s allowed to see what, and why).
+
+Use fast fashion where the blast radius is small. For the motions your revenue and reputation depend on, buy the well-tailored suit.
+
+Riddhy Mehta, Alex Cox, Jerry Henry, E.T. Mac, Harry Hawk, ⚡️Francisco, Clay Cozby, Tom Wentworth, Brian Cox, Annie Eissler, Glen Sh
+
+--- POST 73 ---
+Great products are born not in harmony, but in constructive tension, between two people who violently disagree and deeply respect each other.
+
+I believe in hard‑wiring constructive conflict - one owner for craft (clarity, intuitiveness, end‑user love), one owner for depth (rapid experiments, funnels, data engineering). And both of them carry real authority.
+
+Their job isn’t to “win” individually, but to produce the third answer neither would have found alone.
+
+Take design. We’ve put Vivek in charge of our design function. His mission is clear, understand the end user, listen to our solution engineers, data engineers, and GTM teams, and then design interfaces that are intuitive, usable, and loved.
+
+In most orgs, design loses its independent voice as it rolls into product or marketing, and it ends up getting shaped by product or marketing moulds.
+
+But I want our design function to challenge both.
+- To ask what the user truly wants, not just what fits the roadmap.
+- To fight for clarity without compromising on product depth.
+- And to be challenged back, so simplicity doesn’t come at the cost of depth.
+
+This constructive tension between them has built RevSure AI a very deep but still very intuitive product.
+
+I believe when craft dominates, you get art with no adoption. When product or growth dominates, you get numbers with no soul. And when the tension is designed in, you get durable velocity.
+
+Riddhy Mehta, Alex Cox, Jerry Henry, E.T. Mac, Harry Hawk, ⚡️Francisco, Clay Cozby, Tom Wentworth, Brian Cox, Annie Eissler, Glen Shillinglaw
+
+--- POST 74 ---
+Most AI product implementations don’t fail because of the product.
+
+They fail because of a change in point of contact or the internal champion. We often blame internal power dynamics, but the real root cause is something deeper: a lack of context.
+
+- Why was this product bought in the first place?
+- How is success being measured?
+- Is the problem even big enough to solve?
+
+Without that clarity, momentum dies.
+
+This is why AI companies need to evolve from a product-first mindset to a solution-first approach. It’s not just about what you’ve built; it’s about how well you understand the customer's world. That means acting less like vendors and more like consultants, leading with context rather than features.
+
+I saw this up close at Mu Sigma, and it’s exactly why, at RevSure AI, we built our GTM and CSM teams with marketers. These are people who’ve lived the problem we’re solving. They’re best positioned to act as consultants and handhold implementations, not just sell and exit.
+
+And while “deployment-as-a-service” is now trending, we’ve operated that way from day one. Our solution architects and data platform team have always worked shoulder to shoulder with enterprise teams, understanding workflows, tech stacks, integration hurdles, and even organizational dynamics.
+
+You can’t expect enterprise adoption without first earning the right to influence. And that starts with understanding their context. This is why I believe CS and FDE teams will play an increasingly critical role in AI-native companies, something Jason M. Lemkin highlighted some time back.
+
+Riddhy Mehta, Alex Cox, Jerry Henry, E.T. Mac, Harry Hawk, ⚡️Francisco, Clay Cozby, Tom Wentworth, Brian Cox, Annie Eissler, Glen Shillinglaw
+
+--- POST 75 ---
+We just wrapped up our biggest quarter, for the second time in a row.
+
+That’s two back-to-back record-breaking quarters, and our GTM team continues to raise the bar every time. We’ve already grown 2.4x this year and 4.8x over the last 12 months. Our quarterly Net New ARR is up 10x, and the momentum we’ve built puts us in a strong position for the months ahead.
+
+But the most exciting part isn’t just the growth. It’s how we’re expanding our customers’ vision.
+
+In the last six months, attribution has evolved from a reporting mechanism into a strategic decision-making tool. Our customers are now using it to drive forward-looking actions, not just measure past performance.
+
+And that shift is paying off. Some of our newest acquisitions are choosing us at a 50% premium over other players because of the depth of our platform and the outcomes we deliver.
+
+RevSure AI, Riddhy Mehta, Alex Cox, Jerry Henry, E.T. Mac, Harry Hawk, ⚡️Francisco, Clay Cozby, Tom Wentworth, Brian Cox, Annie Eissler, Glen Shillinglaw
+
+--- POST 76 ---
+Here's what we heard unanimously last week from many solid operators and startup founders:
+
+“What you're building is seriously strong.”
+“Everyone needs this, why wait 3 months of end of quarter to find out if marketing dollars were spent right?”
+“Can RevSure AI really do what you say it does?”
+
+Alex and I had an opportunity to join Operator Collective’s second Product Showcase Week, and as expected, when you bring together that many builders, operators, and doers in one place, the energy gets contagious.
+
+When I started building RevSure, I knew one thing for sure: a weekend-hacked, vibe-coded product wouldn't cut it.
+
+In today’s enterprise landscape, consolidation is the theme, and most companies are in deep build-vs-buy debates. So, you need to build a really solid product with a very strong business case for enterprises to buy your product.
+
+And honestly, a lot of what we do at RevSure is solving the unsexy but critical stuff: data harmonization, connectivity, stitching insights together across the funnel. It’s not glamorous, but if you don’t solve this, you’re just building something a smart internal developer could ship in 30 days.
+
+That’s what drove us to build RevSure: an intense and challenging (but now very rewarding) journey to help enterprises make better & faster GTM decisions.
+
+Also, major shoutout to Mallun Yen and team for not just curating an incredible room of operators, but building a fund around that operator DNA.
+
+Capital is a commodity and most advice isn’t context-aware. What matters today, especially for startup founders, is sponsorship and distribution. And Operator Collective is nailing that for its portfolio.
+
+Operator Collective 🔆, Mallun Yen, Haley Brannan, Caroline Caswell
+

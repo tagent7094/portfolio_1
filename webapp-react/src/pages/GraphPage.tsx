@@ -13,11 +13,15 @@ const PAL: Record<string, { fill: string; glow: string; ring: string; gradient: 
   founder:            { fill: '#c7d2fe', glow: '#818cf840', ring: '#6366f1', gradient: ['#a5b4fc', '#6366f1'] },
   category:           { fill: '#94a3b8', glow: '#94a3b830', ring: '#64748b', gradient: ['#cbd5e1', '#64748b'] },
   belief:             { fill: '#c4b5fd', glow: '#a78bfa40', ring: '#8b5cf6', gradient: ['#c4b5fd', '#7c3aed'] },
+  sub_belief:         { fill: '#ddd6fe', glow: '#c4b5fd40', ring: '#a78bfa', gradient: ['#ddd6fe', '#8b5cf6'] },
   story:              { fill: '#93c5fd', glow: '#60a5fa40', ring: '#3b82f6', gradient: ['#93c5fd', '#2563eb'] },
   style_rule:         { fill: '#fde68a', glow: '#fbbf2440', ring: '#f59e0b', gradient: ['#fde68a', '#d97706'] },
   thinking_model:     { fill: '#6ee7b7', glow: '#34d39940', ring: '#10b981', gradient: ['#6ee7b7', '#059669'] },
   contrast_pair:      { fill: '#f9a8d4', glow: '#f472b640', ring: '#ec4899', gradient: ['#f9a8d4', '#db2777'] },
   vocabulary:         { fill: '#fca5a5', glow: '#f8717140', ring: '#ef4444', gradient: ['#fca5a5', '#dc2626'] },
+  narrative_arc:      { fill: '#7dd3fc', glow: '#38bdf840', ring: '#0ea5e9', gradient: ['#7dd3fc', '#0284c7'] },
+  narrative_order:    { fill: '#a5f3fc', glow: '#67e8f940', ring: '#06b6d4', gradient: ['#a5f3fc', '#0891b2'] },
+  content_idea:       { fill: '#fcd34d', glow: '#fbbf2440', ring: '#f59e0b', gradient: ['#fcd34d', '#d97706'] },
   viral_brain:        { fill: '#fde68a', glow: '#fbbf2450', ring: '#f59e0b', gradient: ['#fde68a', '#d97706'] },
   hook_type:          { fill: '#fdba74', glow: '#fb923c40', ring: '#f97316', gradient: ['#fdba74', '#ea580c'] },
   structure_template: { fill: '#67e8f9', glow: '#22d3ee40', ring: '#06b6d4', gradient: ['#67e8f9', '#0891b2'] },
@@ -29,6 +33,7 @@ const PAL: Record<string, { fill: string; glow: string; ring: string; gradient: 
 const BASE_R: Record<string, number> = {
   founder: 24, category: 16, belief: 7, story: 7, style_rule: 6,
   thinking_model: 6, contrast_pair: 6, vocabulary: 6,
+  sub_belief: 5, narrative_arc: 7, narrative_order: 5, content_idea: 5,
   viral_brain: 24, hook_type: 8, structure_template: 7,
   viral_pattern: 7, engagement_profile: 8, writing_technique: 7,
 }
@@ -41,7 +46,18 @@ const EDGE_COL: Record<string, string> = {
 }
 
 const HIGHLIGHT_LINK = '#a78bfacc'
-const FOUNDER_FILTERS = ['belief', 'story', 'style_rule', 'thinking_model', 'contrast_pair'] as const
+const FOUNDER_FILTERS = [
+  'belief',
+  'sub_belief',
+  'story',
+  'style_rule',
+  'thinking_model',
+  'contrast_pair',
+  'vocabulary',
+  'narrative_arc',
+  'narrative_order',
+  'content_idea',
+] as const
 const VIRAL_FILTERS = ['hook_type', 'structure_template', 'viral_pattern', 'engagement_profile', 'writing_technique'] as const
 const SKIP_KEYS = new Set(['id', 'type', 'label', 'node_type', 'isHub', 'hasChildren', 'childCount', 'isExpanded', '_raw', 'nodeType'])
 const p = (t: string) => PAL[t] || PAL.category
@@ -106,16 +122,6 @@ export default function GraphPage() {
     return () => obs.disconnect()
   }, [])
 
-  /* ── Forces ─ */
-  useEffect(() => {
-    const fg = fgRef.current
-    if (!fg) return
-    fg.d3Force('charge')?.strength(-300)
-    fg.d3Force('link')?.distance(100)
-    fg.d3Force('center')?.strength(0.1)
-    fg.d3Force('collision')?.radius((n: any) => (BASE_R[n.nodeType] || 5) * 2.5)
-  }, [graphSource, isLoading])
-
   /* ── Maps ── */
   const { allNodesById, allEdges } = useMemo(() => {
     const byId: Record<string, GNode> = {}
@@ -167,6 +173,19 @@ export default function GraphPage() {
     const links = allEdges.filter(e => idSet.has(e.source) && idSet.has(e.target))
     return { nodes, links }
   }, [graphData, allEdges, filter, isHubNode])
+
+  /* ── Forces (adaptive to graph size) ─ */
+  useEffect(() => {
+    const fg = fgRef.current
+    if (!fg) return
+    const nodeCount = graphForceData.nodes.length
+    const charge = nodeCount > 200 ? -500 : nodeCount > 100 ? -400 : -300
+    const linkDist = nodeCount > 200 ? 140 : nodeCount > 100 ? 120 : 100
+    fg.d3Force('charge')?.strength(charge)
+    fg.d3Force('link')?.distance(linkDist)
+    fg.d3Force('center')?.strength(0.05)
+    fg.d3Force('collision')?.radius((n: any) => (BASE_R[n.nodeType] || 5) * 2.5)
+  }, [graphSource, isLoading, graphForceData.nodes.length])
 
   /* ── Build hierarchy levels (BFS from root) ── */
   const nodeHierarchy = useMemo(() => {

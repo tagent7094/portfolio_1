@@ -1,0 +1,61 @@
+name: Deploy to tagent.club VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Only run when the required secrets exist (safe no-op until configured)
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: webapp-react/package-lock.json
+
+      - name: Build frontend
+        working-directory: webapp-react
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy backend via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:     ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key:      ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            cd /opt/tagent
+            sudo -u tagent git fetch origin main
+            sudo -u tagent git reset --hard origin/main
+            sudo -u tagent /opt/tagent/venv/bin/pip install -e . --quiet
+            sudo systemctl restart tagent
+
+      - name: Upload frontend build
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host:     ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key:      ${{ secrets.VPS_SSH_KEY }}
+          source:   "webapp-react/dist/*"
+          target:   "/opt/tagent/webapp-react/dist/"
+          rm:       true
+          strip_components: 2
+
+      - name: Reload nginx
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:     ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key:      ${{ secrets.VPS_SSH_KEY }}
+          script: sudo systemctl reload nginx

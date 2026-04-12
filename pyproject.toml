@@ -26,6 +26,8 @@ dependencies = [
     "langchain-community>=0.3.0",
     "langgraph>=0.2.0",
     "langchain-openai>=0.2.0",
+    "bcrypt>=4.1.0",
+    "pyjwt>=2.8.0",
 ]
 
 [project.scripts]

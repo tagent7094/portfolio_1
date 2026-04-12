@@ -82,6 +82,11 @@ def load_graph(path: str) -> nx.DiGraph:
             _log(f"Warning: node_link_graph failed, trying manual build: {e}")
             graph = _manual_load(data)
 
+    # Normalize edge keys: ensure all edges use 'edge_type' (some graphs use 'type')
+    for u, v, data in graph.edges(data=True):
+        if "edge_type" not in data and "type" in data:
+            data["edge_type"] = data.pop("type")
+
     # Validate
     n_nodes = graph.number_of_nodes()
     n_edges = graph.number_of_edges()

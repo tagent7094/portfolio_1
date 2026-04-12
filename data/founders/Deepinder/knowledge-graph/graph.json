@@ -1,0 +1,2001 @@
+{
+  "nodes": [
+    {
+      "id": "founder",
+      "type": "founder",
+      "label": "Deepinder",
+      "node_type": "founder"
+    },
+    {
+      "id": "cat_beliefs",
+      "type": "category",
+      "label": "Beliefs",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_stories",
+      "type": "category",
+      "label": "Stories",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_style_rules",
+      "type": "category",
+      "label": "Style Rules",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_thinking_models",
+      "type": "category",
+      "label": "Thinking Models",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_contrast_pairs",
+      "type": "category",
+      "label": "Contrast Pairs",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_vocabulary",
+      "type": "category",
+      "label": "Vocabulary",
+      "node_type": "category"
+    },
+    {
+      "label": "CMOs fired for measurement failure not marketing failure",
+      "stance": "Shortest C-suite tenure. Not capability — attribution models are political documents.",
+      "conviction": 0.95,
+      "frequency": 8,
+      "id": "belie_8399c9d179",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Attribution models are political documents",
+      "stance": "First-touch makes demand gen heroic. Last-touch makes SDR the engine. Configured by someone with agenda.",
+      "conviction": 0.95,
+      "frequency": 6,
+      "id": "belie_1ea418cd9e",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "A number you can't explain is a number you can't defend",
+      "stance": "107% is dangerous when nobody knows how. Board raises targets for something never understood.",
+      "conviction": 0.9,
+      "frequency": 5,
+      "id": "belie_24c2ff9ed6",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Marketing is the only function everyone thinks they're qualified for",
+      "stance": "Nobody tells CFO how to structure balance sheet. But every exec has opinion on marketing.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_fedb62a076",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "The CMO seat is designed to fail",
+      "stance": "Budget holder without lever control. Five mandates zero decision rights.",
+      "conviction": 0.95,
+      "frequency": 5,
+      "id": "belie_b540a71840",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Revenue truth is the real problem",
+      "stance": "Marketing sales finance each have different numbers. Nobody agrees which is real.",
+      "conviction": 0.95,
+      "frequency": 7,
+      "id": "belie_a2538ee6f2",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "CROs control narrative because sales is closer to revenue",
+      "stance": "When numbers conflict CEO trusts sales. CMO contradicted before finishing slide.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_1d3fed73f6",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Software showing problems dying to software solving them",
+      "stance": "$285B SaaS wipeout. Operators want agents that finish the job not dashboards.",
+      "conviction": 0.85,
+      "frequency": 3,
+      "id": "belie_dd52ceb322",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Nobody gets promoted for stopping bad marketing",
+      "stance": "Credit for campaigns launched. No credit for positioning that would've failed.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_875806b055",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Build in public with substance not manufactured content",
+      "stance": "Won't publish what AI could spin up in five minutes. Real operator conversations only.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_7052d51890",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Complex GTM motions need RevSure most",
+      "stance": "More complex = faster pain recognition = bigger initial deal = faster expansion.",
+      "conviction": 0.9,
+      "frequency": 3,
+      "id": "belie_a07257c4dd",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Capital is commodity sponsorship and distribution matter",
+      "stance": "Most advice isn't context-aware. What matters is sponsorship and distribution.",
+      "conviction": 0.8,
+      "frequency": 2,
+      "id": "belie_ea8e8ad1d3",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Creative destruction requires courage not strategy",
+      "stance": "Intercom killed $60M ARR. Honest word isn't creative destruction — it's courage.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_508dbe0e87",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AI visibility has 46x citation gap problem",
+      "stance": "Grok cites 27%. ChatGPT cites 0.59%. Same brand same window. Optimization before measurement.",
+      "conviction": 0.8,
+      "frequency": 2,
+      "id": "belie_a4504f597b",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "The unsexy orchestration layer is the real moat",
+      "stance": "Data harmonization connectivity stitching insights. Not glamorous but without it you're shippable in 30 days.",
+      "conviction": 0.9,
+      "frequency": 3,
+      "id": "belie_0e5879a6ce",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Every 18 months institutional marketing memory gets wiped",
+      "stance": "CMOs leave taking demand thesis and brand narrative. Next one excavates someone else's thinking.",
+      "conviction": 0.9,
+      "frequency": 3,
+      "id": "belie_7f5a7719a6",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "CMO goes from leading to explaining in one meeting",
+      "stance": "Senior executive pushes different view and energy changes. Authority shrinks when revenue impact feels abstract.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_3564bdf21f",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Vendor incentive keeps measurement at top of funnel",
+      "stance": "Content syndication vendor's business model depends on marketing team never seeing full-funnel conversion.",
+      "conviction": 0.9,
+      "frequency": 2,
+      "id": "belie_e8dd669dab",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "CMOs not on rollercoaster — reading last quarter's weather",
+      "stance": "Campaigns from January show in April pipeline. Board reviews every 90 days. She's watching pipeline she can't affect.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_4537a87762",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Motion rewarded over judgment in marketing",
+      "stance": "Boards want motion. Teams want output. Incentive always to do more. Most valuable work is deciding what not to do.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_ef8da6fbba",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Pipeline from decisions won't land for two quarters",
+      "stance": "CMO killed low-performing channels. Smart call. But judged on lagging output of strategy already replaced.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_af1ec7451c",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Influence in enterprise is decision infrastructure",
+      "stance": "Enterprise buyers don't lack content. They lack confidence. Right voice unblocks deals compresses cycles.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_5bca350e16",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Most CMOs never lay their own foundation",
+      "stance": "Spend entire tenure excavating predecessor's thinking. Never get to build their own.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_d2e95929ed",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Strong CROs ask one question that kills 80% of bad initiatives",
+      "stance": "'Has any buyer told you this is why they didn't sign?' Kills boardroom anxiety initiatives.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_84b9396300",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Brand gets you on the shortlist product wins the deal",
+      "stance": "Before RFP there's quiet filtering. Nobody champions vendor they've never heard of. MrBeast guarantees Salesforce makes list.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_a1fc938c72",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AEO category has measurement problem not optimization problem",
+      "stance": "Visibility tool tells where cited. Doesn't tell which citations connect to pipeline for your buyers.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_b40934b0ee",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Audiences have strong pattern recognition for manufactured content",
+      "stance": "They can distinguish earned insight from AI-manufactured content. Middle ground is being squeezed out.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_3aeeeddc0d",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Protecting things that stopped working is the real pattern",
+      "stance": "MQL definitions not revisited. Attribution showing marketing in best light. Tool nobody admits isn't working.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_6fdd10c3e1",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "CEO call to replace marketing head — three questions",
+      "summary": "CEO wanted to replace CMO. Three diagnostic questions exposed the CRO controls narrative because sales closer to revenue.",
+      "engagement": 886,
+      "word_count": 244,
+      "id": "story_027628fb28",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "VP Marketing promoted Q1 fired Q3",
+      "summary": "Attribution model credited her channels one quarter, didn't the next. She didn't change. The lens did.",
+      "engagement": 229,
+      "word_count": 163,
+      "id": "story_ab15b44a58",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CMO 107% pipeline but can't explain how",
+      "summary": "$5B company CMO said 'we hit 107% but we don't know how.' Board raises targets. Replicating unknown at 120% scale.",
+      "engagement": 14,
+      "word_count": 394,
+      "id": "story_29918e15d6",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CMO genius and fraud in same quarter",
+      "summary": "Described job as sinusoidal wave of emotions. One day CFO gets her next quarter explaining spends.",
+      "engagement": 52,
+      "word_count": 235,
+      "id": "story_454e7595d2",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Content syndication 12000 leads 50 in pipeline",
+      "summary": "'Happy or angry' — 99.6% rejection rate. Vendor's model depends on never seeing full-funnel.",
+      "engagement": 19,
+      "word_count": 242,
+      "id": "story_7c4585b57b",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Amisha rebuilding attribution — almost killed her team",
+      "summary": "Power BI to Snowflake but manual pulls night before board. Marketing sales finance three versions. Revenue truth problem.",
+      "engagement": 27,
+      "word_count": 265,
+      "id": "story_d1ab9290d4",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "RevSure 4x ARR in FY2026",
+      "summary": "4x ARR. Two quarters added more than cumulative start. Found ICP: large enterprises complex GTM.",
+      "engagement": 202,
+      "word_count": 172,
+      "id": "story_e80960d6e7",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Intercom killed $60M ARR on purpose",
+      "summary": "Eoghan McCabe moved 80% R&D to Fin. Creative destruction. Most teams protect last year's playbook.",
+      "engagement": 68,
+      "word_count": 302,
+      "id": "story_cc2ab8a091",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "$285 billion SaaS wipeout in one day",
+      "summary": "Anthropic Claude Cowork. Salesforce Workday down 40%. Dashboard software dying to agent software.",
+      "engagement": 46,
+      "word_count": 231,
+      "id": "story_85dfa5c689",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CMO hired for execution fired for not mind-reading",
+      "summary": "80% searches end same way. Product needs education sales needs leads. Five mandates zero decision rights.",
+      "engagement": 45,
+      "word_count": 232,
+      "id": "story_14bbe59afc",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Moneyball CMO launch — no manufactured content",
+      "summary": "One decision: no content AI could spin up. Real CMO conversations. Podcast and newsletter together.",
+      "engagement": 54,
+      "word_count": 172,
+      "id": "story_e1d769c240",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Salesforce MrBeast Super Bowl ad — 12K word analysis",
+      "summary": "Brand loyalty debate missed the point. Brand gets on shortlist. Product wins deal. Category capture timing.",
+      "engagement": 0,
+      "word_count": 12250,
+      "id": "story_1963f0721f",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Jason Beddall 10X content output — wrong metric",
+      "summary": "10X'd marketing content. Efficiency metrics up. Then automated outreach and everything broke.",
+      "engagement": 0,
+      "word_count": 12250,
+      "id": "story_a009f63168",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CMO institutional memory wipe every 18 months",
+      "summary": "Each CMO exit takes demand thesis and brand narrative. Next one reverse-engineers why MQL threshold is set that way.",
+      "engagement": 258,
+      "word_count": 276,
+      "id": "story_1ef581ba9d",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Profound $96M raise and AEO 46x citation gap",
+      "summary": "AEO grew from 7 to 150+ tools in 10 months. But 46x gap in citation rates across platforms.",
+      "engagement": 30,
+      "word_count": 252,
+      "id": "story_e134c36c9e",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Amisha on influencer marketing as decision infrastructure",
+      "summary": "'Not for distribution but for helping buyers reach a decision.' Right voice unblocks deals.",
+      "engagement": 39,
+      "word_count": 237,
+      "id": "story_13499858e3",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Amisha $50K event killed after two years zero prospects",
+      "summary": "Built B2B influencer marketing at SAP from scratch. Guerrilla billboards in target account districts.",
+      "engagement": 27,
+      "word_count": 265,
+      "id": "story_2214f92afb",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CMO seat designed to fail — authority never forms",
+      "summary": "Budget holder without lever control. Senior exec pushes different view, CMO goes from leading to explaining.",
+      "engagement": 31,
+      "word_count": 228,
+      "id": "story_6d85c7185b",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CEO he doubled down on existing CMO instead of replacing",
+      "summary": "After three diagnostic questions CEO kept the CMO. She's nailing it. Fix the system not the person.",
+      "engagement": 886,
+      "word_count": 244,
+      "id": "story_dcf4336ace",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Marketers job everyone has opinion on — finance comparison",
+      "summary": "Nobody tells CFO how to structure balance sheet. But marketing gets that treatment daily.",
+      "engagement": 157,
+      "word_count": 248,
+      "id": "story_f69b5d3490",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Nobody gets promoted for stopping — the invisible work",
+      "summary": "Killing rebrand when brand wasn't problem. Saying no to enterprise when product not ready. Telling CEO tagline means nothing.",
+      "engagement": 10,
+      "word_count": 213,
+      "id": "story_97fab8251d",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "RevSure solving unsexy data harmonization",
+      "summary": "Data harmonization connectivity stitching. Not glamorous. But without it smart developer ships you in 30 days.",
+      "engagement": 0,
+      "word_count": 200,
+      "id": "story_ddc03a8ed0",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Operator Collective — capital is commodity",
+      "summary": "Mallun Yen building fund around operator DNA. Sponsorship and distribution matter more than capital.",
+      "engagement": 0,
+      "word_count": 200,
+      "id": "story_ac9b01429d",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Opens with a real conversation or direct quote",
+      "rule": "'A CEO called me.' 'A CMO told us.' 'She described her job as.' Real people real exchanges.",
+      "register": "narrative",
+      "rule_type": "opening",
+      "id": "style_5551349ecd",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Three-question rapid diagnostic",
+      "rule": "Sequence of diagnostic questions exposing real problem. Questions do the arguing.",
+      "register": "socratic",
+      "rule_type": "structure",
+      "id": "style_60fbf3e1e5",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Uses devastating math as punchline",
+      "rule": "99.6% rejection. 0.4% conversion. 46x gap. $285B wiped. The math IS the argument.",
+      "register": "evidence-based",
+      "rule_type": "evidence",
+      "id": "style_263d6ae9ed",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Named protagonists with specific contexts",
+      "rule": "Amisha Gandhi, Eoghan McCabe, Mallun Yen, Jason Beddall. Names create credibility and intimacy.",
+      "register": "personal",
+      "rule_type": "evidence",
+      "id": "style_51921ff4f3",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Reframes obvious explanation to structural cause",
+      "rule": "'Everyone thinks X. Here's what actually happens.' Reframe is always structural never personal.",
+      "register": "diagnostic",
+      "rule_type": "structure",
+      "id": "style_9a34c6360f",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "CMO advocacy as throughline in every post",
+      "rule": "Nearly every post advocates for CMOs. Consistent empathy for structurally disadvantaged role.",
+      "register": "empathetic",
+      "rule_type": "theme",
+      "id": "style_bd6225eb56",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Competing mandates as dark comedy",
+      "rule": "Product needs education sales needs leads CEO wants category board wants this quarter. Comedy of impossibility.",
+      "register": "satirical",
+      "rule_type": "structure",
+      "id": "style_6e9b861510",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Selective long-form deep dives",
+      "rule": "Most posts 200-300 words. Occasionally 10K+ analysis. When going deep goes extremely deep.",
+      "register": "analytical",
+      "rule_type": "structure",
+      "id": "style_63eba2aafd",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Direct quotes as story anchors",
+      "rule": "'I don't know whether happy or angry.' 'It almost killed me.' Quote IS the hook.",
+      "register": "narrative",
+      "rule_type": "opening",
+      "id": "style_fe067d7158",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Ends on systemic insight not personal advice",
+      "rule": "Closes by zooming to structural observation. Problem is never the person — it's the system.",
+      "register": "systemic",
+      "rule_type": "closing",
+      "id": "style_be74cf5e7f",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Sinusoidal wave metaphor for CMO experience",
+      "rule": "Genius one quarter fraud the next. Emotional oscillation tied to lagging pipeline metrics.",
+      "register": "metaphorical",
+      "rule_type": "evidence",
+      "id": "style_681f240c72",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Flywheel framing for systemic problems",
+      "rule": "'This is the flywheel nobody talks about.' Self-reinforcing cycles of institutional failure.",
+      "register": "analytical",
+      "rule_type": "structure",
+      "id": "style_b04928e90c",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Fix the system not the person",
+      "rule": "Recurring close: replacing the person won't help if the system is designed to make them fail.",
+      "register": "diagnostic",
+      "rule_type": "closing",
+      "id": "style_b3cc66bc34",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Weather metaphor for attribution lag",
+      "rule": "Reading last quarter's weather asked why today's temperature is wrong. Campaigns from Jan show in April.",
+      "register": "metaphorical",
+      "rule_type": "evidence",
+      "id": "style_fbf30198ac",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Excavation metaphor for CMO tenure",
+      "rule": "Each new CMO excavates predecessor's thinking. Never lays their own foundation.",
+      "register": "metaphorical",
+      "rule_type": "structure",
+      "id": "style_f4e7ce3f9a",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "One-line structural punch",
+      "rule": "'That's the whole story.' 'That's rare.' 'The person who brings this data becomes the villain.' Minimal maximum-impact sentences.",
+      "register": "punchy",
+      "rule_type": "structure",
+      "id": "style_e7d21fb013",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Board review cycle as structural antagonist",
+      "rule": "Board reviews every 90 days. Pipeline from decisions won't land for two quarters. Structural timing mismatch.",
+      "register": "analytical",
+      "rule_type": "theme",
+      "id": "style_afa3c483d3",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Impossible choice framing",
+      "rule": "Admits junk leads. Kills top lead source. Explains to board why 12K leads produced 51 deals. Villain framing for truth-teller.",
+      "register": "empathetic",
+      "rule_type": "structure",
+      "id": "style_1b21232ebb",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Moneyball CMO as content brand",
+      "rule": "Series name creates recurring brand. Real conversations with real operators. Podcast plus newsletter.",
+      "register": "branded",
+      "rule_type": "theme",
+      "id": "style_b56ff73e26",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Narrative control diagnosis",
+      "description": "Function closest to revenue controls the story. CMO enters every meeting with number that gets contradicted.",
+      "applies_to": "org politics, CMO advocacy, revenue alignment",
+      "id": "think_90f35a008d",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Attribution as political weapon",
+      "description": "Attribution models configured by whoever touched last. Whoever configures writes the narrative.",
+      "applies_to": "marketing measurement, CMO survival, revenue ops",
+      "id": "think_c474c051b1",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Unexplainable success as risk",
+      "description": "Quarter you can't explain more dangerous than quarter you missed. Board assumes machine works raises targets.",
+      "applies_to": "forecasting, board management, GTM strategy",
+      "id": "think_d36830341c",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Structural role failure",
+      "description": "CMO fails not because of person but positioning. Budget without levers. Five mandates zero decision rights.",
+      "applies_to": "org design, C-suite dynamics, CMO tenure",
+      "id": "think_bd117ce409",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Funnel truth exposure",
+      "description": "Top of funnel looks good. Truth appears at full-funnel stitch. 12K leads becomes 50 opportunities.",
+      "applies_to": "demand gen, vendor management, pipeline quality",
+      "id": "think_81d9c7bfed",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Dashboard to agent transition",
+      "description": "SaaS showing problems replaced by agents solving them. $285B repricing.",
+      "applies_to": "product strategy, SaaS evolution, AI agents",
+      "id": "think_adcd99fe50",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Self-cannibalization courage",
+      "description": "Kill own revenue before someone else does. Intercom killed $60M. Most teams protect last year's playbook.",
+      "applies_to": "product strategy, innovation, leadership",
+      "id": "think_6c59f598a3",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "ICP clarity through pain recognition speed",
+      "description": "More complex GTM = faster pain recognition = bigger deal = faster expansion.",
+      "applies_to": "ICP definition, sales targeting, product-market fit",
+      "id": "think_19d1f71e26",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Institutional memory half-life",
+      "description": "Every CMO exit wipes marketing's institutional memory. 18-month cycle of excavation and rebuilding.",
+      "applies_to": "knowledge management, CMO transition, org design",
+      "id": "think_29a8341881",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Lagging output judgment trap",
+      "description": "CMO judged on lagging output of strategy they already replaced. Smart decisions look bad for two quarters.",
+      "applies_to": "performance evaluation, board dynamics, attribution",
+      "id": "think_a5d6c0c2f9",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Vendor measurement incentive misalignment",
+      "description": "Vendor's business model depends on customer never seeing full-funnel conversion. Financial incentive to keep measurement at top.",
+      "applies_to": "vendor management, demand gen, procurement",
+      "id": "think_a01e3b8be5",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Model volatility vs performance volatility",
+      "description": "VP experienced model volatility not performance volatility. Her work didn't change but the lens did.",
+      "applies_to": "attribution, performance management, CMO survival",
+      "id": "think_68c2f9c6b1",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Influence as decision infrastructure",
+      "description": "Enterprise buyers don't lack content — they lack confidence. Influence helps them decide not discover.",
+      "applies_to": "B2B marketing, influencer strategy, buyer journey",
+      "id": "think_fb0d6e5afe",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Motion vs judgment incentive",
+      "description": "Incentive always to do more. Most valuable work is deciding what not to do. Invisible until compared.",
+      "applies_to": "marketing strategy, leadership, resource allocation",
+      "id": "think_72f7625dae",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Category capture timing",
+      "description": "Brand doesn't win deal — gets on shortlist. Before RFP there's quiet filtering where nobody champions unknown vendor.",
+      "applies_to": "brand strategy, competitive positioning, enterprise sales",
+      "id": "think_e53a853e4f",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Marketing's number vs sales's number",
+      "left": "Marketing reports pipeline from attribution model",
+      "right": "Sales reports from what actually closed",
+      "id": "contr_0b676e357d",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Hired for execution vs fired for mind-reading",
+      "left": "Job description says launch campaigns build pipeline",
+      "right": "Actual job is knowing which exec to disappoint this week",
+      "id": "contr_93f730f3cc",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Attribution objectivity vs attribution politics",
+      "left": "Presented as neutral measurement",
+      "right": "Political document configured by whoever touched it last",
+      "id": "contr_0c8333a345",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Explainable miss vs unexplainable hit",
+      "left": "Quarter missed but diagnosable and fixable",
+      "right": "Quarter hit 107% but nobody can explain how",
+      "id": "contr_ecca4d70a0",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Top of funnel celebration vs full-funnel truth",
+      "left": "12000 leads vendor gets bigger contract",
+      "right": "50 in pipeline 99.6% rejection rate",
+      "id": "contr_96c574a3ce",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Dashboard software vs agent software",
+      "left": "Shows you problems via charts",
+      "right": "Solves problems agents finish the job",
+      "id": "contr_567ccb7b32",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Manufactured content vs earned insight",
+      "left": "AI-generated playbooks engagement farming",
+      "right": "Real CMO conversations about what's actually broken",
+      "id": "contr_7ecacee922",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Campaigns launched vs bad marketing stopped",
+      "left": "Credit for volume motion pipeline numbers",
+      "right": "Invisible value of what you prevented",
+      "id": "contr_1271be66f1",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Protecting playbook vs cannibalizing revenue",
+      "left": "Protecting proven channels and MQL definitions",
+      "right": "Killing your own revenue before someone else does",
+      "id": "contr_89dd182995",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "AEO optimization vs citation gap reality",
+      "left": "150+ tools promising AI visibility optimization",
+      "right": "46x gap in citation rates same brand same window",
+      "id": "contr_6383ec1311",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Marketing as everyone's expertise vs finance as sacred",
+      "left": "Every exec has opinion because they've consumed marketing",
+      "right": "Nobody tells CFO how to structure balance sheet",
+      "id": "contr_1d681df4e0",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Genius quarter vs fraud quarter",
+      "left": "CFO finally gets her campaigns working pipeline green",
+      "right": "Next quarter explaining spends watching pipeline she can't affect",
+      "id": "contr_3233319f07",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Leading the conversation vs explaining the plan",
+      "left": "CMO owns the room anchors in revenue impact",
+      "right": "Senior exec pushes different view CMO shifts to defense",
+      "id": "contr_1a9dccf176",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "New CMO laying foundation vs excavating predecessor",
+      "left": "Building your own demand thesis and brand narrative",
+      "right": "Spending 6 months reverse-engineering why MQL threshold is set at X",
+      "id": "contr_809491a06e",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Replacing the person vs fixing the system",
+      "left": "New CMO same team same tools same culture same outcome",
+      "right": "Doubling down on existing CMO after fixing the system",
+      "id": "contr_7140bd34b1",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Revenue attribution at the top vs revenue truth at the bottom",
+      "left": "Vanity metrics that make campaigns look good",
+      "right": "Full-funnel stitching that shows which decisions drove revenue",
+      "id": "contr_e91f293978",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Revenue truth",
+      "definition": "The real numbers that emerge when marketing sales and finance versions are reconciled. Most orgs don't have this.",
+      "frequency": 7,
+      "id": "vocab_fd3e1745f3",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Attribution politics",
+      "definition": "Attribution models as political documents. Configured by whoever touched them last to tell their story.",
+      "frequency": 6,
+      "id": "vocab_975527617e",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Institutional memory half-life",
+      "definition": "How fast marketing's institutional memory decays. Typically 18 months — one CMO tenure cycle.",
+      "frequency": 3,
+      "id": "vocab_29a8341881",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Model volatility",
+      "definition": "When performance evaluation swings not from actual work changing but from the measurement model changing.",
+      "frequency": 2,
+      "id": "vocab_ff0e5e0a3e",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Decision infrastructure",
+      "definition": "Influence that helps enterprise buyers decide not discover. Right voice unblocks deals.",
+      "frequency": 2,
+      "id": "vocab_a9425b8f9a",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Narrative control",
+      "definition": "The function closest to revenue controls the story. Sales controls because CEO trusts sales numbers.",
+      "frequency": 4,
+      "id": "vocab_ea51a09aa3",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Lagging output judgment",
+      "definition": "Being evaluated on results from a strategy you've already replaced. Pipeline from Q1 decisions lands in Q3.",
+      "frequency": 3,
+      "id": "vocab_e6335b070e",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Full-funnel stitch",
+      "definition": "Connecting top-of-funnel metrics to actual pipeline and revenue. Where truth gets exposed.",
+      "frequency": 3,
+      "id": "vocab_a5f96961bf",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Vendor measurement incentive",
+      "definition": "Vendors have financial incentive to keep measurement at top of funnel where their numbers look best.",
+      "frequency": 2,
+      "id": "vocab_c7b61db216",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Creative destruction",
+      "definition": "Killing your own revenue source before disruption does. Intercom's $60M ARR sacrifice.",
+      "frequency": 2,
+      "id": "vocab_d1b736a04e",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Moneyball CMO",
+      "definition": "Deepinder's content series. Real conversations with CMOs about what's working and what's broken.",
+      "frequency": 3,
+      "id": "vocab_c82bf115d7",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Dashboard repricing",
+      "definition": "The $285B SaaS wipeout. Market repricing every tool that stops at showing answers instead of executing.",
+      "frequency": 2,
+      "id": "vocab_f4f2da8ff3",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Excavation tenure",
+      "definition": "CMO spending entire tenure reverse-engineering predecessor's decisions instead of building own foundation.",
+      "frequency": 2,
+      "id": "vocab_dc7541928c",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Impossible choice",
+      "definition": "What happens when someone exposes full-funnel truth: admit junk leads kill top source explain to board. Villain treatment.",
+      "frequency": 2,
+      "id": "vocab_9706fb4b9d",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Genius-fraud oscillation",
+      "definition": "The CMO emotional cycle. Genius when pipeline is green. Fraud when it's not. Both driven by lagging metrics.",
+      "frequency": 2,
+      "id": "vocab_c10af329f0",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Boardroom anxiety",
+      "definition": "The need to see motion that pushes execs into tools they didn't choose for problems they didn't diagnose.",
+      "frequency": 2,
+      "id": "vocab_79fbf4e528",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Category capture",
+      "definition": "Getting on the shortlist before RFP. Brand's real job in enterprise. MrBeast guarantees Salesforce makes the list.",
+      "frequency": 1,
+      "id": "vocab_d55be7c6f8",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Pain recognition speed",
+      "definition": "How fast a prospect recognizes they have the problem you solve. Complex GTM = faster recognition.",
+      "frequency": 2,
+      "id": "vocab_2362b42497",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Sinusoidal wave",
+      "definition": "The emotional pattern of CMO life. Up when pipeline looks good down when it doesn't. Neither reflects actual performance.",
+      "frequency": 1,
+      "id": "vocab_3b4880bf87",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "System designed to lose",
+      "definition": "When the org structure ensures the person in the role cannot succeed regardless of capability.",
+      "frequency": 3,
+      "id": "vocab_eda618b263",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "founder",
+      "target": "cat_beliefs",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_stories",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_style_rules",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_thinking_models",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_contrast_pairs",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_vocabulary",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_8399c9d179",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_1ea418cd9e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_24c2ff9ed6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_fedb62a076",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_b540a71840",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_a2538ee6f2",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_1d3fed73f6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_dd52ceb322",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_875806b055",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_7052d51890",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_a07257c4dd",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_ea8e8ad1d3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_508dbe0e87",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_a4504f597b",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_0e5879a6ce",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_7f5a7719a6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_3564bdf21f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_e8dd669dab",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_4537a87762",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_ef8da6fbba",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_af1ec7451c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_5bca350e16",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_d2e95929ed",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_84b9396300",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_a1fc938c72",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_b40934b0ee",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_3aeeeddc0d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_6fdd10c3e1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_027628fb28",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_ab15b44a58",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_29918e15d6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_454e7595d2",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_7c4585b57b",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_d1ab9290d4",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_e80960d6e7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_cc2ab8a091",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_85dfa5c689",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_14bbe59afc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_e1d769c240",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_1963f0721f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_a009f63168",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_1ef581ba9d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_e134c36c9e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_13499858e3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_2214f92afb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_6d85c7185b",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_dcf4336ace",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_f69b5d3490",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_97fab8251d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_ddc03a8ed0",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_ac9b01429d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_5551349ecd",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_60fbf3e1e5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_263d6ae9ed",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_51921ff4f3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_9a34c6360f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_bd6225eb56",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_6e9b861510",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_63eba2aafd",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_fe067d7158",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_be74cf5e7f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_681f240c72",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_b04928e90c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_b3cc66bc34",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_fbf30198ac",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_f4e7ce3f9a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_e7d21fb013",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_afa3c483d3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_1b21232ebb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_b56ff73e26",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_90f35a008d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_c474c051b1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_d36830341c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_bd117ce409",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_81d9c7bfed",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_adcd99fe50",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_6c59f598a3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_19d1f71e26",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_29a8341881",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_a5d6c0c2f9",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_a01e3b8be5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_68c2f9c6b1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_fb0d6e5afe",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_72f7625dae",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_e53a853e4f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_0b676e357d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_93f730f3cc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_0c8333a345",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_ecca4d70a0",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_96c574a3ce",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_567ccb7b32",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_7ecacee922",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_1271be66f1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_89dd182995",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_6383ec1311",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_1d681df4e0",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_3233319f07",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_1a9dccf176",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_809491a06e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_7140bd34b1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_e91f293978",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_fd3e1745f3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_975527617e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_29a8341881",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_ff0e5e0a3e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_a9425b8f9a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_ea51a09aa3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_e6335b070e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_a5f96961bf",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_c7b61db216",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_d1b736a04e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_c82bf115d7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_f4f2da8ff3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_dc7541928c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_9706fb4b9d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_c10af329f0",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_79fbf4e528",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_d55be7c6f8",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_2362b42497",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_3b4880bf87",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_eda618b263",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "story_027628fb28",
+      "target": "belie_1d3fed73f6",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_027628fb28",
+      "target": "belie_8399c9d179",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_ab15b44a58",
+      "target": "belie_1ea418cd9e",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_ab15b44a58",
+      "target": "belie_8399c9d179",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_29918e15d6",
+      "target": "belie_24c2ff9ed6",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_29918e15d6",
+      "target": "belie_a2538ee6f2",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_454e7595d2",
+      "target": "belie_b540a71840",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_454e7595d2",
+      "target": "belie_4537a87762",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_7c4585b57b",
+      "target": "belie_a2538ee6f2",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_7c4585b57b",
+      "target": "belie_e8dd669dab",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_d1ab9290d4",
+      "target": "belie_a2538ee6f2",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_d1ab9290d4",
+      "target": "belie_0e5879a6ce",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_e80960d6e7",
+      "target": "belie_a07257c4dd",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_cc2ab8a091",
+      "target": "belie_508dbe0e87",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_cc2ab8a091",
+      "target": "belie_6fdd10c3e1",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_85dfa5c689",
+      "target": "belie_dd52ceb322",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_14bbe59afc",
+      "target": "belie_b540a71840",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_14bbe59afc",
+      "target": "belie_fedb62a076",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_e1d769c240",
+      "target": "belie_7052d51890",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_1963f0721f",
+      "target": "belie_a1fc938c72",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_a009f63168",
+      "target": "belie_ef8da6fbba",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_1ef581ba9d",
+      "target": "belie_7f5a7719a6",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_1ef581ba9d",
+      "target": "belie_d2e95929ed",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_e134c36c9e",
+      "target": "belie_a4504f597b",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_e134c36c9e",
+      "target": "belie_b40934b0ee",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_13499858e3",
+      "target": "belie_5bca350e16",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_2214f92afb",
+      "target": "belie_875806b055",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_6d85c7185b",
+      "target": "belie_b540a71840",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_6d85c7185b",
+      "target": "belie_3564bdf21f",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_dcf4336ace",
+      "target": "belie_8399c9d179",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_f69b5d3490",
+      "target": "belie_fedb62a076",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_97fab8251d",
+      "target": "belie_875806b055",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_97fab8251d",
+      "target": "belie_ef8da6fbba",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_ddc03a8ed0",
+      "target": "belie_0e5879a6ce",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_ac9b01429d",
+      "target": "belie_ea8e8ad1d3",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "contr_0b676e357d",
+      "target": "belie_1d3fed73f6",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_0b676e357d",
+      "target": "belie_a2538ee6f2",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_93f730f3cc",
+      "target": "belie_b540a71840",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_0c8333a345",
+      "target": "belie_1ea418cd9e",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_ecca4d70a0",
+      "target": "belie_24c2ff9ed6",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_96c574a3ce",
+      "target": "belie_a2538ee6f2",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_96c574a3ce",
+      "target": "belie_e8dd669dab",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_567ccb7b32",
+      "target": "belie_dd52ceb322",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_7ecacee922",
+      "target": "belie_7052d51890",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_1271be66f1",
+      "target": "belie_875806b055",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_1271be66f1",
+      "target": "belie_ef8da6fbba",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_89dd182995",
+      "target": "belie_508dbe0e87",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_89dd182995",
+      "target": "belie_6fdd10c3e1",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_6383ec1311",
+      "target": "belie_a4504f597b",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_1d681df4e0",
+      "target": "belie_fedb62a076",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_3233319f07",
+      "target": "belie_4537a87762",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_1a9dccf176",
+      "target": "belie_3564bdf21f",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_809491a06e",
+      "target": "belie_7f5a7719a6",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_809491a06e",
+      "target": "belie_d2e95929ed",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_7140bd34b1",
+      "target": "belie_8399c9d179",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_e91f293978",
+      "target": "belie_a2538ee6f2",
+      "type": "ILLUMINATES"
+    }
+  ]
+}

@@ -20,8 +20,34 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 from src.utils.text_utils import save_to_history
 
+import os as _os
+
 app = FastAPI(title="Digital DNA", version="0.2.0")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+
+# CORS — allow credentials when auth is enabled, restrict origins via env
+_allowed_origins_env = _os.environ.get("TAGENT_ALLOWED_ORIGINS", "")
+if _allowed_origins_env:
+    _allowed_origins = [o.strip() for o in _allowed_origins_env.split(",") if o.strip()]
+    _allow_credentials = True
+else:
+    _allowed_origins = ["*"]
+    _allow_credentials = False
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_allowed_origins,
+    allow_credentials=_allow_credentials,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Subdomain auth middleware (no-op when TAGENT_AUTH_ENABLED is unset)
+from webapp.auth_middleware import AuthMiddleware
+app.add_middleware(AuthMiddleware)
+
+# Auth routes
+from webapp.auth_routes import router as auth_router
+app.include_router(auth_router)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -139,8 +165,13 @@ def _load_config() -> dict:
 
 def _graph_path(founder_slug: str | None = None) -> str:
     from src.config.founders import get_active_founder, get_founder_paths
+    from src.auth import context as _auth_context
     config = _load_config()
-    if founder_slug:
+    # Auth ContextVar takes precedence over explicit/active founder
+    scoped = _auth_context.get()
+    if scoped:
+        paths = get_founder_paths(config, scoped)
+    elif founder_slug:
         paths = get_founder_paths(config, founder_slug)
     else:
         paths = get_active_founder(config)
@@ -148,6 +179,10 @@ def _graph_path(founder_slug: str | None = None) -> str:
 
 
 def _active_founder_slug() -> str:
+    from src.auth import context as _auth_context
+    scoped = _auth_context.get()
+    if scoped:
+        return scoped
     config = _load_config()
     return config.get("founders", {}).get("active", "sharath")
 
@@ -311,7 +346,7 @@ async def graph_nodes():
 
         edges = []
         for u, v, data in graph.edges(data=True):
-            edges.append({"source": u, "target": v, "type": data.get("edge_type", "")})
+            edges.append({"source": u, "target": v, "type": data.get("edge_type", data.get("type", ""))})
 
         return {"nodes": nodes, "edges": edges}
     except Exception as e:
@@ -435,6 +470,9 @@ async def list_founders():
 
 @app.post("/api/founders/active")
 async def switch_founder(data: FounderSwitch):
+    # When auth is enabled, founders cannot switch away from themselves
+    if _os.environ.get("TAGENT_AUTH_ENABLED", "").lower() in ("1", "true", "yes"):
+        raise HTTPException(status_code=403, detail="founder switching disabled in auth mode")
     logger.info("[switch_founder] switching to %s", data.slug)
     from src.config.founders import set_active_founder
     set_active_founder(data.slug)
@@ -483,7 +521,7 @@ async def viral_graph_nodes():
         props = {k: v for k, v in data.items() if k != "node_type"}
         nodes.append({"id": node_id, "type": node_type, "label": str(label)[:50], **props})
 
-    edges = [{"source": u, "target": v, "type": d.get("edge_type", "")}
+    edges = [{"source": u, "target": v, "type": d.get("edge_type", d.get("type", ""))}
              for u, v, d in graph.edges(data=True)]
 
     return {"nodes": nodes, "edges": edges}

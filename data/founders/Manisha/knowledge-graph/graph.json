@@ -1,0 +1,3504 @@
+{
+  "nodes": [
+    {
+      "id": "founder",
+      "type": "founder",
+      "label": "Manisha",
+      "node_type": "founder"
+    },
+    {
+      "id": "cat_beliefs",
+      "type": "category",
+      "label": "Beliefs",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_stories",
+      "type": "category",
+      "label": "Stories",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_style_rules",
+      "type": "category",
+      "label": "Style Rules",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_thinking_models",
+      "type": "category",
+      "label": "Thinking Models",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_contrast_pairs",
+      "type": "category",
+      "label": "Contrast Pairs",
+      "node_type": "category"
+    },
+    {
+      "id": "cat_vocabulary",
+      "type": "category",
+      "label": "Vocabulary",
+      "node_type": "category"
+    },
+    {
+      "label": "SEs are deal architects not demo support",
+      "stance": "Solution Engineers should steer deals, not just demo products",
+      "conviction": 0.95,
+      "frequency": 12,
+      "id": "belie_33cb12f78c",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "The introduction IS the positioning",
+      "stance": "When you say 'technical resource' buyers hear 'support staff'. The frame is set in the first 10 seconds.",
+      "conviction": 0.95,
+      "frequency": 5,
+      "id": "belie_206d150fc2",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Yes-culture in presales destroys revenue",
+      "stance": "Most SEs are trained to never push back. That silence is where bad revenue begins.",
+      "conviction": 0.9,
+      "frequency": 5,
+      "id": "belie_316b4db40a",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "The AE-SE pair is the smallest unit of revenue",
+      "stance": "Companies redesign territories every year but never rethink the two-person unit that actually drives revenue.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_30e2d2533f",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "The demo is now the audit not the reveal",
+      "stance": "Buyers walk in with ChatGPT open fact-checking sellers. By stage 3 the buyer has already decided.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_be2cf14a6d",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Presales is broken and nobody says it",
+      "stance": "Everyone is busy but few are actually selling. More tools more meetings more decks less clarity.",
+      "conviction": 0.85,
+      "frequency": 3,
+      "id": "belie_1f48ba1b95",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "SEs prepping hardest are losing most deals",
+      "stance": "When buyers benchmark you with ChatGPT, more prep on features is wasted hours.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_199b997fd3",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Celebrate the SE who walks away early",
+      "stance": "Almost no one talks about the SE who walks away from a bad deal early and saves months of pain.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_d4a5ca2c59",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Vertical AI beats horizontal every time",
+      "stance": "When you build for everyone you solve deeply for no one. Context is everything.",
+      "conviction": 0.95,
+      "frequency": 10,
+      "id": "belie_98a64e49de",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "The moat is not the model",
+      "stance": "The moat isn't in the generative AI alone — it's in workflows, integrations, domain reasoning, vertical reporting.",
+      "conviction": 0.95,
+      "frequency": 8,
+      "id": "belie_586b486a65",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Horizontal AI is structurally limited for enterprise",
+      "stance": "All demoed beautifully but the moment teams asked business-specific questions the answers broke.",
+      "conviction": 0.9,
+      "frequency": 5,
+      "id": "belie_1d78df0ef5",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Next GPT launch is a force multiplier not a threat",
+      "stance": "Each LLM launch makes vertical AI agents more powerful, not less relevant.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_588b836aea",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Enterprise orchestration is the hard part",
+      "stance": "Task execution is not knowledge understanding. Enterprise orchestration needs integrations workflows compliance security.",
+      "conviction": 0.9,
+      "frequency": 3,
+      "id": "belie_ff2ca2b3da",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "General purpose agents fail when revenue is on the line",
+      "stance": "Good for siloed use cases but not when real revenue or customer success depends on it.",
+      "conviction": 0.85,
+      "frequency": 3,
+      "id": "belie_1a8bdcd08f",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Context is the real currency in sales",
+      "stance": "Deals die in follow-ups because the right context never reaches the right person while the room is warm.",
+      "conviction": 0.95,
+      "frequency": 14,
+      "id": "belie_8045c97de6",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Context debt compounds like tech debt",
+      "stance": "Revenue teams are slowed by context debt we write off as ramp-up period. It compounds and kills forecasts.",
+      "conviction": 0.9,
+      "frequency": 6,
+      "id": "belie_98bc72a842",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "80% of sales done by top 10% who master context",
+      "stance": "Top performers are masters of context. The rest catch up. Their quotas still factored into forecasts.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_d2a37b4871",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "You can't clone high-agency AEs but you can clone their context",
+      "stance": "Commoditize context so average reps operate at above-average insights. Only scalable path.",
+      "conviction": 0.85,
+      "frequency": 3,
+      "id": "belie_f66ff76619",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Tribal knowledge locked in heads is the real bottleneck",
+      "stance": "Case studies in decks from 14 months ago that three people knew existed. Competitive intel in someone's head.",
+      "conviction": 0.9,
+      "frequency": 5,
+      "id": "belie_61b01edd23",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AEs moonlighting as document editors",
+      "stance": "They're scavenging old decks stitching case studies fixing fonts when they should be selling.",
+      "conviction": 0.85,
+      "frequency": 3,
+      "id": "belie_bdbbb9a217",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Sales is the most blamed and least understood function",
+      "stance": "Sales is the only function with a public number. Blame follows visibility not root cause.",
+      "conviction": 0.9,
+      "frequency": 3,
+      "id": "belie_d698509c65",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "We diagnose leadership when the disease is infrastructure",
+      "stance": "Bad habit of diagnosing leadership failure when the real problem is knowledge infrastructure.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_5fd86f8306",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Hope is not a strategy for new sales leaders",
+      "stance": "Companies hire sales leaders and hope they'll figure it out. They're flying blind without context.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_632f8919f1",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "War rooms mean your systems failed",
+      "stance": "A war room to close one deal means processes are manual and reactive. Wins secured in war rooms are cover for chaos.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_0b8fcc65ea",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "CROs being outpaced by growth they created",
+      "stance": "AI compresses time to $100M ARR. CROs are overwhelmed by the very growth they helped create.",
+      "conviction": 0.85,
+      "frequency": 5,
+      "id": "belie_5aefe5611d",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "CROs pressured into solving wrong problems",
+      "stance": "CEO forwards vendor email with 'Thoughts?' CROs holding tools they didn't choose for problems they didn't diagnose.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_dba3d81a08",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "War-time CROs are built different",
+      "stance": "Peace-time CROs run playbooks. War-time CROs deploy AI before competitors, rewrite orgs while hitting quota.",
+      "conviction": 0.8,
+      "frequency": 2,
+      "id": "belie_2b3632f6c5",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Build vs buy is never a one-time decision",
+      "stance": "Building gets easier but maintaining is the real cost. Monitor failure loops, support new behaviors, ship at ecosystem speed.",
+      "conviction": 0.9,
+      "frequency": 6,
+      "id": "belie_93db89cca9",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "The real cost is maintaining not building",
+      "stance": "You can spin up an internal tool in weeks. The tax shows up later in integrations, edge cases, and model updates.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_e38695aa93",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Buy increases your odds by 100%",
+      "stance": "67% of successful AI projects come from external vendors. Only 33% in-house. MIT Media Lab finding.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_af3778f7d7",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Enterprise AI needs deterministic guardrails",
+      "stance": "Consumer AI can hallucinate and recover. Enterprise AI that gives creative answers to pricing loses the deal.",
+      "conviction": 0.9,
+      "frequency": 4,
+      "id": "belie_5703730308",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Character in enterprise AI is gamification in disguise",
+      "stance": "Injecting warmth into enterprise AI is the same instinct that slapped badges on software in 2019.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_aa44fcff06",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Gratification beats gamification",
+      "stance": "Fix accuracy context and integration first. Then worry about character.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_6a6f718f74",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Product management is not dead just evolved",
+      "stance": "PMs now architect context for AI agents, not interfaces for humans. Context architecture not feature management.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_27ca8f3352",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AI agents redefine who is the end user",
+      "stance": "The end user is no longer just the person entering data — it's everyone who benefits from the insight.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_54c6a5de37",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Playbook fatigue is killing startups",
+      "stance": "No two startups are the same. Copying playbooks is engagement farming disguised as strategy.",
+      "conviction": 0.85,
+      "frequency": 3,
+      "id": "belie_b3270babc7",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "We need playbook creators not playbook followers",
+      "stance": "Startups need people who can zoom out read the room and write the first draft. Not repeat the last one.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_c9839c14c0",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Product reviews are dopamine hits not progress",
+      "stance": "Features shipped timelines met but did it land? Engineering execution rarely breaks the launch.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_d41b0c6553",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Revenue concentration is more dangerous than churn",
+      "stance": "When 80% comes from 20% thats strategic exposure not enterprise success.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_56fd95d117",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Build to become a utility not to prove ROI",
+      "stance": "Nobody asks for the ROI of Zoom or Gmail. Build to become oxygen for businesses.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_f5991c7a40",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "CRMs are not going anywhere",
+      "stance": "Switching costs $1M and two years of disruption. Smart move is decouple intelligence from records.",
+      "conviction": 0.85,
+      "frequency": 4,
+      "id": "belie_58cb6ed9b9",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Salesforce is NOT the source of truth",
+      "stance": "Your truth is calls emails and touchpoints. CRMs were built for dashboards not for selling.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_b504894a0d",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AI widens gap between top and average reps",
+      "stance": "AI doesn't democratize excellence — it exposes the absence of it.",
+      "conviction": 0.9,
+      "frequency": 3,
+      "id": "belie_4bd93f217c",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AI reversed the innovation flow",
+      "stance": "Historically tech went enterprise-first. AI flipped it. Consumer adoption pulling business forward.",
+      "conviction": 0.8,
+      "frequency": 2,
+      "id": "belie_48e44766c5",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AI strategy as cost optimization means you have no strategy",
+      "stance": "Cost optimization hits a ceiling. Leverage creation compounds. Reshape what you build hire and measure.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_656361ecd2",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Biggest fear is AI being confidently wrong",
+      "stance": "26.7% flagged unreliability as top concern. More than job displacement more than loss of autonomy.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_c8d799e7ca",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Design for two releases from now",
+      "stance": "The model you use today is the worst you'll use. Scope to today's ceiling, architect for tomorrow's headroom.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_e7b4c6848f",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Sequencing wins gets you big leaps faster",
+      "stance": "Earn trust with narrow win then widen surface area. Enterprise AI adoption requires staged revolutions.",
+      "conviction": 0.85,
+      "frequency": 2,
+      "id": "belie_cb9e2a4150",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Show up with a point of view not an interrogation",
+      "stance": "Walk in with a hypothesis even if 20% wrong. Get to real issue 80% faster.",
+      "conviction": 0.85,
+      "frequency": 3,
+      "id": "belie_4299755057",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Founders must build support systems early",
+      "stance": "HR Chief of Staff GTM leader — build scaffolding so you can stay on frontlines.",
+      "conviction": 0.8,
+      "frequency": 2,
+      "id": "belie_0aa390b368",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Events should be no-agenda signal-finding",
+      "stance": "Stop trying to control the narrative at events. Create the environment let magic happen.",
+      "conviction": 0.8,
+      "frequency": 2,
+      "id": "belie_071869897f",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Seismic Highspot merger signals category pressure",
+      "stance": "Top players merging means revenue defense not innovation. Enablement category under pressure from AI-native tools.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_460a7f09b7",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Orchestration captures value not models",
+      "stance": "Sam Altman acquired Peter Steinberger for orchestration not model intelligence. The differentiator is execution layer.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_66e3bf6edb",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "One decisive reason beats ten scattered ones",
+      "stance": "10 mediocre reasons don't add up to one good one. Go deep not wide.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_43d1096669",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "AI note-takers enable disengagement",
+      "stance": "Note-takers were meant to free you from keyboard not from the conversation. Too many outsource presence.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_b285bc79f4",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Minimum viable context yields minimum viable quota",
+      "stance": "80% of AEs operate with just enough context to keep their jobs. Outbound demands high-agency self-generated context.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_69ddbb00f0",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Thorough evaluations beat fast evaluations",
+      "stance": "Fast evaluations seem efficient but thorough ones attract the right believers and power users.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_e0f65bbdde",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Conversational AI replacing search for business research",
+      "stance": "Senior leaders from traditional industries using ChatGPT Perplexity instead of Google for research.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_655e0d6a0f",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Reddit story is a warning for every CRM",
+      "stance": "Your CRM is Reddit — years of valuable data sitting unindexed. Data moat vs data swamp.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_08c3084904",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Commoditization returns us to fundamentals",
+      "stance": "Like F1 pit stops going from 33s to 1.8s — when AI is commodity we return to relationships and product.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_364d6dc976",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Pipeline from decisions won't land for two quarters",
+      "stance": "CMOs killing low-performing channels make smart calls but are judged on lagging output of strategies they already replaced.",
+      "conviction": 0.8,
+      "frequency": 1,
+      "id": "belie_af1ec7451c",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Agentic vs deterministic is a hybrid path",
+      "stance": "Agentic for dynamic context-driven work. Deterministic for compliance-bound tasks. Art is knowing where to draw the line.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_fb943f9bee",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "Fresh pizza needs the recipe nobody else has",
+      "stance": "AI levels the playing field but rewards whoever builds proprietary context on top of commodity infrastructure.",
+      "conviction": 0.85,
+      "frequency": 1,
+      "id": "belie_9c194c986a",
+      "type": "belief",
+      "node_type": "belief"
+    },
+    {
+      "label": "SE quit over AE territorial fights",
+      "summary": "Met SE who quit due to territorial fights with their AE. The smallest unit of revenue — the pair — gets ignored.",
+      "engagement": 39,
+      "word_count": 224,
+      "id": "story_4cd4421f44",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CRO quit after 8 months — not a bad hire",
+      "summary": "CRO quit large B2B startup. Could see where deals were dying but couldn't move fast enough. Context scattered across Slack Notion old decks.",
+      "engagement": 205,
+      "word_count": 293,
+      "id": "story_c1e0eee0ee",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "War room to close one enterprise deal at $500M company",
+      "summary": "Personalized decks RFPs security docs SOWs finalized in final hours. A war room means systems failed.",
+      "engagement": 200,
+      "word_count": 173,
+      "id": "story_10a3660942",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Customer chose SiftHub over horizontal search player",
+      "summary": "Prospect said horizontal players don't contextualize as much. Won over horizontal enterprise search.",
+      "engagement": 262,
+      "word_count": 125,
+      "id": "story_55ffd81cf8",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Paytm board seat — Vijay relationship since 2015",
+      "summary": "Joined Paytm board. First met Vijay in 2015 when Paytm invested in first startup. Decade-long arc.",
+      "engagement": 1337,
+      "word_count": 198,
+      "id": "story_b706535e79",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "SEs prepping hardest losing most deals — dinner conversation",
+      "summary": "Presales leader at dinner said SEs prepping hardest are losing. Buyers benchmark with ChatGPT before call.",
+      "engagement": 162,
+      "word_count": 217,
+      "id": "story_27503e9145",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Figma S-1 analysis — $525M ARR direct sales",
+      "summary": "Analyzed S-1. 70% revenue from large accounts, 40+ customers $1M+ ARR. Bottom-up gets you in door, direct sales closes enterprise.",
+      "engagement": 199,
+      "word_count": 178,
+      "id": "story_bf572614cc",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "SiftHub revenue concentration numbers shared publicly",
+      "summary": "Top 10% = 22% ARR, top 20% = 39%, top 50% = 71%. Used own vulnerability to teach about concentration risk.",
+      "engagement": 169,
+      "word_count": 162,
+      "id": "story_81924c2630",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "AI flagged pet-tech as priority from half a call",
+      "summary": "Solution agent analyzed first half of call. VP talked about dog walker cancelling. AI flagged 'unreliable canine logistics' and 'Blue Dog SF integration'.",
+      "engagement": 69,
+      "word_count": 226,
+      "id": "story_c6dbfaca86",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Dreamforce clarity became SiftHub",
+      "summary": "First attended two years ago figuring out what to build. Those days gave clarity that became SiftHub.",
+      "engagement": 137,
+      "word_count": 506,
+      "id": "story_a691508552",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Neil GTM hire — dogfooding as unfair advantage",
+      "summary": "Neil joined 2 quarters ago. Same context as founder. Uses SiftHub like customers. No context-arbitrage.",
+      "engagement": 167,
+      "word_count": 139,
+      "id": "story_2b9c785d22",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Stop introducing SE as technical person — $500K deals",
+      "summary": "Watched AEs say 'our technical resource' and SE loses the room. Watched SEs carry $500K deals on their back then get reintroduced as support.",
+      "engagement": 335,
+      "word_count": 177,
+      "id": "story_c285b8c3b2",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Reddit stock down 40% — AI moat lesson",
+      "summary": "Revenue grew 70% but stock down 40%. Lost AI moat to YouTube. Data lost to intelligence infrastructure.",
+      "engagement": 357,
+      "word_count": 218,
+      "id": "story_281ae0e4f8",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CRO fired 3 AI vendors this year",
+      "summary": "CRO running $500M org. Now only cares about what AI knows about HIS business. Honeymoon over for agentic products.",
+      "engagement": 50,
+      "word_count": 272,
+      "id": "story_08d89bd2dc",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Company lost deal over AI creative pricing answer",
+      "summary": "AI gave creative answer to pricing question company couldn't defend. Problem with giving character to enterprise AI.",
+      "engagement": 5,
+      "word_count": 263,
+      "id": "story_b45a49c0fe",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "AI note-takers as permission to zone out",
+      "summary": "People buying disengagement with transcription. AI meant to remove friction not replace trust.",
+      "engagement": 125,
+      "word_count": 148,
+      "id": "story_242a153465",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Yes-culture silence — six months later its a product problem",
+      "summary": "AE promises ambitious, buyer nods, SE stays silent. Six months later delivery cleans up, CS manages escalation, becomes product problem.",
+      "engagement": 33,
+      "word_count": 263,
+      "id": "story_be4a7723f1",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Apurva and Rohan — building founder support system",
+      "summary": "First hire was HR. Recently added Chief of Staff. Trying to do everything means not spending time on what only you can do.",
+      "engagement": 178,
+      "word_count": 217,
+      "id": "story_d54de853fd",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Gong is not going to die — LinkedIn pundits wrong",
+      "summary": "OpenAI launched call recording. LinkedIn declares Gong dead. Gong is deeply embedded in workflows CRMs coaching.",
+      "engagement": 340,
+      "word_count": 150,
+      "id": "story_252be63cdc",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "SiftHub dinner in SF — no agenda just talk",
+      "summary": "Hosted dinner with best minds in solutions. One rule: no tight agenda. Three hours of real conversations.",
+      "engagement": 79,
+      "word_count": 137,
+      "id": "story_3b140316a8",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Seismic Highspot $3B+ merger",
+      "summary": "Two largest sales enablement players merging. Content management merging doesn't create intelligence. Category under pressure.",
+      "engagement": 61,
+      "word_count": 214,
+      "id": "story_8385887246",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Sam Altman acquired Peter Steinberger for orchestration",
+      "summary": "OpenClaw built alone — agent framework connecting models to actions. OpenAI acquired for orchestration not intelligence.",
+      "engagement": 62,
+      "word_count": 231,
+      "id": "story_b0dac0cd34",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "OctoOwl mascot — intelligence with warmth",
+      "summary": "Built SiftHub mascot OctoOwl. A mascot is a narrative engine not decoration. Intelligence without warmth doesn't connect.",
+      "engagement": 137,
+      "word_count": 506,
+      "id": "story_1ffb5e3689",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Next GPT launch doesn't scare me anymore",
+      "summary": "Year ago said next GPT launch scares most. After talking to hundreds of CROs, belief in vertical AI stronger. Edge cases require vertical depth.",
+      "engagement": 197,
+      "word_count": 247,
+      "id": "story_730231832d",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Customer Gordon — it was the people who made the difference",
+      "summary": "Customer said the people at SiftHub made the difference. Tool does what its supposed to do — highest compliment.",
+      "engagement": 37,
+      "word_count": 230,
+      "id": "story_cff0fed772",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "25% cheaper competitor question exposes AE selling flaws",
+      "summary": "Simple question exposes how most AEs panic and dump everything. 10 mediocre reasons don't add up to one good one.",
+      "engagement": 81,
+      "word_count": 166,
+      "id": "story_78adbfdf4a",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Sales blame cycle — pipeline down its always sales",
+      "summary": "Pipeline down sales isn't hustling. Win rates dropping sales needs training. The questions that never get asked are about product marketing and context.",
+      "engagement": 175,
+      "word_count": 281,
+      "id": "story_4a3b9810d5",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CRO pressured by CEO forwarding vendor emails",
+      "summary": "CEO forwards vendor email with Thoughts? CRO holding tool they didn't choose for problem they didn't diagnose.",
+      "engagement": 30,
+      "word_count": 179,
+      "id": "story_773ae284dd",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "63% of companies 5+ months AE ramp",
+      "summary": "Ramp-up keeps getting longer. Every day an AE spends ramping is a cost. Answer is commoditizing context.",
+      "engagement": 48,
+      "word_count": 220,
+      "id": "story_116a7634b8",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "OpenAI usage study — 67% editing not creating",
+      "summary": "67% of ChatGPT work use is editing not original copy. Creating needs context across CRMs docs Slack tribal knowledge.",
+      "engagement": 195,
+      "word_count": 574,
+      "id": "story_dd50440944",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "PreSales leaders dinner London",
+      "summary": "Got past LinkedIn noise into real SE team issues: handoffs brittle follow-ups ownership gaps.",
+      "engagement": 189,
+      "word_count": 147,
+      "id": "story_ba26c9311d",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Patrick Collison fresh pizza analogy extended",
+      "summary": "Right that software should be fresh pizza. Wrong about who can afford the kitchen. Secret ingredient is the recipe nobody else has.",
+      "engagement": 29,
+      "word_count": 244,
+      "id": "story_db3f151fc9",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Anthropic 81K user study — fear of being wrong",
+      "summary": "26.7% flagged unreliability as biggest concern. More than job displacement. One respondent let team down with hallucinated content.",
+      "engagement": 28,
+      "word_count": 250,
+      "id": "story_5beffc5b4f",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "F1 pit stops — from 33 seconds to 1.8 seconds",
+      "summary": "Pit stops became commodity over 90 years. When differentiator becomes commodity we return to car and driver — fundamentals.",
+      "engagement": 27,
+      "word_count": 260,
+      "id": "story_41c065742f",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CRO 85% productivity boost still pushing for more",
+      "summary": "SiftHub customer CRO saw 85% productivity boost. Consumer AI adoption pulling business adoption forward.",
+      "engagement": 58,
+      "word_count": 202,
+      "id": "story_f880a103be",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "AI draft as final draft — Joseph from Parloa",
+      "summary": "Joseph VP Field Engineering calls out AI draft as final draft. Speed without depth is noise that arrives sooner.",
+      "engagement": 35,
+      "word_count": 218,
+      "id": "story_431bc04946",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "OpenAI Agent launched — startup killer season again",
+      "summary": "Every OpenAI launch triggers startup-killer season. Task execution is not enterprise orchestration.",
+      "engagement": 92,
+      "word_count": 169,
+      "id": "story_7623459039",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "AgentKit reality check for build vs buy",
+      "summary": "Every AI wave exposes: email writing isn't sales development, code isn't problem-solving, filtering isn't talent-finding. Surface task rarely the real job.",
+      "engagement": 75,
+      "word_count": 185,
+      "id": "story_e1162b6f1a",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "ChatGPT Atlas — explore for curiosity not compliance",
+      "summary": "OpenAI's own fine print says don't use Atlas with regulated data. Boundary between consumer and enterprise AI.",
+      "engagement": 67,
+      "word_count": 200,
+      "id": "story_dcf55a90f1",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Top AE knows budget controller deal killer and closing move",
+      "summary": "Top AE walks in knowing who controls budget, who's killing the deal, what one move closes it. AI increases their impact surface area.",
+      "engagement": 16,
+      "word_count": 191,
+      "id": "story_fdc1285f47",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "MIT Media Lab 67% success from external vendors",
+      "summary": "67% of successful AI projects from vendors. Only 33% in-house. Buying increases odds by 100%.",
+      "engagement": 95,
+      "word_count": 157,
+      "id": "story_6f6b175a97",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "SiftHub Sales Collateral Builder launch",
+      "summary": "Built proactive teammate turning post-call chaos into context-aware documents in minutes. Edit with instructions like add competitor rewrite for CFO.",
+      "engagement": 77,
+      "word_count": 222,
+      "id": "story_41322242eb",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Playbook fatigue — everywhere I look comment playbook",
+      "summary": "LinkedIn posts asking to comment Report Playbook Giveaway. Engagement farming. Startups not built by copying playbooks.",
+      "engagement": 374,
+      "word_count": 1581,
+      "id": "story_65554f19f5",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "War-time vs peace-time CROs",
+      "summary": "Peace-time CROs run playbooks for stable markets. War-time CROs deploy AI rewrite orgs throw out outdated playbooks.",
+      "engagement": 83,
+      "word_count": 167,
+      "id": "story_f4c5f55478",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "CRM price hike 35% in two years still won't switch",
+      "summary": "10+ year customer 250+ seats hit with 35% hike. Still won't switch because $1M+ switching cost.",
+      "engagement": 158,
+      "word_count": 223,
+      "id": "story_a840b822bb",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "If CRO waiting for CEO green-light already behind",
+      "summary": "Fastest companies have someone who refuses to wait for consensus. AI adoption is function of activation energy of one person.",
+      "engagement": 44,
+      "word_count": 324,
+      "id": "story_2ff9f55e76",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Enterprise agentic vs deterministic identity crisis",
+      "summary": "Engineering wants LLMs compliance wants deterministic sales wants automation legal wants oversight. Classic AI adoption identity crisis.",
+      "engagement": 53,
+      "word_count": 172,
+      "id": "story_a9b3d26b4e",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "AI cost optimization vs leverage creation",
+      "summary": "Support asks how many agents to replace. Sales asks how fast to ramp AEs. Same tech very different questions.",
+      "engagement": 63,
+      "word_count": 393,
+      "id": "story_d92c77cf51",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "SiftHub no prospect asked for ROI",
+      "summary": "Not a single prospect has asked for SiftHub's ROI. Building to become utility with disproportionate returns.",
+      "engagement": 210,
+      "word_count": 137,
+      "id": "story_3821cf4189",
+      "type": "story",
+      "node_type": "story"
+    },
+    {
+      "label": "Opens with someone else's moment",
+      "rule": "Frequently starts posts with a person she met or a conversation she overheard. 'I met a CRO who...' 'A presales leader told me...'",
+      "register": "narrative",
+      "rule_type": "opening",
+      "id": "style_29d74e7d2a",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Opens with a bold claim or prohibition",
+      "rule": "Declarative starters: 'Stop introducing your SE as...' 'No Gong is not going to die!' Immediate stance.",
+      "register": "authoritative",
+      "rule_type": "opening",
+      "id": "style_bff00bfcce",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Opens with a data hook",
+      "rule": "Leads with specific numbers: 'Reddit stock down 40%' '63% of companies' 'Top 10% customers 22% of ARR'",
+      "register": "analytical",
+      "rule_type": "opening",
+      "id": "style_cf94595da5",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Opens with a counterintuitive quote",
+      "rule": "'SEs prepping hardest losing most deals' 'It was the people' — drops a quote that requires explanation.",
+      "register": "provocative",
+      "rule_type": "opening",
+      "id": "style_59cc920e86",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Opens with this is dead lazy thinking",
+      "rule": "Category defense pattern: acknowledge the death narrative then dismantle with structural reasoning.",
+      "register": "contrarian",
+      "rule_type": "opening",
+      "id": "style_3eaff09f64",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Uses bullet-point staccato for consequences",
+      "rule": "Lists consequences as short dashes: '- Burned-out teams / - Last-minute errors / - Risk of losing the deal'",
+      "register": "analytical",
+      "rule_type": "structure",
+      "id": "style_ebe79ef077",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Builds through specifics not abstractions",
+      "rule": "Anchors in numbers and names: $500K deals, Figma S-1, $525M ARR, 35% price hike, 250+ seats.",
+      "register": "evidence-based",
+      "rule_type": "evidence",
+      "id": "style_049aea70ec",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Ends with imperative challenge",
+      "rule": "'Fix the pair.' 'Start celebrating that SE.' 'Build to become a utility.' Short commanding close.",
+      "register": "commanding",
+      "rule_type": "closing",
+      "id": "style_74d3af34fa",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Ends with structural diagnosis",
+      "rule": "'The CRO was not the problem. Infrastructure was.' Closes by naming the real system failure.",
+      "register": "diagnostic",
+      "rule_type": "closing",
+      "id": "style_8d45801035",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Self-deprecating company stories",
+      "rule": "Shares SiftHub's mistakes (pet tech incident, revenue concentration). Uses own vulnerability as teaching.",
+      "register": "vulnerable",
+      "rule_type": "evidence",
+      "id": "style_cd88d2f308",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Uses familiar company analogies",
+      "rule": "F1 pit stops, Figma S-1, Reddit stock, Patrick Collison pizza, Intercom $60M. Builds through lateral reference.",
+      "register": "analytical",
+      "rule_type": "structure",
+      "id": "style_a5b8473dc5",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Quote-then-unpack pattern",
+      "rule": "Drops quote then explains why it matters. The quote IS the hook.",
+      "register": "narrative",
+      "rule_type": "structure",
+      "id": "style_9feb30dd93",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Consistent 150-280 word range",
+      "rule": "Average 251 words. Tight. One idea per post explored to completion.",
+      "register": "concise",
+      "rule_type": "structure",
+      "id": "style_741d96743b",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Reframes surface issue to real root cause",
+      "rule": "'It wasn't a product problem — it started in that call.' 'Not about the hire — about infrastructure.'",
+      "register": "diagnostic",
+      "rule_type": "structure",
+      "id": "style_8b7e79b156",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Names team members with credit",
+      "rule": "Neil, Apurva, Rohan, Gordon, Joseph, Yuji — specific people with specific contributions.",
+      "register": "personal",
+      "rule_type": "evidence",
+      "id": "style_b5a655a10e",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Category defense as recurring format",
+      "rule": "Gong, CRMs, product management, vertical AI — regularly defends categories against 'X is dead' takes.",
+      "register": "contrarian",
+      "rule_type": "theme",
+      "id": "style_015b81815c",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Three signals pattern for event takeaways",
+      "rule": "'Three signals I'm taking back' — uses numbered takeaways from events and dinners.",
+      "register": "structured",
+      "rule_type": "structure",
+      "id": "style_eb5a447563",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "AI-first leaders named and thanked",
+      "rule": "Tags forward-thinking CROs and design partners by name. Grateful tone for early believers.",
+      "register": "community",
+      "rule_type": "evidence",
+      "id": "style_49095feafe",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Dual-choice framing for CRO types",
+      "rule": "'Two kinds of CROs: overwhelmed with AI vs leading the charge.' Binary frame creates self-identification.",
+      "register": "diagnostic",
+      "rule_type": "structure",
+      "id": "style_eb95e9a9b6",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Ends with PS personal touch",
+      "rule": "'PS: He's not good at taking selfies :)' Humanizing footnote after serious content.",
+      "register": "casual",
+      "rule_type": "closing",
+      "id": "style_ad067dfac1",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Uses ChatGPT Claude as shared reference points",
+      "rule": "References ChatGPT Perplexity Claude as tools that have shifted buyer behavior — shared cultural touchstone.",
+      "register": "contemporary",
+      "rule_type": "evidence",
+      "id": "style_62ad563d78",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Whitespace between every thought",
+      "rule": "Almost every sentence gets its own line. Heavy whitespace for readability and scroll-stopping.",
+      "register": "visual",
+      "rule_type": "formatting",
+      "id": "style_58e4502db1",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Inbound vs outbound distinction",
+      "rule": "Separates inbound (buyers aware pre-qualified) from outbound (demands self-generated context high-agency).",
+      "register": "analytical",
+      "rule_type": "structure",
+      "id": "style_51a007c0d3",
+      "type": "style_rule",
+      "node_type": "style_rule"
+    },
+    {
+      "label": "Context debt diagnosis",
+      "description": "Hidden context gaps compound over time like tech debt. Tribal knowledge in heads, scattered across tools, lost between roles.",
+      "applies_to": "revenue ops, sales enablement, onboarding",
+      "id": "think_d861b668a7",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Revenue unit thinking",
+      "description": "The smallest unit of revenue is the AE-SE pair not the individual. Fix the pair fix the pipeline.",
+      "applies_to": "sales structure, org design, presales",
+      "id": "think_ed732d4c0f",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Vertical depth thesis",
+      "description": "Horizontal solves surface tasks. Vertical solves workflows. Moat is domain context integrations compliance.",
+      "applies_to": "product strategy, positioning, AI architecture",
+      "id": "think_e396fee46e",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Systems failure diagnosis",
+      "description": "When heroics are required the system has failed. War rooms and scrambles are symptoms not achievements.",
+      "applies_to": "enterprise sales, operations, leadership",
+      "id": "think_8eaca35996",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Buyer preparation shift",
+      "description": "Buyers arrive more prepared than sellers. ChatGPT shifted power. SE value is real-time context connection not product knowledge.",
+      "applies_to": "presales, sales methodology, demo strategy",
+      "id": "think_8190b03a78",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Capability vs context",
+      "description": "Every AI tool can summarize draft automate. Capability is commodity. Context about YOUR business is the moat.",
+      "applies_to": "enterprise AI, product strategy, competitive positioning",
+      "id": "think_2d346538eb",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Moat impermanence",
+      "description": "Today's moat becomes tomorrow's commodity. Reddit's data advantage evaporated. Build moats that compound.",
+      "applies_to": "strategy, AI, competitive analysis",
+      "id": "think_01e03b4183",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Framing determines authority",
+      "description": "How you introduce someone determines their authority ceiling. Technical resource = demo support. Solution architect = deal partner.",
+      "applies_to": "presales, meeting dynamics, positioning",
+      "id": "think_805bf94517",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Build moat buy rest",
+      "description": "Focus resources on defensible advantage. Buy everything else. Reassess as landscape shifts.",
+      "applies_to": "product strategy, resource allocation",
+      "id": "think_e4d88706f6",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Utility threshold",
+      "description": "Once product crosses utility threshold (Zoom Gmail Slack) ROI questions disappear. Goal is workflow oxygen.",
+      "applies_to": "product strategy, pricing, positioning",
+      "id": "think_1f6cdc242b",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Blame follows visibility",
+      "description": "Sales is the only function with public number. When it misses everyone sees it. Blame follows visibility not causation.",
+      "applies_to": "org dynamics, sales leadership, attribution",
+      "id": "think_6f6cc32ac7",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Context commoditization",
+      "description": "You can't clone high-agency AEs but you can systematize their context. The only scalable path to lifting the 80%.",
+      "applies_to": "sales ops, enablement, AI strategy",
+      "id": "think_a9d365b53a",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Staged revolution for enterprise trust",
+      "description": "Earn narrow win first. Widen surface area. Introduce scary bits last. Sequencing wins gets big leaps faster.",
+      "applies_to": "enterprise adoption, change management, product rollout",
+      "id": "think_78b58c4494",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Silence as revenue risk",
+      "description": "The moment in a sales call when the SE stays silent because nobody wants to slow the deal. That silence creates bad revenue.",
+      "applies_to": "presales, deal qualification, revenue quality",
+      "id": "think_5488e5c0be",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Category pressure from AI-native tools",
+      "description": "When top players merge it signals the category is under pressure. AI-native tools operationalize judgment not organize assets.",
+      "applies_to": "competitive strategy, market analysis",
+      "id": "think_978a07088a",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Surface task deception",
+      "description": "Every AI wave reveals the surface task is not the real job. Email writing isn't sales development. Code isn't problem-solving.",
+      "applies_to": "product strategy, AI adoption, hiring",
+      "id": "think_cbf1bc48dc",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Infrastructure not leadership diagnosis",
+      "description": "Bad habit of diagnosing leadership when real disease is knowledge infrastructure. New hire walks into same chaos.",
+      "applies_to": "hiring, org design, revenue operations",
+      "id": "think_8622dd079e",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Activation energy for AI adoption",
+      "description": "AI adoption is function of activation energy of one human who can't wait. Not ARR stage or headcount.",
+      "applies_to": "change management, AI adoption, leadership",
+      "id": "think_f4e2710b90",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Intelligence decoupled from records",
+      "description": "Don't escape CRMs — decouple intelligence from records. Build AI that reads and writes to CRM but doesn't live inside it.",
+      "applies_to": "CRM strategy, product architecture",
+      "id": "think_abd6e729ed",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Leverage creation vs cost optimization",
+      "description": "Cost optimization hits ceiling when savings are booked. Leverage creation compounds and reshapes what you build.",
+      "applies_to": "AI strategy, executive positioning",
+      "id": "think_a47c400235",
+      "type": "thinking_model",
+      "node_type": "thinking_model"
+    },
+    {
+      "label": "Demo support vs deal architect",
+      "left": "SE as technical person who shows product",
+      "right": "SE as deal architect who steers strategy and qualifies fit",
+      "id": "contr_03e1aeb5fe",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Scoped to convert vs scoped to succeed",
+      "left": "Deals designed to close at all costs",
+      "right": "Deals scoped for successful deployment",
+      "id": "contr_3f5f6ea230",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Horizontal breadth vs vertical depth",
+      "left": "AI tools serving every industry generically",
+      "right": "Vertical AI agents with deep domain context",
+      "id": "contr_aea0515e88",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Capability vs context",
+      "left": "AI that can summarize draft automate generically",
+      "right": "AI that knows your business your deals your landscape",
+      "id": "contr_2d346538eb",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Motion vs progress",
+      "left": "Features shipped timelines met tools implemented",
+      "right": "Products that land with users and drive adoption",
+      "id": "contr_4392ba4737",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "War room heroics vs system reliability",
+      "left": "Last-minute scrambles that close deals",
+      "right": "Processes that deliver context automatically",
+      "id": "contr_f58ee14d4c",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Individual quota vs revenue unit",
+      "left": "Companies obsess over individual AE performance",
+      "right": "The AE-SE pair is the unit that generates deals",
+      "id": "contr_46b1565517",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Interrogation vs hypothesis-led entry",
+      "left": "Discovery calls as questions with no narrative",
+      "right": "Walking in with point of view even if 20% wrong",
+      "id": "contr_3025da98d8",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Top 10% context masters vs 80% guessing",
+      "left": "Top AEs carry tribal knowledge about every deal",
+      "right": "Average AEs catching up with scattered context",
+      "id": "contr_622778f406",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Build once vs maintain forever",
+      "left": "Spinning up internal AI tool in weeks",
+      "right": "Monitoring failure loops supporting edge cases retraining forever",
+      "id": "contr_71d83703c1",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Proving ROI vs becoming utility",
+      "left": "Constantly justifying existence with calculations",
+      "right": "Product so embedded removing it is unthinkable",
+      "id": "contr_f69ede0c69",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Consumer AI freedom vs enterprise guardrails",
+      "left": "ChatGPT can hallucinate and users shrug",
+      "right": "Enterprise AI creative answer to pricing loses deal",
+      "id": "contr_3267199bfa",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Blame sales vs diagnose the system",
+      "left": "Pipeline down? Sales isn't hustling",
+      "right": "Is product solving problem? Is marketing sending qualified leads?",
+      "id": "contr_59438e9d51",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Playbook followers vs playbook creators",
+      "left": "Copying successful startup playbooks",
+      "right": "People who zoom out read room and write first draft",
+      "id": "contr_e30b5510b6",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Data moat vs data swamp",
+      "left": "Years of valuable CRM data sitting unindexed",
+      "right": "Intelligence layer with structured searchable context",
+      "id": "contr_f070a931b5",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Task execution vs enterprise orchestration",
+      "left": "Impressive UI demos browser control task automation",
+      "right": "Integrations workflows compliance security multi-agent coordination",
+      "id": "contr_6e31936c54",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Engagement farming vs original thinking",
+      "left": "Comment Report Playbook Giveaway posts",
+      "right": "Developing intuition through deep customer conversations",
+      "id": "contr_adb9342425",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Peace-time CRO vs war-time CRO",
+      "left": "Steady growth clear playbooks predictable AOPs",
+      "right": "Deploying AI rewiring orgs throwing out outdated playbooks",
+      "id": "contr_eb3ac1340d",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "CRM as source of truth vs conversations as source of truth",
+      "left": "Force-fitting everything into CRM for dashboards",
+      "right": "Calls emails touchpoints where deals are made or lost",
+      "id": "contr_d0b34217df",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Feature progress vs launch impact",
+      "left": "Product review celebrating features shipped",
+      "right": "Support ready sales trained marketing narrative set legal cleared",
+      "id": "contr_69de22bfe9",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Cost optimization vs leverage creation",
+      "left": "How many agents can we replace",
+      "right": "How fast can we ramp AEs shrink cycles boost revenue",
+      "id": "contr_9eb998819f",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Ten scattered reasons vs one decisive reason",
+      "left": "Dumping features integrations logos ROI pricing at once",
+      "right": "One sentence that lands for this buyer in this moment",
+      "id": "contr_99fe243798",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Controlling narrative vs letting magic happen",
+      "left": "Tight agenda at events forcing discussion topics",
+      "right": "Invite people create environment let conversations emerge",
+      "id": "contr_7d51398a38",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Content management vs intelligence delivery",
+      "left": "Organizing tagging tracking governing content libraries",
+      "right": "Knowing what to say when to whom and why",
+      "id": "contr_de00dac000",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Automation as replacement vs automation as leverage",
+      "left": "AI note-taker as permission to disengage",
+      "right": "AI note-taker freeing you to read the room catch hesitation adapt questions",
+      "id": "contr_42807c61b8",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Commodity pizza vs proprietary recipe",
+      "left": "Same models same training same outputs different logo",
+      "right": "Deep proprietary context customers data workflows nobody else has",
+      "id": "contr_99b8f4eb50",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Agentic freedom vs deterministic control",
+      "left": "LLMs for dynamic context-driven work",
+      "right": "Deterministic systems for compliance-bound tasks",
+      "id": "contr_615785f335",
+      "type": "contrast_pair",
+      "node_type": "contrast_pair"
+    },
+    {
+      "label": "Context debt",
+      "definition": "The accumulated cost of tribal knowledge not being systematized. Compounds like tech debt.",
+      "frequency": 6,
+      "id": "vocab_49d6f5a903",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Context-arbitrage",
+      "definition": "Information advantage one person has over another because context isn't shared. SiftHub eliminates this.",
+      "frequency": 2,
+      "id": "vocab_cd5c953283",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Deal architect",
+      "definition": "What SEs actually are — steering deals, qualifying fit, navigating procurement and compliance.",
+      "frequency": 5,
+      "id": "vocab_22bbcf76cd",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Bad revenue",
+      "definition": "Deals that close but never deploy cleanly. Created by yes-culture and shallow scoping.",
+      "frequency": 3,
+      "id": "vocab_2ebd0a8b6a",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "War room",
+      "definition": "Last-minute scramble to close a deal. Symptom of broken systems, not proof of team excellence.",
+      "frequency": 4,
+      "id": "vocab_283c689669",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Vertical AI agent",
+      "definition": "AI built for a specific domain with deep context, integrations, and workflow understanding.",
+      "frequency": 10,
+      "id": "vocab_539abf3c40",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Horizontal player",
+      "definition": "AI tool built to serve every industry. Solves surface tasks but breaks on business-specific questions.",
+      "frequency": 5,
+      "id": "vocab_cef300d76f",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Enterprise orchestration",
+      "definition": "The hard part of AI: integrations, workflows, compliance, security, multi-agent coordination.",
+      "frequency": 3,
+      "id": "vocab_6e6674abf7",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Revenue unit",
+      "definition": "The AE-SE pair — the smallest functional unit that actually generates revenue.",
+      "frequency": 4,
+      "id": "vocab_c2daddc968",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Playbook fatigue",
+      "definition": "Startups drowning in borrowed frameworks instead of developing original thinking.",
+      "frequency": 3,
+      "id": "vocab_00f68254ca",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Utility threshold",
+      "definition": "Point at which a product becomes so embedded that ROI questions disappear. Like Zoom or Gmail.",
+      "frequency": 2,
+      "id": "vocab_1f6cdc242b",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Startup-killer season",
+      "definition": "Period after major AI launch when LinkedIn declares existing companies dead.",
+      "frequency": 3,
+      "id": "vocab_103c8590cb",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Activation energy",
+      "definition": "The initiative of one person who can't wait for consensus. Drives AI adoption more than company stage.",
+      "frequency": 2,
+      "id": "vocab_a4223ad89b",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Context game",
+      "definition": "Enterprise AI moving from capability competition to context competition. What does AI know about MY business.",
+      "frequency": 3,
+      "id": "vocab_33c7c8fc9f",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Data swamp",
+      "definition": "CRM full of unindexed unstructured data. Opposite of a data moat.",
+      "frequency": 2,
+      "id": "vocab_235d638160",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Staged revolution",
+      "definition": "Enterprise AI adoption through sequential wins: narrow → wider → scary bits last.",
+      "frequency": 2,
+      "id": "vocab_08007f9b96",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Moonlighting as document editors",
+      "definition": "AEs and SEs spending time scavenging old decks stitching case studies instead of selling.",
+      "frequency": 2,
+      "id": "vocab_bcdf645679",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Minimum viable context",
+      "definition": "Just enough context to keep your job safe. Yields minimum viable quotas.",
+      "frequency": 1,
+      "id": "vocab_0dc24b6f36",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Systems of intelligence",
+      "definition": "Intelligence layer built on top of systems of record. Enterprise memory on real conversations.",
+      "frequency": 3,
+      "id": "vocab_0425c97244",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Boardroom anxiety",
+      "definition": "The need to see motion that pushes CROs into solving wrong problems.",
+      "frequency": 1,
+      "id": "vocab_79fbf4e528",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Surface task deception",
+      "definition": "Each AI wave reveals the surface task isn't the real job. Email writing isn't sales development.",
+      "frequency": 2,
+      "id": "vocab_cbf1bc48dc",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Blame follows visibility",
+      "definition": "Sales gets blamed because it has the only public number.",
+      "frequency": 2,
+      "id": "vocab_6f6cc32ac7",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "OctoOwl",
+      "definition": "SiftHub's mascot. Voice of GTM intelligence. Narrative engine not decoration.",
+      "frequency": 3,
+      "id": "vocab_c1dda83400",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Dogfooding as GTM strategy",
+      "definition": "GTM leader using the product exactly like customers. No context-arbitrage.",
+      "frequency": 2,
+      "id": "vocab_376f4b1b0f",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Intelligence layer",
+      "definition": "AI system that structures, indexes, and makes context actionable on top of raw data.",
+      "frequency": 4,
+      "id": "vocab_ae48e5107d",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "AI teammate",
+      "definition": "AI that acts as a proactive colleague not a tool. Turns post-call chaos into documents.",
+      "frequency": 3,
+      "id": "vocab_687be5f2e7",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Impact surface area",
+      "definition": "What AI increases for top performers — they cover more ground faster with better context.",
+      "frequency": 1,
+      "id": "vocab_b5e5dc7e40",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Ramp-up period",
+      "definition": "Friendly label for context debt. 5+ months for most AEs. Getting longer each year.",
+      "frequency": 3,
+      "id": "vocab_fcad8407cb",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "Signal in the noise",
+      "definition": "What events like Dreamforce are for — finding real market signals amid the chaos.",
+      "frequency": 2,
+      "id": "vocab_bdf6ca2382",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    },
+    {
+      "label": "The pair",
+      "definition": "AE-SE pairing. The unit to fix when deals slip. Companies redesign everything except this.",
+      "frequency": 3,
+      "id": "vocab_42feb9051f",
+      "type": "vocabulary",
+      "node_type": "vocabulary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "founder",
+      "target": "cat_beliefs",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_stories",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_style_rules",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_thinking_models",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_contrast_pairs",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "founder",
+      "target": "cat_vocabulary",
+      "type": "HAS_CATEGORY"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_33cb12f78c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_206d150fc2",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_316b4db40a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_30e2d2533f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_be2cf14a6d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_1f48ba1b95",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_199b997fd3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_d4a5ca2c59",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_98a64e49de",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_586b486a65",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_1d78df0ef5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_588b836aea",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_ff2ca2b3da",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_1a8bdcd08f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_8045c97de6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_98bc72a842",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_d2a37b4871",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_f66ff76619",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_61b01edd23",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_bdbbb9a217",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_d698509c65",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_5fd86f8306",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_632f8919f1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_0b8fcc65ea",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_5aefe5611d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_dba3d81a08",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_2b3632f6c5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_93db89cca9",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_e38695aa93",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_af3778f7d7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_5703730308",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_aa44fcff06",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_6a6f718f74",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_27ca8f3352",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_54c6a5de37",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_b3270babc7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_c9839c14c0",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_d41b0c6553",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_56fd95d117",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_f5991c7a40",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_58cb6ed9b9",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_b504894a0d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_4bd93f217c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_48e44766c5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_656361ecd2",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_c8d799e7ca",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_e7b4c6848f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_cb9e2a4150",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_4299755057",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_0aa390b368",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_071869897f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_460a7f09b7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_66e3bf6edb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_43d1096669",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_b285bc79f4",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_69ddbb00f0",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_e0f65bbdde",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_655e0d6a0f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_08c3084904",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_364d6dc976",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_af1ec7451c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_fb943f9bee",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_beliefs",
+      "target": "belie_9c194c986a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_4cd4421f44",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_c1e0eee0ee",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_10a3660942",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_55ffd81cf8",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_b706535e79",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_27503e9145",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_bf572614cc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_81924c2630",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_c6dbfaca86",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_a691508552",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_2b9c785d22",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_c285b8c3b2",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_281ae0e4f8",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_08d89bd2dc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_b45a49c0fe",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_242a153465",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_be4a7723f1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_d54de853fd",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_252be63cdc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_3b140316a8",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_8385887246",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_b0dac0cd34",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_1ffb5e3689",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_730231832d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_cff0fed772",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_78adbfdf4a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_4a3b9810d5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_773ae284dd",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_116a7634b8",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_dd50440944",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_ba26c9311d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_db3f151fc9",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_5beffc5b4f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_41c065742f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_f880a103be",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_431bc04946",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_7623459039",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_e1162b6f1a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_dcf55a90f1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_fdc1285f47",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_6f6b175a97",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_41322242eb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_65554f19f5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_f4c5f55478",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_a840b822bb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_2ff9f55e76",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_a9b3d26b4e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_d92c77cf51",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_stories",
+      "target": "story_3821cf4189",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_29d74e7d2a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_bff00bfcce",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_cf94595da5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_59cc920e86",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_3eaff09f64",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_ebe79ef077",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_049aea70ec",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_74d3af34fa",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_8d45801035",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_cd88d2f308",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_a5b8473dc5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_9feb30dd93",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_741d96743b",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_8b7e79b156",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_b5a655a10e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_015b81815c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_eb5a447563",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_49095feafe",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_eb95e9a9b6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_ad067dfac1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_62ad563d78",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_58e4502db1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_style_rules",
+      "target": "style_51a007c0d3",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_d861b668a7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_ed732d4c0f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_e396fee46e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_8eaca35996",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_8190b03a78",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_2d346538eb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_01e03b4183",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_805bf94517",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_e4d88706f6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_1f6cdc242b",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_6f6cc32ac7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_a9d365b53a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_78b58c4494",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_5488e5c0be",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_978a07088a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_cbf1bc48dc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_8622dd079e",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_f4e2710b90",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_abd6e729ed",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_thinking_models",
+      "target": "think_a47c400235",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_03e1aeb5fe",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_3f5f6ea230",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_aea0515e88",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_2d346538eb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_4392ba4737",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_f58ee14d4c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_46b1565517",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_3025da98d8",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_622778f406",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_71d83703c1",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_f69ede0c69",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_3267199bfa",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_59438e9d51",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_e30b5510b6",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_f070a931b5",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_6e31936c54",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_adb9342425",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_eb3ac1340d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_d0b34217df",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_69de22bfe9",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_9eb998819f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_99fe243798",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_7d51398a38",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_de00dac000",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_42807c61b8",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_99b8f4eb50",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_contrast_pairs",
+      "target": "contr_615785f335",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_49d6f5a903",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_cd5c953283",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_22bbcf76cd",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_2ebd0a8b6a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_283c689669",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_539abf3c40",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_cef300d76f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_6e6674abf7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_c2daddc968",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_00f68254ca",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_1f6cdc242b",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_103c8590cb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_a4223ad89b",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_33c7c8fc9f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_235d638160",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_08007f9b96",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_bcdf645679",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_0dc24b6f36",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_0425c97244",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_79fbf4e528",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_cbf1bc48dc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_6f6cc32ac7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_c1dda83400",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_376f4b1b0f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_ae48e5107d",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_687be5f2e7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_b5e5dc7e40",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_fcad8407cb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_bdf6ca2382",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "cat_vocabulary",
+      "target": "vocab_42feb9051f",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "story_4cd4421f44",
+      "target": "belie_30e2d2533f",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_4cd4421f44",
+      "target": "belie_33cb12f78c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_c1e0eee0ee",
+      "target": "belie_5fd86f8306",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_c1e0eee0ee",
+      "target": "belie_98bc72a842",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_c1e0eee0ee",
+      "target": "belie_61b01edd23",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_10a3660942",
+      "target": "belie_0b8fcc65ea",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_55ffd81cf8",
+      "target": "belie_98a64e49de",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_55ffd81cf8",
+      "target": "belie_586b486a65",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_b706535e79",
+      "target": "belie_0aa390b368",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_27503e9145",
+      "target": "belie_199b997fd3",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_27503e9145",
+      "target": "belie_be2cf14a6d",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_bf572614cc",
+      "target": "belie_8045c97de6",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_81924c2630",
+      "target": "belie_56fd95d117",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_c6dbfaca86",
+      "target": "belie_5703730308",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_c6dbfaca86",
+      "target": "belie_98a64e49de",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_a691508552",
+      "target": "belie_071869897f",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_2b9c785d22",
+      "target": "belie_8045c97de6",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_2b9c785d22",
+      "target": "belie_0aa390b368",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_c285b8c3b2",
+      "target": "belie_33cb12f78c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_c285b8c3b2",
+      "target": "belie_206d150fc2",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_281ae0e4f8",
+      "target": "belie_08c3084904",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_281ae0e4f8",
+      "target": "belie_586b486a65",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_08d89bd2dc",
+      "target": "belie_1d78df0ef5",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_08d89bd2dc",
+      "target": "belie_98a64e49de",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_b45a49c0fe",
+      "target": "belie_5703730308",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_b45a49c0fe",
+      "target": "belie_aa44fcff06",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_242a153465",
+      "target": "belie_b285bc79f4",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_be4a7723f1",
+      "target": "belie_316b4db40a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_be4a7723f1",
+      "target": "belie_d4a5ca2c59",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_d54de853fd",
+      "target": "belie_0aa390b368",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_252be63cdc",
+      "target": "belie_98a64e49de",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_252be63cdc",
+      "target": "belie_ff2ca2b3da",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_3b140316a8",
+      "target": "belie_071869897f",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_8385887246",
+      "target": "belie_460a7f09b7",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_b0dac0cd34",
+      "target": "belie_66e3bf6edb",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_1ffb5e3689",
+      "target": "belie_f5991c7a40",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_730231832d",
+      "target": "belie_588b836aea",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_730231832d",
+      "target": "belie_586b486a65",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_cff0fed772",
+      "target": "belie_e0f65bbdde",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_78adbfdf4a",
+      "target": "belie_43d1096669",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_78adbfdf4a",
+      "target": "belie_8045c97de6",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_4a3b9810d5",
+      "target": "belie_d698509c65",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_4a3b9810d5",
+      "target": "belie_5fd86f8306",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_773ae284dd",
+      "target": "belie_dba3d81a08",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_116a7634b8",
+      "target": "belie_98bc72a842",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_116a7634b8",
+      "target": "belie_f66ff76619",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_dd50440944",
+      "target": "belie_61b01edd23",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_ba26c9311d",
+      "target": "belie_33cb12f78c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_ba26c9311d",
+      "target": "belie_1f48ba1b95",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_db3f151fc9",
+      "target": "belie_9c194c986a",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_db3f151fc9",
+      "target": "belie_586b486a65",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_5beffc5b4f",
+      "target": "belie_c8d799e7ca",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_5beffc5b4f",
+      "target": "belie_5703730308",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_41c065742f",
+      "target": "belie_364d6dc976",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_f880a103be",
+      "target": "belie_48e44766c5",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_431bc04946",
+      "target": "belie_be2cf14a6d",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_7623459039",
+      "target": "belie_ff2ca2b3da",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_7623459039",
+      "target": "belie_1a8bdcd08f",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_e1162b6f1a",
+      "target": "belie_93db89cca9",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_e1162b6f1a",
+      "target": "belie_e38695aa93",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_dcf55a90f1",
+      "target": "belie_5703730308",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_fdc1285f47",
+      "target": "belie_4bd93f217c",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_fdc1285f47",
+      "target": "belie_d2a37b4871",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_6f6b175a97",
+      "target": "belie_af3778f7d7",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_41322242eb",
+      "target": "belie_bdbbb9a217",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_41322242eb",
+      "target": "belie_8045c97de6",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_65554f19f5",
+      "target": "belie_b3270babc7",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_65554f19f5",
+      "target": "belie_c9839c14c0",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_f4c5f55478",
+      "target": "belie_2b3632f6c5",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_f4c5f55478",
+      "target": "belie_5aefe5611d",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_a840b822bb",
+      "target": "belie_58cb6ed9b9",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_2ff9f55e76",
+      "target": "belie_5aefe5611d",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_a9b3d26b4e",
+      "target": "belie_fb943f9bee",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_d92c77cf51",
+      "target": "belie_656361ecd2",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "story_3821cf4189",
+      "target": "belie_f5991c7a40",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "contr_03e1aeb5fe",
+      "target": "belie_33cb12f78c",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_03e1aeb5fe",
+      "target": "belie_206d150fc2",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_3f5f6ea230",
+      "target": "belie_316b4db40a",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_aea0515e88",
+      "target": "belie_98a64e49de",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_2d346538eb",
+      "target": "belie_8045c97de6",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_4392ba4737",
+      "target": "belie_d41b0c6553",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_f58ee14d4c",
+      "target": "belie_0b8fcc65ea",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_46b1565517",
+      "target": "belie_30e2d2533f",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_3025da98d8",
+      "target": "belie_4299755057",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_622778f406",
+      "target": "belie_4bd93f217c",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_622778f406",
+      "target": "belie_d2a37b4871",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_71d83703c1",
+      "target": "belie_93db89cca9",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_71d83703c1",
+      "target": "belie_e38695aa93",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_f69ede0c69",
+      "target": "belie_f5991c7a40",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_3267199bfa",
+      "target": "belie_5703730308",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_59438e9d51",
+      "target": "belie_d698509c65",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_e30b5510b6",
+      "target": "belie_c9839c14c0",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_f070a931b5",
+      "target": "belie_08c3084904",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_f070a931b5",
+      "target": "belie_b504894a0d",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_6e31936c54",
+      "target": "belie_ff2ca2b3da",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_6e31936c54",
+      "target": "belie_1a8bdcd08f",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_adb9342425",
+      "target": "belie_b3270babc7",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_eb3ac1340d",
+      "target": "belie_2b3632f6c5",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_d0b34217df",
+      "target": "belie_b504894a0d",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_69de22bfe9",
+      "target": "belie_d41b0c6553",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_9eb998819f",
+      "target": "belie_656361ecd2",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_99fe243798",
+      "target": "belie_43d1096669",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_7d51398a38",
+      "target": "belie_071869897f",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_de00dac000",
+      "target": "belie_460a7f09b7",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_42807c61b8",
+      "target": "belie_b285bc79f4",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_99b8f4eb50",
+      "target": "belie_9c194c986a",
+      "type": "ILLUMINATES"
+    },
+    {
+      "source": "contr_615785f335",
+      "target": "belie_fb943f9bee",
+      "type": "ILLUMINATES"
+    }
+  ]
+}

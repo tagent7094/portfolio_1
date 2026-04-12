@@ -1,0 +1,11 @@
+# founder-auth.yaml — credential store for tagent.club subdomain auth
+#
+# DO NOT commit the real file. Generate hashes via:
+#   digital-dna auth set <slug>
+#
+# This file is loaded only when TAGENT_AUTH_ENABLED=1.
+founders:
+  sharath:
+    password_hash: "$2b$12$REPLACE_WITH_REAL_BCRYPT_HASH"
+  anish_popli:
+    password_hash: "$2b$12$REPLACE_WITH_REAL_BCRYPT_HASH"

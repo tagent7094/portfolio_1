@@ -2,9 +2,21 @@ import type { PipelineEvent } from '../types/api'
 
 const BASE = ''
 
+function _maybeRedirectOn401(status: number, url: string) {
+  // Don't redirect from auth endpoints themselves (the auth store handles those)
+  if (status !== 401) return
+  if (url.startsWith('/api/auth/')) return
+  if (typeof window === 'undefined') return
+  if (window.location.pathname === '/login') return
+  window.location.assign('/login')
+}
+
 export async function apiGet<T>(url: string): Promise<T> {
-  const res = await fetch(`${BASE}${url}`)
-  if (!res.ok) throw new Error(`GET ${url}: ${res.status}`)
+  const res = await fetch(`${BASE}${url}`, { credentials: 'include' })
+  if (!res.ok) {
+    _maybeRedirectOn401(res.status, url)
+    throw new Error(`GET ${url}: ${res.status}`)
+  }
   return res.json()
 }
 
@@ -13,8 +25,12 @@ export async function apiPost<T>(url: string, body?: any): Promise<T> {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: body ? JSON.stringify(body) : undefined,
+    credentials: 'include',
   })
-  if (!res.ok) throw new Error(`POST ${url}: ${res.status}`)
+  if (!res.ok) {
+    _maybeRedirectOn401(res.status, url)
+    throw new Error(`POST ${url}: ${res.status}`)
+  }
   return res.json()
 }
 
@@ -23,14 +39,21 @@ export async function apiPut<T>(url: string, body: any): Promise<T> {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    credentials: 'include',
   })
-  if (!res.ok) throw new Error(`PUT ${url}: ${res.status}`)
+  if (!res.ok) {
+    _maybeRedirectOn401(res.status, url)
+    throw new Error(`PUT ${url}: ${res.status}`)
+  }
   return res.json()
 }
 
 export async function apiDelete<T>(url: string): Promise<T> {
-  const res = await fetch(`${BASE}${url}`, { method: 'DELETE' })
-  if (!res.ok) throw new Error(`DELETE ${url}: ${res.status}`)
+  const res = await fetch(`${BASE}${url}`, { method: 'DELETE', credentials: 'include' })
+  if (!res.ok) {
+    _maybeRedirectOn401(res.status, url)
+    throw new Error(`DELETE ${url}: ${res.status}`)
+  }
   return res.json()
 }
 
@@ -46,10 +69,14 @@ export async function streamSSE(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
     signal,
+    credentials: 'include',
   })
 
   console.log(`[SSE] Response status: ${res.status}`)
-  if (!res.ok) throw new Error(`SSE ${url}: ${res.status}`)
+  if (!res.ok) {
+    _maybeRedirectOn401(res.status, url)
+    throw new Error(`SSE ${url}: ${res.status}`)
+  }
   if (!res.body) throw new Error('No response body')
 
   const reader = res.body.getReader()

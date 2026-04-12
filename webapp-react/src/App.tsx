@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import AppShell from './components/layout/AppShell'
+import RequireAuth from './components/auth/RequireAuth'
+import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import GeneratePage from './pages/GeneratePage'
 import GraphPage from './pages/GraphPage'
@@ -12,15 +14,18 @@ import CustomizePage from './pages/CustomizePage'
 export default function App() {
   return (
     <Routes>
-      <Route element={<AppShell />}>
-        <Route index element={<DashboardPage />} />
-        <Route path="generate" element={<GeneratePage />} />
-        <Route path="customize" element={<CustomizePage />} />
-        <Route path="graph" element={<GraphPage />} />
-        <Route path="coverage" element={<CoveragePage />} />
-        <Route path="workflow" element={<WorkflowPage />} />
-        <Route path="history" element={<HistoryPage />} />
-        <Route path="config" element={<ConfigPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<RequireAuth />}>
+        <Route element={<AppShell />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="generate" element={<GeneratePage />} />
+          <Route path="customize" element={<CustomizePage />} />
+          <Route path="graph" element={<GraphPage />} />
+          <Route path="coverage" element={<CoveragePage />} />
+          <Route path="workflow" element={<WorkflowPage />} />
+          <Route path="history" element={<HistoryPage />} />
+          <Route path="config" element={<ConfigPage />} />
+        </Route>
       </Route>
     </Routes>
   )

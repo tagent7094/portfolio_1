@@ -17,10 +17,37 @@ app = typer.Typer(name="digital-dna", help="Build personality knowledge graphs a
 generate_app = typer.Typer(help="Generate posts from podcasts or viral topics.")
 graph_app = typer.Typer(help="Inspect and export the knowledge graph.")
 config_app = typer.Typer(help="View and modify configuration.")
+auth_app = typer.Typer(help="Manage subdomain auth credentials for tagent.club deployment.")
 
 app.add_typer(generate_app, name="generate")
 app.add_typer(graph_app, name="graph")
 app.add_typer(config_app, name="config")
+app.add_typer(auth_app, name="auth")
+
+
+@auth_app.command("set")
+def auth_set(slug: str = typer.Argument(..., help="Founder slug (e.g. sharath)")):
+    """Set or replace the password for a founder slug."""
+    from src.auth.store import set_password
+    password = typer.prompt(
+        f"New password for '{slug}'",
+        hide_input=True,
+        confirmation_prompt=True,
+    )
+    set_password(slug, password)
+    console.print(f"[green]✓[/green] Password set for [bold]{slug}[/bold]")
+
+
+@auth_app.command("list")
+def auth_list():
+    """List founder slugs that have credentials configured."""
+    from src.auth.store import list_slugs
+    slugs = list_slugs()
+    if not slugs:
+        console.print("[yellow]No credentials configured.[/yellow] Run [bold]digital-dna auth set <slug>[/bold].")
+        return
+    for s in slugs:
+        console.print(f"  • {s}")
 
 console = Console()
 

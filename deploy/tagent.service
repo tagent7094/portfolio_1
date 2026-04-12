@@ -1,0 +1,25 @@
+[Unit]
+Description=Digital DNA (tagent.club) FastAPI backend
+After=network.target
+
+[Service]
+Type=simple
+User=tagent
+WorkingDirectory=/opt/tagent
+Environment=TAGENT_AUTH_ENABLED=1
+Environment=TAGENT_COOKIE_SECURE=1
+Environment=TAGENT_JWT_SECRET_FILE=/etc/tagent/jwt-secret
+Environment=TAGENT_ALLOWED_ORIGINS=https://tagent.club,https://sharath.tagent.club,https://anish_popli.tagent.club,https://deepinder.tagent.club,https://manisha.tagent.club
+ExecStart=/opt/tagent/venv/bin/uvicorn webapp.server:app --host 127.0.0.1 --port 8000 --log-level info
+Restart=on-failure
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/tagent/data /opt/tagent/config
+
+[Install]
+WantedBy=multi-user.target
