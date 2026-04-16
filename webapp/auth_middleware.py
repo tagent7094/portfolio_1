@@ -23,13 +23,15 @@ from src.auth.tokens import decode_token
 
 logger = logging.getLogger(__name__)
 
-# Paths that bypass auth even when scoped
+# Paths that bypass subdomain auth even when scoped
 _BYPASS_PATHS = {
     "/api/auth/login",
     "/api/auth/logout",
     "/api/auth/me",
     "/api/health",
 }
+# Prefix that bypasses subdomain auth (admin has its own cookie-based auth)
+_BYPASS_PREFIXES = ("/api/admin/",)
 
 _LOCAL_HOSTS = {"localhost", "127.0.0.1", "0.0.0.0"}
 _APEX_DOMAIN = "tagent.club"
@@ -82,8 +84,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
         # Scoped: set ContextVar so handlers see this slug
         token_for_context = auth_context.current_founder_slug.set(slug)
         try:
-            # Bypass auth for the auth endpoints themselves
-            if path in _BYPASS_PATHS:
+            # Bypass auth for the auth endpoints and admin routes
+            if path in _BYPASS_PATHS or any(path.startswith(p) for p in _BYPASS_PREFIXES):
                 return await call_next(request)
 
             # Only enforce on API routes

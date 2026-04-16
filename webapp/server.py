@@ -46,8 +46,9 @@ from webapp.auth_middleware import AuthMiddleware
 app.add_middleware(AuthMiddleware)
 
 # Auth routes
-from webapp.auth_routes import router as auth_router
+from webapp.auth_routes import router as auth_router, admin_router
 app.include_router(auth_router)
+app.include_router(admin_router)
 
 logging.basicConfig(
     level=logging.INFO,

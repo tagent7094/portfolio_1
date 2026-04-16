@@ -1,4 +1,4 @@
-"""Auth endpoints: /api/auth/login, /api/auth/logout, /api/auth/me."""
+"""Auth endpoints: founder login/logout/me, permissions, password change, admin."""
 
 from __future__ import annotations
 
@@ -10,7 +10,8 @@ from pydantic import BaseModel
 
 from src.auth import context as auth_context
 from src.auth.passwords import verify_password
-from src.auth.store import get_hash
+from src.auth.permissions import get_pages, get_all_permissions, set_pages, verify_admin_password, ALL_PAGES
+from src.auth.store import get_hash, set_password
 from src.auth.tokens import decode_token, issue_token
 from src.config.founders import get_founder_paths
 from webapp.auth_middleware import _resolve_subdomain_slug
@@ -18,21 +19,19 @@ from webapp.auth_middleware import _resolve_subdomain_slug
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
+admin_router = APIRouter(prefix="/api/admin", tags=["admin"])
 
 _COOKIE_NAME = "tagent_token"
+_ADMIN_COOKIE_NAME = "admin_token"
 _COOKIE_MAX_AGE = 30 * 24 * 60 * 60  # 30 days
 
 
-class LoginRequest(BaseModel):
-    slug: str
-    password: str
+# ── Helpers ──
 
-
-def _cookie_kwargs() -> dict:
-    """Cookie attributes — Secure only when explicitly enabled."""
+def _cookie_kwargs(name: str = _COOKIE_NAME) -> dict:
     secure = os.environ.get("TAGENT_COOKIE_SECURE", "").lower() in ("1", "true", "yes")
     return {
-        "key": _COOKIE_NAME,
+        "key": name,
         "httponly": True,
         "secure": secure,
         "samesite": "lax",
@@ -54,10 +53,32 @@ def _display_name_for(slug: str) -> str:
         return slug.title()
 
 
+def _get_slug_from_cookie(request: Request) -> str:
+    """Extract and validate founder slug from the tagent_token cookie."""
+    token = request.cookies.get(_COOKIE_NAME, "")
+    claims = decode_token(token)
+    if not claims:
+        raise HTTPException(status_code=401, detail="unauthenticated")
+    return claims.get("sub", "")
+
+
+def _require_admin(request: Request) -> None:
+    """Validate admin_token cookie. Raises 401/403 on failure."""
+    token = request.cookies.get(_ADMIN_COOKIE_NAME, "")
+    claims = decode_token(token)
+    if not claims or claims.get("sub") != "admin":
+        raise HTTPException(status_code=401, detail="admin authentication required")
+
+
+# ── Founder Auth ──
+
+class LoginRequest(BaseModel):
+    slug: str
+    password: str
+
+
 @router.post("/login")
 async def login(data: LoginRequest, request: Request, response: Response):
-    """Verify credentials and set the tagent_token cookie."""
-    # If hosted on a subdomain, the posted slug must match the subdomain
     host = request.headers.get("host", "")
     subdomain_slug = _resolve_subdomain_slug(host)
     if subdomain_slug and subdomain_slug != data.slug:
@@ -66,11 +87,8 @@ async def login(data: LoginRequest, request: Request, response: Response):
 
     stored_hash = get_hash(data.slug)
     if not stored_hash:
-        logger.warning("Login attempt for unknown slug: %s", data.slug)
         raise HTTPException(status_code=401, detail="invalid credentials")
-
     if not verify_password(data.password, stored_hash):
-        logger.warning("Login failed for slug: %s", data.slug)
         raise HTTPException(status_code=401, detail="invalid credentials")
 
     token = issue_token(data.slug)
@@ -86,21 +104,14 @@ async def login(data: LoginRequest, request: Request, response: Response):
 
 @router.post("/logout")
 async def logout(response: Response):
-    """Clear the tagent_token cookie."""
     response.delete_cookie(key=_COOKIE_NAME, path="/")
     return {"ok": True}
 
 
 @router.get("/me")
 async def me(request: Request):
-    """Return the current authenticated founder, or 401."""
-    token = request.cookies.get(_COOKIE_NAME, "")
-    claims = decode_token(token)
-    if not claims:
-        raise HTTPException(status_code=401, detail="unauthenticated")
-    slug = claims.get("sub", "")
+    slug = _get_slug_from_cookie(request)
 
-    # If hosted on a subdomain, the cookie must match it
     host = request.headers.get("host", "")
     subdomain_slug = _resolve_subdomain_slug(host)
     if subdomain_slug and subdomain_slug != slug:
@@ -110,3 +121,99 @@ async def me(request: Request):
         "slug": slug,
         "display_name": _display_name_for(slug),
     }
+
+
+# ── Permissions ──
+
+@router.get("/permissions")
+async def permissions(request: Request):
+    """Return allowed pages for the current session's founder."""
+    slug = _get_slug_from_cookie(request)
+    pages = get_pages(slug)
+    return {"pages": pages, "all_pages": ALL_PAGES}
+
+
+# ── Change Password ──
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+@router.post("/change-password")
+async def change_password(data: ChangePasswordRequest, request: Request, response: Response):
+    """Founder changes their own password."""
+    slug = _get_slug_from_cookie(request)
+
+    stored_hash = get_hash(slug)
+    if not stored_hash or not verify_password(data.current_password, stored_hash):
+        raise HTTPException(status_code=401, detail="current password is wrong")
+
+    if len(data.new_password) < 6:
+        raise HTTPException(status_code=400, detail="password must be at least 6 characters")
+
+    set_password(slug, data.new_password)
+
+    # Re-issue token (in case we change claims structure in the future)
+    token = issue_token(slug)
+    response.set_cookie(value=token, **_cookie_kwargs())
+
+    logger.info("Password changed: %s", slug)
+    return {"ok": True, "slug": slug}
+
+
+# ── Admin Auth ──
+
+class AdminLoginRequest(BaseModel):
+    password: str
+
+
+@admin_router.post("/login")
+async def admin_login(data: AdminLoginRequest, response: Response):
+    """Admin login with separate admin password."""
+    if not verify_admin_password(data.password):
+        raise HTTPException(status_code=401, detail="invalid admin password")
+
+    token = issue_token("admin")
+    response.set_cookie(value=token, **_cookie_kwargs(_ADMIN_COOKIE_NAME))
+
+    logger.info("Admin login success")
+    return {"ok": True}
+
+
+@admin_router.post("/logout")
+async def admin_logout(response: Response):
+    response.delete_cookie(key=_ADMIN_COOKIE_NAME, path="/")
+    return {"ok": True}
+
+
+@admin_router.get("/me")
+async def admin_me(request: Request):
+    _require_admin(request)
+    return {"ok": True, "role": "admin"}
+
+
+# ── Admin: Permissions Management ──
+
+@admin_router.get("/permissions")
+async def admin_get_permissions(request: Request):
+    """Return all founders' page permissions."""
+    _require_admin(request)
+    return {
+        "permissions": get_all_permissions(),
+        "all_pages": ALL_PAGES,
+    }
+
+
+class UpdatePermissionsRequest(BaseModel):
+    slug: str
+    pages: list[str]
+
+
+@admin_router.post("/permissions")
+async def admin_set_permissions(data: UpdatePermissionsRequest, request: Request):
+    """Set page permissions for a specific founder."""
+    _require_admin(request)
+    set_pages(data.slug, data.pages)
+    logger.info("Admin updated permissions for %s: %s", data.slug, data.pages)
+    return {"ok": True, "slug": data.slug, "pages": get_pages(data.slug)}

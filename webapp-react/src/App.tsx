@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 import AppShell from './components/layout/AppShell'
 import RequireAuth from './components/auth/RequireAuth'
 import LoginPage from './pages/LoginPage'
+import AdminLoginPage from './pages/AdminLoginPage'
+import AdminPage from './pages/AdminPage'
 import DashboardPage from './pages/DashboardPage'
 import GeneratePage from './pages/GeneratePage'
 import GraphPage from './pages/GraphPage'
@@ -14,7 +16,12 @@ import CustomizePage from './pages/CustomizePage'
 export default function App() {
   return (
     <Routes>
+      {/* Public routes */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="/admin" element={<AdminPage />} />
+
+      {/* Protected founder routes */}
       <Route element={<RequireAuth />}>
         <Route element={<AppShell />}>
           <Route index element={<DashboardPage />} />

@@ -1,0 +1,36 @@
+# Page visibility controls per founder.
+# Pages: dashboard, generate, customize, graph, coverage, workflow, history, config
+#
+# "defaults.pages" applies to any founder not explicitly listed.
+# Admin credentials are separate from founder auth.
+
+defaults:
+  pages:
+    - graph
+
+founders:
+  sharath:
+    pages:
+      - dashboard
+      - generate
+      - customize
+      - graph
+      - coverage
+      - workflow
+      - history
+      - config
+  manisha:
+    pages:
+      - graph
+  deepinder:
+    pages:
+      - graph
+  raaid:
+    pages:
+      - graph
+  anish_popli:
+    pages:
+      - graph
+
+admin:
+  password_hash: ""

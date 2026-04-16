@@ -49,6 +49,19 @@ def auth_list():
     for s in slugs:
         console.print(f"  • {s}")
 
+
+@auth_app.command("admin")
+def auth_admin():
+    """Set or replace the admin password for the /admin control panel."""
+    from src.auth.permissions import set_admin_password
+    password = typer.prompt(
+        "New admin password",
+        hide_input=True,
+        confirmation_prompt=True,
+    )
+    set_admin_password(password)
+    console.print("[green]✓[/green] Admin password set")
+
 console = Console()
 
 # Resolve project root (where pyproject.toml lives)
