@@ -25,6 +25,8 @@ class OllamaProvider(LLMProvider):
         system_prompt: str = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
+        thinking_budget: int | None = None,  # unsupported
+        effort: str | None = None,  # unsupported
     ) -> str:
         print(f"\033[36m[LLM:{self.model}]\033[0m generate() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}", file=sys.stderr, flush=True)
         result = "".join(self.generate_stream(prompt, system_prompt, temperature, max_tokens))

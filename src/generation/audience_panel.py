@@ -57,7 +57,14 @@ def audience_agent_system_prompt(agent: dict) -> str:
     )
 
 
-def _score_single_post(llm, agent: dict, post: dict, personality_card: str) -> dict:
+def _score_single_post(
+    llm,
+    agent: dict,
+    post: dict,
+    personality_card: str,
+    max_tokens: int = 800,
+    thinking_budget: int | None = None,
+) -> dict:
     """Score a single post with a single audience agent.
 
     Returns the FULL rich JSON from the enhanced audience_score prompt,
@@ -82,7 +89,8 @@ def _score_single_post(llm, agent: dict, post: dict, personality_card: str) -> d
             prompt,
             system_prompt=sys_prompt,
             temperature=0.3,
-            max_tokens=800,  # Increased for richer output
+            max_tokens=max_tokens,
+            thinking_budget=thinking_budget,
         )
     else:
         from langchain_core.messages import HumanMessage, SystemMessage
@@ -174,6 +182,8 @@ def score_posts_with_audience(
     audience_agents: list[dict],
     personality_card: str,
     event_callback=None,
+    max_tokens: int = 800,
+    thinking_budget: int | None = None,
 ) -> dict:
     """Score all posts with all audience agents.
 
@@ -204,7 +214,7 @@ def score_posts_with_audience(
                 f"\033[34m[AudiencePanel]\033[0m   {agent['name']} scoring {pid}...",
                 file=sys.stderr, flush=True,
             )
-            result = _score_single_post(llm, agent, post, personality_card)
+            result = _score_single_post(llm, agent, post, personality_card, max_tokens=max_tokens, thinking_budget=thinking_budget)
             agent_votes[agent_id][pid] = result
 
             # Rich log line

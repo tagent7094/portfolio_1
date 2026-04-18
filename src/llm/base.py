@@ -51,8 +51,17 @@ class LLMProvider(ABC):
         system_prompt: str = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
+        thinking_budget: int | None = None,
+        effort: str | None = None,
     ) -> str:
-        """Generate text from a prompt. Returns raw string."""
+        """Generate text from a prompt. Returns raw string.
+
+        Per-call overrides (optional):
+          thinking_budget: 0 disables thinking for this call; >0 overrides instance budget;
+                           None uses the instance default.
+          effort: overrides instance effort ("low"/"medium"/"high") for this call.
+        Providers that don't support thinking ignore these kwargs.
+        """
         pass
 
     def generate_stream(
@@ -61,9 +70,11 @@ class LLMProvider(ABC):
         system_prompt: str = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
+        thinking_budget: int | None = None,
+        effort: str | None = None,
     ) -> Generator[str, None, None]:
         """Stream tokens from a prompt. Yields individual token strings."""
-        result = self.generate(prompt, system_prompt, temperature, max_tokens)
+        result = self.generate(prompt, system_prompt, temperature, max_tokens, thinking_budget, effort)
         yield result
 
     @abstractmethod

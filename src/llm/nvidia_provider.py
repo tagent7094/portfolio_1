@@ -41,9 +41,12 @@ class NvidiaProvider(LLMProvider):
         system_prompt: str = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
+        thinking_budget: int | None = None,
+        effort: str | None = None,  # unused for nvidia but kept for signature compat
     ) -> str:
-        print(f"\033[36m[LLM:{self.model}]\033[0m generate() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}, thinking={self.enable_thinking}", file=sys.stderr, flush=True)
-        result = "".join(self.generate_stream(prompt, system_prompt, temperature, max_tokens))
+        call_thinking = self.enable_thinking if thinking_budget is None else bool(thinking_budget)
+        print(f"\033[36m[LLM:{self.model}]\033[0m generate() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}, thinking={call_thinking}", file=sys.stderr, flush=True)
+        result = "".join(self.generate_stream(prompt, system_prompt, temperature, max_tokens, thinking_budget, effort))
         print(f"\033[36m[LLM:{self.model}]\033[0m \033[32m→ {len(result)} chars generated\033[0m", file=sys.stderr, flush=True)
         return result
 
@@ -53,9 +56,15 @@ class NvidiaProvider(LLMProvider):
         system_prompt: str = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
+        thinking_budget: int | None = None,
+        effort: str | None = None,  # unused for nvidia
     ) -> Generator[str, None, None]:
         """Stream tokens from NVIDIA NIM. Prints content to terminal, skips reasoning."""
-        print(f"\033[36m[LLM:{self.model}]\033[0m generate_stream() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}, thinking={self.enable_thinking}", file=sys.stderr, flush=True)
+        # Resolve per-call overrides
+        call_thinking = self.enable_thinking if thinking_budget is None else bool(thinking_budget)
+        call_budget = self.reasoning_budget if thinking_budget in (None, 0) else thinking_budget
+
+        print(f"\033[36m[LLM:{self.model}]\033[0m generate_stream() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}, thinking={call_thinking}", file=sys.stderr, flush=True)
         messages = []
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
@@ -70,10 +79,14 @@ class NvidiaProvider(LLMProvider):
             "stream": True,
         }
 
-        if self.enable_thinking:
+        if call_thinking:
             kwargs["extra_body"] = {
                 "chat_template_kwargs": {"enable_thinking": True},
-                "reasoning_budget": self.reasoning_budget,
+                "reasoning_budget": call_budget,
+            }
+        else:
+            kwargs["extra_body"] = {
+                "chat_template_kwargs": {"enable_thinking": False},
             }
 
         completion = self.client.chat.completions.create(**kwargs)

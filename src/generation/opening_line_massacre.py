@@ -255,6 +255,8 @@ def generate_opening_lines(
     llm,
     n: int = 10,
     platform: str = "linkedin",
+    max_tokens: int = 2500,
+    thinking_budget: int | None = None,
 ) -> list[dict]:
     """Generate N alternative opening lines for a post with anti-slop filtering."""
     paragraphs = post_text.strip().split("\n\n")
@@ -279,7 +281,7 @@ def generate_opening_lines(
     )
 
     if isinstance(llm, LLMProvider):
-        response = llm.generate(prompt, temperature=0.92, max_tokens=2500)
+        response = llm.generate(prompt, temperature=0.92, max_tokens=max_tokens, thinking_budget=thinking_budget)
     else:
         from langchain_core.messages import HumanMessage
         resp = llm.invoke([HumanMessage(content=prompt)])
@@ -349,6 +351,8 @@ def score_opening_lines_with_audience(
     audience_agents: list[dict],
     personality_card: str,
     event_callback=None,
+    max_tokens: int = 400,
+    thinking_budget: int | None = None,
 ) -> dict:
     """Score opening lines using audience agents with anti-slop penalties."""
     from ..generation.audience_panel import audience_agent_system_prompt
@@ -382,7 +386,8 @@ def score_opening_lines_with_audience(
                     scoring_prompt,
                     system_prompt=sys_prompt,
                     temperature=0.3,
-                    max_tokens=400,
+                    max_tokens=max_tokens,
+                    thinking_budget=thinking_budget,
                 )
             else:
                 from langchain_core.messages import HumanMessage, SystemMessage

@@ -243,36 +243,20 @@ def customize_post(
     customized_text = "\n\n".join(p for p in customized_parts if p.strip())
 
     # ── Step: Humanize ──
+    # Quick mode = sections + humanize + quality_gate only. No massacre.
+    # (massacre belongs to the Full pipeline; Quick is supposed to be fast.)
     print(f"\n\033[1m[Quick] Humanizing...\033[0m", file=sys.stderr, flush=True)
-    from ..langchain_agents.chains import humanize_chain
-    from ..langchain_agents.llm_adapter import create_langchain_llm
-    from ..graph.query import get_style_rules_for_platform, get_vocabulary_rules
-    lc_llm = create_langchain_llm()
-    style_rules = get_style_rules_for_platform(graph, platform)
-    vocab_rules = get_vocabulary_rules(graph)
-    customized_text = humanize_chain(lc_llm, customized_text, style_rules, vocab_rules, personality_card=founder_ctx.get('personality_card', ''))
+    from ..humanization.humanizer import humanize_post
+    humanize_result = humanize_post(
+        customized_text,
+        graph,
+        llm,
+        platform=platform,
+        personality_card=founder_ctx.get('personality_card', ''),
+        viral_context=viral_ctx or None,
+    )
+    customized_text = humanize_result["humanized"]
     print(f"  → Humanized: {len(customized_text)} chars", file=sys.stderr, flush=True)
-
-    # ── Step: Opening Line Massacre ──
-    print(f"\n\033[1m[Quick] Opening Line Massacre...\033[0m", file=sys.stderr, flush=True)
-    from ..generation.opening_line_massacre import (
-        generate_opening_lines,
-        score_opening_lines_with_audience,
-        apply_winning_opening,
-    )
-    from ..generation.audience_panel import load_audience_agents
-    openings = generate_opening_lines(customized_text, founder_ctx, viral_ctx, llm, n=10, platform=platform)
-    print(f"  → Generated {len(openings)} opening lines", file=sys.stderr, flush=True)
-
-    audience_agents = load_audience_agents()
-    personality_card = founder_ctx.get("personality_card", "")
-    post_body = "\n\n".join(customized_text.strip().split("\n\n")[1:])
-    opening_result = score_opening_lines_with_audience(
-        lc_llm, openings, post_body, audience_agents, personality_card,
-    )
-    winning_opening = opening_result["winning_line"]
-    customized_text = apply_winning_opening(customized_text, winning_opening)
-    print(f"  → Winning opening: \"{winning_opening['text'][:80]}...\"", file=sys.stderr, flush=True)
 
     # ── Quality Gate ──
     from ..humanization.quality_gate import quality_gate
@@ -413,7 +397,7 @@ def customize_post_full_pipeline(
     )
     from ..generation.refiner import refine_post_with_feedback
     from ..humanization.quality_gate import quality_gate
-    from ..langchain_agents.chains import humanize_chain
+    from ..humanization.humanizer import humanize_post
     from ..graph.query import get_style_rules_for_platform, get_vocabulary_rules
     from ..generation.pipeline_events import PipelineEvent
 
@@ -476,18 +460,17 @@ def customize_post_full_pipeline(
         _emit("skip_voting", "started", {"count": len(variants)})
         
         final_variants = []
-        from ..langchain_agents.llm_adapter import create_langchain_llm
-        lc_llm = create_langchain_llm()
-        style_rules = get_style_rules_for_platform(graph, platform)
-        vocab = get_vocabulary_rules(graph)
 
         for i, v in enumerate(variants):
             _emit("humanize", "progress", {"index": i, "total": len(variants)}, progress=(i+1)/len(variants))
-            # Run minimal massacre (just optimize current without voting)
-            # We don't want to run full massacre 5 times if voting is skipped
-            # We just apply the variant as-is then humanize
+            # Skip-voting mode: humanize each variant as-is, no massacre.
             text = v["text"]
-            humanized = humanize_chain(lc_llm, text, style_rules, vocab, personality_card=personality_card)
+            humanized = humanize_post(
+                text, graph, llm,
+                platform=platform,
+                personality_card=personality_card,
+                viral_context=viral_ctx or None,
+            )["humanized"]
             
             # Simple quality gate
             qr = quality_gate(humanized, graph)
@@ -574,11 +557,12 @@ def customize_post_full_pipeline(
     print(f"\n\033[1m[Step 6] Humanizing + Quality Gate...\033[0m", file=sys.stderr, flush=True)
     _emit("humanize", "started")
 
-    from ..langchain_agents.llm_adapter import create_langchain_llm
-    lc_llm = create_langchain_llm()
-    style_rules = get_style_rules_for_platform(graph, platform)
-    vocab = get_vocabulary_rules(graph)
-    humanized = humanize_chain(lc_llm, final_text, style_rules, vocab, personality_card=personality_card)
+    humanized = humanize_post(
+        final_text, graph, llm,
+        platform=platform,
+        personality_card=personality_card,
+        viral_context=viral_ctx or None,
+    )["humanized"]
 
     _emit("humanize", "completed", {"length": len(humanized)})
 
@@ -627,9 +611,12 @@ def quick_fix_post(topic: str, founder_slug: str, platform: str, creativity: flo
     narrative = {"narrative": topic, "angle": f"Write defensively about {topic}", "hook": topic}
     post = generate_with_engine(engine, narrative, platform, context, llm)
     
-    from ..langchain_agents.chains import humanize_chain
-    from ..graph.query import get_style_rules_for_platform, get_vocabulary_rules
-    humanized = humanize_chain(llm, post["text"], get_style_rules_for_platform(graph, platform), get_vocabulary_rules(graph), personality_card=context.get('personality_card', ''))
+    from ..humanization.humanizer import humanize_post
+    humanized = humanize_post(
+        post["text"], graph, llm,
+        platform=platform,
+        personality_card=context.get('personality_card', ''),
+    )["humanized"]
     return humanized
 
 def regenerate_with_context(previous_post: str, feedback: str, founder_slug: str, platform: str, creativity: float) -> str:

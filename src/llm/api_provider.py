@@ -43,9 +43,14 @@ class APIProvider(LLMProvider):
         system_prompt: str = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
+        thinking_budget: int | None = None,
+        effort: str | None = None,
     ) -> str:
-        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m generate() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}, thinking={self.enable_thinking}, effort={self.effort}", file=sys.stderr, flush=True)
-        result = "".join(self.generate_stream(prompt, system_prompt, temperature, max_tokens))
+        # Resolve per-call overrides: thinking_budget=0 → force disable; None → instance default
+        call_thinking = self.enable_thinking if thinking_budget is None else bool(thinking_budget)
+        call_effort = effort if effort is not None else self.effort
+        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m generate() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}, thinking={call_thinking}, effort={call_effort}", file=sys.stderr, flush=True)
+        result = "".join(self.generate_stream(prompt, system_prompt, temperature, max_tokens, thinking_budget, effort))
         print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m→ {len(result)} chars generated\033[0m", file=sys.stderr, flush=True)
         return result
 
@@ -55,23 +60,29 @@ class APIProvider(LLMProvider):
         system_prompt: str = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
+        thinking_budget: int | None = None,
+        effort: str | None = None,
     ) -> Generator[str, None, None]:
         """Stream tokens. Prints to terminal in real-time."""
         self._wait_for_rate_limit()
         print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m generate_stream() prompt={len(prompt)} chars, temp={temperature}, max_tokens={max_tokens}", file=sys.stderr, flush=True)
         if self.provider == "anthropic":
-            yield from self._stream_anthropic(prompt, system_prompt, temperature, max_tokens)
+            yield from self._stream_anthropic(prompt, system_prompt, temperature, max_tokens, thinking_budget, effort)
         else:
             yield from self._stream_openai(prompt, system_prompt, temperature, max_tokens)
 
-    def _stream_anthropic(self, prompt, system_prompt, temperature, max_tokens):
+    def _stream_anthropic(self, prompt, system_prompt, temperature, max_tokens, thinking_budget=None, effort=None):
         """Stream from Anthropic with adaptive thinking support."""
         messages = [{"role": "user", "content": prompt}]
+
+        # Per-call override: thinking_budget=0 → disable for this call
+        call_thinking = self.enable_thinking if thinking_budget is None else bool(thinking_budget)
+        call_effort = effort if effort is not None else self.effort
 
         # When thinking is enabled, max_tokens covers BOTH thinking + content.
         # Thinking can easily use 2000+ tokens, leaving nothing for content.
         # Solution: bump max_tokens to ensure enough room for actual output.
-        if self.enable_thinking:
+        if call_thinking:
             # Ensure at least 16K total so thinking gets ~12K and content gets ~4K
             effective_max = max(max_tokens, 16000)
         else:
@@ -86,11 +97,11 @@ class APIProvider(LLMProvider):
         if system_prompt:
             kwargs["system"] = system_prompt
 
-        if self.enable_thinking:
+        if call_thinking:
             kwargs["thinking"] = {"type": "adaptive"}
-            kwargs["output_config"] = {"effort": self.effort}
+            kwargs["output_config"] = {"effort": call_effort}
             # temperature must be 1 when thinking is enabled
-            print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m thinking=adaptive, effort={self.effort}, effective_max_tokens={effective_max}", file=sys.stderr, flush=True)
+            print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m thinking=adaptive, effort={call_effort}, effective_max_tokens={effective_max}", file=sys.stderr, flush=True)
         else:
             kwargs["temperature"] = temperature
 
