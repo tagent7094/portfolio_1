@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from src.auth import context as auth_context
 from src.auth.passwords import verify_password
 from src.auth.permissions import get_pages, get_all_permissions, set_pages, verify_admin_password, ALL_PAGES
-from src.auth.store import get_hash, set_password
+from src.auth.store import get_hash, get_last_reset, has_password, reset_password, set_password
 from src.auth.tokens import decode_token, issue_token
 from src.config.founders import get_founder_paths
 from webapp.auth_middleware import _resolve_subdomain_slug
@@ -217,3 +217,74 @@ async def admin_set_permissions(data: UpdatePermissionsRequest, request: Request
     set_pages(data.slug, data.pages)
     logger.info("Admin updated permissions for %s: %s", data.slug, data.pages)
     return {"ok": True, "slug": data.slug, "pages": get_pages(data.slug)}
+
+
+# ── Admin: Founder Profile + Password Management ──
+
+def _subdomain_for(slug: str) -> str:
+    """Map an internal slug to its Let's Encrypt-safe subdomain (underscores → hyphens)."""
+    return slug.replace("_", "-")
+
+
+@admin_router.get("/founders")
+async def admin_list_founders(request: Request):
+    """Return full profile data for every founder the server knows about.
+
+    Sources:
+      - config/llm-config.yaml (registry: display_name, paths)
+      - config/founder-auth.yaml (has_password, last_reset_at)
+      - config/founder-permissions.yaml (allowed pages)
+    """
+    _require_admin(request)
+    import yaml
+    from pathlib import Path
+
+    # Load llm-config for display names + registered founders
+    config_path = Path(__file__).parent.parent / "config" / "llm-config.yaml"
+    try:
+        with open(config_path) as f:
+            config = yaml.safe_load(f) or {}
+    except Exception:
+        config = {}
+
+    registry = config.get("founders", {}).get("registry", {}) or {}
+    perms = get_all_permissions()
+
+    # Union of slugs known from all three sources
+    from src.auth.store import list_slugs
+    auth_slugs = set(list_slugs())
+    all_slugs = sorted(set(registry.keys()) | auth_slugs | set(perms.keys()))
+
+    profiles = []
+    for slug in all_slugs:
+        reg = registry.get(slug, {})
+        profiles.append({
+            "slug": slug,
+            "display_name": reg.get("display_name", slug.replace("_", " ").title()),
+            "subdomain": _subdomain_for(slug),
+            "url": f"https://{_subdomain_for(slug)}.tagent.club",
+            "has_password": has_password(slug),
+            "last_reset_at": get_last_reset(slug),
+            "pages": get_pages(slug),
+            "graph_path": reg.get("graph_path", ""),
+        })
+
+    return {"founders": profiles}
+
+
+@admin_router.post("/founders/{slug}/reset-password")
+async def admin_reset_password(slug: str, request: Request):
+    """Generate a new random password for a founder. Returns plaintext ONCE.
+
+    The plaintext is NOT persisted anywhere — only the bcrypt hash is saved.
+    Admin must copy the returned password immediately; it cannot be retrieved later.
+    """
+    _require_admin(request)
+    new_pw = reset_password(slug)
+    logger.info("Admin reset password for %s", slug)
+    return {
+        "ok": True,
+        "slug": slug,
+        "password": new_pw,
+        "last_reset_at": get_last_reset(slug),
+    }

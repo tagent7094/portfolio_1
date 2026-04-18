@@ -1,57 +1,124 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Shield, LogOut, Loader2 } from 'lucide-react'
+import { Shield, LogOut, Loader2, KeyRound, Copy, CheckCircle2, RefreshCw, X, ExternalLink } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet, apiPost } from '../api/client'
 
 const ALL_PAGES = ['dashboard', 'generate', 'customize', 'graph', 'coverage', 'workflow', 'history', 'config']
 
-interface PermissionsData {
-  permissions: Record<string, string[]>
-  all_pages: string[]
+interface FounderProfile {
+  slug: string
+  display_name: string
+  subdomain: string
+  url: string
+  has_password: boolean
+  last_reset_at: string | null
+  pages: string[]
+  graph_path: string
+}
+
+function formatTimeAgo(iso: string | null): string {
+  if (!iso) return 'never'
+  const t = Date.parse(iso)
+  if (isNaN(t)) return iso
+  const delta = (Date.now() - t) / 1000
+  if (delta < 60) return 'just now'
+  if (delta < 3600) return `${Math.floor(delta / 60)}m ago`
+  if (delta < 86400) return `${Math.floor(delta / 3600)}h ago`
+  return `${Math.floor(delta / 86400)}d ago`
 }
 
 export default function AdminPage() {
   const navigate = useNavigate()
   const [authed, setAuthed] = useState<boolean | null>(null)
-  const [perms, setPerms] = useState<Record<string, string[]>>({})
+  const [profiles, setProfiles] = useState<FounderProfile[]>([])
+  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState<string | null>(null)
   const [saved, setSaved] = useState<string | null>(null)
+  // Reset-password modal state
+  const [resettingSlug, setResettingSlug] = useState<string | null>(null)
+  const [revealedPw, setRevealedPw] = useState<{ slug: string; password: string } | null>(null)
+  const [copied, setCopied] = useState(false)
 
-  // Check admin auth on mount
+  const refresh = useCallback(async () => {
+    setLoading(true)
+    try {
+      const data = await apiGet<{ founders: FounderProfile[] }>('/api/admin/founders')
+      setProfiles(data.founders)
+    } catch {
+      // ignore
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  // Check admin auth, then load profiles
   useEffect(() => {
     apiGet('/api/admin/me')
-      .then(() => setAuthed(true))
+      .then(() => {
+        setAuthed(true)
+        refresh()
+      })
       .catch(() => {
         setAuthed(false)
         navigate('/admin/login', { replace: true })
       })
-  }, [navigate])
+  }, [navigate, refresh])
 
-  // Load permissions
+  // Poll profiles every 10s for "real-time" updates (post-reset timestamps, new founders)
   useEffect(() => {
     if (!authed) return
-    apiGet<PermissionsData>('/api/admin/permissions')
-      .then((data) => setPerms(data.permissions))
-      .catch(() => {})
-  }, [authed])
+    const id = setInterval(refresh, 10000)
+    return () => clearInterval(id)
+  }, [authed, refresh])
 
   const togglePage = async (slug: string, page: string) => {
-    const current = perms[slug] || []
-    const updated = current.includes(page)
-      ? current.filter((p) => p !== page)
-      : [...current, page]
+    const profile = profiles.find((p) => p.slug === slug)
+    if (!profile) return
+    const current = profile.pages
+    const updated = current.includes(page) ? current.filter((p) => p !== page) : [...current, page]
 
     setSaving(slug)
     try {
       await apiPost('/api/admin/permissions', { slug, pages: updated })
-      setPerms((prev) => ({ ...prev, [slug]: updated }))
+      setProfiles((prev) => prev.map((p) => (p.slug === slug ? { ...p, pages: updated } : p)))
       setSaved(slug)
       setTimeout(() => setSaved(null), 1000)
     } catch {
       // revert on error
     } finally {
       setSaving(null)
+    }
+  }
+
+  const handleResetPassword = async (slug: string) => {
+    setResettingSlug(slug)
+    try {
+      const res = await apiPost<{ password: string; last_reset_at: string }>(
+        `/api/admin/founders/${slug}/reset-password`, {},
+      )
+      setRevealedPw({ slug, password: res.password })
+      // Update the local profile with new timestamp
+      setProfiles((prev) =>
+        prev.map((p) =>
+          p.slug === slug ? { ...p, has_password: true, last_reset_at: res.last_reset_at } : p,
+        ),
+      )
+    } catch (e: any) {
+      alert(`Failed to reset password: ${e?.message || 'unknown error'}`)
+    } finally {
+      setResettingSlug(null)
+    }
+  }
+
+  const copyPassword = async () => {
+    if (!revealedPw) return
+    try {
+      await navigator.clipboard.writeText(revealedPw.password)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // clipboard API unavailable — user can copy manually from the displayed text
     }
   }
 
@@ -68,8 +135,6 @@ export default function AdminPage() {
     )
   }
 
-  const founders = Object.keys(perms).sort()
-
   return (
     <div className="min-h-screen bg-black text-white p-8">
       {/* Header */}
@@ -80,49 +145,100 @@ export default function AdminPage() {
           </div>
           <div>
             <h1 className="font-[var(--font-display)] text-xl font-semibold">Admin Panel</h1>
-            <p className="text-xs text-white/50">Manage founder page visibility</p>
+            <p className="text-xs text-white/50">
+              {profiles.length} founder{profiles.length !== 1 ? 's' : ''} · Auto-refreshes every 10s
+            </p>
           </div>
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/10"
-        >
-          <LogOut size={13} /> Sign out
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={refresh}
+            disabled={loading}
+            className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/10 disabled:opacity-50"
+          >
+            <RefreshCw size={13} className={loading ? 'animate-spin' : ''} /> Refresh
+          </button>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/10"
+          >
+            <LogOut size={13} /> Sign out
+          </button>
+        </div>
       </div>
 
-      {/* Permissions Matrix */}
+      {/* Founder profile + permissions table */}
       <div className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10">
-                <th className="px-4 py-3 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Founder</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">URL</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">
+                  Founder
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">
+                  URL
+                </th>
+                <th className="px-4 py-3 text-center text-xs font-semibold text-white/50 uppercase tracking-wider">
+                  Password
+                </th>
                 {ALL_PAGES.map((page) => (
-                  <th key={page} className="px-3 py-3 text-center text-xs font-semibold text-white/50 uppercase tracking-wider whitespace-nowrap">
+                  <th
+                    key={page}
+                    className="px-3 py-3 text-center text-xs font-semibold text-white/50 uppercase tracking-wider whitespace-nowrap"
+                  >
                     {page}
                   </th>
                 ))}
-                <th className="px-3 py-3 text-center text-xs font-semibold text-white/50 uppercase tracking-wider">Status</th>
+                <th className="px-3 py-3 text-center text-xs font-semibold text-white/50 uppercase tracking-wider">
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody>
-              {founders.map((slug) => {
-                const pages = perms[slug] || []
-                const subdomain = slug.replace(/_/g, '-')
+              {profiles.map((profile) => {
+                const { slug, display_name, url, subdomain, has_password, last_reset_at, pages } = profile
                 return (
                   <tr key={slug} className="border-b border-white/5 hover:bg-white/[0.02]">
-                    <td className="px-4 py-3 font-medium text-white">{slug}</td>
+                    <td className="px-4 py-3">
+                      <div className="font-medium text-white">{display_name}</div>
+                      <div className="text-[10px] text-white/40 font-mono">{slug}</div>
+                    </td>
                     <td className="px-4 py-3">
                       <a
-                        href={`https://${subdomain}.tagent.club`}
+                        href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-white/50 hover:text-white underline"
+                        className="inline-flex items-center gap-1 text-xs text-white/50 hover:text-white underline"
                       >
                         {subdomain}.tagent.club
+                        <ExternalLink size={10} />
                       </a>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <button
+                        onClick={() => handleResetPassword(slug)}
+                        disabled={resettingSlug === slug}
+                        className={clsx(
+                          'inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] transition-colors',
+                          has_password
+                            ? 'bg-white/[0.04] text-white/80 hover:bg-white/10'
+                            : 'bg-white text-black hover:bg-white/90',
+                        )}
+                        title={has_password ? 'Reset password' : 'Set password'}
+                      >
+                        {resettingSlug === slug ? (
+                          <Loader2 size={11} className="animate-spin" />
+                        ) : (
+                          <KeyRound size={11} />
+                        )}
+                        {has_password ? 'Reset' : 'Set'}
+                      </button>
+                      {last_reset_at && (
+                        <div className="mt-1 text-[10px] text-white/30">
+                          {formatTimeAgo(last_reset_at)}
+                        </div>
+                      )}
                     </td>
                     {ALL_PAGES.map((page) => (
                       <td key={page} className="px-3 py-3 text-center">
@@ -150,7 +266,9 @@ export default function AdminPage() {
                       ) : saved === slug ? (
                         <span className="text-xs text-white">Saved</span>
                       ) : (
-                        <span className="text-xs text-white/30">{pages.length} pages</span>
+                        <span className="text-xs text-white/30">
+                          {pages.length} page{pages.length !== 1 ? 's' : ''}
+                        </span>
                       )}
                     </td>
                   </tr>
@@ -161,9 +279,59 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {founders.length === 0 && (
+      {profiles.length === 0 && !loading && (
         <div className="mt-8 text-center text-sm text-white/50">
-          No founders configured. Add founders to <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">config/founder-permissions.yaml</code>.
+          No founders configured. Push a founder folder to <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">data/founders/&lt;slug&gt;/founder-data/</code> and the next deploy will auto-provision them.
+        </div>
+      )}
+
+      {/* Reveal-password modal */}
+      {revealedPw && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl border border-white/20 bg-black p-6 shadow-2xl">
+            <div className="mb-4 flex items-start justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                  <KeyRound size={14} /> New password for {revealedPw.slug}
+                </div>
+                <p className="mt-1 text-[11px] text-white/60">
+                  Copy it now — <span className="text-white">it will never be shown again</span>.
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setRevealedPw(null)
+                  setCopied(false)
+                }}
+                className="text-white/50 hover:text-white"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="mb-4 flex items-center gap-2 rounded-lg border border-white/20 bg-white/[0.04] p-3">
+              <code className="flex-1 font-mono text-sm text-white break-all">
+                {revealedPw.password}
+              </code>
+              <button
+                onClick={copyPassword}
+                className="flex items-center gap-1 rounded bg-white px-3 py-1.5 text-xs font-semibold text-black hover:bg-white/90"
+              >
+                {copied ? <CheckCircle2 size={13} /> : <Copy size={13} />}
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+            </div>
+
+            <button
+              onClick={() => {
+                setRevealedPw(null)
+                setCopied(false)
+              }}
+              className="w-full rounded-lg border border-white/20 px-3 py-2 text-sm text-white hover:bg-white/5"
+            >
+              I've saved it
+            </button>
+          </div>
         </div>
       )}
     </div>
