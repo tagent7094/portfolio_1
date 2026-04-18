@@ -236,3 +236,32 @@ export interface WorkflowConfig {
   }>
   edges: Array<{ id: string; source: string; target: string }>
 }
+
+// ── Customize Pipeline Config ──
+export interface StageConfig {
+  enabled: boolean
+  n?: number | null
+  top_k?: number | null
+  max_tokens?: number | null
+  thinking_budget?: number | null
+  temperature?: number | null
+  agent_ids?: string[] | null
+  strategy_ids?: string[] | null
+}
+
+export interface PipelineConfig {
+  variants?: StageConfig
+  audience_vote?: StageConfig
+  refine?: StageConfig
+  opening_massacre?: StageConfig
+  humanize?: StageConfig
+  quality_gate?: StageConfig
+}
+
+export interface PipelineDefaultsResponse {
+  audience_agents: { id: string; name: string; description: string }[]
+  customization_strategies: { id: string; name: string }[]
+  hook_strategies: { id: string; name: string }[]
+  provider_supports_thinking: boolean
+  defaults: PipelineConfig
+}

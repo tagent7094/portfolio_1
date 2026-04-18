@@ -29,7 +29,8 @@ from ..graph.query import get_beliefs_for_topic, get_full_context, get_merged_co
 from ..graph.store import load_graph
 from ..humanization.quality_gate import quality_gate
 from ..tracking.node_usage import track_node_usage
-from .chains import humanize_chain, match_topic_chain
+from .chains import match_topic_chain
+from ..humanization.humanizer import humanize_post
 from .llm_adapter import create_langchain_llm
 
 logger = logging.getLogger(__name__)
@@ -448,14 +449,18 @@ def humanize_node(state: GenerationState) -> dict:
     _emit(state, "humanize", "started")
 
     graph = _load_founder_graph(state)
-    llm = create_langchain_llm()
+    # humanize_post requires an LLMProvider (not a langchain LLM)
+    from ..llm.factory import create_llm
+    llm = create_llm(purpose="generation")
     platform = state["platform"]
-    style_rules = get_style_rules_for_platform(graph, platform)
-    vocab = get_vocabulary_rules(graph)
 
     post_text = state["winning_post"]["text"]
     personality_card = state.get("personality_card", "")
-    humanized = humanize_chain(llm, post_text, style_rules, vocab, personality_card=personality_card)
+    humanized = humanize_post(
+        post_text, graph, llm,
+        platform=platform,
+        personality_card=personality_card,
+    )["humanized"]
 
     attempts = state.get("humanize_attempts", 0) + 1
     _emit(state, "humanize", "completed", {"length": len(humanized), "attempt": attempts})

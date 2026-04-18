@@ -1,14 +1,15 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { Wand2, Loader2, Zap, Sparkles, Flame } from 'lucide-react'
 import clsx from 'clsx'
-import { apiPost } from '../api/client'
+import { apiGet, apiPost } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
 import PostBrowser from '../components/customize/PostBrowser'
 import CreativityControls, {
   type CreativityValues,
 } from '../components/customize/CreativityControls'
 import DiffPreview from '../components/customize/DiffPreview'
-import type { CustomizationResult } from '../types/api'
+import PipelineBuilder from '../components/customize/PipelineBuilder'
+import type { CustomizationResult, PipelineConfig, PipelineDefaultsResponse } from '../types/api'
 
 type Tab = 'browse' | 'custom'
 type PipelineMode = 'quick' | 'full' | 'v2'
@@ -40,9 +41,25 @@ const V2_PIPELINE_STEPS: PipelineStep[] = [
 export default function CustomizePage() {
   const [tab, setTab] = useState<Tab>('browse')
   const [mode, setMode] = useState<PipelineMode>('quick')
-  const [numVariants, setNumVariants] = useState<number>(5)
+  // Legacy fallback — PipelineBuilder sets per-stage values directly
+  const [numVariants] = useState<number>(5)
   const [showThinking, setShowThinking] = useState<boolean>(true)
-  const [skipVoting, setSkipVoting] = useState<boolean>(true)
+  const [skipVoting] = useState<boolean>(true)
+
+  // PipelineBuilder state (Full mode)
+  const [pipelineDefaults, setPipelineDefaults] = useState<PipelineDefaultsResponse | null>(null)
+  const [pipelineConfig, setPipelineConfig] = useState<PipelineConfig>({})
+
+  useEffect(() => {
+    apiGet<PipelineDefaultsResponse>('/api/posts/customize/config/defaults')
+      .then((d) => {
+        setPipelineDefaults(d)
+        setPipelineConfig(d.defaults)
+      })
+      .catch(() => {
+        /* endpoint unavailable — PipelineBuilder will show empty defaults */
+      })
+  }, [])
 
   // Post selection state
   const [selectedText, setSelectedText] = useState('')
@@ -131,8 +148,10 @@ export default function CustomizePage() {
         creativity_body: creativity.body / 100,
         creativity_closing: creativity.closing / 100,
         creativity_tone: creativity.tone / 100,
-        num_variants: numVariants,
-        skip_voting: skipVoting,
+        // Legacy fields kept for backward compat; ignored when `pipeline` is set
+        num_variants: pipelineConfig?.variants?.n ?? numVariants,
+        skip_voting: pipelineConfig?.audience_vote?.enabled === false ? true : skipVoting,
+        pipeline: pipelineConfig,
       })
 
       const resp = await fetch('/api/posts/customize/full', {
@@ -166,6 +185,16 @@ export default function CustomizePage() {
           try {
             const event = JSON.parse(json)
             const { stage, status, data } = event
+
+            // pipeline_plan event → override the step list with only enabled stages
+            if (stage === 'pipeline_plan' && status === 'started' && Array.isArray(data?.stages)) {
+              const enabledStages = data.stages.filter((s: any) => s.enabled)
+              setPipelineSteps(
+                enabledStages.map((s: any) => ({ id: s.id, label: s.label, status: 'pending' as const })),
+              )
+              setPipelineLog((prev) => [...prev, `Plan: ${data.expected_llm_calls} expected LLM calls`])
+              continue
+            }
 
             // Update pipeline steps
             setPipelineSteps((prev) =>
@@ -235,7 +264,7 @@ export default function CustomizePage() {
       setLoading(false)
       abortRef.current = null
     }
-  }, [canCustomize, activeText, active, creativity])
+  }, [canCustomize, activeText, active, creativity, pipelineConfig, numVariants, skipVoting])
 
   // V2 Adaptation (SSE streaming)
   const handleV2Adapt = useCallback(async () => {
@@ -495,46 +524,24 @@ export default function CustomizePage() {
 
         {/* Pipeline options */}
         {mode === 'full' && (
-          <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-300">
-                  Variants
-                </label>
-                <select
-                  value={numVariants}
-                  onChange={(e) => setNumVariants(Number(e.target.value))}
-                  className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
-                >
-                  {[1, 3, 5, 10].map((num) => (
-                    <option key={num} value={num}>
-                      {num} variants
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex flex-col justify-end gap-2 pb-1">
-                <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={showThinking}
-                    onChange={(e) => setShowThinking(e.target.checked)}
-                    className="rounded border-gray-700 bg-gray-800 text-white/80 focus:ring-white/30 focus:ring-offset-gray-900"
-                  />
-                  Show Thinking
-                </label>
-                <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={skipVoting}
-                    onChange={(e) => setSkipVoting(e.target.checked)}
-                    className="rounded border-gray-700 bg-gray-800 text-white/80 focus:ring-white/30 focus:ring-offset-gray-900"
-                  />
-                  Skip Voting (Wave 12)
-                </label>
-              </div>
+          <>
+            <PipelineBuilder
+              config={pipelineConfig}
+              onChange={setPipelineConfig}
+              defaults={pipelineDefaults}
+            />
+            <div className="rounded-xl border border-gray-800 bg-gray-900 p-3">
+              <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showThinking}
+                  onChange={(e) => setShowThinking(e.target.checked)}
+                  className="rounded border-gray-700 bg-gray-800 text-white/80 focus:ring-white/30 focus:ring-offset-gray-900"
+                />
+                Show pipeline progress log
+              </label>
             </div>
-          </div>
+          </>
         )}
 
         {/* Customize button */}

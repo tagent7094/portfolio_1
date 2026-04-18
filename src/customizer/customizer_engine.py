@@ -64,6 +64,75 @@ class CustomizationResult:
     traceability: dict = field(default_factory=dict)
 
 
+# ── Pipeline Stage Config ────────────────────────────────────────────────────
+#
+# Each stage of the Full Pipeline is described by a StageConfig. The frontend
+# (PipelineBuilder) sends a PipelineConfig; the backend gates every stage block
+# on `enabled`, and uses the other knobs to parameterize the LLM calls.
+
+@dataclass
+class StageConfig:
+    enabled: bool = True
+    n: int | None = None                  # variants count / openings count
+    top_k: int | None = None              # refine top_k
+    max_tokens: int | None = None         # per-call max output tokens
+    thinking_budget: int | None = None    # 0 disables thinking; None = provider default
+    temperature: float | None = None      # override; default = creativity-derived
+    agent_ids: list[str] | None = None    # subset of audience-agents.yaml IDs
+    strategy_ids: list[str] | None = None # subset of CUSTOMIZATION_STRATEGIES IDs
+
+
+@dataclass
+class PipelineConfig:
+    variants: StageConfig = field(default_factory=lambda: StageConfig(n=5))
+    audience_vote: StageConfig = field(default_factory=lambda: StageConfig(max_tokens=800))
+    refine: StageConfig = field(default_factory=lambda: StageConfig(top_k=2))
+    opening_massacre: StageConfig = field(default_factory=lambda: StageConfig(n=10, max_tokens=400))
+    humanize: StageConfig = field(default_factory=lambda: StageConfig())
+    quality_gate: StageConfig = field(default_factory=lambda: StageConfig())
+
+    @classmethod
+    def from_legacy(cls, num_variants: int = 5, skip_voting: bool = False) -> "PipelineConfig":
+        """Build a PipelineConfig from the old num_variants/skip_voting kwargs.
+
+        Preserves backward compatibility for unmigrated callers. skip_voting=True
+        maps to audience_vote.enabled=False + refine.enabled=False + massacre.enabled=False.
+        """
+        cfg = cls()
+        cfg.variants.n = num_variants
+        if skip_voting:
+            cfg.audience_vote.enabled = False
+            cfg.refine.enabled = False
+            cfg.opening_massacre.enabled = False
+        return cfg
+
+
+# Hard cap on total LLM calls per run. Trips the guard to prevent runaway cost/loop risk.
+MAX_LLM_CALLS_PER_RUN = 250
+
+
+def _estimate_llm_calls(cfg: PipelineConfig, n_audience_agents: int, n_opening_agents: int) -> int:
+    """Compute expected LLM call count for a given pipeline config."""
+    n_variants = cfg.variants.n or 5
+    n_openings = cfg.opening_massacre.n or 10
+    top_k = min(cfg.refine.top_k or 2, n_variants)
+
+    calls = n_variants if cfg.variants.enabled else 0
+    if cfg.audience_vote.enabled:
+        calls += n_audience_agents * n_variants
+    if cfg.refine.enabled:
+        calls += top_k
+    if cfg.opening_massacre.enabled:
+        calls += 1  # generation call
+        # scoring only runs when audience_vote is also enabled (needs agents)
+        if cfg.audience_vote.enabled:
+            calls += n_opening_agents * n_openings
+    if cfg.humanize.enabled:
+        # In skip-voting mode each variant is humanized; otherwise just the winner.
+        calls += n_variants if not cfg.audience_vote.enabled else 1
+    return calls
+
+
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 def _extract_topic(content: str, llm=None) -> str:
@@ -381,15 +450,20 @@ def customize_post_full_pipeline(
     creativity: SectionCreativity,
     platform: str = "linkedin",
     event_bus=None,
-    num_variants: int = 5,
-    skip_voting: bool = False,
+    num_variants: int = 5,                    # legacy shim (used if pipeline is None)
+    skip_voting: bool = False,                # legacy shim (used if pipeline is None)
+    pipeline: PipelineConfig | None = None,   # NEW: preferred arg
 ) -> dict:
-    """Full agentic pipeline for post customization.
+    """Full agentic pipeline for post customization, driven by PipelineConfig.
 
-    Generates 5 variants → audience vote → refine top 2 →
-    opening massacre → humanize → quality gate.
+    Stage sequence (each gated on `<stage>.enabled`):
+      variants → audience_vote → refine → opening_massacre → humanize → quality_gate
 
-    Returns a dict with all pipeline data (variants, votes, refined, final post).
+    When `audience_vote` is disabled, we skip voting + refining + scoring openings,
+    and humanize all variants as-is (previously the `skip_voting` special case).
+
+    The legacy `num_variants`/`skip_voting` kwargs still work — they're translated
+    into a PipelineConfig via `PipelineConfig.from_legacy()` when `pipeline` is None.
     """
     from ..generation.audience_panel import load_audience_agents, score_posts_with_audience
     from ..generation.opening_line_massacre import (
@@ -398,8 +472,11 @@ def customize_post_full_pipeline(
     from ..generation.refiner import refine_post_with_feedback
     from ..humanization.quality_gate import quality_gate
     from ..humanization.humanizer import humanize_post
-    from ..graph.query import get_style_rules_for_platform, get_vocabulary_rules
     from ..generation.pipeline_events import PipelineEvent
+
+    # Resolve config (legacy shim)
+    if pipeline is None:
+        pipeline = PipelineConfig.from_legacy(num_variants=num_variants, skip_voting=skip_voting)
 
     def _emit(stage, status, data=None, progress=0.0):
         if event_bus:
@@ -431,162 +508,235 @@ def customize_post_full_pipeline(
 
     personality_card = founder_ctx.get("personality_card", "")
 
+    # Load + filter audience agents up front (needed for budget estimation + stages)
+    all_audience_agents = load_audience_agents()
+    def _filter_agents(agent_ids: list[str] | None) -> list[dict]:
+        if not agent_ids:
+            return all_audience_agents
+        id_set = set(agent_ids)
+        return [a for a in all_audience_agents if a.get("id") in id_set] or all_audience_agents
+
+    vote_agents = _filter_agents(pipeline.audience_vote.agent_ids)
+    opening_agents = _filter_agents(pipeline.opening_massacre.agent_ids)
+
+    # ── Budget / loop-risk guard ──
+    n_variants_cfg = pipeline.variants.n or 5
+    expected_calls = _estimate_llm_calls(pipeline, len(vote_agents), len(opening_agents))
+    stage_plan = [
+        {"id": "generate_variants", "enabled": pipeline.variants.enabled, "label": f"Generate {n_variants_cfg} variants"},
+        {"id": "audience_vote", "enabled": pipeline.audience_vote.enabled, "label": f"Audience vote ({len(vote_agents)} agents)"},
+        {"id": "refine", "enabled": pipeline.refine.enabled, "label": f"Refine top {pipeline.refine.top_k or 2}"},
+        {"id": "opening_massacre", "enabled": pipeline.opening_massacre.enabled, "label": f"Opening massacre ({pipeline.opening_massacre.n or 10} candidates)"},
+        {"id": "humanize", "enabled": pipeline.humanize.enabled, "label": "Humanize"},
+        {"id": "quality_gate", "enabled": pipeline.quality_gate.enabled, "label": "Quality gate"},
+    ]
+    _emit("pipeline_plan", "started", {"stages": stage_plan, "expected_llm_calls": expected_calls})
+    print(f"  Pipeline plan: {expected_calls} expected LLM calls", file=sys.stderr, flush=True)
+
+    if expected_calls > MAX_LLM_CALLS_PER_RUN:
+        msg = (
+            f"Pipeline config would issue {expected_calls} LLM calls, exceeding the "
+            f"{MAX_LLM_CALLS_PER_RUN}-call safety cap. Reduce num_variants, agent count, "
+            f"or disable a stage."
+        )
+        _emit("pipeline_plan", "error", {"error": msg})
+        return {"error": msg, "original": original_text, "customized": original_text}
+
     # ── Step 2: Generate N variants ──
-    print(f"\n\033[1m[Step 2] Generating {num_variants} customization variants...\033[0m", file=sys.stderr, flush=True)
-    _emit("generate_variants", "started", {"total": num_variants})
-
     variants = []
-    strategies_to_use = CUSTOMIZATION_STRATEGIES[:num_variants]
-    for i, strategy in enumerate(strategies_to_use):
-        print(f"  Variant {i+1}/{num_variants}: {strategy['name']}...", file=sys.stderr, flush=True)
-        _emit("generate_variants", "progress", {"index": i, "strategy": strategy["name"]}, progress=(i+1)/num_variants)
-        try:
-            variant = _generate_customization_variant(
-                original_text, strategy, creativity, founder_ctx, viral_ctx, llm, platform
-            )
-            variants.append(variant)
-            print(f"  → {len(variant['text'])} chars", file=sys.stderr, flush=True)
-        except Exception as e:
-            print(f"  ✗ {strategy['id']} failed: {e}", file=sys.stderr, flush=True)
+    if pipeline.variants.enabled:
+        n_variants = pipeline.variants.n or 5
+        if pipeline.variants.strategy_ids:
+            s_set = set(pipeline.variants.strategy_ids)
+            strategies_to_use = [s for s in CUSTOMIZATION_STRATEGIES if s["id"] in s_set] or CUSTOMIZATION_STRATEGIES[:n_variants]
+            strategies_to_use = strategies_to_use[:n_variants]
+        else:
+            strategies_to_use = CUSTOMIZATION_STRATEGIES[:n_variants]
 
-    _emit("generate_variants", "completed", {"count": len(variants)})
+        print(f"\n\033[1m[Step 2] Generating {len(strategies_to_use)} customization variants...\033[0m", file=sys.stderr, flush=True)
+        _emit("generate_variants", "started", {"total": len(strategies_to_use)})
+
+        for i, strategy in enumerate(strategies_to_use):
+            print(f"  Variant {i+1}/{len(strategies_to_use)}: {strategy['name']}...", file=sys.stderr, flush=True)
+            _emit("generate_variants", "progress", {"index": i, "strategy": strategy["name"]}, progress=(i+1)/len(strategies_to_use))
+            try:
+                variant = _generate_customization_variant(
+                    original_text, strategy, creativity, founder_ctx, viral_ctx, llm, platform
+                )
+                variants.append(variant)
+                print(f"  → {len(variant['text'])} chars", file=sys.stderr, flush=True)
+            except Exception as e:
+                print(f"  ✗ {strategy['id']} failed: {e}", file=sys.stderr, flush=True)
+
+        _emit("generate_variants", "completed", {"count": len(variants)})
 
     if not variants:
         return {"error": "All variants failed", "original": original_text, "customized": original_text}
 
-    # ── BRANCH: Skip Voting Mode (Wave 12) ──
-    if skip_voting:
-        print(f"\n\033[1m[Wave 12] Skipping voting/refinement. Processing all {len(variants)} variants...\033[0m", file=sys.stderr, flush=True)
-        _emit("skip_voting", "started", {"count": len(variants)})
-        
-        final_variants = []
+    # ── Step 3: Audience vote ──
+    vote_result = {"agent_votes": {}, "aggregated": {}, "top_ids": []}
+    top_ids: list[str] = []
+    if pipeline.audience_vote.enabled:
+        print(f"\n\033[1m[Step 3] Audience voting on {len(variants)} variants with {len(vote_agents)} agents...\033[0m", file=sys.stderr, flush=True)
+        _emit("audience_vote", "started", {"n_agents": len(vote_agents)})
 
-        for i, v in enumerate(variants):
-            _emit("humanize", "progress", {"index": i, "total": len(variants)}, progress=(i+1)/len(variants))
-            # Skip-voting mode: humanize each variant as-is, no massacre.
-            text = v["text"]
+        def vote_cb(agent_id, agent_name, votes):
+            _emit("audience_vote", "progress", {"agent_id": agent_id, "agent_name": agent_name, "votes": {k: {"score": v.get("score", 5), "feedback": v.get("feedback", "")} for k, v in votes.items()}})
+
+        vote_result = score_posts_with_audience(
+            llm, variants, vote_agents, personality_card,
+            event_callback=vote_cb,
+            max_tokens=pipeline.audience_vote.max_tokens or 800,
+            thinking_budget=pipeline.audience_vote.thinking_budget,
+        )
+        top_ids = vote_result.get("top_ids", [v["id"] for v in variants[:2]])
+        _emit("audience_vote", "completed", {"top_ids": top_ids})
+    else:
+        print(f"\n\033[1m[Step 3] Audience vote SKIPPED\033[0m", file=sys.stderr, flush=True)
+
+    # ── Step 4: Refine top K ──
+    refined: list[dict] = []
+    if pipeline.refine.enabled and pipeline.audience_vote.enabled:
+        top_k = min(pipeline.refine.top_k or 2, len(variants))
+        print(f"\n\033[1m[Step 4] Refining top {top_k} variants...\033[0m", file=sys.stderr, flush=True)
+        _emit("refine", "started", {"top_k": top_k})
+
+        feedback_for_refiner = vote_result.get("feedback_for_refiner", {})
+        for pid in top_ids[:top_k]:
+            post = next((v for v in variants if v["id"] == pid), None)
+            if not post:
+                continue
+            feedback = feedback_for_refiner.get(pid, {})
+            if not feedback:
+                for aid, votes in vote_result.get("agent_votes", {}).items():
+                    if pid in votes:
+                        agent_name = votes[pid].get("agent_name", aid)
+                        feedback[agent_name] = votes[pid]
+            result = refine_post_with_feedback(llm, post, feedback, personality_card, platform)
+            refined.append(result)
+            _emit("refine", "progress", {"post_id": pid, "original_text": post["text"][:200], "refined_text": result["refined_text"][:200]})
+
+        _emit("refine", "completed", {"count": len(refined)})
+    else:
+        print(f"\n\033[1m[Step 4] Refine SKIPPED (audience_vote disabled or refine disabled)\033[0m", file=sys.stderr, flush=True)
+
+    # ── Decide the single "best text" to carry into massacre/humanize ──
+    if refined:
+        best_refined = refined[0]
+        best_text = best_refined["refined_text"]
+    else:
+        best_refined = {"id": variants[0]["id"], "refined_text": variants[0]["text"], "original_text": variants[0]["text"]}
+        best_text = variants[0]["text"]
+
+    # ── Step 5: Opening Line Massacre ──
+    openings: list[dict] = []
+    winning_opening = {"text": "", "strategy": "mimicry"}
+    final_text = best_text
+    if pipeline.opening_massacre.enabled:
+        print(f"\n\033[1m[Step 5] Opening Line Massacre...\033[0m", file=sys.stderr, flush=True)
+        _emit("opening_massacre", "started")
+
+        openings = generate_opening_lines(
+            best_text, founder_ctx, viral_ctx, llm,
+            n=pipeline.opening_massacre.n or 10,
+            platform=platform,
+            thinking_budget=pipeline.opening_massacre.thinking_budget,
+        )
+        _emit("opening_massacre", "generating", {"count": len(openings), "openings": [{"id": o["id"], "text": o["text"]} for o in openings]})
+
+        # Scoring requires audience agents; skip if audience_vote is disabled
+        if pipeline.audience_vote.enabled and len(openings) > 1:
+            post_body = "\n\n".join(best_text.strip().split("\n\n")[1:])
+            opening_result = score_opening_lines_with_audience(
+                llm, openings, post_body, opening_agents, personality_card,
+                max_tokens=pipeline.opening_massacre.max_tokens or 400,
+                thinking_budget=pipeline.opening_massacre.thinking_budget,
+            )
+            winning_opening = opening_result["winning_line"]
+            final_text = apply_winning_opening(best_text, winning_opening)
+        else:
+            # No scoring → keep the original opening
+            winning_opening = openings[0] if openings else {"text": best_text.split("\n\n")[0] if best_text else "", "strategy": "original"}
+
+        _emit("opening_massacre", "completed", {"winning_text": winning_opening.get("text", "")})
+    else:
+        print(f"\n\033[1m[Step 5] Opening massacre SKIPPED\033[0m", file=sys.stderr, flush=True)
+
+    # ── Step 6: Humanize ──
+    # When audience_vote is off we humanize every variant (skip-voting behavior);
+    # otherwise we humanize just the winner.
+    humanized_variants: list[dict] = []
+    humanized = final_text
+    if pipeline.humanize.enabled:
+        _emit("humanize", "started")
+        if not pipeline.audience_vote.enabled:
+            # Humanize each variant as-is, collect results
+            print(f"\n\033[1m[Step 6] Humanizing {len(variants)} variants (skip-voting mode)...\033[0m", file=sys.stderr, flush=True)
+            for i, v in enumerate(variants):
+                _emit("humanize", "progress", {"index": i, "total": len(variants)}, progress=(i+1)/len(variants))
+                h = humanize_post(
+                    v["text"], graph, llm,
+                    platform=platform,
+                    personality_card=personality_card,
+                    viral_context=viral_ctx or None,
+                )["humanized"]
+                qr_v = quality_gate(h, graph) if pipeline.quality_gate.enabled else {"score": 0, "passed": False}
+                humanized_variants.append({
+                    "id": v["id"],
+                    "strategy": v["engine_name"],
+                    "text": h,
+                    "quality": qr_v["score"],
+                })
+                print(f"  Variant {i+1} humanized ({len(h)} chars)", file=sys.stderr, flush=True)
+            humanized = humanized_variants[0]["text"] if humanized_variants else final_text
+        else:
+            # Single humanize pass on the winner
+            print(f"\n\033[1m[Step 6] Humanizing winner...\033[0m", file=sys.stderr, flush=True)
             humanized = humanize_post(
-                text, graph, llm,
+                final_text, graph, llm,
                 platform=platform,
                 personality_card=personality_card,
                 viral_context=viral_ctx or None,
             )["humanized"]
-            
-            # Simple quality gate
-            qr = quality_gate(humanized, graph)
-            
-            final_variants.append({
-                "id": v["id"],
-                "strategy": v["engine_name"],
-                "text": humanized,
-                "quality": qr["score"]
-            })
-            print(f"  Variant {i+1} humanized ({len(humanized)} chars, score={qr['score']})", file=sys.stderr, flush=True)
+        _emit("humanize", "completed", {"length": len(humanized)})
+    else:
+        print(f"\n\033[1m[Step 6] Humanize SKIPPED\033[0m", file=sys.stderr, flush=True)
 
-        _emit("skip_voting", "completed")
-        
-        # Select first one as 'customized' for backward compatibility
-        top_variant = final_variants[0] if final_variants else {"text": ""}
-        
-        return {
-            "original": original_text,
-            "customized": top_variant.get("text", ""),
-            "topic": topic,
-            "all_variants": final_variants,
-            "is_collection": True,
-            "quality": {"score": top_variant.get("quality", 0), "passed": top_variant.get("quality", 0) >= 80},
-            "founder_context": {"beliefs_count": len(founder_ctx.get("beliefs", [])), "personality_card_length": len(personality_card)},
-            "viral_context": {"hooks": len(viral_ctx.get("hooks", [])), "patterns": len(viral_ctx.get("patterns", []))},
-        }
-
-    # ── Step 3: Audience vote ──
-    print(f"\n\033[1m[Step 3] Audience voting on {len(variants)} variants...\033[0m", file=sys.stderr, flush=True)
-    _emit("audience_vote", "started")
-
-    audience_agents = load_audience_agents()
-
-    def vote_cb(agent_id, agent_name, votes):
-        _emit("audience_vote", "progress", {"agent_id": agent_id, "agent_name": agent_name, "votes": {k: {"score": v.get("score", 5), "feedback": v.get("feedback", "")} for k, v in votes.items()}})
-
-    vote_result = score_posts_with_audience(llm, variants, audience_agents, personality_card, event_callback=vote_cb)
-    top_ids = vote_result.get("top_ids", [v["id"] for v in variants[:2]])
-
-    _emit("audience_vote", "completed", {"top_ids": top_ids})
-
-    # ── Step 4: Refine top 2 ──
-    print(f"\n\033[1m[Step 4] Refining top {len(top_ids[:2])} variants...\033[0m", file=sys.stderr, flush=True)
-    _emit("refine", "started")
-
-    refined = []
-    feedback_for_refiner = vote_result.get("feedback_for_refiner", {})
-    for pid in top_ids[:2]:
-        post = next((v for v in variants if v["id"] == pid), None)
-        if not post:
-            continue
-        feedback = feedback_for_refiner.get(pid, {})
-        if not feedback:
-            for aid, votes in vote_result.get("agent_votes", {}).items():
-                if pid in votes:
-                    agent_name = votes[pid].get("agent_name", aid)
-                    feedback[agent_name] = votes[pid]
-        result = refine_post_with_feedback(llm, post, feedback, personality_card, platform)
-        refined.append(result)
-        _emit("refine", "progress", {"post_id": pid, "original_text": post["text"][:200], "refined_text": result["refined_text"][:200]})
-
-    _emit("refine", "completed", {"count": len(refined)})
-
-    best_refined = refined[0] if refined else {"id": variants[0]["id"], "refined_text": variants[0]["text"], "original_text": variants[0]["text"]}
-
-    # ── Step 5: Opening Line Massacre ──
-    print(f"\n\033[1m[Step 5] Opening Line Massacre...\033[0m", file=sys.stderr, flush=True)
-    _emit("opening_massacre", "started")
-
-    openings = generate_opening_lines(best_refined["refined_text"], founder_ctx, viral_ctx, llm, n=10, platform=platform)
-    _emit("opening_massacre", "generating", {"count": len(openings), "openings": [{"id": o["id"], "text": o["text"]} for o in openings]})
-
-    post_body = "\n\n".join(best_refined["refined_text"].strip().split("\n\n")[1:])
-    opening_result = score_opening_lines_with_audience(
-        llm, openings, post_body, audience_agents, personality_card,
-    )
-
-    winning_opening = opening_result["winning_line"]
-    final_text = apply_winning_opening(best_refined["refined_text"], winning_opening)
-    _emit("opening_massacre", "completed", {"winning_text": winning_opening["text"]})
-
-    # ── Step 6: Humanize + Quality Gate ──
-    print(f"\n\033[1m[Step 6] Humanizing + Quality Gate...\033[0m", file=sys.stderr, flush=True)
-    _emit("humanize", "started")
-
-    humanized = humanize_post(
-        final_text, graph, llm,
-        platform=platform,
-        personality_card=personality_card,
-        viral_context=viral_ctx or None,
-    )["humanized"]
-
-    _emit("humanize", "completed", {"length": len(humanized)})
-
-    qr = quality_gate(humanized, graph)
-    _emit("quality_gate", "completed", {"score": qr["score"], "passed": qr["passed"]})
+    # ── Step 7: Quality Gate ──
+    if pipeline.quality_gate.enabled:
+        qr = quality_gate(humanized, graph)
+        _emit("quality_gate", "completed", {"score": qr["score"], "passed": qr["passed"]})
+    else:
+        qr = {"score": 0, "passed": False}
 
     print(f"\n\033[32m[CustomizerPipeline] Done: {len(original_text)} → {len(humanized)} chars, quality={qr['score']}%\033[0m", file=sys.stderr, flush=True)
+
+    # When humanize ran per-variant (skip-voting mode), expose the humanized collection
+    if humanized_variants:
+        all_variants_out = humanized_variants
+        is_collection = True
+    else:
+        all_variants_out = [{"id": v["id"], "engine_name": v["engine_name"], "text": v["text"][:300]} for v in variants]
+        is_collection = False
 
     return {
         "original": original_text,
         "customized": humanized,
         "topic": topic,
-        "all_variants": [{"id": v["id"], "engine_name": v["engine_name"], "text": v["text"][:300]} for v in variants],
+        "all_variants": all_variants_out,
+        "is_collection": is_collection,
         "audience_votes": {k: {pk: {"score": pv.get("score", 5), "feedback": pv.get("feedback", "")} for pk, pv in v.items()} for k, v in vote_result.get("agent_votes", {}).items()},
         "aggregated_scores": vote_result.get("aggregated", {}),
         "top_ids": top_ids,
         "refined_posts": [{"id": r["id"], "original_text": r["original_text"][:200], "refined_text": r["refined_text"][:200]} for r in refined],
         "opening_lines": [{"id": o["id"], "text": o["text"]} for o in openings],
-        "winning_opening": {"text": winning_opening["text"]},
+        "winning_opening": {"text": winning_opening.get("text", "")},
         "quality": {"score": qr["score"], "passed": qr["passed"]},
         "sections": {},
         "founder_context": {"beliefs_count": len(founder_ctx.get("beliefs", [])), "personality_card_length": len(personality_card)},
         "viral_context": {"hooks": len(viral_ctx.get("hooks", [])), "patterns": len(viral_ctx.get("patterns", []))},
         "traceability": founder_ctx.get("traceability", {}),
+        "pipeline_expected_calls": expected_calls,
     }
 
 # ── API Feature Endpoints ───────────────────────────────────────────────────
@@ -668,13 +818,12 @@ def rewrite_section(entire_post: str, section_text: str, command: str, founder_s
     result = llm.generate(prompt, temperature=0.7, max_tokens=1000).strip()
 
     # Humanize the rewritten section for voice fidelity
-    from ..langchain_agents.chains import humanize_chain
-    from ..langchain_agents.llm_adapter import create_langchain_llm
-    from ..graph.query import get_style_rules_for_platform, get_vocabulary_rules
-    lc_llm = create_langchain_llm()
-    style_rules = get_style_rules_for_platform(graph, platform)
-    vocab_rules = get_vocabulary_rules(graph)
-    result = humanize_chain(lc_llm, result, style_rules, vocab_rules, personality_card=founder_ctx.get('personality_card', ''))
+    from ..humanization.humanizer import humanize_post
+    result = humanize_post(
+        result, graph, llm,
+        platform=platform,
+        personality_card=founder_ctx.get('personality_card', ''),
+    )["humanized"]
 
     return result.strip()
 

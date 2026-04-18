@@ -90,30 +90,6 @@ def generate_post_chain(
     return response.content.strip()
 
 
-def humanize_chain(llm, post: str, style_rules: list[dict], vocabulary: dict, personality_card: str = "", viral_patterns: str = "") -> str:
-    """Humanize a post using LangChain."""
-    template = load_prompt(HUMANIZATION_PROMPTS / "humanize.txt")
-
-    rules_text = "\n".join(
-        f"- [{r.get('rule_type', '?')}] {r.get('description', '')}"
-        + (f"\n  Anti-pattern: {r['anti_pattern']}" if r.get("anti_pattern") else "")
-        for r in style_rules
-    )
-
-    prompt = fill_prompt(
-        template,
-        post=post,
-        style_rules=rules_text or "No specific style rules.",
-        phrases_used=", ".join(vocabulary.get("phrases_used", [])) or "None.",
-        phrases_never=", ".join(vocabulary.get("phrases_never", [])) or "None.",
-        personality_card=personality_card or "Not available.",
-        viral_patterns=viral_patterns or "No viral patterns available.",
-    )
-
-    response = llm.invoke([HumanMessage(content=prompt)])
-    return response.content.strip()
-
-
 def score_with_persona(llm, persona_prompt: str, scoring_instruction: str, content: str, context: str = "") -> dict:
     """Score content using an agent persona."""
     messages = [

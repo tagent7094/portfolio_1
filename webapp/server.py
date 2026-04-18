@@ -928,6 +928,27 @@ class PostSearchRequest(BaseModel):
     page: int = 1
     page_size: int = 20
 
+class StageConfigPayload(BaseModel):
+    """Per-stage configuration from the frontend PipelineBuilder."""
+    enabled: bool = True
+    n: int | None = None
+    top_k: int | None = None
+    max_tokens: int | None = None
+    thinking_budget: int | None = None
+    temperature: float | None = None
+    agent_ids: list[str] | None = None
+    strategy_ids: list[str] | None = None
+
+
+class PipelineConfigPayload(BaseModel):
+    variants: StageConfigPayload | None = None
+    audience_vote: StageConfigPayload | None = None
+    refine: StageConfigPayload | None = None
+    opening_massacre: StageConfigPayload | None = None
+    humanize: StageConfigPayload | None = None
+    quality_gate: StageConfigPayload | None = None
+
+
 class PostCustomizeRequest(BaseModel):
     text: str
     founder_slug: str
@@ -936,8 +957,47 @@ class PostCustomizeRequest(BaseModel):
     creativity_closing: float = 0.5
     creativity_tone: float = 0.5
     platform: str = "linkedin"
+    # Legacy fields (still supported when pipeline is None)
     num_variants: int = 5
     skip_voting: bool = True
+    # NEW: preferred per-stage config
+    pipeline: PipelineConfigPayload | None = None
+
+
+def _resolve_pipeline_config(data: PostCustomizeRequest):
+    """Build a PipelineConfig from the request.
+
+    Prefers `data.pipeline` when provided; falls back to the legacy
+    num_variants + skip_voting shim.
+    """
+    from src.customizer.customizer_engine import PipelineConfig, StageConfig
+
+    if not data.pipeline:
+        return PipelineConfig.from_legacy(num_variants=data.num_variants, skip_voting=data.skip_voting)
+
+    def _to_stage(payload: StageConfigPayload | None, fallback: StageConfig) -> StageConfig:
+        if payload is None:
+            return fallback
+        return StageConfig(
+            enabled=payload.enabled if payload.enabled is not None else fallback.enabled,
+            n=payload.n if payload.n is not None else fallback.n,
+            top_k=payload.top_k if payload.top_k is not None else fallback.top_k,
+            max_tokens=payload.max_tokens if payload.max_tokens is not None else fallback.max_tokens,
+            thinking_budget=payload.thinking_budget if payload.thinking_budget is not None else fallback.thinking_budget,
+            temperature=payload.temperature if payload.temperature is not None else fallback.temperature,
+            agent_ids=payload.agent_ids if payload.agent_ids is not None else fallback.agent_ids,
+            strategy_ids=payload.strategy_ids if payload.strategy_ids is not None else fallback.strategy_ids,
+        )
+
+    defaults = PipelineConfig()
+    return PipelineConfig(
+        variants=_to_stage(data.pipeline.variants, defaults.variants),
+        audience_vote=_to_stage(data.pipeline.audience_vote, defaults.audience_vote),
+        refine=_to_stage(data.pipeline.refine, defaults.refine),
+        opening_massacre=_to_stage(data.pipeline.opening_massacre, defaults.opening_massacre),
+        humanize=_to_stage(data.pipeline.humanize, defaults.humanize),
+        quality_gate=_to_stage(data.pipeline.quality_gate, defaults.quality_gate),
+    )
 
 @app.get("/api/posts/browse")
 async def browse_posts(
@@ -1014,6 +1074,91 @@ async def customize_post(data: PostCustomizeRequest):
         logger.exception("Customization failed")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/posts/customize/config/defaults")
+async def get_customize_pipeline_defaults():
+    """Return everything the PipelineBuilder UI needs to render.
+
+    - available audience agents
+    - available customization strategies
+    - available hook strategies for the opening massacre
+    - whether the current LLM provider supports thinking (for the slider)
+    - default PipelineConfig shape
+    """
+    from src.customizer.customizer_engine import (
+        CUSTOMIZATION_STRATEGIES, PipelineConfig,
+    )
+    from src.generation.audience_panel import load_audience_agents
+
+    try:
+        agents = load_audience_agents()
+        audience_agents = [
+            {
+                "id": a.get("id", ""),
+                "name": a.get("name", ""),
+                "description": (a.get("description", "") or "")[:240],
+            }
+            for a in agents
+        ]
+    except Exception:
+        audience_agents = []
+
+    strategies = [
+        {"id": s["id"], "name": s["name"]}
+        for s in CUSTOMIZATION_STRATEGIES
+    ]
+
+    # Hook strategies come from opening_line_massacre
+    try:
+        from src.generation.opening_line_massacre import HOOK_STRATEGIES
+        hook_strategies = [{"id": h.get("id", ""), "name": h.get("name", "")} for h in HOOK_STRATEGIES]
+    except Exception:
+        hook_strategies = []
+
+    # Detect whether current provider supports thinking (anthropic/nvidia)
+    try:
+        config = _load_config()
+        provider = (config.get("llm", {}) or {}).get("provider", "")
+        provider_supports_thinking = provider in ("anthropic", "nvidia")
+    except Exception:
+        provider_supports_thinking = False
+
+    defaults = PipelineConfig()
+    defaults_dict = {
+        "variants": {
+            "enabled": defaults.variants.enabled, "n": defaults.variants.n,
+            "max_tokens": defaults.variants.max_tokens, "thinking_budget": defaults.variants.thinking_budget,
+            "strategy_ids": defaults.variants.strategy_ids,
+        },
+        "audience_vote": {
+            "enabled": defaults.audience_vote.enabled, "max_tokens": defaults.audience_vote.max_tokens,
+            "thinking_budget": defaults.audience_vote.thinking_budget, "agent_ids": defaults.audience_vote.agent_ids,
+        },
+        "refine": {
+            "enabled": defaults.refine.enabled, "top_k": defaults.refine.top_k,
+            "max_tokens": defaults.refine.max_tokens, "thinking_budget": defaults.refine.thinking_budget,
+        },
+        "opening_massacre": {
+            "enabled": defaults.opening_massacre.enabled, "n": defaults.opening_massacre.n,
+            "max_tokens": defaults.opening_massacre.max_tokens,
+            "thinking_budget": defaults.opening_massacre.thinking_budget,
+            "agent_ids": defaults.opening_massacre.agent_ids,
+        },
+        "humanize": {
+            "enabled": defaults.humanize.enabled, "max_tokens": defaults.humanize.max_tokens,
+            "thinking_budget": defaults.humanize.thinking_budget,
+        },
+        "quality_gate": {"enabled": defaults.quality_gate.enabled},
+    }
+
+    return {
+        "audience_agents": audience_agents,
+        "customization_strategies": strategies,
+        "hook_strategies": hook_strategies,
+        "provider_supports_thinking": provider_supports_thinking,
+        "defaults": defaults_dict,
+    }
+
+
 @app.post("/api/posts/customize/full")
 async def customize_post_full(data: PostCustomizeRequest):
     """Full agentic pipeline: N variants → audience vote → refine → opening massacre → humanize."""
@@ -1030,12 +1175,14 @@ async def customize_post_full(data: PostCustomizeRequest):
         closing=data.creativity_closing,
         tone=data.creativity_tone,
     )
+    pipeline_cfg = _resolve_pipeline_config(data)
 
     async def run():
         try:
             result = await asyncio.to_thread(
                 customize_post_full_pipeline,
-                data.text, data.founder_slug, creativity, data.platform, event_bus, data.num_variants, data.skip_voting,
+                data.text, data.founder_slug, creativity, data.platform, event_bus,
+                data.num_variants, data.skip_voting, pipeline_cfg,
             )
             # Save output
             if result.get("customized"):
