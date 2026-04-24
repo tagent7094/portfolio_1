@@ -6,13 +6,97 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ── Job 1: Auto-register new founders in git ──────────────────────────────
+  # Always runs on every push to main, regardless of DEPLOY_ENABLED.
+  # Scans data/founders/*/founder-data/ and adds any missing slugs to
+  # config/founder-permissions.yaml, then commits + pushes back to main.
+  register:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      # "true" if we pushed a new commit (so deploy job checks out the latest)
+      pushed: ${{ steps.commit.outputs.pushed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Use GITHUB_TOKEN so we can push back
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pyyaml
+        run: pip install pyyaml
+
+      - name: Auto-register new founders in founder-permissions.yaml
+        id: register
+        run: |
+          python - <<'PYEOF'
+          import os, yaml
+          from pathlib import Path
+
+          FOUNDERS_DIR = Path("data/founders")
+          PERMS_FILE = Path("config/founder-permissions.yaml")
+
+          with open(PERMS_FILE) as f:
+              perms = yaml.safe_load(f) or {}
+
+          perms.setdefault("defaults", {"pages": ["graph"]})
+          perms.setdefault("founders", {})
+          perms.setdefault("admin", {"password_hash": ""})
+
+          changed = False
+          for folder in sorted(FOUNDERS_DIR.iterdir()):
+              if not folder.is_dir():
+                  continue
+              if not (folder / "founder-data").is_dir():
+                  continue
+              slug = folder.name.lower().replace(" ", "_").replace("-", "_")
+              if slug not in perms["founders"]:
+                  perms["founders"][slug] = {"pages": list(perms["defaults"]["pages"])}
+                  changed = True
+                  print(f"Registered new founder: {slug}")
+
+          if changed:
+              with open(PERMS_FILE, "w") as f:
+                  yaml.safe_dump(perms, f, sort_keys=False, default_flow_style=False)
+              print("Updated founder-permissions.yaml")
+          else:
+              print("No new founders — nothing to commit")
+
+          # Write result for next step
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"changed={'true' if changed else 'false'}\n")
+          PYEOF
+
+      - name: Commit and push updated founder-permissions.yaml
+        id: commit
+        if: steps.register.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add config/founder-permissions.yaml
+          git commit -m "chore: auto-register new founders [skip ci]"
+          git push origin main
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+  # ── Job 2: Build + deploy to VPS ─────────────────────────────────────────
+  # Only runs when DEPLOY_ENABLED == 'true'.
   deploy:
     runs-on: ubuntu-latest
-    # Only run when the required secrets exist (safe no-op until configured)
+    needs: register
     if: ${{ vars.DEPLOY_ENABLED == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # If the register job pushed a new commit, make sure we get it
+          ref: main
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -34,12 +118,16 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key:      ${{ secrets.VPS_SSH_KEY }}
           script: |
-            set -euo pipefail
+            set -eo pipefail
+            echo "=== [deploy] Pulling latest code ==="
             cd /opt/tagent
             sudo -u tagent git fetch origin main
             sudo -u tagent git reset --hard origin/main
+            echo "=== [deploy] Installing Python package ==="
             sudo -u tagent /opt/tagent/venv/bin/pip install -e . --quiet
+            echo "=== [deploy] Restarting tagent service ==="
             sudo systemctl restart tagent
+            echo "=== [deploy] Backend deploy complete ==="
 
       - name: Upload frontend build
         uses: appleboy/scp-action@v0.1.7
@@ -59,6 +147,8 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key:      ${{ secrets.VPS_SSH_KEY }}
           script: |
-            set -euo pipefail
+            set -eo pipefail
+            echo "=== [provision] Starting provision script ==="
             chmod +x /opt/tagent/deploy/provision.sh
             sudo /opt/tagent/deploy/provision.sh
+            echo "=== [provision] Provision script complete ==="

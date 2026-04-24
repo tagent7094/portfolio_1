@@ -14,7 +14,7 @@
 # Password minting is NOT done here — the admin sets passwords via
 # /admin → Reset Password button (which reveals the plaintext once).
 
-set -euo pipefail
+set -eo pipefail
 
 APP_DIR=/opt/tagent
 APP_USER=tagent
@@ -91,6 +91,14 @@ print(json.dumps(new_slugs))
 PY
 )
 
+echo "[provision] Python registration script output: $NEW_SLUGS"
+
+# Guard: if the Python script failed or returned nothing, treat as empty list
+if [ -z "$NEW_SLUGS" ]; then
+    echo "[provision] WARNING: NEW_SLUGS is empty (Python script may have failed). Defaulting to []."
+    NEW_SLUGS="[]"
+fi
+
 echo "[provision] New slugs: $NEW_SLUGS"
 
 # Collect ALL known subdomains for the cert — always expand idempotently
@@ -113,21 +121,25 @@ PY
 echo "[provision] Subdomains for cert: $ALL_SUBDOMAINS"
 
 # Expand cert (idempotent — certbot is a no-op when nothing new needs adding)
+echo "[provision] Running certbot expand..."
 certbot certonly --webroot -w /var/www/certbot \
     --non-interactive --agree-tos --no-eff-email \
     -m "$CERT_EMAIL" \
     --cert-name tagent.club \
     --expand \
     -d "$DOMAIN_APEX" \
-    $ALL_SUBDOMAINS 2>&1 | tail -5 || {
-        echo "[provision] certbot failed — continuing without cert expansion"
+    $ALL_SUBDOMAINS 2>&1 | tail -10 || {
+        echo "[provision] WARNING: certbot failed — continuing without cert expansion"
     }
 
 # Reload nginx, restart tagent
-sudo systemctl reload nginx
-sudo systemctl restart tagent
+echo "[provision] Reloading nginx..."
+sudo systemctl reload nginx && echo "[provision] nginx reloaded OK" || echo "[provision] WARNING: nginx reload failed"
 
-if [ "$NEW_SLUGS" != "[]" ]; then
+echo "[provision] Restarting tagent service..."
+sudo systemctl restart tagent && echo "[provision] tagent restarted OK" || echo "[provision] WARNING: tagent restart failed"
+
+if [ "$NEW_SLUGS" != "[]" ] && [ "$NEW_SLUGS" != "" ]; then
     echo ""
     echo "=== [provision] Registered new founders: $NEW_SLUGS ==="
     echo "=== Go to https://tagent.club/admin and click 'Reset Password' on each row to mint credentials. ==="

@@ -226,6 +226,27 @@ def _subdomain_for(slug: str) -> str:
     return slug.replace("_", "-")
 
 
+def _scan_founder_dirs() -> set[str]:
+    """Scan data/founders/*/founder-data/ on disk and return slugs found.
+
+    This is a 4th source of truth: any folder that exists on disk appears in
+    the admin panel even if provision.sh hasn't updated llm-config.yaml yet.
+    """
+    from pathlib import Path
+    founders_dir = Path(__file__).parent.parent / "data" / "founders"
+    slugs: set[str] = set()
+    if not founders_dir.is_dir():
+        return slugs
+    for folder in founders_dir.iterdir():
+        if not folder.is_dir():
+            continue
+        if not (folder / "founder-data").is_dir():
+            continue
+        slug = folder.name.lower().replace(" ", "_").replace("-", "_")
+        slugs.add(slug)
+    return slugs
+
+
 @admin_router.get("/founders")
 async def admin_list_founders(request: Request):
     """Return full profile data for every founder the server knows about.
@@ -234,6 +255,8 @@ async def admin_list_founders(request: Request):
       - config/llm-config.yaml (registry: display_name, paths)
       - config/founder-auth.yaml (has_password, last_reset_at)
       - config/founder-permissions.yaml (allowed pages)
+      - data/founders/*/founder-data/ on disk (catches newly pushed folders
+        before provision.sh has run on the VPS)
     """
     _require_admin(request)
     import yaml
@@ -250,10 +273,11 @@ async def admin_list_founders(request: Request):
     registry = config.get("founders", {}).get("registry", {}) or {}
     perms = get_all_permissions()
 
-    # Union of slugs known from all three sources
+    # Union of slugs from all four sources
     from src.auth.store import list_slugs
     auth_slugs = set(list_slugs())
-    all_slugs = sorted(set(registry.keys()) | auth_slugs | set(perms.keys()))
+    disk_slugs = _scan_founder_dirs()
+    all_slugs = sorted(set(registry.keys()) | auth_slugs | set(perms.keys()) | disk_slugs)
 
     profiles = []
     for slug in all_slugs:
