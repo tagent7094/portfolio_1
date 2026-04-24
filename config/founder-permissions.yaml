@@ -31,6 +31,9 @@ founders:
   anish_popli:
     pages:
       - graph
+  purva:
+    pages:
+      - graph
 
 admin:
   password_hash: ""
