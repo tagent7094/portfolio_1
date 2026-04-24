@@ -115,25 +115,25 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host:     ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
+          username: root
           key:      ${{ secrets.VPS_SSH_KEY }}
           script: |
             set -eo pipefail
             echo "=== [deploy] Pulling latest code ==="
             cd /opt/tagent
+            git config --global --add safe.directory /opt/tagent || true
             sudo -u tagent git fetch origin main
             sudo -u tagent git reset --hard origin/main
-            echo "=== [deploy] Installing Python package ==="
-            sudo -u tagent /opt/tagent/venv/bin/pip install -e . --quiet
+            chown -R tagent:tagent /opt/tagent/config/founder-permissions.yaml || true
             echo "=== [deploy] Restarting tagent service ==="
-            sudo systemctl restart tagent
+            systemctl restart tagent
             echo "=== [deploy] Backend deploy complete ==="
 
       - name: Upload frontend build
         uses: appleboy/scp-action@v0.1.7
         with:
           host:     ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
+          username: root
           key:      ${{ secrets.VPS_SSH_KEY }}
           source:   "webapp-react/dist/*"
           target:   "/opt/tagent/webapp-react/dist/"
@@ -144,11 +144,11 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host:     ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
+          username: root
           key:      ${{ secrets.VPS_SSH_KEY }}
           script: |
             set -eo pipefail
             echo "=== [provision] Starting provision script ==="
             chmod +x /opt/tagent/deploy/provision.sh
-            sudo /opt/tagent/deploy/provision.sh
+            bash /opt/tagent/deploy/provision.sh
             echo "=== [provision] Provision script complete ==="
