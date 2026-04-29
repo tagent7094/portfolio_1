@@ -12,8 +12,14 @@ import WorkflowPage from './pages/WorkflowPage'
 import HistoryPage from './pages/HistoryPage'
 import ConfigPage from './pages/ConfigPage'
 import CustomizePage from './pages/CustomizePage'
+import LandingPage from './pages/LandingPage'
+import { isApexDomain } from './utils/subdomain'
 
 export default function App() {
+  if (isApexDomain()) {
+    return <LandingPage />
+  }
+
   return (
     <Routes>
       {/* Public routes */}

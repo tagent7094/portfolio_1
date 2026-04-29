@@ -1,4 +1,14 @@
 /**
+ * True only on the bare apex domain (tagent.club / www.tagent.club).
+ * Used to render the company landing page instead of the app.
+ */
+export function isApexDomain(): boolean {
+  if (typeof window === 'undefined') return false
+  const host = window.location.hostname
+  return host === 'tagent.club' || host === 'www.tagent.club'
+}
+
+/**
  * Resolve the founder slug from the current hostname.
  *
  * Returns:
