@@ -50,6 +50,10 @@ from webapp.auth_routes import router as auth_router, admin_router
 app.include_router(auth_router)
 app.include_router(admin_router)
 
+# Deploy webhook (used by GitHub Actions — no SSH key required)
+from webapp.deploy_routes import router as deploy_router
+app.include_router(deploy_router)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
