@@ -7,21 +7,16 @@ on:
 
 jobs:
   # ── Job 1: Auto-register new founders in git ──────────────────────────────
-  # Always runs on every push to main, regardless of DEPLOY_ENABLED.
-  # Scans data/founders/*/founder-data/ and adds any missing slugs to
-  # config/founder-permissions.yaml, then commits + pushes back to main.
   register:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     outputs:
-      # "true" if we pushed a new commit (so deploy job checks out the latest)
       pushed: ${{ steps.commit.outputs.pushed }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Use GITHUB_TOKEN so we can push back
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
@@ -69,7 +64,6 @@ jobs:
           else:
               print("No new founders — nothing to commit")
 
-          # Write result for next step
           with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
               fh.write(f"changed={'true' if changed else 'false'}\n")
           PYEOF
@@ -86,7 +80,6 @@ jobs:
           echo "pushed=true" >> "$GITHUB_OUTPUT"
 
   # ── Job 2: Build + deploy to VPS ─────────────────────────────────────────
-  # Only runs when DEPLOY_ENABLED == 'true'.
   deploy:
     runs-on: ubuntu-latest
     needs: register
@@ -95,7 +88,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # If the register job pushed a new commit, make sure we get it
           ref: main
 
       - name: Setup Node
@@ -111,13 +103,15 @@ jobs:
           npm ci
           npm run build
 
+      # Decode the base64 key once; reuse the path in all SSH/SCP steps
+      - name: Write SSH deploy key
+        run: |
+          echo "${{ secrets.VPS_SSH_KEY }}" | base64 -d > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
       - name: Deploy backend via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host:     ${{ secrets.VPS_HOST }}
-          username: root
-          key:      ${{ secrets.VPS_SSH_KEY }}
-          script: |
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key root@${{ secrets.VPS_HOST }} bash <<'ENDSSH'
             set -eo pipefail
             echo "=== [deploy] Pulling latest code ==="
             cd /opt/tagent
@@ -128,27 +122,25 @@ jobs:
             echo "=== [deploy] Restarting tagent service ==="
             systemctl restart tagent
             echo "=== [deploy] Backend deploy complete ==="
+          ENDSSH
 
       - name: Upload frontend build
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host:     ${{ secrets.VPS_HOST }}
-          username: root
-          key:      ${{ secrets.VPS_SSH_KEY }}
-          source:   "webapp-react/dist/*"
-          target:   "/opt/tagent/webapp-react/dist/"
-          rm:       true
-          strip_components: 2
+        run: |
+          rsync -az --delete \
+            -e "ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key" \
+            webapp-react/dist/ \
+            root@${{ secrets.VPS_HOST }}:/opt/tagent/webapp-react/dist/
 
       - name: Auto-provision new founders (register, expand cert, reload)
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host:     ${{ secrets.VPS_HOST }}
-          username: root
-          key:      ${{ secrets.VPS_SSH_KEY }}
-          script: |
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key root@${{ secrets.VPS_HOST }} bash <<'ENDSSH'
             set -eo pipefail
             echo "=== [provision] Starting provision script ==="
             chmod +x /opt/tagent/deploy/provision.sh
             bash /opt/tagent/deploy/provision.sh
             echo "=== [provision] Provision script complete ==="
+          ENDSSH
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f /tmp/deploy_key
