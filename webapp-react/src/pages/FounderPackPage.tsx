@@ -305,34 +305,59 @@ function SourceGroup({
             const rec = String(post['Recommended'] ?? '')
             const type = String(post['Type'] ?? '')
             const finalPost = post['Finalized Post'] || post['Final Post'] || ''
+            const variants = getVariants(post, headers)
             return (
               <div
                 key={idx}
                 onClick={() => onSelectPost(post)}
-                className="flex items-start gap-4 px-5 py-3.5 hover:bg-white/[0.03] cursor-pointer transition-colors"
+                className="px-5 py-4 hover:bg-white/[0.03] cursor-pointer transition-colors"
               >
-                {/* Type + rec */}
-                <div className="flex shrink-0 items-center gap-2 pt-0.5">
+                {/* Top row: type + rec + status */}
+                <div className="flex items-center gap-2 mb-2.5 flex-wrap">
+                  <span className="font-mono text-[10px] text-white/20">#{post['Row #']}</span>
                   <TypeBadge type={type} />
                   <RecBadge v={rec} size="sm" />
+                  {statCols.map((col) => post[col] ? (
+                    <StatusPill key={col} value={String(post[col])} />
+                  ) : null)}
                 </div>
 
-                {/* Post preview */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-white/70 leading-snug line-clamp-2">
-                    {truncate(finalPost, 180)}
-                  </p>
-                  {/* Status pills */}
-                  {statCols.some((col) => post[col]) && (
-                    <div className="mt-1.5 flex flex-wrap gap-1">
-                      {statCols.map((col) => post[col] ? (
-                        <StatusPill key={col} value={String(post[col])} />
-                      ) : null)}
-                    </div>
-                  )}
-                </div>
+                {/* Final post preview */}
+                <p className="text-sm text-white/60 leading-snug line-clamp-2 mb-3">
+                  {truncate(finalPost, 200)}
+                </p>
 
-                <ChevronRight size={13} className="shrink-0 mt-1 text-white/15" />
+                {/* Variant openings */}
+                {variants.length > 0 && (
+                  <div className="space-y-1.5">
+                    {variants.map(({ letter, opening, type: vtype, lift }) => {
+                      const isRec = rec === letter
+                      return (
+                        <div key={letter} className={clsx(
+                          'flex items-start gap-2 rounded-lg px-2.5 py-1.5',
+                          isRec ? 'bg-white/[0.07]' : 'bg-white/[0.02]',
+                        )}>
+                          <span className={clsx(
+                            'flex h-4.5 w-4.5 shrink-0 mt-0.5 items-center justify-center rounded-full text-[9px] font-bold',
+                            isRec ? 'bg-white text-black' : 'bg-white/10 text-white/40',
+                          )}>
+                            {letter}
+                          </span>
+                          <p className={clsx(
+                            'flex-1 text-xs leading-snug line-clamp-2',
+                            isRec ? 'text-white/80' : 'text-white/45',
+                          )}>
+                            {opening}
+                          </p>
+                          <div className="shrink-0 flex items-center gap-1.5 pt-0.5">
+                            {vtype && <span className="text-[9px] text-white/20 hidden sm:block">{vtype}</span>}
+                            {lift > 0 && <LiftDots score={lift} />}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             )
           })}
