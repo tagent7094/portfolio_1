@@ -18,7 +18,7 @@ import { isApexDomain } from './utils/subdomain'
 
 export default function App() {
   // Show the company landing page at tagent.club only for non-admin paths
-  if (isApexDomain() && !window.location.pathname.startsWith('/admin')) {
+  if (isApexDomain() && window.location.pathname === '/') {
     return <LandingPage />
   }
 

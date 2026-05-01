@@ -1,240 +1,348 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
-  ArrowLeft, FileSpreadsheet, Calendar, ChevronDown,
+  ArrowLeft, FileSpreadsheet, Calendar, ChevronDown, ChevronRight,
   Loader2, X, BookOpen, Lightbulb, Quote, CheckCircle2,
 } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet } from '../api/client'
 
-interface Pack {
-  filename: string
-  date: string
-  size_kb: number
-}
+// ── Types ────────────────────────────────────────────────────────────────────
 
-interface PostRow {
-  'Row #': number
-  'File': string
-  'Source #': number
-  'Type': string
-  'Source Quote': string
-  'Mechanic': string
-  'Final Post': string
-  'Status (Editor)': string
-  'Status (Feedback)': string
-  'Post Topic (derived from body)': string
-  'Domain': string
-  'Current Score (pts)': number
-  'Buried Gold (from this post\'s paras 2-4)': string
-  'Weakness': string
-  'A - Opening': string
-  'A - Rewrite Type': string
-  'A - Key Change': string
-  'A - Expected Lift': number
-  'B - Opening': string
-  'B - Rewrite Type': string
-  'B - Key Change': string
-  'B - Expected Lift': number
-  'C - Opening': string
-  'C - Rewrite Type': string
-  'C - Key Change': string
-  'C - Expected Lift': number
-  'D - Opening': string
-  'D - Rewrite Type': string
-  'D - Key Change': string
-  'D - Expected Lift': number
-  'E - Opening': string
-  'E - Rewrite Type': string
-  'E - Key Change': string
-  'Finalized Post': string
-  'Recommended': string
-  'Why': string
-  [key: string]: any
-}
+interface Pack { filename: string; date: string; size_kb: number }
 
 interface PackData {
   readme: Record<string, string>
   headers: string[]
-  posts: PostRow[]
+  posts: Record<string, any>[]
 }
 
-const VARIANTS = ['A', 'B', 'C', 'D', 'E'] as const
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
-function truncate(text: string, max = 120): string {
-  if (!text) return ''
-  const s = String(text)
+function truncate(text: any, max = 130): string {
+  const s = String(text ?? '')
   return s.length > max ? s.slice(0, max) + '…' : s
 }
 
-function RecommendedBadge({ variant }: { variant: string }) {
-  if (!variant) return <span className="text-white/20 text-xs">—</span>
+/** Find the first header that starts with a given prefix */
+function findCol(headers: string[], prefix: string): string {
+  return headers.find((h) => h.startsWith(prefix)) ?? prefix
+}
+
+/** All "Status (*)" columns in order */
+function statusCols(headers: string[]): string[] {
+  return headers.filter((h) => h.startsWith('Status'))
+}
+
+// Variant letters present in this sheet
+const VARIANT_LETTERS = ['A', 'B', 'C', 'D', 'E'] as const
+
+/** Build variant data from a post row given the actual column names */
+function getVariants(post: Record<string, any>, headers: string[]) {
+  return VARIANT_LETTERS.map((v) => {
+    const opening = post[`${v}, Opening`] ?? post[`${v} - Opening`] ?? ''
+    const type    = post[`${v}, Rewrite Type`] ?? post[`${v} - Rewrite Type`] ?? ''
+    const change  = post[`${v}, Key Change`] ?? post[`${v} - Key Change`] ?? ''
+    const lift    = post[`${v}, Expected Lift`] ?? post[`${v} - Expected Lift`] ?? ''
+    return { letter: v, opening: String(opening), type: String(type), change: String(change), lift: Number(lift) || 0 }
+  }).filter((v) => v.opening)
+}
+
+// ── Small components ─────────────────────────────────────────────────────────
+
+function RecBadge({ v, size = 'md' }: { v: string; size?: 'sm' | 'md' }) {
+  if (!v) return <span className="text-white/20 text-xs">—</span>
   return (
-    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-[11px] font-bold text-black">
-      {variant}
+    <span className={clsx(
+      'inline-flex items-center justify-center rounded-full font-bold bg-white text-black',
+      size === 'sm' ? 'h-5 w-5 text-[10px]' : 'h-6 w-6 text-xs',
+    )}>
+      {v}
     </span>
   )
 }
 
-function ScoreDots({ score }: { score: number }) {
+function TypeBadge({ type }: { type: string }) {
+  const isBatch = type?.startsWith('B')
   return (
-    <span className="inline-flex gap-0.5">
+    <span className={clsx(
+      'inline-flex h-6 min-w-[2rem] items-center justify-center rounded font-mono text-[11px] font-semibold px-1.5',
+      isBatch ? 'bg-white/[0.06] text-white/50' : 'bg-white/[0.1] text-white/70',
+    )}>
+      {type}
+    </span>
+  )
+}
+
+function LiftDots({ score }: { score: number }) {
+  return (
+    <span className="inline-flex gap-0.5 items-center">
       {[1, 2, 3, 4, 5].map((i) => (
-        <span
-          key={i}
-          className={clsx(
-            'h-1.5 w-1.5 rounded-full',
-            i <= score ? 'bg-white' : 'bg-white/15',
-          )}
-        />
+        <span key={i} className={clsx('h-1.5 w-1.5 rounded-full', i <= score ? 'bg-white/70' : 'bg-white/10')} />
       ))}
     </span>
   )
 }
 
-function PostModal({ post, onClose }: { post: PostRow; onClose: () => void }) {
-  const rec = post['Recommended'] || ''
+function StatusPill({ value }: { value: string }) {
+  if (!value) return null
+  return (
+    <span className="rounded px-1.5 py-0.5 text-[10px] bg-white/[0.05] text-white/40 border border-white/[0.07]">
+      {value}
+    </span>
+  )
+}
+
+// ── Detail panel ─────────────────────────────────────────────────────────────
+
+function DetailPanel({
+  post,
+  headers,
+  onClose,
+}: {
+  post: Record<string, any>
+  headers: string[]
+  onClose: () => void
+}) {
+  const rec      = String(post['Recommended'] ?? '')
+  const variants = getVariants(post, headers)
+  const statCols = statusCols(headers)
+  const finalPost = post['Finalized Post'] || post['Final Post'] || ''
+  const whyText   = post['Why'] ?? ''
+  const sourceQ   = post['Source Quote'] ?? ''
+  const mechanic  = post['Mechanic'] ?? ''
+  const buried    = post["Buried Gold (from this post's paras 2-4)"] ?? ''
+  const weakness  = post['Weakness'] ?? ''
+  const topic     = post['Post Topic (derived from body)'] ?? ''
+  const domain    = post['Domain'] ?? ''
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-end bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-end bg-black/70 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="relative h-screen w-full max-w-2xl overflow-y-auto bg-[#0a0a0a] border-l border-white/10 animate-slide-in-right"
+        className="relative flex h-screen w-full max-w-2xl flex-col bg-[#0a0a0a] border-l border-white/10 animate-slide-in-right"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Panel header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#0a0a0a]/95 backdrop-blur px-6 py-4">
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-xs text-white/40">#{post['Row #']}</span>
-            <span className="rounded bg-white/10 px-2 py-0.5 font-mono text-xs text-white/70">
-              {post['Type']}
-            </span>
+        {/* Header */}
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-6 py-4">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span className="font-mono text-xs text-white/30">#{post['Row #']}</span>
+            <TypeBadge type={String(post['Type'] ?? '')} />
             {rec && (
-              <span className="flex items-center gap-1 rounded bg-white px-2 py-0.5 text-[11px] font-bold text-black">
-                <CheckCircle2 size={11} /> Rec: {rec}
+              <span className="flex items-center gap-1 rounded-full bg-white px-2.5 py-0.5 text-[11px] font-bold text-black">
+                <CheckCircle2 size={10} /> Rec: {rec}
               </span>
             )}
+            {statCols.map((col) => post[col] ? (
+              <StatusPill key={col} value={String(post[col])} />
+            ) : null)}
           </div>
-          <button onClick={onClose} className="text-white/40 hover:text-white">
+          <button onClick={onClose} className="shrink-0 text-white/30 hover:text-white transition-colors">
             <X size={18} />
           </button>
         </div>
 
-        <div className="space-y-6 p-6">
-          {/* Final post */}
-          <section>
-            <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-white/40">
-              <BookOpen size={12} /> Final Post
-            </div>
-            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm text-white/90 leading-relaxed whitespace-pre-wrap">
-              {post['Final Post'] || '—'}
-            </div>
-          </section>
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="space-y-5 p-6">
 
-          {/* Why recommended */}
-          {post['Why'] && (
+            {/* Final / Finalized post */}
             <section>
-              <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-white/40">
-                <Lightbulb size={12} /> Why this variant
+              <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                <BookOpen size={11} />
+                {finalPost !== post['Final Post'] && finalPost ? 'Finalized post (rewritten opening)' : 'Final post'}
               </div>
-              <p className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm text-white/70 leading-relaxed">
-                {post['Why']}
-              </p>
+              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm text-white/90 leading-[1.75] whitespace-pre-wrap">
+                {finalPost || '—'}
+              </div>
             </section>
-          )}
 
-          {/* Source quote */}
-          {post['Source Quote'] && (
-            <section>
-              <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-white/40">
-                <Quote size={12} /> Source
-              </div>
-              <blockquote className="rounded-xl border-l-2 border-white/20 bg-white/[0.02] pl-4 pr-4 py-3 text-xs text-white/50 leading-relaxed italic">
-                {post['Source Quote']}
-              </blockquote>
-              {post['Mechanic'] && (
-                <p className="mt-2 text-[11px] text-white/30">
-                  Mechanic: {post['Mechanic']}
+            {/* Why */}
+            {whyText && (
+              <section>
+                <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                  <Lightbulb size={11} /> Why this variant wins
+                </div>
+                <p className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm text-white/65 leading-relaxed">
+                  {whyText}
                 </p>
+              </section>
+            )}
+
+            {/* Opening variants */}
+            {variants.length > 0 && (
+              <section>
+                <div className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                  Opening variants
+                </div>
+                <div className="space-y-2">
+                  {variants.map(({ letter, opening, type, change, lift }) => {
+                    const isRec = rec === letter
+                    return (
+                      <div key={letter} className={clsx(
+                        'rounded-xl border p-3.5',
+                        isRec ? 'border-white/25 bg-white/[0.05]' : 'border-white/[0.07] bg-white/[0.02]',
+                      )}>
+                        <div className="mb-2 flex items-start gap-2">
+                          <span className={clsx(
+                            'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold',
+                            isRec ? 'bg-white text-black' : 'bg-white/10 text-white/50',
+                          )}>
+                            {letter}
+                          </span>
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 flex-1 min-w-0">
+                            {type && <span className="text-[10px] text-white/35 shrink-0">{type}</span>}
+                            {lift > 0 && <LiftDots score={lift} />}
+                          </div>
+                        </div>
+                        <p className={clsx('text-sm leading-snug pl-7', isRec ? 'text-white/85' : 'text-white/65')}>
+                          {opening}
+                        </p>
+                        {change && (
+                          <p className="mt-1.5 pl-7 text-[11px] text-white/30 italic">{change}</p>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </section>
+            )}
+
+            {/* Source */}
+            {sourceQ && (
+              <section>
+                <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                  <Quote size={11} /> Source
+                </div>
+                <blockquote className="rounded-xl border-l-2 border-white/15 bg-white/[0.02] py-3 pl-4 pr-4 text-xs text-white/45 leading-relaxed italic">
+                  {sourceQ}
+                </blockquote>
+                {mechanic && (
+                  <p className="mt-2 text-[10px] text-white/25">Mechanic: {mechanic}</p>
+                )}
+              </section>
+            )}
+
+            {/* Meta grid */}
+            <section className="grid grid-cols-2 gap-2 text-xs">
+              {topic && (
+                <div className="rounded-lg border border-white/[0.07] bg-white/[0.02] p-3">
+                  <div className="mb-1 text-[9px] uppercase tracking-widest text-white/25">Topic</div>
+                  <div className="text-white/65 leading-snug">{topic}</div>
+                </div>
+              )}
+              {domain && (
+                <div className="rounded-lg border border-white/[0.07] bg-white/[0.02] p-3">
+                  <div className="mb-1 text-[9px] uppercase tracking-widest text-white/25">Domain</div>
+                  <div className="text-white/65">{domain}</div>
+                </div>
+              )}
+              {buried && (
+                <div className="col-span-2 rounded-lg border border-white/[0.07] bg-white/[0.02] p-3">
+                  <div className="mb-1 text-[9px] uppercase tracking-widest text-white/25">Buried gold</div>
+                  <div className="text-white/55 italic leading-snug">{buried}</div>
+                </div>
+              )}
+              {weakness && (
+                <div className="col-span-2 rounded-lg border border-white/[0.07] bg-white/[0.02] p-3">
+                  <div className="mb-1 text-[9px] uppercase tracking-widest text-white/25">Weakness</div>
+                  <div className="text-white/45 leading-snug">{weakness}</div>
+                </div>
               )}
             </section>
-          )}
-
-          {/* Opening variants */}
-          <section>
-            <div className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-white/40">
-              Opening variants
-            </div>
-            <div className="space-y-2">
-              {VARIANTS.map((v) => {
-                const opening = post[`${v} - Opening`]
-                const rewriteType = post[`${v} - Rewrite Type`]
-                const lift = post[`${v} - Expected Lift`]
-                if (!opening) return null
-                const isRec = rec === v
-                return (
-                  <div
-                    key={v}
-                    className={clsx(
-                      'rounded-lg border p-3 text-sm',
-                      isRec
-                        ? 'border-white/30 bg-white/[0.06]'
-                        : 'border-white/8 bg-white/[0.02]',
-                    )}
-                  >
-                    <div className="mb-1.5 flex items-center gap-2">
-                      <span
-                        className={clsx(
-                          'inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-bold',
-                          isRec ? 'bg-white text-black' : 'bg-white/10 text-white/60',
-                        )}
-                      >
-                        {v}
-                      </span>
-                      {rewriteType && (
-                        <span className="text-[10px] text-white/30">{rewriteType}</span>
-                      )}
-                      {lift !== undefined && lift !== '' && (
-                        <span className="ml-auto">
-                          <ScoreDots score={Number(lift)} />
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-white/80 leading-snug">{opening}</p>
-                  </div>
-                )
-              })}
-            </div>
-          </section>
-
-          {/* Meta */}
-          <section className="grid grid-cols-2 gap-3 text-xs">
-            {post['Post Topic (derived from body)'] && (
-              <div className="rounded-lg border border-white/8 bg-white/[0.02] p-3">
-                <div className="mb-1 text-[10px] uppercase tracking-wider text-white/30">Topic</div>
-                <div className="text-white/70">{post['Post Topic (derived from body)']}</div>
-              </div>
-            )}
-            {post['Domain'] && (
-              <div className="rounded-lg border border-white/8 bg-white/[0.02] p-3">
-                <div className="mb-1 text-[10px] uppercase tracking-wider text-white/30">Domain</div>
-                <div className="text-white/70">{post['Domain']}</div>
-              </div>
-            )}
-            {post['Weakness'] && (
-              <div className="col-span-2 rounded-lg border border-white/8 bg-white/[0.02] p-3">
-                <div className="mb-1 text-[10px] uppercase tracking-wider text-white/30">Weakness</div>
-                <div className="text-white/60">{post['Weakness']}</div>
-              </div>
-            )}
-          </section>
+          </div>
         </div>
       </div>
     </div>
   )
 }
+
+// ── Source group row ──────────────────────────────────────────────────────────
+
+function SourceGroup({
+  sourceNum,
+  posts,
+  headers,
+  defaultOpen,
+  onSelectPost,
+}: {
+  sourceNum: number
+  posts: Record<string, any>[]
+  headers: string[]
+  defaultOpen: boolean
+  onSelectPost: (p: Record<string, any>) => void
+}) {
+  const [open, setOpen] = useState(defaultOpen)
+  const firstPost = posts[0]
+  const sourceQ = String(firstPost?.['Source Quote'] ?? '')
+  const statCols = statusCols(headers)
+
+  return (
+    <div className="rounded-2xl border border-white/[0.08] overflow-hidden">
+      {/* Source header */}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center gap-4 px-5 py-4 bg-white/[0.02] hover:bg-white/[0.04] transition-colors text-left"
+      >
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/15 font-mono text-xs text-white/50">
+          {sourceNum}
+        </span>
+        <span className="flex-1 text-sm text-white/60 line-clamp-1 min-w-0">
+          {truncate(sourceQ, 110)}
+        </span>
+        <span className="shrink-0 text-xs text-white/25">{posts.length} posts</span>
+        {open
+          ? <ChevronDown size={14} className="shrink-0 text-white/30" />
+          : <ChevronRight size={14} className="shrink-0 text-white/30" />}
+      </button>
+
+      {/* Post rows */}
+      {open && (
+        <div className="divide-y divide-white/[0.05]">
+          {posts.map((post, idx) => {
+            const rec = String(post['Recommended'] ?? '')
+            const type = String(post['Type'] ?? '')
+            const finalPost = post['Finalized Post'] || post['Final Post'] || ''
+            return (
+              <div
+                key={idx}
+                onClick={() => onSelectPost(post)}
+                className="flex items-start gap-4 px-5 py-3.5 hover:bg-white/[0.03] cursor-pointer transition-colors"
+              >
+                {/* Type + rec */}
+                <div className="flex shrink-0 items-center gap-2 pt-0.5">
+                  <TypeBadge type={type} />
+                  <RecBadge v={rec} size="sm" />
+                </div>
+
+                {/* Post preview */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-white/70 leading-snug line-clamp-2">
+                    {truncate(finalPost, 180)}
+                  </p>
+                  {/* Status pills */}
+                  {statCols.some((col) => post[col]) && (
+                    <div className="mt-1.5 flex flex-wrap gap-1">
+                      {statCols.map((col) => post[col] ? (
+                        <StatusPill key={col} value={String(post[col])} />
+                      ) : null)}
+                    </div>
+                  )}
+                </div>
+
+                <ChevronRight size={13} className="shrink-0 mt-1 text-white/15" />
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function FounderPackPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -243,60 +351,63 @@ export default function FounderPackPage() {
 
   const [authed, setAuthed] = useState<boolean | null>(null)
   const [packs, setPacks] = useState<Pack[]>([])
-  const [selectedDate, setSelectedDate] = useState<string>(searchParams.get('date') || '')
+  const [selectedDate, setSelectedDate] = useState<string>(searchParams.get('date') ?? '')
   const [packData, setPackData] = useState<PackData | null>(null)
   const [loadingPacks, setLoadingPacks] = useState(true)
   const [loadingData, setLoadingData] = useState(false)
-  const [selectedPost, setSelectedPost] = useState<PostRow | null>(null)
-  const [filterSource, setFilterSource] = useState<string>('all')
+  const [selectedPost, setSelectedPost] = useState<Record<string, any> | null>(null)
 
-  // Admin auth check
+  // Admin auth
   useEffect(() => {
     apiGet('/api/admin/me')
       .then(() => setAuthed(true))
-      .catch(() => {
-        setAuthed(false)
-        navigate('/admin/login', { replace: true })
-      })
+      .catch(() => { setAuthed(false); navigate('/admin/login', { replace: true }) })
   }, [navigate])
 
-  // Load available packs list
+  // Load packs list
   useEffect(() => {
     if (!authed || !slug) return
     setLoadingPacks(true)
     apiGet<{ packs: Pack[] }>(`/api/admin/founders/${slug}/post-packs`)
       .then((d) => {
         setPacks(d.packs)
-        if (!selectedDate && d.packs.length > 0) {
-          setSelectedDate(d.packs[0].date)
-        }
+        if (!selectedDate && d.packs.length > 0) setSelectedDate(d.packs[0].date)
       })
       .catch(() => {})
       .finally(() => setLoadingPacks(false))
   }, [authed, slug])
 
-  // Load pack data when date changes
+  // Load pack data
   const loadPackData = useCallback(async (date: string) => {
     if (!slug || !date) return
     setLoadingData(true)
     setPackData(null)
-    setFilterSource('all')
     try {
-      const data = await apiGet<PackData>(`/api/admin/founders/${slug}/post-packs/${date}`)
-      setPackData(data)
-    } catch {
-      setPackData(null)
-    } finally {
-      setLoadingData(false)
-    }
+      setPackData(await apiGet<PackData>(`/api/admin/founders/${slug}/post-packs/${date}`))
+    } catch { setPackData(null) }
+    finally { setLoadingData(false) }
   }, [slug])
 
   useEffect(() => {
     if (authed && selectedDate) {
-      setSearchParams(selectedDate ? { date: selectedDate } : {}, { replace: true })
+      setSearchParams({ date: selectedDate }, { replace: true })
       loadPackData(selectedDate)
     }
   }, [authed, selectedDate, loadPackData])
+
+  // Group posts by Source #
+  const grouped = useMemo(() => {
+    if (!packData) return []
+    const map = new Map<number, Record<string, any>[]>()
+    for (const post of packData.posts) {
+      const n = Number(post['Source #']) || 0
+      if (!map.has(n)) map.set(n, [])
+      map.get(n)!.push(post)
+    }
+    return Array.from(map.entries()).sort(([a], [b]) => a - b)
+  }, [packData])
+
+  const displayName = slug?.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) ?? ''
 
   if (authed === null) {
     return (
@@ -306,212 +417,141 @@ export default function FounderPackPage() {
     )
   }
 
-  const displayName = slug ? slug.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : ''
-
-  // Unique source batches for filter
-  const sourceBatches = packData
-    ? [...new Set(packData.posts.map((p) => p['File']).filter(Boolean))]
-    : []
-
-  const filteredPosts = packData
-    ? filterSource === 'all'
-      ? packData.posts
-      : packData.posts.filter((p) => p['File'] === filterSource)
-    : []
-
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <div className="sticky top-0 z-20 border-b border-white/10 bg-black/95 backdrop-blur">
-        <div className="mx-auto max-w-screen-xl px-6 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+
+      {/* ── Header ── */}
+      <div className="sticky top-0 z-20 border-b border-white/[0.08] bg-black/95 backdrop-blur">
+        <div className="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => navigate('/admin')}
-              className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors"
             >
-              <ArrowLeft size={15} /> Admin
+              <ArrowLeft size={14} /> Admin
             </button>
-            <span className="text-white/20">/</span>
+            <span className="text-white/15">/</span>
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">
                 {displayName.charAt(0)}
               </div>
-              <span className="font-[var(--font-display)] font-semibold">{displayName}</span>
+              <span className="font-[var(--font-display)] font-semibold text-sm">{displayName}</span>
             </div>
           </div>
 
-          {/* Date picker */}
+          {/* Date selector */}
           <div className="flex items-center gap-2">
-            <Calendar size={14} className="text-white/40" />
+            <Calendar size={13} className="text-white/30" />
             {loadingPacks ? (
-              <Loader2 size={14} className="animate-spin text-white/40" />
+              <Loader2 size={13} className="animate-spin text-white/30" />
             ) : packs.length === 0 ? (
-              <span className="text-xs text-white/30">No packs yet</span>
+              <span className="text-xs text-white/25">No packs yet</span>
             ) : (
               <div className="relative">
                 <select
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="appearance-none rounded-lg border border-white/10 bg-white/[0.04] pl-3 pr-8 py-1.5 text-sm text-white focus:outline-none focus:border-white/30 cursor-pointer"
+                  className="appearance-none rounded-lg border border-white/10 bg-white/[0.04] pl-3 pr-7 py-1.5 text-xs text-white focus:outline-none focus:border-white/25 cursor-pointer"
                 >
                   {packs.map((p) => (
                     <option key={p.date} value={p.date} className="bg-black">
-                      {p.date} · {p.filename}
+                      {p.date} — {p.filename}
                     </option>
                   ))}
                 </select>
-                <ChevronDown size={12} className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-white/40" />
+                <ChevronDown size={11} className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-white/30" />
               </div>
             )}
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-screen-xl px-6 py-6 space-y-6">
-        {/* README summary card */}
+      <div className="mx-auto max-w-4xl px-6 py-6 space-y-5">
+
+        {/* ── README summary ── */}
         {packData && Object.keys(packData.readme).length > 0 && (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
-            <div className="flex items-center gap-2 mb-4">
-              <FileSpreadsheet size={15} className="text-white/40" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-white/40">Pack Summary</span>
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.015] p-5">
+            <div className="mb-4 flex items-center gap-2">
+              <FileSpreadsheet size={13} className="text-white/30" />
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-white/30">Pack summary</span>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {Object.entries(packData.readme)
-                .filter(([k]) => k !== 'null')
-                .map(([key, val]) => (
+            {/* Prominent fields first */}
+            <div className="grid grid-cols-2 gap-x-8 gap-y-3 md:grid-cols-3">
+              {['Date', 'Founder', 'Posts', 'Pack'].map((key) =>
+                packData.readme[key] ? (
                   <div key={key}>
-                    <div className="text-[10px] uppercase tracking-wider text-white/30 mb-1">{key}</div>
-                    <div className="text-sm text-white/80 leading-snug">{val}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-white/25 mb-0.5">{key}</div>
+                    <div className="text-sm text-white/75 leading-snug">{packData.readme[key]}</div>
                   </div>
-                ))}
+                ) : null,
+              )}
             </div>
-          </div>
-        )}
-
-        {/* Source filter + post count */}
-        {packData && packData.posts.length > 0 && (
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-2 flex-wrap">
-              <button
-                onClick={() => setFilterSource('all')}
-                className={clsx(
-                  'rounded-lg border px-3 py-1 text-xs transition-colors',
-                  filterSource === 'all'
-                    ? 'border-white/30 bg-white/10 text-white'
-                    : 'border-white/10 text-white/40 hover:text-white/70',
+            {/* Voice profile stats */}
+            {packData.readme['Median word count'] && (
+              <div className="mt-4 border-t border-white/[0.06] pt-4 grid grid-cols-2 gap-x-8 gap-y-2 md:grid-cols-3 text-xs">
+                {['Median word count', 'Tagged cast rate', 'Hashtag rate'].map((key) =>
+                  packData.readme[key] ? (
+                    <div key={key} className="flex items-baseline gap-2">
+                      <span className="text-[9px] uppercase tracking-widest text-white/20 shrink-0">{key.split(' ').slice(-2).join(' ')}</span>
+                      <span className="text-white/45">{packData.readme[key]}</span>
+                    </div>
+                  ) : null,
                 )}
-              >
-                All ({packData.posts.length})
-              </button>
-              {sourceBatches.map((batch) => (
-                <button
-                  key={batch}
-                  onClick={() => setFilterSource(batch)}
-                  className={clsx(
-                    'rounded-lg border px-3 py-1 text-xs transition-colors max-w-[200px] truncate',
-                    filterSource === batch
-                      ? 'border-white/30 bg-white/10 text-white'
-                      : 'border-white/10 text-white/40 hover:text-white/70',
-                  )}
-                >
-                  {batch}
-                </button>
-              ))}
-            </div>
-            <span className="text-xs text-white/30">
-              {filteredPosts.length} post{filteredPosts.length !== 1 ? 's' : ''}
-            </span>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Loading state */}
+        {/* ── Loading ── */}
         {loadingData && (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 size={20} className="animate-spin text-white/40" />
+          <div className="flex items-center justify-center py-24">
+            <Loader2 size={20} className="animate-spin text-white/30" />
           </div>
         )}
 
-        {/* Empty state */}
+        {/* ── Empty state ── */}
         {!loadingData && !loadingPacks && packs.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <FileSpreadsheet size={32} className="mb-4 text-white/20" />
-            <p className="text-sm text-white/40">No post packs yet for {displayName}.</p>
-            <p className="mt-1 text-xs text-white/25">
-              Add Excel files to{' '}
-              <code className="rounded bg-white/10 px-1 text-[11px]">
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <FileSpreadsheet size={28} className="mb-4 text-white/15" />
+            <p className="text-sm text-white/35">No post packs yet for {displayName}.</p>
+            <p className="mt-1.5 text-xs text-white/20">
+              Drop Excel files into{' '}
+              <code className="rounded bg-white/8 px-1.5 py-0.5 text-[11px]">
                 data/founders/{slug}/post-data/
               </code>
             </p>
           </div>
         )}
 
-        {/* Posts table */}
-        {!loadingData && packData && filteredPosts.length > 0 && (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-white/40 w-10">#</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-white/40">Source batch</th>
-                    <th className="px-3 py-3 text-center text-[10px] font-semibold uppercase tracking-wider text-white/40 w-16">Type</th>
-                    <th className="px-3 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-white/40">Topic</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-white/40">Post preview</th>
-                    <th className="px-3 py-3 text-center text-[10px] font-semibold uppercase tracking-wider text-white/40 w-16">Rec</th>
-                    <th className="px-3 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-white/40">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredPosts.map((post, idx) => (
-                    <tr
-                      key={idx}
-                      onClick={() => setSelectedPost(post)}
-                      className="border-b border-white/5 hover:bg-white/[0.03] cursor-pointer transition-colors"
-                    >
-                      <td className="px-4 py-3 font-mono text-xs text-white/30">
-                        {post['Row #']}
-                      </td>
-                      <td className="px-4 py-3 text-xs text-white/50 max-w-[160px] truncate">
-                        {post['File']}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        <span className="rounded bg-white/8 px-2 py-0.5 font-mono text-[11px] text-white/60">
-                          {post['Type']}
-                        </span>
-                      </td>
-                      <td className="px-3 py-3 text-xs text-white/60 max-w-[180px]">
-                        <span className="line-clamp-2">{post['Post Topic (derived from body)']}</span>
-                      </td>
-                      <td className="px-4 py-3 max-w-xs">
-                        <span className="text-xs text-white/70 line-clamp-2 leading-relaxed">
-                          {truncate(post['Final Post'], 150)}
-                        </span>
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        <RecommendedBadge variant={post['Recommended']} />
-                      </td>
-                      <td className="px-3 py-3">
-                        <div className="flex flex-col gap-0.5">
-                          {post['Status (Editor)'] && (
-                            <span className="text-[10px] text-white/40">{post['Status (Editor)']}</span>
-                          )}
-                          {post['Status (Feedback)'] && (
-                            <span className="text-[10px] text-white/30">{post['Status (Feedback)']}</span>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* ── Source groups ── */}
+        {!loadingData && grouped.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-white/30">
+                {grouped.length} sources · {packData?.posts.length ?? 0} posts total
+              </span>
             </div>
+            {grouped.map(([sourceNum, posts], i) => (
+              <SourceGroup
+                key={sourceNum}
+                sourceNum={sourceNum}
+                posts={posts}
+                headers={packData?.headers ?? []}
+                defaultOpen={i === 0}
+                onSelectPost={setSelectedPost}
+              />
+            ))}
           </div>
         )}
       </div>
 
-      {/* Detail modal */}
+      {/* ── Detail panel ── */}
       {selectedPost && (
-        <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />
+        <DetailPanel
+          post={selectedPost}
+          headers={packData?.headers ?? []}
+          onClose={() => setSelectedPost(null)}
+        />
       )}
     </div>
   )
