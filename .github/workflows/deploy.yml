@@ -87,16 +87,21 @@ jobs:
     steps:
       - name: Trigger deploy webhook
         run: |
-          # Strip any accidental whitespace GitHub may have captured in the secret
           SECRET=$(printf '%s' "${{ secrets.DEPLOY_SECRET }}" | tr -d '[:space:]')
-          HTTP=$(curl -s -o /tmp/deploy_response.txt -w "%{http_code}" \
-            -X POST https://tagent.club/api/deploy \
-            -H "X-Deploy-Secret: ${SECRET}" \
-            --max-time 15)
-          echo "Response: $(cat /tmp/deploy_response.txt)"
-          echo "HTTP status: $HTTP"
-          if [ "$HTTP" != "202" ]; then
-            echo "Deploy webhook failed with HTTP $HTTP"
-            exit 1
-          fi
-          echo "Deploy triggered successfully — VPS is deploying in the background."
+          for attempt in 1 2 3; do
+            echo "=== Attempt $attempt ==="
+            HTTP=$(curl -s -o /tmp/deploy_response.txt -w "%{http_code}" \
+              -X POST https://tagent.club/api/deploy \
+              -H "X-Deploy-Secret: ${SECRET}" \
+              --connect-timeout 20 \
+              --max-time 60)
+            CURL_EXIT=$?
+            echo "curl exit: $CURL_EXIT  HTTP: $HTTP  body: $(cat /tmp/deploy_response.txt)"
+            if [ "$HTTP" = "202" ]; then
+              echo "Deploy triggered — VPS is deploying in the background."
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 20; fi
+          done
+          echo "All 3 attempts failed."
+          exit 1
