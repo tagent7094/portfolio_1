@@ -88,9 +88,11 @@ jobs:
     steps:
       - name: Trigger deploy webhook
         run: |
+          # Strip any accidental whitespace GitHub may have captured in the secret
+          SECRET=$(printf '%s' "${{ secrets.DEPLOY_SECRET }}" | tr -d '[:space:]')
           HTTP=$(curl -s -o /tmp/deploy_response.txt -w "%{http_code}" \
             -X POST https://tagent.club/api/deploy \
-            -H "X-Deploy-Secret: ${{ secrets.DEPLOY_SECRET }}" \
+            -H "X-Deploy-Secret: ${SECRET}" \
             --max-time 15)
           echo "Response: $(cat /tmp/deploy_response.txt)"
           echo "HTTP status: $HTTP"

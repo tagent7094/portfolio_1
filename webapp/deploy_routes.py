@@ -23,10 +23,11 @@ TRIGGER_FILE = Path("/opt/tagent/data/deploy.trigger")
 
 @router.post("/api/deploy", status_code=202)
 async def webhook_deploy(x_deploy_secret: str | None = Header(default=None)):
-    expected = os.environ.get("DEPLOY_SECRET", "")
+    expected = os.environ.get("DEPLOY_SECRET", "").strip()
     if not expected:
         raise HTTPException(status_code=503, detail="deploy not configured")
-    if x_deploy_secret != expected:
+    incoming = (x_deploy_secret or "").strip()
+    if incoming != expected:
         raise HTTPException(status_code=401, detail="invalid secret")
 
     try:
