@@ -54,6 +54,10 @@ app.include_router(admin_router)
 from webapp.deploy_routes import router as deploy_router
 app.include_router(deploy_router)
 
+# Post-pack routes (admin Excel viewer)
+from webapp.pack_routes import router as pack_router
+app.include_router(pack_router)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",

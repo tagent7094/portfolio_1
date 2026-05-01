@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Shield, LogOut, Loader2, KeyRound, Copy, CheckCircle2, RefreshCw, X, ExternalLink } from 'lucide-react'
+import { Shield, LogOut, Loader2, KeyRound, Copy, CheckCircle2, RefreshCw, X, ExternalLink, FileSpreadsheet } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet, apiPost } from '../api/client'
 
@@ -203,6 +203,12 @@ export default function AdminPage() {
                     <td className="px-4 py-3">
                       <div className="font-medium text-white">{display_name}</div>
                       <div className="text-[10px] text-white/40 font-mono">{slug}</div>
+                      <button
+                        onClick={() => navigate(`/admin/founders/${slug}`)}
+                        className="mt-1 inline-flex items-center gap-1 text-[10px] text-white/30 hover:text-white/70 transition-colors"
+                      >
+                        <FileSpreadsheet size={10} /> Post packs
+                      </button>
                     </td>
                     <td className="px-4 py-3">
                       <a

@@ -13,6 +13,7 @@ import HistoryPage from './pages/HistoryPage'
 import ConfigPage from './pages/ConfigPage'
 import CustomizePage from './pages/CustomizePage'
 import LandingPage from './pages/LandingPage'
+import FounderPackPage from './pages/FounderPackPage'
 import { isApexDomain } from './utils/subdomain'
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/admin/founders/:slug" element={<FounderPackPage />} />
 
       {/* Protected founder routes */}
       <Route element={<RequireAuth />}>
