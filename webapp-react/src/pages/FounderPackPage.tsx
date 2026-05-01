@@ -121,7 +121,10 @@ function StatusPill({ value }: { value: string }) {
 function TypeBadge({ type }: { type: string }) {
   if (!type) return null
   return (
-    <span className="inline-flex h-5 min-w-[2.25rem] items-center justify-center rounded bg-white/[0.08] font-mono text-[10px] font-semibold text-white/55 px-1.5 whitespace-nowrap">
+    <span
+      className="inline-flex h-5 min-w-[2.25rem] items-center justify-center rounded font-mono text-[10px] font-semibold px-1.5 whitespace-nowrap"
+      style={{ backgroundColor: 'var(--surface-3)', color: 'var(--text-secondary)' }}
+    >
       {type}
     </span>
   )
@@ -131,7 +134,11 @@ function ScoreDots({ score }: { score: number }) {
   return (
     <span className="inline-flex gap-[3px] items-center">
       {[1, 2, 3, 4, 5].map(i => (
-        <span key={i} className={clsx('h-1.5 w-1.5 rounded-full', i <= score ? 'bg-white/70' : 'bg-white/10')} />
+        <span
+          key={i}
+          className="h-1.5 w-1.5 rounded-full"
+          style={{ backgroundColor: i <= score ? 'var(--text-secondary)' : 'var(--border-1)' }}
+        />
       ))}
     </span>
   )
@@ -139,7 +146,7 @@ function ScoreDots({ score }: { score: number }) {
 
 function VariantBadge({ letter }: { letter: string }) {
   const accent = VARIANT_ACCENT[letter.toUpperCase()]
-  if (!accent) return <span className="text-white/40 text-xs font-mono">{letter}</span>
+  if (!accent) return <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>{letter}</span>
   return (
     <span className={clsx('inline-flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold shrink-0', accent.badge)}>
       {letter.toUpperCase()}
@@ -189,7 +196,7 @@ function EditableStatusCell({
       >
         {value
           ? <StatusPill value={value} />
-          : <span className="text-white/15 text-[10px]">—</span>
+          : <span className="text-[10px]" style={{ color: 'var(--text-faint)' }}>—</span>
         }
         {isDirty && <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" title="Edited" />}
       </button>
@@ -249,24 +256,26 @@ function CellContent({
           original={text} edits={edits} onEdit={onEdit}
         />
       )
-    case 'status':    return text ? <StatusPill value={text} /> : <span className="text-white/15">—</span>
-    case 'type':      return text ? <TypeBadge type={text} /> : <span className="text-white/15">—</span>
-    case 'variant-badge': return text ? <VariantBadge letter={text} /> : <span className="text-white/15">—</span>
+    case 'status':    return text ? <StatusPill value={text} /> : <span style={{ color: 'var(--text-faint)' }}>—</span>
+    case 'type':      return text ? <TypeBadge type={text} /> : <span style={{ color: 'var(--text-faint)' }}>—</span>
+    case 'variant-badge': return text ? <VariantBadge letter={text} /> : <span style={{ color: 'var(--text-faint)' }}>—</span>
     case 'score-dots': {
       const n = Number(text)
-      return n > 0 ? <ScoreDots score={n} /> : <span className="text-white/15">—</span>
+      return n > 0 ? <ScoreDots score={n} /> : <span style={{ color: 'var(--text-faint)' }}>—</span>
     }
-    case 'mono': return <span className="font-mono text-[10px] text-white/30">{text || '—'}</span>
+    case 'mono': return (
+      <span className="font-mono text-[10px]" style={{ color: 'var(--text-muted)' }}>{text || '—'}</span>
+    )
     default:
-      if (!text) return <span className="text-white/15">—</span>
+      if (!text) return <span style={{ color: 'var(--text-faint)' }}>—</span>
       if (col.truncate) {
         return (
-          <div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs text-white/65" title={text}>
+          <div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs" style={{ color: 'var(--text-primary)' }} title={text}>
             {text}
           </div>
         )
       }
-      return <span className="text-xs text-white/65 break-words">{text}</span>
+      return <span className="text-xs break-words" style={{ color: 'var(--text-primary)' }}>{text}</span>
   }
 }
 
@@ -412,7 +421,7 @@ const TableRow = memo(function TableRow({
             borderLeft: isSelected ? '2px solid var(--text-muted)' : undefined,
           }}
         >
-          <span className="font-mono text-[10px]" style={{ color: 'var(--text-faint)' }}>
+          <span className="font-mono text-[10px]" style={{ color: 'var(--text-muted)' }}>
             {s(post[stickyCol.key]) || '—'}
           </span>
         </td>
@@ -460,7 +469,7 @@ function PostTable({
   )
 
   return (
-    <div className="h-full overflow-x-auto overflow-y-auto">
+    <div className="h-full overflow-x-auto overflow-y-auto" style={{ backgroundColor: 'var(--page-bg)' }}>
       <table className="w-max border-separate border-spacing-0 text-left">
         <TableHeader colDefs={colDefs} />
         <tbody>
