@@ -38,7 +38,7 @@ const VARIANT_ACCENT: Record<string, { header: string; cell: string; badge: stri
   E: { header: 'bg-rose-950/50 text-rose-300/80',     cell: 'bg-rose-950/30',   badge: 'bg-rose-400 text-black',   light: 'bg-rose-100 border-rose-300' },
 }
 
-const ALL_GROUPS = ['Core', 'Content', 'Source', 'Analysis', 'Variant A', 'Variant B', 'Variant C', 'Variant D', 'Variant E']
+const ALL_GROUPS = ['Core', 'Content', 'Source', 'Analysis', 'Variant A', 'Variant B', 'Variant C', 'Variant D', 'Variant E', 'Extra']
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -65,9 +65,14 @@ function groupHeaderClass(group: string): string {
 }
 
 function buildColDefs(headers: string[]): ColDef[] {
-  function res(...candidates: string[]): string {
+  // Returns the first candidate that actually exists in headers, or null if none match.
+  function res(...candidates: string[]): string | null {
     for (const c of candidates) { if (headers.includes(c)) return c }
-    return candidates[0]
+    return null
+  }
+  // Like res() but with fallback — used only for cols that must always appear (Row #, variants).
+  function req(...candidates: string[]): string {
+    return res(...candidates) ?? candidates[0]
   }
 
   const statusCols = headers.filter(h => h.startsWith('Status')).map(sh => ({
@@ -78,33 +83,55 @@ function buildColDefs(headers: string[]): ColDef[] {
     render: 'status-editable' as const,
   }))
 
-  return [
-    { key: 'Row #',             label: 'Row #',         group: 'Core',     width: 52,  sticky: true, render: 'mono' },
-    { key: res('File'),         label: 'File',           group: 'Core',     width: 80,  truncate: true },
-    { key: res('Source #'),     label: 'Src #',          group: 'Core',     width: 56,  render: 'mono' },
-    { key: res('Type'),         label: 'Type',           group: 'Core',     width: 72,  render: 'type' },
+  // Only add a structured col when its key actually exists in the data.
+  function col(
+    key: string | null,
+    label: string,
+    group: string,
+    width: number,
+    extra?: Partial<ColDef>,
+  ): ColDef | null {
+    if (!key) return null
+    return { key, label, group, width, ...extra }
+  }
+
+  const structured: (ColDef | null)[] = [
+    { key: 'Row #', label: 'Row #', group: 'Core', width: 52, sticky: true, render: 'mono' },
+    col(res('File'),           'File',         'Core',     80,  { truncate: true }),
+    col(res('Source #'),       'Src #',        'Core',     56,  { render: 'mono' }),
+    col(res('Type'),           'Type',         'Core',     72,  { render: 'type' }),
     ...statusCols,
-    { key: res('Post Topic (derived from body)'), label: 'Topic', group: 'Content', width: 160, truncate: true },
-    { key: res('Domain'),       label: 'Domain',         group: 'Content',  width: 100, truncate: true },
-    { key: res('Kind'),         label: 'Kind',           group: 'Content',  width: 80 },
-    { key: res('Final Post'),   label: 'Final Post',     group: 'Content',  width: 220, truncate: true },
-    { key: res('Finalized Post'), label: 'Finalized',    group: 'Content',  width: 220, truncate: true },
-    { key: res('Current Score (pts)'), label: 'Score',   group: 'Content',  width: 70 },
-    { key: res('Source Quote'), label: 'Source Quote',   group: 'Source',   width: 200, truncate: true },
-    { key: res('Mechanic'),     label: 'Mechanic',       group: 'Source',   width: 120, truncate: true },
-    { key: res('Original Opening'), label: 'Orig. Opening', group: 'Source', width: 180, truncate: true },
-    { key: res('Original Type'), label: 'Orig. Type',   group: 'Source',   width: 100 },
-    { key: res("Buried Gold (from this post's paras 2-4)"), label: 'Buried Gold', group: 'Analysis', width: 200, truncate: true },
-    { key: res('Weakness'),     label: 'Weakness',       group: 'Analysis', width: 180, truncate: true },
-    { key: res('Recommended'),  label: 'Rec.',           group: 'Analysis', width: 72,  render: 'variant-badge' },
-    { key: res('Why'),          label: 'Why',            group: 'Analysis', width: 200, truncate: true },
+    col(res('Post Topic (derived from body)', 'Post Topic', 'Topic'), 'Topic', 'Content', 160, { truncate: true }),
+    col(res('Domain'),         'Domain',       'Content', 100, { truncate: true }),
+    col(res('Kind'),           'Kind',         'Content',  80),
+    col(res('Final Post'),     'Final Post',   'Content', 220, { truncate: true }),
+    col(res('Finalized Post'), 'Finalized',    'Content', 220, { truncate: true }),
+    col(res('Current Score (pts)', 'Score'), 'Score', 'Content', 70),
+    col(res('Source Quote'),   'Source Quote', 'Source',  200, { truncate: true }),
+    col(res('Mechanic'),       'Mechanic',     'Source',  120, { truncate: true }),
+    col(res('Original Opening'), 'Orig. Opening', 'Source', 180, { truncate: true }),
+    col(res('Original Type'),  'Orig. Type',   'Source',  100),
+    col(res("Buried Gold (from this post's paras 2-4)", 'Buried Gold'), 'Buried Gold', 'Analysis', 200, { truncate: true }),
+    col(res('Weakness'),       'Weakness',     'Analysis', 180, { truncate: true }),
+    col(res('Recommended'),    'Rec.',         'Analysis',  72, { render: 'variant-badge' }),
+    col(res('Why'),            'Why',          'Analysis', 200, { truncate: true }),
     ...VARIANT_LETTERS.flatMap(v => [
-      { key: res(`${v}, Opening`,      `${v} - Opening`),      label: 'Opening',    group: `Variant ${v}`, variantLetter: v, width: 200, truncate: true },
-      { key: res(`${v}, Rewrite Type`, `${v} - Rewrite Type`), label: 'Type',       group: `Variant ${v}`, variantLetter: v, width: 120 },
-      { key: res(`${v}, Key Change`,   `${v} - Key Change`),   label: 'Key Change', group: `Variant ${v}`, variantLetter: v, width: 160, truncate: true },
-      { key: res(`${v}, Expected Lift`,`${v} - Expected Lift`),label: 'Lift',       group: `Variant ${v}`, variantLetter: v, width: 72, render: 'score-dots' as const },
-    ]),
+      col(res(`${v}, Opening`,      `${v} - Opening`),      'Opening',    `Variant ${v}`, 200, { variantLetter: v, truncate: true }),
+      col(res(`${v}, Rewrite Type`, `${v} - Rewrite Type`), 'Type',       `Variant ${v}`, 120, { variantLetter: v }),
+      col(res(`${v}, Key Change`,   `${v} - Key Change`),   'Key Change', `Variant ${v}`, 160, { variantLetter: v, truncate: true }),
+      col(res(`${v}, Expected Lift`,`${v} - Expected Lift`),'Lift',       `Variant ${v}`,  72, { variantLetter: v, render: 'score-dots' }),
+    ] as (ColDef | null)[]),
   ]
+
+  const definedCols = structured.filter((c): c is ColDef => c !== null)
+
+  // Append any header not already covered — guarantees all Excel data is visible.
+  const mappedKeys = new Set(definedCols.map(c => c.key))
+  const extraCols: ColDef[] = headers
+    .filter(h => !mappedKeys.has(h))
+    .map(h => ({ key: h, label: h, group: 'Extra', width: 160, truncate: true }))
+
+  return [...definedCols, ...extraCols]
 }
 
 // ── Small components ──────────────────────────────────────────────────────────
@@ -775,51 +802,6 @@ async function exportToGoogleSheets(
   return `https://docs.google.com/spreadsheets/d/${spreadsheetId}`
 }
 
-// ── Google OAuth helper ───────────────────────────────────────────────────────
-
-function useGoogleAuth() {
-  const [token, setToken] = useState<string | null>(null)
-  const [user, setUser] = useState<{ name: string; email: string; picture: string } | null>(null)
-
-  const signIn = useCallback(() => {
-    const clientId = (window as any).__GOOGLE_CLIENT_ID__ || import.meta.env.VITE_GOOGLE_CLIENT_ID
-    if (!clientId) {
-      alert('Google Sign-In is not configured. Ask your admin to set VITE_GOOGLE_CLIENT_ID.')
-      return
-    }
-    const scope = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file'
-    const params = new URLSearchParams({
-      client_id: clientId,
-      redirect_uri: window.location.origin + '/auth/google/callback',
-      response_type: 'token',
-      scope,
-      include_granted_scopes: 'true',
-    })
-    const popup = window.open(`https://accounts.google.com/o/oauth2/v2/auth?${params}`, 'google-auth', 'width=500,height=620')
-    const check = setInterval(() => {
-      try {
-        if (!popup || popup.closed) { clearInterval(check); return }
-        const url = popup.location.href
-        if (url.includes('access_token=')) {
-          const hash = new URLSearchParams(url.split('#')[1])
-          const accessToken = hash.get('access_token')
-          if (accessToken) {
-            setToken(accessToken)
-            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
-              .then(r => r.json()).then(info => setUser({ name: info.name, email: info.email, picture: info.picture }))
-          }
-          popup.close()
-          clearInterval(check)
-        }
-      } catch {}
-    }, 300)
-  }, [])
-
-  const signOut = useCallback(() => { setToken(null); setUser(null) }, [])
-
-  return { token, user, signIn, signOut }
-}
-
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function FounderPackPage() {
@@ -840,7 +822,6 @@ export default function FounderPackPage() {
   const [edits, setEdits]               = useState<Record<string, Record<string, string>>>({})
   const [saving, setSaving]             = useState(false)
   const [groupMenuOpen, setGroupMenuOpen] = useState(false)
-  const { token: gToken, user: gUser, signIn: gSignIn, signOut: gSignOut } = useGoogleAuth()
   const [sheetExporting, setSheetExporting] = useState(false)
 
   const handleEdit = useCallback((rowId: string, colKey: string, value: string) => {
@@ -922,15 +903,14 @@ export default function FounderPackPage() {
   }
 
   const handleSheetsExport = async () => {
-    if (!packData) return
-    if (!gToken) { gSignIn(); return }
+    if (!packData || !slug || !selectedDate) return
     setSheetExporting(true)
     try {
-      const url = await exportToGoogleSheets(
-        packData.posts, packData.headers, edits,
-        `${slug} — ${selectedDate}`, gToken,
+      const res = await apiPost<{ url: string }>(
+        `/api/admin/founders/${slug}/post-packs/${selectedDate}/export-sheets`,
+        { edits },
       )
-      window.open(url, '_blank')
+      window.open(res.url, '_blank')
     } catch (e: any) {
       alert(`Google Sheets export failed: ${e?.message || 'unknown error'}`)
     } finally {
@@ -1061,17 +1041,11 @@ export default function FounderPackPage() {
               disabled={!packData || sheetExporting}
               className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors disabled:opacity-40"
               style={{ borderColor: 'var(--border-1)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface-2)' }}
-              title={gUser ? `Signed in as ${gUser.email}` : 'Sign in with Google to export'}
+              title="Export to Google Sheets (creates a new sheet, shares with content@tagent.club)"
             >
               {sheetExporting ? <Loader2 size={12} className="animate-spin" /> : <Sheet size={12} />}
-              {gUser ? 'Sheets' : 'Sheets (sign in)'}
+              Sheets
             </button>
-
-            {gUser && (
-              <button onClick={gSignOut} className="text-[10px] transition-opacity hover:opacity-60" style={{ color: 'var(--text-muted)' }}>
-                {gUser.email} ×
-              </button>
-            )}
 
             {/* Theme toggle */}
             <button

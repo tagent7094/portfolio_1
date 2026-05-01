@@ -1,8 +1,9 @@
 """
 Post-pack routes: browse and read per-founder Excel packs.
 
-  GET  /api/admin/founders/{slug}/post-packs          → list available dates
-  GET  /api/admin/founders/{slug}/post-packs/{date}   → parse Excel → JSON
+  GET   /api/admin/founders/{slug}/post-packs                → list available dates
+  GET   /api/admin/founders/{slug}/post-packs/{date}         → parse Excel → JSON
+  POST  /api/admin/founders/{slug}/post-packs/{date}/export-sheets → create Google Sheet
 """
 
 from __future__ import annotations
@@ -10,8 +11,10 @@ from __future__ import annotations
 import logging
 import re
 from pathlib import Path
+from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request
+from pydantic import BaseModel
 
 from webapp.auth_routes import _require_admin
 
@@ -109,3 +112,120 @@ async def get_post_pack(slug: str, date: str, request: Request):
 
     wb.close()
     return result
+
+
+# ── Google Sheets export ──────────────────────────────────────────────────────
+
+SA_FILE = Path("/etc/tagent/google-sa.json")
+SHARE_WITH = "content@tagent.club"
+
+
+class SheetsExportRequest(BaseModel):
+    edits: dict[str, dict[str, str]] = {}
+
+
+@router.post("/{slug}/post-packs/{date}/export-sheets")
+async def export_to_sheets(slug: str, date: str, body: SheetsExportRequest, request: Request):
+    _require_admin(request)
+
+    if not SA_FILE.exists():
+        raise HTTPException(
+            status_code=503,
+            detail="Google Sheets not configured. Run deploy/setup_google.sh on the VPS first.",
+        )
+
+    try:
+        from google.oauth2 import service_account  # type: ignore
+        from googleapiclient.discovery import build  # type: ignore
+    except ImportError:
+        raise HTTPException(status_code=503, detail="google-api-python-client not installed. Run: pip install google-auth google-api-python-client")
+
+    # Load the pack data (reuse existing logic)
+    post_dir = _post_data_dir(slug)
+    target: Path | None = None
+    for f in post_dir.glob("*.xlsx"):
+        if date in f.name:
+            target = f
+            break
+    if not target or not target.exists():
+        raise HTTPException(status_code=404, detail=f"No pack found for {date}")
+
+    try:
+        import openpyxl  # type: ignore
+        wb = openpyxl.load_workbook(target, read_only=True, data_only=True)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Could not open Excel: {exc}")
+
+    headers: list[str] = []
+    rows: list[list[Any]] = []
+    if "Posts" in wb.sheetnames:
+        ws = wb["Posts"]
+        for i, row in enumerate(ws.iter_rows(values_only=True)):
+            if i == 0:
+                headers = [str(c) if c is not None else f"col_{j}" for j, c in enumerate(row)]
+            else:
+                if all(v is None for v in row):
+                    continue
+                post: dict[str, Any] = {}
+                for j, val in enumerate(row):
+                    if j < len(headers):
+                        post[headers[j]] = "" if val is None else (int(val) if isinstance(val, float) and val == int(val) else val)
+                rows.append(post)
+    wb.close()
+
+    # Merge edits
+    for row_dict in rows:
+        row_id = str(row_dict.get("Row #", ""))
+        if row_id in body.edits:
+            for col_key, val in body.edits[row_id].items():
+                if col_key in row_dict:
+                    row_dict[col_key] = val
+
+    # Build sheet values
+    values = [headers] + [[str(r.get(h, "") or "") for h in headers] for r in rows]
+
+    try:
+        scopes = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+        creds = service_account.Credentials.from_service_account_file(str(SA_FILE), scopes=scopes)
+        sheets_svc = build("sheets", "v4", credentials=creds)
+        drive_svc  = build("drive",  "v3", credentials=creds)
+
+        # Create spreadsheet
+        title = f"{slug.replace('_', ' ').title()} — {date}"
+        spreadsheet = sheets_svc.spreadsheets().create(body={
+            "properties": {"title": title},
+            "sheets": [{"properties": {"title": "Posts"}}],
+        }).execute()
+        sid = spreadsheet["spreadsheetId"]
+
+        # Write data
+        sheets_svc.spreadsheets().values().update(
+            spreadsheetId=sid,
+            range="Posts!A1",
+            valueInputOption="RAW",
+            body={"values": values},
+        ).execute()
+
+        # Bold header row + freeze it
+        sheets_svc.spreadsheets().batchUpdate(spreadsheetId=sid, body={"requests": [
+            {"repeatCell": {"range": {"sheetId": 0, "startRowIndex": 0, "endRowIndex": 1},
+                            "cell": {"userEnteredFormat": {"textFormat": {"bold": True}}},
+                            "fields": "userEnteredFormat.textFormat.bold"}},
+            {"updateSheetProperties": {"properties": {"sheetId": 0, "gridProperties": {"frozenRowCount": 1}},
+                                       "fields": "gridProperties.frozenRowCount"}},
+        ]}).execute()
+
+        # Share with content@tagent.club
+        drive_svc.permissions().create(
+            fileId=sid,
+            body={"type": "user", "role": "writer", "emailAddress": SHARE_WITH},
+            sendNotificationEmail=False,
+        ).execute()
+
+        url = f"https://docs.google.com/spreadsheets/d/{sid}"
+        logger.info("Created Google Sheet %s for %s/%s", url, slug, date)
+        return {"url": url}
+
+    except Exception as exc:
+        logger.exception("Google Sheets export failed: %s", exc)
+        raise HTTPException(status_code=500, detail=f"Sheets export failed: {exc}")

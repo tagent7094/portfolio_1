@@ -28,7 +28,7 @@
   --text-primary: rgba(255,255,255,0.90);
   --text-secondary: rgba(255,255,255,0.55);
   --text-muted: rgba(255,255,255,0.30);
-  --text-faint: rgba(255,255,255,0.15);
+  --text-faint: rgba(255,255,255,0.38);
   --row-hover: rgba(255,255,255,0.025);
   --row-selected: rgba(255,255,255,0.05);
 }
@@ -43,7 +43,7 @@
   --text-primary: rgba(0,0,0,0.90);
   --text-secondary: rgba(0,0,0,0.55);
   --text-muted: rgba(0,0,0,0.35);
-  --text-faint: rgba(0,0,0,0.18);
+  --text-faint: rgba(0,0,0,0.38);
   --row-hover: rgba(0,0,0,0.025);
   --row-selected: rgba(0,0,0,0.05);
 }
