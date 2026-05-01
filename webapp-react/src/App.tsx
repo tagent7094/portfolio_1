@@ -17,7 +17,8 @@ import FounderPackPage from './pages/FounderPackPage'
 import { isApexDomain } from './utils/subdomain'
 
 export default function App() {
-  if (isApexDomain()) {
+  // Show the company landing page at tagent.club only for non-admin paths
+  if (isApexDomain() && !window.location.pathname.startsWith('/admin')) {
     return <LandingPage />
   }
 
