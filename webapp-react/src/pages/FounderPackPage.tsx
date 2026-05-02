@@ -70,11 +70,6 @@ function buildColDefs(headers: string[]): ColDef[] {
     for (const c of candidates) { if (headers.includes(c)) return c }
     return null
   }
-  // Like res() but with fallback — used only for cols that must always appear (Row #, variants).
-  function req(...candidates: string[]): string {
-    return res(...candidates) ?? candidates[0]
-  }
-
   const statusCols = headers.filter(h => h.startsWith('Status')).map(sh => ({
     key: sh,
     label: sh.replace(/^Status\s*/, '').replace(/[()]/g, '').trim() || sh,
@@ -773,33 +768,6 @@ function exportExcel(
   const wb = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(wb, ws, 'Posts')
   XLSX.writeFile(wb, `${filename}.xlsx`)
-}
-
-async function exportToGoogleSheets(
-  posts: Record<string, any>[],
-  headers: string[],
-  edits: Record<string, Record<string, string>>,
-  sheetTitle: string,
-  accessToken: string,
-): Promise<string> {
-  const rows = buildExportRows(posts, headers, edits)
-  const values = [headers, ...rows.map(r => headers.map(h => r[h] || ''))]
-
-  const createRes = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ properties: { title: sheetTitle } }),
-  })
-  const sheet = await createRes.json()
-  const spreadsheetId = sheet.spreadsheetId
-
-  await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:append?valueInputOption=RAW`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ values }),
-  })
-
-  return `https://docs.google.com/spreadsheets/d/${spreadsheetId}`
 }
 
 // ── Main page ─────────────────────────────────────────────────────────────────
