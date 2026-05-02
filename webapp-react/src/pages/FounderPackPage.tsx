@@ -320,25 +320,27 @@ function PackSummary({ readme }: { readme: Record<string, string> }) {
   if (primary.length === 0) return null
 
   return (
-    <div className="shrink-0 border-b px-6 py-3.5 flex items-center gap-8 flex-wrap"
+    <div className="shrink-0 border-b px-4 py-3"
       style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-1)' }}>
-      {primary.map(({ key, label }) => (
-        <div key={key}>
-          <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ color: 'var(--text-faint)' }}>{label}</div>
-          <div className="font-[var(--font-display)] text-xl font-bold leading-none" style={{ color: 'var(--text-primary)' }}>{readme[key]}</div>
-        </div>
-      ))}
-      {voice.length > 0 && (
-        <>
-          <div className="h-7 w-px hidden sm:block" style={{ backgroundColor: 'var(--border-1)' }} />
-          {voice.map(({ key, label }) => (
-            <div key={key}>
-              <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ color: 'var(--text-faint)' }}>{label}</div>
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{readme[key]}</div>
-            </div>
-          ))}
-        </>
-      )}
+      <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-8">
+        {primary.map(({ key, label }) => (
+          <div key={key}>
+            <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ color: 'var(--text-faint)' }}>{label}</div>
+            <div className="font-[var(--font-display)] text-base sm:text-xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>{readme[key]}</div>
+          </div>
+        ))}
+        {voice.length > 0 && (
+          <>
+            <div className="h-7 w-px hidden sm:block" style={{ backgroundColor: 'var(--border-1)' }} />
+            {voice.map(({ key, label }) => (
+              <div key={key}>
+                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ color: 'var(--text-faint)' }}>{label}</div>
+                <div className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>{readme[key]}</div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   )
 }
@@ -554,13 +556,18 @@ function DetailPanel({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-end backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-end sm:items-start sm:justify-end backdrop-blur-sm"
       style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}
       onClick={onClose}
     >
       <div
-        className="relative flex h-screen w-full max-w-2xl flex-col border-l animate-slide-in-right"
-        style={{ backgroundColor: 'var(--surface-1)', borderColor: 'var(--border-1)' }}
+        className="relative flex w-full max-w-2xl flex-col border-t sm:border-t-0 sm:border-l animate-slide-up sm:animate-slide-in-right"
+        style={{
+          backgroundColor: 'var(--surface-1)',
+          borderColor: 'var(--border-1)',
+          height: '90dvh',
+          maxHeight: '90dvh',
+        }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -896,83 +903,90 @@ export default function FounderPackPage() {
     )
   }
 
+  const navBtn = "flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors"
+  const navBtnStyle = { borderColor: 'var(--border-1)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface-2)' }
+
   return (
     <div className="flex h-screen flex-col overflow-hidden" style={{ backgroundColor: 'var(--page-bg)', color: 'var(--text-primary)' }}>
 
       {/* ── Top nav ── */}
       <div className="shrink-0 border-b backdrop-blur" style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-1)' }}>
-        <div className="flex items-center gap-3 px-4 py-2.5 flex-wrap">
-          {/* Left: breadcrumb */}
+
+        {/* Row 1: breadcrumb + theme */}
+        <div className="flex items-center gap-2 px-4 py-2.5">
           <button
             onClick={() => navigate('/admin')}
-            className="flex items-center gap-1.5 text-sm transition-opacity hover:opacity-70"
+            className="flex items-center gap-1.5 text-xs transition-opacity hover:opacity-70"
             style={{ color: 'var(--text-muted)' }}
           >
-            <ArrowLeft size={13} /> Admin
+            <ArrowLeft size={13} /> <span className="hidden sm:inline">Admin</span>
           </button>
           <span style={{ color: 'var(--text-faint)' }}>/</span>
-          <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold"
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold"
               style={{ backgroundColor: 'var(--surface-3)', color: 'var(--text-secondary)' }}>
               {displayName.charAt(0)}
             </div>
-            <span className="font-[var(--font-display)] font-semibold text-sm">{displayName}</span>
+            <span className="font-[var(--font-display)] font-semibold text-sm truncate">{displayName}</span>
           </div>
 
           <div className="flex-1" />
 
-          {/* Right: controls */}
-          <div className="flex items-center gap-2 flex-wrap">
+          {/* Theme toggle — always visible */}
+          <button
+            onClick={toggleTheme}
+            className="flex items-center justify-center h-7 w-7 rounded-lg border transition-colors shrink-0"
+            style={navBtnStyle}
+            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          >
+            {theme === 'dark' ? <Sun size={13} /> : <Moon size={13} />}
+          </button>
+        </div>
 
-            {/* Date picker */}
-            <div className="flex items-center gap-2">
-              <Calendar size={12} style={{ color: 'var(--text-muted)' }} />
-              {loadingPacks ? (
-                <Loader2 size={12} className="animate-spin" style={{ color: 'var(--text-muted)' }} />
-              ) : packs.length > 0 ? (
-                <div className="relative">
-                  <select
-                    value={selectedDate}
-                    onChange={e => setSelectedDate(e.target.value)}
-                    className="appearance-none rounded-lg border pl-3 pr-7 py-1.5 text-xs focus:outline-none cursor-pointer"
-                    style={{
-                      borderColor: 'var(--border-1)',
-                      backgroundColor: 'var(--surface-2)',
-                      color: 'var(--text-primary)',
-                    }}
-                  >
-                    {packs.map(p => (
-                      <option key={p.date} value={p.date}>{p.date} — {p.filename}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={10} className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
-                </div>
-              ) : null}
-            </div>
+        {/* Row 2: date + actions */}
+        <div className="flex items-center gap-2 px-4 pb-2.5 flex-wrap">
 
+          {/* Date picker */}
+          <div className="flex items-center gap-1.5 min-w-0">
+            <Calendar size={12} style={{ color: 'var(--text-muted)' }} className="shrink-0" />
+            {loadingPacks ? (
+              <Loader2 size={12} className="animate-spin" style={{ color: 'var(--text-muted)' }} />
+            ) : packs.length > 0 ? (
+              <div className="relative min-w-0">
+                <select
+                  value={selectedDate}
+                  onChange={e => setSelectedDate(e.target.value)}
+                  className="appearance-none rounded-lg border pl-2 pr-6 py-1.5 text-xs focus:outline-none cursor-pointer max-w-[200px] sm:max-w-xs truncate"
+                  style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-2)', color: 'var(--text-primary)' }}
+                >
+                  {packs.map(p => (
+                    <option key={p.date} value={p.date}>{p.date}</option>
+                  ))}
+                </select>
+                <ChevronDown size={10} className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
+              </div>
+            ) : null}
+          </div>
+
+          <div className="flex items-center gap-1.5 flex-wrap">
             {/* Group toggle */}
             <div className="relative">
               <button
                 onClick={() => setGroupMenuOpen(o => !o)}
-                className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors"
-                style={{ borderColor: 'var(--border-1)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface-2)' }}
+                className={navBtn}
+                style={navBtnStyle}
               >
                 {visibleGroups.size < ALL_GROUPS.length ? <EyeOff size={12} /> : <Eye size={12} />}
-                Columns
+                <span className="hidden sm:inline">Columns</span>
               </button>
               {groupMenuOpen && (
                 <div
-                  className="absolute right-0 top-full mt-1 z-50 rounded-xl border p-2 shadow-xl min-w-[160px]"
+                  className="absolute left-0 top-full mt-1 z-50 rounded-xl border p-2 shadow-xl min-w-[160px]"
                   style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-1)' }}
                 >
                   {ALL_GROUPS.map(g => (
                     <label key={g} className="flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer hover:opacity-70 text-xs">
-                      <input
-                        type="checkbox"
-                        checked={visibleGroups.has(g)}
-                        onChange={() => toggleGroup(g)}
-                        className="accent-white"
-                      />
+                      <input type="checkbox" checked={visibleGroups.has(g)} onChange={() => toggleGroup(g)} className="accent-white" />
                       <span style={{ color: 'var(--text-secondary)' }}>{g}</span>
                     </label>
                   ))}
@@ -985,51 +999,36 @@ export default function FounderPackPage() {
               <button
                 onClick={saveEdits}
                 disabled={saving}
-                className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors"
+                className={navBtn}
                 style={{ borderColor: '#f59e0b', color: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)' }}
               >
                 {saving ? <Loader2 size={12} className="animate-spin" /> : null}
-                Save {editCount} edit{editCount !== 1 ? 's' : ''}
+                Save {editCount}
               </button>
             )}
 
-            {/* Export Excel */}
-            <button
-              onClick={handleExcelExport}
-              disabled={!packData}
-              className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors disabled:opacity-40"
-              style={{ borderColor: 'var(--border-1)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface-2)' }}
-            >
-              <Download size={12} /> Excel
+            {/* Excel */}
+            <button onClick={handleExcelExport} disabled={!packData} className={clsx(navBtn, 'disabled:opacity-40')} style={navBtnStyle}>
+              <Download size={12} /> <span className="hidden sm:inline">Excel</span>
             </button>
 
-            {/* Export to Google Sheets */}
+            {/* Sheets */}
             <button
               onClick={handleSheetsExport}
               disabled={!packData || sheetExporting}
-              className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors disabled:opacity-40"
-              style={{ borderColor: 'var(--border-1)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface-2)' }}
-              title="Export to Google Sheets (creates a new sheet, shares with content@tagent.club)"
+              className={clsx(navBtn, 'disabled:opacity-40')}
+              style={navBtnStyle}
+              title="Export to Google Sheets"
             >
               {sheetExporting ? <Loader2 size={12} className="animate-spin" /> : <Sheet size={12} />}
-              Sheets
-            </button>
-
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="flex items-center justify-center h-7 w-7 rounded-lg border transition-colors"
-              style={{ borderColor: 'var(--border-1)', color: 'var(--text-secondary)', backgroundColor: 'var(--surface-2)' }}
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? <Sun size={13} /> : <Moon size={13} />}
+              <span className="hidden sm:inline">Sheets</span>
             </button>
           </div>
         </div>
 
         {/* Search bar */}
         <div className="border-t px-4 py-2" style={{ borderColor: 'var(--border-2)' }}>
-          <div className="relative max-w-sm">
+          <div className="relative">
             <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--text-muted)' }} />
             <input
               type="text"
@@ -1037,18 +1036,10 @@ export default function FounderPackPage() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="w-full rounded-lg border pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-1"
-              style={{
-                borderColor: 'var(--border-1)',
-                backgroundColor: 'var(--surface-2)',
-                color: 'var(--text-primary)',
-              }}
+              style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-2)', color: 'var(--text-primary)' }}
             />
             {search && (
-              <button
-                onClick={() => setSearch('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2"
-                style={{ color: 'var(--text-muted)' }}
-              >
+              <button onClick={() => setSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }}>
                 <X size={11} />
               </button>
             )}
