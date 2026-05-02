@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Loader2, Shield } from 'lucide-react'
+import { Loader2, Shield, ArrowRight } from 'lucide-react'
 import { apiPost } from '../api/client'
 
 export default function AdminLoginPage() {
@@ -18,49 +18,65 @@ export default function AdminLoginPage() {
       await apiPost('/api/admin/login', { password })
       navigate('/admin', { replace: true })
     } catch {
-      setError('Invalid admin password')
+      setError('Incorrect admin password')
     } finally {
       setSubmitting(false)
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black px-4">
-      <div className="w-full max-w-sm animate-slide-up">
-        <div className="mb-8 flex flex-col items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
-            <Shield size={22} className="text-black" />
+    <div className="grain relative flex min-h-screen items-center justify-center bg-[var(--page-bg)] px-4">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/2 top-[35%] h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.012] blur-[100px]" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-[340px] animate-slide-up">
+        <div className="mb-10 text-center">
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--surface-3)] shadow-[var(--shadow-md)]">
+            <Shield size={20} className="text-[var(--text-secondary)]" />
           </div>
-          <h1 className="font-[var(--font-display)] text-xl font-semibold text-white">Admin Panel</h1>
-          <p className="text-xs text-white/50">Digital DNA — Developer Controls</p>
+          <h1 className="font-[var(--font-display)] text-[20px] font-bold tracking-tight text-[var(--text-primary)]">
+            Admin Panel
+          </h1>
+          <p className="mt-1 text-[13px] text-[var(--text-muted)]">
+            Developer access · Digital DNA
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-3 rounded-2xl border border-[var(--border-1)] bg-[var(--surface-1)] p-6 shadow-[var(--shadow-lg)]"
+        >
           <div>
-            <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50">
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
               Admin Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-2 text-sm text-white focus:border-white/30 focus:outline-none"
+              className="field"
               autoFocus
               required
             />
           </div>
 
           {error && (
-            <div className="text-xs text-white/80">{error}</div>
+            <div className="rounded-xl bg-[var(--error-dim)] px-4 py-3 text-[12.5px] text-[var(--error)]">
+              {error}
+            </div>
           )}
 
           <button
             type="submit"
             disabled={submitting || !password}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-3 py-2.5 text-sm font-semibold text-black hover:bg-white/90 disabled:opacity-40"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-white py-2.5 text-[13.5px] font-semibold text-black transition-all hover:bg-white/92 disabled:opacity-40 disabled:cursor-not-allowed mt-2"
           >
-            {submitting ? <Loader2 size={14} className="animate-spin" /> : <Shield size={14} />}
-            {submitting ? 'Signing in...' : 'Access Admin Panel'}
+            {submitting
+              ? <Loader2 size={15} className="animate-spin" />
+              : <ArrowRight size={15} />
+            }
+            {submitting ? 'Verifying…' : 'Access Admin'}
           </button>
         </form>
       </div>

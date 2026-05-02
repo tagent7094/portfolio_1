@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Sparkles, Loader2, StopCircle } from 'lucide-react'
+import { Sparkles, StopCircle, Zap } from 'lucide-react'
 import { streamSSE } from '../api/client'
 import { usePipelineStore } from '../store/usePipelineStore'
 import { useFounderStore } from '../store/useFounderStore'
@@ -7,6 +7,7 @@ import PipelineStepper from '../components/generate/PipelineStepper'
 import PostCard from '../components/generate/PostCard'
 import VotingMatrix from '../components/generate/VotingMatrix'
 import FinalResult from '../components/generate/FinalResult'
+import { PageHeader, Card, CardHeader, CardBody, CardTitle, Button, Badge } from '../components/ui'
 
 const PLATFORMS = ['linkedin', 'twitter', 'blog', 'email'] as const
 
@@ -23,31 +24,40 @@ export default function GeneratePage() {
 
   const handleGenerate = async () => {
     if (!topic.trim()) return
-
-    console.log('[Generate] Starting pipeline:', { topic, platform, creativity: creativity / 100, founder_slug: active, num_variants: numVariants })
-
     store.reset()
     store.setRunning(true)
-
     const controller = new AbortController()
     abortRef.current = controller
-
     try {
       await streamSSE(
         '/api/generate/topic/stream',
         { topic, platform, creativity: creativity / 100, founder_slug: active, num_variants: numVariants },
-        (event) => {
-          console.log('[SSE Event]', event.stage, event.status, event.data ? Object.keys(event.data) : '')
-          store.handleEvent(event)
-        },
+        (event) => store.handleEvent(event),
         controller.signal,
       )
-      console.log('[Generate] Pipeline complete')
     } catch (e: any) {
-      console.error('[Generate] Error:', e)
       if (e.name !== 'AbortError') {
         usePipelineStore.setState({ error: e.message, running: false })
       }
+    }
+  }
+
+  const handleQuickFix = async () => {
+    if (!topic.trim()) return
+    store.reset()
+    store.setRunning(true)
+    try {
+      const { apiPost } = await import('../api/client')
+      const res = await apiPost<{ post: string }>('/api/generate/quick-fix', {
+        topic, platform, creativity: creativity / 100, founder_slug: active,
+      })
+      store.handleEvent({
+        stage: 'done', status: 'pipeline_done',
+        data: { quality: { score: 0, passed: true }, influence: { overall: 0, belief_alignment: { score: 0 }, story_influence: { score: 0 }, style_adherence: { score: 0 } }, post: res.post },
+        progress: 0, agent_id: '',
+      })
+    } catch (e: any) {
+      usePipelineStore.setState({ error: e.message, running: false })
     }
   }
 
@@ -60,13 +70,16 @@ export default function GeneratePage() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Generate Content</h2>
+      <PageHeader
+        title="Generate Content"
+        subtitle="AI-powered post generation with multi-agent pipeline"
+      />
 
       {/* Topic Form */}
-      <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div className="sm:col-span-3">
-            <label className="mb-1 block text-sm font-medium text-gray-300">
+      <Card className="animate-slide-up">
+        <CardBody className="space-y-4">
+          <div>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
               Topic
             </label>
             <input
@@ -74,124 +87,120 @@ export default function GeneratePage() {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               placeholder="What should we write about?"
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-500 focus:border-white/30 focus:outline-none"
+              className="field"
               onKeyDown={(e) => e.key === 'Enter' && !store.running && handleGenerate()}
             />
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-300">
-              Platform
-            </label>
-            <select
-              value={platform}
-              onChange={(e) => setPlatform(e.target.value)}
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
-            >
-              {PLATFORMS.map((p) => (
-                <option key={p} value={p}>
-                  {p.charAt(0).toUpperCase() + p.slice(1)}
-                </option>
-              ))}
-            </select>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                Platform
+              </label>
+              <select
+                value={platform}
+                onChange={(e) => setPlatform(e.target.value)}
+                className="field"
+              >
+                {PLATFORMS.map((p) => (
+                  <option key={p} value={p}>
+                    {p.charAt(0).toUpperCase() + p.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                Variants
+              </label>
+              <select
+                value={numVariants}
+                onChange={(e) => setNumVariants(Number(e.target.value))}
+                className="field"
+              >
+                {[1, 3, 5, 10].map((n) => (
+                  <option key={n} value={n}>{n} posts</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-1.5 flex items-center justify-between text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                <span>Creativity</span>
+                <span className="normal-case font-normal text-[var(--text-secondary)]">{creativity}%</span>
+              </label>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={creativity}
+                onChange={(e) => setCreativity(Number(e.target.value))}
+                className="mt-2 w-full accent-white"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-300">
-              Creativity: {creativity}%
-            </label>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={creativity}
-              onChange={(e) => setCreativity(Number(e.target.value))}
-              className="w-full accent-white"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-300">
-              Variants
-            </label>
-            <select
-              value={numVariants}
-              onChange={(e) => setNumVariants(Number(e.target.value))}
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
-            >
-              {[1, 3, 5, 10].map((num) => (
-                <option key={num} value={num}>
-                  {num} posts
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex items-end gap-3 sm:col-span-2">
-            <label className="flex items-center gap-2 text-sm text-gray-300 mb-2 cursor-pointer">
+          <div className="flex items-center justify-between pt-1">
+            <label className="flex cursor-pointer items-center gap-2 text-[13px] text-[var(--text-secondary)]">
               <input
                 type="checkbox"
                 checked={showThinking}
                 onChange={(e) => setShowThinking(e.target.checked)}
-                className="rounded border-gray-700 bg-gray-800 text-white/80 focus:ring-white/30 focus:ring-offset-gray-900"
+                className="rounded border-[var(--border-3)] bg-[var(--surface-3)] text-white/80 focus:ring-white/30 focus:ring-offset-[var(--surface-1)]"
               />
-              Show Thinking
+              Show pipeline progress
             </label>
 
-            <div className="flex-1"></div>
-
-            {store.running ? (
-              <button
-                onClick={handleStop}
-                className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
-              >
-                <StopCircle size={16} />
-                Stop
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <button
-                  onClick={async () => {
-                    if (!topic.trim()) return
-                    store.reset()
-                    store.setRunning(true)
-                    try {
-                      const { apiPost } = await import('../api/client')
-                      const res = await apiPost<{ post: string }>('/api/generate/quick-fix', { topic, platform, creativity: creativity / 100, founder_slug: active })
-                      store.handleEvent({
-                        stage: 'done', status: 'pipeline_done', data: { quality: { score: 0, passed: true }, influence: { overall: 0, belief_alignment: { score: 0 }, story_influence: { score: 0 }, style_adherence: { score: 0 } }, post: res.post },
-                        progress: 0,
-                        agent_id: ''
-                      })
-                    } catch (e: any) {
-                      usePipelineStore.setState({ error: e.message, running: false })
-                    }
-                  }}
-                  disabled={!topic.trim()}
-                  className="flex items-center gap-2 rounded-lg bg-gray-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-600 disabled:opacity-50"
-                  title="Generate a structural variant instantly, skipping voting protocols"
+            <div className="flex items-center gap-2">
+              {store.running ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleStop}
+                  icon={<StopCircle size={14} />}
                 >
-                  <Sparkles size={16} className="text-white" />
-                  Quick Fix
-                </button>
-                <button
-                  onClick={handleGenerate}
-                  disabled={!topic.trim()}
-                  className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-white/90 disabled:opacity-50"
-                >
-                  <Sparkles size={16} />
-                  Full Generate
-                </button>
-              </div>
-            )}
+                  Stop
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleQuickFix}
+                    disabled={!topic.trim()}
+                    icon={<Zap size={14} />}
+                    title="Generate a structural variant instantly, skipping voting"
+                  >
+                    Quick Fix
+                  </Button>
+                  <Button
+                    onClick={handleGenerate}
+                    disabled={!topic.trim()}
+                    icon={<Sparkles size={14} />}
+                    size="sm"
+                  >
+                    Full Generate
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
       {/* Error */}
       {store.error && (
-        <div className="rounded-lg border border-white/30 bg-white/10 px-4 py-3 text-sm text-white">
+        <div className="rounded-xl border border-[var(--error)]/30 bg-[var(--error)]/10 px-4 py-3 text-[13px] text-[var(--error)]">
           {store.error}
+        </div>
+      )}
+
+      {/* Running indicator */}
+      {store.running && (
+        <div className="flex items-center gap-2.5 text-[13px] text-[var(--text-muted)]">
+          <div className="h-2 w-2 animate-pulse rounded-full bg-[var(--warning)]" />
+          Pipeline running…
         </div>
       )}
 
@@ -200,30 +209,25 @@ export default function GeneratePage() {
         <PipelineStepper stepStates={store.stepStates} />
       )}
 
-      {/* Running indicator */}
-      {store.running && (
-        <div className="flex items-center gap-2 text-sm text-gray-400">
-          <Loader2 size={16} className="animate-spin" />
-          Pipeline running...
-        </div>
-      )}
-
-      {/* Stage 1: Posts */}
+      {/* Stage 1: Generated Posts */}
       {showThinking && store.posts.length > 0 && (
-        <div>
-          <h3 className="mb-3 text-lg font-semibold text-gray-200">
-            Generated Posts
-          </h3>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {store.posts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                streamingText={store.streamingTokens[post.engine_id]}
-              />
-            ))}
-          </div>
-        </div>
+        <Card className="animate-slide-up">
+          <CardHeader>
+            <CardTitle>Generated Posts</CardTitle>
+            <Badge variant="default">{store.posts.length}</Badge>
+          </CardHeader>
+          <CardBody>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {store.posts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  streamingText={store.streamingTokens[post.engine_id]}
+                />
+              ))}
+            </div>
+          </CardBody>
+        </Card>
       )}
 
       {/* Stage 2: Voting Matrix */}
@@ -235,71 +239,63 @@ export default function GeneratePage() {
         />
       )}
 
-      {/* Stage 3: Refinement */}
+      {/* Stage 3: Refined Posts */}
       {showThinking && store.refinedPosts.length > 0 && (
-        <div>
-          <h3 className="mb-3 text-lg font-semibold text-gray-200">
-            Refined Posts
-          </h3>
-          <div className="space-y-3">
+        <Card className="animate-slide-up">
+          <CardHeader>
+            <CardTitle>Refined Posts</CardTitle>
+            <Badge variant="success">{store.refinedPosts.length}</Badge>
+          </CardHeader>
+          <CardBody className="space-y-3">
             {store.refinedPosts.map((rp: any, i: number) => (
               <div
                 key={i}
-                className="grid gap-4 rounded-xl border border-gray-800 bg-gray-900 p-4 sm:grid-cols-2"
+                className="grid gap-4 rounded-xl border border-[var(--border-2)] bg-[var(--surface-3)] p-4 sm:grid-cols-2"
               >
                 <div>
-                  <span className="mb-1 block text-xs font-medium text-gray-500">
-                    Before
-                  </span>
-                  <p className="text-sm text-gray-400">{rp.original_text || rp.original || rp.before || ''}</p>
+                  <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Before</span>
+                  <p className="text-[13px] leading-relaxed text-[var(--text-muted)]">{rp.original_text || rp.original || rp.before || ''}</p>
                 </div>
                 <div>
-                  <span className="mb-1 block text-xs font-medium text-white">
-                    After
-                  </span>
-                  <p className="text-sm text-gray-200">{rp.refined_text || rp.refined || rp.after || ''}</p>
+                  <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[var(--success)]">After</span>
+                  <p className="text-[13px] leading-relaxed text-[var(--text-secondary)]">{rp.refined_text || rp.refined || rp.after || ''}</p>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
+          </CardBody>
+        </Card>
       )}
 
-      {/* Stage 4: Opening Massacre */}
+      {/* Stage 4: Opening Lines */}
       {showThinking && store.openingLines.length > 0 && (
-        <div>
-          <h3 className="mb-3 text-lg font-semibold text-gray-200">
-            Opening Lines
-          </h3>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {store.openingLines.map((line) => (
-              <div
-                key={line.id}
-                className={`rounded-lg border p-3 text-sm ${store.winningOpening?.text === line.text
-                  ? 'border-white/30 bg-white/30 text-green-200'
-                  : 'border-gray-800 bg-gray-900 text-gray-300'
-                  }`}
-              >
-                <p>{line.text}</p>
-                {line.strategy && (
-                  <span className="mt-1 block text-xs text-gray-500">
-                    {line.strategy}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-          {store.winningOpening && (
-            <div className="mt-3 rounded-lg border border-white/30 bg-white/40 p-3">
-              <span className="text-xs font-medium text-white">
-                Winner
-              </span>
-              <p className="text-sm text-green-200">
-                {store.winningOpening.text}
-              </p>
+        <Card className="animate-slide-up">
+          <CardHeader>
+            <CardTitle>Opening Lines</CardTitle>
+            {store.winningOpening && <Badge variant="success">Winner selected</Badge>}
+          </CardHeader>
+          <CardBody className="space-y-3">
+            <div className="grid gap-2 sm:grid-cols-2">
+              {store.openingLines.map((line) => {
+                const isWinner = store.winningOpening?.text === line.text
+                return (
+                  <div
+                    key={line.id}
+                    className={`rounded-xl border p-3 text-[13px] transition-colors ${
+                      isWinner
+                        ? 'border-[var(--success)]/40 bg-[var(--success-dim)]'
+                        : 'border-[var(--border-2)] bg-[var(--surface-3)]'
+                    }`}
+                  >
+                    <p className={isWinner ? 'text-[var(--success)]' : 'text-[var(--text-secondary)]'}>{line.text}</p>
+                    {line.strategy && (
+                      <span className="mt-1 block text-[11px] text-[var(--text-muted)]">{line.strategy}</span>
+                    )}
+                  </div>
+                )
+              })}
             </div>
-          )}
-        </div>
+          </CardBody>
+        </Card>
       )}
 
       {/* Stage 5: Final Result */}

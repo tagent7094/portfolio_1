@@ -14,6 +14,7 @@ import { Save, Play, Loader2, X } from 'lucide-react'
 import { apiGet, apiPost } from '../api/client'
 import type { WorkflowConfig } from '../types/api'
 import AgentNode from '../components/workflow/AgentNode'
+import { Spinner } from '../components/ui'
 
 const customNodeTypes = {
   agent: AgentNode,
@@ -112,42 +113,28 @@ export default function WorkflowPage() {
     saveMutation.mutate(updated)
   }
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 size={24} className="animate-spin text-gray-400" />
-      </div>
-    )
-  }
+  if (isLoading) return <Spinner fullPage />
 
   return (
     <div className="flex h-[calc(100vh-120px)] gap-4">
       {/* Canvas */}
-      <div className="relative flex-1 rounded-xl border border-gray-800 bg-gray-950">
+      <div className="relative flex-1 rounded-xl border border-[var(--border-1)] bg-[var(--surface-1)]">
         {/* Toolbar */}
         <div className="absolute right-3 top-3 z-10 flex gap-2">
           <button
             onClick={handleSave}
             disabled={saveMutation.isPending}
-            className="flex items-center gap-1.5 rounded-lg bg-gray-800 px-3 py-1.5 text-xs font-medium text-gray-200 transition-colors hover:bg-gray-700 disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-lg bg-[var(--surface-3)] px-3 py-1.5 text-[12px] font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface-4)] disabled:opacity-50"
           >
-            {saveMutation.isPending ? (
-              <Loader2 size={12} className="animate-spin" />
-            ) : (
-              <Save size={12} />
-            )}
+            {saveMutation.isPending ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
             Save
           </button>
           <button
             onClick={() => runMutation.mutate()}
             disabled={runMutation.isPending}
-            className="flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-black transition-colors hover:bg-white disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[12px] font-medium text-black transition-colors hover:bg-white/90 disabled:opacity-50"
           >
-            {runMutation.isPending ? (
-              <Loader2 size={12} className="animate-spin" />
-            ) : (
-              <Play size={12} />
-            )}
+            {runMutation.isPending ? <Loader2 size={12} className="animate-spin" /> : <Play size={12} />}
             Run
           </button>
         </div>
@@ -163,18 +150,18 @@ export default function WorkflowPage() {
           proOptions={{ hideAttribution: true }}
         >
           <Background color="#1e1e2a" gap={20} />
-          <Controls className="!bg-gray-900 !border-gray-700 !text-gray-300 [&>button]:!bg-gray-800 [&>button]:!border-gray-700 [&>button]:!text-gray-300" />
+          <Controls className="!bg-[var(--surface-2)] !border-[var(--border-1)] [&>button]:!bg-[var(--surface-3)] [&>button]:!border-[var(--border-2)] [&>button]:!text-[var(--text-muted)]" />
         </ReactFlow>
       </div>
 
       {/* Sidebar */}
       {selectedNode && (
-        <div className="w-72 space-y-4 rounded-xl border border-gray-800 bg-gray-900 p-4">
+        <div className="w-72 space-y-4 rounded-xl border border-[var(--border-1)] bg-[var(--surface-2)] p-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-gray-200">Node Config</h3>
+            <h3 className="text-[13px] font-semibold text-[var(--text-primary)]">Node Config</h3>
             <button
               onClick={() => setSelectedNode(null)}
-              className="text-gray-500 hover:text-gray-300"
+              className="text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
             >
               <X size={16} />
             </button>
@@ -182,43 +169,43 @@ export default function WorkflowPage() {
 
           <div className="space-y-3">
             <div>
-              <label className="mb-1 block text-xs font-medium text-gray-400">
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
                 Label
               </label>
               <input
                 type="text"
                 defaultValue={selectedNode.data.label as string}
-                className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
+                className="field"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-medium text-gray-400">
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
                 Type
               </label>
-              <p className="text-sm capitalize text-gray-300">
+              <p className="text-[13px] capitalize text-[var(--text-secondary)]">
                 {selectedNode.type}
               </p>
             </div>
 
             {selectedNode.data.prompt !== undefined && (
               <div>
-                <label className="mb-1 block text-xs font-medium text-gray-400">
+                <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
                   Prompt
                 </label>
                 <textarea
                   defaultValue={selectedNode.data.prompt as string}
                   rows={4}
-                  className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-sm text-gray-100 focus:border-white/30 focus:outline-none"
+                  className="field resize-none"
                 />
               </div>
             )}
 
             <div>
-              <label className="mb-1 block text-xs font-medium text-gray-400">
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
                 ID
               </label>
-              <p className="text-xs font-mono text-gray-500 break-all">
+              <p className="break-all font-[var(--font-mono)] text-[11px] text-[var(--text-muted)]">
                 {selectedNode.id}
               </p>
             </div>
