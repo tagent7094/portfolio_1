@@ -89,7 +89,16 @@ jobs:
           mkdir -p ~/.ssh
           printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H 147.93.20.156 >> ~/.ssh/known_hosts 2>/dev/null
+          ssh-keyscan -H 147.93.20.156 >> ~/.ssh/known_hosts 2>/dev/null || true
+          echo "Host 147.93.20.156" >> ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+          echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
+          chmod 600 ~/.ssh/config
+
+      - name: Test SSH connectivity
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=15 \
+            root@147.93.20.156 'echo "SSH OK: $(hostname)"'
 
       - name: Deploy
         run: |
