@@ -3,6 +3,8 @@
 # Pulls latest code, builds the frontend, runs provision, restarts service.
 set -eo pipefail
 
+export HOME=/root
+
 APP_DIR=/opt/tagent
 APP_USER=tagent
 
@@ -10,8 +12,9 @@ echo "=== [ci-deploy] Start ==="
 
 cd "$APP_DIR"
 git config --global --add safe.directory "$APP_DIR" || true
-sudo -u "$APP_USER" git fetch origin main
-sudo -u "$APP_USER" git reset --hard origin/main
+git fetch origin main
+git reset --hard origin/main
+chown -R "$APP_USER":"$APP_USER" "$APP_DIR/.git"
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/config/founder-permissions.yaml" || true
 
 echo "=== [ci-deploy] Installing Python deps ==="
