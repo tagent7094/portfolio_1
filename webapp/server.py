@@ -54,9 +54,10 @@ app.include_router(admin_router)
 from webapp.deploy_routes import router as deploy_router
 app.include_router(deploy_router)
 
-# Post-pack routes (admin Excel viewer)
-from webapp.pack_routes import router as pack_router
+# Post-pack routes (admin Excel viewer + one-time Google setup)
+from webapp.pack_routes import router as pack_router, setup_router as pack_setup_router
 app.include_router(pack_router)
+app.include_router(pack_setup_router)
 
 logging.basicConfig(
     level=logging.INFO,

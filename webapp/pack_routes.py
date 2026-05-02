@@ -4,21 +4,25 @@ Post-pack routes: browse and read per-founder Excel packs.
   GET   /api/admin/founders/{slug}/post-packs                → list available dates
   GET   /api/admin/founders/{slug}/post-packs/{date}         → parse Excel → JSON
   POST  /api/admin/founders/{slug}/post-packs/{date}/export-sheets → create Google Sheet
+  POST  /api/admin/setup-google-key                          → one-time: upload service-account JSON
 """
 
 from __future__ import annotations
 
+import json
 import logging
+import os
 import re
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel
 
 from webapp.auth_routes import _require_admin
 
 router = APIRouter(prefix="/api/admin/founders", tags=["admin-packs"])
+setup_router = APIRouter(prefix="/api/admin", tags=["admin-setup"])
 logger = logging.getLogger(__name__)
 
 FOUNDERS_DIR = Path(__file__).parent.parent / "data" / "founders"
@@ -229,3 +233,34 @@ async def export_to_sheets(slug: str, date: str, body: SheetsExportRequest, requ
     except Exception as exc:
         logger.exception("Google Sheets export failed: %s", exc)
         raise HTTPException(status_code=500, detail=f"Sheets export failed: {exc}")
+
+
+# ── One-time Google service account key upload ────────────────────────────────
+
+@setup_router.post("/setup-google-key")
+async def setup_google_key(request: Request, x_setup_token: str = Header(default="")):
+    expected = os.environ.get("TAGENT_SETUP_TOKEN", "")
+    if not expected or x_setup_token != expected:
+        raise HTTPException(status_code=403, detail="invalid setup token")
+
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="body must be valid JSON")
+
+    if "type" not in body or body.get("type") != "service_account":
+        raise HTTPException(status_code=400, detail="body must be a service_account JSON key")
+
+    SA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    SA_FILE.write_text(json.dumps(body, indent=2))
+    SA_FILE.chmod(0o600)
+    try:
+        import pwd
+        uid = pwd.getpwnam("tagent").pw_uid
+        gid = pwd.getpwnam("tagent").pw_gid
+        os.chown(SA_FILE, uid, gid)
+    except Exception:
+        pass
+
+    logger.info("Google service account key installed at %s", SA_FILE)
+    return {"ok": True, "path": str(SA_FILE)}
