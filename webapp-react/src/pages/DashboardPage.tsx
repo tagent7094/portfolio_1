@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Network, GitBranch, Brain, BookOpen, Palette, Lightbulb, Upload, Loader2, Zap, BarChart3, Cpu } from 'lucide-react'
+import { Network, GitBranch, Brain, BookOpen, Palette, Lightbulb, Upload, Zap, BarChart3, Cpu } from 'lucide-react'
 import { apiGet, apiPost } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
-import { PageHeader, StatCard, Card, CardHeader, CardBody, CardTitle, Button, Spinner, EmptyState } from '../components/ui'
+import { PageHeader, StatCard, Card, CardHeader, CardBody, CardTitle, Button, EmptyState } from '../components/ui'
 import type { GraphStats } from '../types/api'
 
 const STAT_ICONS = [Network, GitBranch, Brain, BookOpen, Palette, Lightbulb] as const
@@ -94,7 +94,7 @@ export default function DashboardPage() {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {STAT_ICONS.map((Icon, i) => (
+          {STAT_ICONS.map((_Icon, i) => (
             <div key={i} className="card animate-pulse p-4 space-y-3">
               <div className="h-3 w-12 rounded bg-[var(--surface-4)]" />
               <div className="h-7 w-8 rounded bg-[var(--surface-4)]" />

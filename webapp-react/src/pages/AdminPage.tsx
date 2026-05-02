@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet, apiPost } from '../api/client'
-import { Button, Badge, Card, CardHeader, CardBody, Spinner } from '../components/ui'
+import { Button, Badge, Card, CardBody, Spinner } from '../components/ui'
 
 const ALL_PAGES = ['dashboard', 'generate', 'customize', 'graph', 'coverage', 'workflow', 'history', 'config']
 
