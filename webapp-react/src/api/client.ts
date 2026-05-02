@@ -3,12 +3,21 @@ import type { PipelineEvent } from '../types/api'
 const BASE = ''
 
 function _maybeRedirectOn401(status: number, url: string) {
-  // Don't redirect from auth endpoints themselves (the auth store handles those)
   if (status !== 401) return
+  // Auth endpoints handle their own errors
   if (url.startsWith('/api/auth/')) return
+  // Admin login endpoint — let the form's catch block show the error
+  if (url === '/api/admin/login') return
   if (typeof window === 'undefined') return
-  if (window.location.pathname === '/login') return
-  window.location.assign('/login')
+  const path = window.location.pathname
+  // Already on a login page — don't loop
+  if (path === '/login' || path === '/admin/login') return
+  // Admin routes redirect to admin login; everything else to regular login
+  if (path.startsWith('/admin')) {
+    window.location.assign('/admin/login')
+  } else {
+    window.location.assign('/login')
+  }
 }
 
 export async function apiGet<T>(url: string): Promise<T> {
