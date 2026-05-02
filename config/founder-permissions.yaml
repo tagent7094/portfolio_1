@@ -34,4 +34,4 @@ founders:
     pages:
     - graph
 admin:
-  password_hash: ''
+  password_hash: '$2b$12$pGOSz/X.KRoDBQzouYZWY.tXp58SLrQ/9ltRSQlJrKnHPLI7lerDS'
