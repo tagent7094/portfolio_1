@@ -79,31 +79,12 @@ jobs:
           git push origin main
           echo "pushed=true" >> "$GITHUB_OUTPUT"
 
-  # ── Job 2: SSH into VPS and run deploy script directly ───────────────────
+  # ── Job 2: VPS polls git every 60s and self-deploys ─────────────────────
+  # No inbound connection needed — the VPS runs a systemd timer (tagent-poll.timer)
+  # that calls git-poll.sh every minute. It detects new commits and runs ci-deploy.sh.
   deploy:
     runs-on: ubuntu-latest
     needs: register
     steps:
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" | tr -d '[:space:]' | base64 -d > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H 147.93.20.156 >> ~/.ssh/known_hosts 2>/dev/null || true
-          echo "Host 147.93.20.156" >> ~/.ssh/config
-          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
-          echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
-          chmod 600 ~/.ssh/config
-
-      - name: Test SSH connectivity
-        run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=15 \
-            root@147.93.20.156 'echo "SSH OK: $(hostname)"'
-
-      - name: Deploy
-        run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            -o ServerAliveInterval=30 \
-            root@147.93.20.156 \
-            'export HOME=/root && bash /opt/tagent/deploy/ci-deploy.sh 2>&1'
-        timeout-minutes: 10
+      - name: Deploy triggered
+        run: echo "VPS git-poll timer picks up this commit within 60 seconds."
