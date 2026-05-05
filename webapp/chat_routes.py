@@ -111,31 +111,35 @@ async def chat_context(data: ChatContextRequest):
     if not data.query.strip():
         raise HTTPException(status_code=400, detail="Query is required")
 
+    system_prompt = _load_system_prompt()
+    chunks: list[dict] = []
+
+    # RAG retrieval — gracefully degrade if embedder/vectorstore unavailable
     try:
         from src.vectors.store import VectorStore
         embedder = _get_embedder()
         store = VectorStore(persist_dir=str(SHARATH_CHROMA))
 
-        query_embedding = embedder.embed([data.query])[0]
-        results = store.search(query_embedding, n_results=data.n_results)
+        if store.count() > 0:
+            query_embedding = embedder.embed([data.query])[0]
+            results = store.search(query_embedding, n_results=data.n_results)
 
-        chunks = []
-        if results and results.get("documents"):
-            docs = results["documents"][0]
-            metas = results["metadatas"][0] if results.get("metadatas") else [{}] * len(docs)
-            distances = results["distances"][0] if results.get("distances") else [0.0] * len(docs)
-            for doc, meta, dist in zip(docs, metas, distances):
-                chunks.append({
-                    "text": doc,
-                    "source_type": meta.get("source_type", "unknown"),
-                    "distance": round(dist, 4),
-                })
-
-        system_prompt = _load_system_prompt()
-        return {"chunks": chunks, "system_prompt": system_prompt}
+            if results and results.get("documents"):
+                docs = results["documents"][0]
+                metas = results["metadatas"][0] if results.get("metadatas") else [{}] * len(docs)
+                distances = results["distances"][0] if results.get("distances") else [0.0] * len(docs)
+                for doc, meta, dist in zip(docs, metas, distances):
+                    chunks.append({
+                        "text": doc,
+                        "source_type": meta.get("source_type", "unknown"),
+                        "distance": round(dist, 4),
+                    })
+        else:
+            logger.warning("[chat] ChromaDB collection is empty — run scripts/index_sharath_rag.py")
     except Exception as e:
-        logger.exception("Chat context retrieval failed")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.warning("[chat] RAG retrieval failed (chatbot will work without context): %s", e)
+
+    return {"chunks": chunks, "system_prompt": system_prompt}
 
 
 class ChatStreamRequest(BaseModel):
