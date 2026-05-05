@@ -18,7 +18,7 @@ chown -R "$APP_USER":"$APP_USER" "$APP_DIR/.git"
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/config/founder-permissions.yaml" || true
 
 echo "=== [ci-deploy] Installing Python deps ==="
-"$APP_DIR/venv/bin/pip" install --quiet openpyxl
+"$APP_DIR/venv/bin/pip" install --quiet openpyxl anthropic
 
 echo "=== [ci-deploy] Building frontend ==="
 cd "$APP_DIR/webapp-react"
@@ -30,5 +30,9 @@ systemctl restart tagent
 
 echo "=== [ci-deploy] Running provision ==="
 bash "$APP_DIR/deploy/provision.sh"
+
+echo "=== [ci-deploy] Indexing RAG for AskSharath ==="
+cd "$APP_DIR"
+"$APP_DIR/venv/bin/python" scripts/index_sharath_rag.py || echo "[ci-deploy] RAG indexing failed (non-fatal)"
 
 echo "=== [ci-deploy] Done ==="
