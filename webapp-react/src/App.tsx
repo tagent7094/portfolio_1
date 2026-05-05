@@ -14,12 +14,46 @@ import ConfigPage from './pages/ConfigPage'
 import CustomizePage from './pages/CustomizePage'
 import LandingPage from './pages/LandingPage'
 import FounderPackPage from './pages/FounderPackPage'
-import { isApexDomain } from './utils/subdomain'
+import AskSharathPage from './pages/AskSharathPage'
+import ChatPage from './pages/ChatPage'
+import AskSharathAdminPage from './pages/AskSharathAdminPage'
+import { isApexDomain, getSubdomainSlug } from './utils/subdomain'
 
 export default function App() {
-  // Show the company landing page at tagent.club only for non-admin paths
+  const slug = getSubdomainSlug()
+
+  // Show the company landing page at tagent.club (apex domain)
   if (isApexDomain() && window.location.pathname === '/') {
     return <LandingPage />
+  }
+
+  // On founder subdomains (e.g. sharath.tagent.club), show the AskSharath experience
+  // for the root path, with chat and admin routes available
+  if (slug) {
+    return (
+      <Routes>
+        <Route index element={<AskSharathPage />} />
+        <Route path="chat" element={<ChatPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="admin/login" element={<AdminLoginPage />} />
+        <Route path="admin" element={<AdminPage />} />
+        <Route path="admin/asksharath" element={<AskSharathAdminPage />} />
+        <Route path="admin/founders/:slug" element={<FounderPackPage />} />
+        {/* Protected founder routes still accessible */}
+        <Route element={<RequireAuth />}>
+          <Route element={<AppShell />}>
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="generate" element={<GeneratePage />} />
+            <Route path="customize" element={<CustomizePage />} />
+            <Route path="graph" element={<GraphPage />} />
+            <Route path="coverage" element={<CoveragePage />} />
+            <Route path="workflow" element={<WorkflowPage />} />
+            <Route path="history" element={<HistoryPage />} />
+            <Route path="config" element={<ConfigPage />} />
+          </Route>
+        </Route>
+      </Routes>
+    )
   }
 
   return (
@@ -28,7 +62,9 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/admin/asksharath" element={<AskSharathAdminPage />} />
       <Route path="/admin/founders/:slug" element={<FounderPackPage />} />
+      <Route path="/chat" element={<ChatPage />} />
 
       {/* Protected founder routes */}
       <Route element={<RequireAuth />}>

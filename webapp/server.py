@@ -59,6 +59,11 @@ from webapp.pack_routes import router as pack_router, setup_router as pack_setup
 app.include_router(pack_router)
 app.include_router(pack_setup_router)
 
+# Chat routes (AskSharath — RAG chatbot + admin config)
+from webapp.chat_routes import router as chat_router, admin_chat_router
+app.include_router(chat_router)
+app.include_router(admin_chat_router)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",

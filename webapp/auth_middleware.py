@@ -30,8 +30,8 @@ _BYPASS_PATHS = {
     "/api/auth/me",
     "/api/health",
 }
-# Prefix that bypasses subdomain auth (admin has its own cookie-based auth)
-_BYPASS_PREFIXES = ("/api/admin/",)
+# Prefixes that bypass subdomain auth
+_BYPASS_PREFIXES = ("/api/admin/", "/api/chat/")
 
 _LOCAL_HOSTS = {"localhost", "127.0.0.1", "0.0.0.0"}
 _APEX_DOMAIN = "tagent.club"
