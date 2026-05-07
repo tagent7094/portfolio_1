@@ -120,6 +120,9 @@ PY
 
 echo "[provision] Subdomains for cert: $ALL_SUBDOMAINS"
 
+# Extra app subdomains (not tied to a founder in the registry)
+EXTRA_SUBDOMAINS="-d asksharath.tagent.club"
+
 # Expand cert (idempotent — certbot is a no-op when nothing new needs adding)
 echo "[provision] Running certbot expand..."
 certbot certonly --webroot -w /var/www/certbot \
@@ -128,7 +131,8 @@ certbot certonly --webroot -w /var/www/certbot \
     --cert-name tagent.club \
     --expand \
     -d "$DOMAIN_APEX" \
-    $ALL_SUBDOMAINS 2>&1 | tail -10 || {
+    $ALL_SUBDOMAINS \
+    $EXTRA_SUBDOMAINS 2>&1 | tail -10 || {
         echo "[provision] WARNING: certbot failed — continuing without cert expansion"
     }
 
