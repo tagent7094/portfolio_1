@@ -27,11 +27,11 @@ export default function App() {
     return <LandingPage />
   }
 
-  // On founder subdomains (e.g. sharath.tagent.club), show the AskSharath experience
-  // for the root path, with chat and admin routes available
-  if (slug) {
+  // AskSharath — public chatbot ONLY on sharath.tagent.club
+  if (slug === 'sharath') {
     return (
       <Routes>
+        {/* Public — no auth required */}
         <Route index element={<AskSharathPage />} />
         <Route path="chat" element={<ChatPage />} />
         <Route path="login" element={<LoginPage />} />
@@ -39,7 +39,7 @@ export default function App() {
         <Route path="admin" element={<AdminPage />} />
         <Route path="admin/asksharath" element={<AskSharathAdminPage />} />
         <Route path="admin/founders/:slug" element={<FounderPackPage />} />
-        {/* Protected founder routes still accessible */}
+        {/* Auth-protected founder tools */}
         <Route element={<RequireAuth />}>
           <Route element={<AppShell />}>
             <Route path="dashboard" element={<DashboardPage />} />
@@ -56,6 +56,7 @@ export default function App() {
     )
   }
 
+  // All other subdomains + localhost — standard founder app
   return (
     <Routes>
       {/* Public routes */}
@@ -64,7 +65,6 @@ export default function App() {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/asksharath" element={<AskSharathAdminPage />} />
       <Route path="/admin/founders/:slug" element={<FounderPackPage />} />
-      <Route path="/chat" element={<ChatPage />} />
 
       {/* Protected founder routes */}
       <Route element={<RequireAuth />}>
