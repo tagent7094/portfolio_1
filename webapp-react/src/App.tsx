@@ -27,8 +27,8 @@ export default function App() {
     return <LandingPage />
   }
 
-  // AskSharath — public chatbot ONLY on sharath.tagent.club
-  if (slug === 'sharath') {
+  // AskSharath — public chatbot ONLY on asksharath.tagent.club
+  if (slug === 'asksharath') {
     return (
       <Routes>
         {/* Public — no auth required */}
