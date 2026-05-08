@@ -161,6 +161,83 @@ class APIProvider(LLMProvider):
                 yield delta.content
         print("", file=sys.stderr)
 
+    def generate_with_search(
+        self,
+        prompt: str,
+        system_prompt: str = None,
+        temperature: float = 0.7,
+        max_tokens: int = 2000,
+        max_searches: int = 3,
+        allowed_domains: list[str] | None = None,
+    ) -> dict:
+        """Generate with Anthropic server-side web search. Returns {text, searches[]}."""
+        if self.provider != "anthropic":
+            return super().generate_with_search(prompt, system_prompt, temperature, max_tokens)
+
+        self._wait_for_rate_limit()
+        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m generate_with_search() prompt={len(prompt)} chars, max_searches={max_searches}", file=sys.stderr, flush=True)
+
+        messages = [{"role": "user", "content": prompt}]
+        tools = [{
+            "type": "web_search_20250305",
+            "name": "web_search",
+            "max_uses": max_searches,
+        }]
+        if allowed_domains:
+            tools[0]["allowed_domains"] = allowed_domains
+
+        kwargs = {
+            "model": self.model,
+            "max_tokens": max_tokens,
+            "messages": messages,
+            "tools": tools,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        call_thinking = self.enable_thinking
+        if call_thinking:
+            kwargs["thinking"] = {"type": "adaptive"}
+            kwargs["output_config"] = {"effort": self.effort}
+            kwargs["max_tokens"] = max(max_tokens, 16000)
+        else:
+            kwargs["temperature"] = temperature
+
+        response = self.client.messages.create(**kwargs)
+
+        text_parts = []
+        searches = []
+
+        for block in response.content:
+            if hasattr(block, "type"):
+                if block.type == "text":
+                    text_parts.append(block.text)
+                elif block.type == "server_tool_use" and block.name == "web_search":
+                    searches.append({
+                        "query": block.input.get("query", "") if isinstance(block.input, dict) else str(block.input),
+                        "tool_use_id": block.id,
+                    })
+                elif block.type == "web_search_tool_result":
+                    results = []
+                    if hasattr(block, "content"):
+                        for r in block.content:
+                            if hasattr(r, "url"):
+                                results.append({
+                                    "url": getattr(r, "url", ""),
+                                    "title": getattr(r, "title", ""),
+                                    "page_age": getattr(r, "page_age", ""),
+                                })
+                    for s in searches:
+                        if s.get("tool_use_id") == getattr(block, "tool_use_id", None):
+                            s["results"] = results
+                            break
+
+        text = "\n".join(text_parts)
+        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m→ {len(text)} chars + {len(searches)} web searches\033[0m", file=sys.stderr, flush=True)
+
+        self._report_success()
+        return {"text": text, "searches": searches}
+
     def generate_json(self, prompt: str, system_prompt: str = None) -> dict:
         max_tok = self.max_output_tokens
         print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m generate_json() prompt={len(prompt)} chars, max_output={max_tok}", file=sys.stderr, flush=True)

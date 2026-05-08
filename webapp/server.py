@@ -18,7 +18,6 @@ from pydantic import BaseModel
 
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
-from src.utils.text_utils import save_to_history
 
 import os as _os
 
@@ -107,42 +106,6 @@ class ConfigUpdate(BaseModel):
     model: str | None = None
     base_url: str | None = None
     api_key: str | None = None
-
-
-class TopicRequest(BaseModel):
-    topic: str
-    platform: str = "linkedin"
-    creativity: float = 0.5
-    founder_slug: str | None = None
-    num_variants: int = 10
-
-
-class QuickFixRequest(BaseModel):
-    topic: str
-    platform: str = "linkedin"
-    creativity: float = 0.5
-    founder_slug: str | None = None
-
-
-class RegenerateRequest(BaseModel):
-    previous_post: str
-    feedback: str
-    platform: str = "linkedin"
-    creativity: float = 0.5
-    founder_slug: str | None = None
-
-
-class SectionRewriteRequest(BaseModel):
-    entire_post: str
-    section_text: str
-    command: str
-    platform: str = "linkedin"
-    founder_slug: str | None = None
-
-
-class PodcastRequest(BaseModel):
-    transcript: str
-    platform: str = "linkedin"
 
 
 class ScoreRequest(BaseModel):
@@ -648,200 +611,6 @@ async def run_ingest():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# --- Generation (via LangGraph direct call) ---
-
-@app.post("/api/generate/topic")
-async def generate_topic(data: TopicRequest):
-    if not data.topic:
-        raise HTTPException(status_code=400, detail="Topic is required")
-    try:
-        from src.langchain_agents.graph_workflow import run_topic_generation
-        from src.humanization.graph_scorer import score_graph_influence
-        from src.graph.store import load_graph
-
-        gp = _graph_path()
-        result = run_topic_generation(data.topic, data.platform, gp)
-
-        post = result.get("humanized_post", "")
-        quality = result.get("quality_result", {})
-        agent_log = result.get("agent_log", [])
-        all_posts = result.get("all_posts", [])
-        audience_votes = result.get("audience_votes", {})
-        aggregated_scores = result.get("aggregated_scores", {})
-        top_post_ids = result.get("top_post_ids", [])
-        refined_posts = result.get("refined_posts", [])
-        topic_match = result.get("topic_match", {})
-
-        # Run graph influence scoring
-        graph = load_graph(gp)
-        influence = score_graph_influence(post, graph, data.topic, data.platform)
-
-        # Save output
-        fname = save_to_history(post, data.platform)
-
-        return {
-            "status": "ok",
-            "post": post,
-            "quality": quality,
-            "influence": influence,
-            "agent_log": agent_log,
-            "all_posts": [{"id": p.get("id"), "engine_name": p.get("engine_name"), "text": p.get("text", "")[:200]} for p in all_posts],
-            "audience_votes": audience_votes,
-            "aggregated_scores": aggregated_scores,
-            "top_post_ids": top_post_ids,
-            "refined_posts": [{"id": r.get("id"), "original_text": r.get("original_text", "")[:200], "refined_text": r.get("refined_text", "")[:200]} for r in refined_posts],
-            "topic_match": topic_match,
-            "filename": fname,
-        }
-    except Exception as e:
-        logger.exception("Generation failed")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/api/generate/topic/stream")
-async def generate_topic_stream(data: TopicRequest):
-    """SSE streaming generation — sends events as pipeline progresses."""
-    logger.info("[generate_topic_stream] topic=%s platform=%s creativity=%.2f founder=%s",
-                data.topic, data.platform, data.creativity, data.founder_slug)
-    if not data.topic:
-        raise HTTPException(status_code=400, detail="Topic is required")
-
-    from src.generation.pipeline_events import PipelineEvent, PipelineEventBus
-    from src.langchain_agents.graph_workflow import run_topic_generation_with_events
-    from src.humanization.graph_scorer import score_graph_influence
-    from src.graph.store import load_graph
-
-    event_bus = PipelineEventBus()
-    founder_slug = data.founder_slug or _active_founder_slug()
-    gp = _graph_path(founder_slug)
-    creativity = data.creativity
-
-    async def run_pipeline():
-        try:
-            result = await asyncio.to_thread(
-                run_topic_generation_with_events, data.topic, data.platform, gp, event_bus,
-                founder_slug, creativity, data.num_variants,
-            )
-
-            # Score influence
-            graph = load_graph(gp)
-            post = result.get("humanized_post", "")
-            influence = score_graph_influence(post, graph, data.topic, data.platform)
-            result["influence"] = influence
-
-            # Save output
-            fname = save_to_history(post, data.platform)
-            result["filename"] = fname
-
-            event_bus.emit(PipelineEvent(
-                stage="done",
-                status="pipeline_done",
-                data=result,
-            ))
-        except Exception as e:
-            logger.exception("Pipeline failed")
-            event_bus.emit(PipelineEvent(
-                stage="error",
-                status="pipeline_done",
-                data={"error": str(e)},
-            ))
-
-    asyncio.create_task(run_pipeline())
-
-    return StreamingResponse(
-        event_bus.stream(),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
-
-
-@app.post("/api/generate/quick-fix")
-async def generate_quick_fix(data: QuickFixRequest):
-    logger.info("[quick_fix] topic=%s founder=%s", data.topic, data.founder_slug)
-    try:
-        from src.customizer.customizer_engine import quick_fix_post
-        result = await asyncio.to_thread(
-            quick_fix_post,
-            data.topic,
-            data.founder_slug or _active_founder_slug(),
-            data.platform,
-            data.creativity,
-        )
-        save_to_history(result, data.platform)
-        return {"status": "ok", "post": result}
-    except Exception as e:
-        logger.exception("Quick fix failed")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/api/generate/regenerate-with-context")
-async def generate_regenerate(data: RegenerateRequest):
-    logger.info("[regenerate] context size=%s bytes feedback=%s", len(data.previous_post), data.feedback)
-    try:
-        from src.customizer.customizer_engine import regenerate_with_context
-        result = await asyncio.to_thread(
-            regenerate_with_context,
-            data.previous_post,
-            data.feedback,
-            data.founder_slug or _active_founder_slug(),
-            data.platform,
-            data.creativity,
-        )
-        save_to_history(result, data.platform)
-        return {"status": "ok", "post": result}
-    except Exception as e:
-        logger.exception("Regenerate failed")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/api/generate/section-rewrite")
-async def generate_section_rewrite(data: SectionRewriteRequest):
-    logger.info("[section_rewrite] command=%s", data.command)
-    try:
-        from src.customizer.customizer_engine import rewrite_section
-        result = await asyncio.to_thread(
-            rewrite_section,
-            data.entire_post,
-            data.section_text,
-            data.command,
-            data.founder_slug or _active_founder_slug(),
-            data.platform,
-        )
-        save_to_history(result, data.platform)
-        return {"status": "ok", "post": result}
-    except Exception as e:
-        logger.exception("Section rewrite failed")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/api/generate/podcast")
-async def generate_podcast(data: PodcastRequest):
-    if not data.transcript:
-        raise HTTPException(status_code=400, detail="Transcript is required")
-
-    temp_path = PROJECT_ROOT / "data" / "podcasts" / "_webapp_temp.txt"
-    temp_path.parent.mkdir(parents=True, exist_ok=True)
-    temp_path.write_text(data.transcript, encoding="utf-8")
-
-    try:
-        result = subprocess.run(
-            [sys.executable, "-m", "src.cli", "generate", "podcast", str(temp_path), "--platform", data.platform],
-            cwd=str(PROJECT_ROOT),
-            capture_output=True, text=True, timeout=600,
-        )
-        output = result.stdout
-        post = ""
-        if "Generated Post:" in output:
-            post = output.split("Generated Post:")[-1].strip()
-            post = re.sub(r"\[/?[^\]]+\]", "", post).strip()
-        return {"status": "ok" if result.returncode == 0 else "error", "post": post, "stdout": output, "stderr": result.stderr}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        if temp_path.exists():
-            temp_path.unlink()
-
-
 # --- Scoring ---
 
 @app.post("/api/score")
@@ -942,76 +711,7 @@ class PostSearchRequest(BaseModel):
     page: int = 1
     page_size: int = 20
 
-class StageConfigPayload(BaseModel):
-    """Per-stage configuration from the frontend PipelineBuilder."""
-    enabled: bool = True
-    n: int | None = None
-    top_k: int | None = None
-    max_tokens: int | None = None
-    thinking_budget: int | None = None
-    temperature: float | None = None
-    agent_ids: list[str] | None = None
-    strategy_ids: list[str] | None = None
 
-
-class PipelineConfigPayload(BaseModel):
-    variants: StageConfigPayload | None = None
-    audience_vote: StageConfigPayload | None = None
-    refine: StageConfigPayload | None = None
-    opening_massacre: StageConfigPayload | None = None
-    humanize: StageConfigPayload | None = None
-    quality_gate: StageConfigPayload | None = None
-
-
-class PostCustomizeRequest(BaseModel):
-    text: str
-    founder_slug: str
-    creativity_opening: float = 0.5
-    creativity_body: float = 0.5
-    creativity_closing: float = 0.5
-    creativity_tone: float = 0.5
-    platform: str = "linkedin"
-    # Legacy fields (still supported when pipeline is None)
-    num_variants: int = 5
-    skip_voting: bool = True
-    # NEW: preferred per-stage config
-    pipeline: PipelineConfigPayload | None = None
-
-
-def _resolve_pipeline_config(data: PostCustomizeRequest):
-    """Build a PipelineConfig from the request.
-
-    Prefers `data.pipeline` when provided; falls back to the legacy
-    num_variants + skip_voting shim.
-    """
-    from src.customizer.customizer_engine import PipelineConfig, StageConfig
-
-    if not data.pipeline:
-        return PipelineConfig.from_legacy(num_variants=data.num_variants, skip_voting=data.skip_voting)
-
-    def _to_stage(payload: StageConfigPayload | None, fallback: StageConfig) -> StageConfig:
-        if payload is None:
-            return fallback
-        return StageConfig(
-            enabled=payload.enabled if payload.enabled is not None else fallback.enabled,
-            n=payload.n if payload.n is not None else fallback.n,
-            top_k=payload.top_k if payload.top_k is not None else fallback.top_k,
-            max_tokens=payload.max_tokens if payload.max_tokens is not None else fallback.max_tokens,
-            thinking_budget=payload.thinking_budget if payload.thinking_budget is not None else fallback.thinking_budget,
-            temperature=payload.temperature if payload.temperature is not None else fallback.temperature,
-            agent_ids=payload.agent_ids if payload.agent_ids is not None else fallback.agent_ids,
-            strategy_ids=payload.strategy_ids if payload.strategy_ids is not None else fallback.strategy_ids,
-        )
-
-    defaults = PipelineConfig()
-    return PipelineConfig(
-        variants=_to_stage(data.pipeline.variants, defaults.variants),
-        audience_vote=_to_stage(data.pipeline.audience_vote, defaults.audience_vote),
-        refine=_to_stage(data.pipeline.refine, defaults.refine),
-        opening_massacre=_to_stage(data.pipeline.opening_massacre, defaults.opening_massacre),
-        humanize=_to_stage(data.pipeline.humanize, defaults.humanize),
-        quality_gate=_to_stage(data.pipeline.quality_gate, defaults.quality_gate),
-    )
 
 @app.get("/api/posts/browse")
 async def browse_posts(
@@ -1046,233 +746,43 @@ async def search_posts(data: PostSearchRequest):
     logger.info("[search_posts] query=%s", data.query[:50])
     return _search(query=data.query, page=data.page, page_size=data.page_size)
 
-@app.post("/api/posts/customize")
-async def customize_post(data: PostCustomizeRequest):
-    logger.info("[customize_post] founder=%s creativity: o=%.0f%% b=%.0f%% c=%.0f%% t=%.0f%%",
-                data.founder_slug, data.creativity_opening*100, data.creativity_body*100,
-                data.creativity_closing*100, data.creativity_tone*100)
-    try:
-        from src.customizer.customizer_engine import customize_post as _customize, SectionCreativity
-        creativity = SectionCreativity(
-            opening=data.creativity_opening,
-            body=data.creativity_body,
-            closing=data.creativity_closing,
-            tone=data.creativity_tone,
-        )
-        result = await asyncio.to_thread(_customize, data.text, data.founder_slug, creativity, data.platform)
-        
-        # Save output
-        save_to_history(result.customized, data.platform)
+## ── Batch Post Generation (Cowork-style) ─────────────────────────────────
 
-        # Track node coverage
-        try:
-            from src.tracking.node_usage import track_node_usage
-            from src.graph.store import load_graph
-            gp = _graph_path(data.founder_slug)
-            graph = load_graph(gp)
-            track_node_usage(result.customized, graph, result.topic, data.platform, data.founder_slug or _active_founder_slug())
-        except Exception:
-            logger.warning("Coverage tracking failed for customize", exc_info=True)
-
-        return {
-            "status": "ok",
-            "original": result.original,
-            "customized": result.customized,
-            "sections": result.sections,
-            "topic": result.topic,
-            "founder_context": result.founder_context,
-            "viral_context": result.viral_context,
-            "traceability": result.traceability,
-        }
-    except Exception as e:
-        logger.exception("Customization failed")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/api/posts/customize/config/defaults")
-async def get_customize_pipeline_defaults():
-    """Return everything the PipelineBuilder UI needs to render.
-
-    - available audience agents
-    - available customization strategies
-    - available hook strategies for the opening massacre
-    - whether the current LLM provider supports thinking (for the slider)
-    - default PipelineConfig shape
-    """
-    from src.customizer.customizer_engine import (
-        CUSTOMIZATION_STRATEGIES, PipelineConfig,
-    )
-    from src.generation.audience_panel import load_audience_agents
-
-    try:
-        agents = load_audience_agents()
-        audience_agents = [
-            {
-                "id": a.get("id", ""),
-                "name": a.get("name", ""),
-                "description": (a.get("description", "") or "")[:240],
-            }
-            for a in agents
-        ]
-    except Exception:
-        audience_agents = []
-
-    strategies = [
-        {"id": s["id"], "name": s["name"]}
-        for s in CUSTOMIZATION_STRATEGIES
-    ]
-
-    # Hook strategies come from opening_line_massacre
-    try:
-        from src.generation.opening_line_massacre import HOOK_STRATEGIES
-        hook_strategies = [{"id": h.get("id", ""), "name": h.get("name", "")} for h in HOOK_STRATEGIES]
-    except Exception:
-        hook_strategies = []
-
-    # Detect whether current provider supports thinking (anthropic/nvidia)
-    try:
-        config = _load_config()
-        provider = (config.get("llm", {}) or {}).get("provider", "")
-        provider_supports_thinking = provider in ("anthropic", "nvidia")
-    except Exception:
-        provider_supports_thinking = False
-
-    defaults = PipelineConfig()
-    defaults_dict = {
-        "variants": {
-            "enabled": defaults.variants.enabled, "n": defaults.variants.n,
-            "max_tokens": defaults.variants.max_tokens, "thinking_budget": defaults.variants.thinking_budget,
-            "strategy_ids": defaults.variants.strategy_ids,
-        },
-        "audience_vote": {
-            "enabled": defaults.audience_vote.enabled, "max_tokens": defaults.audience_vote.max_tokens,
-            "thinking_budget": defaults.audience_vote.thinking_budget, "agent_ids": defaults.audience_vote.agent_ids,
-        },
-        "refine": {
-            "enabled": defaults.refine.enabled, "top_k": defaults.refine.top_k,
-            "max_tokens": defaults.refine.max_tokens, "thinking_budget": defaults.refine.thinking_budget,
-        },
-        "opening_massacre": {
-            "enabled": defaults.opening_massacre.enabled, "n": defaults.opening_massacre.n,
-            "max_tokens": defaults.opening_massacre.max_tokens,
-            "thinking_budget": defaults.opening_massacre.thinking_budget,
-            "agent_ids": defaults.opening_massacre.agent_ids,
-        },
-        "humanize": {
-            "enabled": defaults.humanize.enabled, "max_tokens": defaults.humanize.max_tokens,
-            "thinking_budget": defaults.humanize.thinking_budget,
-        },
-        "quality_gate": {"enabled": defaults.quality_gate.enabled},
-    }
-
-    return {
-        "audience_agents": audience_agents,
-        "customization_strategies": strategies,
-        "hook_strategies": hook_strategies,
-        "provider_supports_thinking": provider_supports_thinking,
-        "defaults": defaults_dict,
-    }
-
-
-@app.post("/api/posts/customize/full")
-async def customize_post_full(data: PostCustomizeRequest):
-    """Full agentic pipeline: N variants → audience vote → refine → opening massacre → humanize."""
-    logger.info("[customize_post_full] founder=%s creativity: o=%.0f%% b=%.0f%% c=%.0f%%, variants=%d",
-                data.founder_slug, data.creativity_opening*100, data.creativity_body*100, data.creativity_closing*100, data.num_variants)
-
-    from src.generation.pipeline_events import PipelineEvent, PipelineEventBus
-    from src.customizer.customizer_engine import customize_post_full_pipeline, SectionCreativity
-
-    event_bus = PipelineEventBus()
-    creativity = SectionCreativity(
-        opening=data.creativity_opening,
-        body=data.creativity_body,
-        closing=data.creativity_closing,
-        tone=data.creativity_tone,
-    )
-    pipeline_cfg = _resolve_pipeline_config(data)
-
-    async def run():
-        try:
-            result = await asyncio.to_thread(
-                customize_post_full_pipeline,
-                data.text, data.founder_slug, creativity, data.platform, event_bus,
-                data.num_variants, data.skip_voting, pipeline_cfg,
-            )
-            # Save output
-            if result.get("customized"):
-                save_to_history(result.get("customized"), data.platform)
-
-                # Track node coverage
-                try:
-                    from src.tracking.node_usage import track_node_usage
-                    from src.graph.store import load_graph
-                    gp = _graph_path(data.founder_slug)
-                    graph = load_graph(gp)
-                    track_node_usage(result["customized"], graph, result.get("topic", ""), data.platform, data.founder_slug or _active_founder_slug())
-                except Exception:
-                    logger.warning("Coverage tracking failed for full customize", exc_info=True)
-
-            event_bus.emit(PipelineEvent(stage="done", status="pipeline_done", data=result))
-        except Exception as e:
-            logger.exception("Full customization pipeline failed")
-            event_bus.emit(PipelineEvent(stage="error", status="pipeline_done", data={"error": str(e)}))
-
-    asyncio.create_task(run())
-    return StreamingResponse(
-        event_bus.stream(),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
-
-## ── V2 Viral Post Adaptation ─────────────────────────────────────────────
-
-class AdaptV2Request(BaseModel):
-    source_post: str
+class BatchGenerateRequest(BaseModel):
     founder_slug: str
     platform: str = "linkedin"
     creativity: float = 0.5
-    num_variants: int = 5
+    n_sources: int = 10
+    source_posts: list[str] | None = None
 
-@app.post("/api/posts/adapt-v2")
-async def adapt_v2(data: AdaptV2Request):
-    """V2 Viral Post Adaptation: deep internalization + structural mirroring."""
-    logger.info("[adapt_v2] founder=%s creativity=%.0f%% variants=%d",
-                data.founder_slug, data.creativity*100, data.num_variants)
-    from src.customizer.customizer_engine import adapt_viral_v2
-    try:
-        result = await asyncio.to_thread(
-            adapt_viral_v2,
-            data.source_post, data.founder_slug, data.platform, data.creativity, None, data.num_variants,
-        )
-        if result.get("customized"):
-            save_to_history(result["customized"], data.platform)
-        return result
-    except Exception as e:
-        logger.exception("V2 adaptation failed")
-        raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/posts/adapt-v2/stream")
-async def adapt_v2_stream(data: AdaptV2Request):
-    """V2 Viral Post Adaptation with SSE streaming."""
-    logger.info("[adapt_v2_stream] founder=%s creativity=%.0f%% variants=%d",
-                data.founder_slug, data.creativity*100, data.num_variants)
+@app.post("/api/generate/batch/stream")
+async def generate_batch_stream(data: BatchGenerateRequest):
+    """SSE streaming batch generation — 9 posts per source, up to 90 posts total."""
+    logger.info("[batch_stream] founder=%s sources=%d creativity=%.2f",
+                data.founder_slug, data.n_sources, data.creativity)
 
     from src.generation.pipeline_events import PipelineEvent, PipelineEventBus
-    from src.customizer.customizer_engine import adapt_viral_v2
+    from src.batch.session import BatchSession
 
     event_bus = PipelineEventBus()
 
     async def run():
         try:
-            result = await asyncio.to_thread(
-                adapt_viral_v2,
-                data.source_post, data.founder_slug, data.platform, data.creativity, event_bus, data.num_variants,
+            session = BatchSession(event_bus=event_bus)
+            await asyncio.to_thread(
+                session.run,
+                founder_slug=data.founder_slug,
+                platform=data.platform,
+                creativity=data.creativity,
+                n_sources=data.n_sources,
+                source_posts=data.source_posts,
             )
-            if result.get("customized"):
-                save_to_history(result["customized"], data.platform)
         except Exception as e:
-            logger.exception("V2 adaptation pipeline failed")
-            event_bus.emit(PipelineEvent(stage="error", status="pipeline_done", data={"error": str(e)}))
+            logger.exception("Batch generation failed")
+            event_bus.emit(PipelineEvent(
+                stage="error", status="pipeline_done", data={"error": str(e)},
+            ))
 
     asyncio.create_task(run())
     return StreamingResponse(
@@ -1280,6 +790,29 @@ async def adapt_v2_stream(data: AdaptV2Request):
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+
+
+@app.post("/api/generate/batch")
+async def generate_batch(data: BatchGenerateRequest):
+    """Non-streaming batch generation — returns full JSON result."""
+    logger.info("[batch] founder=%s sources=%d creativity=%.2f",
+                data.founder_slug, data.n_sources, data.creativity)
+    try:
+        from src.batch.session import BatchSession
+        session = BatchSession()
+        result = await asyncio.to_thread(
+            session.run,
+            founder_slug=data.founder_slug,
+            platform=data.platform,
+            creativity=data.creativity,
+            n_sources=data.n_sources,
+            source_posts=data.source_posts,
+        )
+        return {"status": "ok", **result}
+    except Exception as e:
+        logger.exception("Batch generation failed")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/api/posts/stats")
 async def posts_stats():

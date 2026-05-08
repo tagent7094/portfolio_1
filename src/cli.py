@@ -14,12 +14,10 @@ from rich.console import Console
 from rich.table import Table
 
 app = typer.Typer(name="digital-dna", help="Build personality knowledge graphs and generate authentic social posts.")
-generate_app = typer.Typer(help="Generate posts from podcasts or viral topics.")
 graph_app = typer.Typer(help="Inspect and export the knowledge graph.")
 config_app = typer.Typer(help="View and modify configuration.")
 auth_app = typer.Typer(help="Manage subdomain auth credentials for tagent.club deployment.")
 
-app.add_typer(generate_app, name="generate")
 app.add_typer(graph_app, name="graph")
 app.add_typer(config_app, name="config")
 app.add_typer(auth_app, name="auth")
@@ -402,168 +400,6 @@ def ingest(
     console.print(f"  Graph: {graph.number_of_nodes()} nodes, {graph.number_of_edges()} edges")
 
 
-@generate_app.command("podcast")
-def generate_podcast(
-    file: str = typer.Argument(..., help="Path to podcast transcript file"),
-    platform: str = typer.Option("linkedin", help="Target platform: linkedin, twitter, email"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
-):
-    """Generate a post from a podcast transcript."""
-    _setup_logging(verbose)
-
-    config = _load_config()
-    graph_path = PROJECT_ROOT / config["stores"]["graph_path"]
-    vectors_path = PROJECT_ROOT / config["stores"]["vectors_path"]
-
-    from .llm.factory import create_llm
-    from .graph.store import load_graph
-    from .generation.agents import AgentSwarm
-    from .humanization.humanizer import humanize_post
-    from .humanization.quality_gate import quality_gate
-
-    llm = create_llm(str(PROJECT_ROOT / "config" / "llm-config.yaml"))
-    graph = load_graph(str(graph_path))
-
-    if graph.number_of_nodes() == 0:
-        console.print("[red]No knowledge graph found. Run 'digital-dna ingest' first.[/red]")
-        raise typer.Exit(1)
-
-    transcript_path = Path(file)
-    if not transcript_path.is_absolute():
-        transcript_path = PROJECT_ROOT / file
-    transcript = transcript_path.read_text(encoding="utf-8", errors="replace")
-    console.print(f"[blue]Loaded transcript: {len(transcript)} chars[/blue]")
-
-    swarm = AgentSwarm(llm, graph)
-
-    console.print("[bold blue]Step 1: Extracting & voting on narratives...[/bold blue]")
-    winner_narrative, narr_scores = swarm.extract_and_vote_narrative(transcript)
-    if not winner_narrative:
-        console.print("[red]No narratives extracted from transcript.[/red]")
-        raise typer.Exit(1)
-    console.print(f"  Winning narrative: {winner_narrative.get('hook', 'N/A')}")
-
-    console.print("[bold blue]Step 2: Generating & voting on posts...[/bold blue]")
-    winner_post, post_scores = swarm.generate_and_vote_posts(winner_narrative, platform)
-    if not winner_post:
-        console.print("[red]No posts generated.[/red]")
-        raise typer.Exit(1)
-
-    console.print("[bold blue]Step 3: Humanizing...[/bold blue]")
-    humanized = humanize_post(winner_post["text"], graph, llm, platform)
-
-    console.print("[bold blue]Step 4: Quality gate...[/bold blue]")
-    qg = quality_gate(humanized, graph)
-
-    if not qg["passed"]:
-        console.print(f"[yellow]Quality gate score: {qg['score']}% (below threshold). Re-humanizing...[/yellow]")
-        humanized = humanize_post(humanized, graph, llm, platform)
-        qg = quality_gate(humanized, graph)
-
-    # Save output
-    output_dir = PROJECT_ROOT / "data" / "output"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_path = output_dir / f"post_{platform}_{ts}.txt"
-    output_path.write_text(humanized, encoding="utf-8")
-
-    _save_log({
-        "narrative": winner_narrative,
-        "narrative_scores": narr_scores,
-        "post_scores": post_scores,
-        "quality_gate": qg,
-        "platform": platform,
-    }, f"generate_podcast_{platform}")
-
-    console.print("\n[bold green]Generated Post:[/bold green]\n")
-    console.print(humanized)
-    console.print(f"\n[dim]Quality: {qg['score']}% | Saved: {output_path}[/dim]")
-
-
-@generate_app.command("topic")
-def generate_topic(
-    topic: str = typer.Argument(..., help="Viral topic to generate a post about"),
-    platform: str = typer.Option("linkedin", help="Target platform: linkedin, twitter, email"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
-):
-    """Generate a post on a viral topic."""
-    _setup_logging(verbose)
-
-    config = _load_config()
-    graph_path = PROJECT_ROOT / config["stores"]["graph_path"]
-    vectors_path = PROJECT_ROOT / config["stores"]["vectors_path"]
-
-    from .llm.factory import create_llm
-    from .graph.store import load_graph
-    from .vectors.store import VectorStore
-    from .generation.topic_matcher import match_topic_to_graph
-    from .generation.agents import AgentSwarm
-    from .humanization.humanizer import humanize_post
-    from .humanization.quality_gate import quality_gate
-
-    llm = create_llm(str(PROJECT_ROOT / "config" / "llm-config.yaml"))
-    graph = load_graph(str(graph_path))
-
-    if graph.number_of_nodes() == 0:
-        console.print("[red]No knowledge graph found. Run 'digital-dna ingest' first.[/red]")
-        raise typer.Exit(1)
-
-    vs = None
-    try:
-        vs = VectorStore(persist_dir=str(PROJECT_ROOT / vectors_path))
-    except Exception:
-        pass
-
-    console.print(f"[blue]Matching topic to graph: {topic}[/blue]")
-    match = match_topic_to_graph(topic, graph, vs, llm)
-    console.print(f"  Angle: {match.get('suggested_angle', 'N/A')}")
-
-    # Create a narrative from the match
-    narrative = {
-        "id": "topic_match",
-        "narrative": match.get("suggested_angle", topic),
-        "angle": f"Based on founder's beliefs about {topic}",
-        "hook": match.get("suggested_angle", topic)[:100],
-    }
-
-    swarm = AgentSwarm(llm, graph)
-
-    console.print("[bold blue]Generating & voting on posts...[/bold blue]")
-    winner_post, post_scores = swarm.generate_and_vote_posts(narrative, platform, topic)
-    if not winner_post:
-        console.print("[red]No posts generated.[/red]")
-        raise typer.Exit(1)
-
-    console.print("[bold blue]Humanizing...[/bold blue]")
-    humanized = humanize_post(winner_post["text"], graph, llm, platform)
-
-    console.print("[bold blue]Quality gate...[/bold blue]")
-    qg = quality_gate(humanized, graph)
-
-    if not qg["passed"]:
-        console.print(f"[yellow]Quality: {qg['score']}%. Re-humanizing...[/yellow]")
-        humanized = humanize_post(humanized, graph, llm, platform)
-        qg = quality_gate(humanized, graph)
-
-    output_dir = PROJECT_ROOT / "data" / "output"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_path = output_dir / f"post_{platform}_{ts}.txt"
-    output_path.write_text(humanized, encoding="utf-8")
-
-    _save_log({
-        "topic": topic,
-        "match": match,
-        "post_scores": post_scores,
-        "quality_gate": qg,
-        "platform": platform,
-    }, f"generate_topic_{platform}")
-
-    console.print("\n[bold green]Generated Post:[/bold green]\n")
-    console.print(humanized)
-    console.print(f"\n[dim]Quality: {qg['score']}% | Saved: {output_path}[/dim]")
-
-
 @graph_app.command("show")
 def graph_show(verbose: bool = typer.Option(False, "--verbose", "-v")):
     """Print graph summary."""
@@ -654,6 +490,23 @@ def config_set_llm(
     console.print(f"[green]LLM provider set to: {provider}[/green]")
     if model:
         console.print(f"  Model: {model}")
+
+
+@app.command("batch-generate")
+def batch_generate(
+    founder: str = typer.Option(..., help="Founder slug (e.g. sharath)"),
+    sources: int = typer.Option(10, help="Number of source posts to adapt"),
+    creativity: float = typer.Option(0.5, help="Creativity level 0.0-1.0"),
+    platform: str = typer.Option("linkedin", help="Target platform"),
+    verbose: bool = typer.Option(False, "--verbose", "-v"),
+):
+    """Run batch post generation — 9 posts per source, 10 sources = 90 posts."""
+    _setup_logging(verbose)
+    from src.batch.session import run_batch_cli
+    output = run_batch_cli(founder, sources, creativity, platform)
+    total = output["metadata"]["total_posts"]
+    packs = len(output.get("packs", []))
+    console.print(f"[green]Done[/green] Batch complete: {total} posts across {packs} packs")
 
 
 @app.command()

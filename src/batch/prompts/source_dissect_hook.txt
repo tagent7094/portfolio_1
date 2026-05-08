@@ -1,0 +1,84 @@
+You are a structural analyst specializing in viral content mechanics. Dissect this viral post into its mechanical parts — structure, not content. The move is what carries over. The source author's typography, lowercase, emojis, register — those are their voice, not the hook's engine.
+
+## SOURCE VIRAL POST
+{source_post}
+
+## PLATFORM
+{platform}
+
+---
+
+## TASK: Dissect the Hook
+
+### 1. THE PSYCHOLOGICAL MOVE
+Figure out what the hook does to the reader — the psychological move. Examples:
+- Three-stack pain escalation (old pain + new pain + meta-trap for objecting)
+- Second-party verdict that reframes the speaker's whole career
+- Contrarian claim that inverts conventional wisdom
+- Specific number or age anchor that signals real memory
+- Authority figure delivering a quote the reader doesn't expect
+- Parallel data points with a third-line reveal
+- Scene drop that puts the reader inside a moment mid-action
+- Diagnostic question that makes the reader self-categorize
+- Confession that costs the speaker credibility
+
+The move is what carries over to the generated posts. Everything else is surface.
+
+### 2. NARRATIVE ARC
+What movement does this post run on? (contradiction reveal, escalation, scene-to-insight, confession-to-principle, diagnostic revelation, progressive build)
+
+### 3. HOOK MECHANICS — SENTENCE-LEVEL BREAKDOWN
+For each opening sentence (typically 1-3 lines before the body begins):
+- The exact text
+- What this sentence DOES structurally (permission frame, diagnostic question, consequence statement, reframe, scene drop, specificity bomb, tension gap)
+- Its rhythm (short/punchy, medium/flowing, long/building)
+- The psychological effect: WHY does it stop the scroll?
+
+### 4. SENTENCE MAP
+Exact sentence count and structural function of opening lines. This is the mold for Batch A mirroring.
+
+### 5. BODY STRUCTURE
+How is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)
+
+### 6. ENDING TYPE
+(concrete image, challenge to reader, quiet admission, unresolved tension, physical detail, callback to opening)
+
+### 7. MIRRORABILITY ASSESSMENT
+Can this source's opening be mirrored (same shape, new content)?
+- **Mirrorable**: the sentence shape works with different domain content. The hook's engine is structural, not content-dependent.
+- **Not mirrorable**: the hook is too proper-noun-specific, too culturally embedded, or too short to mirror without plagiarism risk. If not mirrorable, flag it and all 9 posts should be Batch B.
+
+### 8. REGISTER NOTE
+If the source's register is doing mechanical work — rant energy, whispered vulnerability, exasperation — note it. This energy must be translated into the founder's register, not stripped.
+
+### 9. VIRALITY REASON
+One sentence: what makes the opening work for a general audience?
+
+---
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "psychological_move": "description of the core psychological move the hook makes",
+  "narrative_arc": "description of movement/arc",
+  "hook_mechanic_primary": "three_stack_pain|second_party_verdict|contrarian_claim|specific_number|authority_quote|parallel_data_reveal|scene_entry|diagnostic_question|confession|pattern_observation",
+  "hook_mechanics": [
+    {{{{
+      "sentence": "exact text of opening sentence",
+      "structural_function": "what this sentence does",
+      "psychological_effect": "why it stops the scroll",
+      "rhythm": "short|medium|long"
+    }}}}
+  ],
+  "sentence_count": 2,
+  "body_structure": "description of body organization",
+  "ending_type": "description of ending mechanic",
+  "mirrorable": true,
+  "mirrorability_reason": "why or why not — be specific",
+  "register_energy": "the emotional register doing mechanical work, if any",
+  "virality_reason": "why the opening works for a general audience"
+}}}}
+```
+
+Focus on MECHANICS, not meaning. The content changes; the machine stays the same.

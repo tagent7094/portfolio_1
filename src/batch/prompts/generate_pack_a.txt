@@ -1,0 +1,89 @@
+You are generating a BATCH A (mirrored opening) post. Keep the source hook's sentence shape, beat order, and compression. Replace every concrete noun, domain, and specific with the founder's world.
+
+Same bones. New content. Founder's voice.
+
+## SOURCE POST
+{source_post}
+
+## SOURCE DISSECTION
+{dissection}
+
+## FOUNDER INTERNALIZATION
+{internalization}
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## WORD COUNT RANGE
+{word_count_range}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+## EVENTS ALREADY USED (do NOT reuse any of these)
+{events_used}
+
+## STORIES ALREADY USED (do NOT reuse)
+{stories_used}
+
+## VARIANT NUMBER: {variant_number} of 3
+
+---
+
+## BATCH A RULES
+
+1. MIRROR the source's opening sentence shape EXACTLY:
+   - Same number of sentences in the hook
+   - Same structural functions (if source opens with scene drop → you open with scene drop)
+   - Same rhythm (short-short-long → short-short-long)
+   - Same beat order (setup → complication → reveal)
+   - The SOURCE author's typography, lowercase, emojis, register — those are THEIR voice, not the hook's engine. Replace with the founder's voice.
+
+2. REPLACE ALL CONTENT:
+   - Every domain reference → founder's domain
+   - Every specific number → founder's specific number (from key_moments_inventory)
+   - Every name → founder's cast member
+   - Every scene → founder's signature scene
+   - If the source's register does mechanical work (rant energy, vulnerability, exasperation) — translate that energy into the founder's register, don't strip it.
+
+3. ANTI-RECYCLING (critical):
+   - If a sentence could be copy-pasted from one of the founder's published posts, rewrite it until it can't.
+   - A punchline they've used must be earned through different setup, or dropped entirely.
+   - Treat their existing posts as RAW material, not finished material.
+
+4. EVERY POST MUST:
+   - Hit the word count range (±30% of median)
+   - Match the founder's formatting habits exactly
+   - Orbit one scene the reader can physically picture
+   - Put the founder INSIDE the experience — vulnerable, exposed, not watching from outside
+   - Deliver exactly what the hook promised — the hook sets one specific argument in motion and every paragraph must advance THAT argument, not drift to adjacent material
+   - End on a concrete detail — a name, an image, a physical object, a challenge, a quiet admission. NOT a summary, NOT a moral, NOT a restatement of the thesis
+   - Not read like a rearrangement of an existing founder post
+
+5. ENDING CHECK:
+   If the ending feels over-explained, cut the second-to-last paragraph. The signal usually ends one paragraph before the AI stops writing.
+
+6. VOICE FIDELITY:
+   - Use the founder's voice markers (sentence shapes, closing moves, word choices)
+   - No AI slop ("In today's...", "Here's the thing", "Game-changer", "Let that sink in", etc.)
+
+7. MODE:
+   - Specify whether this post is "wrestling" (exploring tension, uncertain, the turn is the point) or "declaring" (stating position, confident, defending in a straight line)
+   - Match the source post's mode if mirroring
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "text": "the full post text — hook + body + close as one continuous unit",
+  "mode": "wrestling|declaring",
+  "events_used": ["event 1 from inventory", "event 2"],
+  "stories_used": ["story reference"],
+  "argument_compressed": "one sentence summary of what this post argues"
+}}}}
+```
+
+No preamble. No explanation of which mechanic was used. No labeled hook/body split inside the post. No meta-commentary. Just the finished post.

@@ -1,10 +1,10 @@
 """
-Post-pack routes: browse and read per-founder Excel packs.
+Post-pack routes: browse and read per-founder post packs (Excel or batch JSON).
 
-  GET   /api/admin/founders/{slug}/post-packs                → list available dates
-  GET   /api/admin/founders/{slug}/post-packs/{date}         → parse Excel → JSON
-  POST  /api/admin/founders/{slug}/post-packs/{date}/export-sheets → create Google Sheet
-  POST  /api/admin/setup-google-key                          → one-time: upload service-account JSON
+  GET   /api/admin/founders/{slug}/post-packs                -> list available dates
+  GET   /api/admin/founders/{slug}/post-packs/{date}         -> parse pack -> JSON
+  POST  /api/admin/founders/{slug}/post-packs/{date}/export-sheets -> create Google Sheet
+  POST  /api/admin/setup-google-key                          -> one-time: upload service-account JSON
 """
 
 from __future__ import annotations
@@ -45,6 +45,127 @@ def _extract_date(filename: str) -> str:
     return m.group(1) if m else ""
 
 
+# ── Batch JSON -> tabular transformer ────────────────────────────────────────
+
+_BATCH_HEADERS = [
+    "Row #", "Source #", "Type", "Entry Door", "Mode",
+    "Final Post", "Word Count", "Mechanic", "Original Opening",
+    "Final Opening", "Rating", "Buried Gold", "Versions Considered",
+    "Argument", "Events Used", "Gates", "Source Post", "Convergence",
+]
+
+
+def _batch_json_to_tabular(data: dict) -> dict:
+    """Convert nested batch JSON to the flat {readme, headers, posts} format."""
+    metadata = data.get("metadata", {})
+
+    readme = {
+        "Founder": metadata.get("founder", ""),
+        "Date": str(metadata.get("generated_at", ""))[:10],
+        "Posts": str(metadata.get("total_posts", 0)),
+        "Sources": str(metadata.get("sources_count", 0)),
+        "Platform": metadata.get("platform", "linkedin"),
+        "Median word count": str(metadata.get("median_word_count", "")),
+        "Pack": "Batch Cowork",
+    }
+
+    posts: list[dict[str, Any]] = []
+    for pack in data.get("packs", []):
+        src_num = pack.get("source_number", 0)
+        source_post = str(pack.get("source_post", ""))[:200]
+        conv = pack.get("convergence_test", {})
+        conv_str = "PASS" if conv.get("passed", True) else f"FAIL: {conv.get('recommendation', '')}"
+
+        for post in pack.get("posts", []):
+            amp = post.get("amplifier", {})
+            gates = amp.get("gates", {})
+            gates_str = "; ".join(
+                f"{k}={'pass' if v else 'fail'}" for k, v in gates.items()
+            ) if gates else ""
+
+            events = post.get("events_used", [])
+            events_str = "; ".join(events) if isinstance(events, list) else str(events)
+
+            posts.append({
+                "Row #": f"{src_num}-{post.get('label', '')}",
+                "Source #": src_num,
+                "Type": post.get("batch", ""),
+                "Entry Door": post.get("entry_door", ""),
+                "Mode": post.get("mode", ""),
+                "Final Post": post.get("text", ""),
+                "Word Count": post.get("word_count", 0),
+                "Mechanic": amp.get("mechanic", ""),
+                "Original Opening": amp.get("original_opening", ""),
+                "Final Opening": amp.get("final_opening", ""),
+                "Rating": amp.get("rating", 0),
+                "Buried Gold": amp.get("buried_gold", ""),
+                "Versions Considered": amp.get("versions_considered", 0),
+                "Argument": post.get("argument_compressed", ""),
+                "Events Used": events_str,
+                "Gates": gates_str,
+                "Source Post": source_post,
+                "Convergence": conv_str,
+            })
+
+    return {"readme": readme, "headers": list(_BATCH_HEADERS), "posts": posts}
+
+
+def _load_pack_data(slug: str, date: str) -> tuple[list[str], list[dict[str, Any]]]:
+    """Load pack data (headers + rows) from JSON or Excel. Returns (headers, rows)."""
+    post_dir = _post_data_dir(slug)
+
+    # Try batch JSON first
+    for f in post_dir.glob("*_batch_*.json"):
+        if date in f.name:
+            raw = json.loads(f.read_text(encoding="utf-8"))
+            tabular = _batch_json_to_tabular(raw)
+            return tabular["headers"], tabular["posts"]
+
+    # Fall back to Excel
+    target: Path | None = None
+    for f in post_dir.glob("*.xlsx"):
+        if date in f.name:
+            target = f
+            break
+    if not target or not target.exists():
+        raise HTTPException(status_code=404, detail=f"No pack found for {date}")
+
+    try:
+        import openpyxl  # type: ignore
+    except ImportError:
+        raise HTTPException(status_code=500, detail="openpyxl not installed on server")
+
+    try:
+        wb = openpyxl.load_workbook(target, read_only=True, data_only=True)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Could not open Excel: {exc}")
+
+    headers: list[str] = []
+    rows: list[dict[str, Any]] = []
+    if "Posts" in wb.sheetnames:
+        ws = wb["Posts"]
+        for i, row in enumerate(ws.iter_rows(values_only=True)):
+            if i == 0:
+                headers = [str(c) if c is not None else f"col_{j}" for j, c in enumerate(row)]
+            else:
+                if all(v is None for v in row):
+                    continue
+                post: dict[str, Any] = {}
+                for j, val in enumerate(row):
+                    if j < len(headers):
+                        if val is None:
+                            post[headers[j]] = ""
+                        elif isinstance(val, float) and val == int(val):
+                            post[headers[j]] = int(val)
+                        else:
+                            post[headers[j]] = val
+                rows.append(post)
+    wb.close()
+    return headers, rows
+
+
+# ── List packs ───────────────────────────────────────────────────────────────
+
 @router.get("/{slug}/post-packs")
 async def list_post_packs(slug: str, request: Request):
     _require_admin(request)
@@ -52,21 +173,48 @@ async def list_post_packs(slug: str, request: Request):
     if not post_dir.exists():
         return {"packs": []}
 
-    packs = []
+    seen_dates: dict[str, dict] = {}
+
+    # Batch JSON packs (preferred)
+    for f in sorted(post_dir.glob("*_batch_*.json"), reverse=True):
+        d = _extract_date(f.name)
+        if d and d not in seen_dates:
+            seen_dates[d] = {
+                "filename": f.name,
+                "date": d,
+                "size_kb": round(f.stat().st_size / 1024, 1),
+                "format": "json",
+            }
+
+    # Excel packs (only if no JSON for that date)
     for f in sorted(post_dir.glob("*.xlsx"), reverse=True):
-        packs.append({
-            "filename": f.name,
-            "date": _extract_date(f.name),
-            "size_kb": round(f.stat().st_size / 1024, 1),
-        })
+        d = _extract_date(f.name)
+        if d and d not in seen_dates:
+            seen_dates[d] = {
+                "filename": f.name,
+                "date": d,
+                "size_kb": round(f.stat().st_size / 1024, 1),
+                "format": "xlsx",
+            }
+
+    packs = sorted(seen_dates.values(), key=lambda p: p["date"], reverse=True)
     return {"packs": packs}
 
+
+# ── Get single pack ──────────────────────────────────────────────────────────
 
 @router.get("/{slug}/post-packs/{date}")
 async def get_post_pack(slug: str, date: str, request: Request):
     _require_admin(request)
     post_dir = _post_data_dir(slug)
 
+    # Try batch JSON first
+    for f in post_dir.glob("*_batch_*.json"):
+        if date in f.name:
+            raw = json.loads(f.read_text(encoding="utf-8"))
+            return _batch_json_to_tabular(raw)
+
+    # Fall back to Excel
     target: Path | None = None
     for f in post_dir.glob("*.xlsx"):
         if date in f.name:
@@ -118,6 +266,24 @@ async def get_post_pack(slug: str, date: str, request: Request):
     return result
 
 
+# ── Traceability data ────────────────────────────────────────────────────────
+
+@router.get("/{slug}/post-packs/{date}/traces")
+async def get_pack_traces(slug: str, date: str, request: Request):
+    _require_admin(request)
+    post_dir = _post_data_dir(slug)
+
+    for f in post_dir.glob("*_batch_*.json"):
+        if date in f.name:
+            raw = json.loads(f.read_text(encoding="utf-8"))
+            return {
+                "traceability": raw.get("traceability", {}),
+                "web_search": raw.get("web_search", {}),
+            }
+
+    raise HTTPException(status_code=404, detail=f"No batch pack with traces for {date}")
+
+
 # ── Google Sheets export ──────────────────────────────────────────────────────
 
 SA_FILE = Path("/etc/tagent/google-sa.json")
@@ -144,38 +310,7 @@ async def export_to_sheets(slug: str, date: str, body: SheetsExportRequest, requ
     except ImportError:
         raise HTTPException(status_code=503, detail="google-api-python-client not installed. Run: pip install google-auth google-api-python-client")
 
-    # Load the pack data (reuse existing logic)
-    post_dir = _post_data_dir(slug)
-    target: Path | None = None
-    for f in post_dir.glob("*.xlsx"):
-        if date in f.name:
-            target = f
-            break
-    if not target or not target.exists():
-        raise HTTPException(status_code=404, detail=f"No pack found for {date}")
-
-    try:
-        import openpyxl  # type: ignore
-        wb = openpyxl.load_workbook(target, read_only=True, data_only=True)
-    except Exception as exc:
-        raise HTTPException(status_code=500, detail=f"Could not open Excel: {exc}")
-
-    headers: list[str] = []
-    rows: list[list[Any]] = []
-    if "Posts" in wb.sheetnames:
-        ws = wb["Posts"]
-        for i, row in enumerate(ws.iter_rows(values_only=True)):
-            if i == 0:
-                headers = [str(c) if c is not None else f"col_{j}" for j, c in enumerate(row)]
-            else:
-                if all(v is None for v in row):
-                    continue
-                post: dict[str, Any] = {}
-                for j, val in enumerate(row):
-                    if j < len(headers):
-                        post[headers[j]] = "" if val is None else (int(val) if isinstance(val, float) and val == int(val) else val)
-                rows.append(post)
-    wb.close()
+    headers, rows = _load_pack_data(slug, date)
 
     # Merge edits
     for row_dict in rows:
@@ -194,15 +329,13 @@ async def export_to_sheets(slug: str, date: str, body: SheetsExportRequest, requ
         sheets_svc = build("sheets", "v4", credentials=creds)
         drive_svc  = build("drive",  "v3", credentials=creds)
 
-        # Create spreadsheet
-        title = f"{slug.replace('_', ' ').title()} — {date}"
+        title = f"{slug.replace('_', ' ').title()} -- {date}"
         spreadsheet = sheets_svc.spreadsheets().create(body={
             "properties": {"title": title},
             "sheets": [{"properties": {"title": "Posts"}}],
         }).execute()
         sid = spreadsheet["spreadsheetId"]
 
-        # Write data
         sheets_svc.spreadsheets().values().update(
             spreadsheetId=sid,
             range="Posts!A1",
@@ -210,7 +343,6 @@ async def export_to_sheets(slug: str, date: str, body: SheetsExportRequest, requ
             body={"values": values},
         ).execute()
 
-        # Bold header row + freeze it
         sheets_svc.spreadsheets().batchUpdate(spreadsheetId=sid, body={"requests": [
             {"repeatCell": {"range": {"sheetId": 0, "startRowIndex": 0, "endRowIndex": 1},
                             "cell": {"userEnteredFormat": {"textFormat": {"bold": True}}},
@@ -219,7 +351,6 @@ async def export_to_sheets(slug: str, date: str, body: SheetsExportRequest, requ
                                        "fields": "gridProperties.frozenRowCount"}},
         ]}).execute()
 
-        # Share with content@tagent.club
         drive_svc.permissions().create(
             fileId=sid,
             body={"type": "user", "role": "writer", "emailAddress": SHARE_WITH},

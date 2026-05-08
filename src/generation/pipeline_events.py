@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import queue as _queue
 from dataclasses import asdict, dataclass, field
 
 logger = logging.getLogger(__name__)
@@ -22,14 +23,14 @@ class PipelineEvent:
 
 
 class PipelineEventBus:
-    """Thread-safe event bus backed by asyncio.Queue for SSE streaming."""
+    """Thread-safe event bus using stdlib queue for cross-thread SSE streaming."""
 
     def __init__(self):
-        self._queue: asyncio.Queue[PipelineEvent] = asyncio.Queue()
+        self._queue: _queue.Queue[PipelineEvent] = _queue.Queue()
         self._closed = False
 
     def emit(self, event: PipelineEvent):
-        """Emit an event (thread-safe via put_nowait)."""
+        """Emit an event (safe to call from any thread)."""
         if not self._closed:
             try:
                 self._queue.put_nowait(event)
@@ -48,11 +49,13 @@ class PipelineEventBus:
 
     async def stream(self):
         """Async generator yielding SSE-formatted strings."""
+        loop = asyncio.get_event_loop()
         while True:
             try:
-                event = await asyncio.wait_for(self._queue.get(), timeout=300)
-            except asyncio.TimeoutError:
-                # Send keepalive
+                event = await loop.run_in_executor(
+                    None, self._queue.get, True, 30,
+                )
+            except _queue.Empty:
                 yield ": keepalive\n\n"
                 continue
 

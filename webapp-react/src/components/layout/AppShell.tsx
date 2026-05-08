@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import {
-  LayoutDashboard, Sparkles, Wand2, GitFork, BarChart3,
+  LayoutDashboard, GitFork, BarChart3, Sparkles,
   Workflow, Clock, Settings, LogOut, KeyRound, Loader2,
   X, Menu,
 } from 'lucide-react'
@@ -13,7 +13,6 @@ import { getSubdomainSlug } from '../../utils/subdomain'
 const NAV_ITEMS = [
   { to: '/',          id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/generate',  id: 'generate',  label: 'Generate',  icon: Sparkles },
-  { to: '/customize', id: 'customize', label: 'Customize', icon: Wand2 },
   { to: '/graph',     id: 'graph',     label: 'Graph',     icon: GitFork },
   { to: '/coverage',  id: 'coverage',  label: 'Coverage',  icon: BarChart3 },
   { to: '/workflow',  id: 'workflow',  label: 'Workflow',  icon: Workflow },

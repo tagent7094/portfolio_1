@@ -1,305 +1,311 @@
-import { useRef, useState } from 'react'
-import { Sparkles, StopCircle, Zap } from 'lucide-react'
-import { streamSSE } from '../api/client'
-import { usePipelineStore } from '../store/usePipelineStore'
+import { useState, useRef, useEffect } from 'react'
+import { Play, Loader2, Square, FileSpreadsheet, CheckCircle2, Eye } from 'lucide-react'
+import { streamSSE, apiGet } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
-import PipelineStepper from '../components/generate/PipelineStepper'
-import PostCard from '../components/generate/PostCard'
-import VotingMatrix from '../components/generate/VotingMatrix'
-import FinalResult from '../components/generate/FinalResult'
-import { PageHeader, Card, CardHeader, CardBody, CardTitle, Button, Badge } from '../components/ui'
+import { PageHeader, Card, CardBody, Button } from '../components/ui'
+import TraceViewer from '../components/TraceViewer'
 
-const PLATFORMS = ['linkedin', 'twitter', 'blog', 'email'] as const
+interface LogEntry { stage: string; status: string; ts: number }
 
 export default function GeneratePage() {
-  const [topic, setTopic] = useState('')
-  const [platform, setPlatform] = useState<string>('linkedin')
-  const [creativity, setCreativity] = useState(50)
-  const [numVariants, setNumVariants] = useState(5)
-  const [showThinking, setShowThinking] = useState(true)
-  const abortRef = useRef<AbortController | null>(null)
-
   const active = useFounderStore((s) => s.active)
-  const store = usePipelineStore()
+
+  const [nSources, setNSources] = useState(3)
+  const [creativity, setCreativity] = useState(0.5)
+  const [generating, setGenerating] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [stage, setStage] = useState('')
+  const [log, setLog] = useState<LogEntry[]>([])
+  const [done, setDone] = useState(false)
+  const [error, setError] = useState('')
+  const [showTraces, setShowTraces] = useState(false)
+  const [traceData, setTraceData] = useState<any>(null)
+  const [loadingTraces, setLoadingTraces] = useState(false)
+  const abortRef = useRef<AbortController | null>(null)
+  const logEndRef = useRef<HTMLDivElement>(null)
+  const lastPackDateRef = useRef<string>('')
+
+  useEffect(() => {
+    logEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [log.length])
 
   const handleGenerate = async () => {
-    if (!topic.trim()) return
-    store.reset()
-    store.setRunning(true)
-    const controller = new AbortController()
-    abortRef.current = controller
+    if (!active) {
+      setError('No founder selected')
+      return
+    }
+    setGenerating(true)
+    setProgress(0)
+    setStage('connecting...')
+    setLog([])
+    setDone(false)
+    setError('')
+    setTraceData(null)
+    setShowTraces(false)
+
+    const abort = new AbortController()
+    abortRef.current = abort
+
     try {
       await streamSSE(
-        '/api/generate/topic/stream',
-        { topic, platform, creativity: creativity / 100, founder_slug: active, num_variants: numVariants },
-        (event) => store.handleEvent(event),
-        controller.signal,
+        '/api/generate/batch/stream',
+        { founder_slug: active, n_sources: nSources, creativity, platform: 'linkedin' },
+        (event) => {
+          setProgress(event.progress || 0)
+          setStage(event.stage)
+          setLog(prev => [...prev, { stage: event.stage, status: event.status, ts: Date.now() }])
+          if (event.data?.filepath) {
+            const match = event.data.filepath.match(/(\d{4}-\d{2}-\d{2})/)
+            if (match) lastPackDateRef.current = match[1]
+          }
+          if (event.data?.error) {
+            setError(event.data.error)
+          }
+          if (event.status === 'pipeline_done') {
+            setDone(true)
+            setGenerating(false)
+          }
+        },
+        abort.signal,
       )
     } catch (e: any) {
-      if (e.name !== 'AbortError') {
-        usePipelineStore.setState({ error: e.message, running: false })
+      if (e?.name !== 'AbortError') {
+        setError(e?.message || 'Generation failed')
       }
+    } finally {
+      setGenerating(false)
+      abortRef.current = null
     }
   }
 
-  const handleQuickFix = async () => {
-    if (!topic.trim()) return
-    store.reset()
-    store.setRunning(true)
-    try {
-      const { apiPost } = await import('../api/client')
-      const res = await apiPost<{ post: string }>('/api/generate/quick-fix', {
-        topic, platform, creativity: creativity / 100, founder_slug: active,
-      })
-      store.handleEvent({
-        stage: 'done', status: 'pipeline_done',
-        data: { quality: { score: 0, passed: true }, influence: { overall: 0, belief_alignment: { score: 0 }, story_influence: { score: 0 }, style_adherence: { score: 0 } }, post: res.post },
-        progress: 0, agent_id: '',
-      })
-    } catch (e: any) {
-      usePipelineStore.setState({ error: e.message, running: false })
-    }
-  }
-
-  const handleStop = () => {
+  const handleCancel = () => {
     abortRef.current?.abort()
-    store.setRunning(false)
+    setGenerating(false)
   }
 
-  const hasSteps = Object.keys(store.stepStates).length > 0
+  const loadTraces = async () => {
+    if (!lastPackDateRef.current || !active) return
+    setLoadingTraces(true)
+    try {
+      const data = await apiGet<any>(`/api/admin/founders/${active}/post-packs/${lastPackDateRef.current}/traces`)
+      setTraceData(data)
+      setShowTraces(true)
+    } catch {
+      setShowTraces(true)
+    } finally {
+      setLoadingTraces(false)
+    }
+  }
 
   return (
-    <div className="space-y-6">
+    <>
       <PageHeader
-        title="Generate Content"
-        subtitle="AI-powered post generation with multi-agent pipeline"
+        title="Generate Posts"
+        subtitle={`Batch cowork engine — ${nSources * 9} posts from ${nSources} source${nSources !== 1 ? 's' : ''}`}
       />
 
-      {/* Topic Form */}
-      <Card className="animate-slide-up">
-        <CardBody className="space-y-4">
-          <div>
-            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
-              Topic
-            </label>
-            <input
-              type="text"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              placeholder="What should we write about?"
-              className="field"
-              onKeyDown={(e) => e.key === 'Enter' && !store.running && handleGenerate()}
-            />
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-5 lg:grid-cols-[340px_1fr]">
+        {/* Config panel */}
+        <Card>
+          <CardBody className="space-y-5">
             <div>
-              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
-                Platform
+              <label className="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                Founder
               </label>
-              <select
-                value={platform}
-                onChange={(e) => setPlatform(e.target.value)}
-                className="field"
-              >
-                {PLATFORMS.map((p) => (
-                  <option key={p} value={p}>
-                    {p.charAt(0).toUpperCase() + p.slice(1)}
-                  </option>
-                ))}
-              </select>
+              <div className="rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] px-3 py-2 text-[13px] text-[var(--text-primary)]">
+                {active}
+              </div>
             </div>
 
             <div>
-              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
-                Variants
-              </label>
-              <select
-                value={numVariants}
-                onChange={(e) => setNumVariants(Number(e.target.value))}
-                className="field"
-              >
-                {[1, 3, 5, 10].map((n) => (
-                  <option key={n} value={n}>{n} posts</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="mb-1.5 flex items-center justify-between text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
-                <span>Creativity</span>
-                <span className="normal-case font-normal text-[var(--text-secondary)]">{creativity}%</span>
+              <label className="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                Source Posts ({nSources})
               </label>
               <input
-                type="range"
-                min={0}
-                max={100}
-                value={creativity}
-                onChange={(e) => setCreativity(Number(e.target.value))}
-                className="mt-2 w-full accent-white"
+                type="range" min={1} max={10} value={nSources}
+                onChange={e => setNSources(Number(e.target.value))}
+                disabled={generating}
+                className="w-full accent-[var(--text-primary)]"
               />
+              <div className="mt-1 flex justify-between text-[10px] text-[var(--text-faint)]">
+                <span>1</span><span>5</span><span>10</span>
+              </div>
+              <p className="mt-1.5 text-[11px] text-[var(--text-muted)]">
+                Each source generates 9 posts (3 mirrored + 6 mechanics)
+              </p>
             </div>
-          </div>
 
-          <div className="flex items-center justify-between pt-1">
-            <label className="flex cursor-pointer items-center gap-2 text-[13px] text-[var(--text-secondary)]">
+            <div>
+              <label className="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                Creativity ({creativity.toFixed(1)})
+              </label>
               <input
-                type="checkbox"
-                checked={showThinking}
-                onChange={(e) => setShowThinking(e.target.checked)}
-                className="rounded border-[var(--border-3)] bg-[var(--surface-3)] text-white/80 focus:ring-white/30 focus:ring-offset-[var(--surface-1)]"
+                type="range" min={0} max={1} step={0.1} value={creativity}
+                onChange={e => setCreativity(Number(e.target.value))}
+                disabled={generating}
+                className="w-full accent-[var(--text-primary)]"
               />
-              Show pipeline progress
-            </label>
-
-            <div className="flex items-center gap-2">
-              {store.running ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleStop}
-                  icon={<StopCircle size={14} />}
-                >
-                  Stop
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={handleQuickFix}
-                    disabled={!topic.trim()}
-                    icon={<Zap size={14} />}
-                    title="Generate a structural variant instantly, skipping voting"
-                  >
-                    Quick Fix
-                  </Button>
-                  <Button
-                    onClick={handleGenerate}
-                    disabled={!topic.trim()}
-                    icon={<Sparkles size={14} />}
-                    size="sm"
-                  >
-                    Full Generate
-                  </Button>
-                </>
-              )}
+              <div className="mt-1 flex justify-between text-[10px] text-[var(--text-faint)]">
+                <span>Conservative</span><span>Balanced</span><span>Creative</span>
+              </div>
             </div>
-          </div>
-        </CardBody>
-      </Card>
 
-      {/* Error */}
-      {store.error && (
-        <div className="rounded-xl border border-[var(--error)]/30 bg-[var(--error)]/10 px-4 py-3 text-[13px] text-[var(--error)]">
-          {store.error}
-        </div>
-      )}
+            <div className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-3 text-[12px] text-[var(--text-muted)]">
+              <p className="font-semibold text-[var(--text-secondary)]">{nSources * 9} posts total</p>
+              <p className="mt-0.5">{nSources} source{nSources !== 1 ? 's' : ''} × 9 per source</p>
+              <p className="mt-0.5">5-gate amplifier + convergence test</p>
+              <p className="mt-0.5">Web search enrichment + full traceability</p>
+            </div>
 
-      {/* Running indicator */}
-      {store.running && (
-        <div className="flex items-center gap-2.5 text-[13px] text-[var(--text-muted)]">
-          <div className="h-2 w-2 animate-pulse rounded-full bg-[var(--warning)]" />
-          Pipeline running…
-        </div>
-      )}
-
-      {/* Pipeline Stepper */}
-      {showThinking && hasSteps && (
-        <PipelineStepper stepStates={store.stepStates} />
-      )}
-
-      {/* Stage 1: Generated Posts */}
-      {showThinking && store.posts.length > 0 && (
-        <Card className="animate-slide-up">
-          <CardHeader>
-            <CardTitle>Generated Posts</CardTitle>
-            <Badge variant="default">{store.posts.length}</Badge>
-          </CardHeader>
-          <CardBody>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {store.posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  streamingText={store.streamingTokens[post.engine_id]}
-                />
+            {/* Pipeline steps */}
+            <div className="space-y-1">
+              <div className="text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)] mb-1.5">Pipeline</div>
+              {[
+                'Deep founder internalization (9 dimensions)',
+                'Voice calibration check',
+                'Web search for trending topics & facts',
+                'Source post selection & ranking',
+                `Pack generation (${nSources}× — 9 posts each)`,
+                '5-gate opening line amplifier',
+                'Convergence test per pack',
+              ].map((step, i) => (
+                <div key={i} className="flex items-start gap-2 text-[11px] text-[var(--text-muted)]">
+                  <span className="shrink-0 mt-0.5 text-[9px] font-mono text-[var(--text-faint)]">{i + 1}.</span>
+                  {step}
+                </div>
               ))}
             </div>
-          </CardBody>
-        </Card>
-      )}
 
-      {/* Stage 2: Voting Matrix */}
-      {showThinking && Object.keys(store.votes).length > 0 && (
-        <VotingMatrix
-          posts={store.posts}
-          votes={store.votes}
-          agentNames={store.agentNames}
-        />
-      )}
-
-      {/* Stage 3: Refined Posts */}
-      {showThinking && store.refinedPosts.length > 0 && (
-        <Card className="animate-slide-up">
-          <CardHeader>
-            <CardTitle>Refined Posts</CardTitle>
-            <Badge variant="success">{store.refinedPosts.length}</Badge>
-          </CardHeader>
-          <CardBody className="space-y-3">
-            {store.refinedPosts.map((rp: any, i: number) => (
-              <div
-                key={i}
-                className="grid gap-4 rounded-xl border border-[var(--border-2)] bg-[var(--surface-3)] p-4 sm:grid-cols-2"
+            {!generating && !done && (
+              <Button
+                variant="primary"
+                className="w-full"
+                onClick={handleGenerate}
+                icon={<Play size={14} />}
               >
-                <div>
-                  <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Before</span>
-                  <p className="text-[13px] leading-relaxed text-[var(--text-muted)]">{rp.original_text || rp.original || rp.before || ''}</p>
+                Start Generation
+              </Button>
+            )}
+
+            {generating && (
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={handleCancel}
+                icon={<Square size={14} />}
+              >
+                Cancel
+              </Button>
+            )}
+
+            {done && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 rounded-lg bg-[var(--success-dim)] px-3 py-2 text-[12px] text-[var(--success)]">
+                  <CheckCircle2 size={14} />
+                  Pack generated successfully
                 </div>
-                <div>
-                  <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-[var(--success)]">After</span>
-                  <p className="text-[13px] leading-relaxed text-[var(--text-secondary)]">{rp.refined_text || rp.refined || rp.after || ''}</p>
-                </div>
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={loadTraces}
+                  loading={loadingTraces}
+                  icon={<Eye size={14} />}
+                >
+                  View Full Traceability
+                </Button>
+                <Button
+                  variant="primary"
+                  className="w-full"
+                  onClick={() => { setDone(false); setTraceData(null); setShowTraces(false) }}
+                  icon={<Play size={14} />}
+                >
+                  Generate Another
+                </Button>
               </div>
-            ))}
+            )}
+
+            {error && (
+              <div className="rounded-lg bg-[var(--error-dim)] px-3 py-2 text-[12px] text-[var(--error)]">
+                {error}
+              </div>
+            )}
           </CardBody>
         </Card>
-      )}
 
-      {/* Stage 4: Opening Lines */}
-      {showThinking && store.openingLines.length > 0 && (
-        <Card className="animate-slide-up">
-          <CardHeader>
-            <CardTitle>Opening Lines</CardTitle>
-            {store.winningOpening && <Badge variant="success">Winner selected</Badge>}
-          </CardHeader>
-          <CardBody className="space-y-3">
-            <div className="grid gap-2 sm:grid-cols-2">
-              {store.openingLines.map((line) => {
-                const isWinner = store.winningOpening?.text === line.text
-                return (
-                  <div
-                    key={line.id}
-                    className={`rounded-xl border p-3 text-[13px] transition-colors ${
-                      isWinner
-                        ? 'border-[var(--success)]/40 bg-[var(--success-dim)]'
-                        : 'border-[var(--border-2)] bg-[var(--surface-3)]'
-                    }`}
-                  >
-                    <p className={isWinner ? 'text-[var(--success)]' : 'text-[var(--text-secondary)]'}>{line.text}</p>
-                    {line.strategy && (
-                      <span className="mt-1 block text-[11px] text-[var(--text-muted)]">{line.strategy}</span>
-                    )}
+        {/* Progress + log + traces */}
+        <div className="space-y-5">
+          <Card>
+            <CardBody>
+              {!generating && log.length === 0 && !done && !showTraces && (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <FileSpreadsheet size={32} className="mb-3 text-[var(--text-faint)]" />
+                  <p className="text-[13px] text-[var(--text-muted)]">
+                    Configure and start generation to see progress here
+                  </p>
+                  <p className="mt-2 text-[11px] text-[var(--text-faint)]">
+                    Every LLM call, web search, and decision will be traced
+                  </p>
+                </div>
+              )}
+
+              {(generating || log.length > 0) && (
+                <div className="space-y-4">
+                  {/* Progress bar */}
+                  <div>
+                    <div className="mb-1.5 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        {generating && <Loader2 size={12} className="animate-spin text-[var(--text-primary)]" />}
+                        {done && <CheckCircle2 size={12} className="text-[var(--success)]" />}
+                        <span className="text-[12px] font-medium text-[var(--text-secondary)]">{stage}</span>
+                      </div>
+                      <span className="font-mono text-[11px] text-[var(--text-muted)]">
+                        {Math.round(progress * 100)}%
+                      </span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-[var(--surface-3)]">
+                      <div
+                        className="h-full rounded-full bg-[var(--text-primary)] transition-all duration-300"
+                        style={{ width: `${Math.max(progress * 100, 2)}%` }}
+                      />
+                    </div>
                   </div>
-                )
-              })}
-            </div>
-          </CardBody>
-        </Card>
-      )}
 
-      {/* Stage 5: Final Result */}
-      {store.result && <FinalResult result={store.result} />}
-    </div>
+                  {/* Log */}
+                  <div
+                    className="max-h-[300px] overflow-y-auto rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-3 font-mono text-[11px] leading-relaxed text-[var(--text-muted)]"
+                  >
+                    {log.map((entry, i) => (
+                      <div key={i} className="flex gap-2">
+                        <span className="shrink-0 text-[var(--text-faint)]">
+                          {new Date(entry.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        </span>
+                        <span className="text-[var(--text-secondary)]">{entry.stage}</span>
+                        <span>{entry.status}</span>
+                      </div>
+                    ))}
+                    <div ref={logEndRef} />
+                  </div>
+                </div>
+              )}
+            </CardBody>
+          </Card>
+
+          {/* Trace viewer */}
+          {showTraces && traceData && (
+            <Card>
+              <CardBody>
+                <div className="mb-3 text-[13px] font-semibold text-[var(--text-primary)]">
+                  Full Traceability
+                </div>
+                <TraceViewer
+                  traceability={traceData.traceability}
+                  webSearch={traceData.web_search}
+                />
+              </CardBody>
+            </Card>
+          )}
+        </div>
+      </div>
+    </>
   )
 }

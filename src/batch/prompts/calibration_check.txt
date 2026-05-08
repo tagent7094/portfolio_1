@@ -1,0 +1,52 @@
+You have just internalized a founder's voice. Now verify your calibration before writing any of the 9 posts per source.
+
+If this check fails, the voice read is wrong — don't start writing. Go back and re-map voice markers. The problem is upstream.
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## WORD COUNT RANGE
+{word_count_range}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+## ARGUMENT RHYTHM
+{argument_rhythm}
+
+## SAMPLE OF THEIR ACTUAL POSTS (read these carefully — this is the ground truth)
+{founder_posts_sample}
+
+---
+
+## TASK
+
+Draft ONE opening paragraph (2-3 sentences) on this neutral topic: "What most people get wrong about hiring."
+
+This is a calibration test. The paragraph must:
+1. Sound like THIS specific founder wrote it — not "a CEO" or "a thought leader" or "a generic LinkedIn poster"
+2. Match their sentence rhythm, word choices, and formatting habits EXACTLY
+3. Fall within their typical word count density
+4. Use at least 2 of their voice markers naturally
+5. Match their formatting: if they use em dashes, use em dashes. If they tag team members, end with tags. If they use ":)", use ":)". Formatting mismatch is the biggest AI tell.
+6. Avoid every pattern on the anti-slop list:
+   - No "In today's..."
+   - No "Here's the thing"
+   - No "Hot take:" / "Unpopular opinion:"
+   - No "Let that sink in" / "Read that again"
+   - No "Game-changer" / "Landscape" / "Navigate" / "Leverage"
+
+The recognition test: would this founder read the paragraph and think "this is what I was going to say"? If they'd have to rewrite more than one sentence, the voice work failed.
+
+## OUTPUT FORMAT
+
+Return a JSON object:
+```json
+{{{{
+  "calibration_paragraph": "the opening paragraph you wrote",
+  "voice_markers_used": ["which specific markers from the list you applied"],
+  "formatting_matched": ["which formatting habits you matched"],
+  "confidence": 0.85,
+  "self_critique": "what feels off, if anything — be honest, not optimistic"
+}}}}
+```

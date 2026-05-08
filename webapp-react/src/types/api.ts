@@ -42,61 +42,6 @@ export interface PipelineEvent {
   agent_id: string
 }
 
-export interface PostVariant {
-  id: string
-  text: string
-  engine_id: string
-  engine_name: string
-  platform: string
-}
-
-export interface AgentVote {
-  score: number
-  feedback: string
-}
-
-export interface AggregatedScore {
-  mean: number
-  scores_by_agent: Record<string, number>
-  feedback_by_agent?: Record<string, string>
-}
-
-export interface OpeningLine {
-  id: string
-  text: string
-  strategy: string
-}
-
-// ── Generation Request/Response ──
-export interface TopicRequest {
-  topic: string
-  platform: string
-  creativity: number
-  founder_slug?: string
-}
-
-export interface GenerationResult {
-  post: string
-  quality: { passed: boolean; score: number; checks?: Record<string, boolean> }
-  influence: {
-    overall: number
-    belief_alignment: { score: number; matched?: any[] }
-    story_influence: { score: number; matched?: any[] }
-    style_adherence: { score: number; matched?: any[] }
-    personality_alignment?: number
-  }
-  all_posts: PostVariant[]
-  audience_votes: Record<string, Record<string, AgentVote>>
-  aggregated_scores: Record<string, AggregatedScore>
-  top_post_ids: string[]
-  refined_posts: any[]
-  opening_lines?: OpeningLine[]
-  opening_votes?: any
-  winning_opening?: OpeningLine
-  agent_log: any[]
-  filename?: string
-}
-
 // ── Coverage ──
 export interface CoverageData {
   overall_pct: number
@@ -174,56 +119,6 @@ export interface Traceability {
   vocabulary_phrases_never: number
 }
 
-export interface CustomizationResult {
-  original: string
-  customized: string
-  sections: Record<string, { original: string; customized: string }>
-  topic: string
-  founder_context: any
-  viral_context: any
-  traceability?: Traceability
-  all_variants?: { id: string; engine_name: string; strategy?: string; text: string; quality?: number; word_count?: number }[]
-  is_collection?: boolean
-  quality?: { score: number; passed: boolean }
-  // V2 Adaptation fields
-  founder_internalization?: FounderInternalization
-  source_dissection?: SourceDissection
-  events_used?: string[]
-  v2_quality?: V2QualityResult[]
-}
-
-// ── V2 Adaptation ──
-export interface FounderInternalization {
-  tensions: string[]
-  signature_scenes: string[]
-  argument_rhythm: string
-  vulnerable_moments: string[]
-  recurring_cast: string[]
-  word_count_range: [number, number]
-  key_moments_inventory: string[]
-}
-
-export interface SourceDissection {
-  narrative_arc: string
-  hook_mechanics: Array<{ sentence: string; structural_function: string; rhythm: string }>
-  sentence_count: number
-  body_structure: string
-  ending_type: string
-  virality_reason?: string
-}
-
-export interface V2QualityResult {
-  post_id: string
-  quality: {
-    checks: Record<string, boolean>
-    passed: boolean
-    failures_count: number
-    failed_checks?: string[]
-    rewrite_suggestions?: string[]
-    word_count_actual?: number
-  }
-}
-
 // ── Workflow ──
 export interface WorkflowConfig {
   id: string
@@ -237,31 +132,3 @@ export interface WorkflowConfig {
   edges: Array<{ id: string; source: string; target: string }>
 }
 
-// ── Customize Pipeline Config ──
-export interface StageConfig {
-  enabled: boolean
-  n?: number | null
-  top_k?: number | null
-  max_tokens?: number | null
-  thinking_budget?: number | null
-  temperature?: number | null
-  agent_ids?: string[] | null
-  strategy_ids?: string[] | null
-}
-
-export interface PipelineConfig {
-  variants?: StageConfig
-  audience_vote?: StageConfig
-  refine?: StageConfig
-  opening_massacre?: StageConfig
-  humanize?: StageConfig
-  quality_gate?: StageConfig
-}
-
-export interface PipelineDefaultsResponse {
-  audience_agents: { id: string; name: string; description: string }[]
-  customization_strategies: { id: string; name: string }[]
-  hook_strategies: { id: string; name: string }[]
-  provider_supports_thinking: boolean
-  defaults: PipelineConfig
-}

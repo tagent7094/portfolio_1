@@ -1,0 +1,88 @@
+You are performing a deep internalization of a founder's voice, worldview, and personal history for BATCH post generation. This is the foundation for generating 90 posts — precision here prevents voice decay downstream.
+
+Read every piece of founder data below. Complete ALL analysis before outputting anything.
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## FOUNDER BELIEFS (from knowledge graph)
+{beliefs}
+
+## FOUNDER STORIES (from knowledge graph)
+{stories}
+
+## FOUNDER CONTRAST PAIRS (tensions they navigate)
+{contrast_pairs}
+
+## FOUNDER THINKING MODELS (mental frameworks)
+{thinking_models}
+
+## FOUNDER VOICE DNA (raw analysis)
+{raw_voice_dna}
+
+## FOUNDER STORY BANK (raw inventory)
+{raw_story_bank}
+
+## FOUNDER'S ACTUAL LINKEDIN POSTS (for rhythm, length, cadence analysis)
+{founder_posts_sample}
+
+---
+
+## YOUR TASK: Produce a structured internalization covering these 9 dimensions.
+
+### 1. TENSIONS / COLLISIONS
+Map 5-8 recurring tensions — not topics, but collisions (opposing forces the founder navigates). These are the raw material for post arguments.
+
+### 2. SIGNATURE SCENES
+8-12 physical moments, specific conversations, anchoring details they reuse. Enough detail to recreate each moment.
+
+### 3. ARGUMENT RHYTHM
+How do they build arguments? Spiral inward? Linear escalation? Toggle personal/universal? Document with examples from their actual posts.
+
+### 4. VULNERABLE MOMENTS
+5-8 moments where the founder is exposed, not in control. These are the best post bodies.
+
+### 5. RECURRING CAST
+Names, relationships, roles in their narrative. Who populates their world?
+
+### 6. WORD COUNT RANGE
+Study every post above. Calculate actual median, min, max word count. Every generated post must land within ±30% of median.
+
+### 7. KEY MOMENTS INVENTORY
+Specific events, numbers, milestones, turning points. Each can be used AT MOST ONCE across all 90 posts. Build a complete inventory.
+
+### 8. VOICE MARKERS
+Extract 5-10 specific markers: phrases they reuse, sentence shapes they favor, closing moves they default to, punctuation habits. These are the micro-fingerprints that make a post sound like them vs. generic.
+
+### 9. FORMATTING HABITS
+Document their visual style: Do they use bullets? Emojis? Headers? Em dashes? Lowercase? Short paragraphs or walls of text? Line breaks between every sentence or dense blocks?
+
+---
+
+## OUTPUT FORMAT
+
+Return a JSON object with this exact structure:
+```json
+{{{{
+  "tensions": ["tension 1: description", "tension 2: description"],
+  "signature_scenes": ["scene 1: physical detail + context", "scene 2: ..."],
+  "argument_rhythm": "description of the founder's typical argument flow pattern",
+  "vulnerable_moments": ["moment 1: what happened, why it's vulnerable"],
+  "recurring_cast": ["name: role in founder's narrative"],
+  "word_count_range": [min, max],
+  "median_word_count": 230,
+  "key_moments_inventory": ["event 1: specific fact/number/milestone"],
+  "voice_markers": ["marker 1: specific phrase or pattern", "marker 2: ..."],
+  "formatting_habits": {{{{
+    "uses_bullets": false,
+    "uses_emojis": false,
+    "uses_headers": false,
+    "em_dashes": true,
+    "lowercase_style": false,
+    "paragraph_style": "short",
+    "line_break_frequency": "between_thoughts"
+  }}}}
+}}}}
+```
+
+Be specific. "A tough conversation" is useless. "The 2am call with the CTO where they almost shut down the product" is useful.

@@ -1,0 +1,42 @@
+You are running the same-pack convergence test. This catches the failure mode where 9 posts each pass coherence individually but the pack as a whole reads as 9 ways to say the same thing.
+
+The framework's argument matrix is supposed to prevent this; it doesn't always. The amplifier provides the second check.
+
+## COMPRESSED ARGUMENTS (one sentence per post, after amplification)
+{arguments}
+
+## PACK SOURCE
+{source_summary}
+
+---
+
+## TASK
+
+1. Read all compressed arguments above.
+2. Group any that argue substantively the same thing — same thesis even with different examples, different phrasing, or different scenes.
+3. Apply the convergence test:
+   - **FAIL if 50% or more** of the compressed sentences argue substantively the same thing.
+   - **FAIL if any two posts** use the same opening mechanic AND the same argument.
+   - **PASS otherwise** — the pack has meaningful argument diversity.
+
+4. If FAIL: identify which posts should be pushed back for rework. Ask for posts that argue meaningfully different takes. Don't keep amplifying versions that all converge on the founder's central thesis.
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "passed": true,
+  "total_posts": 9,
+  "groups": [
+    {{{{
+      "argument_theme": "the shared theme in one sentence",
+      "post_labels": ["A1", "B2"],
+      "percentage": 22,
+      "concern": "why this grouping is or isn't problematic"
+    }}}}
+  ],
+  "duplicate_count": 0,
+  "max_convergence_pct": 22,
+  "recommendation": "pack has good argument diversity — or — posts X, Y, Z should argue different takes"
+}}}}
+```

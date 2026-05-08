@@ -8,7 +8,6 @@ import { getSubdomainSlug } from '../../utils/subdomain'
 const PATH_TO_PAGE: Record<string, string> = {
   '/': 'dashboard',
   '/generate': 'generate',
-  '/customize': 'customize',
   '/graph': 'graph',
   '/coverage': 'coverage',
   '/workflow': 'workflow',

@@ -77,6 +77,23 @@ class LLMProvider(ABC):
         result = self.generate(prompt, system_prompt, temperature, max_tokens, thinking_budget, effort)
         yield result
 
+    def generate_with_search(
+        self,
+        prompt: str,
+        system_prompt: str = None,
+        temperature: float = 0.7,
+        max_tokens: int = 2000,
+        max_searches: int = 3,
+        allowed_domains: list[str] | None = None,
+    ) -> dict:
+        """Generate text with web search tool enabled. Returns {text, searches[]}.
+
+        Default implementation falls back to generate() with no search.
+        Providers that support server-side search (Anthropic) override this.
+        """
+        text = self.generate(prompt, system_prompt, temperature, max_tokens)
+        return {"text": text, "searches": []}
+
     @abstractmethod
     def generate_json(self, prompt: str, system_prompt: str = None) -> dict:
         """Generate and parse JSON from a prompt. Handles retries."""

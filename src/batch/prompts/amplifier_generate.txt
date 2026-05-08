@@ -1,0 +1,81 @@
+Generate 3-5 replacement opening lines for this post. Each must use a DIFFERENT proven mechanic and pass all 5 gates. Three is the floor. Add a fourth or fifth only if a meaningfully different angle exists.
+
+The versions must approach the post from genuinely different angles. If a number-led version, a juxtaposition version, and a confession version all land on the same one-sentence argument, you've offered one option three times. Each version should give a real choice.
+
+## CURRENT POST
+{post_text}
+
+## DIAGNOSIS
+{diagnosis}
+
+## BURIED GOLD (if any)
+{buried_gold}
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## POST MODE: {mode}
+
+## THE 8 PROVEN MECHANICS
+Each version must use a different one:
+1. Specific number + context — lead with a precise figure from the draft
+2. Juxtaposition — two things that shouldn't coexist in the same sentence
+3. First-person confession — admit something with real cost
+4. Quote hook + reaction — someone said something, then your reaction
+5. Scene-entry — start in the middle of a physical moment
+6. Decision reveal — the outcome of a hard choice, stated plainly
+7. Contrarian declaration — state something most would disagree with (earned, not clickbait)
+8. Pattern observation — notice something others miss
+
+## WHAT TO REMOVE OR CONVERT
+- "Excited to announce…" → the specific number or outcome
+- "I've been thinking about…" → the conclusion. Delete the preamble.
+- "What's your X strategy?" → "Most teams answer this wrong."
+- "X is important" → "[Specific outcome] when X is missing."
+- "Here's what nobody tells you…" → the thing. Direct.
+- Multiple exclamation marks → one or zero
+- Stat-stack fragments → a sentence containing the stat
+- Strawman quotes → a pattern observation
+
+## HIGH-LIFT ELEMENTS (add 1-2 per opener, NOT all)
+Adding 3+ creates stat-stacking, which reads as ad copy. The test: if the opener reads as a sentence a person would speak in conversation, fine. If it reads as bullet points compressed into one line, over-loaded.
+1. A specific number FROM the draft (don't invent)
+2. A first-person verb — "I lost," "we shipped," "I told." Beats "companies should."
+3. A juxtaposition — two facts in the draft that create dissonance when placed together
+4. An emotion word — "tired," "wrong," "painful," "brutal" beats "interesting." Earned, not manufactured.
+5. A named entity FROM the draft only — don't introduce new names.
+
+## RULES FOR EACH VERSION
+- Must pass all 5 gates (mechanic deployed well, plausible, coherent with body, specific, mode-preserving)
+- Gate 2 (plausibility): No strawman quotes, no counted-precision tics, no convenient setups, no impossible scenarios
+- Gate 3 (coherence): The opener's promise must match what the body delivers — not adjacent, not sharper
+- Gate 4 (specificity): Default to third-degree patterns when specifics aren't in the draft. Never invent first-degree.
+- Gate 5 (mode): If {mode} is "wrestling," opener must signal movement. If "declaring," signal certainty.
+- Must sound like this specific founder (use voice markers)
+- No AI slop patterns (no "In today's...", "Here's the thing", "Hot take:", etc.)
+
+## IF BURIED GOLD EXISTS
+If the body scan found a sentence stronger than anything you'd generate from scratch, propose it as Version A and note that the body needs restructuring around it.
+
+## OUTPUT FORMAT
+
+```json
+[
+  {{{{
+    "opening": "the replacement opening (1-3 sentences)",
+    "mechanic": "which of the 8 mechanics",
+    "mode_fit": "{mode}",
+    "plausibility": true,
+    "plausibility_note": "why this is plausible or what was avoided",
+    "coherence_with_body": true,
+    "coherence_note": "what the opener promises and how the body delivers it",
+    "specificity": "first|second|third",
+    "mode_preservation": true,
+    "rating": 5,
+    "source": "original|buried_gold|generated"
+  }}}},
+  ...
+]
+```
+
+A version that fails any gate gets replaced, not shown. Generate 3-5 versions that all pass. Quality over quantity.

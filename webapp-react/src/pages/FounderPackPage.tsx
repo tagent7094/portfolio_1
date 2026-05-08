@@ -3,12 +3,13 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
   ArrowLeft, FileSpreadsheet, Calendar, ChevronDown,
   Loader2, X, BookOpen, Quote, Sparkles, Search,
-  Download, Sheet, Sun, Moon, Eye, EyeOff,
+  Download, Sheet, Sun, Moon, Eye, EyeOff, Play, Cpu,
 } from 'lucide-react'
 import clsx from 'clsx'
 import * as XLSX from 'xlsx'
-import { apiGet, apiPost } from '../api/client'
+import { apiGet, apiPost, streamSSE } from '../api/client'
 import { useTheme } from '../hooks/useTheme'
+import TraceViewer from '../components/TraceViewer'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -799,6 +800,21 @@ export default function FounderPackPage() {
   const [groupMenuOpen, setGroupMenuOpen] = useState(false)
   const [sheetExporting, setSheetExporting] = useState(false)
 
+  // Batch generation state
+  const [generating, setGenerating] = useState(false)
+  const [genProgress, setGenProgress] = useState(0)
+  const [genStage, setGenStage] = useState('')
+  const [genLog, setGenLog] = useState<string[]>([])
+  const [genConfig, setGenConfig] = useState(false) // config panel open
+  const [nSources, setNSources] = useState(1)
+  const [creativity, setCreativity] = useState(0.5)
+  const genAbortRef = useRef<AbortController | null>(null)
+
+  // Trace viewer state
+  const [showTraces, setShowTraces] = useState(false)
+  const [traceData, setTraceData] = useState<any>(null)
+  const [loadingTraces, setLoadingTraces] = useState(false)
+
   const handleEdit = useCallback((rowId: string, colKey: string, value: string) => {
     setEdits(prev => ({
       ...prev,
@@ -817,16 +833,22 @@ export default function FounderPackPage() {
       .catch(() => { setAuthed(false); navigate('/admin/login', { replace: true }) })
   }, [navigate])
 
-  useEffect(() => {
-    if (!authed || !slug) return
+  const refreshPacks = useCallback((autoSelectLatest = false) => {
+    if (!slug) return
     setLoadingPacks(true)
     apiGet<{ packs: Pack[] }>(`/api/admin/founders/${slug}/post-packs`)
       .then(d => {
         setPacks(d.packs)
-        if (!selectedDate && d.packs.length > 0) setSelectedDate(d.packs[0].date)
+        if (autoSelectLatest && d.packs.length > 0) setSelectedDate(d.packs[0].date)
+        else if (!selectedDate && d.packs.length > 0) setSelectedDate(d.packs[0].date)
       })
       .catch(() => {})
       .finally(() => setLoadingPacks(false))
+  }, [slug, selectedDate])
+
+  useEffect(() => {
+    if (!authed || !slug) return
+    refreshPacks()
   }, [authed, slug])
 
   useEffect(() => {
@@ -890,6 +912,64 @@ export default function FounderPackPage() {
       alert(`Google Sheets export failed: ${e?.message || 'unknown error'}`)
     } finally {
       setSheetExporting(false)
+    }
+  }
+
+  const handleGenerate = async () => {
+    if (!slug) return
+    setGenConfig(false)
+    setGenerating(true)
+    setGenProgress(0)
+    setGenStage('starting')
+    setGenLog([])
+
+    const abort = new AbortController()
+    genAbortRef.current = abort
+
+    try {
+      await streamSSE(
+        '/api/generate/batch/stream',
+        { founder_slug: slug, n_sources: nSources, creativity, platform: 'linkedin' },
+        (event) => {
+          setGenProgress(event.progress || 0)
+          setGenStage(event.stage)
+          setGenLog(prev => [...prev, `${event.stage}: ${event.status}`])
+          if (event.status === 'pipeline_done') {
+            setGenerating(false)
+            refreshPacks(true)
+          }
+        },
+        abort.signal,
+      )
+    } catch (e: any) {
+      if (e?.name !== 'AbortError') {
+        setGenLog(prev => [...prev, `error: ${e?.message || 'generation failed'}`])
+      }
+    } finally {
+      setGenerating(false)
+      genAbortRef.current = null
+    }
+  }
+
+  const cancelGenerate = () => {
+    genAbortRef.current?.abort()
+    setGenerating(false)
+    setGenConfig(false)
+  }
+
+  const loadTraces = async () => {
+    if (!slug || !selectedDate) return
+    if (showTraces) { setShowTraces(false); return }
+    setLoadingTraces(true)
+    try {
+      const data = await apiGet<any>(`/api/admin/founders/${slug}/post-packs/${selectedDate}/traces`)
+      setTraceData(data)
+      setShowTraces(true)
+    } catch {
+      setTraceData(null)
+      setShowTraces(false)
+    } finally {
+      setLoadingTraces(false)
     }
   }
 
@@ -1023,6 +1103,80 @@ export default function FounderPackPage() {
               {sheetExporting ? <Loader2 size={12} className="animate-spin" /> : <Sheet size={12} />}
               <span className="hidden sm:inline">Sheets</span>
             </button>
+
+            {/* Generate */}
+            <div className="relative">
+              <button
+                onClick={() => setGenConfig(o => !o)}
+                disabled={generating}
+                className={clsx(navBtn, 'disabled:opacity-40')}
+                style={generating
+                  ? { borderColor: '#a78bfa', color: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.08)' }
+                  : { borderColor: '#a78bfa', color: '#a78bfa', backgroundColor: 'transparent' }}
+              >
+                {generating ? <Loader2 size={12} className="animate-spin" /> : <Play size={12} />}
+                <span className="hidden sm:inline">{generating ? 'Generating…' : 'Generate'}</span>
+              </button>
+
+              {genConfig && !generating && (
+                <div
+                  className="absolute right-0 top-full mt-1 z-50 rounded-xl border p-4 shadow-xl w-[240px]"
+                  style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-1)' }}
+                >
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+                        Sources ({nSources})
+                      </label>
+                      <input
+                        type="range" min={1} max={10} value={nSources}
+                        onChange={e => setNSources(Number(e.target.value))}
+                        className="w-full accent-violet-400"
+                      />
+                      <div className="flex justify-between text-[10px] mt-0.5" style={{ color: 'var(--text-faint)' }}>
+                        <span>1</span><span>10</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+                        Creativity ({creativity.toFixed(1)})
+                      </label>
+                      <input
+                        type="range" min={0} max={1} step={0.1} value={creativity}
+                        onChange={e => setCreativity(Number(e.target.value))}
+                        className="w-full accent-violet-400"
+                      />
+                      <div className="flex justify-between text-[10px] mt-0.5" style={{ color: 'var(--text-faint)' }}>
+                        <span>Conservative</span><span>Creative</span>
+                      </div>
+                    </div>
+                    <p className="text-[10px]" style={{ color: 'var(--text-faint)' }}>
+                      {nSources * 9} posts ({nSources} source{nSources !== 1 ? 's' : ''} × 9 per source)
+                    </p>
+                    <button
+                      onClick={handleGenerate}
+                      className="w-full rounded-lg py-2 text-xs font-semibold transition-colors"
+                      style={{ backgroundColor: '#a78bfa', color: 'black' }}
+                    >
+                      Start Generation
+                    </button>
+                  </div>
+                </div>
+              )}
+            {/* Traces */}
+            <button
+              onClick={loadTraces}
+              disabled={!packData || loadingTraces}
+              className={clsx(navBtn, 'disabled:opacity-40')}
+              style={showTraces
+                ? { borderColor: '#a78bfa', color: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.08)' }
+                : navBtnStyle}
+              title="View pipeline traceability"
+            >
+              {loadingTraces ? <Loader2 size={12} className="animate-spin" /> : <Cpu size={12} />}
+              <span className="hidden sm:inline">Traces</span>
+            </button>
+            </div>
           </div>
         </div>
 
@@ -1046,6 +1200,55 @@ export default function FounderPackPage() {
           </div>
         </div>
       </div>
+
+      {/* Generation progress overlay */}
+      {generating && (
+        <div className="shrink-0 border-b px-4 py-3" style={{ borderColor: 'var(--border-2)', backgroundColor: 'var(--surface-1)' }}>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <Loader2 size={12} className="animate-spin" style={{ color: '#a78bfa' }} />
+              <span className="text-xs font-medium" style={{ color: '#a78bfa' }}>{genStage}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-mono" style={{ color: 'var(--text-muted)' }}>
+                {Math.round(genProgress * 100)}%
+              </span>
+              <button onClick={cancelGenerate} className="text-[10px] px-2 py-0.5 rounded border transition-colors"
+                style={{ borderColor: 'var(--border-1)', color: 'var(--text-muted)' }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+          <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--surface-3)' }}>
+            <div className="h-full rounded-full transition-all duration-300" style={{ width: `${genProgress * 100}%`, backgroundColor: '#a78bfa' }} />
+          </div>
+          {genLog.length > 0 && (
+            <div className="mt-2 max-h-[100px] overflow-y-auto rounded-lg border p-2 font-mono text-[10px] space-y-0.5"
+              style={{ borderColor: 'var(--border-2)', backgroundColor: 'var(--surface-2)', color: 'var(--text-muted)' }}>
+              {genLog.slice(-20).map((line, i) => <div key={i}>{line}</div>)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Trace viewer panel */}
+      {showTraces && traceData && (
+        <div className="shrink-0 border-b px-4 py-3 max-h-[50vh] overflow-y-auto" style={{ borderColor: 'var(--border-2)', backgroundColor: 'var(--surface-1)' }}>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <Cpu size={12} style={{ color: '#a78bfa' }} />
+              <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>Pipeline Traceability</span>
+            </div>
+            <button onClick={() => setShowTraces(false)} style={{ color: 'var(--text-muted)' }}>
+              <X size={12} />
+            </button>
+          </div>
+          <TraceViewer
+            traceability={traceData.traceability}
+            webSearch={traceData.web_search}
+          />
+        </div>
+      )}
 
       {/* Pack summary */}
       {packData && <PackSummary readme={packData.readme} />}

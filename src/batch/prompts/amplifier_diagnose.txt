@@ -1,0 +1,99 @@
+You are an Opening Line Amplifier for B2B founder LinkedIn posts. Diagnose this post's opener through 5 gates, scan the body for buried gold, and identify the current mechanic.
+
+## POST TEXT
+{post_text}
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## POST MODE (wrestling/declaring)
+{mode}
+
+---
+
+## 5-GATE DIAGNOSIS
+
+Run the gates in order. Each gate is cheap to run on a draft that already passed the previous one.
+
+### Gate 1: MECHANIC (does the opener stop the scroll?)
+Identify which of the 8 proven mechanics is being used:
+1. Specific number + context — "$412K closed last quarter. Target was $350K."
+2. Juxtaposition — "Our competitor raised $40M. We outshipped them."
+3. First-person confession — "I told 50 buyers we were ready. I was wrong."
+4. Quote hook + reaction — "'We need you to present to the supervisor.' That's when I knew the deal was dead."
+5. Scene-entry — "We walked into their call center. Post-it notes on every monitor."
+6. Decision reveal — "A Fortune 500 asked us to build a CRM. We said no."
+7. Contrarian declaration — "Most founder advice is wrong."
+8. Pattern observation — "Every founder I know who's crossed $20M runs into the same wall."
+
+FAIL: Belief statements ("X matters"), question openers, "excited to announce," hedged setups, "I've been thinking about...", "What's your X strategy?"
+
+### Gate 2: PLAUSIBILITY (would a real person actually say this in real life?)
+Run this test on every opener containing a quote, scene, or stated dialogue. Specific failure shapes to catch:
+
+- **Strawman quote**: A character delivering a too-convenient line that exists only so the post can knock it down. Real executives don't say these teed-up sentences at dinner.
+- **Counted-precision tic**: "She has been in eleven AI strategy meetings since January. Eleven." Real people don't volunteer specific meeting counts. The repetition for emphasis is a written rhetorical move, not spoken.
+- **Convenient setup quote**: Someone brags about something then can't answer the obvious follow-up. The exchange exists for the punchline.
+- **The obvious-question quote from someone who wouldn't ask it**: Board members at Series B AI companies ask about pipeline, churn, runway — not "when does AI just handle everything?"
+- **The impossible scenario**: The setup is logically impossible given the rest of the post.
+
+If the opener has a quote or scene with another person, ask: would a real person in that role, in that moment, actually say or do this? If "no, this is set up too neatly to be real" — FAIL.
+
+### Gate 3: COHERENCE (does the opener match the post's actual argument?)
+The single most important test. An opener can be punchy AND wrong for the post. Two sub-tests, both required:
+
+**Promise test**: Write down what the opener promises the reader, in one sentence. Read the body. Does every paragraph deliver against that promise, or does the body argue an adjacent point?
+
+**Compression test**: Compress the body to one sentence. Compare to the opener. Same argument from different angles, or two different arguments?
+
+Failure modes:
+- **Drift** — opener is right, body wandered. Fix the body.
+- **Bait-and-switch** — opener is sharper than the body delivers. Match one to the other.
+- **Two posts in one** — opener for argument A, body for argument B. Split.
+
+The opener has to be both universal (simple words, stakes a stranger gets) AND faithful to the actual argument. Macro-but-misleading damages the founder over time.
+
+### Gate 4: SPECIFICITY (no invented facts)
+Three degrees of specificity:
+- **First-degree**: "Anant told me on the flight to Manila…" — Allowed ONLY if it's in the draft or the founder has publicly told this story.
+- **Second-degree**: "A founder I back at a $40M company told me…" — Allowed only if the founder really has companies at that scale.
+- **Third-degree**: "Every founder I know who's crossed $20M runs into the same thing…" — Always allowed.
+
+Default to third-degree when in doubt. A pattern observation lands almost as hard as a named story and carries zero fabrication risk. Never invent first-degree.
+
+### Gate 5: MODE PRESERVATION
+The post arrives already marked as wrestling-mode or declaring-mode.
+
+**Declaring-mode**: strongest opener is usually a clean assertion, contrarian declaration, or specific number. Body defends the assertion in a straight line.
+
+**Wrestling-mode**: strongest opener signals movement is coming — a confession ("I told 50 buyers we were ready. I was wrong"), a contradiction ("Our biggest churn last quarter wasn't who I expected"), or a stated tension.
+
+A wrestling-mode post with a clean declarative opener creates a bait-and-switch: reader is promised certainty, body delivers uncertainty. Don't silently strip wrestling structure to make an opener punchier. The wrestling IS the point.
+
+## BODY SCAN
+Read the body line by line. For each line, ask:
+- Could this sentence work as the opener, lifted out of where it currently sits?
+- Does it have a number, a juxtaposition, a confession, a quote, or a scene?
+- Is it punchier than what's currently in line 1?
+
+If yes, mark it as buried gold. Don't draft the new opener until you've checked whether the post already contains its real opener three paragraphs in.
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "current_mechanic": "specific_number|juxtaposition|confession|quote_hook|scene_entry|decision_reveal|contrarian|pattern_observation|none",
+  "mechanic_effective": true,
+  "gates": {{{{
+    "mechanic": {{{{"pass": true, "reason": "..."}}}},
+    "plausibility": {{{{"pass": true, "failure_shape": "none|strawman_quote|counted_precision|convenient_setup|obvious_question|impossible_scenario", "reason": "..."}}}},
+    "coherence": {{{{"pass": true, "opener_promises": "one sentence", "body_delivers": "one sentence", "match": "yes|partial|no", "failure_mode": "none|drift|bait_switch|two_posts", "reason": "..."}}}},
+    "specificity": {{{{"pass": true, "degree": "first|second|third", "reason": "..."}}}},
+    "mode_preservation": {{{{"pass": true, "opener_mode": "wrestling|declaring", "assigned_mode": "{mode}", "reason": "..."}}}}
+  }}}},
+  "all_gates_pass": true,
+  "buried_gold": "the exact sentence from the body that could be a better opener, or empty string",
+  "buried_gold_mechanic": "which of the 8 mechanics the buried gold would use if promoted",
+  "weakness": "one sentence on the biggest weakness of the current opener"
+}}}}
+```

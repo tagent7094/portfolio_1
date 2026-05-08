@@ -5,13 +5,12 @@ import LoginPage from './pages/LoginPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 import AdminPage from './pages/AdminPage'
 import DashboardPage from './pages/DashboardPage'
-import GeneratePage from './pages/GeneratePage'
 import GraphPage from './pages/GraphPage'
 import CoveragePage from './pages/CoveragePage'
 import WorkflowPage from './pages/WorkflowPage'
 import HistoryPage from './pages/HistoryPage'
 import ConfigPage from './pages/ConfigPage'
-import CustomizePage from './pages/CustomizePage'
+import GeneratePage from './pages/GeneratePage'
 import LandingPage from './pages/LandingPage'
 import FounderPackPage from './pages/FounderPackPage'
 import AskSharathPage from './pages/AskSharathPage'
@@ -44,7 +43,6 @@ export default function App() {
           <Route element={<AppShell />}>
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="generate" element={<GeneratePage />} />
-            <Route path="customize" element={<CustomizePage />} />
             <Route path="graph" element={<GraphPage />} />
             <Route path="coverage" element={<CoveragePage />} />
             <Route path="workflow" element={<WorkflowPage />} />
@@ -71,7 +69,6 @@ export default function App() {
         <Route element={<AppShell />}>
           <Route index element={<DashboardPage />} />
           <Route path="generate" element={<GeneratePage />} />
-          <Route path="customize" element={<CustomizePage />} />
           <Route path="graph" element={<GraphPage />} />
           <Route path="coverage" element={<CoveragePage />} />
           <Route path="workflow" element={<WorkflowPage />} />
