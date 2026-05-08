@@ -15,6 +15,8 @@ interface TraceEntry {
   prompt_length?: number
   response_preview?: string
   response_length?: number
+  thinking_preview?: string
+  thinking_length?: number
   temperature?: number
   max_tokens?: number
   model?: string
@@ -130,6 +132,7 @@ function TraceEntryRow({ entry }: { entry: TraceEntry }) {
             {entry.temperature != null && entry.temperature > 0 && <span>temp: {entry.temperature}</span>}
             {entry.max_tokens != null && entry.max_tokens > 0 && <span>max_tokens: {entry.max_tokens}</span>}
             {entry.prompt_length != null && entry.prompt_length > 0 && <span>prompt: {formatChars(entry.prompt_length)} chars</span>}
+            {entry.thinking_length != null && entry.thinking_length > 0 && <span className="text-amber-400/40">thinking: {formatChars(entry.thinking_length)} chars</span>}
             {entry.response_length != null && entry.response_length > 0 && <span>response: {formatChars(entry.response_length)} chars</span>}
           </div>
 
@@ -141,6 +144,19 @@ function TraceEntryRow({ entry }: { entry: TraceEntry }) {
                 {entry.prompt_preview}
                 {entry.prompt_length && entry.prompt_length > 500 && (
                   <span className="text-white/20">{'\n'}...({formatChars(entry.prompt_length)} total)</span>
+                )}
+              </pre>
+            </div>
+          )}
+
+          {/* Thinking preview */}
+          {entry.thinking_preview && (
+            <div>
+              <div className="mb-1 text-[9px] font-semibold uppercase tracking-widest text-amber-400/50">Thinking</div>
+              <pre className="max-h-[200px] overflow-auto rounded-md bg-amber-950/20 border border-amber-800/20 p-2 text-[10px] leading-relaxed text-amber-200/50 whitespace-pre-wrap italic">
+                {entry.thinking_preview}
+                {entry.thinking_length && entry.thinking_length > 1000 && (
+                  <span className="text-amber-400/20">{'\n'}...({formatChars(entry.thinking_length)} total)</span>
                 )}
               </pre>
             </div>

@@ -112,6 +112,7 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
             temperature=0.3,
             max_tokens=4000,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
         )
 
     if not isinstance(result, dict):
@@ -151,6 +152,7 @@ def calibration_check(llm: LLMProvider, state: BatchState) -> dict:
             temperature=0.5,
             max_tokens=1000,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
         )
 
     return result if isinstance(result, dict) else {}

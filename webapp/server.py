@@ -754,23 +754,24 @@ class BatchGenerateRequest(BaseModel):
     creativity: float = 0.5
     n_sources: int = 10
     posts_per_source: int = 9
+    enable_thinking: bool = True
     source_posts: list[str] | None = None
 
 
 @app.post("/api/generate/batch/stream")
-async def generate_batch_stream(data: BatchGenerateRequest):
-    """SSE streaming batch generation — 9 posts per source, up to 90 posts total."""
-    logger.info("[batch_stream] founder=%s sources=%d creativity=%.2f",
-                data.founder_slug, data.n_sources, data.creativity)
+async def generate_batch_stream(data: BatchGenerateRequest, request: Request):
+    """SSE streaming batch generation with cancellation support."""
+    logger.info("[batch_stream] founder=%s sources=%d creativity=%.2f thinking=%s",
+                data.founder_slug, data.n_sources, data.creativity, data.enable_thinking)
 
     from src.generation.pipeline_events import PipelineEvent, PipelineEventBus
-    from src.batch.session import BatchSession
+    from src.batch.session import BatchSession, CancelledError
 
     event_bus = PipelineEventBus()
+    session = BatchSession(event_bus=event_bus)
 
     async def run():
         try:
-            session = BatchSession(event_bus=event_bus)
             await asyncio.to_thread(
                 session.run,
                 founder_slug=data.founder_slug,
@@ -778,15 +779,32 @@ async def generate_batch_stream(data: BatchGenerateRequest):
                 creativity=data.creativity,
                 n_sources=data.n_sources,
                 posts_per_source=data.posts_per_source,
+                enable_thinking=data.enable_thinking,
                 source_posts=data.source_posts,
             )
+        except CancelledError:
+            logger.info("Batch generation cancelled by user")
+            event_bus.emit(PipelineEvent(
+                stage="cancelled", status="pipeline_done", data={"cancelled": True},
+            ))
         except Exception as e:
             logger.exception("Batch generation failed")
             event_bus.emit(PipelineEvent(
                 stage="error", status="pipeline_done", data={"error": str(e)},
             ))
 
+    async def monitor_disconnect():
+        while not session.cancel_event.is_set():
+            if await request.is_disconnected():
+                logger.info("Client disconnected, cancelling batch generation")
+                session.cancel_event.set()
+                event_bus.close()
+                return
+            await asyncio.sleep(1)
+
     asyncio.create_task(run())
+    asyncio.create_task(monitor_disconnect())
+
     return StreamingResponse(
         event_bus.stream(),
         media_type="text/event-stream",
@@ -809,6 +827,7 @@ async def generate_batch(data: BatchGenerateRequest):
             creativity=data.creativity,
             n_sources=data.n_sources,
             posts_per_source=data.posts_per_source,
+            enable_thinking=data.enable_thinking,
             source_posts=data.source_posts,
         )
         return {"status": "ok", **result}

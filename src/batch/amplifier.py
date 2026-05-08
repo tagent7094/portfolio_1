@@ -40,6 +40,7 @@ def diagnose_opener(llm: LLMProvider, post: AmplifiedPost, state: BatchState) ->
             temperature=0.2,
             max_tokens=1500,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
             metadata={"post_label": post.label, "mode": post.mode},
         )
 
@@ -84,6 +85,7 @@ def generate_alternatives(
             temperature=0.5,
             max_tokens=2000,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
             metadata={"post_label": post.label},
         )
 
@@ -212,6 +214,7 @@ def convergence_test(
             temperature=0.2,
             max_tokens=1000,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
             metadata={"posts_count": len(pack_posts)},
         )
 

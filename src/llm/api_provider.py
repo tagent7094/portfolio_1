@@ -25,6 +25,7 @@ class APIProvider(LLMProvider):
         self.effort = effort
         self._provider_name = provider
         self._model_name = model
+        self.last_thinking = ""
 
         if provider == "anthropic":
             import anthropic
@@ -75,15 +76,10 @@ class APIProvider(LLMProvider):
         """Stream from Anthropic with adaptive thinking support."""
         messages = [{"role": "user", "content": prompt}]
 
-        # Per-call override: thinking_budget=0 → disable for this call
         call_thinking = self.enable_thinking if thinking_budget is None else bool(thinking_budget)
         call_effort = effort if effort is not None else self.effort
 
-        # When thinking is enabled, max_tokens covers BOTH thinking + content.
-        # Thinking can easily use 2000+ tokens, leaving nothing for content.
-        # Solution: bump max_tokens to ensure enough room for actual output.
         if call_thinking:
-            # Ensure at least 16K total so thinking gets ~12K and content gets ~4K
             effective_max = max(max_tokens, 16000)
         else:
             effective_max = max_tokens
@@ -100,18 +96,17 @@ class APIProvider(LLMProvider):
         if call_thinking:
             kwargs["thinking"] = {"type": "adaptive"}
             kwargs["output_config"] = {"effort": call_effort}
-            # temperature must be 1 when thinking is enabled
             print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m thinking=adaptive, effort={call_effort}, effective_max_tokens={effective_max}", file=sys.stderr, flush=True)
         else:
             kwargs["temperature"] = temperature
 
-        # Use streaming
         print(f"\033[2m[Anthropic {self.model}] base_url={self.client._base_url} api_key={str(self.client.api_key)[:20]}...\033[0m", file=sys.stderr, flush=True)
-        print(f"\033[2m[Anthropic {self.model}] kwargs keys: {list(kwargs.keys())}\033[0m", file=sys.stderr, flush=True)
+
+        thinking_parts = []
+        self.last_thinking = ""
 
         with self.client.messages.stream(**kwargs) as stream:
             for event in stream:
-                # Handle different event types
                 if hasattr(event, 'type'):
                     if event.type == 'content_block_start':
                         block = event.content_block
@@ -125,16 +120,16 @@ class APIProvider(LLMProvider):
                         delta = event.delta
                         if hasattr(delta, 'type'):
                             if delta.type == 'thinking_delta':
-                                # Print thinking to terminal (dimmed) but don't yield
+                                thinking_parts.append(delta.thinking)
                                 print(f"\033[2m{delta.thinking}\033[0m", end="", flush=True, file=sys.stderr)
                             elif delta.type == 'text_delta':
-                                # Yield actual content
                                 print(delta.text, end="", flush=True, file=sys.stderr)
                                 yield delta.text
 
                     elif event.type == 'content_block_stop':
                         print("", file=sys.stderr)
 
+        self.last_thinking = "".join(thinking_parts)
         print("", file=sys.stderr)
 
     def _stream_openai(self, prompt, system_prompt, temperature, max_tokens):

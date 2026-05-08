@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import {
   Play, Loader2, Square, FileSpreadsheet, CheckCircle2, Eye,
   Search, X, ThumbsUp, MessageSquare, Repeat2,
-  Shuffle, Library,
+  Shuffle, Library, Brain,
 } from 'lucide-react'
 import { streamSSE, apiGet } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
@@ -30,6 +30,7 @@ export default function GeneratePage() {
   const [nSources, setNSources] = useState(3)
   const [postsPerSource, setPostsPerSource] = useState(9)
   const [creativity, setCreativity] = useState(0.5)
+  const [enableThinking, setEnableThinking] = useState(true)
   const [sourceMode, setSourceMode] = useState<SourceMode>('auto')
   const [selectedSources, setSelectedSources] = useState<ViralSource[]>([])
 
@@ -115,6 +116,7 @@ export default function GeneratePage() {
       n_sources: effectiveSources,
       posts_per_source: postsPerSource,
       creativity,
+      enable_thinking: enableThinking,
       platform: 'linkedin',
     }
     if (sourceMode === 'pick') {
@@ -135,6 +137,11 @@ export default function GeneratePage() {
           }
           if (event.data?.error) {
             setError(event.data.error)
+          }
+          if (event.data?.cancelled) {
+            setStage('Cancelled')
+            setGenerating(false)
+            return
           }
           if (event.status === 'pipeline_done') {
             setDone(true)
@@ -312,11 +319,36 @@ export default function GeneratePage() {
                 </div>
               </div>
 
+              {/* Thinking toggle */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Brain size={14} className={enableThinking ? 'text-amber-400' : 'text-[var(--text-faint)]'} />
+                  <div>
+                    <div className="text-[12px] text-[var(--text-secondary)]">Extended Thinking</div>
+                    <div className="text-[10px] text-[var(--text-faint)]">
+                      {enableThinking ? 'Model reasons before generating' : 'Direct generation (faster)'}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setEnableThinking(!enableThinking)}
+                  disabled={generating}
+                  className={`relative h-5 w-9 rounded-full transition-colors ${
+                    enableThinking ? 'bg-amber-500' : 'bg-[var(--surface-3)]'
+                  }`}
+                >
+                  <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform ${
+                    enableThinking ? 'translate-x-4' : 'translate-x-0.5'
+                  }`} />
+                </button>
+              </div>
+
               <div className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-3 text-[12px] text-[var(--text-muted)]">
                 <p className="font-semibold text-[var(--text-secondary)]">{totalPosts} posts total</p>
                 <p className="mt-0.5">{effectiveSources} source{effectiveSources !== 1 ? 's' : ''} × {postsPerSource} per source</p>
                 <p className="mt-0.5">5-gate amplifier + convergence test</p>
                 <p className="mt-0.5">Web search enrichment + full traceability</p>
+                {enableThinking && <p className="mt-0.5 text-amber-400/60">Extended thinking enabled (visible in traces)</p>}
               </div>
 
               {!generating && !done && (

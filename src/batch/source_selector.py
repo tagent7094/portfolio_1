@@ -140,6 +140,7 @@ Select exactly {n_sources} posts."""
             temperature=0.3,
             max_tokens=500,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
             metadata={"candidates": len(top), "requested": n_sources},
         )
 

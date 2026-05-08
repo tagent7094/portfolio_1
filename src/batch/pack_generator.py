@@ -50,6 +50,7 @@ def dissect_source(llm: LLMProvider, source: str, state: BatchState, pack_num: i
             temperature=0.2,
             max_tokens=2000,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
         )
 
     return result if isinstance(result, dict) else {"narrative_arc": "unknown", "mirrorable": True}
@@ -115,6 +116,7 @@ def _generate_a_variant(
             temperature=temp,
             max_tokens=2000,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
             metadata={"variant": variant_num, "batch": "A"},
         )
 
@@ -186,6 +188,7 @@ def _generate_b_variant(
             temperature=temp,
             max_tokens=2000,
             duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
             metadata={"variant": variant_num, "batch": "B", "entry_door": entry_door},
         )
 

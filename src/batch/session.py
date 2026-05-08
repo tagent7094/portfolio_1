@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import sys
+import threading
 from pathlib import Path
 
 from ..llm.factory import create_llm
@@ -20,11 +21,20 @@ from .compiler import compile_json, save_output
 logger = logging.getLogger(__name__)
 
 
+class CancelledError(Exception):
+    pass
+
+
 class BatchSession:
     """Orchestrates the full batch post generation pipeline."""
 
     def __init__(self, event_bus: PipelineEventBus | None = None):
         self.event_bus = event_bus
+        self.cancel_event = threading.Event()
+
+    def _check_cancel(self):
+        if self.cancel_event.is_set():
+            raise CancelledError("Generation cancelled by user")
 
     def _emit(self, stage: str, status: str, data: dict | None = None, progress: float = 0.0):
         if self.event_bus:
@@ -41,11 +51,15 @@ class BatchSession:
         creativity: float = 0.5,
         n_sources: int = 10,
         posts_per_source: int = 9,
+        enable_thinking: bool = True,
         source_posts: list[str] | None = None,
         config_path: str = "config/llm-config.yaml",
     ) -> dict:
         """Run the full batch generation pipeline."""
         llm = create_llm(config_path=config_path, purpose="generation")
+
+        if hasattr(llm, 'enable_thinking'):
+            llm.enable_thinking = enable_thinking
 
         tracer = BatchTracer(
             model=getattr(llm, '_model_name', 'unknown'),
@@ -53,6 +67,7 @@ class BatchSession:
         )
 
         # Phase 1: Load founder data + deep internalization
+        self._check_cancel()
         self._emit("internalize", "started", progress=0.0)
         state = load_founder_state(founder_slug, platform)
         state.creativity = creativity
@@ -81,6 +96,7 @@ class BatchSession:
         }, progress=0.05)
 
         # Calibration check
+        self._check_cancel()
         self._emit("calibration", "started", progress=0.07)
         cal = calibration_check(llm, state)
         tracer.trace_decision(
@@ -94,6 +110,7 @@ class BatchSession:
         }, progress=0.1)
 
         # Phase 2: Web search enrichment (if Anthropic provider)
+        self._check_cancel()
         self._emit("web_search", "started", progress=0.1)
         web_context = self._web_search_enrich(llm, state)
         state.web_search_context = web_context
@@ -103,6 +120,7 @@ class BatchSession:
         }, progress=0.12)
 
         # Phase 3: Select sources
+        self._check_cancel()
         self._emit("select_sources", "started", progress=0.12)
         state.source_posts = select_sources(llm, state, n_sources, source_posts)
         self._emit("select_sources", "completed", {
@@ -112,6 +130,7 @@ class BatchSession:
         # Phase 4: Generate packs sequentially
         total = len(state.source_posts)
         for i, source in enumerate(state.source_posts):
+            self._check_cancel()
             pack_num = i + 1
 
             # Memory refresh at midpoint
@@ -136,11 +155,13 @@ class BatchSession:
             # Amplifier pass on each post
             amplified_posts = []
             for j, post in enumerate(pack.posts):
+                self._check_cancel()
                 post = amplify_post(llm, post, amplified_posts, state)
                 amplified_posts.append(post)
                 state.arguments_compressed.append(post.argument_compressed)
 
             # Convergence test
+            self._check_cancel()
             conv = convergence_test(llm, amplified_posts, source[:200], state)
             pack.convergence_test = conv
             pack.posts = amplified_posts

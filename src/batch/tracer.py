@@ -18,6 +18,8 @@ class TraceEntry:
     prompt_length: int = 0     # full prompt char count
     response_preview: str = "" # first 500 chars of response
     response_length: int = 0   # full response char count
+    thinking_preview: str = "" # first 1000 chars of model thinking/reasoning
+    thinking_length: int = 0   # full thinking char count
     temperature: float = 0.0
     max_tokens: int = 0
     model: str = ""
@@ -62,6 +64,7 @@ class BatchTracer:
         temperature: float = 0.0,
         max_tokens: int = 0,
         duration_ms: int = 0,
+        thinking: str = "",
         metadata: dict | None = None,
     ) -> TraceEntry:
         entry = TraceEntry(
@@ -74,6 +77,8 @@ class BatchTracer:
             prompt_length=len(prompt),
             response_preview=response[:500],
             response_length=len(response),
+            thinking_preview=thinking[:1000] if thinking else "",
+            thinking_length=len(thinking) if thinking else 0,
             temperature=temperature,
             max_tokens=max_tokens,
             model=self.model,
