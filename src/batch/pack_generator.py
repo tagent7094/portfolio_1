@@ -235,10 +235,13 @@ def generate_pack(
     source: str,
     pack_number: int,
     state: BatchState,
+    posts_per_source: int = 9,
     event_callback=None,
 ) -> PackResult:
-    """Generate a full 9-post pack (3A + 6B) for one source."""
-    logger.info("[batch] Generating pack %d...", pack_number)
+    """Generate posts for one source. posts_per_source controls the total count."""
+    logger.info("[batch] Generating pack %d (%d posts)...", pack_number, posts_per_source)
+
+    posts_per_source = max(1, min(posts_per_source, 9))
 
     dissection = dissect_source(llm, source, state, pack_num=pack_number)
     state.source_dissections.append(dissection)
@@ -253,15 +256,16 @@ def generate_pack(
     posts: list[AmplifiedPost] = []
 
     if mirrorable:
-        for i in range(1, 4):
+        n_a = min(3, posts_per_source)
+        for i in range(1, n_a + 1):
             logger.info("[batch] Pack %d: generating A%d...", pack_number, i)
             post = _generate_a_variant(llm, source, dissection, i, state)
             posts.append(post)
             if event_callback:
                 event_callback(f"pack_{pack_number}_a{i}", {"word_count": post.word_count})
-        n_b = 6
+        n_b = max(0, posts_per_source - n_a)
     else:
-        n_b = 9
+        n_b = posts_per_source
 
     doors = select_entry_doors(n_b, state.entry_doors_used, pack_number)
     state.entry_doors_used[pack_number] = doors
@@ -278,12 +282,13 @@ def generate_pack(
                 "door": door, "word_count": post.word_count,
             })
 
+    n_a_actual = len([p for p in posts if p.batch == "A"])
     return PackResult(
         source_number=pack_number,
         source_post=source,
         dissection=dissection,
         mirrorable=mirrorable,
         posts=posts,
-        batch_a_count=3 if mirrorable else 0,
+        batch_a_count=n_a_actual,
         batch_b_count=n_b,
     )

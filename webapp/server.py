@@ -753,6 +753,7 @@ class BatchGenerateRequest(BaseModel):
     platform: str = "linkedin"
     creativity: float = 0.5
     n_sources: int = 10
+    posts_per_source: int = 9
     source_posts: list[str] | None = None
 
 
@@ -776,6 +777,7 @@ async def generate_batch_stream(data: BatchGenerateRequest):
                 platform=data.platform,
                 creativity=data.creativity,
                 n_sources=data.n_sources,
+                posts_per_source=data.posts_per_source,
                 source_posts=data.source_posts,
             )
         except Exception as e:
@@ -806,12 +808,81 @@ async def generate_batch(data: BatchGenerateRequest):
             platform=data.platform,
             creativity=data.creativity,
             n_sources=data.n_sources,
+            posts_per_source=data.posts_per_source,
             source_posts=data.source_posts,
         )
         return {"status": "ok", **result}
     except Exception as e:
         logger.exception("Batch generation failed")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/viral-sources")
+async def list_viral_sources(q: str = "", limit: int = 50, offset: int = 0):
+    """Browse available viral source posts for manual selection."""
+    import csv
+    from pathlib import Path
+
+    csv_path = Path(__file__).parent.parent / "data" / "viral-posts-samples" / "viral-linkedin-posts.csv"
+    md_path = Path(__file__).parent.parent / "data" / "viral-posts-samples" / "viral-linkedin.md"
+    sources = []
+
+    if csv_path.exists():
+        with open(csv_path, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                content = row.get("Post content", "").strip()
+                if not content or len(content) < 50:
+                    continue
+                sources.append({
+                    "id": f"csv_{len(sources)}",
+                    "content": content[:500],
+                    "full_content": content,
+                    "likes": int(row.get("Likes", 0) or 0),
+                    "comments": int(row.get("Comments", 0) or 0),
+                    "reposts": int(row.get("Reposts", 0) or 0),
+                    "creator": row.get("LinkedIn Profile of Creator", ""),
+                    "content_type": row.get("Content type", ""),
+                    "source": "csv",
+                })
+
+    if md_path.exists():
+        import re
+        text = md_path.read_text(encoding="utf-8")
+        chunks = re.split(r"\n## ", text)
+        for i, chunk in enumerate(chunks):
+            if i == 0 and not chunk.startswith("##"):
+                continue
+            chunk = chunk.strip()
+            if len(chunk) < 50:
+                continue
+            title_match = re.match(r"^(.+?)(?:\n|$)", chunk)
+            title = title_match.group(1) if title_match else f"Sample {i}"
+            body = chunk[len(title):].strip() if title_match else chunk
+            sources.append({
+                "id": f"md_{i}",
+                "content": body[:500],
+                "full_content": body,
+                "likes": 0,
+                "comments": 0,
+                "reposts": 0,
+                "creator": "",
+                "content_type": title,
+                "source": "curated",
+            })
+
+    if q:
+        q_lower = q.lower()
+        sources = [s for s in sources if q_lower in s["full_content"].lower() or q_lower in s.get("content_type", "").lower()]
+
+    total = len(sources)
+    sources.sort(key=lambda s: s["likes"] + s["comments"] * 3 + s["reposts"] * 2, reverse=True)
+    page = sources[offset:offset + limit]
+
+    for s in page:
+        s.pop("full_content", None)
+
+    return {"sources": page, "total": total}
 
 
 @app.get("/api/posts/stats")

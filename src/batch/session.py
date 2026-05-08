@@ -40,6 +40,7 @@ class BatchSession:
         platform: str = "linkedin",
         creativity: float = 0.5,
         n_sources: int = 10,
+        posts_per_source: int = 9,
         source_posts: list[str] | None = None,
         config_path: str = "config/llm-config.yaml",
     ) -> dict:
@@ -130,7 +131,7 @@ class BatchSession:
             def pack_callback(sub_stage, data):
                 self._emit(f"pack_{pack_num}", "progress", {sub_stage: data})
 
-            pack = generate_pack(llm, source, pack_num, state, event_callback=pack_callback)
+            pack = generate_pack(llm, source, pack_num, state, posts_per_source=posts_per_source, event_callback=pack_callback)
 
             # Amplifier pass on each post
             amplified_posts = []
