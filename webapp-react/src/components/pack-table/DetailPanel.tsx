@@ -148,16 +148,9 @@ export function DetailPanel({
                         {onSelectVariant && (
                           <button
                             onClick={() => onSelectVariant(letter, opening, finalPost)}
-                            className="mt-2 ml-7 px-3 py-1.5 text-[10px] font-medium rounded-md transition-colors"
-                            style={{
-                              backgroundColor: 'var(--surface-3)',
-                              color: 'var(--text-secondary)',
-                              border: '1px solid var(--border-1)',
-                            }}
-                            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--text-primary)'; e.currentTarget.style.color = 'var(--surface-1)' }}
-                            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-3)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+                            className={clsx('mt-3 ml-7 px-4 py-2 text-[11px] font-semibold rounded-lg transition-all hover:scale-[1.02]', accent.badge)}
                           >
-                            Use This
+                            Customize with {letter}
                           </button>
                         )}
                       </div>
