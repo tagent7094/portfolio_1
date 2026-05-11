@@ -161,18 +161,27 @@ async function generateTopic() {
     const topic = document.getElementById('topic-input').value.trim();
     if (!topic) return alert('Enter a topic');
     const platform = document.getElementById('topic-platform').value;
+    const effort = document.getElementById('thinking-effort')?.value || 'high';
+    const founderSel = document.getElementById('founder-selector');
+    const founder_slug = founderSel ? founderSel.value : 'sharath';
     const btn = document.getElementById('btn-gen-topic');
     const status = document.getElementById('topic-status');
     btn.disabled = true;
-    status.innerHTML = '<span class="status loading"><span class="spinner"></span> Starting pipeline (10 engines + 5 audience agents)...</span>';
+    status.innerHTML = '<span class="status loading"><span class="spinner"></span> Starting batch pipeline...</span>';
 
     resetPipelineUI();
 
     try {
-        const res = await fetch(`${API}/api/generate/topic/stream`, {
+        const res = await fetch(`${API}/api/generate/batch/stream`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ topic, platform, creativity: (document.getElementById('creativity-slider')?.value || 50) / 100 }),
+            body: JSON.stringify({
+                founder_slug,
+                platform,
+                creativity: (document.getElementById('creativity-slider')?.value || 50) / 100,
+                source_posts: [topic],
+                effort,
+            }),
         });
 
         const reader = res.body.getReader();

@@ -99,7 +99,7 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
     logger.info("[batch] Running deep corpus internalization...")
     import time as _t
     _start = _t.time()
-    response = llm.generate(prompt, temperature=0.3, max_tokens=4000)
+    response = llm.generate(prompt, temperature=0.3, max_tokens=16000)
     _dur = int((_t.time() - _start) * 1000)
     result = parse_llm_json(response)
 
@@ -110,7 +110,7 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
             prompt=prompt,
             response=response,
             temperature=0.3,
-            max_tokens=4000,
+            max_tokens=16000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
         )
@@ -169,7 +169,8 @@ def load_founder_state(founder_slug: str, platform: str = "linkedin") -> BatchSt
     from ..config.founders import get_founder_paths
     paths = get_founder_paths(config, founder_slug)
 
-    graph = load_graph(paths["graph_path"])
+    graph_path = Path(paths["graph_path"])
+    graph = load_graph(str(graph_path))
     founder_ctx = get_deep_founder_context(graph, platform)
     personality_card = get_personality_card(graph)
     raw_data = load_raw_founder_data(founder_slug)
@@ -177,6 +178,14 @@ def load_founder_state(founder_slug: str, platform: str = "linkedin") -> BatchSt
     stats = compute_word_count_stats(raw_data.get("founder_posts_sample", ""))
     median = stats["median"]
     wc_range = (max(80, int(median * 0.7)), int(median * 1.3))
+
+    freshness_warning = ""
+    if graph_path.exists():
+        import time
+        age_days = (time.time() - graph_path.stat().st_mtime) / 86400
+        if age_days > 14:
+            freshness_warning = f"Graph last updated {int(age_days)} days ago"
+            logger.warning("[batch] %s", freshness_warning)
 
     state = BatchState(
         founder_slug=founder_slug,
@@ -186,5 +195,6 @@ def load_founder_state(founder_slug: str, platform: str = "linkedin") -> BatchSt
         personality_card=personality_card,
         median_word_count=median,
         word_count_range=wc_range,
+        freshness_warning=freshness_warning,
     )
     return state

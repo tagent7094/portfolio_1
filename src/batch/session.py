@@ -14,9 +14,11 @@ from .state import BatchState
 from .tracer import BatchTracer
 from .corpus_reader import load_founder_state, internalize_corpus, calibration_check
 from .source_selector import select_sources
-from .pack_generator import generate_pack
+from .pack_generator import generate_pack, _enforce_word_count, _generate_a_variant, _generate_b_variant
 from .amplifier import amplify_post, convergence_test
+from .voice_validator import validate_voice, regenerate_with_voice_override
 from .compiler import compile_json, save_output
+from .exclusion_scanner import load_exclusions, scan_for_exclusions
 
 logger = logging.getLogger(__name__)
 
@@ -54,28 +56,45 @@ class BatchSession:
         enable_thinking: bool = True,
         source_posts: list[str] | None = None,
         config_path: str = "config/llm-config.yaml",
+        effort: str = "high",
     ) -> dict:
-        """Run the full batch generation pipeline."""
-        llm = create_llm(config_path=config_path, purpose="generation")
+        """Run the full batch generation pipeline.
 
-        if hasattr(llm, 'enable_thinking'):
-            llm.enable_thinking = enable_thinking
+        Uses two models:
+          - llm_gen (Opus): creative generation — internalization, post writing, opener alternatives
+          - llm_prep (Haiku): analysis/classification — calibration, source selection, dissection,
+            opener diagnosis, convergence testing
+        """
+        llm_gen = create_llm(config_path=config_path, purpose="generation")
+        llm_prep = create_llm(config_path=config_path, purpose="prep")
+
+        if hasattr(llm_gen, 'enable_thinking'):
+            llm_gen.enable_thinking = enable_thinking
+        if hasattr(llm_gen, 'effort'):
+            llm_gen.effort = effort
 
         tracer = BatchTracer(
-            model=getattr(llm, '_model_name', 'unknown'),
-            provider=getattr(llm, '_provider_name', 'unknown'),
+            model=getattr(llm_gen, '_model_name', 'unknown'),
+            provider=getattr(llm_gen, '_provider_name', 'unknown'),
         )
+        tracer.start_log_capture()
 
-        # Phase 1: Load founder data + deep internalization
+        # Phase 1: Load founder data + deep internalization (Opus — creative)
         self._check_cancel()
         self._emit("internalize", "started", progress=0.0)
         state = load_founder_state(founder_slug, platform)
         state.creativity = creativity
         state.tracer = tracer
 
+        state.exclusions = load_exclusions(founder_slug)
         tracer.trace_step("load_founder", f"Loaded founder data for {founder_slug}")
+        tracer.trace_step("multi_model", f"gen={getattr(llm_gen, '_model_name', '?')}, prep={getattr(llm_prep, '_model_name', '?')}")
 
-        internalization = internalize_corpus(llm, state)
+        if state.freshness_warning:
+            self._emit("freshness_warning", state.freshness_warning, progress=0.01)
+            tracer.trace_decision("freshness", state.freshness_warning)
+
+        internalization = internalize_corpus(llm_gen, state)
         state.founder_internalization = internalization
         state.voice_markers = internalization.get("voice_markers", [])
         state.formatting_habits = internalization.get("formatting_habits", {})
@@ -83,7 +102,8 @@ class BatchSession:
         if internalization.get("word_count_range"):
             wc = internalization["word_count_range"]
             if isinstance(wc, list) and len(wc) == 2:
-                state.word_count_range = (int(wc[0]), int(wc[1]))
+                a, b = int(wc[0]), int(wc[1])
+                state.word_count_range = (min(a, b), max(a, b))
 
         if internalization.get("median_word_count"):
             state.median_word_count = int(internalization["median_word_count"])
@@ -95,34 +115,35 @@ class BatchSession:
             "word_count_range": list(state.word_count_range),
         }, progress=0.05)
 
-        # Calibration check
+        # Calibration check (Opus — creative voice synthesis)
         self._check_cancel()
         self._emit("calibration", "started", progress=0.07)
-        cal = calibration_check(llm, state)
+        cal = calibration_check(llm_gen, state)
         tracer.trace_decision(
             "calibration",
             f"confidence={cal.get('confidence', 'unknown')}",
-            metadata={"critique": cal.get("self_critique", "")},
+            metadata={"critique": cal.get("self_critique", ""), "model": getattr(llm_gen, '_model_name', '?')},
         )
+        state.calibration_paragraph = cal.get("calibration_paragraph", "")
         self._emit("calibration", "completed", {
             "confidence": cal.get("confidence", "unknown"),
             "critique": cal.get("self_critique", ""),
         }, progress=0.1)
 
-        # Phase 2: Web search enrichment (if Anthropic provider)
+        # Phase 2: Web search enrichment (Haiku — data retrieval)
         self._check_cancel()
         self._emit("web_search", "started", progress=0.1)
-        web_context = self._web_search_enrich(llm, state)
+        web_context = self._web_search_enrich(llm_prep, state)
         state.web_search_context = web_context
         self._emit("web_search", "completed", {
             "searches": len(web_context.get("searches", [])),
             "topics_found": len(web_context.get("trending_topics", [])),
         }, progress=0.12)
 
-        # Phase 3: Select sources
+        # Phase 3: Select sources (Haiku — ranking/classification)
         self._check_cancel()
         self._emit("select_sources", "started", progress=0.12)
-        state.source_posts = select_sources(llm, state, n_sources, source_posts)
+        state.source_posts = select_sources(llm_prep, state, n_sources, source_posts)
         self._emit("select_sources", "completed", {
             "count": len(state.source_posts),
         }, progress=0.15)
@@ -133,10 +154,10 @@ class BatchSession:
             self._check_cancel()
             pack_num = i + 1
 
-            # Memory refresh at midpoint
-            if i == 5 and total >= 8:
+            # Memory refresh at midpoint (Opus — creative)
+            if i == total // 2 and total >= 6:
                 self._emit("memory_refresh", "started", progress=0.15 + (i / total) * 0.75)
-                refresh = internalize_corpus(llm, state)
+                refresh = internalize_corpus(llm_gen, state)
                 state.founder_internalization.update(refresh)
                 if refresh.get("voice_markers"):
                     state.voice_markers = refresh["voice_markers"]
@@ -150,19 +171,102 @@ class BatchSession:
             def pack_callback(sub_stage, data):
                 self._emit(f"pack_{pack_num}", "progress", {sub_stage: data})
 
-            pack = generate_pack(llm, source, pack_num, state, posts_per_source=posts_per_source, event_callback=pack_callback)
+            pack = generate_pack(
+                llm_gen, source, pack_num, state,
+                posts_per_source=posts_per_source,
+                event_callback=pack_callback,
+                llm_prep=llm_prep,
+            )
 
-            # Amplifier pass on each post
-            amplified_posts = []
+            # Voice validation pass (Haiku — does it sound like the founder?)
+            validated_posts = []
             for j, post in enumerate(pack.posts):
                 self._check_cancel()
-                post = amplify_post(llm, post, amplified_posts, state)
+                validation = validate_voice(llm_gen, post, state)
+                post.validation_result = validation
+
+                if validation.get("overall") == "FAIL":
+                    tracer.trace_decision(
+                        f"voice_validation_{post.label}",
+                        f"FAIL: {validation.get('suggestion', '')}",
+                        metadata=validation,
+                    )
+                    post = regenerate_with_voice_override(llm_gen, post, validation, state)
+                    post = _enforce_word_count(post, state, llm=llm_gen)
+                    reval = validate_voice(llm_gen, post, state)
+                    post.voice_score = min(
+                        reval.get("voice_marker_score", 3),
+                        reval.get("register_score", 3),
+                    )
+                    post.validation_result = {**post.validation_result, "reval_score": post.voice_score}
+                else:
+                    post.voice_score = min(
+                        validation.get("voice_marker_score", 3),
+                        validation.get("register_score", 3),
+                    )
+
+                validated_posts.append(post)
+
+            # Exclusion scan (flag only, don't reject)
+            if state.exclusions:
+                for post in validated_posts:
+                    hits = scan_for_exclusions(post, state.exclusions)
+                    if hits:
+                        tracer.trace_decision(
+                            f"exclusion_{post.label}",
+                            f"Matched {len(hits)} exclusion(s): {', '.join(hits[:5])}",
+                            metadata={"exclusions": hits},
+                        )
+
+            # Amplifier pass on each validated post
+            amplified_posts = []
+            for j, post in enumerate(validated_posts):
+                self._check_cancel()
+                post = amplify_post(llm_gen, post, amplified_posts, state, llm_prep=llm_prep)
                 amplified_posts.append(post)
                 state.arguments_compressed.append(post.argument_compressed)
 
-            # Convergence test
+            # Staged convergence testing (Haiku — classification)
             self._check_cancel()
-            conv = convergence_test(llm, amplified_posts, source[:200], state)
+            a_posts = [p for p in amplified_posts if p.batch == "A"]
+            b_posts = [p for p in amplified_posts if p.batch == "B"]
+
+            if a_posts and b_posts:
+                conv_a = convergence_test(llm_prep, a_posts, source[:200], state)
+                pack.convergence_test_a = conv_a
+                tracer.trace_decision(
+                    f"pack_{pack_num}_convergence_a",
+                    f"batch_a={'PASS' if conv_a.get('passed', True) else 'FAIL'}",
+                    metadata={"posts": len(a_posts), "recommendation": conv_a.get("recommendation", "")},
+                )
+
+            conv = convergence_test(llm_prep, amplified_posts, source[:200], state)
+
+            if not conv.get("passed", True):
+                overlapping = conv.get("overlapping_posts", [])
+                if not overlapping:
+                    overlapping = [p.label for p in amplified_posts[1:3] if p.batch == "A"]
+                logger.info("[batch] Convergence FAIL — regenerating %s", overlapping)
+
+                for idx, post in enumerate(amplified_posts):
+                    if post.label in overlapping:
+                        diversity_note = f"\n\nCONVERGENCE FAILURE: {conv.get('recommendation', '')}\nYour previous version argued too similarly to other posts. Generate a DIFFERENT angle on the source material."
+                        amended_source = source + diversity_note
+                        if post.batch == "A":
+                            new_post = _generate_a_variant(llm_gen, amended_source, pack.dissection, int(post.label[1:]), state)
+                        else:
+                            new_post = _generate_b_variant(llm_gen, amended_source, pack.dissection, post.entry_door, int(post.label[1:]), [], state)
+                        new_post = _enforce_word_count(new_post, state, llm=llm_gen)
+                        new_post = amplify_post(llm_gen, new_post, [], state, llm_prep=llm_prep)
+                        amplified_posts[idx] = new_post
+
+                conv = convergence_test(llm_prep, amplified_posts, source[:200], state)
+                tracer.trace_decision(
+                    f"pack_{pack_num}_convergence_retry",
+                    f"retry={'PASS' if conv.get('passed', True) else 'STILL_FAIL'}",
+                    metadata=conv,
+                )
+
             pack.convergence_test = conv
             pack.posts = amplified_posts
             state.packs.append(pack)

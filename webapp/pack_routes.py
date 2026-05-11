@@ -45,12 +45,33 @@ def _extract_date(filename: str) -> str:
     return m.group(1) if m else ""
 
 
+def _latest_file_for_date(post_dir: Path, date: str, ext: str = ".json") -> Path | None:
+    """Find the latest file for a date (highest _N suffix = most recent run)."""
+    pattern = f"*_batch_*{ext}" if ext == ".json" else f"*{ext}"
+    matches = [f for f in post_dir.glob(pattern) if date in f.name]
+    if ext == ".json":
+        matches = [f for f in matches if "_log" not in f.name]
+    if not matches:
+        return None
+    return max(matches, key=lambda f: f.stat().st_mtime)
+
+
 # ── Batch JSON -> tabular transformer ────────────────────────────────────────
+
+_VARIANT_HEADERS = []
+for _letter in ("A", "B", "C", "D", "E"):
+    _VARIANT_HEADERS += [
+        f"Variant {_letter} Opening",
+        f"Variant {_letter} Rewrite Type",
+        f"Variant {_letter} Key Change",
+        f"Variant {_letter} Expected Lift",
+    ]
 
 _BATCH_HEADERS = [
     "Row #", "Source #", "Type", "Entry Door", "Mode",
-    "Final Post", "Word Count", "Mechanic", "Original Opening",
-    "Final Opening", "Rating", "Buried Gold", "Versions Considered",
+    "Final Post", "Word Count", "Voice Score", "Violations", "Mechanic", "Original Opening",
+    "Final Opening", "Rating", "Recommended", "Buried Gold", "Weakness", "Versions Considered",
+    *_VARIANT_HEADERS,
     "Argument", "Events Used", "Gates", "Source Post", "Convergence",
 ]
 
@@ -72,7 +93,7 @@ def _batch_json_to_tabular(data: dict) -> dict:
     posts: list[dict[str, Any]] = []
     for pack in data.get("packs", []):
         src_num = pack.get("source_number", 0)
-        source_post = str(pack.get("source_post", ""))[:200]
+        source_post = str(pack.get("source_post", ""))
         conv = pack.get("convergence_test", {})
         conv_str = "PASS" if conv.get("passed", True) else f"FAIL: {conv.get('recommendation', '')}"
 
@@ -86,7 +107,7 @@ def _batch_json_to_tabular(data: dict) -> dict:
             events = post.get("events_used", [])
             events_str = "; ".join(events) if isinstance(events, list) else str(events)
 
-            posts.append({
+            row: dict[str, Any] = {
                 "Row #": f"{src_num}-{post.get('label', '')}",
                 "Source #": src_num,
                 "Type": post.get("batch", ""),
@@ -94,18 +115,33 @@ def _batch_json_to_tabular(data: dict) -> dict:
                 "Mode": post.get("mode", ""),
                 "Final Post": post.get("text", ""),
                 "Word Count": post.get("word_count", 0),
+                "Voice Score": post.get("voice_validation", {}).get("voice_score", ""),
+                "Violations": "; ".join(post.get("violations", [])),
                 "Mechanic": amp.get("mechanic", ""),
                 "Original Opening": amp.get("original_opening", ""),
                 "Final Opening": amp.get("final_opening", ""),
                 "Rating": amp.get("rating", 0),
+                "Recommended": amp.get("recommended_variant", ""),
                 "Buried Gold": amp.get("buried_gold", ""),
+                "Weakness": amp.get("weakness", ""),
                 "Versions Considered": amp.get("versions_considered", 0),
                 "Argument": post.get("argument_compressed", ""),
                 "Events Used": events_str,
                 "Gates": gates_str,
                 "Source Post": source_post,
                 "Convergence": conv_str,
-            })
+            }
+
+            variants = amp.get("variants", [])
+            variant_map = {v.get("variant", ""): v for v in variants if isinstance(v, dict)}
+            for letter in ("A", "B", "C", "D", "E"):
+                v = variant_map.get(letter, {})
+                row[f"Variant {letter} Opening"] = v.get("opening", "")
+                row[f"Variant {letter} Rewrite Type"] = v.get("mechanic", "")
+                row[f"Variant {letter} Key Change"] = v.get("key_change", "")
+                row[f"Variant {letter} Expected Lift"] = v.get("expected_lift", "")
+
+            posts.append(row)
 
     return {"readme": readme, "headers": list(_BATCH_HEADERS), "posts": posts}
 
@@ -114,20 +150,16 @@ def _load_pack_data(slug: str, date: str) -> tuple[list[str], list[dict[str, Any
     """Load pack data (headers + rows) from JSON or Excel. Returns (headers, rows)."""
     post_dir = _post_data_dir(slug)
 
-    # Try batch JSON first
-    for f in post_dir.glob("*_batch_*.json"):
-        if date in f.name:
-            raw = json.loads(f.read_text(encoding="utf-8"))
-            tabular = _batch_json_to_tabular(raw)
-            return tabular["headers"], tabular["posts"]
+    # Try batch JSON first (latest file for this date)
+    f = _latest_file_for_date(post_dir, date, ".json")
+    if f:
+        raw = json.loads(f.read_text(encoding="utf-8"))
+        tabular = _batch_json_to_tabular(raw)
+        return tabular["headers"], tabular["posts"]
 
     # Fall back to Excel
-    target: Path | None = None
-    for f in post_dir.glob("*.xlsx"):
-        if date in f.name:
-            target = f
-            break
-    if not target or not target.exists():
+    target = _latest_file_for_date(post_dir, date, ".xlsx")
+    if not target:
         raise HTTPException(status_code=404, detail=f"No pack found for {date}")
 
     try:
@@ -173,55 +205,59 @@ async def list_post_packs(slug: str, request: Request):
     if not post_dir.exists():
         return {"packs": []}
 
-    seen_dates: dict[str, dict] = {}
+    packs: list[dict] = []
 
-    # Batch JSON packs (preferred)
-    for f in sorted(post_dir.glob("*_batch_*.json"), reverse=True):
+    # Batch JSON packs — list every file, not just one per date (exclude _log files)
+    for f in sorted(post_dir.glob("*_batch_*.json"), key=lambda p: p.stat().st_mtime, reverse=True):
+        if "_log" in f.name:
+            continue
         d = _extract_date(f.name)
-        if d and d not in seen_dates:
-            seen_dates[d] = {
+        if d:
+            packs.append({
                 "filename": f.name,
                 "date": d,
                 "size_kb": round(f.stat().st_size / 1024, 1),
                 "format": "json",
-            }
+            })
 
-    # Excel packs (only if no JSON for that date)
-    for f in sorted(post_dir.glob("*.xlsx"), reverse=True):
+    # Excel packs (only if no JSON with same filename stem exists)
+    json_stems = {f.stem for f in post_dir.glob("*_batch_*.json")}
+    for f in sorted(post_dir.glob("*.xlsx"), key=lambda p: p.stat().st_mtime, reverse=True):
         d = _extract_date(f.name)
-        if d and d not in seen_dates:
-            seen_dates[d] = {
+        if d and f.stem not in json_stems:
+            packs.append({
                 "filename": f.name,
                 "date": d,
                 "size_kb": round(f.stat().st_size / 1024, 1),
                 "format": "xlsx",
-            }
+            })
 
-    packs = sorted(seen_dates.values(), key=lambda p: p["date"], reverse=True)
     return {"packs": packs}
 
 
 # ── Get single pack ──────────────────────────────────────────────────────────
 
 @router.get("/{slug}/post-packs/{date}")
-async def get_post_pack(slug: str, date: str, request: Request):
+async def get_post_pack(slug: str, date: str, request: Request, filename: str | None = None):
     _require_admin(request)
     post_dir = _post_data_dir(slug)
 
-    # Try batch JSON first
-    for f in post_dir.glob("*_batch_*.json"):
-        if date in f.name:
-            raw = json.loads(f.read_text(encoding="utf-8"))
+    # If exact filename provided, use it directly
+    if filename:
+        target = post_dir / filename
+        if target.exists() and target.suffix == ".json":
+            raw = json.loads(target.read_text(encoding="utf-8"))
             return _batch_json_to_tabular(raw)
 
-    # Fall back to Excel
-    target: Path | None = None
-    for f in post_dir.glob("*.xlsx"):
-        if date in f.name:
-            target = f
-            break
+    # Try batch JSON — latest file for this date
+    f = _latest_file_for_date(post_dir, date, ".json")
+    if f:
+        raw = json.loads(f.read_text(encoding="utf-8"))
+        return _batch_json_to_tabular(raw)
 
-    if not target or not target.exists():
+    # Fall back to Excel — latest for this date
+    target = _latest_file_for_date(post_dir, date, ".xlsx")
+    if not target:
         raise HTTPException(status_code=404, detail=f"No pack found for {date}")
 
     try:
@@ -273,13 +309,25 @@ async def get_pack_traces(slug: str, date: str, request: Request):
     _require_admin(request)
     post_dir = _post_data_dir(slug)
 
-    for f in post_dir.glob("*_batch_*.json"):
-        if date in f.name:
-            raw = json.loads(f.read_text(encoding="utf-8"))
-            return {
-                "traceability": raw.get("traceability", {}),
-                "web_search": raw.get("web_search", {}),
-            }
+    # Try log file first (traces are stored separately since restructuring)
+    log_matches = [f for f in post_dir.glob("*_batch_*_log.json") if date in f.name]
+    if log_matches:
+        log_file = max(log_matches, key=lambda f: f.stat().st_mtime)
+        raw = json.loads(log_file.read_text(encoding="utf-8"))
+        return {
+            "traceability": raw.get("traces", raw.get("traceability", {})),
+            "web_search": raw.get("web_searches", raw.get("web_search", {})),
+            "pipeline_log": raw.get("pipeline_log", []),
+        }
+
+    # Fallback: check main JSON for older format
+    f = _latest_file_for_date(post_dir, date, ".json")
+    if f:
+        raw = json.loads(f.read_text(encoding="utf-8"))
+        return {
+            "traceability": raw.get("traceability", {}),
+            "web_search": raw.get("web_search", {}),
+        }
 
     raise HTTPException(status_code=404, detail=f"No batch pack with traces for {date}")
 

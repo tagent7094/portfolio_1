@@ -756,13 +756,15 @@ class BatchGenerateRequest(BaseModel):
     posts_per_source: int = 9
     enable_thinking: bool = True
     source_posts: list[str] | None = None
+    effort: str = "high"
 
 
 @app.post("/api/generate/batch/stream")
 async def generate_batch_stream(data: BatchGenerateRequest, request: Request):
     """SSE streaming batch generation with cancellation support."""
-    logger.info("[batch_stream] founder=%s sources=%d creativity=%.2f thinking=%s",
-                data.founder_slug, data.n_sources, data.creativity, data.enable_thinking)
+    logger.info("[batch_stream] founder=%s sources=%d creativity=%.2f thinking=%s source_posts=%s",
+                data.founder_slug, data.n_sources, data.creativity, data.enable_thinking,
+                f"{len(data.source_posts)} provided" if data.source_posts else "auto")
 
     from src.generation.pipeline_events import PipelineEvent, PipelineEventBus
     from src.batch.session import BatchSession, CancelledError
@@ -781,6 +783,7 @@ async def generate_batch_stream(data: BatchGenerateRequest, request: Request):
                 posts_per_source=data.posts_per_source,
                 enable_thinking=data.enable_thinking,
                 source_posts=data.source_posts,
+                effort=data.effort,
             )
         except CancelledError:
             logger.info("Batch generation cancelled by user")
@@ -794,11 +797,12 @@ async def generate_batch_stream(data: BatchGenerateRequest, request: Request):
             ))
 
     async def monitor_disconnect():
-        while not session.cancel_event.is_set():
+        while not session.cancel_event.is_set() and not event_bus._closed:
             if await request.is_disconnected():
-                logger.info("Client disconnected, cancelling batch generation")
-                session.cancel_event.set()
-                event_bus.close()
+                if not event_bus._closed:
+                    logger.info("Client disconnected, cancelling batch generation")
+                    session.cancel_event.set()
+                    event_bus.close()
                 return
             await asyncio.sleep(1)
 
@@ -829,6 +833,7 @@ async def generate_batch(data: BatchGenerateRequest):
             posts_per_source=data.posts_per_source,
             enable_thinking=data.enable_thinking,
             source_posts=data.source_posts,
+            effort=data.effort,
         )
         return {"status": "ok", **result}
     except Exception as e:
@@ -855,8 +860,7 @@ async def list_viral_sources(q: str = "", limit: int = 50, offset: int = 0):
                     continue
                 sources.append({
                     "id": f"csv_{len(sources)}",
-                    "content": content[:500],
-                    "full_content": content,
+                    "content": content,
                     "likes": int(row.get("Likes", 0) or 0),
                     "comments": int(row.get("Comments", 0) or 0),
                     "reposts": int(row.get("Reposts", 0) or 0),
@@ -880,8 +884,7 @@ async def list_viral_sources(q: str = "", limit: int = 50, offset: int = 0):
             body = chunk[len(title):].strip() if title_match else chunk
             sources.append({
                 "id": f"md_{i}",
-                "content": body[:500],
-                "full_content": body,
+                "content": body,
                 "likes": 0,
                 "comments": 0,
                 "reposts": 0,
@@ -892,14 +895,11 @@ async def list_viral_sources(q: str = "", limit: int = 50, offset: int = 0):
 
     if q:
         q_lower = q.lower()
-        sources = [s for s in sources if q_lower in s["full_content"].lower() or q_lower in s.get("content_type", "").lower()]
+        sources = [s for s in sources if q_lower in s["content"].lower() or q_lower in s.get("content_type", "").lower()]
 
     total = len(sources)
     sources.sort(key=lambda s: s["likes"] + s["comments"] * 3 + s["reposts"] * 2, reverse=True)
     page = sources[offset:offset + limit]
-
-    for s in page:
-        s.pop("full_content", None)
 
     return {"sources": page, "total": total}
 

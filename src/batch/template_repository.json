@@ -1,0 +1,93 @@
+[
+  {
+    "id": "specific_number",
+    "name": "Specific Number + Context",
+    "description": "Lead with a precise figure from the draft, then contextualize it",
+    "example": "$412K closed last quarter. Target was $350K.",
+    "success_rate": 0.82
+  },
+  {
+    "id": "juxtaposition",
+    "name": "Juxtaposition",
+    "description": "Two things that shouldn't coexist in the same sentence",
+    "example": "Our competitor raised $40M. We outshipped them with 3 engineers.",
+    "success_rate": 0.78
+  },
+  {
+    "id": "confession",
+    "name": "First-Person Confession",
+    "description": "Admit something with real cost — vulnerability that earns trust",
+    "example": "I told 50 buyers we were ready. I was wrong.",
+    "success_rate": 0.85
+  },
+  {
+    "id": "quote_hook",
+    "name": "Quote Hook + Reaction",
+    "description": "Someone said something, then your reaction reveals the insight",
+    "example": "'We need you to present to the supervisor.' That's when I knew the deal was dead.",
+    "success_rate": 0.74
+  },
+  {
+    "id": "scene_entry",
+    "name": "Scene Entry",
+    "description": "Start in the middle of a physical moment — no setup, no context",
+    "example": "We walked into their call center. Post-it notes on every monitor.",
+    "success_rate": 0.80
+  },
+  {
+    "id": "decision_reveal",
+    "name": "Decision Reveal",
+    "description": "The outcome of a hard choice, stated plainly",
+    "example": "A Fortune 500 asked us to build a CRM. We said no.",
+    "success_rate": 0.77
+  },
+  {
+    "id": "contrarian",
+    "name": "Contrarian Declaration",
+    "description": "State something most would disagree with — earned, not clickbait",
+    "example": "Most founder advice is wrong.",
+    "success_rate": 0.71
+  },
+  {
+    "id": "pattern_observation",
+    "name": "Pattern Observation",
+    "description": "Notice something others miss — a recurring pattern across multiple instances",
+    "example": "Every founder I know who's crossed $20M runs into the same wall.",
+    "success_rate": 0.79
+  },
+  {
+    "id": "tension_pair",
+    "name": "Tension Pair",
+    "description": "Name two forces pulling in opposite directions — the tension IS the hook",
+    "example": "The market says automate everything. Customers keep asking for humans.",
+    "success_rate": 0.76
+  },
+  {
+    "id": "before_after",
+    "name": "Before/After Snapshot",
+    "description": "Two states separated by time — the contrast implies the story",
+    "example": "Two years ago we couldn't close a single deal. Last month we turned down three.",
+    "success_rate": 0.73
+  },
+  {
+    "id": "micro_story",
+    "name": "Micro Story",
+    "description": "A complete narrative arc in 1-2 sentences — setup, turn, payoff",
+    "example": "An investor asked what happens if a competitor copies us. I showed him our NPS scores.",
+    "success_rate": 0.81
+  },
+  {
+    "id": "authority_redirect",
+    "name": "Authority Redirect",
+    "description": "Cite a credible external authority, then redirect their point to a sharper one",
+    "example": "McKinsey says 70% of transformations fail. They left out why the 30% succeed.",
+    "success_rate": 0.70
+  },
+  {
+    "id": "data_inversion",
+    "name": "Data Inversion",
+    "description": "Take a commonly cited stat and show it means the opposite of what people think",
+    "example": "95% customer satisfaction. We were measuring the wrong customers.",
+    "success_rate": 0.75
+  }
+]

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import time
 import uuid
 from dataclasses import dataclass, field, asdict
@@ -14,12 +15,12 @@ class TraceEntry:
     type: str                  # "llm_call", "web_search", "decision", "step"
     stage: str                 # e.g. "internalize", "pack_3_b2", "amplifier_diagnose"
     template: str = ""         # prompt template filename
-    prompt_preview: str = ""   # first 500 chars of rendered prompt
-    prompt_length: int = 0     # full prompt char count
-    response_preview: str = "" # first 500 chars of response
-    response_length: int = 0   # full response char count
-    thinking_preview: str = "" # first 1000 chars of model thinking/reasoning
-    thinking_length: int = 0   # full thinking char count
+    prompt: str = ""
+    prompt_length: int = 0
+    response: str = ""
+    response_length: int = 0
+    thinking: str = ""
+    thinking_length: int = 0
     temperature: float = 0.0
     max_tokens: int = 0
     model: str = ""
@@ -38,6 +39,22 @@ class TraceEntry:
         return {"id": self.id, **d}
 
 
+class PipelineLogHandler(logging.Handler):
+    """Captures Python log records into a list for later serialization."""
+
+    def __init__(self):
+        super().__init__()
+        self.records: list[dict] = []
+
+    def emit(self, record: logging.LogRecord):
+        self.records.append({
+            "timestamp": record.created,
+            "level": record.levelname,
+            "logger": record.name,
+            "message": self.format(record),
+        })
+
+
 class BatchTracer:
     """Collects trace entries across the entire batch pipeline run."""
 
@@ -46,6 +63,16 @@ class BatchTracer:
         self.provider = provider
         self.entries: list[TraceEntry] = []
         self._active_spans: dict[str, float] = {}
+        self._log_handler: PipelineLogHandler | None = None
+
+    def start_log_capture(self):
+        self._log_handler = PipelineLogHandler()
+        self._log_handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+        logging.getLogger().addHandler(self._log_handler)
+
+    def stop_log_capture(self):
+        if self._log_handler:
+            logging.getLogger().removeHandler(self._log_handler)
 
     def start_span(self, span_id: str) -> str:
         self._active_spans[span_id] = time.time()
@@ -73,11 +100,11 @@ class BatchTracer:
             type="llm_call",
             stage=stage,
             template=template,
-            prompt_preview=prompt[:500],
+            prompt=prompt,
             prompt_length=len(prompt),
-            response_preview=response[:500],
+            response=response,
             response_length=len(response),
-            thinking_preview=thinking[:1000] if thinking else "",
+            thinking=thinking or "",
             thinking_length=len(thinking) if thinking else 0,
             temperature=temperature,
             max_tokens=max_tokens,
@@ -157,8 +184,8 @@ class BatchTracer:
             "web_searches": len(searches),
             "decisions": len(decisions),
             "total_duration_ms": total_duration,
-            "total_prompt_chars": sum(e.prompt_length for e in llm_calls),
-            "total_response_chars": sum(e.response_length for e in llm_calls),
+            "total_prompt_chars": sum(len(e.prompt) for e in llm_calls),
+            "total_response_chars": sum(len(e.response) for e in llm_calls),
             "templates_used": sorted(set(e.template for e in llm_calls if e.template)),
             "model": self.model,
             "provider": self.provider,
@@ -166,3 +193,11 @@ class BatchTracer:
 
     def to_list(self) -> list[dict]:
         return [e.to_dict() for e in self.entries]
+
+    def get_debug_log(self) -> dict:
+        """Full debug export: all traces with complete prompts/responses + captured logs."""
+        return {
+            "summary": self.get_summary(),
+            "traces": self.to_list(),
+            "pipeline_logs": self._log_handler.records if self._log_handler else [],
+        }

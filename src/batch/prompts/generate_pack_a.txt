@@ -8,6 +8,10 @@ Same bones. New content. Founder's voice.
 ## SOURCE DISSECTION
 {dissection}
 
+## OPENER QUALITY TESTS (from source dissection)
+{opener_tests}
+If any test FAILED, do NOT replicate that quality in your opener.
+
 ## FOUNDER INTERNALIZATION
 {internalization}
 
@@ -31,6 +35,9 @@ Same bones. New content. Founder's voice.
 
 ## VARIANT NUMBER: {variant_number} of 3
 
+## PRIOR A VARIANTS FROM THIS SOURCE (avoid repeating their angles)
+{prior_a_posts}
+
 ---
 
 ## BATCH A RULES
@@ -46,8 +53,20 @@ Same bones. New content. Founder's voice.
    - Every domain reference → founder's domain
    - Every specific number → founder's specific number (from key_moments_inventory)
    - Every name → founder's cast member
+   - If a named entity from the source matches the founder's recurring_cast, KEEP that name — do not replace it
+   - Source cast names: {source_cast}
    - Every scene → founder's signature scene
    - If the source's register does mechanical work (rant energy, vulnerability, exasperation) — translate that energy into the founder's register, don't strip it.
+
+   FIRST-DEGREE FABRICATION CHECK:
+   If the source opener uses a first-person narrative scene ("I received an email from X,"
+   "I sat across from Y," "I recently met a..."), do NOT fabricate an analogous scene for the founder.
+   Fabrication is forbidden even when mirroring. Three options:
+   a) Use a VERIFIED scene from the founder's signature_scenes list (the alias assignment, Series B rejection, 106 flights, the Sanas Daytona moment, etc.)
+   b) Translate to a third-degree pattern ("Every founder I back at Carya...")
+   c) Translate to a verifiable second-degree scene ("A portfolio company CEO recently...")
+   Never invent a specific scene, quote, or interaction the founder hasn't documented.
+   If the founder's internalization has signature_scenes — use those. Don't create new ones.
 
 3. ANTI-RECYCLING (critical):
    - If a sentence could be copy-pasted from one of the founder's published posts, rewrite it until it can't.
@@ -69,6 +88,17 @@ Same bones. New content. Founder's voice.
 6. VOICE FIDELITY:
    - Use the founder's voice markers (sentence shapes, closing moves, word choices)
    - No AI slop ("In today's...", "Here's the thing", "Game-changer", "Let that sink in", etc.)
+   - If the source's opener reads as a press release, corporate announcement, or marketing copy, DO NOT mirror its register. Mirror its STRUCTURE (sentence count, beat order, rhythm) but replace its register with the founder's posture. The opener shape carries over. The opener energy comes from the founder.
+
+6.5. VOICE COMPLIANCE (HARD RULES — non-negotiable):
+   The founder card's voice OVERRIDES the source's register in every conflict.
+   - If the source register is "professional concern" and the founder's posture is "controlled frustration channeled into structural analysis," use the founder's posture
+   - The source's register is informational context, not a constraint on the output
+   - The generated post must contain AT LEAST 3 of the voice markers listed above — integrated naturally, not sprinkled
+   - The opening must match the argument rhythm pattern documented in FOUNDER INTERNALIZATION
+   - The closer must be a concrete detail matching the founder's closer patterns — NOT a summary, NOT a restatement
+   - Before returning, verify: would this founder read this post and think "this is what I was going to say"? If they'd rewrite more than one sentence, regenerate
+   - FAIL CHECK: If the post reads like a corporate announcement, a press release, or a marketing statement — even if the source was one — the voice work failed. Regenerate from the founder card, not the source register
 
 7. MODE:
    - Specify whether this post is "wrestling" (exploring tension, uncertain, the turn is the point) or "declaring" (stating position, confident, defending in a straight line)

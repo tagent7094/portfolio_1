@@ -63,7 +63,12 @@ def _get_slug_from_cookie(request: Request) -> str:
 
 
 def _require_admin(request: Request) -> None:
-    """Validate admin_token cookie. Raises 401/403 on failure."""
+    """Validate admin_token cookie. Raises 401/403 on failure.
+
+    Skipped when TAGENT_AUTH_ENABLED is unset (local dev mode).
+    """
+    if os.environ.get("TAGENT_AUTH_ENABLED", "").lower() not in ("1", "true", "yes"):
+        return
     token = request.cookies.get(_ADMIN_COOKIE_NAME, "")
     claims = decode_token(token)
     if not claims or claims.get("sub") != "admin":

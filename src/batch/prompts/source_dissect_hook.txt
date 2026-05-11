@@ -54,6 +54,17 @@ If the source's register is doing mechanical work — rant energy, whispered vul
 ### 9. VIRALITY REASON
 One sentence: what makes the opening work for a general audience?
 
+### 10. OPENER QUALITY TESTS
+Run these three tests on the source's opening line(s). These determine whether the opener is good enough to mirror (Batch A) or whether all posts should use different mechanics (Batch B only).
+
+**MACRO test**: Does the opener land for someone OUTSIDE this niche? Read the opener to a stranger in a different industry. If they'd need domain context to understand what's being said — fail. Jargon, acronyms, category-specific terms ("AI-powered voice technology," "doctorless AI kiosks," "accessible communication") → fail. The opener must work universally.
+
+**FAST test**: Does the specific, interesting, or dramatic word land in the FIRST 8 words? Count from word 1. If the payload (the specific number, the surprising claim, the tension) comes after word 8 — fail. Ellipsis that delays the punch ("The future of X is arriving...") → fail. "We lost $2M in three months" → pass (payload at word 3). "The future of healthcare is arriving... China unveils..." → fail (payload at word 11).
+
+**SIMPLE test**: Would a 16-year-old understand every word in the opener? Bold Unicode formatting, corporate jargon ("unveils," "redefining," "accessible communication"), press-release language → fail. The opener must use words a person would speak in conversation, not words a company would put in a press release.
+
+**Rule**: If ANY of the three tests fails, set `skip_batch_a` to true. The source's STRUCTURE may be mirrorable, but if its OPENER is a press release, corporate announcement, or jargon-heavy statement, mirroring it produces a press-release post. Route all posts to Batch B instead, where different mechanics will produce better openers.
+
 ---
 
 ## OUTPUT FORMAT
@@ -77,7 +88,14 @@ One sentence: what makes the opening work for a general audience?
   "mirrorable": true,
   "mirrorability_reason": "why or why not — be specific",
   "register_energy": "the emotional register doing mechanical work, if any",
-  "virality_reason": "why the opening works for a general audience"
+  "virality_reason": "why the opening works for a general audience",
+  "opener_tests": {{{{
+    "macro": {{{{"pass": true, "reason": "why it passes or fails for a general audience"}}}},
+    "fast": {{{{"pass": true, "first_payload_word": 3, "reason": "where the payload lands"}}}},
+    "simple": {{{{"pass": true, "reason": "whether a 16-year-old would understand every word"}}}}
+  }}}},
+  "skip_batch_a": false,
+  "named_entities": ["list of proper names (people) mentioned in the source post"]
 }}}}
 ```
 

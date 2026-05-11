@@ -31,9 +31,12 @@ def split_sentences(text: str) -> list[str]:
 
 def load_prompt(prompt_path) -> str:
     """Load a prompt template from a file path."""
+    import logging
     from pathlib import Path
 
-    return Path(prompt_path).read_text(encoding="utf-8")
+    p = Path(prompt_path)
+    logging.getLogger(__name__).info("[prompt] Loading %s", p.name)
+    return p.read_text(encoding="utf-8")
 
 
 def fill_prompt(template: str, **kwargs) -> str:

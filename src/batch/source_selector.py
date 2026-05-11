@@ -46,7 +46,7 @@ def _parse_engagement(text: str) -> list[dict]:
 
         engagement = likes + comments * 3 + reposts * 2
         posts.append({
-            "text": chunk[:2000],
+            "text": chunk,
             "likes": likes,
             "comments": comments,
             "reposts": reposts,
@@ -66,7 +66,7 @@ def load_viral_sources() -> list[dict]:
         text = f.read_text(encoding="utf-8")
         chunks = [c.strip() for c in re.split(r"\n#{1,3}\s", text) if len(c.strip()) > 100]
         for chunk in chunks:
-            sources.append({"text": chunk[:2000], "source_file": f.name})
+            sources.append({"text": chunk, "source_file": f.name})
 
     return sources
 
@@ -83,6 +83,8 @@ def select_sources(
     Otherwise ranks founder's posts + viral samples by engagement and structural diversity.
     """
     if provided_sources:
+        logger.info("[batch] Using %d user-provided source posts (first 80 chars: %s)",
+                    len(provided_sources), provided_sources[0][:80] if provided_sources else "")
         return provided_sources[:n_sources]
 
     founder_posts = _parse_engagement(state.raw_data.get("founder_posts_sample", ""))

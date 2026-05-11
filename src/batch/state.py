@@ -23,7 +23,13 @@ class AmplifiedPost:
     gates: dict = field(default_factory=dict)
     rating: int = 0
     buried_gold: str = ""
+    weakness: str = ""
     versions_considered: int = 0
+    opener_variants: list[dict] = field(default_factory=list)
+    recommended_variant: str = ""
+    voice_score: int = 0
+    validation_result: dict = field(default_factory=dict)
+    violations: list[str] = field(default_factory=list)
     events_used: list[str] = field(default_factory=list)
     argument_compressed: str = ""
 
@@ -37,6 +43,7 @@ class PackResult:
     posts: list[AmplifiedPost] = field(default_factory=list)
     batch_a_count: int = 0
     batch_b_count: int = 0
+    convergence_test_a: dict = field(default_factory=dict)
     convergence_test: dict = field(default_factory=dict)
 
 
@@ -55,6 +62,13 @@ class BatchState:
     median_word_count: int = 230
     word_count_range: tuple[int, int] = (160, 300)
     formatting_habits: dict = field(default_factory=dict)
+    calibration_paragraph: str = ""
+
+    # Exclusions
+    exclusions: list[str] = field(default_factory=list)
+
+    # Freshness tracking
+    freshness_warning: str = ""
 
     # Global freshness tracking
     events_used_global: set[str] = field(default_factory=set)

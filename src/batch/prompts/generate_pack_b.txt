@@ -8,6 +8,10 @@ If the source hook is a declaration, a B post can make the same move through a s
 ## SOURCE DISSECTION
 {dissection}
 
+## OPENER QUALITY TESTS (from source dissection)
+{opener_tests}
+If any test FAILED, do NOT replicate that quality in your opener.
+
 ## ASSIGNED ENTRY DOOR: {entry_door}
 You MUST use this specific entry door for the opening. Entry door definitions:
 - scene_drop: Start in the MIDDLE of a specific physical moment. No setup, no context.
@@ -80,12 +84,24 @@ If two doors feel functionally similar in execution, treat them as the same door
    - First-degree (real names, real numbers) — only from the founder's published claims
    - Second-degree (anonymized but scaled correctly) — only if founder has companies/experience at that scale
    - Third-degree (pattern observations) — always safe, default when in doubt
+   - If a named entity from the source matches the founder's recurring_cast, KEEP that name — do not replace it
+   - Source cast names: {source_cast}
 
-8. MODE: Specify "wrestling" or "declaring". Vary across B variants — not all the same mode.
+8. VOICE COMPLIANCE (HARD RULES — non-negotiable):
+   The founder card's voice OVERRIDES the source's register in every conflict.
+   - If the source register is "professional concern" and the founder's posture is "controlled frustration channeled into structural analysis," use the founder's posture
+   - The source's register is informational context, not a constraint on the output
+   - The generated post must contain AT LEAST 3 of the voice markers listed above — integrated naturally, not sprinkled
+   - The opening must match the argument rhythm pattern documented in FOUNDER INTERNALIZATION
+   - The closer must be a concrete detail matching the founder's closer patterns — NOT a summary, NOT a restatement
+   - Before returning, verify: would this founder read this post and think "this is what I was going to say"? If they'd rewrite more than one sentence, regenerate
+   - FAIL CHECK: If the post reads like a corporate announcement, a press release, or a marketing statement — even if the source was one — the voice work failed. Regenerate from the founder card, not the source register
+
+9. MODE: Specify "wrestling" or "declaring". Vary across B variants — not all the same mode.
    - Wrestling: exploring tension, uncertain, the turn is the point
    - Declaring: stating position, confident, defending in a straight line
 
-9. ACROSS ALL 9 POSTS: No two deliver the same argument. The collision can be familiar. The argument built from it must be new.
+10. ACROSS ALL 9 POSTS: No two deliver the same argument. The collision can be familiar. The argument built from it must be new.
 
 ## OUTPUT FORMAT
 

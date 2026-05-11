@@ -1,4 +1,4 @@
-Generate 3-5 replacement opening lines for this post. Each must use a DIFFERENT proven mechanic and pass all 5 gates. Three is the floor. Add a fourth or fifth only if a meaningfully different angle exists.
+Generate exactly 5 replacement opening lines for this post (Variants A through E). Each must use a DIFFERENT proven mechanic and pass all 5 gates.
 
 The versions must approach the post from genuinely different angles. If a number-led version, a juxtaposition version, and a confession version all land on the same one-sentence argument, you've offered one option three times. Each version should give a real choice.
 
@@ -16,16 +16,21 @@ The versions must approach the post from genuinely different angles. If a number
 
 ## POST MODE: {mode}
 
-## THE 8 PROVEN MECHANICS
-Each version must use a different one:
-1. Specific number + context — lead with a precise figure from the draft
-2. Juxtaposition — two things that shouldn't coexist in the same sentence
-3. First-person confession — admit something with real cost
-4. Quote hook + reaction — someone said something, then your reaction
-5. Scene-entry — start in the middle of a physical moment
-6. Decision reveal — the outcome of a hard choice, stated plainly
-7. Contrarian declaration — state something most would disagree with (earned, not clickbait)
-8. Pattern observation — notice something others miss
+## THE 13 PROVEN MECHANICS
+Each version must use a different one. Pick the 5 best fits for this post:
+1. Specific number + context — lead with a precise figure from the draft. "$412K closed last quarter. Target was $350K."
+2. Juxtaposition — two things that shouldn't coexist in the same sentence. "Our competitor raised $40M. We outshipped them with 3 engineers."
+3. First-person confession — admit something with real cost. "I told 50 buyers we were ready. I was wrong."
+4. Quote hook + reaction — someone said something, then your reaction. "'We need you to present to the supervisor.' That's when I knew the deal was dead."
+5. Scene-entry — start in the middle of a physical moment. "We walked into their call center. Post-it notes on every monitor."
+6. Decision reveal — the outcome of a hard choice, stated plainly. "A Fortune 500 asked us to build a CRM. We said no."
+7. Contrarian declaration — state something most would disagree with (earned, not clickbait). "Most founder advice is wrong."
+8. Pattern observation — notice something others miss. "Every founder I know who's crossed $20M runs into the same wall."
+9. Tension pair — name two forces pulling in opposite directions. "The market says automate everything. Customers keep asking for humans."
+10. Before/after snapshot — two states separated by time, the contrast implies the story. "Two years ago we couldn't close a single deal. Last month we turned down three."
+11. Micro story — a complete narrative arc in 1-2 sentences. "An investor asked what happens if a competitor copies us. I showed him our NPS scores."
+12. Authority redirect — cite a credible external authority, then redirect their point. "McKinsey says 70% of transformations fail. They left out why the 30% succeed."
+13. Data inversion — take a commonly cited stat and show it means the opposite. "95% customer satisfaction. We were measuring the wrong customers."
 
 ## WHAT TO REMOVE OR CONVERT
 - "Excited to announce…" → the specific number or outcome
@@ -46,7 +51,7 @@ Adding 3+ creates stat-stacking, which reads as ad copy. The test: if the opener
 5. A named entity FROM the draft only — don't introduce new names.
 
 ## RULES FOR EACH VERSION
-- Must pass all 5 gates (mechanic deployed well, plausible, coherent with body, specific, mode-preserving)
+- Must pass all 6 gates (mechanic, plausibility, coherence, specificity, mode-preservation, voice fit)
 - Gate 2 (plausibility): No strawman quotes, no counted-precision tics, no convenient setups, no impossible scenarios
 - Gate 3 (coherence): The opener's promise must match what the body delivers — not adjacent, not sharper
 - Gate 4 (specificity): Default to third-degree patterns when specifics aren't in the draft. Never invent first-degree.
@@ -59,23 +64,41 @@ If the body scan found a sentence stronger than anything you'd generate from scr
 
 ## OUTPUT FORMAT
 
+Return exactly 5 variants labeled A through E. Also specify which variant you recommend.
+
 ```json
-[
-  {{{{
-    "opening": "the replacement opening (1-3 sentences)",
-    "mechanic": "which of the 8 mechanics",
-    "mode_fit": "{mode}",
-    "plausibility": true,
-    "plausibility_note": "why this is plausible or what was avoided",
-    "coherence_with_body": true,
-    "coherence_note": "what the opener promises and how the body delivers it",
-    "specificity": "first|second|third",
-    "mode_preservation": true,
-    "rating": 5,
-    "source": "original|buried_gold|generated"
-  }}}},
-  ...
-]
+{{{{
+  "variants": [
+    {{{{
+      "variant": "A",
+      "opening": "the replacement opening (1-3 sentences)",
+      "mechanic": "which of the 13 mechanics",
+      "key_change": "one sentence: what this version changes vs the original and why",
+      "expected_lift": "low|medium|high — expected engagement lift over original",
+      "mode_fit": "{mode}",
+      "plausibility": true,
+      "plausibility_note": "why this is plausible or what was avoided",
+      "coherence_with_body": true,
+      "coherence_note": "what the opener promises and how the body delivers it",
+      "specificity": "first|second|third",
+      "mode_preservation": true,
+      "voice_fit": true,
+      "voice_fit_note": "does this opener use the founder's voice markers and put them INSIDE the experience?",
+      "rating": 5,
+      "source": "original|buried_gold|generated"
+    }}}},
+    ...
+  ],
+  "recommended": "A"
+}}}}
 ```
 
-A version that fails any gate gets replaced, not shown. Generate 3-5 versions that all pass. Quality over quantity.
+All 5 must pass all gates. If buried gold exists, use it as Variant A.
+
+RECOMMENDATION PRIORITY ORDER (tiebreakers in this exact sequence):
+1. coherence_with_body (MUST be true — disqualify any variant that breaks promise/body alignment)
+2. plausibility (MUST be true — disqualify strawman quotes, fabricated scenes, impossible scenarios)
+3. voice_fit (prefer variants that use the founder's documented voice markers and put the founder INSIDE the experience, not commenting from outside)
+4. rating (mechanic strength — only breaks ties AFTER the above three are equal)
+
+A mechanically brilliant opener (rating 9) that sounds generic loses to a good opener (rating 8) that uses the founder's signature moves.

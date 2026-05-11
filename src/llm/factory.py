@@ -146,7 +146,10 @@ def create_llm(config_path: str = "config/llm-config.yaml", purpose: str = "gene
     with open(resolved, "r") as f:
         config = yaml.safe_load(f)
 
-    if purpose == "ingestion" and "llm_ingestion" in config:
+    if purpose == "prep" and "llm_prep" in config:
+        llm_cfg = config["llm_prep"]
+        print(f"\033[36m[LLM Factory]\033[0m Using prep LLM config (lightweight model for analysis)", file=sys.stderr, flush=True)
+    elif purpose == "ingestion" and "llm_ingestion" in config:
         llm_cfg = config["llm_ingestion"]
         print(f"\033[36m[LLM Factory]\033[0m Using ingestion LLM config", file=sys.stderr, flush=True)
     else:

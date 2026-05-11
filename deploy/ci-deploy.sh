@@ -12,9 +12,35 @@ echo "=== [ci-deploy] Start ==="
 
 cd "$APP_DIR"
 git config --global --add safe.directory "$APP_DIR" || true
+
+# Preserve VPS-generated data (post-data, knowledge-graph, chroma) before hard reset
+if [ -d "$APP_DIR/data/founders" ]; then
+    echo "=== [ci-deploy] Backing up VPS data ==="
+    cp -a "$APP_DIR/data" /tmp/tagent-data-backup
+fi
+
 git fetch origin main
 git reset --hard origin/main
+
+# Restore VPS-generated files that may not be in git
+if [ -d /tmp/tagent-data-backup/founders ]; then
+    echo "=== [ci-deploy] Restoring VPS data ==="
+    for slug_dir in /tmp/tagent-data-backup/founders/*/; do
+        slug=$(basename "$slug_dir")
+        for subdir in post-data knowledge-graph; do
+            src="$slug_dir$subdir"
+            dst="$APP_DIR/data/founders/$slug/$subdir"
+            if [ -d "$src" ]; then
+                mkdir -p "$dst"
+                cp -an "$src"/. "$dst"/ 2>/dev/null || true
+            fi
+        done
+    done
+    rm -rf /tmp/tagent-data-backup
+fi
+
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/.git"
+chown -R "$APP_USER":"$APP_USER" "$APP_DIR/data" || true
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/config/founder-permissions.yaml" || true
 
 echo "=== [ci-deploy] Installing Python deps ==="

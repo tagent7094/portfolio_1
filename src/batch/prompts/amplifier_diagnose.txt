@@ -70,6 +70,17 @@ The post arrives already marked as wrestling-mode or declaring-mode.
 
 A wrestling-mode post with a clean declarative opener creates a bait-and-switch: reader is promised certainty, body delivers uncertainty. Don't silently strip wrestling structure to make an opener punchier. The wrestling IS the point.
 
+### Gate 6: VOICE FIT (does this opener sound like THIS founder?)
+Compare the opener against the founder's voice markers.
+
+Two sub-tests:
+
+1. **Recognition test**: Would this founder read the opener and think "this is what I was going to say"? Or would they think "this is what my marketing team wrote"? If the opener could appear in a corporate press release, product announcement, or generic LinkedIn post — FAIL. Test: strip the name and ask "who wrote this?" If the answer is "any executive" rather than "this specific founder" — FAIL.
+
+2. **Marker test**: Does the opener contain or reflect at least 1 of the founder's voice markers? Not forced inclusion — natural expression. If the opener uses corporate register (e.g., "unveils," "AI-powered," "accessible communication," "the future of X is arriving," "redefining") instead of the founder's register — FAIL.
+
+The voice markers are the law. If the opener is mechanically perfect (passes Gates 1-5) but sounds like someone else wrote it — FAIL Gate 6. A technically correct opener that doesn't sound like the founder is worse than a rough opener that does.
+
 ## BODY SCAN
 Read the body line by line. For each line, ask:
 - Could this sentence work as the opener, lifted out of where it currently sits?
@@ -89,10 +100,11 @@ If yes, mark it as buried gold. Don't draft the new opener until you've checked 
     "plausibility": {{{{"pass": true, "failure_shape": "none|strawman_quote|counted_precision|convenient_setup|obvious_question|impossible_scenario", "reason": "..."}}}},
     "coherence": {{{{"pass": true, "opener_promises": "one sentence", "body_delivers": "one sentence", "match": "yes|partial|no", "failure_mode": "none|drift|bait_switch|two_posts", "reason": "..."}}}},
     "specificity": {{{{"pass": true, "degree": "first|second|third", "reason": "..."}}}},
-    "mode_preservation": {{{{"pass": true, "opener_mode": "wrestling|declaring", "assigned_mode": "{mode}", "reason": "..."}}}}
+    "mode_preservation": {{{{"pass": true, "opener_mode": "wrestling|declaring", "assigned_mode": "{mode}", "reason": "..."}}}},
+    "voice_fit": {{{{"pass": true, "recognition": "founder|marketing|generic", "markers_present": ["marker 1"], "reason": "..."}}}}
   }}}},
   "all_gates_pass": true,
-  "buried_gold": "the exact sentence from the body that could be a better opener, or empty string",
+  "buried_gold": "the exact sentence from the body that could be a better opener. If no sentence qualifies, explain briefly why (e.g. 'None — the current opener is already the strongest line in the post')",
   "buried_gold_mechanic": "which of the 8 mechanics the buried gold would use if promoted",
   "weakness": "one sentence on the biggest weakness of the current opener"
 }}}}
