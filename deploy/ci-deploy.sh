@@ -13,10 +13,13 @@ echo "=== [ci-deploy] Start ==="
 cd "$APP_DIR"
 git config --global --add safe.directory "$APP_DIR" || true
 
-# Preserve VPS-generated data (post-data, knowledge-graph, chroma) before hard reset
+# Preserve VPS-generated data and config before hard reset
 if [ -d "$APP_DIR/data/founders" ]; then
     echo "=== [ci-deploy] Backing up VPS data ==="
     cp -a "$APP_DIR/data" /tmp/tagent-data-backup
+fi
+if [ -f "$APP_DIR/config/llm-config.yaml" ]; then
+    cp -a "$APP_DIR/config/llm-config.yaml" /tmp/tagent-llm-config-backup
 fi
 
 git fetch origin main
@@ -39,9 +42,17 @@ if [ -d /tmp/tagent-data-backup/founders ]; then
     rm -rf /tmp/tagent-data-backup
 fi
 
+# Restore config if it was wiped
+if [ -f /tmp/tagent-llm-config-backup ] && [ ! -f "$APP_DIR/config/llm-config.yaml" ]; then
+    echo "=== [ci-deploy] Restoring llm-config.yaml ==="
+    mkdir -p "$APP_DIR/config"
+    cp -a /tmp/tagent-llm-config-backup "$APP_DIR/config/llm-config.yaml"
+fi
+rm -f /tmp/tagent-llm-config-backup
+
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/.git"
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/data" || true
-chown -R "$APP_USER":"$APP_USER" "$APP_DIR/config/founder-permissions.yaml" || true
+chown -R "$APP_USER":"$APP_USER" "$APP_DIR/config" || true
 
 echo "=== [ci-deploy] Installing Python deps ==="
 "$APP_DIR/venv/bin/pip" install --quiet openpyxl anthropic
