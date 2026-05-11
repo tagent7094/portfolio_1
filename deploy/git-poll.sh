@@ -3,6 +3,7 @@
 # Called by systemd timer (tagent-poll.timer) every 60 seconds.
 set -eo pipefail
 
+export HOME=/root
 APP_DIR=/opt/tagent
 LOG_TAG="tagent-poll"
 
