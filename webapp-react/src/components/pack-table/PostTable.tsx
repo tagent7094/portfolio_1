@@ -1,11 +1,11 @@
 import { useMemo, memo } from 'react'
 import clsx from 'clsx'
 import type { ColDef } from './types'
-import { VARIANT_ACCENT } from './types'
+import { VARIANT_ACCENT, VARIANT_LETTERS } from './types'
 import { s, groupHeaderClass, buildColDefs } from './helpers'
 import { CellContent } from './cells'
 
-function TableHeader({ colDefs }: { colDefs: ColDef[] }) {
+function TableHeader({ colDefs, hasCustomize }: { colDefs: ColDef[]; hasCustomize?: boolean }) {
   const stickyCol = colDefs.find(c => c.sticky)
   const nonSticky = colDefs.filter(c => !c.sticky)
 
@@ -31,6 +31,20 @@ function TableHeader({ colDefs }: { colDefs: ColDef[] }) {
             }}
           >
             {stickyCol.label}
+          </th>
+        )}
+        {hasCustomize && (
+          <th
+            rowSpan={2}
+            className="border-b-2 border-r px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-center align-middle whitespace-nowrap"
+            style={{
+              minWidth: 130, width: 130,
+              backgroundColor: 'var(--surface-2)',
+              borderColor: 'var(--border-1)',
+              color: 'var(--text-muted)',
+            }}
+          >
+            Customize
           </th>
         )}
         {groups.map(({ label, count }) => (
@@ -66,7 +80,7 @@ function TableHeader({ colDefs }: { colDefs: ColDef[] }) {
 }
 
 const TableRow = memo(function TableRow({
-  post, colDefs, isSelected, onClick, edits, onEdit,
+  post, colDefs, isSelected, onClick, edits, onEdit, onSelectVariant,
 }: {
   post: Record<string, any>
   colDefs: ColDef[]
@@ -74,11 +88,20 @@ const TableRow = memo(function TableRow({
   onClick: () => void
   edits: Record<string, Record<string, string>>
   onEdit: (rowId: string, colKey: string, value: string) => void
+  onSelectVariant?: (letter: string, opener: string, body: string) => void
 }) {
   const rec = s(post['Recommended']).trim().toUpperCase()
   const rowId = s(post['Row #']) || String(Math.random())
   const stickyCol = colDefs.find(c => c.sticky)
   const nonSticky = colDefs.filter(c => !c.sticky)
+  const finalPost = s(post['Finalized Post'] || post['Final Post'])
+
+  const availableVariants = onSelectVariant
+    ? VARIANT_LETTERS.filter(v => {
+        const opening = s(post[`${v}, Opening`] ?? post[`${v} - Opening`])
+        return !!opening
+      })
+    : []
 
   return (
     <tr
@@ -107,6 +130,41 @@ const TableRow = memo(function TableRow({
         </td>
       )}
 
+      {onSelectVariant && (
+        <td
+          className="border-r px-2 py-2 align-middle"
+          style={{ minWidth: 130, width: 130, borderColor: 'var(--border-2)' }}
+        >
+          <div className="flex items-center gap-1 justify-center">
+            {availableVariants.map(letter => {
+              const accent = VARIANT_ACCENT[letter]
+              const isRec = letter === rec
+              return (
+                <button
+                  key={letter}
+                  onClick={e => {
+                    e.stopPropagation()
+                    const opener = s(post[`${letter}, Opening`] ?? post[`${letter} - Opening`])
+                    onSelectVariant(letter, opener, finalPost)
+                  }}
+                  className={clsx(
+                    'inline-flex h-6 w-6 items-center justify-center rounded text-[10px] font-bold transition-all hover:scale-110',
+                    accent.badge,
+                    isRec && 'ring-2 ring-white/40',
+                  )}
+                  title={`Customize with variant ${letter}${isRec ? ' (recommended)' : ''}`}
+                >
+                  {letter}
+                </button>
+              )
+            })}
+            {availableVariants.length === 0 && (
+              <span className="text-[10px]" style={{ color: 'var(--text-faint)' }}>—</span>
+            )}
+          </div>
+        </td>
+      )}
+
       {nonSticky.map(col => {
         const isRecCell = col.variantLetter !== undefined && col.variantLetter === rec
         return (
@@ -130,7 +188,7 @@ const TableRow = memo(function TableRow({
 })
 
 export function PostTable({
-  posts, headers, selectedPost, onSelectRow, visibleGroups, edits, onEdit,
+  posts, headers, selectedPost, onSelectRow, visibleGroups, edits, onEdit, onSelectVariant,
 }: {
   posts: Record<string, any>[]
   headers: string[]
@@ -139,6 +197,7 @@ export function PostTable({
   visibleGroups: Set<string>
   edits: Record<string, Record<string, string>>
   onEdit: (rowId: string, colKey: string, value: string) => void
+  onSelectVariant?: (letter: string, opener: string, body: string) => void
 }) {
   const allColDefs = useMemo(() => buildColDefs(headers), [headers])
   const colDefs = useMemo(
@@ -149,7 +208,7 @@ export function PostTable({
   return (
     <div className="h-full overflow-x-auto overflow-y-auto" style={{ backgroundColor: 'var(--page-bg)' }}>
       <table className="w-max border-separate border-spacing-0 text-left">
-        <TableHeader colDefs={colDefs} />
+        <TableHeader colDefs={colDefs} hasCustomize={!!onSelectVariant} />
         <tbody>
           {posts.map((post, i) => (
             <TableRow
@@ -160,6 +219,7 @@ export function PostTable({
               onClick={() => onSelectRow(selectedPost === post ? null : post)}
               edits={edits}
               onEdit={onEdit}
+              onSelectVariant={onSelectVariant}
             />
           ))}
         </tbody>

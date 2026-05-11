@@ -63,6 +63,10 @@ from webapp.chat_routes import router as chat_router, admin_chat_router
 app.include_router(chat_router)
 app.include_router(admin_chat_router)
 
+# Post customizer routes (blend opener + body, chat edits)
+from webapp.customize_routes import customize_router
+app.include_router(customize_router)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",

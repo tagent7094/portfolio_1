@@ -11,6 +11,8 @@ import { streamSSE, apiGet, apiPost } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
 import { PageHeader, Card, CardBody, Button } from '../components/ui'
 import TraceViewer from '../components/TraceViewer'
+import PostCustomizer from '../components/PostCustomizer'
+import CornerChatbot from '../components/CornerChatbot'
 import {
   ALL_GROUPS,
   PostTable, DetailPanel, PackSummary, exportExcel,
@@ -69,11 +71,14 @@ export default function GeneratePage() {
   const [packData, setPackData] = useState<PackData | null>(null)
   const [loadingPack, setLoadingPack] = useState(false)
   const [selectedPost, setSelectedPost] = useState<Record<string, any> | null>(null)
+  const [custVariant, setCustVariant] = useState<{ letter: string; opener: string; originalBody: string } | null>(null)
+  const [custPost, setCustPost] = useState('')
   const [visibleGroups, setVisibleGroups] = useState<Set<string>>(new Set(ALL_GROUPS))
   const [edits, setEdits] = useState<Record<string, Record<string, string>>>({})
   const [groupMenuOpen, setGroupMenuOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [showRawLog, setShowRawLog] = useState(false)
+  const [custApiKey, setCustApiKey] = useState(() => localStorage.getItem('asksharath_api_key') || '')
 
   const pastedCount = customPosts.filter(p => p.trim().length > 0).length
 
@@ -778,6 +783,35 @@ export default function GeneratePage() {
         </div>
       )}
 
+      {/* Post customizer — above pack table */}
+      {custVariant && packData && (
+        <div className="mt-5 space-y-3">
+          {!custApiKey && (
+            <div className="flex items-center gap-2 rounded-lg border px-3 py-2"
+              style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-2)' }}>
+              <span className="text-[11px] shrink-0" style={{ color: 'var(--text-muted)' }}>Anthropic API Key:</span>
+              <input
+                type="password"
+                value={custApiKey}
+                onChange={e => { setCustApiKey(e.target.value); localStorage.setItem('asksharath_api_key', e.target.value) }}
+                placeholder="sk-ant-..."
+                className="flex-1 rounded border px-2 py-1 text-[12px] focus:outline-none"
+                style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-3)', color: 'var(--text-primary)' }}
+              />
+            </div>
+          )}
+          <PostCustomizer
+            variant={custVariant}
+            founderSlug={active || ''}
+            apiKey={custApiKey}
+            effort={effort}
+            voiceMarkers={packData.readme?.['Voice Markers'] || ''}
+            onClose={() => { setCustVariant(null); setCustPost('') }}
+            onPostReady={setCustPost}
+          />
+        </div>
+      )}
+
       {packData && (
         <div className="mt-5 space-y-4">
           {/* Action bar */}
@@ -913,6 +947,10 @@ export default function GeneratePage() {
                 visibleGroups={visibleGroups}
                 edits={edits}
                 onEdit={handleEdit}
+                onSelectVariant={(letter, opener, body) => {
+                  setCustVariant({ letter, opener, originalBody: body })
+                  setCustPost('')
+                }}
               />
             </div>
           </Card>
@@ -927,6 +965,23 @@ export default function GeneratePage() {
           edits={edits}
           onEdit={handleEdit}
           onClose={() => setSelectedPost(null)}
+          onSelectVariant={(letter, opener, body) => {
+            setCustVariant({ letter, opener, originalBody: body })
+            setCustPost('')
+            setSelectedPost(null)
+          }}
+        />
+      )}
+
+      {/* Corner chatbot for iterative edits */}
+      {custVariant && custPost && (
+        <CornerChatbot
+          currentPost={custPost}
+          onPostUpdate={setCustPost}
+          founderSlug={active || ''}
+          apiKey={custApiKey}
+          effort={effort}
+          voiceMarkers={packData?.readme?.['Voice Markers'] || ''}
         />
       )}
 

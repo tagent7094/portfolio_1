@@ -5,13 +5,14 @@ import { s } from './helpers'
 import { StatusPill, TypeBadge, VariantBadge, ScoreDots, EditableStatusCell } from './cells'
 
 export function DetailPanel({
-  post, headers, edits, onEdit, onClose,
+  post, headers, edits, onEdit, onClose, onSelectVariant,
 }: {
   post: Record<string, any>
   headers: string[]
   edits: Record<string, Record<string, string>>
   onEdit: (rowId: string, colKey: string, value: string) => void
   onClose: () => void
+  onSelectVariant?: (variantLetter: string, openerText: string, postBody: string) => void
 }) {
   const rec         = s(post['Recommended']).trim().toUpperCase()
   const statusCols  = headers.filter(h => h.startsWith('Status'))
@@ -143,6 +144,21 @@ export function DetailPanel({
                         </p>
                         {change && (
                           <p className="mt-1.5 pl-7 text-[11px] italic" style={{ color: 'var(--text-muted)' }}>{change}</p>
+                        )}
+                        {onSelectVariant && (
+                          <button
+                            onClick={() => onSelectVariant(letter, opening, finalPost)}
+                            className="mt-2 ml-7 px-3 py-1.5 text-[10px] font-medium rounded-md transition-colors"
+                            style={{
+                              backgroundColor: 'var(--surface-3)',
+                              color: 'var(--text-secondary)',
+                              border: '1px solid var(--border-1)',
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--text-primary)'; e.currentTarget.style.color = 'var(--surface-1)' }}
+                            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface-3)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+                          >
+                            Use This
+                          </button>
                         )}
                       </div>
                     )

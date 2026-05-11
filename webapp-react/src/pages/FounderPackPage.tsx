@@ -9,6 +9,8 @@ import clsx from 'clsx'
 import { apiGet, apiPost, streamSSE } from '../api/client'
 import { useTheme } from '../hooks/useTheme'
 import TraceViewer from '../components/TraceViewer'
+import PostCustomizer from '../components/PostCustomizer'
+import CornerChatbot from '../components/CornerChatbot'
 import {
   ALL_GROUPS, s,
   PostTable, DetailPanel, PackSummary, exportExcel,
@@ -50,6 +52,14 @@ export default function FounderPackPage() {
   const [nSources, setNSources] = useState(1)
   const [creativity, setCreativity] = useState(0.5)
   const genAbortRef = useRef<AbortController | null>(null)
+
+  // Effort toggle
+  const [effort, setEffort] = useState<'low' | 'medium' | 'high'>('high')
+
+  // Post customizer state
+  const [custVariant, setCustVariant] = useState<{ letter: string; opener: string; originalBody: string } | null>(null)
+  const [custPost, setCustPost] = useState('')
+  const [custApiKey, setCustApiKey] = useState(() => localStorage.getItem('asksharath_api_key') || '')
 
   // Trace viewer state
   const [showTraces, setShowTraces] = useState(false)
@@ -170,7 +180,7 @@ export default function FounderPackPage() {
     try {
       await streamSSE(
         '/api/generate/batch/stream',
-        { founder_slug: slug, n_sources: nSources, creativity, platform: 'linkedin' },
+        { founder_slug: slug, n_sources: nSources, creativity, effort, platform: 'linkedin' },
         (event) => {
           setGenProgress(event.progress || 0)
           setGenStage(event.stage)
@@ -391,6 +401,27 @@ export default function FounderPackPage() {
                         <span>Conservative</span><span>Creative</span>
                       </div>
                     </div>
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: 'var(--text-muted)' }}>
+                        Effort
+                      </label>
+                      <div className="flex rounded-lg border overflow-hidden text-[10px]" style={{ borderColor: 'var(--border-1)' }}>
+                        {(['low', 'medium', 'high'] as const).map(level => (
+                          <button
+                            key={level}
+                            onClick={() => setEffort(level)}
+                            className={`flex-1 px-2 py-1.5 capitalize transition-colors ${
+                              effort === level
+                                ? 'bg-violet-500 text-white'
+                                : ''
+                            }`}
+                            style={effort !== level ? { color: 'var(--text-muted)' } : {}}
+                          >
+                            {level}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                     <p className="text-[10px]" style={{ color: 'var(--text-faint)' }}>
                       {nSources * 9} posts ({nSources} source{nSources !== 1 ? 's' : ''} × 9 per source)
                     </p>
@@ -530,6 +561,35 @@ export default function FounderPackPage() {
           </div>
         )}
 
+        {/* Post customizer — above table */}
+        {custVariant && packData && (
+          <div className="shrink-0 border-b px-4 py-3 space-y-2" style={{ borderColor: 'var(--border-2)' }}>
+            {!custApiKey && (
+              <div className="flex items-center gap-2 rounded-lg border px-3 py-2"
+                style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-2)' }}>
+                <span className="text-[11px] shrink-0" style={{ color: 'var(--text-muted)' }}>API Key:</span>
+                <input
+                  type="password"
+                  value={custApiKey}
+                  onChange={e => { setCustApiKey(e.target.value); localStorage.setItem('asksharath_api_key', e.target.value) }}
+                  placeholder="sk-ant-..."
+                  className="flex-1 rounded border px-2 py-1 text-[12px] focus:outline-none"
+                  style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-3)', color: 'var(--text-primary)' }}
+                />
+              </div>
+            )}
+            <PostCustomizer
+              variant={custVariant}
+              founderSlug={slug || ''}
+              apiKey={custApiKey}
+              effort={effort}
+              voiceMarkers={packData.readme?.['Voice Markers'] || ''}
+              onClose={() => { setCustVariant(null); setCustPost('') }}
+              onPostReady={setCustPost}
+            />
+          </div>
+        )}
+
         {!loadingData && packData && (
           <PostTable
             posts={filteredPosts}
@@ -539,6 +599,10 @@ export default function FounderPackPage() {
             visibleGroups={visibleGroups}
             edits={edits}
             onEdit={handleEdit}
+            onSelectVariant={(letter, opener, body) => {
+              setCustVariant({ letter, opener, originalBody: body })
+              setCustPost('')
+            }}
           />
         )}
       </div>
@@ -550,6 +614,23 @@ export default function FounderPackPage() {
           edits={edits}
           onEdit={handleEdit}
           onClose={() => setSelectedPost(null)}
+          onSelectVariant={(letter, opener, body) => {
+            setCustVariant({ letter, opener, originalBody: body })
+            setCustPost('')
+            setSelectedPost(null)
+          }}
+        />
+      )}
+
+      {/* Corner chatbot for iterative edits */}
+      {custVariant && custPost && (
+        <CornerChatbot
+          currentPost={custPost}
+          onPostUpdate={setCustPost}
+          founderSlug={slug || ''}
+          apiKey={custApiKey}
+          effort={effort}
+          voiceMarkers={packData?.readme?.['Voice Markers'] || ''}
         />
       )}
     </div>

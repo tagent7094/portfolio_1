@@ -165,4 +165,28 @@ def save_output(output: dict, state: BatchState) -> str:
     except Exception as e:
         logger.error("[batch] Failed to generate Excel: %s", e)
 
+    # 4. Auto-commit on VPS
+    _auto_git_if_vps(filepath)
+
     return str(filepath)
+
+
+def _auto_git_if_vps(filepath: Path):
+    """On the VPS (/opt/tagent), auto-commit batch output to git."""
+    if not Path("/opt/tagent").exists():
+        return
+    import subprocess
+    try:
+        cwd = "/opt/tagent"
+        subprocess.run(["git", "add", str(filepath)], cwd=cwd, check=True, timeout=10)
+        xlsx = str(filepath).replace(".json", ".xlsx")
+        subprocess.run(["git", "add", xlsx], cwd=cwd, check=False, timeout=10)
+        log_pattern = str(filepath).replace(".json", "_log.json")
+        subprocess.run(["git", "add", log_pattern], cwd=cwd, check=False, timeout=10)
+        subprocess.run(
+            ["git", "commit", "-m", f"auto: batch output {filepath.name}"],
+            cwd=cwd, check=True, timeout=30,
+        )
+        logger.info("[batch] Auto-committed %s on VPS", filepath.name)
+    except Exception as e:
+        logger.warning("[batch] Auto-git failed (non-fatal): %s", e)
