@@ -597,7 +597,7 @@ export default function FounderPackPage() {
             posts={filteredPosts}
             headers={packData.headers}
             selectedPost={selectedPost}
-            onSelectRow={setSelectedPost}
+            onSelectRow={p => { setSelectedPost(p); setShowDetail(!!p) }}
             visibleGroups={visibleGroups}
             edits={edits}
             onEdit={handleEdit}
