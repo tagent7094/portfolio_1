@@ -158,6 +158,8 @@ def create_llm(config_path: str = "config/llm-config.yaml", purpose: str = "gene
     provider = llm_cfg["provider"]
     model = llm_cfg.get("model", "unknown")
     api_key = _resolve_api_key(llm_cfg, provider)
+    if not api_key and llm_cfg is not config.get("llm"):
+        api_key = _resolve_api_key(config.get("llm", {}), provider)
     base_url = _resolve_base_url(llm_cfg, provider)
 
     configured_max_tokens = llm_cfg.get("max_tokens", 2000)
