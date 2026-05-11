@@ -1,0 +1,7 @@
+[Unit]
+Description=Poll git for new commits and deploy tagent.club
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash /opt/tagent/deploy/git-poll.sh
+WorkingDirectory=/opt/tagent

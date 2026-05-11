@@ -51,6 +51,12 @@ cd "$APP_DIR/webapp-react"
 npm ci --prefer-offline
 npm run build
 
+echo "=== [ci-deploy] Installing poll timer ==="
+cp "$APP_DIR/deploy/tagent-poll.service" /etc/systemd/system/ 2>/dev/null || true
+cp "$APP_DIR/deploy/tagent-poll.timer" /etc/systemd/system/ 2>/dev/null || true
+systemctl daemon-reload
+systemctl enable --now tagent-poll.timer 2>/dev/null || true
+
 echo "=== [ci-deploy] Restarting service ==="
 systemctl restart tagent
 
