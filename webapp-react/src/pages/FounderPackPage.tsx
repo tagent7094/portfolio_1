@@ -11,6 +11,7 @@ import { useTheme } from '../hooks/useTheme'
 import TraceViewer from '../components/TraceViewer'
 import PostCustomizer from '../components/PostCustomizer'
 import CornerChatbot from '../components/CornerChatbot'
+import CustomizeSection from '../components/CustomizeSection'
 import {
   ALL_GROUPS, s,
   PostTable, DetailPanel, PackSummary, exportExcel,
@@ -56,7 +57,8 @@ export default function FounderPackPage() {
   // Effort toggle
   const [effort, setEffort] = useState<'low' | 'medium' | 'high'>('high')
 
-  // Post customizer state
+  // Detail panel + customizer state
+  const [showDetail, setShowDetail] = useState(false)
   const [custVariant, setCustVariant] = useState<{ letter: string; opener: string; originalBody: string } | null>(null)
   const [custPost, setCustPost] = useState('')
   const [custApiKey, setCustApiKey] = useState(() => localStorage.getItem('asksharath_api_key') || '')
@@ -599,25 +601,37 @@ export default function FounderPackPage() {
             visibleGroups={visibleGroups}
             edits={edits}
             onEdit={handleEdit}
-            onSelectVariant={(letter, opener, body) => {
-              setCustVariant({ letter, opener, originalBody: body })
-              setCustPost('')
-            }}
           />
         )}
       </div>
 
-      {selectedPost && packData && (
+      {/* Customize section — variant selection cards (inline, below table) */}
+      {selectedPost && packData && !custVariant && (
+        <div className="shrink-0 border-t px-4 py-3" style={{ borderColor: 'var(--border-2)' }}>
+          <CustomizeSection
+            post={selectedPost}
+            onSelectVariant={(letter, opener, body) => {
+              setCustVariant({ letter, opener, originalBody: body })
+              setCustPost('')
+            }}
+            onShowDetails={() => setShowDetail(true)}
+            onClose={() => setSelectedPost(null)}
+          />
+        </div>
+      )}
+
+      {/* Detail panel — opened via "Full Details" button */}
+      {showDetail && selectedPost && packData && (
         <DetailPanel
           post={selectedPost}
           headers={packData.headers}
           edits={edits}
           onEdit={handleEdit}
-          onClose={() => setSelectedPost(null)}
+          onClose={() => setShowDetail(false)}
           onSelectVariant={(letter, opener, body) => {
             setCustVariant({ letter, opener, originalBody: body })
             setCustPost('')
-            setSelectedPost(null)
+            setShowDetail(false)
           }}
         />
       )}

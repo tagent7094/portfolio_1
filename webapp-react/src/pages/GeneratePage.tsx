@@ -13,6 +13,7 @@ import { PageHeader, Card, CardBody, Button } from '../components/ui'
 import TraceViewer from '../components/TraceViewer'
 import PostCustomizer from '../components/PostCustomizer'
 import CornerChatbot from '../components/CornerChatbot'
+import CustomizeSection from '../components/CustomizeSection'
 import {
   ALL_GROUPS,
   PostTable, DetailPanel, PackSummary, exportExcel,
@@ -71,6 +72,7 @@ export default function GeneratePage() {
   const [packData, setPackData] = useState<PackData | null>(null)
   const [loadingPack, setLoadingPack] = useState(false)
   const [selectedPost, setSelectedPost] = useState<Record<string, any> | null>(null)
+  const [showDetail, setShowDetail] = useState(false)
   const [custVariant, setCustVariant] = useState<{ letter: string; opener: string; originalBody: string } | null>(null)
   const [custPost, setCustPost] = useState('')
   const [visibleGroups, setVisibleGroups] = useState<Set<string>>(new Set(ALL_GROUPS))
@@ -226,6 +228,7 @@ export default function GeneratePage() {
     setShowTraces(false)
     setPackData(null)
     setSelectedPost(null)
+    setShowDetail(false)
     setEdits({})
     setPipelineSteps(buildSteps())
 
@@ -644,6 +647,9 @@ export default function GeneratePage() {
                       setShowTraces(false)
                       setPackData(null)
                       setSelectedPost(null)
+                      setShowDetail(false)
+                      setCustVariant(null)
+                      setCustPost('')
                       setEdits({})
                       setPipelineSteps([])
                       setLog([])
@@ -947,28 +953,37 @@ export default function GeneratePage() {
                 visibleGroups={visibleGroups}
                 edits={edits}
                 onEdit={handleEdit}
-                onSelectVariant={(letter, opener, body) => {
-                  setCustVariant({ letter, opener, originalBody: body })
-                  setCustPost('')
-                }}
               />
             </div>
           </Card>
+
+          {/* Customize section — variant selection cards */}
+          {selectedPost && !custVariant && (
+            <CustomizeSection
+              post={selectedPost}
+              onSelectVariant={(letter, opener, body) => {
+                setCustVariant({ letter, opener, originalBody: body })
+                setCustPost('')
+              }}
+              onShowDetails={() => setShowDetail(true)}
+              onClose={() => setSelectedPost(null)}
+            />
+          )}
         </div>
       )}
 
-      {/* Detail panel */}
-      {selectedPost && packData && (
+      {/* Detail panel — opened via "Full Details" button */}
+      {showDetail && selectedPost && packData && (
         <DetailPanel
           post={selectedPost}
           headers={packData.headers}
           edits={edits}
           onEdit={handleEdit}
-          onClose={() => setSelectedPost(null)}
+          onClose={() => setShowDetail(false)}
           onSelectVariant={(letter, opener, body) => {
             setCustVariant({ letter, opener, originalBody: body })
             setCustPost('')
-            setSelectedPost(null)
+            setShowDetail(false)
           }}
         />
       )}
