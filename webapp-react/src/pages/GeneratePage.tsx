@@ -1121,9 +1121,16 @@ export default function GeneratePage() {
                     {vpSheets.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 )}
-                {vpSortBy === 'best_match' && custApiKey && (
+                {vpSortBy === 'best_match' && (
                   <button
-                    onClick={() => { setVpDeep(d => !d); setVpPage(1) }}
+                    onClick={() => {
+                      if (!custApiKey && !vpDeep) {
+                        alert('Set your Anthropic API key in Config page first')
+                        return
+                      }
+                      setVpDeep(d => !d)
+                      setVpPage(1)
+                    }}
                     className={`rounded-lg border px-2.5 py-2 text-[12px] font-medium transition-colors ${
                       vpDeep
                         ? 'border-amber-500/50 bg-amber-500/10 text-amber-400'

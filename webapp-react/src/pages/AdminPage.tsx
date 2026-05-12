@@ -693,7 +693,14 @@ export default function AdminPage() {
                 )}
                 {vpSortBy === 'best_match' && vpFounder && (
                   <button
-                    onClick={() => { setVpDeep(d => !d); setVpPage(1) }}
+                    onClick={() => {
+                      if (!localStorage.getItem('asksharath_api_key') && !vpDeep) {
+                        alert('Set your Anthropic API key in Config page first')
+                        return
+                      }
+                      setVpDeep(d => !d)
+                      setVpPage(1)
+                    }}
                     className={`rounded-md border px-2.5 py-1 text-[11px] font-medium transition-colors ${
                       vpDeep
                         ? 'border-amber-500/50 bg-amber-500/10 text-amber-400'
