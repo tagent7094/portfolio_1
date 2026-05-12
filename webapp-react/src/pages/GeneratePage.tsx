@@ -2,9 +2,9 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Play, Loader2, Square, FileSpreadsheet, CheckCircle2, Eye,
-  Search, X, ThumbsUp, MessageSquare, Repeat2,
+  Search, X, ThumbsUp, MessageSquare, Repeat2, Star,
   Shuffle, Library, Brain, Download, ExternalLink,
-  ChevronDown, ChevronUp, Save, Circle, ClipboardPaste,
+  ChevronDown, ChevronUp, Save, Circle, ClipboardPaste, SlidersHorizontal,
 } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet, apiPost } from '../api/client'
@@ -31,6 +31,9 @@ interface ViralSource {
   creator: string
   content_type: string
   source: string
+  source_sheet?: string
+  match_score?: number
+  matched_keywords?: number
 }
 
 type SourceMode = 'auto' | 'pick' | 'paste'
@@ -53,6 +56,14 @@ export default function GeneratePage() {
   const [viralQuery, setViralQuery] = useState('')
   const [viralLoading, setViralLoading] = useState(false)
   const [showPicker, setShowPicker] = useState(false)
+  const [vpMinLikes, setVpMinLikes] = useState('')
+  const [vpMaxLikes, setVpMaxLikes] = useState('')
+  const [vpMinComments, setVpMinComments] = useState('')
+  const [vpMaxComments, setVpMaxComments] = useState('')
+  const [vpSortBy, setVpSortBy] = useState('engagement_score')
+  const [vpSheet, setVpSheet] = useState('')
+  const [vpSheets, setVpSheets] = useState<string[]>([])
+  const [vpPage, setVpPage] = useState(1)
 
   const [generating, setGenerating] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -163,24 +174,43 @@ export default function GeneratePage() {
     [edits],
   )
 
-  const fetchViralSources = useCallback(async (query = '') => {
+  const fetchViralSources = useCallback(async () => {
     setViralLoading(true)
     try {
-      const data = await apiGet<{ sources: ViralSource[]; total: number }>(
-        `/api/viral-sources?q=${encodeURIComponent(query)}&limit=50`
-      )
-      setViralSources(data.sources)
-      setViralTotal(data.total)
+      const params = new URLSearchParams()
+      if (viralQuery) params.set('q', viralQuery)
+      if (vpMinLikes) params.set('min_likes', vpMinLikes)
+      if (vpMaxLikes) params.set('max_likes', vpMaxLikes)
+      if (vpMinComments) params.set('min_comments', vpMinComments)
+      if (vpMaxComments) params.set('max_comments', vpMaxComments)
+      if (vpSheet) params.set('source_sheet', vpSheet)
+      params.set('limit', '20')
+      params.set('offset', String((vpPage - 1) * 20))
+
+      let data: { sources: ViralSource[]; total: number }
+      if (vpSortBy === 'best_match' && active) {
+        params.set('page', String(vpPage))
+        params.set('page_size', '20')
+        data = await apiGet(`/api/viral-posts/best-match/${active}?${params}`)
+      } else {
+        params.set('sort_by', vpSortBy)
+        data = await apiGet(`/api/viral-sources?${params}`)
+      }
+      setViralSources(data.sources || [])
+      setViralTotal(data.total || 0)
     } catch {
       setViralSources([])
     } finally {
       setViralLoading(false)
     }
-  }, [])
+  }, [viralQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpSheet, vpPage, active])
 
   useEffect(() => {
-    if (showPicker) fetchViralSources(viralQuery)
-  }, [showPicker, viralQuery, fetchViralSources])
+    if (showPicker) {
+      fetchViralSources()
+      apiGet<{ sheets: string[] }>('/api/viral-sources/sheets').then(d => setVpSheets(d.sheets)).catch(() => {})
+    }
+  }, [showPicker, fetchViralSources])
 
   const toggleSource = (src: ViralSource) => {
     setSelectedSources(prev => {
@@ -1048,17 +1078,56 @@ export default function GeneratePage() {
               </div>
             </div>
 
-            {/* Search */}
-            <div className="border-b border-[var(--border-2)] px-5 py-2.5">
-              <div className="relative">
-                <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-faint)]" />
-                <input
-                  type="text"
-                  value={viralQuery}
-                  onChange={e => setViralQuery(e.target.value)}
-                  placeholder="Search viral posts..."
-                  className="w-full rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] pl-8 pr-3 py-2 text-[12px] text-[var(--text-primary)] placeholder:text-[var(--text-faint)] focus:outline-none focus:ring-1 focus:ring-[var(--text-primary)]"
-                />
+            {/* Search + Filters */}
+            <div className="border-b border-[var(--border-2)] px-5 py-2.5 space-y-2.5">
+              <div className="flex gap-2 flex-wrap">
+                <div className="relative flex-1 min-w-[180px]">
+                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-faint)]" />
+                  <input
+                    type="text"
+                    value={viralQuery}
+                    onChange={e => { setViralQuery(e.target.value); setVpPage(1) }}
+                    placeholder="Search viral posts..."
+                    className="w-full rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] pl-8 pr-3 py-2 text-[12px] text-[var(--text-primary)] placeholder:text-[var(--text-faint)] focus:outline-none focus:ring-1 focus:ring-[var(--text-primary)]"
+                  />
+                </div>
+                <select
+                  value={vpSortBy}
+                  onChange={e => { setVpSortBy(e.target.value); setVpPage(1) }}
+                  className="rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] px-2.5 py-2 text-[12px] text-[var(--text-primary)]"
+                >
+                  <option value="engagement_score">Sort: Engagement</option>
+                  <option value="likes">Sort: Likes</option>
+                  <option value="comments">Sort: Comments</option>
+                  <option value="reposts">Sort: Reposts</option>
+                  {active && <option value="best_match">Sort: Best Match for {active}</option>}
+                </select>
+                {vpSheets.length > 0 && (
+                  <select
+                    value={vpSheet}
+                    onChange={e => { setVpSheet(e.target.value); setVpPage(1) }}
+                    className="rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] px-2.5 py-2 text-[12px] text-[var(--text-primary)]"
+                  >
+                    <option value="">All sheets</option>
+                    {vpSheets.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                )}
+              </div>
+              {/* Engagement range filters */}
+              <div className="flex gap-3 flex-wrap items-center text-[11px]">
+                <SlidersHorizontal size={11} className="text-[var(--text-faint)]" />
+                <div className="flex items-center gap-1">
+                  <ThumbsUp size={10} className="text-[var(--text-faint)]" />
+                  <input type="number" placeholder="Min" value={vpMinLikes} onChange={e => { setVpMinLikes(e.target.value); setVpPage(1) }} className="w-16 rounded border border-[var(--border-1)] bg-[var(--surface-3)] px-1.5 py-1 text-[11px] text-center text-[var(--text-primary)]" />
+                  <span className="text-[var(--text-faint)]">–</span>
+                  <input type="number" placeholder="Max" value={vpMaxLikes} onChange={e => { setVpMaxLikes(e.target.value); setVpPage(1) }} className="w-16 rounded border border-[var(--border-1)] bg-[var(--surface-3)] px-1.5 py-1 text-[11px] text-center text-[var(--text-primary)]" />
+                </div>
+                <div className="flex items-center gap-1">
+                  <MessageSquare size={10} className="text-[var(--text-faint)]" />
+                  <input type="number" placeholder="Min" value={vpMinComments} onChange={e => { setVpMinComments(e.target.value); setVpPage(1) }} className="w-16 rounded border border-[var(--border-1)] bg-[var(--surface-3)] px-1.5 py-1 text-[11px] text-center text-[var(--text-primary)]" />
+                  <span className="text-[var(--text-faint)]">–</span>
+                  <input type="number" placeholder="Max" value={vpMaxComments} onChange={e => { setVpMaxComments(e.target.value); setVpPage(1) }} className="w-16 rounded border border-[var(--border-1)] bg-[var(--surface-3)] px-1.5 py-1 text-[11px] text-center text-[var(--text-primary)]" />
+                </div>
               </div>
             </div>
 
@@ -1088,7 +1157,7 @@ export default function GeneratePage() {
                       <p className="text-[12px] text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
                         {src.content}
                       </p>
-                      <div className="mt-2 flex items-center gap-3 text-[10px] text-[var(--text-faint)]">
+                      <div className="mt-2 flex items-center gap-3 text-[10px] text-[var(--text-faint)] flex-wrap">
                         {src.likes > 0 && (
                           <span className="flex items-center gap-1">
                             <ThumbsUp size={10} /> {src.likes.toLocaleString()}
@@ -1107,8 +1176,13 @@ export default function GeneratePage() {
                         {src.content_type && (
                           <span className="rounded bg-[var(--surface-3)] px-1.5 py-0.5">{src.content_type}</span>
                         )}
-                        {src.source === 'curated' && (
-                          <span className="rounded bg-[var(--text-primary)]/10 px-1.5 py-0.5 text-[var(--text-primary)]">curated</span>
+                        {src.source_sheet && (
+                          <span className="rounded bg-violet-500/20 text-violet-300 px-1.5 py-0.5">{src.source_sheet}</span>
+                        )}
+                        {src.match_score != null && (
+                          <span className="flex items-center gap-1 text-amber-400">
+                            <Star size={10} /> {src.match_score}% match ({src.matched_keywords} kw)
+                          </span>
                         )}
                         {isSelected && (
                           <span className="ml-auto font-semibold text-[var(--text-primary)]">Selected</span>
@@ -1119,6 +1193,27 @@ export default function GeneratePage() {
                 })
               )}
             </div>
+
+            {/* Pagination */}
+            {viralTotal > 20 && (
+              <div className="flex items-center justify-between border-t border-[var(--border-2)] px-5 py-2.5 text-[11px]">
+                <span className="text-[var(--text-faint)]">
+                  Page {vpPage} of {Math.ceil(viralTotal / 20)} · {viralTotal} posts
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setVpPage(p => Math.max(1, p - 1))}
+                    disabled={vpPage <= 1}
+                    className="rounded px-2.5 py-1 text-[var(--text-muted)] disabled:opacity-30 hover:bg-[var(--surface-3)]"
+                  >Prev</button>
+                  <button
+                    onClick={() => setVpPage(p => p + 1)}
+                    disabled={vpPage >= Math.ceil(viralTotal / 20)}
+                    className="rounded px-2.5 py-1 text-[var(--text-muted)] disabled:opacity-30 hover:bg-[var(--surface-3)]"
+                  >Next</button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

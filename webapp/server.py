@@ -1269,7 +1269,7 @@ def _extract_founder_keywords(graph) -> set[str]:
     return keywords
 
 
-@app.get("/api/admin/viral-posts/best-match/{founder_slug}")
+@app.get("/api/viral-posts/best-match/{founder_slug}")
 async def best_match_viral_posts(
     founder_slug: str,
     request: Request,
@@ -1282,8 +1282,6 @@ async def best_match_viral_posts(
     q: str = "",
 ):
     """Return viral posts scored by alignment with a founder's knowledge graph."""
-    from webapp.auth_routes import _require_admin
-    _require_admin(request)
 
     from src.config.founders import _load_config, get_founder_paths
     from src.graph.store import load_graph

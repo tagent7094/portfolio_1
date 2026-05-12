@@ -175,7 +175,7 @@ export default function AdminPage() {
       if (vpSortBy === 'best_match' && vpFounder) {
         params.set('page', String(vpPage))
         params.set('page_size', '20')
-        data = await apiGet(`/api/admin/viral-posts/best-match/${vpFounder}?${params}`)
+        data = await apiGet(`/api/viral-posts/best-match/${vpFounder}?${params}`)
       } else {
         params.set('sort_by', vpSortBy)
         data = await apiGet(`/api/viral-sources?${params}`)
