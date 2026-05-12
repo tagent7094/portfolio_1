@@ -1311,6 +1311,80 @@ def _bytes_to_floats(b: bytes) -> list[float]:
     return list(_struct.unpack(f"{n}f", b))
 
 
+async def _haiku_rerank(
+    candidates: list[dict],
+    profile_sentences: list[str],
+    founder_slug: str,
+    api_key: str,
+) -> list[dict]:
+    """Re-rank top candidates using Haiku for deep topic/mechanics matching."""
+    import anthropic
+
+    profile_text = "\n".join(f"- {s}" for s in profile_sentences[:60])
+
+    posts_block = ""
+    for i, c in enumerate(candidates):
+        content_preview = c["content"][:600]
+        posts_block += f"\n[POST {i}]\n{content_preview}\n"
+
+    prompt = f"""You are scoring viral LinkedIn posts for how well they align with a specific founder's profile.
+
+## Founder Profile ({founder_slug})
+{profile_text}
+
+## Scoring Criteria (0-100 each)
+1. **Topic Fit**: Does the post's subject matter overlap with the founder's domain, beliefs, expertise?
+2. **Mechanics Match**: Would the post's writing structure (storytelling, lists, contrarian takes, data-driven, personal anecdote) work well adapted to this founder's voice?
+3. **Audience Alignment**: Would this founder's audience engage with this type of content?
+
+## Posts to Score
+{posts_block}
+
+## Instructions
+Return ONLY a JSON array of objects, one per post, in order:
+[{{"idx": 0, "topic": 85, "mechanics": 70, "audience": 80, "reason": "one sentence why"}}]
+
+Be harsh — most posts should score below 50. Only truly aligned posts deserve 70+."""
+
+    try:
+        client = anthropic.Anthropic(api_key=api_key)
+        resp = await asyncio.to_thread(
+            lambda: client.messages.create(
+                model="claude-haiku-4-5-20251001",
+                max_tokens=4096,
+                messages=[{"role": "user", "content": prompt}],
+            )
+        )
+        text = resp.content[0].text.strip()
+        # Extract JSON from response
+        import json as _json
+        if text.startswith("```"):
+            text = text.split("```")[1]
+            if text.startswith("json"):
+                text = text[4:]
+        scores = _json.loads(text)
+
+        for item in scores:
+            idx = item.get("idx", -1)
+            if 0 <= idx < len(candidates):
+                topic = min(100, max(0, item.get("topic", 0)))
+                mechanics = min(100, max(0, item.get("mechanics", 0)))
+                audience = min(100, max(0, item.get("audience", 0)))
+                overall = round((topic * 0.4 + mechanics * 0.3 + audience * 0.3), 1)
+                candidates[idx]["match_score"] = overall
+                candidates[idx]["topic_score"] = topic
+                candidates[idx]["mechanics_score"] = mechanics
+                candidates[idx]["audience_score"] = audience
+                candidates[idx]["match_reason"] = item.get("reason", "")
+                candidates[idx]["deep"] = True
+
+        candidates.sort(key=lambda x: x["match_score"], reverse=True)
+        return candidates
+    except Exception as e:
+        logger.warning("[best-match] Haiku rerank failed: %s", e)
+        return candidates
+
+
 @app.get("/api/viral-posts/best-match/{founder_slug}")
 async def best_match_viral_posts(
     founder_slug: str,
@@ -1323,8 +1397,11 @@ async def best_match_viral_posts(
     max_comments: int | None = None,
     q: str = "",
     source_sheet: str | None = None,
+    deep: bool = False,
+    api_key: str = "",
 ):
-    """Return viral posts scored by semantic alignment with a founder's knowledge graph."""
+    """Return viral posts scored by semantic alignment with a founder's knowledge graph.
+    With deep=true and an api_key, uses Haiku to re-rank top 50 candidates."""
     from src.config.founders import _load_config, get_founder_paths
     from src.graph.store import load_graph
     from src.customizer.post_db import (
@@ -1433,6 +1510,16 @@ async def best_match_viral_posts(
 
     scored.sort(key=lambda x: x["match_score"], reverse=True)
 
+    # Deep reranking with Haiku: take top 50 embedding candidates → LLM score
+    used_deep = False
+    if deep and api_key and len(scored) > 0:
+        profile_sentences = _build_founder_profile_sentences(graph)
+        top_candidates = scored[:50]
+        scored_deep = await _haiku_rerank(top_candidates, profile_sentences, founder_slug, api_key)
+        scored = scored_deep + scored[50:]
+        scored.sort(key=lambda x: x["match_score"], reverse=True)
+        used_deep = True
+
     total = len(scored)
     start = (page - 1) * page_size
     page_items = scored[start:start + page_size]
@@ -1451,6 +1538,10 @@ async def best_match_viral_posts(
             "source_sheet": p.get("source_sheet", ""),
             "match_score": p["match_score"],
             "matched_keywords": p.get("matched_keywords", 0),
+            "topic_score": p.get("topic_score"),
+            "mechanics_score": p.get("mechanics_score"),
+            "audience_score": p.get("audience_score"),
+            "match_reason": p.get("match_reason", ""),
         }
         for p in page_items
     ]
@@ -1460,6 +1551,7 @@ async def best_match_viral_posts(
         "total": total,
         "founder_profile_nodes": n_profile,
         "semantic": use_semantic,
+        "deep": used_deep,
     }
 
 

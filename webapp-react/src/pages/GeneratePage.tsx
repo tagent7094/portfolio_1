@@ -34,6 +34,10 @@ interface ViralSource {
   source_sheet?: string
   match_score?: number
   matched_keywords?: number
+  topic_score?: number
+  mechanics_score?: number
+  audience_score?: number
+  match_reason?: string
 }
 
 type SourceMode = 'auto' | 'pick' | 'paste'
@@ -64,6 +68,7 @@ export default function GeneratePage() {
   const [vpSheet, setVpSheet] = useState('')
   const [vpSheets, setVpSheets] = useState<string[]>([])
   const [vpPage, setVpPage] = useState(1)
+  const [vpDeep, setVpDeep] = useState(false)
 
   const [generating, setGenerating] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -187,10 +192,14 @@ export default function GeneratePage() {
       params.set('limit', '20')
       params.set('offset', String((vpPage - 1) * 20))
 
-      let data: { sources: ViralSource[]; total: number }
+      let data: { sources: ViralSource[]; total: number; deep?: boolean }
       if (vpSortBy === 'best_match' && active) {
         params.set('page', String(vpPage))
         params.set('page_size', '20')
+        if (vpDeep && custApiKey) {
+          params.set('deep', 'true')
+          params.set('api_key', custApiKey)
+        }
         data = await apiGet(`/api/viral-posts/best-match/${active}?${params}`)
       } else {
         params.set('sort_by', vpSortBy)
@@ -203,7 +212,7 @@ export default function GeneratePage() {
     } finally {
       setViralLoading(false)
     }
-  }, [viralQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpSheet, vpPage, active])
+  }, [viralQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpSheet, vpPage, active, vpDeep, custApiKey])
 
   useEffect(() => {
     if (showPicker) {
@@ -1112,6 +1121,19 @@ export default function GeneratePage() {
                     {vpSheets.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 )}
+                {vpSortBy === 'best_match' && custApiKey && (
+                  <button
+                    onClick={() => { setVpDeep(d => !d); setVpPage(1) }}
+                    className={`rounded-lg border px-2.5 py-2 text-[12px] font-medium transition-colors ${
+                      vpDeep
+                        ? 'border-amber-500/50 bg-amber-500/10 text-amber-400'
+                        : 'border-[var(--border-1)] bg-[var(--surface-3)] text-[var(--text-muted)]'
+                    }`}
+                  >
+                    <Brain size={12} className="inline mr-1" />
+                    Deep Match {vpDeep ? 'ON' : 'OFF'}
+                  </button>
+                )}
               </div>
               {/* Engagement range filters */}
               <div className="flex gap-3 flex-wrap items-center text-[11px]">
@@ -1182,7 +1204,15 @@ export default function GeneratePage() {
                         {src.match_score != null && (
                           <span className="flex items-center gap-1 text-amber-400">
                             <Star size={10} /> {src.match_score}% match
+                            {src.topic_score != null && (
+                              <span className="text-[9px] text-amber-400/70 ml-1">
+                                T:{src.topic_score} M:{src.mechanics_score} A:{src.audience_score}
+                              </span>
+                            )}
                           </span>
+                        )}
+                        {src.match_reason && (
+                          <span className="basis-full text-[10px] text-amber-400/60 italic mt-0.5">{src.match_reason}</span>
                         )}
                         {isSelected && (
                           <span className="ml-auto font-semibold text-[var(--text-primary)]">Selected</span>

@@ -108,6 +108,7 @@ export default function AdminPage() {
   const [vpExpanded, setVpExpanded] = useState(false)
   const [vpSheet, setVpSheet] = useState('')
   const [vpSheets, setVpSheets] = useState<string[]>([])
+  const [vpDeep, setVpDeep] = useState(false)
 
   const refreshRepos = useCallback(async () => {
     setRepoLoading(true)
@@ -175,6 +176,11 @@ export default function AdminPage() {
       if (vpSortBy === 'best_match' && vpFounder) {
         params.set('page', String(vpPage))
         params.set('page_size', '20')
+        const storedKey = localStorage.getItem('asksharath_api_key') || ''
+        if (vpDeep && storedKey) {
+          params.set('deep', 'true')
+          params.set('api_key', storedKey)
+        }
         data = await apiGet(`/api/viral-posts/best-match/${vpFounder}?${params}`)
       } else {
         params.set('sort_by', vpSortBy)
@@ -184,7 +190,7 @@ export default function AdminPage() {
       setVpTotal(data.total || 0)
     } catch {}
     finally { setVpLoading(false) }
-  }, [vpQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpFounder, vpPage, vpSheet])
+  }, [vpQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpFounder, vpPage, vpSheet, vpDeep])
 
   useEffect(() => {
     if (vpExpanded) {
@@ -685,6 +691,18 @@ export default function AdminPage() {
                     {vpSheets.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 )}
+                {vpSortBy === 'best_match' && vpFounder && (
+                  <button
+                    onClick={() => { setVpDeep(d => !d); setVpPage(1) }}
+                    className={`rounded-md border px-2.5 py-1 text-[11px] font-medium transition-colors ${
+                      vpDeep
+                        ? 'border-amber-500/50 bg-amber-500/10 text-amber-400'
+                        : 'border-[var(--border-1)] bg-[var(--surface-3)] text-[var(--text-muted)]'
+                    }`}
+                  >
+                    Deep Match {vpDeep ? 'ON' : 'OFF'}
+                  </button>
+                )}
               </div>
 
               {/* Engagement filters */}
@@ -741,7 +759,15 @@ export default function AdminPage() {
                         {src.match_score != null && (
                           <span className="flex items-center gap-1 text-amber-400">
                             <Star size={10} /> {src.match_score}% match
+                            {src.topic_score != null && (
+                              <span className="text-[9px] text-amber-400/70 ml-1">
+                                T:{src.topic_score} M:{src.mechanics_score} A:{src.audience_score}
+                              </span>
+                            )}
                           </span>
+                        )}
+                        {src.match_reason && (
+                          <span className="basis-full text-[10px] text-amber-400/60 italic mt-0.5">{src.match_reason}</span>
                         )}
                       </div>
                     </div>
