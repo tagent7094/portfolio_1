@@ -1219,54 +1219,96 @@ async def activate_viral_repo(body: ActivateRequest, request: Request):
     return {"ok": True, "imported": count}
 
 
-## ── Best-Match: Founder-Post Alignment ─────────────────────────────────────
+## ── Best-Match: Semantic Founder-Post Alignment ──────────────────────────────
 
-def _extract_founder_keywords(graph) -> set[str]:
-    """Extract matching keywords from a founder's knowledge graph."""
-    keywords: set[str] = set()
-    stop_words = {
-        "the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
-        "have", "has", "had", "do", "does", "did", "will", "would", "could",
-        "should", "may", "might", "can", "shall", "to", "of", "in", "for",
-        "on", "with", "at", "by", "from", "as", "into", "about", "like",
-        "through", "after", "over", "between", "out", "up", "down", "off",
-        "and", "but", "or", "nor", "not", "no", "so", "yet", "both", "either",
-        "this", "that", "these", "those", "it", "its", "they", "them", "their",
-        "we", "us", "our", "you", "your", "he", "him", "his", "she", "her",
-        "who", "which", "what", "when", "where", "how", "why", "all", "each",
-        "every", "any", "some", "most", "more", "than", "very", "just", "only",
-        "also", "much", "many", "such", "own", "other", "one", "two", "new",
-        "get", "got", "make", "made", "thing", "things", "way", "time", "people",
-    }
+import struct as _struct
 
-    def tokenize(text: str) -> set[str]:
-        if not text:
-            return set()
-        import re
-        words = re.findall(r"[a-z]{3,}", text.lower())
-        return {w for w in words if w not in stop_words and len(w) >= 3}
+_founder_profile_cache: dict[str, tuple[list[str], list[float]]] = {}
 
+
+def _build_founder_profile_sentences(graph) -> list[str]:
+    """Build rich natural-language sentences from a founder's knowledge graph."""
+    sentences: list[str] = []
     for _, data in graph.nodes(data=True):
         nt = data.get("node_type", "")
         if nt == "belief":
-            keywords |= tokenize(data.get("label", ""))
-            keywords |= tokenize(data.get("stance", ""))
+            label = data.get("label", "")
+            stance = data.get("stance", "")
+            if label:
+                s = f"I believe in {label}."
+                if stance:
+                    s += f" {stance}"
+                sentences.append(s)
         elif nt == "story":
-            keywords |= tokenize(data.get("label", ""))
-            keywords |= tokenize(data.get("summary", ""))
+            label = data.get("label", "")
+            summary = data.get("summary", "")
+            if label and summary:
+                sentences.append(f"Story: {label}. {summary}")
+            elif label:
+                sentences.append(f"Experience with {label}.")
         elif nt == "thinking_model":
-            keywords |= tokenize(data.get("label", ""))
-            keywords |= tokenize(data.get("description", ""))
-            keywords |= tokenize(data.get("applies_to", ""))
+            label = data.get("label", "")
+            desc = data.get("description", "")
+            applies = data.get("applies_to", "")
+            if label:
+                s = f"I think about {label}."
+                if desc:
+                    s += f" {desc}"
+                if applies:
+                    s += f" This applies to {applies}."
+                sentences.append(s)
         elif nt == "vocabulary":
-            keywords |= tokenize(data.get("label", ""))
-            keywords |= tokenize(data.get("definition", ""))
+            label = data.get("label", "")
+            defn = data.get("definition", "")
+            if label and defn:
+                sentences.append(f"Key concept: {label} — {defn}")
         elif nt == "contrast_pair":
-            keywords |= tokenize(data.get("label", ""))
-            keywords |= tokenize(data.get("left", ""))
-            keywords |= tokenize(data.get("right", ""))
+            label = data.get("label", "")
+            left = data.get("left", "")
+            right = data.get("right", "")
+            if label and left and right:
+                sentences.append(f"I contrast {left} versus {right} when discussing {label}.")
+        elif nt == "identity":
+            label = data.get("label", "")
+            desc = data.get("description", "")
+            if desc:
+                sentences.append(desc)
+            elif label:
+                sentences.append(label)
+        elif nt == "value":
+            label = data.get("label", "")
+            if label:
+                sentences.append(f"I value {label}.")
+        elif nt == "topic":
+            label = data.get("label", "")
+            if label:
+                sentences.append(f"I frequently discuss {label}.")
+    return sentences
 
-    return keywords
+
+def _get_founder_embedding(slug: str, graph, embedder) -> list[float]:
+    """Get or compute the average embedding for a founder's profile."""
+    sentences = _build_founder_profile_sentences(graph)
+    cache_key = f"{slug}:{len(sentences)}"
+    if cache_key in _founder_profile_cache:
+        cached_sents, cached_emb = _founder_profile_cache[cache_key]
+        if cached_sents == sentences:
+            return cached_emb
+
+    if not sentences:
+        return []
+
+    embs = embedder.embed(sentences)
+    import numpy as np
+    avg = np.mean(embs, axis=0)
+    avg = (avg / np.linalg.norm(avg)).tolist()
+    _founder_profile_cache[cache_key] = (sentences, avg)
+    return avg
+
+
+def _bytes_to_floats(b: bytes) -> list[float]:
+    n = len(b) // 4
+    return list(_struct.unpack(f"{n}f", b))
 
 
 @app.get("/api/viral-posts/best-match/{founder_slug}")
@@ -1280,12 +1322,15 @@ async def best_match_viral_posts(
     min_comments: int | None = None,
     max_comments: int | None = None,
     q: str = "",
+    source_sheet: str | None = None,
 ):
-    """Return viral posts scored by alignment with a founder's knowledge graph."""
-
+    """Return viral posts scored by semantic alignment with a founder's knowledge graph."""
     from src.config.founders import _load_config, get_founder_paths
     from src.graph.store import load_graph
-    from src.customizer.post_db import browse_posts, search_posts, init_db, count_posts, import_from_csv
+    from src.customizer.post_db import (
+        browse_posts, search_posts, init_db, count_posts,
+        import_from_csv, load_all_embeddings, embeddings_count,
+    )
 
     init_db()
     if count_posts() == 0:
@@ -1302,29 +1347,89 @@ async def best_match_viral_posts(
     if graph.number_of_nodes() == 0:
         raise HTTPException(status_code=404, detail=f"Empty graph for {founder_slug}")
 
-    founder_keywords = _extract_founder_keywords(graph)
-    if not founder_keywords:
-        raise HTTPException(status_code=404, detail=f"No keywords extracted from {founder_slug}'s graph")
+    # Check if semantic embeddings are available
+    n_emb = embeddings_count()
+    use_semantic = n_emb > 0
 
-    # Fetch a large batch for scoring (up to 5000 posts)
-    if q:
-        all_result = search_posts(query=q, page=1, page_size=5000)
+    if use_semantic:
+        import numpy as np
+        from src.vectors.embedder import Embedder
+        embedder = Embedder()
+
+        founder_emb = await asyncio.to_thread(_get_founder_embedding, founder_slug, graph, embedder)
+        if not founder_emb:
+            use_semantic = False
+
+    if use_semantic:
+        # Semantic cosine similarity scoring
+        all_embs = await asyncio.to_thread(load_all_embeddings)
+
+        # Fetch posts with filters
+        if q:
+            all_result = search_posts(query=q, page=1, page_size=5000)
+        else:
+            all_result = browse_posts(
+                page=1, page_size=5000,
+                min_likes=min_likes, max_likes=max_likes,
+                min_comments=min_comments, max_comments=max_comments,
+                source_sheet=source_sheet,
+            )
+
+        founder_vec = np.array(founder_emb, dtype=np.float32)
+        scored = []
+        for p in all_result["posts"]:
+            emb_bytes = all_embs.get(p["post_id"])
+            if not emb_bytes:
+                continue
+            post_vec = np.frombuffer(emb_bytes, dtype=np.float32)
+            sim = float(np.dot(founder_vec, post_vec) / (
+                np.linalg.norm(founder_vec) * np.linalg.norm(post_vec) + 1e-9
+            ))
+            match_pct = round(max(0, sim) * 100, 1)
+            scored.append({**p, "match_score": match_pct, "matched_keywords": 0, "semantic": True})
+
+        profile_sentences = _build_founder_profile_sentences(graph)
+        n_profile = len(profile_sentences)
     else:
-        all_result = browse_posts(
-            page=1, page_size=5000,
-            min_likes=min_likes, max_likes=max_likes,
-            min_comments=min_comments, max_comments=max_comments,
-        )
+        # Fallback: keyword overlap (when embeddings not computed yet)
+        import re as _re
+        stop_words = {
+            "the","a","an","is","are","was","were","be","been","being","have","has","had",
+            "do","does","did","will","would","could","should","may","might","can","shall",
+            "to","of","in","for","on","with","at","by","from","as","into","about","like",
+            "through","after","over","between","out","up","down","off","and","but","or",
+            "nor","not","no","so","yet","both","either","this","that","these","those",
+            "it","its","they","them","their","we","us","our","you","your","he","him","his",
+            "she","her","who","which","what","when","where","how","why","all","each","every",
+            "any","some","most","more","than","very","just","only","also","much","many",
+            "such","own","other","one","two","new","get","got","make","made","thing",
+            "things","way","time","people",
+        }
+        def _tokenize(text):
+            return {w for w in _re.findall(r"[a-z]{3,}", (text or "").lower()) if w not in stop_words}
 
-    # Score each post
-    import re as _re
-    scored = []
-    for p in all_result["posts"]:
-        content_lower = p["content"].lower()
-        post_words = set(_re.findall(r"[a-z]{3,}", content_lower))
-        overlap = founder_keywords & post_words
-        match_score = round(len(overlap) / max(len(post_words), 1) * 100, 1) if post_words else 0
-        scored.append({**p, "match_score": match_score, "matched_keywords": len(overlap)})
+        founder_kw = set()
+        for _, data in graph.nodes(data=True):
+            for field in ("label","stance","summary","description","applies_to","definition","left","right"):
+                founder_kw |= _tokenize(data.get(field, ""))
+
+        if q:
+            all_result = search_posts(query=q, page=1, page_size=5000)
+        else:
+            all_result = browse_posts(
+                page=1, page_size=5000,
+                min_likes=min_likes, max_likes=max_likes,
+                min_comments=min_comments, max_comments=max_comments,
+                source_sheet=source_sheet,
+            )
+
+        scored = []
+        for p in all_result["posts"]:
+            post_words = set(_re.findall(r"[a-z]{3,}", p["content"].lower()))
+            overlap = founder_kw & post_words
+            match_pct = round(len(overlap) / max(len(post_words), 1) * 100, 1)
+            scored.append({**p, "match_score": match_pct, "matched_keywords": len(overlap), "semantic": False})
+        n_profile = len(founder_kw)
 
     scored.sort(key=lambda x: x["match_score"], reverse=True)
 
@@ -1343,8 +1448,9 @@ async def best_match_viral_posts(
             "content_type": p.get("content_type", ""),
             "source": "csv",
             "engagement_score": p.get("engagement_score", 0),
+            "source_sheet": p.get("source_sheet", ""),
             "match_score": p["match_score"],
-            "matched_keywords": p["matched_keywords"],
+            "matched_keywords": p.get("matched_keywords", 0),
         }
         for p in page_items
     ]
@@ -1352,7 +1458,8 @@ async def best_match_viral_posts(
     return {
         "sources": sources,
         "total": total,
-        "founder_keywords_count": len(founder_keywords),
+        "founder_profile_nodes": n_profile,
+        "semantic": use_semantic,
     }
 
 

@@ -740,7 +740,7 @@ export default function AdminPage() {
                         )}
                         {src.match_score != null && (
                           <span className="flex items-center gap-1 text-amber-400">
-                            <Star size={10} /> {src.match_score}% match ({src.matched_keywords} keywords)
+                            <Star size={10} /> {src.match_score}% match
                           </span>
                         )}
                       </div>

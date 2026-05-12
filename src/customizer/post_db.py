@@ -273,3 +273,47 @@ def get_post(post_id: str) -> dict | None:
     row = conn.execute("SELECT * FROM posts WHERE post_id = ?", (post_id,)).fetchone()
     conn.close()
     return dict(row) if row else None
+
+
+# ── Embedding storage ─────────────────────────────────────────────────────────
+
+def init_embeddings_table():
+    conn = get_db()
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS post_embeddings (
+            post_id TEXT PRIMARY KEY,
+            embedding BLOB NOT NULL,
+            FOREIGN KEY (post_id) REFERENCES posts(post_id)
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def store_embeddings(pairs: list[tuple[str, bytes]]):
+    """Store post_id → embedding (as raw float32 bytes) pairs in batch."""
+    init_embeddings_table()
+    conn = get_db()
+    conn.executemany(
+        "INSERT OR REPLACE INTO post_embeddings (post_id, embedding) VALUES (?, ?)",
+        pairs,
+    )
+    conn.commit()
+    conn.close()
+
+
+def load_all_embeddings() -> dict[str, bytes]:
+    """Load all post embeddings as {post_id: raw_bytes}."""
+    init_embeddings_table()
+    conn = get_db()
+    rows = conn.execute("SELECT post_id, embedding FROM post_embeddings").fetchall()
+    conn.close()
+    return {r[0]: bytes(r[1]) for r in rows}
+
+
+def embeddings_count() -> int:
+    init_embeddings_table()
+    conn = get_db()
+    count = conn.execute("SELECT COUNT(*) FROM post_embeddings").fetchone()[0]
+    conn.close()
+    return count

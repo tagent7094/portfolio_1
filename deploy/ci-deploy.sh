@@ -78,4 +78,7 @@ echo "=== [ci-deploy] Indexing RAG for AskSharath ==="
 cd "$APP_DIR"
 "$APP_DIR/venv/bin/python" scripts/index_sharath_rag.py || echo "[ci-deploy] RAG indexing failed (non-fatal)"
 
+echo "=== [ci-deploy] Pre-computing post embeddings ==="
+"$APP_DIR/venv/bin/python" scripts/precompute_post_embeddings.py || echo "[ci-deploy] Post embeddings failed (non-fatal)"
+
 echo "=== [ci-deploy] Done ==="
