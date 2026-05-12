@@ -1011,6 +1011,7 @@ async def list_viral_sources(
     min_reposts: int | None = None,
     max_reposts: int | None = None,
     sort_by: str = "engagement_score",
+    source_sheet: str | None = None,
 ):
     """Browse viral source posts with engagement filters."""
     from src.customizer.post_db import browse_posts, search_posts
@@ -1026,6 +1027,7 @@ async def list_viral_sources(
             min_comments=min_comments, max_comments=max_comments,
             min_reposts=min_reposts, max_reposts=max_reposts,
             sort_by=sort_by if sort_by in {"engagement_score", "likes", "comments", "reposts"} else "engagement_score",
+            source_sheet=source_sheet,
         )
 
     sources = [
@@ -1039,10 +1041,18 @@ async def list_viral_sources(
             "content_type": p.get("content_type", ""),
             "source": "csv",
             "engagement_score": p.get("engagement_score", 0),
+            "source_sheet": p.get("source_sheet", ""),
         }
         for p in result["posts"]
     ]
     return {"sources": sources, "total": result["total"]}
+
+
+@app.get("/api/viral-sources/sheets")
+async def list_sheets():
+    """Return distinct source sheet names available in the post database."""
+    from src.customizer.post_db import get_sheets
+    return {"sheets": get_sheets()}
 
 
 @app.get("/api/posts/stats")

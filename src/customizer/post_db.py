@@ -37,12 +37,14 @@ def init_db():
             likes_ratio REAL DEFAULT 0,
             engagement_score INTEGER DEFAULT 0,
             content_type TEXT DEFAULT '',
-            creator_url TEXT DEFAULT ''
+            creator_url TEXT DEFAULT '',
+            source_sheet TEXT DEFAULT ''
         );
 
         CREATE INDEX IF NOT EXISTS idx_engagement ON posts(engagement_score DESC);
         CREATE INDEX IF NOT EXISTS idx_content_type ON posts(content_type);
         CREATE INDEX IF NOT EXISTS idx_followers ON posts(followers);
+        CREATE INDEX IF NOT EXISTS idx_source_sheet ON posts(source_sheet);
 
         CREATE VIRTUAL TABLE IF NOT EXISTS posts_fts USING fts5(
             content, content_type,
@@ -77,17 +79,23 @@ def import_from_csv(csv_path: str | Path | None = None, force: bool = False) -> 
         conn.execute("DELETE FROM posts")
         conn.execute("DELETE FROM posts_fts")
 
+    # Migrate: add source_sheet column if missing (existing DBs)
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(posts)").fetchall()}
+    if "source_sheet" not in cols:
+        conn.execute("ALTER TABLE posts ADD COLUMN source_sheet TEXT DEFAULT ''")
+
     inserted = 0
     for r in records:
         try:
             conn.execute(
                 """INSERT OR IGNORE INTO posts
                    (post_id, content, likes, comments, reposts, followers,
-                    likes_ratio, engagement_score, content_type, creator_url)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    likes_ratio, engagement_score, content_type, creator_url, source_sheet)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (r["post_id"], r["content"], r["likes"], r["comments"],
                  r["reposts"], r["followers"], r["likes_ratio"],
-                 r["engagement_score"], r["content_type"], r["creator_url"]),
+                 r["engagement_score"], r["content_type"], r["creator_url"],
+                 r.get("source_sheet", "")),
             )
             if conn.total_changes > inserted:
                 inserted = conn.total_changes
@@ -111,6 +119,21 @@ def count_posts() -> int:
     return count
 
 
+def get_sheets() -> list[str]:
+    """Return distinct source_sheet values in the database."""
+    init_db()
+    conn = get_db()
+    try:
+        rows = conn.execute(
+            "SELECT DISTINCT source_sheet FROM posts WHERE source_sheet != '' ORDER BY source_sheet"
+        ).fetchall()
+        return [r[0] for r in rows]
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        conn.close()
+
+
 def browse_posts(
     page: int = 1,
     page_size: int = 20,
@@ -127,6 +150,7 @@ def browse_posts(
     max_reposts: int | None = None,
     sort_by: str = "engagement_score",
     sort_dir: str = "DESC",
+    source_sheet: str | None = None,
 ) -> dict:
     """Browse posts with filters and pagination."""
     init_db()
@@ -171,6 +195,9 @@ def browse_posts(
     if max_reposts is not None:
         conditions.append("reposts <= ?")
         params.append(max_reposts)
+    if source_sheet:
+        conditions.append("source_sheet = ?")
+        params.append(source_sheet)
 
     where = " AND ".join(conditions) if conditions else "1=1"
     allowed_sorts = {"engagement_score", "likes", "comments", "reposts", "followers", "likes_ratio"}

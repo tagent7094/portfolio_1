@@ -106,6 +106,8 @@ export default function AdminPage() {
   const [vpFounder, setVpFounder] = useState('')
   const [vpPage, setVpPage] = useState(1)
   const [vpExpanded, setVpExpanded] = useState(false)
+  const [vpSheet, setVpSheet] = useState('')
+  const [vpSheets, setVpSheets] = useState<string[]>([])
 
   const refreshRepos = useCallback(async () => {
     setRepoLoading(true)
@@ -165,6 +167,7 @@ export default function AdminPage() {
       if (vpMaxLikes) params.set('max_likes', vpMaxLikes)
       if (vpMinComments) params.set('min_comments', vpMinComments)
       if (vpMaxComments) params.set('max_comments', vpMaxComments)
+      if (vpSheet) params.set('source_sheet', vpSheet)
       params.set('limit', '20')
       params.set('offset', String((vpPage - 1) * 20))
 
@@ -181,10 +184,13 @@ export default function AdminPage() {
       setVpTotal(data.total || 0)
     } catch {}
     finally { setVpLoading(false) }
-  }, [vpQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpFounder, vpPage])
+  }, [vpQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpFounder, vpPage, vpSheet])
 
   useEffect(() => {
-    if (vpExpanded) fetchViralPosts()
+    if (vpExpanded) {
+      fetchViralPosts()
+      apiGet<{ sheets: string[] }>('/api/viral-sources/sheets').then(d => setVpSheets(d.sheets)).catch(() => {})
+    }
   }, [vpExpanded, fetchViralPosts])
 
   const refresh = useCallback(async () => {
@@ -669,6 +675,16 @@ export default function AdminPage() {
                   <option value="reposts">Reposts</option>
                   {vpFounder && <option value="best_match">Best Match</option>}
                 </select>
+                {vpSheets.length > 0 && (
+                  <select
+                    value={vpSheet}
+                    onChange={e => { setVpSheet(e.target.value); setVpPage(1) }}
+                    className="field text-[12px] w-52"
+                  >
+                    <option value="">All sheets ({vpSheets.length})</option>
+                    {vpSheets.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                )}
               </div>
 
               {/* Engagement filters */}
@@ -718,6 +734,9 @@ export default function AdminPage() {
                         )}
                         {src.content_type && (
                           <span className="rounded bg-[var(--surface-3)] px-1.5 py-0.5">{src.content_type}</span>
+                        )}
+                        {src.source_sheet && (
+                          <span className="rounded bg-violet-500/20 text-violet-300 px-1.5 py-0.5">{src.source_sheet}</span>
                         )}
                         {src.match_score != null && (
                           <span className="flex items-center gap-1 text-amber-400">
