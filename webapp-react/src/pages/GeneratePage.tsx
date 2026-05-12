@@ -7,7 +7,7 @@ import {
   ChevronDown, ChevronUp, Save, Circle, ClipboardPaste,
 } from 'lucide-react'
 import clsx from 'clsx'
-import { streamSSE, apiGet, apiPost } from '../api/client'
+import { apiGet, apiPost } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
 import { PageHeader, Card, CardBody, Button } from '../components/ui'
 import TraceViewer from '../components/TraceViewer'
@@ -63,7 +63,9 @@ export default function GeneratePage() {
   const [showTraces, setShowTraces] = useState(false)
   const [traceData, setTraceData] = useState<any>(null)
   const [loadingTraces, setLoadingTraces] = useState(false)
-  const abortRef = useRef<AbortController | null>(null)
+  const [bgTaskId, setBgTaskId] = useState<string | null>(null)
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const logOffsetRef = useRef(0)
   const logEndRef = useRef<HTMLDivElement>(null)
   const lastPackDateRef = useRef<string>('')
   const lastFilepathRef = useRef<string>('')
@@ -205,6 +207,57 @@ export default function GeneratePage() {
     }
   }, [active])
 
+  const startPolling = useCallback((taskId: string) => {
+    if (pollRef.current) clearInterval(pollRef.current)
+    logOffsetRef.current = 0
+    pollRef.current = setInterval(async () => {
+      try {
+        const res = await apiGet<any>(`/api/generate/batch/status/${taskId}?since=${logOffsetRef.current}`)
+        setProgress(res.progress || 0)
+        setStage(res.stage || '')
+        if (res.log?.length) {
+          setLog(prev => [...prev, ...res.log.map((l: any) => ({ stage: l.stage, status: l.status, ts: Date.now() }))])
+          logOffsetRef.current = res.log_offset
+        }
+        if (res.filepath) {
+          lastFilepathRef.current = res.filepath
+          const match = res.filepath.match(/(\d{4}-\d{2}-\d{2})/)
+          if (match) lastPackDateRef.current = match[1]
+        }
+        if (res.error) setError(res.error)
+        if (res.status !== 'running') {
+          clearInterval(pollRef.current!)
+          pollRef.current = null
+          setBgTaskId(null)
+          localStorage.removeItem(`gen_task_${active}`)
+          if (res.status === 'done') {
+            setDone(true)
+            setGenerating(false)
+          } else {
+            setGenerating(false)
+            if (res.status === 'cancelled') setStage('Cancelled')
+          }
+        }
+      } catch {
+        // retry on next poll
+      }
+    }, 3000)
+  }, [active])
+
+  // Resume polling on mount if a task was running
+  useEffect(() => {
+    if (!active) return
+    const savedTask = localStorage.getItem(`gen_task_${active}`)
+    if (savedTask) {
+      setBgTaskId(savedTask)
+      setGenerating(true)
+      setStage('resuming...')
+      setPipelineSteps(buildSteps())
+      startPolling(savedTask)
+    }
+    return () => { if (pollRef.current) clearInterval(pollRef.current) }
+  }, [active, startPolling, buildSteps])
+
   const handleGenerate = async () => {
     if (!active) {
       setError('No founder selected')
@@ -220,7 +273,7 @@ export default function GeneratePage() {
     }
     setGenerating(true)
     setProgress(0)
-    setStage('connecting...')
+    setStage('starting...')
     setLog([])
     setDone(false)
     setError('')
@@ -231,9 +284,6 @@ export default function GeneratePage() {
     setShowDetail(false)
     setEdits({})
     setPipelineSteps(buildSteps())
-
-    const abort = new AbortController()
-    abortRef.current = abort
 
     const body: any = {
       founder_slug: active,
@@ -251,40 +301,13 @@ export default function GeneratePage() {
     }
 
     try {
-      await streamSSE(
-        '/api/generate/batch/stream',
-        body,
-        (event) => {
-          setProgress(event.progress || 0)
-          setStage(event.stage)
-          setLog(prev => [...prev, { stage: event.stage, status: event.status, ts: Date.now() }])
-          if (event.data?.filepath) {
-            lastFilepathRef.current = event.data.filepath
-            const match = event.data.filepath.match(/(\d{4}-\d{2}-\d{2})/)
-            if (match) lastPackDateRef.current = match[1]
-          }
-          if (event.data?.error) {
-            setError(event.data.error)
-          }
-          if (event.data?.cancelled) {
-            setStage('Cancelled')
-            setGenerating(false)
-            return
-          }
-          if (event.status === 'pipeline_done') {
-            setDone(true)
-            setGenerating(false)
-          }
-        },
-        abort.signal,
-      )
+      const res = await apiPost<{ task_id: string }>('/api/generate/batch/background', body)
+      setBgTaskId(res.task_id)
+      localStorage.setItem(`gen_task_${active}`, res.task_id)
+      startPolling(res.task_id)
     } catch (e: any) {
-      if (e?.name !== 'AbortError') {
-        setError(e?.message || 'Generation failed')
-      }
-    } finally {
+      setError(e?.message || 'Failed to start generation')
       setGenerating(false)
-      abortRef.current = null
     }
   }
 
@@ -295,8 +318,13 @@ export default function GeneratePage() {
     }
   }, [done, active, fetchPackData])
 
-  const handleCancel = () => {
-    abortRef.current?.abort()
+  const handleCancel = async () => {
+    if (bgTaskId) {
+      try { await apiPost(`/api/generate/batch/cancel/${bgTaskId}`, {}) } catch {}
+      localStorage.removeItem(`gen_task_${active}`)
+    }
+    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null }
+    setBgTaskId(null)
     setGenerating(false)
   }
 

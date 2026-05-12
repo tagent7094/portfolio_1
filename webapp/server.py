@@ -8,6 +8,8 @@ import logging
 import re
 import subprocess
 import sys
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
@@ -66,6 +68,15 @@ app.include_router(admin_chat_router)
 # Post customizer routes (blend opener + body, chat edits)
 from webapp.customize_routes import customize_router
 app.include_router(customize_router)
+
+# Schedule routes (recurring generation)
+from webapp.schedule_routes import router as schedule_router, start_scheduler
+app.include_router(schedule_router)
+
+
+@app.on_event("startup")
+async def _startup_scheduler():
+    start_scheduler()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -843,6 +854,149 @@ async def generate_batch(data: BatchGenerateRequest):
     except Exception as e:
         logger.exception("Batch generation failed")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+## ── Background batch tasks ──────────────────────────────────────────────
+
+_bg_tasks: dict[str, dict] = {}
+_MAX_FINISHED_TASKS = 50
+
+
+def _cleanup_old_tasks():
+    finished = [k for k, v in _bg_tasks.items() if v["status"] in ("done", "error", "cancelled")]
+    if len(finished) > _MAX_FINISHED_TASKS:
+        by_time = sorted(finished, key=lambda k: _bg_tasks[k].get("finished_at", ""))
+        for k in by_time[: len(finished) - _MAX_FINISHED_TASKS]:
+            del _bg_tasks[k]
+
+
+@app.post("/api/generate/batch/background")
+async def generate_batch_background(data: BatchGenerateRequest):
+    """Start generation as a background task. Returns task_id for polling."""
+    logger.info("[batch_bg] founder=%s sources=%d", data.founder_slug, data.n_sources)
+
+    from dataclasses import asdict
+    from src.generation.pipeline_events import PipelineEvent, PipelineEventBus
+    from src.batch.session import BatchSession, CancelledError
+
+    task_id = uuid.uuid4().hex[:10]
+    event_bus = PipelineEventBus()
+    session = BatchSession(event_bus=event_bus)
+
+    task_state: dict = {
+        "task_id": task_id,
+        "founder_slug": data.founder_slug,
+        "status": "running",
+        "progress": 0.0,
+        "stage": "starting",
+        "log": [],
+        "started_at": datetime.now(timezone.utc).isoformat(),
+        "finished_at": None,
+        "error": None,
+        "filepath": None,
+        "_session": session,
+    }
+    _bg_tasks[task_id] = task_state
+    _cleanup_old_tasks()
+
+    async def _run():
+        try:
+            gen_future = asyncio.ensure_future(asyncio.to_thread(
+                session.run,
+                founder_slug=data.founder_slug,
+                platform=data.platform,
+                creativity=data.creativity,
+                n_sources=data.n_sources,
+                posts_per_source=data.posts_per_source,
+                enable_thinking=data.enable_thinking,
+                source_posts=data.source_posts,
+                effort=data.effort,
+            ))
+
+            # Drain event bus into task_state
+            async for chunk in event_bus.stream():
+                if not chunk.startswith("data:"):
+                    continue
+                try:
+                    ev = json.loads(chunk[5:].strip())
+                except Exception:
+                    continue
+                task_state["progress"] = ev.get("progress", task_state["progress"])
+                task_state["stage"] = ev.get("stage", task_state["stage"])
+                task_state["log"].append({
+                    "stage": ev.get("stage", ""),
+                    "status": ev.get("status", ""),
+                })
+                fp = (ev.get("data") or {}).get("filepath")
+                if fp:
+                    task_state["filepath"] = fp
+                err = (ev.get("data") or {}).get("error")
+                if err:
+                    task_state["error"] = err
+                if ev.get("status") == "pipeline_done":
+                    break
+
+            await gen_future
+
+            if task_state["error"]:
+                task_state["status"] = "error"
+            elif task_state["status"] == "running":
+                task_state["status"] = "done"
+                task_state["progress"] = 1.0
+
+        except CancelledError:
+            task_state["status"] = "cancelled"
+        except Exception as e:
+            logger.exception("[batch_bg] failed: %s", e)
+            task_state["status"] = "error"
+            task_state["error"] = str(e)
+        finally:
+            task_state["finished_at"] = datetime.now(timezone.utc).isoformat()
+
+    asyncio.create_task(_run())
+    return {"task_id": task_id}
+
+
+@app.get("/api/generate/batch/tasks")
+async def list_batch_tasks():
+    return {"tasks": [
+        {k: v for k, v in t.items() if not k.startswith("_") and k != "log"}
+        for t in _bg_tasks.values()
+    ]}
+
+
+@app.get("/api/generate/batch/status/{task_id}")
+async def get_batch_task_status(task_id: str, since: int = 0):
+    """Poll task status. Pass since=N to get only log entries after index N."""
+    task = _bg_tasks.get(task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    return {
+        "task_id": task["task_id"],
+        "founder_slug": task["founder_slug"],
+        "status": task["status"],
+        "progress": task["progress"],
+        "stage": task["stage"],
+        "log": task["log"][since:],
+        "log_offset": len(task["log"]),
+        "started_at": task["started_at"],
+        "finished_at": task["finished_at"],
+        "error": task["error"],
+        "filepath": task["filepath"],
+    }
+
+
+@app.post("/api/generate/batch/cancel/{task_id}")
+async def cancel_batch_task(task_id: str):
+    task = _bg_tasks.get(task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    session = task.get("_session")
+    if session and hasattr(session, "cancel_event"):
+        session.cancel_event.set()
+    task["status"] = "cancelled"
+    task["finished_at"] = datetime.now(timezone.utc).isoformat()
+    return {"status": "cancelled"}
 
 
 @app.get("/api/viral-sources")

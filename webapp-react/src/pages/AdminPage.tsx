@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import {
   Shield, LogOut, Loader2, KeyRound, Copy, CheckCircle2,
   RefreshCw, X, ExternalLink, FileSpreadsheet, Sparkles,
+  Clock, Plus, Trash2, Power,
 } from 'lucide-react'
 import clsx from 'clsx'
-import { apiGet, apiPost } from '../api/client'
+import { apiGet, apiPost, apiDelete } from '../api/client'
 import { Button, Badge, Card, CardBody, Spinner } from '../components/ui'
 
 const ALL_PAGES = ['dashboard', 'generate', 'graph', 'coverage', 'workflow', 'history', 'config']
@@ -13,6 +14,12 @@ const ALL_PAGES = ['dashboard', 'generate', 'graph', 'coverage', 'workflow', 'hi
 interface FounderProfile {
   slug: string; display_name: string; subdomain: string; url: string
   has_password: boolean; last_reset_at: string | null; pages: string[]; graph_path: string
+}
+
+interface Schedule {
+  id: string; founder_slug: string; hour: number; minute: number
+  days: string[]; n_sources: number; creativity: number; effort: string
+  enabled: boolean; created_at: string; last_run: string | null; last_status: string | null
 }
 
 function formatTimeAgo(iso: string | null): string {
@@ -35,6 +42,44 @@ export default function AdminPage() {
   const [revealedPw, setRevealedPw] = useState<{ slug: string; password: string } | null>(null)
   const [copied, setCopied] = useState(false)
 
+  // Schedule state
+  const [schedules, setSchedules] = useState<Schedule[]>([])
+  const [showNewSchedule, setShowNewSchedule] = useState(false)
+  const [newSched, setNewSched] = useState({ founder_slug: '', hour: 9, minute: 0, days: ['mon', 'tue', 'wed', 'thu', 'fri'], n_sources: 3, creativity: 0.5, effort: 'high' })
+  const [savingSchedule, setSavingSchedule] = useState(false)
+
+  const refreshSchedules = useCallback(async () => {
+    try {
+      const data = await apiGet<{ schedules: Schedule[] }>('/api/admin/schedules')
+      setSchedules(data.schedules)
+    } catch { /* ignore */ }
+  }, [])
+
+  const createSchedule = async () => {
+    if (!newSched.founder_slug) return
+    setSavingSchedule(true)
+    try {
+      await apiPost('/api/admin/schedules', newSched)
+      await refreshSchedules()
+      setShowNewSchedule(false)
+    } catch { /* ignore */ }
+    finally { setSavingSchedule(false) }
+  }
+
+  const toggleSchedule = async (id: string) => {
+    try {
+      await apiPost(`/api/admin/schedules/${id}/toggle`, {})
+      await refreshSchedules()
+    } catch { /* ignore */ }
+  }
+
+  const deleteSchedule = async (id: string) => {
+    try {
+      await apiDelete(`/api/admin/schedules/${id}`)
+      await refreshSchedules()
+    } catch { /* ignore */ }
+  }
+
   const refresh = useCallback(async () => {
     setLoading(true)
     try {
@@ -46,9 +91,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     apiGet('/api/admin/me')
-      .then(() => { setAuthed(true); refresh() })
+      .then(() => { setAuthed(true); refresh(); refreshSchedules() })
       .catch(() => { setAuthed(false); navigate('/admin/login', { replace: true }) })
-  }, [navigate, refresh])
+  }, [navigate, refresh, refreshSchedules])
 
   useEffect(() => {
     if (!authed) return
@@ -232,6 +277,124 @@ export default function AdminPage() {
                 data/founders/&lt;slug&gt;/
               </code>
             </p>
+          </CardBody>
+        )}
+      </Card>
+
+      {/* Schedules */}
+      <Card className="mt-6">
+        <div className="flex items-center justify-between border-b border-[var(--border-1)] px-5 py-3.5">
+          <div className="flex items-center gap-2.5">
+            <Clock size={14} className="text-[var(--text-secondary)]" />
+            <h2 className="text-[14px] font-semibold text-[var(--text-primary)]">Scheduled Generation</h2>
+            <span className="text-[11px] text-[var(--text-muted)]">{schedules.length} schedule{schedules.length !== 1 ? 's' : ''}</span>
+          </div>
+          <Button variant="primary" size="xs" onClick={() => { setShowNewSchedule(true); if (profiles.length) setNewSched(s => ({ ...s, founder_slug: s.founder_slug || profiles[0].slug })) }} icon={<Plus size={12} />}>
+            Add
+          </Button>
+        </div>
+
+        {schedules.length === 0 && !showNewSchedule && (
+          <CardBody>
+            <p className="py-4 text-center text-[12px] text-[var(--text-muted)]">
+              No schedules configured. Add one to auto-generate posts on a recurring basis.
+            </p>
+          </CardBody>
+        )}
+
+        {schedules.length > 0 && (
+          <div className="divide-y divide-[var(--border-2)]">
+            {schedules.map(s => (
+              <div key={s.id} className="flex items-center gap-4 px-5 py-3 text-[12px]">
+                <button onClick={() => toggleSchedule(s.id)} title={s.enabled ? 'Disable' : 'Enable'}>
+                  <Power size={14} className={s.enabled ? 'text-[var(--success)]' : 'text-[var(--text-faint)]'} />
+                </button>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-[var(--text-primary)]">{s.founder_slug}</span>
+                    <span className="text-[var(--text-muted)]">
+                      {String(s.hour).padStart(2, '0')}:{String(s.minute).padStart(2, '0')} UTC
+                    </span>
+                    <span className="text-[10px] text-[var(--text-faint)]">
+                      {s.days.map(d => d.slice(0, 3)).join(', ')}
+                    </span>
+                  </div>
+                  <div className="mt-0.5 text-[10px] text-[var(--text-faint)]">
+                    {s.n_sources} sources · {s.effort} effort
+                    {s.last_run && ` · last run ${formatTimeAgo(s.last_run)}`}
+                    {s.last_status && ` (${s.last_status})`}
+                  </div>
+                </div>
+                <button onClick={() => deleteSchedule(s.id)} className="text-[var(--text-faint)] hover:text-[var(--error)] transition-colors">
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {showNewSchedule && (
+          <CardBody className="border-t border-[var(--border-2)]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Founder</label>
+                <select
+                  value={newSched.founder_slug}
+                  onChange={e => setNewSched(s => ({ ...s, founder_slug: e.target.value }))}
+                  className="field w-full text-[12px]"
+                >
+                  <option value="">Select...</option>
+                  {profiles.map(p => <option key={p.slug} value={p.slug}>{p.display_name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Time (UTC)</label>
+                <div className="flex gap-1">
+                  <input type="number" min={0} max={23} value={newSched.hour} onChange={e => setNewSched(s => ({ ...s, hour: Number(e.target.value) }))} className="field w-14 text-[12px] text-center" />
+                  <span className="text-[var(--text-muted)] self-center">:</span>
+                  <input type="number" min={0} max={59} step={15} value={newSched.minute} onChange={e => setNewSched(s => ({ ...s, minute: Number(e.target.value) }))} className="field w-14 text-[12px] text-center" />
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Sources</label>
+                <input type="number" min={1} max={10} value={newSched.n_sources} onChange={e => setNewSched(s => ({ ...s, n_sources: Number(e.target.value) }))} className="field w-full text-[12px]" />
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Effort</label>
+                <select value={newSched.effort} onChange={e => setNewSched(s => ({ ...s, effort: e.target.value }))} className="field w-full text-[12px]">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+            </div>
+            <div className="mt-3 flex items-center gap-2 flex-wrap">
+              {['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(d => (
+                <button
+                  key={d}
+                  onClick={() => setNewSched(s => ({
+                    ...s,
+                    days: s.days.includes(d) ? s.days.filter(x => x !== d) : [...s.days, d],
+                  }))}
+                  className={clsx(
+                    'rounded-md px-2 py-1 text-[10px] font-medium uppercase transition-colors',
+                    newSched.days.includes(d)
+                      ? 'bg-white text-black'
+                      : 'bg-[var(--surface-3)] text-[var(--text-faint)]',
+                  )}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 flex items-center gap-2">
+              <Button variant="primary" size="sm" onClick={createSchedule} disabled={savingSchedule || !newSched.founder_slug} loading={savingSchedule}>
+                Create Schedule
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setShowNewSchedule(false)}>
+                Cancel
+              </Button>
+            </div>
           </CardBody>
         )}
       </Card>

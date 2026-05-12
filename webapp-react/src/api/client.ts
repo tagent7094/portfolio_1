@@ -57,6 +57,21 @@ export async function apiPut<T>(url: string, body: any): Promise<T> {
   return res.json()
 }
 
+export async function apiUpload<T>(url: string, file: File): Promise<T> {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await fetch(`${BASE}${url}`, {
+    method: 'POST',
+    body: form,
+    credentials: 'include',
+  })
+  if (!res.ok) {
+    _maybeRedirectOn401(res.status, url)
+    throw new Error(`UPLOAD ${url}: ${res.status}`)
+  }
+  return res.json()
+}
+
 export async function apiDelete<T>(url: string): Promise<T> {
   const res = await fetch(`${BASE}${url}`, { method: 'DELETE', credentials: 'include' })
   if (!res.ok) {

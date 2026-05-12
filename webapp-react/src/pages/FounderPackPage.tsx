@@ -4,9 +4,10 @@ import {
   ArrowLeft, FileSpreadsheet, Calendar, ChevronDown,
   Loader2, X, Search,
   Download, Sheet, Sun, Moon, Eye, EyeOff, Play, Cpu,
+  Upload,
 } from 'lucide-react'
 import clsx from 'clsx'
-import { apiGet, apiPost, streamSSE } from '../api/client'
+import { apiGet, apiPost, apiUpload } from '../api/client'
 import { useTheme } from '../hooks/useTheme'
 import TraceViewer from '../components/TraceViewer'
 import PostCustomizer from '../components/PostCustomizer'
@@ -44,7 +45,7 @@ export default function FounderPackPage() {
   const [groupMenuOpen, setGroupMenuOpen] = useState(false)
   const [sheetExporting, setSheetExporting] = useState(false)
 
-  // Batch generation state
+  // Batch generation state (background polling)
   const [generating, setGenerating] = useState(false)
   const [genProgress, setGenProgress] = useState(0)
   const [genStage, setGenStage] = useState('')
@@ -52,7 +53,13 @@ export default function FounderPackPage() {
   const [genConfig, setGenConfig] = useState(searchParams.get('generate') === '1')
   const [nSources, setNSources] = useState(1)
   const [creativity, setCreativity] = useState(0.5)
-  const genAbortRef = useRef<AbortController | null>(null)
+  const [genTaskId, setGenTaskId] = useState<string | null>(null)
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const logOffsetRef = useRef(0)
+
+  // Upload state
+  const uploadRef = useRef<HTMLInputElement>(null)
+  const [uploading, setUploading] = useState(false)
 
   // Effort toggle
   const [effort, setEffort] = useState<'low' | 'medium' | 'high'>('high')
@@ -168,6 +175,46 @@ export default function FounderPackPage() {
     }
   }
 
+  const startPolling = useCallback((taskId: string) => {
+    if (pollRef.current) clearInterval(pollRef.current)
+    logOffsetRef.current = 0
+    pollRef.current = setInterval(async () => {
+      try {
+        const res = await apiGet<any>(`/api/generate/batch/status/${taskId}?since=${logOffsetRef.current}`)
+        setGenProgress(res.progress || 0)
+        setGenStage(res.stage || '')
+        if (res.log?.length) {
+          setGenLog(prev => [...prev, ...res.log.map((l: any) => `${l.stage}: ${l.status}`)])
+          logOffsetRef.current = res.log_offset
+        }
+        if (res.status !== 'running') {
+          clearInterval(pollRef.current!)
+          pollRef.current = null
+          setGenerating(false)
+          setGenTaskId(null)
+          localStorage.removeItem(`gen_task_${slug}`)
+          if (res.status === 'done') refreshPacks(true)
+          if (res.error) setGenLog(prev => [...prev, `error: ${res.error}`])
+        }
+      } catch {
+        // polling failed, retry next interval
+      }
+    }, 3000)
+  }, [slug, refreshPacks])
+
+  // Resume polling on mount if a task was running
+  useEffect(() => {
+    if (!slug) return
+    const savedTask = localStorage.getItem(`gen_task_${slug}`)
+    if (savedTask) {
+      setGenTaskId(savedTask)
+      setGenerating(true)
+      setGenStage('resuming...')
+      startPolling(savedTask)
+    }
+    return () => { if (pollRef.current) clearInterval(pollRef.current) }
+  }, [slug, startPolling])
+
   const handleGenerate = async () => {
     if (!slug) return
     setGenConfig(false)
@@ -176,38 +223,43 @@ export default function FounderPackPage() {
     setGenStage('starting')
     setGenLog([])
 
-    const abort = new AbortController()
-    genAbortRef.current = abort
-
     try {
-      await streamSSE(
-        '/api/generate/batch/stream',
-        { founder_slug: slug, n_sources: nSources, creativity, effort, platform: 'linkedin' },
-        (event) => {
-          setGenProgress(event.progress || 0)
-          setGenStage(event.stage)
-          setGenLog(prev => [...prev, `${event.stage}: ${event.status}`])
-          if (event.status === 'pipeline_done') {
-            setGenerating(false)
-            refreshPacks(true)
-          }
-        },
-        abort.signal,
-      )
+      const res = await apiPost<{ task_id: string }>('/api/generate/batch/background', {
+        founder_slug: slug, n_sources: nSources, creativity, effort, platform: 'linkedin',
+      })
+      setGenTaskId(res.task_id)
+      localStorage.setItem(`gen_task_${slug}`, res.task_id)
+      startPolling(res.task_id)
     } catch (e: any) {
-      if (e?.name !== 'AbortError') {
-        setGenLog(prev => [...prev, `error: ${e?.message || 'generation failed'}`])
-      }
-    } finally {
+      setGenLog(prev => [...prev, `error: ${e?.message || 'failed to start'}`])
       setGenerating(false)
-      genAbortRef.current = null
     }
   }
 
-  const cancelGenerate = () => {
-    genAbortRef.current?.abort()
+  const cancelGenerate = async () => {
+    if (genTaskId) {
+      try { await apiPost(`/api/generate/batch/cancel/${genTaskId}`, {}) } catch {}
+      localStorage.removeItem(`gen_task_${slug}`)
+    }
+    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null }
     setGenerating(false)
+    setGenTaskId(null)
     setGenConfig(false)
+  }
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !slug) return
+    setUploading(true)
+    try {
+      await apiUpload(`/api/admin/founders/${slug}/upload-pack`, file)
+      refreshPacks(true)
+    } catch (err: any) {
+      alert(`Upload failed: ${err?.message || 'unknown error'}`)
+    } finally {
+      setUploading(false)
+      if (uploadRef.current) uploadRef.current.value = ''
+    }
   }
 
   const loadTraces = async () => {
@@ -355,6 +407,25 @@ export default function FounderPackPage() {
             >
               {sheetExporting ? <Loader2 size={12} className="animate-spin" /> : <Sheet size={12} />}
               <span className="hidden sm:inline">Sheets</span>
+            </button>
+
+            {/* Upload */}
+            <input
+              ref={uploadRef}
+              type="file"
+              accept=".xlsx"
+              onChange={handleUpload}
+              className="hidden"
+            />
+            <button
+              onClick={() => uploadRef.current?.click()}
+              disabled={uploading}
+              className={clsx(navBtn, 'disabled:opacity-40')}
+              style={navBtnStyle}
+              title="Upload Excel post pack"
+            >
+              {uploading ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
+              <span className="hidden sm:inline">Upload</span>
             </button>
 
             {/* Generate */}

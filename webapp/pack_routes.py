@@ -16,7 +16,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Header, HTTPException, Request
+from fastapi import APIRouter, Header, HTTPException, Request, UploadFile, File
 from pydantic import BaseModel
 
 from webapp.auth_routes import _require_admin
@@ -443,3 +443,32 @@ async def setup_google_key(request: Request, x_setup_token: str = Header(default
 
     logger.info("Google service account key installed at %s", SA_FILE)
     return {"ok": True, "path": str(SA_FILE)}
+
+
+# ── Excel upload ────────────────────────────────────────────────────────────
+
+@router.post("/{slug}/upload-pack")
+async def upload_pack(slug: str, request: Request, file: UploadFile = File(...)):
+    """Upload an Excel file as a new post pack."""
+    _require_admin(request)
+
+    if not file.filename or not file.filename.endswith(".xlsx"):
+        raise HTTPException(status_code=400, detail="Only .xlsx files are accepted")
+
+    post_dir = _post_data_dir(slug)
+    post_dir.mkdir(parents=True, exist_ok=True)
+
+    from datetime import date as _date
+    today = _date.today().isoformat()
+
+    existing = [f for f in post_dir.glob(f"*{today}*.xlsx") if "upload" in f.name]
+    suffix = f"_{len(existing)}" if existing else ""
+    dest_name = f"{slug}_upload_{today}{suffix}.xlsx"
+    dest = post_dir / dest_name
+
+    content = await file.read()
+    dest.write_bytes(content)
+    logger.info("[upload] Saved %s (%d bytes)", dest, len(content))
+
+    d = _extract_date(dest_name)
+    return {"filename": dest_name, "date": d, "size_kb": round(len(content) / 1024, 1)}
