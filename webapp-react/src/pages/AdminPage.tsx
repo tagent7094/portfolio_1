@@ -1,12 +1,14 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Shield, LogOut, Loader2, KeyRound, Copy, CheckCircle2,
   RefreshCw, X, ExternalLink, FileSpreadsheet, Sparkles,
-  Clock, Plus, Trash2, Power,
+  Clock, Plus, Trash2, Power, Upload, Database, Search,
+  ThumbsUp, MessageSquare, Repeat2, Star, ChevronDown,
+  LayoutDashboard, GitFork, Merge,
 } from 'lucide-react'
 import clsx from 'clsx'
-import { apiGet, apiPost, apiDelete } from '../api/client'
+import { apiGet, apiPost, apiDelete, apiUpload } from '../api/client'
 import { Button, Badge, Card, CardBody, Spinner } from '../components/ui'
 
 const ALL_PAGES = ['dashboard', 'generate', 'graph', 'coverage', 'workflow', 'history', 'config']
@@ -80,6 +82,111 @@ export default function AdminPage() {
     } catch { /* ignore */ }
   }
 
+  // Viral repo state
+  const [repoFiles, setRepoFiles] = useState<{ name: string; size_kb: number; post_count: number; active: boolean }[]>([])
+  const [repoLoading, setRepoLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [combineMode, setCombineMode] = useState(false)
+  const [combineSelected, setCombineSelected] = useState<Set<string>>(new Set())
+  const [combineName, setCombineName] = useState('')
+  const [combining, setCombining] = useState(false)
+  const [activating, setActivating] = useState<string | null>(null)
+  const uploadRef = useRef<HTMLInputElement>(null)
+
+  // Viral post browser state
+  const [vpSources, setVpSources] = useState<any[]>([])
+  const [vpTotal, setVpTotal] = useState(0)
+  const [vpLoading, setVpLoading] = useState(false)
+  const [vpQuery, setVpQuery] = useState('')
+  const [vpMinLikes, setVpMinLikes] = useState('')
+  const [vpMaxLikes, setVpMaxLikes] = useState('')
+  const [vpMinComments, setVpMinComments] = useState('')
+  const [vpMaxComments, setVpMaxComments] = useState('')
+  const [vpSortBy, setVpSortBy] = useState('engagement_score')
+  const [vpFounder, setVpFounder] = useState('')
+  const [vpPage, setVpPage] = useState(1)
+  const [vpExpanded, setVpExpanded] = useState(false)
+
+  const refreshRepos = useCallback(async () => {
+    setRepoLoading(true)
+    try {
+      const data = await apiGet<{ files: any[] }>('/api/admin/viral-repos')
+      setRepoFiles(data.files)
+    } catch {}
+    finally { setRepoLoading(false) }
+  }, [])
+
+  const handleRepoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      await apiUpload('/api/admin/viral-repos/upload', file)
+      await refreshRepos()
+    } catch (err: any) { alert(`Upload failed: ${err?.message}`) }
+    finally { setUploading(false); if (uploadRef.current) uploadRef.current.value = '' }
+  }
+
+  const handleRepoDelete = async (name: string) => {
+    try {
+      await apiDelete(`/api/admin/viral-repos/${encodeURIComponent(name)}`)
+      await refreshRepos()
+    } catch (err: any) { alert(err?.message) }
+  }
+
+  const handleRepoActivate = async (name: string) => {
+    setActivating(name)
+    try {
+      await apiPost('/api/admin/viral-repos/activate', { filename: name })
+      await refreshRepos()
+    } catch (err: any) { alert(err?.message) }
+    finally { setActivating(null) }
+  }
+
+  const handleCombine = async () => {
+    if (combineSelected.size < 2 || !combineName.trim()) return
+    setCombining(true)
+    try {
+      await apiPost('/api/admin/viral-repos/combine', { files: Array.from(combineSelected), output_name: combineName.trim() })
+      await refreshRepos()
+      setCombineMode(false)
+      setCombineSelected(new Set())
+      setCombineName('')
+    } catch (err: any) { alert(err?.message) }
+    finally { setCombining(false) }
+  }
+
+  const fetchViralPosts = useCallback(async () => {
+    setVpLoading(true)
+    try {
+      const params = new URLSearchParams()
+      if (vpQuery) params.set('q', vpQuery)
+      if (vpMinLikes) params.set('min_likes', vpMinLikes)
+      if (vpMaxLikes) params.set('max_likes', vpMaxLikes)
+      if (vpMinComments) params.set('min_comments', vpMinComments)
+      if (vpMaxComments) params.set('max_comments', vpMaxComments)
+      params.set('limit', '20')
+      params.set('offset', String((vpPage - 1) * 20))
+
+      let data: any
+      if (vpSortBy === 'best_match' && vpFounder) {
+        params.set('page', String(vpPage))
+        params.set('page_size', '20')
+        data = await apiGet(`/api/admin/viral-posts/best-match/${vpFounder}?${params}`)
+      } else {
+        params.set('sort_by', vpSortBy)
+        data = await apiGet(`/api/viral-sources?${params}`)
+      }
+      setVpSources(data.sources || [])
+      setVpTotal(data.total || 0)
+    } catch {}
+    finally { setVpLoading(false) }
+  }, [vpQuery, vpMinLikes, vpMaxLikes, vpMinComments, vpMaxComments, vpSortBy, vpFounder, vpPage])
+
+  useEffect(() => {
+    if (vpExpanded) fetchViralPosts()
+  }, [vpExpanded, fetchViralPosts])
+
   const refresh = useCallback(async () => {
     setLoading(true)
     try {
@@ -91,9 +198,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     apiGet('/api/admin/me')
-      .then(() => { setAuthed(true); refresh(); refreshSchedules() })
+      .then(() => { setAuthed(true); refresh(); refreshSchedules(); refreshRepos() })
       .catch(() => { setAuthed(false); navigate('/admin/login', { replace: true }) })
-  }, [navigate, refresh, refreshSchedules])
+  }, [navigate, refresh, refreshSchedules, refreshRepos])
 
   useEffect(() => {
     if (!authed) return
@@ -193,12 +300,12 @@ export default function AdminPage() {
                     <td className="px-5 py-3.5">
                       <p className="font-semibold text-[var(--text-primary)]">{display_name}</p>
                       <p className="mt-0.5 font-[var(--font-mono)] text-[11px] text-[var(--text-muted)]">{slug}</p>
-                      <div className="mt-1.5 flex items-center gap-3">
+                      <div className="mt-1.5 flex items-center gap-3 flex-wrap">
                         <button
                           onClick={() => navigate(`/admin/founders/${slug}`)}
                           className="inline-flex items-center gap-1 text-[11px] text-[var(--text-muted)] transition-colors hover:text-[var(--text-secondary)]"
                         >
-                          <FileSpreadsheet size={11} /> Post packs
+                          <FileSpreadsheet size={11} /> Packs
                         </button>
                         <button
                           onClick={() => navigate(`/admin/founders/${slug}?generate=1`)}
@@ -206,6 +313,22 @@ export default function AdminPage() {
                         >
                           <Sparkles size={11} /> Generate
                         </button>
+                        <a
+                          href={`${url}/`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] text-sky-400 transition-colors hover:text-sky-300"
+                        >
+                          <LayoutDashboard size={11} /> Dashboard
+                        </a>
+                        <a
+                          href={`${url}/graph`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] text-emerald-400 transition-colors hover:text-emerald-300"
+                        >
+                          <GitFork size={11} /> Graph
+                        </a>
                       </div>
                     </td>
                     <td className="px-5 py-3.5 hidden sm:table-cell">
@@ -396,6 +519,243 @@ export default function AdminPage() {
               </Button>
             </div>
           </CardBody>
+        )}
+      </Card>
+
+      {/* Viral Repo Manager */}
+      <Card className="mt-6">
+        <div className="flex items-center justify-between border-b border-[var(--border-1)] px-5 py-3.5">
+          <div className="flex items-center gap-2.5">
+            <Database size={14} className="text-[var(--text-secondary)]" />
+            <h2 className="text-[14px] font-semibold text-[var(--text-primary)]">Viral Post Repository</h2>
+            <span className="text-[11px] text-[var(--text-muted)]">{repoFiles.length} file{repoFiles.length !== 1 ? 's' : ''}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {combineMode ? (
+              <>
+                <input
+                  type="text"
+                  value={combineName}
+                  onChange={e => setCombineName(e.target.value)}
+                  placeholder="combined-name"
+                  className="field text-[11px] w-36"
+                />
+                <Button variant="primary" size="xs" onClick={handleCombine} disabled={combining || combineSelected.size < 2 || !combineName.trim()} loading={combining} icon={<Merge size={11} />}>
+                  Merge {combineSelected.size}
+                </Button>
+                <Button variant="ghost" size="xs" onClick={() => { setCombineMode(false); setCombineSelected(new Set()) }}>
+                  Cancel
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="secondary" size="xs" onClick={() => setCombineMode(true)} icon={<Merge size={11} />}>
+                  Combine
+                </Button>
+                <input ref={uploadRef} type="file" accept=".csv,.xlsx" onChange={handleRepoUpload} className="hidden" />
+                <Button variant="primary" size="xs" onClick={() => uploadRef.current?.click()} disabled={uploading} loading={uploading} icon={<Upload size={11} />}>
+                  Upload
+                </Button>
+              </>
+            )}
+          </div>
+        </div>
+
+        {repoLoading ? (
+          <CardBody><Loader2 size={16} className="mx-auto animate-spin text-[var(--text-muted)]" /></CardBody>
+        ) : repoFiles.length === 0 ? (
+          <CardBody>
+            <p className="py-4 text-center text-[12px] text-[var(--text-muted)]">
+              No viral post files found. Upload a CSV or XLSX file to get started.
+            </p>
+          </CardBody>
+        ) : (
+          <div className="divide-y divide-[var(--border-2)]">
+            {repoFiles.map(f => (
+              <div key={f.name} className="flex items-center gap-4 px-5 py-3 text-[12px]">
+                {combineMode && (
+                  <input
+                    type="checkbox"
+                    checked={combineSelected.has(f.name)}
+                    onChange={() => {
+                      const next = new Set(combineSelected)
+                      if (next.has(f.name)) next.delete(f.name)
+                      else next.add(f.name)
+                      setCombineSelected(next)
+                    }}
+                    className="accent-white"
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-[var(--text-primary)] truncate">{f.name}</span>
+                    {f.active && <Badge variant="default">Active</Badge>}
+                  </div>
+                  <span className="text-[10px] text-[var(--text-faint)]">
+                    {f.size_kb} KB · {f.post_count.toLocaleString()} posts
+                  </span>
+                </div>
+                {!combineMode && (
+                  <div className="flex items-center gap-2">
+                    {!f.active && (
+                      <Button
+                        variant="secondary" size="xs"
+                        onClick={() => handleRepoActivate(f.name)}
+                        disabled={activating === f.name}
+                        loading={activating === f.name}
+                        icon={<Power size={11} />}
+                      >
+                        Activate
+                      </Button>
+                    )}
+                    {!f.active && (
+                      <button onClick={() => handleRepoDelete(f.name)} className="text-[var(--text-faint)] hover:text-[var(--error)] transition-colors">
+                        <Trash2 size={13} />
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+
+      {/* Viral Post Browser */}
+      <Card className="mt-6">
+        <button
+          onClick={() => setVpExpanded(v => !v)}
+          className="flex w-full items-center justify-between px-5 py-3.5 text-left"
+        >
+          <div className="flex items-center gap-2.5">
+            <Search size={14} className="text-[var(--text-secondary)]" />
+            <h2 className="text-[14px] font-semibold text-[var(--text-primary)]">Viral Post Browser</h2>
+            <span className="text-[11px] text-[var(--text-muted)]">{vpTotal.toLocaleString()} posts</span>
+          </div>
+          <ChevronDown size={14} className={clsx('text-[var(--text-muted)] transition-transform', vpExpanded && 'rotate-180')} />
+        </button>
+
+        {vpExpanded && (
+          <>
+            <div className="border-t border-[var(--border-2)] px-5 py-3 space-y-3">
+              {/* Search + Founder selector */}
+              <div className="flex gap-2 flex-wrap">
+                <div className="relative flex-1 min-w-[200px]">
+                  <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-faint)]" />
+                  <input
+                    type="text"
+                    value={vpQuery}
+                    onChange={e => { setVpQuery(e.target.value); setVpPage(1) }}
+                    placeholder="Search posts..."
+                    className="field w-full pl-8 text-[12px]"
+                  />
+                </div>
+                <select
+                  value={vpFounder}
+                  onChange={e => { setVpFounder(e.target.value); setVpPage(1) }}
+                  className="field text-[12px] w-40"
+                >
+                  <option value="">All founders</option>
+                  {profiles.map(p => <option key={p.slug} value={p.slug}>{p.display_name}</option>)}
+                </select>
+                <select
+                  value={vpSortBy}
+                  onChange={e => { setVpSortBy(e.target.value); setVpPage(1) }}
+                  className="field text-[12px] w-40"
+                >
+                  <option value="engagement_score">Engagement</option>
+                  <option value="likes">Likes</option>
+                  <option value="comments">Comments</option>
+                  <option value="reposts">Reposts</option>
+                  {vpFounder && <option value="best_match">Best Match</option>}
+                </select>
+              </div>
+
+              {/* Engagement filters */}
+              <div className="flex gap-3 flex-wrap text-[11px]">
+                <div className="flex items-center gap-1.5">
+                  <ThumbsUp size={11} className="text-[var(--text-faint)]" />
+                  <input type="number" placeholder="Min" value={vpMinLikes} onChange={e => { setVpMinLikes(e.target.value); setVpPage(1) }} className="field w-16 text-[11px] text-center" />
+                  <span className="text-[var(--text-faint)]">–</span>
+                  <input type="number" placeholder="Max" value={vpMaxLikes} onChange={e => { setVpMaxLikes(e.target.value); setVpPage(1) }} className="field w-16 text-[11px] text-center" />
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <MessageSquare size={11} className="text-[var(--text-faint)]" />
+                  <input type="number" placeholder="Min" value={vpMinComments} onChange={e => { setVpMinComments(e.target.value); setVpPage(1) }} className="field w-16 text-[11px] text-center" />
+                  <span className="text-[var(--text-faint)]">–</span>
+                  <input type="number" placeholder="Max" value={vpMaxComments} onChange={e => { setVpMaxComments(e.target.value); setVpPage(1) }} className="field w-16 text-[11px] text-center" />
+                </div>
+                <Button variant="secondary" size="xs" onClick={() => { setVpPage(1); fetchViralPosts() }} icon={<Search size={11} />}>
+                  Search
+                </Button>
+              </div>
+            </div>
+
+            {/* Results */}
+            <div className="border-t border-[var(--border-2)]">
+              {vpLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 size={16} className="animate-spin text-[var(--text-muted)]" />
+                </div>
+              ) : vpSources.length === 0 ? (
+                <div className="py-8 text-center text-[12px] text-[var(--text-muted)]">No posts found</div>
+              ) : (
+                <div className="divide-y divide-[var(--border-2)]">
+                  {vpSources.map((src: any) => (
+                    <div key={src.id} className="px-5 py-3">
+                      <p className="text-[12px] text-[var(--text-secondary)] leading-relaxed line-clamp-3">
+                        {src.content}
+                      </p>
+                      <div className="mt-2 flex items-center gap-3 text-[10px] text-[var(--text-faint)] flex-wrap">
+                        {src.likes > 0 && (
+                          <span className="flex items-center gap-1"><ThumbsUp size={10} /> {src.likes.toLocaleString()}</span>
+                        )}
+                        {src.comments > 0 && (
+                          <span className="flex items-center gap-1"><MessageSquare size={10} /> {src.comments.toLocaleString()}</span>
+                        )}
+                        {src.reposts > 0 && (
+                          <span className="flex items-center gap-1"><Repeat2 size={10} /> {src.reposts.toLocaleString()}</span>
+                        )}
+                        {src.content_type && (
+                          <span className="rounded bg-[var(--surface-3)] px-1.5 py-0.5">{src.content_type}</span>
+                        )}
+                        {src.match_score != null && (
+                          <span className="flex items-center gap-1 text-amber-400">
+                            <Star size={10} /> {src.match_score}% match ({src.matched_keywords} keywords)
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Pagination */}
+              {vpTotal > 20 && (
+                <div className="flex items-center justify-between border-t border-[var(--border-2)] px-5 py-2.5 text-[11px]">
+                  <span className="text-[var(--text-faint)]">
+                    Page {vpPage} of {Math.ceil(vpTotal / 20)}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setVpPage(p => Math.max(1, p - 1))}
+                      disabled={vpPage <= 1}
+                      className="rounded px-2 py-1 text-[var(--text-muted)] disabled:opacity-30 hover:bg-[var(--surface-3)]"
+                    >
+                      Prev
+                    </button>
+                    <button
+                      onClick={() => setVpPage(p => p + 1)}
+                      disabled={vpPage >= Math.ceil(vpTotal / 20)}
+                      className="rounded px-2 py-1 text-[var(--text-muted)] disabled:opacity-30 hover:bg-[var(--surface-3)]"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </Card>
 

@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
@@ -1000,72 +1000,352 @@ async def cancel_batch_task(task_id: str):
 
 
 @app.get("/api/viral-sources")
-async def list_viral_sources(q: str = "", limit: int = 50, offset: int = 0):
-    """Browse available viral source posts for manual selection."""
-    import csv
-    from pathlib import Path
+async def list_viral_sources(
+    q: str = "",
+    limit: int = 50,
+    offset: int = 0,
+    min_likes: int | None = None,
+    max_likes: int | None = None,
+    min_comments: int | None = None,
+    max_comments: int | None = None,
+    min_reposts: int | None = None,
+    max_reposts: int | None = None,
+    sort_by: str = "engagement_score",
+):
+    """Browse viral source posts with engagement filters."""
+    from src.customizer.post_db import browse_posts, search_posts
 
-    csv_path = Path(__file__).parent.parent / "data" / "viral-posts-samples" / "viral-linkedin-posts.csv"
-    md_path = Path(__file__).parent.parent / "data" / "viral-posts-samples" / "viral-linkedin.md"
-    sources = []
-
-    if csv_path.exists():
-        with open(csv_path, "r", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                content = row.get("Post content", "").strip()
-                if not content or len(content) < 50:
-                    continue
-                sources.append({
-                    "id": f"csv_{len(sources)}",
-                    "content": content,
-                    "likes": int(row.get("Likes", 0) or 0),
-                    "comments": int(row.get("Comments", 0) or 0),
-                    "reposts": int(row.get("Reposts", 0) or 0),
-                    "creator": row.get("LinkedIn Profile of Creator", ""),
-                    "content_type": row.get("Content type", ""),
-                    "source": "csv",
-                })
-
-    if md_path.exists():
-        import re
-        text = md_path.read_text(encoding="utf-8")
-        chunks = re.split(r"\n## ", text)
-        for i, chunk in enumerate(chunks):
-            if i == 0 and not chunk.startswith("##"):
-                continue
-            chunk = chunk.strip()
-            if len(chunk) < 50:
-                continue
-            title_match = re.match(r"^(.+?)(?:\n|$)", chunk)
-            title = title_match.group(1) if title_match else f"Sample {i}"
-            body = chunk[len(title):].strip() if title_match else chunk
-            sources.append({
-                "id": f"md_{i}",
-                "content": body,
-                "likes": 0,
-                "comments": 0,
-                "reposts": 0,
-                "creator": "",
-                "content_type": title,
-                "source": "curated",
-            })
+    page_num = (offset // limit) + 1 if limit else 1
 
     if q:
-        q_lower = q.lower()
-        sources = [s for s in sources if q_lower in s["content"].lower() or q_lower in s.get("content_type", "").lower()]
+        result = search_posts(query=q, page=page_num, page_size=limit)
+    else:
+        result = browse_posts(
+            page=page_num, page_size=limit,
+            min_likes=min_likes, max_likes=max_likes,
+            min_comments=min_comments, max_comments=max_comments,
+            min_reposts=min_reposts, max_reposts=max_reposts,
+            sort_by=sort_by if sort_by in {"engagement_score", "likes", "comments", "reposts"} else "engagement_score",
+        )
 
-    total = len(sources)
-    sources.sort(key=lambda s: s["likes"] + s["comments"] * 3 + s["reposts"] * 2, reverse=True)
-    page = sources[offset:offset + limit]
-
-    return {"sources": page, "total": total}
+    sources = [
+        {
+            "id": p["post_id"],
+            "content": p["content"],
+            "likes": p["likes"],
+            "comments": p["comments"],
+            "reposts": p["reposts"],
+            "creator": p.get("creator_url", ""),
+            "content_type": p.get("content_type", ""),
+            "source": "csv",
+            "engagement_score": p.get("engagement_score", 0),
+        }
+        for p in result["posts"]
+    ]
+    return {"sources": sources, "total": result["total"]}
 
 
 @app.get("/api/posts/stats")
 async def posts_stats():
     from src.customizer.post_db import count_posts
     return {"total": count_posts()}
+
+
+## ── Viral Repo Management (admin) ──────────────────────────────────────────
+
+VIRAL_DIR = PROJECT_ROOT / "data" / "viral-posts-samples"
+
+
+@app.get("/api/admin/viral-repos")
+async def list_viral_repos(request: Request):
+    """List viral post repo files."""
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+
+    from src.config.founders import get_viral_csv_path
+    active_path = get_viral_csv_path()
+    active_name = Path(active_path).name if active_path else ""
+
+    files = []
+    if VIRAL_DIR.exists():
+        for f in sorted(VIRAL_DIR.iterdir()):
+            if f.suffix.lower() in (".csv", ".xlsx"):
+                post_count = 0
+                try:
+                    from src.ingestion.viral_csv_parser import parse_viral_csv
+                    post_count = len(parse_viral_csv(str(f)))
+                except Exception:
+                    pass
+                files.append({
+                    "name": f.name,
+                    "size_kb": round(f.stat().st_size / 1024, 1),
+                    "post_count": post_count,
+                    "active": f.name == active_name,
+                })
+    return {"files": files, "active": active_name}
+
+
+@app.post("/api/admin/viral-repos/upload")
+async def upload_viral_repo(request: Request, file: UploadFile = File(...)):
+    """Upload a viral post CSV/XLSX file."""
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+
+    if not file.filename or file.filename.split(".")[-1].lower() not in ("csv", "xlsx"):
+        raise HTTPException(status_code=400, detail="Only .csv and .xlsx files accepted")
+
+    VIRAL_DIR.mkdir(parents=True, exist_ok=True)
+    dest = VIRAL_DIR / file.filename
+    content = await file.read()
+    dest.write_bytes(content)
+    logger.info("[viral-repos] Uploaded %s (%d bytes)", dest.name, len(content))
+
+    post_count = 0
+    try:
+        from src.ingestion.viral_csv_parser import parse_viral_csv
+        post_count = len(parse_viral_csv(str(dest)))
+    except Exception:
+        pass
+
+    return {"name": dest.name, "size_kb": round(len(content) / 1024, 1), "post_count": post_count}
+
+
+@app.delete("/api/admin/viral-repos/{name}")
+async def delete_viral_repo(name: str, request: Request):
+    """Delete a viral repo file."""
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+
+    from src.config.founders import get_viral_csv_path
+    active_name = Path(get_viral_csv_path()).name
+    if name == active_name:
+        raise HTTPException(status_code=400, detail="Cannot delete the active viral repo file")
+
+    target = VIRAL_DIR / name
+    if not target.exists():
+        raise HTTPException(status_code=404, detail="File not found")
+    target.unlink()
+    return {"ok": True}
+
+
+class CombineRequest(BaseModel):
+    files: list[str]
+    output_name: str
+
+
+@app.post("/api/admin/viral-repos/combine")
+async def combine_viral_repos(body: CombineRequest, request: Request):
+    """Merge multiple viral repo files into a combined CSV."""
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+
+    import csv as csv_mod
+    from src.ingestion.viral_csv_parser import parse_viral_csv
+
+    seen_ids: set[str] = set()
+    merged: list[dict] = []
+
+    for fname in body.files:
+        fpath = VIRAL_DIR / fname
+        if not fpath.exists():
+            raise HTTPException(status_code=404, detail=f"File not found: {fname}")
+        records = parse_viral_csv(str(fpath))
+        for r in records:
+            if r["post_id"] not in seen_ids:
+                seen_ids.add(r["post_id"])
+                merged.append(r)
+
+    output_name = body.output_name if body.output_name.endswith(".csv") else f"{body.output_name}.csv"
+    dest = VIRAL_DIR / output_name
+
+    fieldnames = ["post_id", "content", "likes", "comments", "reposts",
+                   "followers", "likes_ratio", "engagement_score", "content_type", "creator_url"]
+    # Write CSV using the standard parser column names expected by re-import
+    with open(dest, "w", newline="", encoding="utf-8") as f:
+        # Use column headers the parser expects
+        writer = csv_mod.writer(f)
+        writer.writerow([
+            "LinkedIn Profile of Creator", "", "Number of followers", "",
+            "Content type", "", "", "Likes vs followers ratio",
+            "Likes", "Comments", "Reposts", "Post content",
+        ])
+        for r in merged:
+            writer.writerow([
+                r.get("creator_url", ""), "", r.get("followers", 0), "",
+                r.get("content_type", ""), "", "", r.get("likes_ratio", 0),
+                r.get("likes", 0), r.get("comments", 0), r.get("reposts", 0),
+                r.get("content", ""),
+            ])
+
+    logger.info("[viral-repos] Combined %d files -> %s (%d posts)", len(body.files), output_name, len(merged))
+    return {"name": output_name, "post_count": len(merged), "size_kb": round(dest.stat().st_size / 1024, 1)}
+
+
+class ActivateRequest(BaseModel):
+    filename: str
+
+
+@app.post("/api/admin/viral-repos/activate")
+async def activate_viral_repo(body: ActivateRequest, request: Request):
+    """Set a file as the active viral post source and re-import into SQLite."""
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+
+    target = VIRAL_DIR / body.filename
+    if not target.exists():
+        raise HTTPException(status_code=404, detail="File not found")
+
+    from src.config.founders import _load_config, _save_config
+    config = _load_config()
+    if "viral_graph" not in config:
+        config["viral_graph"] = {}
+    config["viral_graph"]["source_csv"] = f"data/viral-posts-samples/{body.filename}"
+    _save_config(config)
+
+    from src.customizer.post_db import import_from_csv
+    count = await asyncio.to_thread(import_from_csv, str(target), True)
+
+    logger.info("[viral-repos] Activated %s, imported %d posts", body.filename, count)
+    return {"ok": True, "imported": count}
+
+
+## ── Best-Match: Founder-Post Alignment ─────────────────────────────────────
+
+def _extract_founder_keywords(graph) -> set[str]:
+    """Extract matching keywords from a founder's knowledge graph."""
+    keywords: set[str] = set()
+    stop_words = {
+        "the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
+        "have", "has", "had", "do", "does", "did", "will", "would", "could",
+        "should", "may", "might", "can", "shall", "to", "of", "in", "for",
+        "on", "with", "at", "by", "from", "as", "into", "about", "like",
+        "through", "after", "over", "between", "out", "up", "down", "off",
+        "and", "but", "or", "nor", "not", "no", "so", "yet", "both", "either",
+        "this", "that", "these", "those", "it", "its", "they", "them", "their",
+        "we", "us", "our", "you", "your", "he", "him", "his", "she", "her",
+        "who", "which", "what", "when", "where", "how", "why", "all", "each",
+        "every", "any", "some", "most", "more", "than", "very", "just", "only",
+        "also", "much", "many", "such", "own", "other", "one", "two", "new",
+        "get", "got", "make", "made", "thing", "things", "way", "time", "people",
+    }
+
+    def tokenize(text: str) -> set[str]:
+        if not text:
+            return set()
+        import re
+        words = re.findall(r"[a-z]{3,}", text.lower())
+        return {w for w in words if w not in stop_words and len(w) >= 3}
+
+    for _, data in graph.nodes(data=True):
+        nt = data.get("node_type", "")
+        if nt == "belief":
+            keywords |= tokenize(data.get("label", ""))
+            keywords |= tokenize(data.get("stance", ""))
+        elif nt == "story":
+            keywords |= tokenize(data.get("label", ""))
+            keywords |= tokenize(data.get("summary", ""))
+        elif nt == "thinking_model":
+            keywords |= tokenize(data.get("label", ""))
+            keywords |= tokenize(data.get("description", ""))
+            keywords |= tokenize(data.get("applies_to", ""))
+        elif nt == "vocabulary":
+            keywords |= tokenize(data.get("label", ""))
+            keywords |= tokenize(data.get("definition", ""))
+        elif nt == "contrast_pair":
+            keywords |= tokenize(data.get("label", ""))
+            keywords |= tokenize(data.get("left", ""))
+            keywords |= tokenize(data.get("right", ""))
+
+    return keywords
+
+
+@app.get("/api/admin/viral-posts/best-match/{founder_slug}")
+async def best_match_viral_posts(
+    founder_slug: str,
+    request: Request,
+    page: int = 1,
+    page_size: int = 20,
+    min_likes: int | None = None,
+    max_likes: int | None = None,
+    min_comments: int | None = None,
+    max_comments: int | None = None,
+    q: str = "",
+):
+    """Return viral posts scored by alignment with a founder's knowledge graph."""
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+
+    from src.config.founders import _load_config, get_founder_paths
+    from src.graph.store import load_graph
+    from src.customizer.post_db import browse_posts, search_posts, init_db, count_posts, import_from_csv
+
+    init_db()
+    if count_posts() == 0:
+        await asyncio.to_thread(import_from_csv)
+
+    config = _load_config()
+    try:
+        paths = get_founder_paths(config, founder_slug)
+        graph = load_graph(paths["graph_path"])
+    except Exception as e:
+        logger.warning("[best-match] Failed to load graph for %s: %s", founder_slug, e)
+        raise HTTPException(status_code=404, detail=f"No graph found for {founder_slug}")
+
+    if graph.number_of_nodes() == 0:
+        raise HTTPException(status_code=404, detail=f"Empty graph for {founder_slug}")
+
+    founder_keywords = _extract_founder_keywords(graph)
+    if not founder_keywords:
+        raise HTTPException(status_code=404, detail=f"No keywords extracted from {founder_slug}'s graph")
+
+    # Fetch a large batch for scoring (up to 5000 posts)
+    if q:
+        all_result = search_posts(query=q, page=1, page_size=5000)
+    else:
+        all_result = browse_posts(
+            page=1, page_size=5000,
+            min_likes=min_likes, max_likes=max_likes,
+            min_comments=min_comments, max_comments=max_comments,
+        )
+
+    # Score each post
+    import re as _re
+    scored = []
+    for p in all_result["posts"]:
+        content_lower = p["content"].lower()
+        post_words = set(_re.findall(r"[a-z]{3,}", content_lower))
+        overlap = founder_keywords & post_words
+        match_score = round(len(overlap) / max(len(post_words), 1) * 100, 1) if post_words else 0
+        scored.append({**p, "match_score": match_score, "matched_keywords": len(overlap)})
+
+    scored.sort(key=lambda x: x["match_score"], reverse=True)
+
+    total = len(scored)
+    start = (page - 1) * page_size
+    page_items = scored[start:start + page_size]
+
+    sources = [
+        {
+            "id": p["post_id"],
+            "content": p["content"],
+            "likes": p["likes"],
+            "comments": p["comments"],
+            "reposts": p["reposts"],
+            "creator": p.get("creator_url", ""),
+            "content_type": p.get("content_type", ""),
+            "source": "csv",
+            "engagement_score": p.get("engagement_score", 0),
+            "match_score": p["match_score"],
+            "matched_keywords": p["matched_keywords"],
+        }
+        for p in page_items
+    ]
+
+    return {
+        "sources": sources,
+        "total": total,
+        "founder_keywords_count": len(founder_keywords),
+    }
 
 
 # --- Outputs ---
