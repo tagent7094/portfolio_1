@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Shield, LogOut, Loader2, KeyRound, Copy, CheckCircle2,
-  RefreshCw, X, ExternalLink, FileSpreadsheet,
+  RefreshCw, X, ExternalLink, FileSpreadsheet, Sparkles,
 } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet, apiPost } from '../api/client'
@@ -148,12 +148,20 @@ export default function AdminPage() {
                     <td className="px-5 py-3.5">
                       <p className="font-semibold text-[var(--text-primary)]">{display_name}</p>
                       <p className="mt-0.5 font-[var(--font-mono)] text-[11px] text-[var(--text-muted)]">{slug}</p>
-                      <button
-                        onClick={() => navigate(`/admin/founders/${slug}`)}
-                        className="mt-1.5 inline-flex items-center gap-1 text-[11px] text-[var(--text-muted)] transition-colors hover:text-[var(--text-secondary)]"
-                      >
-                        <FileSpreadsheet size={11} /> Post packs
-                      </button>
+                      <div className="mt-1.5 flex items-center gap-3">
+                        <button
+                          onClick={() => navigate(`/admin/founders/${slug}`)}
+                          className="inline-flex items-center gap-1 text-[11px] text-[var(--text-muted)] transition-colors hover:text-[var(--text-secondary)]"
+                        >
+                          <FileSpreadsheet size={11} /> Post packs
+                        </button>
+                        <button
+                          onClick={() => navigate(`/admin/founders/${slug}?generate=1`)}
+                          className="inline-flex items-center gap-1 text-[11px] text-violet-400 transition-colors hover:text-violet-300"
+                        >
+                          <Sparkles size={11} /> Generate
+                        </button>
+                      </div>
                     </td>
                     <td className="px-5 py-3.5 hidden sm:table-cell">
                       <a

@@ -8,6 +8,7 @@ import {
 import clsx from 'clsx'
 import FounderSelector from './FounderSelector'
 import { useAuthStore } from '../../store/useAuthStore'
+import { useFounderStore } from '../../store/useFounderStore'
 import { getSubdomainSlug } from '../../utils/subdomain'
 
 const NAV_ITEMS = [
@@ -136,7 +137,10 @@ export default function AppShell() {
   const navigate = useNavigate()
   const location = useLocation()
   const { logout, displayName, allowedPages, changePassword, error } = useAuthStore()
+  const loadFounders = useFounderStore(s => s.load)
   const isScoped = getSubdomainSlug() !== null
+
+  useEffect(() => { loadFounders() }, [loadFounders])
 
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [showPwModal, setShowPwModal] = useState(false)

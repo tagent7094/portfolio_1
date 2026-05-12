@@ -49,7 +49,7 @@ export default function FounderPackPage() {
   const [genProgress, setGenProgress] = useState(0)
   const [genStage, setGenStage] = useState('')
   const [genLog, setGenLog] = useState<string[]>([])
-  const [genConfig, setGenConfig] = useState(false) // config panel open
+  const [genConfig, setGenConfig] = useState(searchParams.get('generate') === '1')
   const [nSources, setNSources] = useState(1)
   const [creativity, setCreativity] = useState(0.5)
   const genAbortRef = useRef<AbortController | null>(null)
