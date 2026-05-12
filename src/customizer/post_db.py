@@ -52,6 +52,12 @@ def init_db():
             content_rowid='rowid'
         );
     """)
+    # Migrate: add columns that may be missing on older databases
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(posts)").fetchall()}
+    if "source_sheet" not in cols:
+        conn.execute("ALTER TABLE posts ADD COLUMN source_sheet TEXT DEFAULT ''")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_source_sheet ON posts(source_sheet)")
+        conn.commit()
     conn.commit()
     conn.close()
     print(f"\033[35m[PostDB]\033[0m \033[32m→ Database initialized\033[0m", file=sys.stderr, flush=True)
@@ -78,11 +84,6 @@ def import_from_csv(csv_path: str | Path | None = None, force: bool = False) -> 
     if force:
         conn.execute("DELETE FROM posts")
         conn.execute("DELETE FROM posts_fts")
-
-    # Migrate: add source_sheet column if missing (existing DBs)
-    cols = {row[1] for row in conn.execute("PRAGMA table_info(posts)").fetchall()}
-    if "source_sheet" not in cols:
-        conn.execute("ALTER TABLE posts ADD COLUMN source_sheet TEXT DEFAULT ''")
 
     inserted = 0
     for r in records:
