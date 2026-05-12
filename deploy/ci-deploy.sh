@@ -55,7 +55,7 @@ chown -R "$APP_USER":"$APP_USER" "$APP_DIR/data" || true
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/config" || true
 
 echo "=== [ci-deploy] Installing Python deps ==="
-"$APP_DIR/venv/bin/pip" install --quiet openpyxl anthropic
+"$APP_DIR/venv/bin/pip" install --quiet openpyxl anthropic python-multipart
 
 echo "=== [ci-deploy] Building frontend ==="
 cd "$APP_DIR/webapp-react"
