@@ -130,6 +130,59 @@ export function EditableStatusCell({
   )
 }
 
+export function EditableTextCell({
+  colKey,
+  rowId,
+  original,
+  edits,
+  onEdit,
+}: {
+  colKey: string
+  rowId: string
+  original: string
+  edits: Record<string, Record<string, string>>
+  onEdit: (rowId: string, colKey: string, value: string) => void
+}) {
+  const edited = edits[rowId]?.[colKey]
+  const value = edited !== undefined ? edited : original
+  const [editing, setEditing] = useState(false)
+  const [draft, setDraft] = useState(value)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (editing && inputRef.current) inputRef.current.focus()
+  }, [editing])
+
+  if (!editing) {
+    return (
+      <button
+        onClick={e => { e.stopPropagation(); setDraft(value); setEditing(true) }}
+        className="w-full text-left text-[11px] min-h-[20px]"
+        style={{ color: value ? 'var(--text-primary)' : 'var(--text-faint)' }}
+        title="Click to edit"
+      >
+        {value || '—'}
+      </button>
+    )
+  }
+
+  return (
+    <input
+      ref={inputRef}
+      className="w-full rounded bg-white/[0.06] px-1.5 py-0.5 text-[11px] text-white/80 outline-none placeholder:text-white/20 focus:ring-1 focus:ring-white/20"
+      value={draft}
+      onChange={e => setDraft(e.target.value)}
+      onClick={e => e.stopPropagation()}
+      onBlur={() => { onEdit(rowId, colKey, draft); setEditing(false) }}
+      onKeyDown={e => {
+        if (e.key === 'Enter') { onEdit(rowId, colKey, draft); setEditing(false) }
+        if (e.key === 'Escape') setEditing(false)
+      }}
+      placeholder="Add feedback..."
+    />
+  )
+}
+
 export function CellContent({
   col, val, rowId, edits, onEdit,
 }: {
@@ -154,6 +207,13 @@ export function CellContent({
       const n = Number(text)
       return n > 0 ? <ScoreDots score={n} /> : <span style={{ color: 'var(--text-faint)' }}>—</span>
     }
+    case 'editable-text':
+      return (
+        <EditableTextCell
+          colKey={col.key} rowId={rowId}
+          original={text} edits={edits} onEdit={onEdit}
+        />
+      )
     case 'mono': return (
       <span className="font-mono text-[10px]" style={{ color: 'var(--text-muted)' }}>{text || '—'}</span>
     )

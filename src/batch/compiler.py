@@ -165,7 +165,15 @@ def save_output(output: dict, state: BatchState) -> str:
     except Exception as e:
         logger.error("[batch] Failed to generate Excel: %s", e)
 
-    # 4. Auto-commit on VPS
+    # 4. Record used source posts
+    try:
+        from .source_tracker import record_used_sources
+        source_texts = [pack.source_post for pack in state.packs if pack.source_post]
+        record_used_sources(state.founder_slug, source_texts, filepath.name)
+    except Exception as e:
+        logger.warning("[batch] Failed to record used sources: %s", e)
+
+    # 5. Auto-commit on VPS
     _auto_git_if_vps(filepath)
 
     return str(filepath)

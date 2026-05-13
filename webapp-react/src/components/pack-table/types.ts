@@ -5,7 +5,7 @@ export interface ColDef {
   variantLetter?: 'A' | 'B' | 'C' | 'D' | 'E'
   width: number
   sticky?: boolean
-  render?: 'status' | 'status-editable' | 'type' | 'variant-badge' | 'score-dots' | 'mono'
+  render?: 'status' | 'status-editable' | 'type' | 'variant-badge' | 'score-dots' | 'mono' | 'editable-text'
   truncate?: boolean
 }
 
@@ -19,7 +19,7 @@ export const VARIANT_ACCENT: Record<string, { header: string; cell: string; badg
   E: { header: 'bg-rose-950/50 text-rose-300/80',     cell: 'bg-rose-950/30',   badge: 'bg-rose-400 text-black',   light: 'bg-rose-100 border-rose-300' },
 }
 
-export const ALL_GROUPS = ['Core', 'Content', 'Source', 'Analysis', 'Variant A', 'Variant B', 'Variant C', 'Variant D', 'Variant E', 'Extra']
+export const ALL_GROUPS = ['Core', 'Content', 'Source', 'Analysis', 'Feedback', 'Variant A', 'Variant B', 'Variant C', 'Variant D', 'Variant E', 'Extra']
 
 export interface PackData {
   readme: Record<string, string>

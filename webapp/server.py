@@ -1076,6 +1076,12 @@ async def list_viral_sources(
     return {"sources": sources, "total": result["total"]}
 
 
+@app.get("/api/founders/{slug}/used-sources")
+async def get_used_sources(slug: str):
+    from src.batch.source_tracker import load_used_sources_full
+    return {"sources": load_used_sources_full(slug)}
+
+
 ## ── Viral Repo Management (admin) ──────────────────────────────────────────
 
 @app.get("/api/admin/server/status")

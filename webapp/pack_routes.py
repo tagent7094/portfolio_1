@@ -356,6 +356,52 @@ async def founder_get_pack_traces(slug: str, date: str, request: Request):
     return _get_traces_response(slug, date)
 
 
+# ── Feedback ─────────────────────────────────────────────────────────────────
+
+def _feedback_path(slug: str, date: str) -> Path:
+    post_dir = _post_data_dir(slug)
+    return post_dir / f"feedback_{date}.json"
+
+
+class FeedbackUpdate(BaseModel):
+    row_id: str
+    pre_feedback: str | None = None
+    post_feedback: str | None = None
+
+
+@founder_router.get("/{slug}/post-packs/{date}/feedback")
+async def get_feedback(slug: str, date: str, request: Request):
+    _require_founder(request, slug)
+    fb_path = _feedback_path(slug, date)
+    if fb_path.exists():
+        try:
+            return json.loads(fb_path.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+
+@founder_router.post("/{slug}/post-packs/{date}/feedback")
+async def save_feedback(slug: str, date: str, body: FeedbackUpdate, request: Request):
+    _require_founder(request, slug)
+    fb_path = _feedback_path(slug, date)
+    data: dict = {}
+    if fb_path.exists():
+        try:
+            data = json.loads(fb_path.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    entry = data.get(body.row_id, {})
+    if body.pre_feedback is not None:
+        entry["pre_feedback"] = body.pre_feedback
+    if body.post_feedback is not None:
+        entry["post_feedback"] = body.post_feedback
+    data[body.row_id] = entry
+    fb_path.parent.mkdir(parents=True, exist_ok=True)
+    fb_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    return {"ok": True}
+
+
 # ── Google Sheets export ──────────────────────────────────────────────────────
 
 SA_FILE = Path("/etc/tagent/google-sa.json")

@@ -9,6 +9,7 @@ from pathlib import Path
 from ..utils.json_parser import parse_llm_json
 from ..llm.base import LLMProvider
 from .state import BatchState
+from .source_tracker import load_used_sources, _hash_source
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +97,14 @@ def select_sources(
             all_candidates.append(p)
     for v in viral_posts:
         all_candidates.append({**v, "engagement_score": 500})
+
+    used_hashes = load_used_sources(state.founder_slug)
+    fresh = [c for c in all_candidates if _hash_source(c["text"]) not in used_hashes]
+    if fresh:
+        logger.info("[batch] Filtered %d already-used sources, %d fresh remain", len(all_candidates) - len(fresh), len(fresh))
+        all_candidates = fresh
+    else:
+        logger.warning("[batch] All %d candidates already used — allowing reuse", len(all_candidates))
 
     all_candidates.sort(key=lambda x: x["engagement_score"], reverse=True)
     top = all_candidates[:30]

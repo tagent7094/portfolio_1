@@ -5,9 +5,10 @@ import {
   Search, X, ThumbsUp, MessageSquare, Repeat2, Star,
   Shuffle, Library, Brain, Download, ExternalLink,
   ChevronDown, ChevronUp, Save, Circle, ClipboardPaste, SlidersHorizontal,
+  Clock, Trash2, Power,
 } from 'lucide-react'
 import clsx from 'clsx'
-import { apiGet, apiPost } from '../api/client'
+import { apiGet, apiPost, apiDelete } from '../api/client'
 import { useFounderStore } from '../store/useFounderStore'
 import { PageHeader, Card, CardBody, Button } from '../components/ui'
 import TraceViewer from '../components/TraceViewer'
@@ -69,6 +70,7 @@ export default function GeneratePage() {
   const [vpSheets, setVpSheets] = useState<string[]>([])
   const [vpPage, setVpPage] = useState(1)
   const [vpDeep, setVpDeep] = useState(false)
+  const [usedSourceHashes, setUsedSourceHashes] = useState<Set<string>>(new Set())
 
   const [generating, setGenerating] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -101,6 +103,59 @@ export default function GeneratePage() {
   const [saving, setSaving] = useState(false)
   const [showRawLog, setShowRawLog] = useState(false)
   const [custApiKey, setCustApiKey] = useState(() => localStorage.getItem('asksharath_api_key') || '')
+
+  // Schedule state
+  interface ScheduleItem { id: string; founder_slug: string; hour: number; minute: number; days: string[]; n_sources: number; posts_per_source: number; creativity: number; effort: string; enabled: boolean; last_run: string | null; last_status: string | null }
+  const [showScheduleModal, setShowScheduleModal] = useState(false)
+  const [schedHour, setSchedHour] = useState(9)
+  const [schedMinute, setSchedMinute] = useState(0)
+  const [schedDays, setSchedDays] = useState(['mon', 'tue', 'wed', 'thu', 'fri'])
+  const [savingSchedule, setSavingSchedule] = useState(false)
+  const [founderSchedules, setFounderSchedules] = useState<ScheduleItem[]>([])
+
+  const refreshFounderSchedules = useCallback(async () => {
+    if (!active) return
+    try {
+      const data = await apiGet<{ schedules: ScheduleItem[] }>('/api/admin/schedules')
+      setFounderSchedules(data.schedules.filter(s => s.founder_slug === active))
+    } catch {}
+  }, [active])
+
+  useEffect(() => { refreshFounderSchedules() }, [refreshFounderSchedules])
+
+  const createSchedule = async () => {
+    if (!active) return
+    setSavingSchedule(true)
+    try {
+      await apiPost('/api/admin/schedules', {
+        founder_slug: active,
+        hour: schedHour,
+        minute: schedMinute,
+        days: schedDays,
+        n_sources: nSources,
+        posts_per_source: postsPerSource,
+        creativity,
+        effort,
+      })
+      await refreshFounderSchedules()
+      setShowScheduleModal(false)
+    } catch (err: any) { alert(`Failed: ${err?.message}`) }
+    finally { setSavingSchedule(false) }
+  }
+
+  const deleteFounderSchedule = async (id: string) => {
+    try {
+      await apiDelete(`/api/admin/schedules/${id}`)
+      await refreshFounderSchedules()
+    } catch {}
+  }
+
+  const toggleFounderSchedule = async (id: string) => {
+    try {
+      await apiPost(`/api/admin/schedules/${id}/toggle`, {})
+      await refreshFounderSchedules()
+    } catch {}
+  }
 
   const pastedCount = customPosts.filter(p => p.trim().length > 0).length
 
@@ -231,8 +286,13 @@ export default function GeneratePage() {
     if (showPicker) {
       fetchViralSources()
       apiGet<{ sheets: string[] }>('/api/viral-sources/sheets').then(d => setVpSheets(d.sheets)).catch(() => {})
+      if (active) {
+        apiGet<{ sources: { source_hash: string; source_snippet: string }[] }>(`/api/founders/${active}/used-sources`)
+          .then(d => setUsedSourceHashes(new Set(d.sources.map(s => s.source_snippet.toLowerCase().replace(/\s+/g, ' ').trim()))))
+          .catch(() => {})
+      }
     }
-  }, [showPicker, fetchViralSources])
+  }, [showPicker, fetchViralSources, active])
 
   const toggleSource = (src: ViralSource) => {
     setSelectedSources(prev => {
@@ -680,14 +740,24 @@ export default function GeneratePage() {
               </div>
 
               {!generating && !done && (
-                <Button
-                  variant="primary"
-                  className="w-full"
-                  onClick={handleGenerate}
-                  icon={<Play size={14} />}
-                >
-                  Start Generation
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="primary"
+                    className="flex-1"
+                    onClick={handleGenerate}
+                    icon={<Play size={14} />}
+                  >
+                    Start Generation
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowScheduleModal(true)}
+                    icon={<Clock size={14} />}
+                    title="Schedule recurring generation"
+                  >
+                    Schedule
+                  </Button>
+                </div>
               )}
 
               {generating && (
@@ -749,6 +819,34 @@ export default function GeneratePage() {
               {error && (
                 <div className="rounded-lg bg-[var(--error-dim)] px-3 py-2 text-[12px] text-[var(--error)]">
                   {error}
+                </div>
+              )}
+
+              {/* Active schedules for this founder */}
+              {founderSchedules.length > 0 && (
+                <div className="mt-4 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                    <Clock size={10} /> Schedules
+                  </div>
+                  {founderSchedules.map(s => (
+                    <div key={s.id} className="flex items-center gap-2 rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] px-3 py-2 text-[11px]">
+                      <button onClick={() => toggleFounderSchedule(s.id)} title={s.enabled ? 'Disable' : 'Enable'}>
+                        <Power size={12} className={s.enabled ? 'text-[var(--success)]' : 'text-[var(--text-faint)]'} />
+                      </button>
+                      <span className="flex-1 text-[var(--text-secondary)]">
+                        {String(s.hour).padStart(2, '0')}:{String(s.minute).padStart(2, '0')} IST · {s.days.map(d => d.slice(0, 2)).join(' ')}
+                        <span className="ml-1.5 text-[var(--text-faint)]">{s.n_sources}src × {s.posts_per_source}p</span>
+                      </span>
+                      {s.last_status && (
+                        <span className={`text-[10px] ${s.last_status === 'success' ? 'text-[var(--success)]' : 'text-[var(--error)]'}`}>
+                          {s.last_status === 'success' ? 'OK' : 'err'}
+                        </span>
+                      )}
+                      <button onClick={() => deleteFounderSchedule(s.id)} className="text-[var(--text-faint)] hover:text-[var(--error)] transition-colors">
+                        <Trash2 size={11} />
+                      </button>
+                    </div>
+                  ))}
                 </div>
               )}
             </CardBody>
@@ -1265,6 +1363,8 @@ export default function GeneratePage() {
               ) : (
                 viralSources.map(src => {
                   const isSelected = selectedSources.some(s => s.id === src.id)
+                  const snippet = src.content.toLowerCase().replace(/\s+/g, ' ').trim().slice(0, 120)
+                  const isUsed = usedSourceHashes.size > 0 && usedSourceHashes.has(snippet)
                   return (
                     <button
                       key={src.id}
@@ -1313,6 +1413,9 @@ export default function GeneratePage() {
                         {src.match_reason && (
                           <span className="basis-full text-[10px] text-amber-400/60 italic mt-0.5">{src.match_reason}</span>
                         )}
+                        {isUsed && (
+                          <span className="rounded bg-orange-500/20 text-orange-400 px-1.5 py-0.5 font-medium">Already Used</span>
+                        )}
                         {isSelected && (
                           <span className="ml-auto font-semibold text-[var(--text-primary)]">Selected</span>
                         )}
@@ -1343,6 +1446,63 @@ export default function GeneratePage() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Schedule modal */}
+      {showScheduleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowScheduleModal(false)} />
+          <div className="relative w-full max-w-sm animate-scale-in rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-5 shadow-[var(--shadow-overlay)]">
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-[14px] font-semibold text-[var(--text-primary)]">
+                <Clock size={14} /> Schedule Generation
+              </div>
+              <button onClick={() => setShowScheduleModal(false)} className="flex h-7 w-7 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--surface-3)]">
+                <X size={15} />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Time (IST)</label>
+                <div className="flex items-center gap-1">
+                  <input type="number" min={0} max={23} value={schedHour} onChange={e => setSchedHour(Number(e.target.value))} className="field w-16 text-[12px] text-center" />
+                  <span className="text-[var(--text-muted)]">:</span>
+                  <input type="number" min={0} max={59} step={15} value={schedMinute} onChange={e => setSchedMinute(Number(e.target.value))} className="field w-16 text-[12px] text-center" />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Days</label>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(d => (
+                    <button
+                      key={d}
+                      onClick={() => setSchedDays(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d])}
+                      className={clsx(
+                        'rounded-md px-2 py-1 text-[10px] font-medium uppercase transition-colors',
+                        schedDays.includes(d)
+                          ? 'bg-white text-black'
+                          : 'bg-[var(--surface-3)] text-[var(--text-faint)]',
+                      )}
+                    >{d}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-2.5 text-[11px] text-[var(--text-muted)]">
+                <p>{active} · {nSources} sources × {postsPerSource} posts · {effort} effort · creativity {creativity}</p>
+              </div>
+
+              <div className="flex gap-2">
+                <Button variant="primary" className="flex-1" onClick={createSchedule} disabled={savingSchedule || schedDays.length === 0} loading={savingSchedule}>
+                  Create Schedule
+                </Button>
+                <Button variant="ghost" onClick={() => setShowScheduleModal(false)}>Cancel</Button>
+              </div>
+            </div>
           </div>
         </div>
       )}

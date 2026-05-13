@@ -69,6 +69,8 @@ export function buildColDefs(headers: string[]): ColDef[] {
     col(res('Weakness'),       'Weakness',     'Analysis', 180, { truncate: true }),
     col(res('Recommended'),    'Rec.',         'Analysis',  72, { render: 'variant-badge' }),
     col(res('Why'),            'Why',          'Analysis', 200, { truncate: true }),
+    col(res('Pre-Use Feedback'), 'Pre-Use Feedback', 'Feedback', 200, { render: 'editable-text' }),
+    col(res('Post-Use Feedback'), 'Post-Use Feedback', 'Feedback', 200, { render: 'editable-text' }),
     ...VARIANT_LETTERS.flatMap(v => [
       col(res(`${v}, Opening`,      `${v} - Opening`,      `Variant ${v} Opening`),      'Opening',    `Variant ${v}`, 200, { variantLetter: v, truncate: true }),
       col(res(`${v}, Rewrite Type`, `${v} - Rewrite Type`, `Variant ${v} Rewrite Type`), 'Type',       `Variant ${v}`, 120, { variantLetter: v }),

@@ -26,6 +26,8 @@ IST = timezone(timedelta(hours=5, minutes=30))
 
 _schedules: list[dict] = []
 _running_loop: asyncio.Task | None = None
+_tick_count: int = 0
+_last_tick: str | None = None
 
 
 def _load_schedules():
@@ -54,6 +56,18 @@ class ScheduleCreate(BaseModel):
     creativity: float = 0.5
     effort: str = "high"
     enabled: bool = True
+
+
+@router.get("/status")
+async def scheduler_status(request: Request):
+    _require_admin(request)
+    return {
+        "running": _running_loop is not None and not _running_loop.done(),
+        "tick_count": _tick_count,
+        "last_tick": _last_tick,
+        "enabled_count": sum(1 for s in _schedules if s.get("enabled")),
+        "total_count": len(_schedules),
+    }
 
 
 @router.get("")
@@ -131,6 +145,16 @@ async def toggle_schedule(schedule_id: str, request: Request):
     raise HTTPException(status_code=404, detail="Schedule not found")
 
 
+@router.post("/{schedule_id}/run-now")
+async def run_schedule_now(schedule_id: str, request: Request):
+    _require_admin(request)
+    for s in _schedules:
+        if s["id"] == schedule_id:
+            asyncio.create_task(_run_scheduled_generation(s))
+            return {"ok": True, "message": f"Started generation for {s['founder_slug']}"}
+    raise HTTPException(status_code=404, detail="Schedule not found")
+
+
 async def _run_scheduled_generation(schedule: dict):
     """Execute a scheduled generation run."""
     logger.info("[scheduler] Running for %s (schedule %s)", schedule["founder_slug"], schedule["id"])
@@ -160,43 +184,50 @@ _last_fired: dict[str, str] = {}
 
 async def _scheduler_loop():
     """Background loop that checks schedules every 30 seconds."""
+    global _tick_count, _last_tick
     _load_schedules()
     day_map = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
 
     while True:
         await asyncio.sleep(30)
+        _tick_count += 1
         now = datetime.now(IST)
+        _last_tick = now.isoformat()
         weekday = now.weekday()
         current_time = (now.hour, now.minute)
         time_key = now.strftime("%Y-%m-%d %H:%M")
-        logger.debug("[scheduler] tick at %s IST", now.isoformat())
+        logger.debug("[scheduler] tick #%d at %s IST (%d schedules loaded)", _tick_count, now.isoformat(), len(_schedules))
 
         for schedule in _schedules:
-            if not schedule.get("enabled", True):
-                continue
+            try:
+                if not schedule.get("enabled", True):
+                    continue
 
-            sched_days = [day_map.get(d.lower()[:3], -1) for d in schedule.get("days", [])]
-            if weekday not in sched_days:
-                continue
+                sched_days = [day_map.get(d.lower()[:3], -1) for d in schedule.get("days", [])]
+                if weekday not in sched_days:
+                    continue
 
-            if current_time != (schedule.get("hour", 9), schedule.get("minute", 0)):
-                continue
+                if current_time != (schedule.get("hour", 9), schedule.get("minute", 0)):
+                    continue
 
-            sid = schedule.get("id", schedule.get("founder_slug", ""))
-            if _last_fired.get(sid) == time_key:
-                continue
+                sid = schedule.get("id", schedule.get("founder_slug", ""))
+                if _last_fired.get(sid) == time_key:
+                    continue
 
-            last_run = schedule.get("last_run")
-            if last_run:
-                try:
-                    lr = datetime.fromisoformat(last_run)
-                    if (now - lr).total_seconds() < 3600:
-                        continue
-                except Exception:
-                    pass
+                last_run = schedule.get("last_run")
+                if last_run:
+                    try:
+                        lr = datetime.fromisoformat(last_run)
+                        if (now - lr).total_seconds() < 3600:
+                            continue
+                    except Exception:
+                        pass
 
-            _last_fired[sid] = time_key
-            asyncio.create_task(_run_scheduled_generation(schedule))
+                _last_fired[sid] = time_key
+                logger.info("[scheduler] FIRING schedule %s for %s at %s", sid, schedule.get("founder_slug"), time_key)
+                asyncio.create_task(_run_scheduled_generation(schedule))
+            except Exception:
+                logger.exception("[scheduler] Error checking schedule %s", schedule.get("id", "?"))
 
 
 def start_scheduler():

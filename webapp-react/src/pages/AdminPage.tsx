@@ -84,6 +84,21 @@ export default function AdminPage() {
 
   // Server status
   const [serverStatus, setServerStatus] = useState<any>(null)
+  const [schedulerStatus, setSchedulerStatus] = useState<{ running: boolean; tick_count: number; last_tick: string | null; enabled_count: number; total_count: number } | null>(null)
+  const [runningNow, setRunningNow] = useState<string | null>(null)
+
+  const refreshSchedulerStatus = useCallback(async () => {
+    try { setSchedulerStatus(await apiGet('/api/admin/schedules/status')) } catch {}
+  }, [])
+
+  const runScheduleNow = async (id: string) => {
+    setRunningNow(id)
+    try {
+      await apiPost(`/api/admin/schedules/${id}/run-now`, {})
+      await refreshSchedules()
+    } catch (err: any) { alert(`Failed: ${err?.message}`) }
+    finally { setRunningNow(null) }
+  }
 
   const refreshStatus = useCallback(async () => {
     try { setServerStatus(await apiGet<any>('/api/admin/server/status')) } catch {}
@@ -217,15 +232,15 @@ export default function AdminPage() {
 
   useEffect(() => {
     apiGet('/api/admin/me')
-      .then(() => { setAuthed(true); refresh(); refreshSchedules(); refreshRepos(); refreshStatus() })
+      .then(() => { setAuthed(true); refresh(); refreshSchedules(); refreshRepos(); refreshStatus(); refreshSchedulerStatus() })
       .catch(() => { setAuthed(false); navigate('/admin/login', { replace: true }) })
-  }, [navigate, refresh, refreshSchedules, refreshRepos])
+  }, [navigate, refresh, refreshSchedules, refreshRepos, refreshSchedulerStatus])
 
   useEffect(() => {
     if (!authed) return
-    const id = setInterval(refresh, 10000)
+    const id = setInterval(() => { refresh(); refreshSchedulerStatus() }, 10000)
     return () => clearInterval(id)
-  }, [authed, refresh])
+  }, [authed, refresh, refreshSchedulerStatus])
 
   const togglePage = async (slug: string, page: string) => {
     const profile = profiles.find((p) => p.slug === slug)
@@ -295,27 +310,38 @@ export default function AdminPage() {
       </div>
 
       {/* System status */}
-      {serverStatus && (
+      {(serverStatus || schedulerStatus) && (
         <div className="mb-4 flex items-center gap-4 flex-wrap text-[11px]" style={{ color: 'var(--text-muted)' }}>
-          <div className="flex items-center gap-1.5">
-            <LayoutDashboard size={11} style={{ color: 'var(--text-faint)' }} />
-            <span>Uptime: {serverStatus.uptime_seconds < 3600
-              ? `${Math.floor(serverStatus.uptime_seconds / 60)}m`
-              : `${Math.floor(serverStatus.uptime_seconds / 3600)}h ${Math.floor((serverStatus.uptime_seconds % 3600) / 60)}m`
-            }</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Power size={11} style={{ color: serverStatus.scheduler_running ? '#22c55e' : '#ef4444' }} />
-            <span>Scheduler: {serverStatus.scheduler_running ? 'running' : 'stopped'} ({serverStatus.enabled_schedules}/{serverStatus.total_schedules})</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Sparkles size={11} style={{ color: 'var(--text-faint)' }} />
-            <span>{serverStatus.active_tasks} active task{serverStatus.active_tasks !== 1 ? 's' : ''}</span>
-          </div>
-          {serverStatus.memory_mb && (
-            <span>RAM: {serverStatus.memory_mb} MB</span>
+          {serverStatus && (
+            <>
+              <div className="flex items-center gap-1.5">
+                <LayoutDashboard size={11} style={{ color: 'var(--text-faint)' }} />
+                <span>Uptime: {serverStatus.uptime_seconds < 3600
+                  ? `${Math.floor(serverStatus.uptime_seconds / 60)}m`
+                  : `${Math.floor(serverStatus.uptime_seconds / 3600)}h ${Math.floor((serverStatus.uptime_seconds % 3600) / 60)}m`
+                }</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Sparkles size={11} style={{ color: 'var(--text-faint)' }} />
+                <span>{serverStatus.active_tasks} active task{serverStatus.active_tasks !== 1 ? 's' : ''}</span>
+              </div>
+              {serverStatus.memory_mb && (
+                <span>RAM: {serverStatus.memory_mb} MB</span>
+              )}
+              <span style={{ color: 'var(--text-faint)' }}>Python {serverStatus.python_version}</span>
+            </>
           )}
-          <span style={{ color: 'var(--text-faint)' }}>Python {serverStatus.python_version}</span>
+          {schedulerStatus && (
+            <>
+              <div className="flex items-center gap-1.5">
+                <Power size={11} style={{ color: schedulerStatus.running ? '#22c55e' : '#ef4444' }} />
+                <span>Scheduler: {schedulerStatus.running ? 'running' : 'stopped'} ({schedulerStatus.enabled_count}/{schedulerStatus.total_count})</span>
+              </div>
+              <span style={{ color: 'var(--text-faint)' }}>
+                tick #{schedulerStatus.tick_count}{schedulerStatus.last_tick && ` · ${formatTimeAgo(schedulerStatus.last_tick)}`}
+              </span>
+            </>
+          )}
         </div>
       )}
 
@@ -492,6 +518,15 @@ export default function AdminPage() {
                     {s.last_status && ` (${s.last_status})`}
                   </div>
                 </div>
+                <Button
+                  variant="secondary" size="xs"
+                  onClick={() => runScheduleNow(s.id)}
+                  disabled={runningNow === s.id}
+                  loading={runningNow === s.id}
+                  icon={<Sparkles size={11} />}
+                >
+                  Run Now
+                </Button>
                 <button onClick={() => deleteSchedule(s.id)} className="text-[var(--text-faint)] hover:text-[var(--error)] transition-colors">
                   <Trash2 size={13} />
                 </button>

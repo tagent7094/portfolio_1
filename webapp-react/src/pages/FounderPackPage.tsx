@@ -77,12 +77,24 @@ export default function FounderPackPage() {
   const [traceData, setTraceData] = useState<any>(null)
   const [loadingTraces, setLoadingTraces] = useState(false)
 
+  const feedbackSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const handleEdit = useCallback((rowId: string, colKey: string, value: string) => {
     setEdits(prev => ({
       ...prev,
       [rowId]: { ...(prev[rowId] || {}), [colKey]: value },
     }))
-  }, [])
+
+    if ((colKey === 'Pre-Use Feedback' || colKey === 'Post-Use Feedback') && slug && selectedDate) {
+      if (feedbackSaveTimer.current) clearTimeout(feedbackSaveTimer.current)
+      feedbackSaveTimer.current = setTimeout(() => {
+        const body: any = { row_id: rowId }
+        if (colKey === 'Pre-Use Feedback') body.pre_feedback = value
+        if (colKey === 'Post-Use Feedback') body.post_feedback = value
+        apiPost(`/api/founders/${slug}/post-packs/${selectedDate}/feedback`, body).catch(() => {})
+      }, 500)
+    }
+  }, [slug, selectedDate])
 
   const editCount = useMemo(
     () => Object.values(edits).reduce((sum, row) => sum + Object.keys(row).length, 0),
@@ -121,7 +133,24 @@ export default function FounderPackPage() {
     setSelectedPost(null)
     setEdits({})
     apiGet<PackData>(`/api/founders/${slug}/post-packs/${selectedDate}`)
-      .then(d => setPackData(d))
+      .then(async d => {
+        try {
+          const fb = await apiGet<Record<string, { pre_feedback?: string; post_feedback?: string }>>(`/api/founders/${slug}/post-packs/${selectedDate}/feedback`)
+          if (fb && typeof fb === 'object') {
+            const feedbackHeaders = ['Pre-Use Feedback', 'Post-Use Feedback']
+            if (!d.headers.includes('Pre-Use Feedback')) d.headers.push(...feedbackHeaders)
+            for (const post of d.posts) {
+              const rowId = post['Row #'] || ''
+              const entry = fb[rowId]
+              if (entry) {
+                post['Pre-Use Feedback'] = entry.pre_feedback || ''
+                post['Post-Use Feedback'] = entry.post_feedback || ''
+              }
+            }
+          }
+        } catch {}
+        setPackData(d)
+      })
       .catch(() => {})
       .finally(() => setLoadingData(false))
   }, [authed, selectedDate, slug])
