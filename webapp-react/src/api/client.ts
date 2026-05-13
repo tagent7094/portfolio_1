@@ -12,6 +12,9 @@ function _maybeRedirectOn401(status: number, url: string) {
   const path = window.location.pathname
   // Already on a login page — don't loop
   if (path === '/login' || path === '/admin/login') return
+  // Admin API 401 on a non-admin page: the page is making an optional admin
+  // call (e.g. GeneratePage fetching schedules). Don't redirect the founder.
+  if (url.startsWith('/api/admin/') && !path.startsWith('/admin')) return
   // Admin routes redirect to admin login; everything else to regular login
   if (path.startsWith('/admin')) {
     window.location.assign('/admin/login')
