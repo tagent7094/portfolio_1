@@ -132,6 +132,14 @@ def _generate_a_variant(
 
     source_cast = ", ".join(dissection.get("named_entities", [])) or "None extracted"
 
+    source_hook_mechanic = dissection.get("hook_mechanic_primary", "unknown")
+    source_mechanic_description = dissection.get("opener_mechanic_description", "Not available — mirror based on hook_mechanics array")
+    source_opener_sentences = [
+        hm["sentence"] for hm in dissection.get("hook_mechanics", [])
+        if isinstance(hm, dict) and hm.get("sentence")
+    ]
+    source_opener_text = "\n".join(source_opener_sentences) if source_opener_sentences else dissection.get("source_opener_text", "")
+
     prompt = fill_prompt(
         template,
         source_post=source,
@@ -147,6 +155,9 @@ def _generate_a_variant(
         prior_a_posts=prior_str,
         opener_tests=_format_opener_tests(dissection),
         source_cast=source_cast,
+        source_hook_mechanic=source_hook_mechanic,
+        source_mechanic_description=source_mechanic_description,
+        source_opener_text=source_opener_text,
     )
 
     import time as _t

@@ -35,10 +35,15 @@ def _require_founder(request: Request, slug: str) -> None:
         return
     token = request.cookies.get("tagent_token", "")
     claims = decode_token(token)
-    if not claims:
+    if claims and claims.get("sub") == slug:
+        return
+    admin_token = request.cookies.get("admin_token", "")
+    admin_claims = decode_token(admin_token)
+    if admin_claims and admin_claims.get("sub") == "admin":
+        return
+    if not claims and not admin_claims:
         raise HTTPException(status_code=401, detail="unauthenticated")
-    if claims.get("sub") != slug:
-        raise HTTPException(status_code=403, detail="not authorized for this founder")
+    raise HTTPException(status_code=403, detail="not authorized for this founder")
 
 
 def _post_data_dir(slug: str) -> Path:

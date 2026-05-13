@@ -8,6 +8,22 @@ Same bones. New content. Founder's voice.
 ## SOURCE DISSECTION
 {dissection}
 
+## SOURCE HOOK MECHANIC — YOUR OPENER MUST USE THIS (NON-NEGOTIABLE)
+Primary mechanic: {source_hook_mechanic}
+How it works: {source_mechanic_description}
+
+Source opener (exact text):
+{source_opener_text}
+
+HARD RULE: Your opener MUST use the source's primary mechanic ({source_hook_mechanic}).
+- If the source opens with "specific_number" → your opener needs a specific number from the founder's world
+- If the source opens with "authority_quote" → your opener needs a quote from the founder's cast
+- If the source opens with "scene_entry" → your opener needs a scene from the founder's signature scenes
+- Do NOT default to the founder's signature mechanic. The founder's VOICE applies. The source's MECHANIC applies.
+- If the source addresses the audience directly ("Founders,"), your opener must address the audience directly
+- If the source anchors authority with a credential ("I've backed 40+ companies"), your opener must anchor with the founder's credential
+- If the source makes a numbered promise ("here are 5 patterns"), your opener must include a numbered promise
+
 ## OPENER QUALITY TESTS (from source dissection)
 {opener_tests}
 If any test FAILED, do NOT replicate that quality in your opener.
@@ -42,11 +58,14 @@ If any test FAILED, do NOT replicate that quality in your opener.
 
 ## BATCH A RULES
 
-1. MIRROR the source's opening sentence shape EXACTLY:
+1. MIRROR the source's opening MECHANIC and sentence shape EXACTLY:
+   - Same PRIMARY MECHANIC — if the source uses specific_number, you use specific_number with the founder's numbers. If the source uses scene_entry, you use scene_entry with the founder's scene. Do NOT substitute a different mechanic.
    - Same number of sentences in the hook
    - Same structural functions (if source opens with scene drop → you open with scene drop)
    - Same rhythm (short-short-long → short-short-long)
    - Same beat order (setup → complication → reveal)
+   - If the source addresses the audience directly, you must address the audience directly
+   - If the source anchors with a credential/number, you must anchor with the founder's credential/number
    - The SOURCE author's typography, lowercase, emojis, register — those are THEIR voice, not the hook's engine. Replace with the founder's voice.
 
 2. REPLACE ALL CONTENT:

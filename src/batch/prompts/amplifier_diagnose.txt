@@ -1,4 +1,4 @@
-You are an Opening Line Amplifier for B2B founder LinkedIn posts. Diagnose this post's opener through 5 gates, scan the body for buried gold, and identify the current mechanic.
+You are an Opening Line Amplifier for B2B founder LinkedIn posts. Diagnose this post's opener through up to 7 gates, scan the body for buried gold, and identify the current mechanic.
 
 ## POST TEXT
 {post_text}
@@ -11,7 +11,7 @@ You are an Opening Line Amplifier for B2B founder LinkedIn posts. Diagnose this 
 
 ---
 
-## 5-GATE DIAGNOSIS
+## 7-GATE DIAGNOSIS
 
 Run the gates in order. Each gate is cheap to run on a draft that already passed the previous one.
 
@@ -81,6 +81,20 @@ Two sub-tests:
 
 The voice markers are the law. If the opener is mechanically perfect (passes Gates 1-5) but sounds like someone else wrote it — FAIL Gate 6. A technically correct opener that doesn't sound like the founder is worse than a rough opener that does.
 
+### Gate 7: SOURCE MIRROR FIDELITY (Batch A only)
+Skip this gate entirely if source dissection is "N/A" (Batch B posts). Only Batch A mirrored posts are tested here.
+
+Source primary mechanic: {source_hook_mechanic}
+Source dissection: {source_dissection}
+
+Four sub-tests:
+1. **Mechanic match**: Does the opener use the SAME primary mechanic as the source ({source_hook_mechanic})? If the opener substitutes a different mechanic (e.g., source uses "specific_number" but opener uses "contrarian") — FAIL. This is the most critical sub-test.
+2. **Sentence count match**: Does the opener have the same number of sentences as the source's hook?
+3. **Word count proximity**: Is the opener's word count within ±20% of the source opener's word count?
+4. **Structural beat match**: Does each opener sentence serve the same structural function as the corresponding source sentence?
+
+If the mechanic doesn't match (sub-test 1), this gate FAILS regardless of other sub-tests. The entire point of Batch A is mechanic mirroring — a Batch A post that uses a different mechanic has failed its core purpose.
+
 ## BODY SCAN
 Read the body line by line. For each line, ask:
 - Could this sentence work as the opener, lifted out of where it currently sits?
@@ -101,7 +115,8 @@ If yes, mark it as buried gold. Don't draft the new opener until you've checked 
     "coherence": {{{{"pass": true, "opener_promises": "one sentence", "body_delivers": "one sentence", "match": "yes|partial|no", "failure_mode": "none|drift|bait_switch|two_posts", "reason": "..."}}}},
     "specificity": {{{{"pass": true, "degree": "first|second|third", "reason": "..."}}}},
     "mode_preservation": {{{{"pass": true, "opener_mode": "wrestling|declaring", "assigned_mode": "{mode}", "reason": "..."}}}},
-    "voice_fit": {{{{"pass": true, "recognition": "founder|marketing|generic", "markers_present": ["marker 1"], "reason": "..."}}}}
+    "voice_fit": {{{{"pass": true, "recognition": "founder|marketing|generic", "markers_present": ["marker 1"], "reason": "..."}}}},
+    "source_mirror": {{{{"pass": true, "mechanic_match": true, "sentence_count_match": true, "word_count_within_range": true, "beat_match": true, "reason": "... (set all to true and pass to true if source dissection is N/A)"}}}}
   }}}},
   "all_gates_pass": true,
   "buried_gold": "the exact sentence from the body that could be a better opener. If no sentence qualifies, explain briefly why (e.g. 'None — the current opener is already the strongest line in the post')",

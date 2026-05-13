@@ -251,7 +251,8 @@ class BatchSession:
             amplified_posts = []
             for j, post in enumerate(validated_posts):
                 self._check_cancel()
-                post = amplify_post(llm_gen, post, amplified_posts, state, llm_prep=llm_prep)
+                post = amplify_post(llm_gen, post, amplified_posts, state, llm_prep=llm_prep,
+                                    source_dissection=pack.dissection if post.batch == "A" else None)
                 amplified_posts.append(post)
                 state.arguments_compressed.append(post.argument_compressed)
 
@@ -286,7 +287,8 @@ class BatchSession:
                         else:
                             new_post = _generate_b_variant(llm_gen, amended_source, pack.dissection, post.entry_door, int(post.label[1:]), [], state)
                         new_post = _enforce_word_count(new_post, state, llm=llm_gen)
-                        new_post = amplify_post(llm_gen, new_post, [], state, llm_prep=llm_prep)
+                        new_post = amplify_post(llm_gen, new_post, [], state, llm_prep=llm_prep,
+                                                source_dissection=pack.dissection if new_post.batch == "A" else None)
                         amplified_posts[idx] = new_post
 
                 conv = convergence_test(llm_prep, amplified_posts, source[:200], state)

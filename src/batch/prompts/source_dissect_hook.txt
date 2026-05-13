@@ -74,6 +74,8 @@ Run these three tests on the source's opening line(s). These determine whether t
   "psychological_move": "description of the core psychological move the hook makes",
   "narrative_arc": "description of movement/arc",
   "hook_mechanic_primary": "three_stack_pain|second_party_verdict|contrarian_claim|specific_number|authority_quote|parallel_data_reveal|scene_entry|diagnostic_question|confession|pattern_observation",
+  "opener_mechanic_description": "concise description of HOW the mechanic operates in this specific opener — structural moves in order, e.g. 'authority + count: audience address → credential from scale → numbered promise' or 'scene entry: mid-action drop → sensory detail → tension gap'",
+  "source_opener_text": "the full opener text — all hook sentences joined with newlines exactly as written",
   "hook_mechanics": [
     {{{{
       "sentence": "exact text of opening sentence",

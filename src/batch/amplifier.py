@@ -78,14 +78,21 @@ def _normalize_mechanic(raw: str) -> str:
     return raw
 
 
-def diagnose_opener(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> dict:
-    """Run 5-gate diagnosis on a post's opening line."""
+def diagnose_opener(llm: LLMProvider, post: AmplifiedPost, state: BatchState, source_dissection: dict | None = None) -> dict:
+    """Run 7-gate diagnosis on a post's opening line (Gate 7 for Batch A only)."""
     template = load_prompt(PROMPTS_DIR / "amplifier_diagnose.txt")
+    source_diss_str = "N/A"
+    source_mechanic = "N/A"
+    if source_dissection:
+        source_diss_str = str(source_dissection)[:800]
+        source_mechanic = source_dissection.get("hook_mechanic_primary", "unknown")
     prompt = fill_prompt(
         template,
         post_text=post.text,
         voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
         mode=post.mode,
+        source_dissection=source_diss_str,
+        source_hook_mechanic=source_mechanic,
     )
 
     import time as _t
@@ -200,6 +207,7 @@ def amplify_post(
     pack_posts: list[AmplifiedPost],
     state: BatchState,
     llm_prep: LLMProvider | None = None,
+    source_dissection: dict | None = None,
 ) -> AmplifiedPost:
     """Full amplifier pass on a single post: diagnose → generate → select best.
 
@@ -208,7 +216,7 @@ def amplify_post(
     """
     logger.info("[amplifier] Processing %s...", post.label)
 
-    diagnosis = diagnose_opener(llm_prep or llm, post, state)
+    diagnosis = diagnose_opener(llm_prep or llm, post, state, source_dissection=source_dissection)
     if not diagnosis.get("buried_gold") and not diagnosis.get("weakness"):
         logger.warning("[amplifier] %s: diagnosis returned no buried_gold/weakness — possible parse failure", post.label)
     post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
@@ -219,6 +227,11 @@ def amplify_post(
     post.weakness = diagnosis.get("weakness", "")
 
     all_pass = diagnosis.get("all_gates_pass", True)
+    if source_dissection:
+        gate7 = gates.get("source_mirror", {})
+        if isinstance(gate7, dict) and not gate7.get("pass", True):
+            all_pass = False
+            logger.info("[amplifier] %s: Gate 7 (source mirror) FAIL — mechanic mismatch", post.label)
     is_slop = _is_slop(post.original_opening)
 
     alternatives = generate_alternatives(llm, post, diagnosis, state)
