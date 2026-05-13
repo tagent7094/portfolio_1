@@ -10,7 +10,7 @@ import asyncio
 import json
 import logging
 import uuid
-from datetime import datetime, time, timezone
+from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Request
@@ -22,6 +22,7 @@ router = APIRouter(prefix="/api/admin/schedules", tags=["admin-schedules"])
 logger = logging.getLogger(__name__)
 
 SCHEDULES_FILE = Path(__file__).parent.parent / "data" / "schedules.json"
+IST = timezone(timedelta(hours=5, minutes=30))
 
 _schedules: list[dict] = []
 _running_loop: asyncio.Task | None = None
@@ -49,6 +50,7 @@ class ScheduleCreate(BaseModel):
     minute: int = 0
     days: list[str] = ["mon", "tue", "wed", "thu", "fri"]
     n_sources: int = 3
+    posts_per_source: int = 9
     creativity: float = 0.5
     effort: str = "high"
     enabled: bool = True
@@ -70,10 +72,11 @@ async def create_schedule(body: ScheduleCreate, request: Request):
         "minute": body.minute,
         "days": body.days,
         "n_sources": body.n_sources,
+        "posts_per_source": body.posts_per_source,
         "creativity": body.creativity,
         "effort": body.effort,
         "enabled": body.enabled,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(IST).isoformat(),
         "last_run": None,
         "last_status": None,
     }
@@ -95,6 +98,7 @@ async def update_schedule(schedule_id: str, body: ScheduleCreate, request: Reque
                 "minute": body.minute,
                 "days": body.days,
                 "n_sources": body.n_sources,
+                "posts_per_source": body.posts_per_source,
                 "creativity": body.creativity,
                 "effort": body.effort,
                 "enabled": body.enabled,
@@ -139,7 +143,7 @@ async def _run_scheduled_generation(schedule: dict):
             platform="linkedin",
             creativity=schedule.get("creativity", 0.5),
             n_sources=schedule.get("n_sources", 3),
-            posts_per_source=9,
+            posts_per_source=schedule.get("posts_per_source", 9),
             enable_thinking=True,
             effort=schedule.get("effort", "high"),
         )
@@ -147,7 +151,7 @@ async def _run_scheduled_generation(schedule: dict):
     except Exception as e:
         logger.exception("[scheduler] Failed for %s: %s", schedule["founder_slug"], e)
         schedule["last_status"] = f"error: {str(e)[:100]}"
-    schedule["last_run"] = datetime.now(timezone.utc).isoformat()
+    schedule["last_run"] = datetime.now(IST).isoformat()
     _save_schedules()
 
 
@@ -161,11 +165,11 @@ async def _scheduler_loop():
 
     while True:
         await asyncio.sleep(30)
-        now = datetime.now(timezone.utc)
+        now = datetime.now(IST)
         weekday = now.weekday()
         current_time = (now.hour, now.minute)
         time_key = now.strftime("%Y-%m-%d %H:%M")
-        logger.debug("[scheduler] tick at %s UTC", now.isoformat())
+        logger.debug("[scheduler] tick at %s IST", now.isoformat())
 
         for schedule in _schedules:
             if not schedule.get("enabled", True):

@@ -20,7 +20,7 @@ interface FounderProfile {
 
 interface Schedule {
   id: string; founder_slug: string; hour: number; minute: number
-  days: string[]; n_sources: number; creativity: number; effort: string
+  days: string[]; n_sources: number; posts_per_source: number; creativity: number; effort: string
   enabled: boolean; created_at: string; last_run: string | null; last_status: string | null
 }
 
@@ -47,7 +47,7 @@ export default function AdminPage() {
   // Schedule state
   const [schedules, setSchedules] = useState<Schedule[]>([])
   const [showNewSchedule, setShowNewSchedule] = useState(false)
-  const [newSched, setNewSched] = useState({ founder_slug: '', hour: 9, minute: 0, days: ['mon', 'tue', 'wed', 'thu', 'fri'], n_sources: 3, creativity: 0.5, effort: 'high' })
+  const [newSched, setNewSched] = useState({ founder_slug: '', hour: 9, minute: 0, days: ['mon', 'tue', 'wed', 'thu', 'fri'], n_sources: 3, posts_per_source: 9, creativity: 0.5, effort: 'high' })
   const [savingSchedule, setSavingSchedule] = useState(false)
 
   const refreshSchedules = useCallback(async () => {
@@ -480,14 +480,14 @@ export default function AdminPage() {
                   <div className="flex items-center gap-2">
                     <span className="font-semibold text-[var(--text-primary)]">{s.founder_slug}</span>
                     <span className="text-[var(--text-muted)]">
-                      {String(s.hour).padStart(2, '0')}:{String(s.minute).padStart(2, '0')} UTC
+                      {String(s.hour).padStart(2, '0')}:{String(s.minute).padStart(2, '0')} IST
                     </span>
                     <span className="text-[10px] text-[var(--text-faint)]">
                       {s.days.map(d => d.slice(0, 3)).join(', ')}
                     </span>
                   </div>
                   <div className="mt-0.5 text-[10px] text-[var(--text-faint)]">
-                    {s.n_sources} sources · {s.effort} effort
+                    {s.n_sources} sources · {s.posts_per_source ?? 9} posts/src · {s.effort} effort
                     {s.last_run && ` · last run ${formatTimeAgo(s.last_run)}`}
                     {s.last_status && ` (${s.last_status})`}
                   </div>
@@ -502,7 +502,7 @@ export default function AdminPage() {
 
         {showNewSchedule && (
           <CardBody className="border-t border-[var(--border-2)]">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
               <div>
                 <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Founder</label>
                 <select
@@ -515,7 +515,7 @@ export default function AdminPage() {
                 </select>
               </div>
               <div>
-                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Time (UTC)</label>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Time (IST)</label>
                 <div className="flex gap-1">
                   <input type="number" min={0} max={23} value={newSched.hour} onChange={e => setNewSched(s => ({ ...s, hour: Number(e.target.value) }))} className="field w-14 text-[12px] text-center" />
                   <span className="text-[var(--text-muted)] self-center">:</span>
@@ -525,6 +525,10 @@ export default function AdminPage() {
               <div>
                 <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Sources</label>
                 <input type="number" min={1} max={10} value={newSched.n_sources} onChange={e => setNewSched(s => ({ ...s, n_sources: Number(e.target.value) }))} className="field w-full text-[12px]" />
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Posts/Source</label>
+                <input type="number" min={1} max={9} value={newSched.posts_per_source} onChange={e => setNewSched(s => ({ ...s, posts_per_source: Number(e.target.value) }))} className="field w-full text-[12px]" />
               </div>
               <div>
                 <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Effort</label>
