@@ -334,22 +334,32 @@ class BatchSession:
         return output
 
     def _web_search_enrich(self, llm: LLMProvider, state: BatchState) -> dict:
-        """Use web search to find trending topics and facts in founder's domain."""
+        """Use web search to find trending topics and facts about the founder and their domain."""
         if not hasattr(llm, 'generate_with_search'):
             return {"searches": [], "trending_topics": [], "facts": []}
 
         beliefs = state.founder_ctx.get("beliefs", [])[:5]
         domains = [b.get("topic", "") for b in beliefs if b.get("topic")]
-        if not domains:
-            return {"searches": [], "trending_topics": [], "facts": []}
 
-        domain_str = ", ".join(domains[:3])
-        prompt = f"""You are researching current trends and facts for a thought leader who writes about: {domain_str}
+        founder_name = state.founder_slug.replace("_", " ").title()
+        company_name = ""
+        card_first = (state.personality_card or "").split("\n")[0]
+        import re as _re
+        company_match = _re.search(r'(?:of|at|founded|leads?|CEO of|co-?founder of)\s+([A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+)*)', card_first)
+        if company_match:
+            company_name = company_match.group(1)
+
+        domain_str = ", ".join(domains[:3]) if domains else "technology, startups"
+        founder_line = f"{founder_name}"
+        if company_name:
+            founder_line += f" (founder/CEO of {company_name})"
+
+        prompt = f"""You are researching current facts and news for {founder_line}, a thought leader who writes about: {domain_str}
 
 Search the web for:
-1. Trending topics or recent news in these areas
-2. Recent statistics or data points that could strengthen arguments
-3. Contrarian viewpoints gaining traction
+1. Recent news about {founder_name}{f' and {company_name}' if company_name else ''} — funding rounds, product launches, interviews, podcasts, public statements
+2. Recent statistics, data points, or industry developments in: {domain_str}
+3. Contrarian viewpoints or emerging trends the founder could reference
 
 After searching, summarize your findings as JSON:
 ```json
@@ -359,7 +369,10 @@ After searching, summarize your findings as JSON:
     {{"fact": "...", "source": "...", "relevance": "..."}},
     ...
   ],
-  "contrarian_angles": ["angle1", "angle2", ...]
+  "contrarian_angles": ["angle1", "angle2", ...],
+  "founder_news": [
+    {{"headline": "...", "source": "...", "date": "..."}}
+  ]
 }}
 ```"""
 
@@ -370,7 +383,7 @@ After searching, summarize your findings as JSON:
             system_prompt="You are a research assistant. Search the web and provide factual, current information.",
             temperature=0.3,
             max_tokens=2000,
-            max_searches=3,
+            max_searches=5,
         )
         _dur = int((_t.time() - _start) * 1000)
 
