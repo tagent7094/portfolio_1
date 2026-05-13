@@ -151,16 +151,21 @@ async def _run_scheduled_generation(schedule: dict):
     _save_schedules()
 
 
+_last_fired: dict[str, str] = {}
+
+
 async def _scheduler_loop():
-    """Background loop that checks schedules every 60 seconds."""
+    """Background loop that checks schedules every 30 seconds."""
     _load_schedules()
     day_map = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
 
     while True:
-        await asyncio.sleep(60)
+        await asyncio.sleep(30)
         now = datetime.now(timezone.utc)
         weekday = now.weekday()
         current_time = (now.hour, now.minute)
+        time_key = now.strftime("%Y-%m-%d %H:%M")
+        logger.debug("[scheduler] tick at %s UTC", now.isoformat())
 
         for schedule in _schedules:
             if not schedule.get("enabled", True):
@@ -173,6 +178,10 @@ async def _scheduler_loop():
             if current_time != (schedule.get("hour", 9), schedule.get("minute", 0)):
                 continue
 
+            sid = schedule.get("id", schedule.get("founder_slug", ""))
+            if _last_fired.get(sid) == time_key:
+                continue
+
             last_run = schedule.get("last_run")
             if last_run:
                 try:
@@ -182,6 +191,7 @@ async def _scheduler_loop():
                 except Exception:
                     pass
 
+            _last_fired[sid] = time_key
             asyncio.create_task(_run_scheduled_generation(schedule))
 
 

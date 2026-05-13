@@ -1,6 +1,7 @@
 """API-based LLM provider (Anthropic Claude / OpenAI GPT) with streaming + thinking."""
 
 import logging
+import os
 import sys
 from typing import Generator
 
@@ -8,6 +9,8 @@ from .base import LLMProvider
 from ..utils.json_parser import parse_llm_json
 
 logger = logging.getLogger(__name__)
+
+_STREAM_DEBUG = os.environ.get("DIGITALDNA_STREAM_DEBUG", "") == "1"
 
 
 class APIProvider(LLMProvider):
@@ -26,6 +29,8 @@ class APIProvider(LLMProvider):
         self._provider_name = provider
         self._model_name = model
         self.last_thinking = ""
+        self.on_token = None       # callback(text: str) for streaming text tokens
+        self.on_thinking = None    # callback(text: str) for streaming thinking tokens
 
         if provider == "anthropic":
             import anthropic
@@ -100,9 +105,8 @@ class APIProvider(LLMProvider):
         else:
             kwargs["temperature"] = temperature
 
-        print(f"\033[2m[Anthropic {self.model}] base_url={self.client._base_url} api_key={str(self.client.api_key)[:20]}...\033[0m", file=sys.stderr, flush=True)
-
         thinking_parts = []
+        text_len = 0
         self.last_thinking = ""
 
         with self.client.messages.stream(**kwargs) as stream:
@@ -110,7 +114,7 @@ class APIProvider(LLMProvider):
                 if hasattr(event, 'type'):
                     if event.type == 'content_block_start':
                         block = event.content_block
-                        if hasattr(block, 'type'):
+                        if _STREAM_DEBUG and hasattr(block, 'type'):
                             if block.type == 'thinking':
                                 print("\033[2m[thinking] ", end="", flush=True, file=sys.stderr)
                             elif block.type == 'text':
@@ -121,16 +125,24 @@ class APIProvider(LLMProvider):
                         if hasattr(delta, 'type'):
                             if delta.type == 'thinking_delta':
                                 thinking_parts.append(delta.thinking)
-                                print(f"\033[2m{delta.thinking}\033[0m", end="", flush=True, file=sys.stderr)
+                                if _STREAM_DEBUG:
+                                    print(f"\033[2m{delta.thinking}\033[0m", end="", flush=True, file=sys.stderr)
+                                if self.on_thinking:
+                                    self.on_thinking(delta.thinking)
                             elif delta.type == 'text_delta':
-                                print(delta.text, end="", flush=True, file=sys.stderr)
+                                text_len += len(delta.text)
+                                if _STREAM_DEBUG:
+                                    print(delta.text, end="", flush=True, file=sys.stderr)
+                                if self.on_token:
+                                    self.on_token(delta.text)
                                 yield delta.text
 
                     elif event.type == 'content_block_stop':
-                        print("", file=sys.stderr)
+                        if _STREAM_DEBUG:
+                            print("", file=sys.stderr)
 
         self.last_thinking = "".join(thinking_parts)
-        print("", file=sys.stderr)
+        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m stream done: {len(self.last_thinking)} thinking chars, {text_len} text chars", file=sys.stderr, flush=True)
 
     def _stream_openai(self, prompt, system_prompt, temperature, max_tokens):
         """Stream from OpenAI-compatible APIs."""
@@ -152,9 +164,11 @@ class APIProvider(LLMProvider):
                 continue
             delta = chunk.choices[0].delta
             if delta.content:
-                print(delta.content, end="", flush=True, file=sys.stderr)
+                if _STREAM_DEBUG:
+                    print(delta.content, end="", flush=True, file=sys.stderr)
+                if self.on_token:
+                    self.on_token(delta.content)
                 yield delta.content
-        print("", file=sys.stderr)
 
     def generate_with_search(
         self,

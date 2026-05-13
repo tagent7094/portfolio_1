@@ -50,6 +50,8 @@ export default function FounderPackPage() {
   const [genProgress, setGenProgress] = useState(0)
   const [genStage, setGenStage] = useState('')
   const [genLog, setGenLog] = useState<string[]>([])
+  const [llmText, setLlmText] = useState('')
+  const [webSearchSummary, setWebSearchSummary] = useState<any>(null)
   const [genConfig, setGenConfig] = useState(searchParams.get('generate') === '1')
   const [nSources, setNSources] = useState(1)
   const [creativity, setCreativity] = useState(0.5)
@@ -96,7 +98,7 @@ export default function FounderPackPage() {
   const refreshPacks = useCallback((autoSelectLatest = false) => {
     if (!slug) return
     setLoadingPacks(true)
-    apiGet<{ packs: Pack[] }>(`/api/admin/founders/${slug}/post-packs`)
+    apiGet<{ packs: Pack[] }>(`/api/founders/${slug}/post-packs`)
       .then(d => {
         setPacks(d.packs)
         if (autoSelectLatest && d.packs.length > 0) setSelectedDate(d.packs[0].date)
@@ -118,7 +120,7 @@ export default function FounderPackPage() {
     setPackData(null)
     setSelectedPost(null)
     setEdits({})
-    apiGet<PackData>(`/api/admin/founders/${slug}/post-packs/${selectedDate}`)
+    apiGet<PackData>(`/api/founders/${slug}/post-packs/${selectedDate}`)
       .then(d => setPackData(d))
       .catch(() => {})
       .finally(() => setLoadingData(false))
@@ -183,6 +185,8 @@ export default function FounderPackPage() {
         const res = await apiGet<any>(`/api/generate/batch/status/${taskId}?since=${logOffsetRef.current}`)
         setGenProgress(res.progress || 0)
         setGenStage(res.stage || '')
+        if (res.current_llm_text) setLlmText(res.current_llm_text)
+        if (res.web_search_summary) setWebSearchSummary(res.web_search_summary)
         if (res.log?.length) {
           setGenLog(prev => [...prev, ...res.log.map((l: any) => `${l.stage}: ${l.status}`)])
           logOffsetRef.current = res.log_offset
@@ -192,6 +196,8 @@ export default function FounderPackPage() {
           pollRef.current = null
           setGenerating(false)
           setGenTaskId(null)
+          setLlmText('')
+          setWebSearchSummary(null)
           localStorage.removeItem(`gen_task_${slug}`)
           if (res.status === 'done') refreshPacks(true)
           if (res.error) setGenLog(prev => [...prev, `error: ${res.error}`])
@@ -267,7 +273,7 @@ export default function FounderPackPage() {
     if (showTraces) { setShowTraces(false); return }
     setLoadingTraces(true)
     try {
-      const data = await apiGet<any>(`/api/admin/founders/${slug}/post-packs/${selectedDate}/traces`)
+      const data = await apiGet<any>(`/api/founders/${slug}/post-packs/${selectedDate}/traces`)
       setTraceData(data)
       setShowTraces(true)
     } catch {
@@ -508,6 +514,7 @@ export default function FounderPackPage() {
                   </div>
                 </div>
               )}
+            </div>
             {/* Traces */}
             <button
               onClick={loadTraces}
@@ -521,7 +528,6 @@ export default function FounderPackPage() {
               {loadingTraces ? <Loader2 size={12} className="animate-spin" /> : <Cpu size={12} />}
               <span className="hidden sm:inline">Traces</span>
             </button>
-            </div>
           </div>
         </div>
 
@@ -571,6 +577,32 @@ export default function FounderPackPage() {
             <div className="mt-2 max-h-[100px] overflow-y-auto rounded-lg border p-2 font-mono text-[10px] space-y-0.5"
               style={{ borderColor: 'var(--border-2)', backgroundColor: 'var(--surface-2)', color: 'var(--text-muted)' }}>
               {genLog.slice(-20).map((line, i) => <div key={i}>{line}</div>)}
+            </div>
+          )}
+          {webSearchSummary && (
+            <div className="mt-2 rounded-lg border p-2 text-[10px] space-y-1"
+              style={{ borderColor: 'var(--border-2)', backgroundColor: 'var(--surface-2)', color: 'var(--text-muted)' }}>
+              {webSearchSummary.search_queries?.map((q: string, i: number) => (
+                <div key={i}><span style={{ color: 'var(--text-faint)' }}>searched:</span> {q}</div>
+              ))}
+              {webSearchSummary.trending_topics?.length > 0 && (
+                <div className="flex items-center gap-1 flex-wrap">
+                  <span style={{ color: 'var(--text-faint)' }}>topics:</span>
+                  {webSearchSummary.trending_topics.slice(0, 5).map((t: string, i: number) => (
+                    <span key={i} className="rounded-full px-1.5 py-0.5"
+                      style={{ backgroundColor: 'var(--surface-3)', color: 'var(--text-secondary)', fontSize: '9px' }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+          {llmText && (
+            <div className="mt-2 rounded-lg border p-2 font-mono text-[10px] max-h-[150px] overflow-y-auto whitespace-pre-wrap"
+              style={{ borderColor: 'var(--border-2)', backgroundColor: 'var(--surface-2)', color: 'var(--text-muted)' }}>
+              <span>{llmText}</span>
+              <span className="inline-block w-[2px] h-[10px] ml-0.5 animate-pulse" style={{ backgroundColor: 'var(--text-primary)' }} />
             </div>
           )}
         </div>
@@ -634,6 +666,38 @@ export default function FounderPackPage() {
           </div>
         )}
 
+        {/* Instant swap preview */}
+        {!custVariant && custPost && (
+          <div className="shrink-0 border-b px-4 py-3" style={{ borderColor: 'var(--border-2)' }}>
+            <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-1)' }}>
+              <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: 'var(--border-2)' }}>
+                <span className="text-[13px] font-semibold" style={{ color: 'var(--text-primary)' }}>Swapped Post</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => { navigator.clipboard.writeText(custPost) }}
+                    className="px-3 py-1 rounded-lg text-[11px] transition-colors hover:opacity-80"
+                    style={{ backgroundColor: 'var(--surface-2)', color: 'var(--text-secondary)', border: '1px solid var(--border-1)' }}
+                  >
+                    Copy
+                  </button>
+                  <button
+                    onClick={() => setCustPost('')}
+                    className="transition-opacity hover:opacity-70"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+              <div className="px-5 py-4">
+                <p className="text-[13px] leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--text-secondary)' }}>
+                  {custPost}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Post customizer — above table */}
         {custVariant && packData && (
           <div className="shrink-0 border-b px-4 py-3 space-y-2" style={{ borderColor: 'var(--border-2)' }}>
@@ -685,6 +749,12 @@ export default function FounderPackPage() {
               setCustVariant({ letter, opener, originalBody: body })
               setCustPost('')
             }}
+            onSwapOpener={(_letter, opener, body) => {
+              if (!body) return
+              const paragraphs = body.split('\n\n')
+              paragraphs[0] = opener
+              setCustPost(paragraphs.join('\n\n'))
+            }}
             onShowDetails={() => setShowDetail(true)}
             onClose={() => setSelectedPost(null)}
           />
@@ -702,6 +772,13 @@ export default function FounderPackPage() {
           onSelectVariant={(letter, opener, body) => {
             setCustVariant({ letter, opener, originalBody: body })
             setCustPost('')
+            setShowDetail(false)
+          }}
+          onSwapOpener={(_letter, opener, body) => {
+            if (!body) return
+            const paragraphs = body.split('\n\n')
+            paragraphs[0] = opener
+            setCustPost(paragraphs.join('\n\n'))
             setShowDetail(false)
           }}
         />

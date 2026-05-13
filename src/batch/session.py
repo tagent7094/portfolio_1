@@ -33,18 +33,40 @@ class BatchSession:
     def __init__(self, event_bus: PipelineEventBus | None = None):
         self.event_bus = event_bus
         self.cancel_event = threading.Event()
+        self._llm_text_buf = ""
+        self._llm_stage = ""
+        self._llm_progress = 0.0
+        self._LLM_FLUSH_CHARS = 500
+        self._LLM_MAX_WINDOW = 2000
 
     def _check_cancel(self):
         if self.cancel_event.is_set():
             raise CancelledError("Generation cancelled by user")
 
     def _emit(self, stage: str, status: str, data: dict | None = None, progress: float = 0.0):
+        self._llm_stage = stage
+        self._llm_progress = progress
+        if status == "started":
+            self._llm_text_buf = ""
         if self.event_bus:
             self.event_bus.emit_simple(stage, status, data or {}, progress)
         msg = f"[batch] {stage}: {status}"
         if data:
             msg += f" {data}"
         print(msg, file=sys.stderr, flush=True)
+
+    def _on_llm_token(self, text: str):
+        self._llm_text_buf += text
+        if len(self._llm_text_buf) >= self._LLM_FLUSH_CHARS and self.event_bus:
+            window = self._llm_text_buf[-self._LLM_MAX_WINDOW:]
+            from src.generation.pipeline_events import PipelineEvent
+            self.event_bus.emit(PipelineEvent(
+                stage=self._llm_stage,
+                status="llm_chunk",
+                progress=self._llm_progress,
+                llm_text=window,
+            ))
+            self._llm_text_buf = window
 
     def run(
         self,
@@ -67,6 +89,11 @@ class BatchSession:
         """
         llm_gen = create_llm(config_path=config_path, purpose="generation")
         llm_prep = create_llm(config_path=config_path, purpose="prep")
+
+        if hasattr(llm_gen, 'on_token'):
+            llm_gen.on_token = self._on_llm_token
+        if hasattr(llm_prep, 'on_token'):
+            llm_prep.on_token = self._on_llm_token
 
         if hasattr(llm_gen, 'enable_thinking'):
             llm_gen.enable_thinking = enable_thinking
@@ -137,7 +164,9 @@ class BatchSession:
         state.web_search_context = web_context
         self._emit("web_search", "completed", {
             "searches": len(web_context.get("searches", [])),
-            "topics_found": len(web_context.get("trending_topics", [])),
+            "search_queries": [s.get("query", "") for s in web_context.get("searches", [])],
+            "trending_topics": web_context.get("trending_topics", []),
+            "facts_count": len(web_context.get("facts", [])),
         }, progress=0.12)
 
         # Phase 3: Select sources (Haiku — ranking/classification)

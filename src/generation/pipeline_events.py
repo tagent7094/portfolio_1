@@ -20,6 +20,7 @@ class PipelineEvent:
     data: dict = field(default_factory=dict)
     progress: float = 0.0  # 0.0 to 1.0
     agent_id: str = ""     # which agent is working (for voting stage)
+    llm_text: str = ""     # latest LLM output text chunk for live display
 
 
 class PipelineEventBus:

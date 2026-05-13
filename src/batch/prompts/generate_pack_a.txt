@@ -104,6 +104,14 @@ If any test FAILED, do NOT replicate that quality in your opener.
    - Specify whether this post is "wrestling" (exploring tension, uncertain, the turn is the point) or "declaring" (stating position, confident, defending in a straight line)
    - Match the source post's mode if mirroring
 
+8. STRUCTURAL VERIFICATION (before returning):
+   Count your opener sentences. Compare against the source dissection's sentence_count and hook_mechanics.
+   - Your opener must have the SAME number of sentences as the source's opener
+   - Each sentence must serve the SAME structural function (from hook_mechanics[].structural_function)
+   - The rhythm pattern (short/medium/long sequence) must match
+   If any of these don't match, revise your opener before returning.
+   Set structural_match to true only if all three conditions hold.
+
 ## OUTPUT FORMAT
 
 ```json
@@ -112,7 +120,8 @@ If any test FAILED, do NOT replicate that quality in your opener.
   "mode": "wrestling|declaring",
   "events_used": ["event 1 from inventory", "event 2"],
   "stories_used": ["story reference"],
-  "argument_compressed": "one sentence summary of what this post argues"
+  "argument_compressed": "one sentence summary of what this post argues",
+  "structural_match": true
 }}}}
 ```
 

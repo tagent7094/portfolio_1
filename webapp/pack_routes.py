@@ -20,12 +20,25 @@ from fastapi import APIRouter, Header, HTTPException, Request, UploadFile, File
 from pydantic import BaseModel
 
 from webapp.auth_routes import _require_admin
+from src.auth.tokens import decode_token
 
 router = APIRouter(prefix="/api/admin/founders", tags=["admin-packs"])
 setup_router = APIRouter(prefix="/api/admin", tags=["admin-setup"])
+founder_router = APIRouter(prefix="/api/founders", tags=["founder-packs"])
 logger = logging.getLogger(__name__)
 
 FOUNDERS_DIR = Path(__file__).parent.parent / "data" / "founders"
+
+
+def _require_founder(request: Request, slug: str) -> None:
+    if os.environ.get("TAGENT_AUTH_ENABLED", "").lower() not in ("1", "true", "yes"):
+        return
+    token = request.cookies.get("tagent_token", "")
+    claims = decode_token(token)
+    if not claims:
+        raise HTTPException(status_code=401, detail="unauthenticated")
+    if claims.get("sub") != slug:
+        raise HTTPException(status_code=403, detail="not authorized for this founder")
 
 
 def _post_data_dir(slug: str) -> Path:
@@ -196,87 +209,61 @@ def _load_pack_data(slug: str, date: str) -> tuple[list[str], list[dict[str, Any
     return headers, rows
 
 
-# ── List packs ───────────────────────────────────────────────────────────────
+# ── Shared data helpers ──────────────────────────────────────────────────────
 
-@router.get("/{slug}/post-packs")
-async def list_post_packs(slug: str, request: Request):
-    _require_admin(request)
+
+def _list_packs_response(slug: str) -> dict:
     post_dir = _post_data_dir(slug)
     if not post_dir.exists():
         return {"packs": []}
-
     packs: list[dict] = []
-
-    # Batch JSON packs — list every file, not just one per date (exclude _log files)
     for f in sorted(post_dir.glob("*_batch_*.json"), key=lambda p: p.stat().st_mtime, reverse=True):
         if "_log" in f.name:
             continue
         d = _extract_date(f.name)
         if d:
             packs.append({
-                "filename": f.name,
-                "date": d,
-                "size_kb": round(f.stat().st_size / 1024, 1),
-                "format": "json",
+                "filename": f.name, "date": d,
+                "size_kb": round(f.stat().st_size / 1024, 1), "format": "json",
             })
-
-    # Excel packs (only if no JSON with same filename stem exists)
     json_stems = {f.stem for f in post_dir.glob("*_batch_*.json")}
     for f in sorted(post_dir.glob("*.xlsx"), key=lambda p: p.stat().st_mtime, reverse=True):
         d = _extract_date(f.name)
         if d and f.stem not in json_stems:
             packs.append({
-                "filename": f.name,
-                "date": d,
-                "size_kb": round(f.stat().st_size / 1024, 1),
-                "format": "xlsx",
+                "filename": f.name, "date": d,
+                "size_kb": round(f.stat().st_size / 1024, 1), "format": "xlsx",
             })
-
     return {"packs": packs}
 
 
-# ── Get single pack ──────────────────────────────────────────────────────────
-
-@router.get("/{slug}/post-packs/{date}")
-async def get_post_pack(slug: str, date: str, request: Request, filename: str | None = None):
-    _require_admin(request)
+def _get_pack_response(slug: str, date: str, filename: str | None = None) -> dict:
     post_dir = _post_data_dir(slug)
-
-    # If exact filename provided, use it directly
     if filename:
         target = post_dir / filename
         if target.exists() and target.suffix == ".json":
             raw = json.loads(target.read_text(encoding="utf-8"))
             return _batch_json_to_tabular(raw)
-
-    # Try batch JSON — latest file for this date
     f = _latest_file_for_date(post_dir, date, ".json")
     if f:
         raw = json.loads(f.read_text(encoding="utf-8"))
         return _batch_json_to_tabular(raw)
-
-    # Fall back to Excel — latest for this date
     target = _latest_file_for_date(post_dir, date, ".xlsx")
     if not target:
         raise HTTPException(status_code=404, detail=f"No pack found for {date}")
-
     try:
         import openpyxl  # type: ignore
     except ImportError:
         raise HTTPException(status_code=500, detail="openpyxl not installed on server")
-
     try:
         wb = openpyxl.load_workbook(target, read_only=True, data_only=True)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Could not open Excel: {exc}")
-
     result: dict = {"readme": {}, "headers": [], "posts": []}
-
     if "README" in wb.sheetnames:
         for row in wb["README"].iter_rows(values_only=True):
             if row[0] is not None and row[1] is not None:
                 result["readme"][str(row[0])] = str(row[1])
-
     if "Posts" in wb.sheetnames:
         ws = wb["Posts"]
         headers: list[str] = []
@@ -297,19 +284,12 @@ async def get_post_pack(slug: str, date: str, request: Request, filename: str | 
                         else:
                             post[headers[j]] = val
                 result["posts"].append(post)
-
     wb.close()
     return result
 
 
-# ── Traceability data ────────────────────────────────────────────────────────
-
-@router.get("/{slug}/post-packs/{date}/traces")
-async def get_pack_traces(slug: str, date: str, request: Request):
-    _require_admin(request)
+def _get_traces_response(slug: str, date: str) -> dict:
     post_dir = _post_data_dir(slug)
-
-    # Try log file first (traces are stored separately since restructuring)
     log_matches = [f for f in post_dir.glob("*_batch_*_log.json") if date in f.name]
     if log_matches:
         log_file = max(log_matches, key=lambda f: f.stat().st_mtime)
@@ -319,8 +299,6 @@ async def get_pack_traces(slug: str, date: str, request: Request):
             "web_search": raw.get("web_searches", raw.get("web_search", {})),
             "pipeline_log": raw.get("pipeline_log", []),
         }
-
-    # Fallback: check main JSON for older format
     f = _latest_file_for_date(post_dir, date, ".json")
     if f:
         raw = json.loads(f.read_text(encoding="utf-8"))
@@ -328,8 +306,49 @@ async def get_pack_traces(slug: str, date: str, request: Request):
             "traceability": raw.get("traceability", {}),
             "web_search": raw.get("web_search", {}),
         }
-
     raise HTTPException(status_code=404, detail=f"No batch pack with traces for {date}")
+
+
+# ── Admin pack endpoints ─────────────────────────────────────────────────────
+
+
+@router.get("/{slug}/post-packs")
+async def list_post_packs(slug: str, request: Request):
+    _require_admin(request)
+    return _list_packs_response(slug)
+
+
+@router.get("/{slug}/post-packs/{date}")
+async def get_post_pack(slug: str, date: str, request: Request, filename: str | None = None):
+    _require_admin(request)
+    return _get_pack_response(slug, date, filename)
+
+
+@router.get("/{slug}/post-packs/{date}/traces")
+async def get_pack_traces(slug: str, date: str, request: Request):
+    _require_admin(request)
+    return _get_traces_response(slug, date)
+
+
+# ── Founder pack endpoints (tagent_token auth) ──────────────────────────────
+
+
+@founder_router.get("/{slug}/post-packs")
+async def founder_list_post_packs(slug: str, request: Request):
+    _require_founder(request, slug)
+    return _list_packs_response(slug)
+
+
+@founder_router.get("/{slug}/post-packs/{date}")
+async def founder_get_post_pack(slug: str, date: str, request: Request, filename: str | None = None):
+    _require_founder(request, slug)
+    return _get_pack_response(slug, date, filename)
+
+
+@founder_router.get("/{slug}/post-packs/{date}/traces")
+async def founder_get_pack_traces(slug: str, date: str, request: Request):
+    _require_founder(request, slug)
+    return _get_traces_response(slug, date)
 
 
 # ── Google Sheets export ──────────────────────────────────────────────────────

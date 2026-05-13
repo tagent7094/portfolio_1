@@ -175,6 +175,27 @@ def _generate_a_variant(
             mode="declaring", text=response[:500],
         )
 
+    if not result.get("structural_match", True):
+        logger.info("[batch] A%d: structural mismatch, regenerating once", variant_num)
+        _start = _t.time()
+        response = llm.generate(prompt, temperature=min(temp + 0.1, 1.0), max_tokens=3000)
+        _dur = int((_t.time() - _start) * 1000)
+        retry = parse_llm_json(response)
+        if isinstance(retry, dict) and retry.get("text"):
+            result = retry
+        if state.tracer:
+            state.tracer.trace_llm_call(
+                stage=f"generate_a{variant_num}_retry",
+                template="generate_pack_a.txt",
+                prompt="(structural mismatch retry)",
+                response=response,
+                temperature=min(temp + 0.1, 1.0),
+                max_tokens=3000,
+                duration_ms=_dur,
+                thinking=getattr(llm, 'last_thinking', ''),
+                metadata={"variant": variant_num, "batch": "A", "retry": True},
+            )
+
     post = AmplifiedPost(
         label=f"A{variant_num}",
         batch="A",

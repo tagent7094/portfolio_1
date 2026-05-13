@@ -22,6 +22,9 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 import os as _os
+import time as _time
+
+_server_start = _time.time()
 
 app = FastAPI(title="Digital DNA", version="0.2.0")
 
@@ -56,9 +59,10 @@ from webapp.deploy_routes import router as deploy_router
 app.include_router(deploy_router)
 
 # Post-pack routes (admin Excel viewer + one-time Google setup)
-from webapp.pack_routes import router as pack_router, setup_router as pack_setup_router
+from webapp.pack_routes import router as pack_router, setup_router as pack_setup_router, founder_router as pack_founder_router
 app.include_router(pack_router)
 app.include_router(pack_setup_router)
+app.include_router(pack_founder_router)
 
 # Chat routes (AskSharath — RAG chatbot + admin config)
 from webapp.chat_routes import router as chat_router, admin_chat_router
@@ -97,8 +101,10 @@ from starlette.requests import Request
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     path = request.url.path
-    # Skip static files
+    # Skip static files and noisy polling endpoints
     if path in ("/", "/style.css", "/app.js", "/favicon.ico") or "." in path.split("/")[-1]:
+        return await call_next(request)
+    if "/api/generate/batch/status/" in path:
         return await call_next(request)
 
     method = request.method
@@ -747,6 +753,11 @@ async def browse_posts(
                    min_comments=min_comments, max_comments=max_comments,
                    min_reposts=min_reposts, max_reposts=max_reposts, sort_by=sort_by)
 
+@app.get("/api/posts/stats")
+async def posts_stats():
+    from src.customizer.post_db import count_posts
+    return {"total": count_posts()}
+
 @app.get("/api/posts/{post_id}")
 async def get_post(post_id: str):
     from src.customizer.post_db import get_post as _get
@@ -894,6 +905,7 @@ async def generate_batch_background(data: BatchGenerateRequest):
         "finished_at": None,
         "error": None,
         "filepath": None,
+        "web_search_summary": None,
         "_session": session,
     }
     _bg_tasks[task_id] = task_state
@@ -923,10 +935,17 @@ async def generate_batch_background(data: BatchGenerateRequest):
                     continue
                 task_state["progress"] = ev.get("progress", task_state["progress"])
                 task_state["stage"] = ev.get("stage", task_state["stage"])
+                llm_text = ev.get("llm_text", "")
+                if llm_text:
+                    task_state["current_llm_text"] = llm_text
+                if ev.get("status") == "llm_chunk":
+                    continue
                 task_state["log"].append({
                     "stage": ev.get("stage", ""),
                     "status": ev.get("status", ""),
                 })
+                if ev.get("stage") == "web_search" and ev.get("status") == "completed":
+                    task_state["web_search_summary"] = ev.get("data", {})
                 fp = (ev.get("data") or {}).get("filepath")
                 if fp:
                     task_state["filepath"] = fp
@@ -983,6 +1002,8 @@ async def get_batch_task_status(task_id: str, since: int = 0):
         "finished_at": task["finished_at"],
         "error": task["error"],
         "filepath": task["filepath"],
+        "current_llm_text": task.get("current_llm_text", ""),
+        "web_search_summary": task.get("web_search_summary"),
     }
 
 
@@ -997,6 +1018,13 @@ async def cancel_batch_task(task_id: str):
     task["status"] = "cancelled"
     task["finished_at"] = datetime.now(timezone.utc).isoformat()
     return {"status": "cancelled"}
+
+
+@app.get("/api/viral-sources/sheets")
+async def list_sheets():
+    """Return distinct source sheet names available in the post database."""
+    from src.customizer.post_db import get_sheets
+    return {"sheets": get_sheets()}
 
 
 @app.get("/api/viral-sources")
@@ -1048,20 +1076,31 @@ async def list_viral_sources(
     return {"sources": sources, "total": result["total"]}
 
 
-@app.get("/api/viral-sources/sheets")
-async def list_sheets():
-    """Return distinct source sheet names available in the post database."""
-    from src.customizer.post_db import get_sheets
-    return {"sheets": get_sheets()}
-
-
-@app.get("/api/posts/stats")
-async def posts_stats():
-    from src.customizer.post_db import count_posts
-    return {"total": count_posts()}
-
-
 ## ── Viral Repo Management (admin) ──────────────────────────────────────────
+
+@app.get("/api/admin/server/status")
+async def get_server_status(request: Request):
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+    import platform
+    from webapp.schedule_routes import _schedules, _running_loop
+    active_tasks = sum(1 for t in _bg_tasks.values() if t.get("status") == "running")
+    try:
+        import psutil
+        mem_mb = round(psutil.Process().memory_info().rss / 1024 / 1024, 1)
+    except Exception:
+        mem_mb = None
+    return {
+        "uptime_seconds": int(_time.time() - _server_start),
+        "python_version": platform.python_version(),
+        "active_tasks": active_tasks,
+        "total_tasks": len(_bg_tasks),
+        "memory_mb": mem_mb,
+        "scheduler_running": _running_loop is not None and not _running_loop.done(),
+        "enabled_schedules": sum(1 for s in _schedules if s.get("enabled", True)),
+        "total_schedules": len(_schedules),
+    }
+
 
 VIRAL_DIR = PROJECT_ROOT / "data" / "viral-posts-samples"
 
@@ -1221,56 +1260,83 @@ async def activate_viral_repo(body: ActivateRequest, request: Request):
 
 ## ── Best-Match: Semantic Founder-Post Alignment ──────────────────────────────
 
+import hashlib as _hashlib
 import struct as _struct
 
-_founder_profile_cache: dict[str, tuple[list[str], list[float]]] = {}
+_founder_profile_cache: dict[str, list[float]] = {}
 
 
 def _build_founder_profile_sentences(graph) -> list[str]:
-    """Build rich natural-language sentences from a founder's knowledge graph."""
+    """Build rich natural-language sentences from a founder's knowledge graph.
+
+    Node field mapping (graph schema uses topic/title/name, not label):
+      belief       -> topic, stance
+      sub_belief   -> topic, stance
+      story        -> title, summary
+      thinking_model -> name, description
+      vocabulary   -> phrases_used (list-as-string)
+      contrast_pair -> label, left, right
+      milestone    -> title, summary
+      identity/value/topic/category -> label or description
+    """
     sentences: list[str] = []
     for _, data in graph.nodes(data=True):
         nt = data.get("node_type", "")
-        if nt == "belief":
-            label = data.get("label", "")
+        if nt in ("belief", "sub_belief"):
+            topic = data.get("topic", "") or data.get("label", "")
             stance = data.get("stance", "")
-            if label:
-                s = f"I believe in {label}."
+            if topic:
+                s = f"I believe in {topic}."
                 if stance:
                     s += f" {stance}"
                 sentences.append(s)
         elif nt == "story":
-            label = data.get("label", "")
+            title = data.get("title", "") or data.get("label", "")
             summary = data.get("summary", "")
-            if label and summary:
-                sentences.append(f"Story: {label}. {summary}")
-            elif label:
-                sentences.append(f"Experience with {label}.")
+            if title and summary:
+                sentences.append(f"Story: {title}. {summary}")
+            elif title:
+                sentences.append(f"Experience with {title}.")
         elif nt == "thinking_model":
-            label = data.get("label", "")
+            name = data.get("name", "") or data.get("label", "")
             desc = data.get("description", "")
             applies = data.get("applies_to", "")
-            if label:
-                s = f"I think about {label}."
+            if name:
+                s = f"I think about {name}."
                 if desc:
                     s += f" {desc}"
                 if applies:
                     s += f" This applies to {applies}."
                 sentences.append(s)
         elif nt == "vocabulary":
-            label = data.get("label", "")
-            defn = data.get("definition", "")
-            if label and defn:
-                sentences.append(f"Key concept: {label} — {defn}")
+            phrases = data.get("phrases_used", "")
+            if isinstance(phrases, str) and phrases.startswith("["):
+                import ast
+                try:
+                    phrase_list = ast.literal_eval(phrases)
+                    for p in phrase_list[:10]:
+                        sentences.append(f"I often say: {p}")
+                except Exception:
+                    pass
+            elif isinstance(phrases, list):
+                for p in phrases[:10]:
+                    sentences.append(f"I often say: {p}")
         elif nt == "contrast_pair":
             label = data.get("label", "")
             left = data.get("left", "")
             right = data.get("right", "")
             if label and left and right:
                 sentences.append(f"I contrast {left} versus {right} when discussing {label}.")
+        elif nt == "milestone":
+            title = data.get("title", "") or data.get("label", "")
+            summary = data.get("summary", "")
+            if title and summary:
+                sentences.append(f"Milestone: {title}. {summary}")
+            elif title:
+                sentences.append(f"Milestone: {title}.")
         elif nt == "identity":
-            label = data.get("label", "")
             desc = data.get("description", "")
+            label = data.get("label", "")
             if desc:
                 sentences.append(desc)
             elif label:
@@ -1279,8 +1345,12 @@ def _build_founder_profile_sentences(graph) -> list[str]:
             label = data.get("label", "")
             if label:
                 sentences.append(f"I value {label}.")
+        elif nt == "category":
+            label = data.get("label", "") or data.get("name", "")
+            if label:
+                sentences.append(f"I frequently discuss {label}.")
         elif nt == "topic":
-            label = data.get("label", "")
+            label = data.get("label", "") or data.get("name", "")
             if label:
                 sentences.append(f"I frequently discuss {label}.")
     return sentences
@@ -1289,20 +1359,18 @@ def _build_founder_profile_sentences(graph) -> list[str]:
 def _get_founder_embedding(slug: str, graph, embedder) -> list[float]:
     """Get or compute the average embedding for a founder's profile."""
     sentences = _build_founder_profile_sentences(graph)
-    cache_key = f"{slug}:{len(sentences)}"
-    if cache_key in _founder_profile_cache:
-        cached_sents, cached_emb = _founder_profile_cache[cache_key]
-        if cached_sents == sentences:
-            return cached_emb
-
     if not sentences:
         return []
+    content_hash = _hashlib.md5("||".join(sentences).encode()).hexdigest()[:12]
+    cache_key = f"{slug}:{content_hash}"
+    if cache_key in _founder_profile_cache:
+        return _founder_profile_cache[cache_key]
 
     embs = embedder.embed(sentences)
     import numpy as np
     avg = np.mean(embs, axis=0)
     avg = (avg / np.linalg.norm(avg)).tolist()
-    _founder_profile_cache[cache_key] = (sentences, avg)
+    _founder_profile_cache[cache_key] = avg
     return avg
 
 
@@ -1438,10 +1506,8 @@ async def best_match_viral_posts(
             use_semantic = False
 
     if use_semantic:
-        # Semantic cosine similarity scoring
         all_embs = await asyncio.to_thread(load_all_embeddings)
 
-        # Fetch posts with filters
         if q:
             all_result = search_posts(query=q, page=1, page_size=5000)
         else:

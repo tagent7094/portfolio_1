@@ -5,7 +5,7 @@ import { s } from './helpers'
 import { StatusPill, TypeBadge, VariantBadge, ScoreDots, EditableStatusCell } from './cells'
 
 export function DetailPanel({
-  post, headers, edits, onEdit, onClose, onSelectVariant,
+  post, headers, edits, onEdit, onClose, onSelectVariant, onSwapOpener,
 }: {
   post: Record<string, any>
   headers: string[]
@@ -13,6 +13,7 @@ export function DetailPanel({
   onEdit: (rowId: string, colKey: string, value: string) => void
   onClose: () => void
   onSelectVariant?: (variantLetter: string, openerText: string, postBody: string) => void
+  onSwapOpener?: (variantLetter: string, openerText: string, postBody: string) => void
 }) {
   const rec         = s(post['Recommended']).trim().toUpperCase()
   const statusCols  = headers.filter(h => h.startsWith('Status'))
@@ -145,13 +146,26 @@ export function DetailPanel({
                         {change && (
                           <p className="mt-1.5 pl-7 text-[11px] italic" style={{ color: 'var(--text-muted)' }}>{change}</p>
                         )}
-                        {onSelectVariant && (
-                          <button
-                            onClick={() => onSelectVariant(letter, opening, finalPost)}
-                            className={clsx('mt-3 ml-7 px-4 py-2 text-[11px] font-semibold rounded-lg transition-all hover:scale-[1.02]', accent.badge)}
-                          >
-                            Customize with {letter}
-                          </button>
+                        {(onSwapOpener || onSelectVariant) && (
+                          <div className="mt-3 ml-7 flex gap-2">
+                            {onSwapOpener && (
+                              <button
+                                onClick={() => onSwapOpener(letter, opening, finalPost)}
+                                className={clsx('px-4 py-2 text-[11px] font-semibold rounded-lg transition-all hover:scale-[1.02]', accent.badge)}
+                              >
+                                Use This Opener
+                              </button>
+                            )}
+                            {onSelectVariant && (
+                              <button
+                                onClick={() => onSelectVariant(letter, opening, finalPost)}
+                                className="px-3 py-2 text-[10px] rounded-lg transition-colors hover:opacity-80"
+                                style={{ color: 'var(--text-muted)' }}
+                              >
+                                Blend ↗
+                              </button>
+                            )}
+                          </div>
                         )}
                       </div>
                     )

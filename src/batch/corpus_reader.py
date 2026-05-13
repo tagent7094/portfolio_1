@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import logging
 import re
 from pathlib import Path
@@ -59,8 +61,40 @@ def _split_posts(text: str) -> list[str]:
     return [p for p in posts if len(p.split()) > 20]
 
 
+def _internalization_hash(state: BatchState) -> str:
+    """Hash the inputs that determine internalization output."""
+    founder_ctx = state.founder_ctx
+    raw = state.raw_data
+    parts = [
+        state.personality_card[:3000],
+        str(founder_ctx.get("beliefs", [])[:30]),
+        str(founder_ctx.get("stories", [])[:20]),
+        str(founder_ctx.get("contrast_pairs", [])[:15]),
+        str(founder_ctx.get("thinking_models", [])[:10]),
+        raw.get("raw_voice_dna", "")[:4000],
+        raw.get("raw_story_bank", "")[:4000],
+        raw.get("founder_posts_sample", "")[:8000],
+    ]
+    return hashlib.sha256("||".join(parts).encode()).hexdigest()
+
+
+def _internalization_cache_path(slug: str) -> Path:
+    return Path(__file__).parent.parent.parent / "data" / "founders" / slug / ".internalization_cache.json"
+
+
 def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
     """Run deep corpus internalization via LLM — extracts voice markers, formatting, scenes, tensions."""
+    input_hash = _internalization_hash(state)
+    cache_file = _internalization_cache_path(state.founder_slug)
+    if cache_file.exists():
+        try:
+            cached = json.loads(cache_file.read_text(encoding="utf-8"))
+            if cached.get("hash") == input_hash:
+                logger.info("[batch] Using cached internalization (hash match)")
+                return cached["result"]
+        except Exception:
+            pass
+
     template = load_prompt(PROMPTS_DIR / "corpus_internalize.txt")
 
     founder_ctx = state.founder_ctx
@@ -118,6 +152,16 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
     if not isinstance(result, dict):
         logger.warning("[batch] Internalization returned non-dict, using defaults")
         return {}
+
+    try:
+        from datetime import datetime
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        cache_file.write_text(json.dumps({
+            "hash": input_hash, "result": result,
+            "cached_at": datetime.utcnow().isoformat(),
+        }, ensure_ascii=False), encoding="utf-8")
+    except Exception as e:
+        logger.warning("[batch] Failed to write internalization cache: %s", e)
 
     return result
 

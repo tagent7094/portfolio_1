@@ -82,6 +82,13 @@ export default function AdminPage() {
     } catch { /* ignore */ }
   }
 
+  // Server status
+  const [serverStatus, setServerStatus] = useState<any>(null)
+
+  const refreshStatus = useCallback(async () => {
+    try { setServerStatus(await apiGet<any>('/api/admin/server/status')) } catch {}
+  }, [])
+
   // Viral repo state
   const [repoFiles, setRepoFiles] = useState<{ name: string; size_kb: number; post_count: number; active: boolean }[]>([])
   const [repoLoading, setRepoLoading] = useState(false)
@@ -210,7 +217,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     apiGet('/api/admin/me')
-      .then(() => { setAuthed(true); refresh(); refreshSchedules(); refreshRepos() })
+      .then(() => { setAuthed(true); refresh(); refreshSchedules(); refreshRepos(); refreshStatus() })
       .catch(() => { setAuthed(false); navigate('/admin/login', { replace: true }) })
   }, [navigate, refresh, refreshSchedules, refreshRepos])
 
@@ -286,6 +293,31 @@ export default function AdminPage() {
           </Button>
         </div>
       </div>
+
+      {/* System status */}
+      {serverStatus && (
+        <div className="mb-4 flex items-center gap-4 flex-wrap text-[11px]" style={{ color: 'var(--text-muted)' }}>
+          <div className="flex items-center gap-1.5">
+            <LayoutDashboard size={11} style={{ color: 'var(--text-faint)' }} />
+            <span>Uptime: {serverStatus.uptime_seconds < 3600
+              ? `${Math.floor(serverStatus.uptime_seconds / 60)}m`
+              : `${Math.floor(serverStatus.uptime_seconds / 3600)}h ${Math.floor((serverStatus.uptime_seconds % 3600) / 60)}m`
+            }</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Power size={11} style={{ color: serverStatus.scheduler_running ? '#22c55e' : '#ef4444' }} />
+            <span>Scheduler: {serverStatus.scheduler_running ? 'running' : 'stopped'} ({serverStatus.enabled_schedules}/{serverStatus.total_schedules})</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Sparkles size={11} style={{ color: 'var(--text-faint)' }} />
+            <span>{serverStatus.active_tasks} active task{serverStatus.active_tasks !== 1 ? 's' : ''}</span>
+          </div>
+          {serverStatus.memory_mb && (
+            <span>RAM: {serverStatus.memory_mb} MB</span>
+          )}
+          <span style={{ color: 'var(--text-faint)' }}>Python {serverStatus.python_version}</span>
+        </div>
+      )}
 
       {/* Founders table */}
       <Card>

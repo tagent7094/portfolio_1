@@ -74,6 +74,8 @@ export default function GeneratePage() {
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState('')
   const [log, setLog] = useState<LogEntry[]>([])
+  const [llmText, setLlmText] = useState('')
+  const [webSearchSummary, setWebSearchSummary] = useState<any>(null)
   const [done, setDone] = useState(false)
   const [error, setError] = useState('')
   const [showTraces, setShowTraces] = useState(false)
@@ -148,18 +150,29 @@ export default function GeneratePage() {
 
   useEffect(() => {
     if (log.length === 0) return
-    const latest = log[log.length - 1]
     setPipelineSteps(prev => {
       if (prev.length === 0) return prev
-      return prev.map(step => {
-        if (latest.stage === step.id || latest.stage.startsWith(step.id)) {
-          if (latest.status === 'completed' || latest.status === 'pipeline_done') {
-            return { ...step, status: 'done' as const }
+      const completed = new Set<string>()
+      const started = new Set<string>()
+      for (const entry of log) {
+        for (const step of prev) {
+          if (entry.stage === step.id || entry.stage.startsWith(step.id)) {
+            if (entry.status === 'completed' || entry.status === 'pipeline_done') completed.add(step.id)
+            if (entry.status === 'started' || entry.status === 'progress') started.add(step.id)
           }
-          return { ...step, status: 'active' as const }
         }
+      }
+      let lastActiveIdx = -1
+      const updated = prev.map((step, idx) => {
+        if (completed.has(step.id)) return { ...step, status: 'done' as const }
+        if (started.has(step.id)) { lastActiveIdx = idx; return { ...step, status: 'active' as const } }
         return step
       })
+      return updated.map((step, idx) =>
+        step.status === 'pending' && idx < lastActiveIdx
+          ? { ...step, status: 'done' as const }
+          : step
+      )
     })
   }, [log])
 
@@ -236,7 +249,7 @@ export default function GeneratePage() {
       const fname = lastFilepathRef.current?.split(/[/\\]/).pop() || ''
       const qs = fname ? `?filename=${encodeURIComponent(fname)}` : ''
       const data = await apiGet<PackData>(
-        `/api/admin/founders/${active}/post-packs/${lastPackDateRef.current}${qs}`
+        `/api/founders/${active}/post-packs/${lastPackDateRef.current}${qs}`
       )
       setPackData(data)
     } catch {
@@ -254,6 +267,8 @@ export default function GeneratePage() {
         const res = await apiGet<any>(`/api/generate/batch/status/${taskId}?since=${logOffsetRef.current}`)
         setProgress(res.progress || 0)
         setStage(res.stage || '')
+        if (res.current_llm_text) setLlmText(res.current_llm_text)
+        if (res.web_search_summary) setWebSearchSummary(res.web_search_summary)
         if (res.log?.length) {
           setLog(prev => [...prev, ...res.log.map((l: any) => ({ stage: l.stage, status: l.status, ts: Date.now() }))])
           logOffsetRef.current = res.log_offset
@@ -268,6 +283,7 @@ export default function GeneratePage() {
           clearInterval(pollRef.current!)
           pollRef.current = null
           setBgTaskId(null)
+          setLlmText('')
           localStorage.removeItem(`gen_task_${active}`)
           if (res.status === 'done') {
             setDone(true)
@@ -371,7 +387,7 @@ export default function GeneratePage() {
     if (!lastPackDateRef.current || !active) return
     setLoadingTraces(true)
     try {
-      const data = await apiGet<any>(`/api/admin/founders/${active}/post-packs/${lastPackDateRef.current}/traces`)
+      const data = await apiGet<any>(`/api/founders/${active}/post-packs/${lastPackDateRef.current}/traces`)
       setTraceData(data)
       setShowTraces(true)
     } catch {
@@ -793,17 +809,50 @@ export default function GeneratePage() {
                             <Circle size={18} className="text-[var(--text-faint)]" />
                           )}
                         </div>
-                        <span className={clsx(
-                          'text-[13px] leading-snug',
-                          step.status === 'done' && 'text-[var(--text-faint)] line-through',
-                          step.status === 'active' && 'text-[var(--text-primary)] font-medium',
-                          step.status === 'pending' && 'text-[var(--text-muted)]',
-                        )}>
-                          {step.label}
-                        </span>
+                        <div>
+                          <span className={clsx(
+                            'text-[13px] leading-snug',
+                            step.status === 'done' && 'text-[var(--text-faint)] line-through',
+                            step.status === 'active' && 'text-[var(--text-primary)] font-medium',
+                            step.status === 'pending' && 'text-[var(--text-muted)]',
+                          )}>
+                            {step.label}
+                          </span>
+                          {step.id === 'web_search' && step.status === 'done' && webSearchSummary && (
+                            <div className="mt-1 ml-0.5 text-[11px] space-y-0.5" style={{ color: 'var(--text-muted)' }}>
+                              {webSearchSummary.search_queries?.map((q: string, i: number) => (
+                                <div key={i} className="flex items-center gap-1.5">
+                                  <span style={{ color: 'var(--text-faint)' }}>searched:</span> {q}
+                                </div>
+                              ))}
+                              {webSearchSummary.trending_topics?.length > 0 && (
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <span style={{ color: 'var(--text-faint)' }}>topics:</span>
+                                  {webSearchSummary.trending_topics.slice(0, 5).map((t: string, i: number) => (
+                                    <span key={i} className="rounded-full px-1.5 py-0.5 text-[10px]"
+                                      style={{ backgroundColor: 'var(--surface-3)', color: 'var(--text-secondary)' }}>
+                                      {t}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
+
+                  {/* Live LLM output */}
+                  {generating && llmText && (
+                    <div className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-3 font-mono text-[11px] max-h-[200px] overflow-y-auto whitespace-pre-wrap">
+                      <div className="text-[9px] font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-faint)' }}>
+                        Live Output
+                      </div>
+                      <span style={{ color: 'var(--text-muted)' }}>{llmText}</span>
+                      <span className="inline-block w-[2px] h-[10px] ml-0.5 animate-pulse bg-[var(--text-primary)]" />
+                    </div>
+                  )}
 
                   {/* Collapsible raw log */}
                   <button
@@ -853,6 +902,36 @@ export default function GeneratePage() {
         <div className="mt-5 flex items-center justify-center gap-2 py-12 text-[var(--text-muted)]">
           <Loader2 size={16} className="animate-spin" />
           <span className="text-[13px]">Loading generated posts...</span>
+        </div>
+      )}
+
+      {/* Instant swap preview — no LLM, just opener replaced */}
+      {!custVariant && custPost && (
+        <div className="mt-5 rounded-xl border overflow-hidden" style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-1)' }}>
+          <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: 'var(--border-2)' }}>
+            <span className="text-[13px] font-semibold" style={{ color: 'var(--text-primary)' }}>Swapped Post</span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => { navigator.clipboard.writeText(custPost) }}
+                className="px-3 py-1 rounded-lg text-[11px] transition-colors hover:opacity-80"
+                style={{ backgroundColor: 'var(--surface-2)', color: 'var(--text-secondary)', border: '1px solid var(--border-1)' }}
+              >
+                Copy
+              </button>
+              <button
+                onClick={() => setCustPost('')}
+                className="transition-opacity hover:opacity-70"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+          <div className="px-5 py-4">
+            <p className="text-[13px] leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--text-secondary)' }}>
+              {custPost}
+            </p>
+          </div>
         </div>
       )}
 
@@ -1032,6 +1111,12 @@ export default function GeneratePage() {
                 setCustVariant({ letter, opener, originalBody: body })
                 setCustPost('')
               }}
+              onSwapOpener={(_letter, opener, body) => {
+                if (!body) return
+                const paragraphs = body.split('\n\n')
+                paragraphs[0] = opener
+                setCustPost(paragraphs.join('\n\n'))
+              }}
               onShowDetails={() => setShowDetail(true)}
               onClose={() => setSelectedPost(null)}
             />
@@ -1050,6 +1135,13 @@ export default function GeneratePage() {
           onSelectVariant={(letter, opener, body) => {
             setCustVariant({ letter, opener, originalBody: body })
             setCustPost('')
+            setShowDetail(false)
+          }}
+          onSwapOpener={(_letter, opener, body) => {
+            if (!body) return
+            const paragraphs = body.split('\n\n')
+            paragraphs[0] = opener
+            setCustPost(paragraphs.join('\n\n'))
             setShowDetail(false)
           }}
         />

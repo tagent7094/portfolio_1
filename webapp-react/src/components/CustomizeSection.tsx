@@ -7,11 +7,12 @@ import { VariantBadge, ScoreDots } from './pack-table/cells'
 interface Props {
   post: Record<string, any>
   onSelectVariant: (letter: string, opener: string, body: string) => void
+  onSwapOpener: (letter: string, opener: string, body: string) => void
   onShowDetails: () => void
   onClose: () => void
 }
 
-export default function CustomizeSection({ post, onSelectVariant, onShowDetails, onClose }: Props) {
+export default function CustomizeSection({ post, onSelectVariant, onSwapOpener, onShowDetails, onClose }: Props) {
   const finalPost = s(post['Finalized Post'] || post['Final Post'])
   const rec = s(post['Recommended']).trim().toUpperCase()
 
@@ -65,11 +66,10 @@ export default function CustomizeSection({ post, onSelectVariant, onShowDetails,
             const isRec = rec === letter
             const accent = VARIANT_ACCENT[letter]
             return (
-              <button
+              <div
                 key={letter}
-                onClick={() => onSelectVariant(letter, opening, finalPost)}
                 className={clsx(
-                  'text-left rounded-xl border p-4 transition-all hover:scale-[1.02] hover:shadow-lg cursor-pointer group',
+                  'text-left rounded-xl border p-4 transition-all group',
                   isRec ? `${accent.cell} border-white/20 ring-1 ring-white/10` : '',
                 )}
                 style={!isRec ? { borderColor: 'var(--border-2)', backgroundColor: 'var(--surface-2)' } : {}}
@@ -95,13 +95,23 @@ export default function CustomizeSection({ post, onSelectVariant, onShowDetails,
                     <ScoreDots score={lift} />
                   </div>
                 )}
-                <div
-                  className="mt-3 text-center text-[10px] font-medium rounded-md py-1.5 transition-colors"
-                  style={{ backgroundColor: 'var(--surface-3)', color: 'var(--text-muted)', border: '1px solid var(--border-1)' }}
-                >
-                  Use This Opener
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={() => onSwapOpener(letter, opening, finalPost)}
+                    className="flex-1 text-center text-[10px] font-medium rounded-md py-1.5 transition-colors hover:opacity-80 cursor-pointer"
+                    style={{ backgroundColor: 'var(--surface-3)', color: 'var(--text-secondary)', border: '1px solid var(--border-1)' }}
+                  >
+                    Use This Opener
+                  </button>
+                  <button
+                    onClick={() => onSelectVariant(letter, opening, finalPost)}
+                    className="text-[9px] px-2 py-1.5 rounded-md transition-colors hover:opacity-80 cursor-pointer"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    Blend ↗
+                  </button>
                 </div>
-              </button>
+              </div>
             )
           })}
         </div>
