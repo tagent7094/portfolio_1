@@ -29,7 +29,10 @@ export default function App() {
   if (slug === 'os') {
     return (
       <Suspense fallback={<div className="flex h-screen items-center justify-center bg-black"><Loader2 size={20} className="animate-spin text-white/30" /></div>}>
-        <OsApp />
+        <Routes>
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="*" element={<OsApp />} />
+        </Routes>
       </Suspense>
     )
   }
