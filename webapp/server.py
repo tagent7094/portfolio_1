@@ -77,6 +77,10 @@ app.include_router(customize_router)
 from webapp.schedule_routes import router as schedule_router, start_scheduler
 app.include_router(schedule_router)
 
+# OS management routes (os.tagent.club)
+from webapp.os_routes import router as os_router
+app.include_router(os_router)
+
 
 @app.on_event("startup")
 async def _startup_scheduler():

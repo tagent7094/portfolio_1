@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import AppShell from './components/layout/AppShell'
 import RequireAuth from './components/auth/RequireAuth'
@@ -17,9 +18,21 @@ import AskSharathPage from './pages/AskSharathPage'
 import ChatPage from './pages/ChatPage'
 import AskSharathAdminPage from './pages/AskSharathAdminPage'
 import { isApexDomain, getSubdomainSlug } from './utils/subdomain'
+import { Loader2 } from 'lucide-react'
+
+const OsApp = lazy(() => import('./pages/os/OsApp'))
 
 export default function App() {
   const slug = getSubdomainSlug()
+
+  // OS management interface at os.tagent.club
+  if (slug === 'os') {
+    return (
+      <Suspense fallback={<div className="flex h-screen items-center justify-center bg-black"><Loader2 size={20} className="animate-spin text-white/30" /></div>}>
+        <OsApp />
+      </Suspense>
+    )
+  }
 
   // Show the company landing page at tagent.club (apex domain)
   if (isApexDomain() && window.location.pathname === '/') {

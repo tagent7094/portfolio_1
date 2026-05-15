@@ -31,7 +31,7 @@ _BYPASS_PATHS = {
     "/api/health",
 }
 # Prefixes that bypass subdomain auth
-_BYPASS_PREFIXES = ("/api/admin/", "/api/chat/", "/api/founders/")
+_BYPASS_PREFIXES = ("/api/admin/", "/api/chat/", "/api/founders/", "/api/os/")
 
 _LOCAL_HOSTS = {"localhost", "127.0.0.1", "0.0.0.0"}
 _APEX_DOMAIN = "tagent.club"

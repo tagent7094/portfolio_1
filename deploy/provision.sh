@@ -121,7 +121,7 @@ PY
 echo "[provision] Subdomains for cert: $ALL_SUBDOMAINS"
 
 # Extra app subdomains (not tied to a founder in the registry)
-EXTRA_SUBDOMAINS="-d asksharath.tagent.club"
+EXTRA_SUBDOMAINS="-d asksharath.tagent.club -d os.tagent.club"
 
 # Expand cert (idempotent — certbot is a no-op when nothing new needs adding)
 echo "[provision] Running certbot expand..."
