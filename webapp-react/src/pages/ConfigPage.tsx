@@ -3,6 +3,8 @@ import { Save, CheckCircle2, Cpu, Database } from 'lucide-react'
 import { apiGet, apiPost } from '../api/client'
 import type { LLMConfig } from '../types/api'
 import { PageHeader, Card, CardHeader, CardBody, CardTitle, Button, Spinner } from '../components/ui'
+import ModelsConfigPanel from '../components/config/ModelsConfigPanel'
+import { useAuthStore } from '../store/useAuthStore'
 
 const PROVIDERS = ['anthropic', 'openai', 'gemini', 'nvidia', 'openrouter', 'lmstudio', 'ollama'] as const
 
@@ -149,6 +151,8 @@ export default function ConfigPage() {
     finally { setSaving(false) }
   }
 
+  const slug = useAuthStore((s) => s.slug)
+
   if (!loaded) return <Spinner fullPage />
 
   return (
@@ -186,6 +190,26 @@ export default function ConfigPage() {
           <span className="flex items-center gap-1.5 text-[13px] text-[var(--success)] animate-fade-in">
             <CheckCircle2 size={14} /> Saved
           </span>
+        )}
+      </div>
+
+      {/* Per-task model overrides — admin defaults apply unless this founder overrides a row */}
+      <div className="pt-4 border-t border-[var(--border-1)]">
+        <div className="mb-3">
+          <div className="text-[14px] font-semibold text-[var(--text-primary)]">Per-task model overrides</div>
+          <p className="mt-1 text-[12px] text-[var(--text-muted)]">
+            Admin defaults are applied for every pipeline task unless overridden below.
+            Click <em>Reset</em> on any row to revert to the admin default.
+          </p>
+        </div>
+        {slug ? (
+          <div className="max-w-none -mx-2">
+            <ModelsConfigPanel mode="founder" founderSlug={slug} />
+          </div>
+        ) : (
+          <div className="text-[12px] text-[var(--text-muted)]">
+            (founder slug not detected; per-task overrides are only available on a founder portal)
+          </div>
         )}
       </div>
     </div>

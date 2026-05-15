@@ -14,6 +14,7 @@ from .api_provider import APIProvider
 from .nvidia_provider import NvidiaProvider
 from .gemini_provider import GeminiProvider
 from .openrouter_provider import OpenRouterProvider
+from .moonshot_provider import MoonshotProvider
 
 # Load .env from project root
 _PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -62,6 +63,12 @@ PROVIDER_DEFAULTS = {
         "api_key_env": "",
         "default_model": "llama3.1:8b",
         "models": [],
+    },
+    "kimi": {
+        "base_url": os.environ.get("MOONSHOT_BASE_URL", "https://api.moonshot.ai/v1"),
+        "api_key_env": "MOONSHOT_API_KEY",
+        "default_model": "kimi-k2-instruct",
+        "models": ["kimi-k2-instruct", "moonshot-v1-128k", "moonshot-v1-32k", "moonshot-v1-8k"],
     },
 }
 
@@ -180,6 +187,8 @@ def create_llm(config_path: str = "config/llm-config.yaml", purpose: str = "gene
         )
     elif provider == "openrouter":
         instance = OpenRouterProvider(model=model, api_key=api_key, base_url=base_url)
+    elif provider == "kimi":
+        instance = MoonshotProvider(model=model, api_key=api_key, base_url=base_url)
     elif provider in ("anthropic", "openai"):
         instance = APIProvider(
             provider=provider, model=model, api_key=api_key,

@@ -5,11 +5,12 @@ import {
   RefreshCw, X, ExternalLink, FileSpreadsheet, Sparkles,
   Clock, Plus, Trash2, Power, Upload, Database, Search,
   ThumbsUp, MessageSquare, Repeat2, Star, ChevronDown,
-  LayoutDashboard, GitFork, Merge, Mail, Send, Save,
+  LayoutDashboard, GitFork, Merge, Mail, Send, Save, Cpu,
 } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet, apiPost, apiPut, apiDelete, apiUpload } from '../api/client'
 import { Button, Badge, Card, CardBody, Spinner } from '../components/ui'
+import ModelsConfigPanel from '../components/config/ModelsConfigPanel'
 
 const ALL_PAGES = ['dashboard', 'generate', 'graph', 'coverage', 'workflow', 'history', 'config']
 
@@ -989,6 +990,19 @@ export default function AdminPage() {
           ) : (
             <div className="text-[13px] text-[var(--text-muted)]">Loading notification settings...</div>
           )}
+        </CardBody>
+      </Card>
+
+      {/* Models & Providers (admin defaults — per-task) */}
+      <Card>
+        <CardBody>
+          <div className="flex items-center gap-2 mb-3 text-[14px] font-semibold text-[var(--text-primary)]">
+            <Cpu size={15} /> Models & Providers
+            <span className="ml-2 text-[11px] font-normal text-[var(--text-muted)]">
+              Admin defaults for every pipeline task. Founders can override these on their /config page.
+            </span>
+          </div>
+          <ModelsConfigPanel mode="admin" />
         </CardBody>
       </Card>
 

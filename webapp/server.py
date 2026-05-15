@@ -81,6 +81,10 @@ app.include_router(schedule_router)
 from webapp.os_routes import router as os_router
 app.include_router(os_router)
 
+# Models & Providers routes (admin defaults + per-founder overrides)
+from webapp.models_routes import router as models_router
+app.include_router(models_router)
+
 
 @app.get("/api/admin/notify/config")
 async def get_notify_config(request: Request):
