@@ -957,6 +957,7 @@ async def generate_batch_background(data: BatchGenerateRequest):
                 if err:
                     task_state["error"] = err
                 if ev.get("status") == "pipeline_done":
+                    task_state["total_posts"] = (ev.get("data") or {}).get("total_posts", 0)
                     break
 
             await gen_future
@@ -966,6 +967,16 @@ async def generate_batch_background(data: BatchGenerateRequest):
             elif task_state["status"] == "running":
                 task_state["status"] = "done"
                 task_state["progress"] = 1.0
+                try:
+                    from src.batch.notify import send_batch_notification
+                    await asyncio.to_thread(
+                        send_batch_notification,
+                        founder_slug=task_state["founder_slug"],
+                        total_posts=task_state.get("total_posts", 0),
+                        trigger="direct",
+                    )
+                except Exception:
+                    logger.warning("[batch_bg] Email notification failed", exc_info=True)
 
         except CancelledError:
             task_state["status"] = "cancelled"

@@ -161,7 +161,7 @@ async def _run_scheduled_generation(schedule: dict):
     try:
         from src.batch.session import BatchSession
         session = BatchSession()
-        await asyncio.to_thread(
+        result = await asyncio.to_thread(
             session.run,
             founder_slug=schedule["founder_slug"],
             platform="linkedin",
@@ -172,6 +172,17 @@ async def _run_scheduled_generation(schedule: dict):
             effort=schedule.get("effort", "high"),
         )
         schedule["last_status"] = "success"
+        try:
+            from src.batch.notify import send_batch_notification
+            await asyncio.to_thread(
+                send_batch_notification,
+                founder_slug=schedule["founder_slug"],
+                total_posts=(result or {}).get("metadata", {}).get("total_posts", 0),
+                trigger="scheduled",
+                schedule_id=schedule["id"],
+            )
+        except Exception:
+            logger.warning("[scheduler] Email notification failed", exc_info=True)
     except Exception as e:
         logger.exception("[scheduler] Failed for %s: %s", schedule["founder_slug"], e)
         schedule["last_status"] = f"error: {str(e)[:100]}"
