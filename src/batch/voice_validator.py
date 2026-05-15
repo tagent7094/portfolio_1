@@ -49,6 +49,8 @@ def validate_voice(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> 
             "blacklist_fail": True,
         }
 
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("voice_validation")
     template = load_prompt(PROMPTS_DIR / "voice_validation.txt")
 
     intern = state.founder_internalization
@@ -96,6 +98,8 @@ def regenerate_with_voice_override(
     state: BatchState,
 ) -> AmplifiedPost:
     """Regenerate a post that failed voice validation, with explicit voice-override."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("voice_regen")
     violations = validation.get("violations", [])
     suggestion = validation.get("suggestion", "")
 

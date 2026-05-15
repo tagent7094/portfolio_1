@@ -83,6 +83,9 @@ def select_sources(
     If provided_sources is given, uses those directly.
     Otherwise ranks founder's posts + viral samples by engagement and structural diversity.
     """
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("select_sources")
+
     if provided_sources:
         logger.info("[batch] Using %d user-provided source posts (first 80 chars: %s)",
                     len(provided_sources), provided_sources[0][:80] if provided_sources else "")

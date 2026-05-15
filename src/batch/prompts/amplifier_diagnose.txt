@@ -85,15 +85,42 @@ The voice markers are the law. If the opener is mechanically perfect (passes Gat
 Skip this gate entirely if source dissection is "N/A" (Batch B posts). Only Batch A mirrored posts are tested here.
 
 Source primary mechanic: {source_hook_mechanic}
+Source body format: {source_body_format}
+Source closer mechanic: {source_closer_mechanic}
 Source dissection: {source_dissection}
 
-Four sub-tests:
-1. **Mechanic match**: Does the opener use the SAME primary mechanic as the source ({source_hook_mechanic})? If the opener substitutes a different mechanic (e.g., source uses "specific_number" but opener uses "contrarian") — FAIL. This is the most critical sub-test.
+This gate has THREE independent sub-checks. ANY of them failing makes the whole gate FAIL. Do not give a charitable pass — the entire point of Batch A is that the generated post mirrors the source's MECHANIC, BODY FORMAT, and CLOSER. If any one is missing, the post is not a Batch A mirror.
+
+**Sub-check A — OPENER MECHANIC (FAIL if mismatch)**
+1. **Mechanic match**: Does the opener use the SAME primary mechanic as the source ({source_hook_mechanic})? If the opener substitutes a different mechanic (e.g., source uses "specific_number" but opener uses "contrarian") — FAIL.
 2. **Sentence count match**: Does the opener have the same number of sentences as the source's hook?
 3. **Word count proximity**: Is the opener's word count within ±20% of the source opener's word count?
-4. **Structural beat match**: Does each opener sentence serve the same structural function as the corresponding source sentence?
 
-If the mechanic doesn't match (sub-test 1), this gate FAILS regardless of other sub-tests. The entire point of Batch A is mechanic mirroring — a Batch A post that uses a different mechanic has failed its core purpose.
+**Sub-check B — BODY STRUCTURAL FORMAT (FAIL if mismatch)**
+The source's body uses format: `{source_body_format}`. The generated post's body MUST use the SAME format.
+- If source = `numbered_list` → generated post body MUST be a numbered list with discrete items (roughly the same item count, ±2). A flowing essay that mentions the same content as a list — FAIL.
+- If source = `bullet_list` → generated post body MUST be a bulleted list.
+- If source = `parallel_paragraphs` → generated post body MUST have parallel paragraph structure (each paragraph opening with the same shape).
+- If source = `three_examples` → generated post body MUST present three distinct examples.
+- If source = `before_after` → generated post body MUST have a before/after pivot.
+- If source = `progressive_revelation` → flowing build allowed.
+- If source = `single_scene` → one continuous scene required.
+- If source = `prose_essay` → flowing argumentative prose required.
+
+Inspect the GENERATED post's body. Identify its actual format. If it doesn't match the source's format → FAIL with `body_format_match=false` and name the actual format used. The most common failure: source is `numbered_list` but generated is `prose_essay` — this is a HARD FAIL.
+
+**Sub-check C — CLOSER MECHANIC (FAIL if mismatch)**
+The source closes with: `{source_closer_mechanic}`. The generated post's closer MUST use the SAME mechanic.
+- `cta` ↔ `cta`: if source closes with a CTA ("I put together the breakdown," "link in comments"), the generated post must close with a parallel CTA.
+- `reframe_question` ↔ `reframe_question`: if source closes with a reframe question, generated must close with a question.
+- `terminal_verdict` ↔ `terminal_verdict`: matching declarative final line.
+- And so on for `physical_image`, `challenge`, `callback`, `unresolved_tension`, `quiet_admission`.
+
+Inspect the GENERATED post's closer. If the source uses `cta` and the generated uses `reframe_question` → FAIL with `closer_mechanic_match=false`.
+
+**HOW TO FAIL GATE 7**: If ANY of sub-check A (mechanic), sub-check B (body format), or sub-check C (closer mechanic) fails, set `gates.source_mirror.pass = false`. Do NOT pass the gate just because most sub-checks pass — a Batch A post that mirrors the opener but reverts the body to prose has failed its core job.
+
+The most common gate-7 failure to catch: source is a numbered-list listicle with a CTA closer; generated post is a flowing contrarian essay with a reframe-question closer. Three sub-checks failing. Pass=false. Be honest.
 
 ## BODY SCAN
 Read the body line by line. For each line, ask:
@@ -116,7 +143,7 @@ If yes, mark it as buried gold. Don't draft the new opener until you've checked 
     "specificity": {{{{"pass": true, "degree": "first|second|third", "reason": "..."}}}},
     "mode_preservation": {{{{"pass": true, "opener_mode": "wrestling|declaring", "assigned_mode": "{mode}", "reason": "..."}}}},
     "voice_fit": {{{{"pass": true, "recognition": "founder|marketing|generic", "markers_present": ["marker 1"], "reason": "..."}}}},
-    "source_mirror": {{{{"pass": true, "mechanic_match": true, "sentence_count_match": true, "word_count_within_range": true, "beat_match": true, "reason": "... (set all to true and pass to true if source dissection is N/A)"}}}}
+    "source_mirror": {{{{"pass": true, "mechanic_match": true, "sentence_count_match": true, "word_count_within_range": true, "body_format_match": true, "body_format_actual": "numbered_list|bullet_list|parallel_paragraphs|three_examples|before_after|progressive_revelation|single_scene|prose_essay", "closer_mechanic_match": true, "closer_mechanic_actual": "cta|reframe_question|terminal_verdict|physical_image|challenge|callback|unresolved_tension|quiet_admission", "reason": "specific failure reasons if any sub-check failed. set all to true and pass to true ONLY if source dissection is N/A"}}}}
   }}}},
   "all_gates_pass": true,
   "buried_gold": "the exact sentence from the body that could be a better opener. If no sentence qualifies, explain briefly why (e.g. 'None — the current opener is already the strongest line in the post')",

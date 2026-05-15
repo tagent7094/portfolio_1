@@ -73,19 +73,33 @@ def load_graph(path: str) -> nx.DiGraph:
     data["edges"] = edges
     data["links"] = edges
 
-    try:
-        graph = nx.node_link_graph(data, edges="edges")
-    except TypeError:
+    # Detect alternate edge schema (from/to vs source/target) — used by the
+    # alok-kumar pipeline graphs. Skip node_link_graph in that case since it
+    # doesn't understand these keys.
+    has_alt_schema = any(
+        isinstance(e, dict) and ("from" in e and "source" not in e)
+        for e in edges
+    )
+
+    if has_alt_schema:
+        _log("→ alt edge schema detected (from/to), using manual loader")
+        graph = _manual_load(data)
+    else:
         try:
-            graph = nx.node_link_graph(data)
-        except Exception as e:
-            _log(f"Warning: node_link_graph failed, trying manual build: {e}")
-            graph = _manual_load(data)
+            graph = nx.node_link_graph(data, edges="edges")
+        except TypeError:
+            try:
+                graph = nx.node_link_graph(data)
+            except Exception as e:
+                _log(f"Warning: node_link_graph failed, trying manual build: {e}")
+                graph = _manual_load(data)
 
     # Normalize edge keys: ensure all edges use 'edge_type' (some graphs use 'type')
-    for u, v, data in graph.edges(data=True):
-        if "edge_type" not in data and "type" in data:
-            data["edge_type"] = data.pop("type")
+    for u, v, edata in graph.edges(data=True):
+        if "edge_type" not in edata and "type" in edata:
+            edata["edge_type"] = edata.pop("type")
+        elif "edge_type" not in edata and "type" not in edata:
+            edata["edge_type"] = ""
 
     # Validate
     n_nodes = graph.number_of_nodes()
@@ -114,12 +128,15 @@ def _manual_load(data: dict) -> nx.DiGraph:
         attrs = {k: v for k, v in node.items() if k not in ("id", "key")}
         graph.add_node(nid, **attrs)
 
-    # Edges
+    # Edges — accept source/target (NetworkX) or from/to (alok-kumar pipeline)
     for edge in data.get("edges", data.get("links", [])):
-        src = edge.get("source", "")
-        tgt = edge.get("target", "")
+        src = edge.get("source") or edge.get("from") or edge.get("src", "")
+        tgt = edge.get("target") or edge.get("to") or edge.get("dst", "")
         if src and tgt:
-            attrs = {k: v for k, v in edge.items() if k not in ("source", "target")}
+            attrs = {
+                k: v for k, v in edge.items()
+                if k not in ("source", "target", "from", "to", "src", "dst")
+            }
             graph.add_edge(src, tgt, **attrs)
 
     return graph

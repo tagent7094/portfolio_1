@@ -1,0 +1,111 @@
+You are performing a deep internalization of a founder's voice, worldview, and personal history for BATCH post generation. This is the foundation for generating 90 posts — precision here prevents voice decay downstream.
+
+Read every piece of founder data below. Complete ALL analysis before outputting anything.
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## FOUNDER BIO
+{bio}
+
+## FOUNDER TENSIONS (curated — internal contradictions they navigate)
+{tensions_text}
+
+## FOUNDER BELIEFS (from knowledge graph, sorted by conviction)
+{beliefs}
+
+## FOUNDER STORIES (from knowledge graph, sorted by engagement)
+{stories}
+
+## FOUNDER CONTRAST PAIRS (typed tensions from graph)
+{contrast_pairs}
+
+## FOUNDER THINKING MODELS (mental frameworks)
+{thinking_models}
+
+## FOUNDER RECURRING CAST (named people in their orbit — from graph)
+{cast}
+
+## FOUNDER SIGNATURE SCENES (physical/narrative anchors — from graph)
+{scenes}
+
+## FOUNDER MILESTONES (dated events — for timeline awareness)
+{milestones}
+
+## FOUNDER VOICE DNA (raw analysis from disk)
+{raw_voice_dna}
+
+## FOUNDER STORY BANK (raw inventory from disk)
+{raw_story_bank}
+
+## FOUNDER TRANSCRIPTS (raw founder speech — anti-recycling source)
+{transcripts_excerpt}
+
+## FOUNDER'S TOP-PERFORMING POSTS (engagement-ranked — use for rhythm, length, cadence)
+{top_posts_engagement}
+
+## FOUNDER'S FULL LINKEDIN POSTS (broader sample for voice)
+{founder_posts_sample}
+
+---
+
+## YOUR TASK: Produce a structured internalization covering these 9 dimensions.
+
+The graph-derived nodes above (cast, scenes, milestones, contrast_pairs) are PRE-VERIFIED first-degree facts. Prefer them over inventing scenes or names from raw text — they're the founder's actual world.
+
+### 1. TENSIONS / COLLISIONS
+Map 5-8 recurring tensions — not topics, but collisions (opposing forces the founder navigates). The curated TENSIONS section above is your starting point — augment with what you find in beliefs + contrast pairs.
+
+### 2. SIGNATURE SCENES
+8-12 physical moments, specific conversations, anchoring details they reuse. The SCENES section above is your verified inventory — prefer those. Add others only if clearly anchored in voice DNA or transcripts.
+
+### 3. ARGUMENT RHYTHM
+How do they build arguments? Spiral inward? Linear escalation? Toggle personal/universal? Document with examples from their top posts and the broader sample.
+
+### 4. VULNERABLE MOMENTS
+5-8 moments where the founder is exposed, not in control. These are the best post bodies. Look at MILESTONES and transcripts for non-obvious vulnerable beats.
+
+### 5. RECURRING CAST
+Names, relationships, roles. The CAST section above is your verified roster — prefer those names. Don't invent new characters.
+
+### 6. WORD COUNT RANGE
+Study the top posts and full sample. Calculate actual median, min, max word count. Every generated post must land within ±30% of median.
+
+### 7. KEY MOMENTS INVENTORY
+Specific events, numbers, milestones, turning points. Pull from MILESTONES first. Each can be used AT MOST ONCE across all 90 posts.
+
+### 8. VOICE MARKERS
+Extract 5-10 specific markers: phrases they reuse, sentence shapes they favor, closing moves they default to, punctuation habits.
+
+### 9. FORMATTING HABITS
+Document their visual style: bullets, emojis, headers, em dashes, lowercase, paragraph density.
+
+---
+
+## OUTPUT FORMAT
+
+Return a JSON object with this exact structure:
+```json
+{{{{
+  "tensions": ["tension 1: description", "tension 2: description"],
+  "signature_scenes": ["scene 1: physical detail + context", "scene 2: ..."],
+  "argument_rhythm": "description of the founder's typical argument flow pattern",
+  "vulnerable_moments": ["moment 1: what happened, why it's vulnerable"],
+  "recurring_cast": ["name: role in founder's narrative"],
+  "word_count_range": [min, max],
+  "median_word_count": 230,
+  "key_moments_inventory": ["event 1: specific fact/number/milestone"],
+  "voice_markers": ["marker 1: specific phrase or pattern", "marker 2: ..."],
+  "formatting_habits": {{{{
+    "uses_bullets": false,
+    "uses_emojis": false,
+    "uses_headers": false,
+    "em_dashes": true,
+    "lowercase_style": false,
+    "paragraph_style": "short",
+    "line_break_frequency": "between_thoughts"
+  }}}}
+}}}}
+```
+
+Be specific. "A tough conversation" is useless. "The 2am call with the CTO where they almost shut down the product" is useful. Prefer graph-verified facts over invented ones.

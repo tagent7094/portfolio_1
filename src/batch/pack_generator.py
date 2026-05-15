@@ -32,6 +32,8 @@ ENTRY_DOORS = [
 
 def dissect_source(llm: LLMProvider, source: str, state: BatchState, pack_num: int = 0) -> dict:
     """Dissect a viral source post's hook mechanics."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("dissect")
     template = load_prompt(PROMPTS_DIR / "source_dissect_hook.txt")
     prompt = fill_prompt(template, source_post=source, platform=state.platform)
 
@@ -116,6 +118,8 @@ def _generate_a_variant(
     prior_a_posts: list[AmplifiedPost] | None = None,
 ) -> AmplifiedPost:
     """Generate one Batch A (mirrored opening) post."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("generate_a")
     template = load_prompt(PROMPTS_DIR / "generate_pack_a.txt")
     temp = creativity_to_temperature(state.creativity)
 
@@ -139,6 +143,10 @@ def _generate_a_variant(
         if isinstance(hm, dict) and hm.get("sentence")
     ]
     source_opener_text = "\n".join(source_opener_sentences) if source_opener_sentences else dissection.get("source_opener_text", "")
+    source_body_format = dissection.get("body_format") or "prose_essay"
+    source_body_item_count = str(dissection.get("body_item_count") or "n/a")
+    source_closer_mechanic = dissection.get("closer_mechanic") or "terminal_verdict"
+    source_closer_text = dissection.get("closer_text") or "(not extracted)"
 
     prompt = fill_prompt(
         template,
@@ -158,6 +166,10 @@ def _generate_a_variant(
         source_hook_mechanic=source_hook_mechanic,
         source_mechanic_description=source_mechanic_description,
         source_opener_text=source_opener_text,
+        source_body_format=source_body_format,
+        source_body_item_count=source_body_item_count,
+        source_closer_mechanic=source_closer_mechanic,
+        source_closer_text=source_closer_text,
     )
 
     import time as _t
@@ -232,6 +244,8 @@ def _generate_b_variant(
     state: BatchState,
 ) -> AmplifiedPost:
     """Generate one Batch B (mechanics-only) post."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("generate_b")
     template = load_prompt(PROMPTS_DIR / "generate_pack_b.txt")
     temp = creativity_to_temperature(state.creativity)
 
@@ -301,6 +315,8 @@ def _generate_b_variant(
 
 def _llm_trim_post(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> AmplifiedPost:
     """Use LLM to trim a post that mechanical trimming couldn't fix."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("word_count_trim")
     _lo, _hi = state.word_count_range
     lo, hi = min(_lo, _hi), max(_lo, _hi)
     prompt = f"""This LinkedIn post is {post.word_count} words. The target range is {lo}-{hi} words.

@@ -58,6 +58,7 @@ def compile_json(state: BatchState) -> dict:
                 "violations": p.violations,
                 "events_used": p.events_used,
                 "argument_compressed": p.argument_compressed,
+                "saturation_warning": p.saturation_warning,
             })
             total_posts += 1
 
@@ -70,8 +71,11 @@ def compile_json(state: BatchState) -> dict:
             "batch_a_count": pack.batch_a_count,
             "batch_b_count": pack.batch_b_count,
             "convergence_test": pack.convergence_test,
+            "convergence_warning": pack.convergence_warning,
+            "convergence_retry_attempted": pack.convergence_retry_attempted,
         })
 
+    raw_data = state.raw_data or {}
     output = {
         "metadata": {
             "founder": state.founder_slug,
@@ -83,6 +87,10 @@ def compile_json(state: BatchState) -> dict:
             "word_count_range": list(state.word_count_range),
             "median_word_count": state.median_word_count,
             "voice_markers": state.voice_markers,
+            "layout": raw_data.get("layout", "unknown"),
+            "files_ingested_count": len(raw_data.get("files_ingested", [])),
+            "files_skipped_count": len(raw_data.get("files_skipped", [])),
+            "files_skipped": raw_data.get("files_skipped", []),
         },
         "founder_internalization": state.founder_internalization,
         "packs": packs_out,
@@ -94,6 +102,15 @@ def compile_json(state: BatchState) -> dict:
                 p.convergence_test.get("recommendation", "")
                 for p in state.packs
                 if not p.convergence_test.get("passed", True)
+            ],
+            "convergence_warnings": [
+                {
+                    "source_number": p.source_number,
+                    "recommendation": p.convergence_test.get("recommendation", ""),
+                    "overlapping_posts": p.convergence_test.get("overlapping_posts", []),
+                }
+                for p in state.packs
+                if p.convergence_warning
             ],
         },
     }

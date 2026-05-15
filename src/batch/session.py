@@ -9,6 +9,7 @@ from pathlib import Path
 
 from ..llm.factory import create_llm
 from ..llm.base import LLMProvider
+from ..llm.task_router import LLMRouter
 from ..generation.pipeline_events import PipelineEvent, PipelineEventBus
 from .state import BatchState
 from .tracer import BatchTracer
@@ -19,12 +20,49 @@ from .amplifier import amplify_post, convergence_test
 from .voice_validator import validate_voice, regenerate_with_voice_override
 from .compiler import compile_json, save_output
 from .exclusion_scanner import load_exclusions, scan_for_exclusions
+from .saturation import check_saturation
 
 logger = logging.getLogger(__name__)
 
 
 class CancelledError(Exception):
     pass
+
+
+def _split_recommendation_into_angles(recommendation: str) -> list[str]:
+    """Parse a convergence recommendation into discrete diversity angles.
+
+    The convergence LLM typically returns recommendations like:
+      "Request posts that argue different takes, such as: (1) angle one;
+       (2) angle two; (3) angle three; (4) angle four"
+    or sometimes "1. ... 2. ... 3. ..." or comma-separated phrases.
+
+    Returns a list of angle strings. Each angle is fed into the regen prompt for a
+    different overlapping post so they don't all converge again. Returns [] if
+    nothing parseable.
+    """
+    if not recommendation or not isinstance(recommendation, str):
+        return []
+    import re as _re
+
+    # Pattern 1: "(1) ... (2) ... (3) ..."
+    paren_matches = _re.split(r"\s*\(\d+\)\s*", recommendation)
+    if len(paren_matches) > 2:
+        return [m.strip(" ;.,") for m in paren_matches[1:] if m.strip()]
+
+    # Pattern 2: "1. ... 2. ... 3. ..." (numbered)
+    num_matches = _re.split(r"(?:^|\s)\d+\.\s+", recommendation)
+    if len(num_matches) > 2:
+        return [m.strip(" ;.,") for m in num_matches[1:] if m.strip()]
+
+    # Pattern 3: semicolon-separated after a colon ("such as: A; B; C")
+    if ":" in recommendation:
+        tail = recommendation.split(":", 1)[1]
+        parts = [p.strip(" ;.,") for p in tail.split(";") if len(p.strip()) > 15]
+        if len(parts) >= 2:
+            return parts
+
+    return []
 
 
 class BatchSession:
@@ -87,13 +125,14 @@ class BatchSession:
           - llm_prep (Haiku): analysis/classification — calibration, source selection, dissection,
             opener diagnosis, convergence testing
         """
-        llm_gen = create_llm(config_path=config_path, purpose="generation")
-        llm_prep = create_llm(config_path=config_path, purpose="prep")
-
-        if hasattr(llm_gen, 'on_token'):
-            llm_gen.on_token = self._on_llm_token
-        if hasattr(llm_prep, 'on_token'):
-            llm_prep.on_token = self._on_llm_token
+        # Task-aware LLM resolution. The router consults founder override →
+        # admin default → llm-config.yaml fallback for every distinct pipeline
+        # task. `llm_gen` and `llm_prep` are kept as back-compat handles for
+        # callers that haven't been migrated to task-aware lookups yet.
+        router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
+        router.set_on_token(self._on_llm_token)
+        llm_gen = router.for_purpose("generation")
+        llm_prep = router.for_purpose("prep")
 
         if hasattr(llm_gen, 'enable_thinking'):
             llm_gen.enable_thinking = enable_thinking
@@ -112,6 +151,7 @@ class BatchSession:
         state = load_founder_state(founder_slug, platform)
         state.creativity = creativity
         state.tracer = tracer
+        state.llm_router = router
 
         state.exclusions = load_exclusions(founder_slug)
         tracer.trace_step("load_founder", f"Loaded founder data for {founder_slug}")
@@ -249,10 +289,23 @@ class BatchSession:
 
             # Amplifier pass on each validated post
             amplified_posts = []
+            published_corpus = (
+                state.raw_data.get("founder_posts_structured")
+                or [{"text": p, "post_id": f"p_{i}"} for i, p in enumerate(
+                    state.raw_data.get("founder_posts_sample", "").split("\n\n---\n\n")
+                ) if p.strip()]
+            )
             for j, post in enumerate(validated_posts):
                 self._check_cancel()
                 post = amplify_post(llm_gen, post, amplified_posts, state, llm_prep=llm_prep,
                                     source_dissection=pack.dissection if post.batch == "A" else None)
+                sat = check_saturation(post.text, published_corpus, n=6, threshold=5)
+                post.saturation_warning = sat
+                if sat.get("warning"):
+                    logger.warning(
+                        "[batch] %s saturation WARN: %d shared 6-grams with %s",
+                        post.label, sat["count"], sat["worst_match_id"],
+                    )
                 amplified_posts.append(post)
                 state.arguments_compressed.append(post.argument_compressed)
 
@@ -276,20 +329,50 @@ class BatchSession:
                 overlapping = conv.get("overlapping_posts", [])
                 if not overlapping:
                     overlapping = [p.label for p in amplified_posts[1:3] if p.batch == "A"]
-                logger.info("[batch] Convergence FAIL — regenerating %s", overlapping)
+                recommendation = conv.get("recommendation", "")
+                # Prefer the explicit replacement_angles list; fall back to parsing
+                # the recommendation text if the LLM didn't produce a structured list.
+                explicit_angles = conv.get("replacement_angles") or []
+                if isinstance(explicit_angles, list):
+                    angles = [str(a).strip() for a in explicit_angles if str(a).strip()]
+                else:
+                    angles = []
+                if not angles:
+                    angles = _split_recommendation_into_angles(recommendation)
+                logger.info("[batch] Convergence FAIL — regenerating %s with %d distinct angle(s)",
+                            overlapping, len(angles))
+                pack.convergence_retry_attempted = True
 
+                overlapping_kept_arguments = [
+                    p.argument_compressed for p in amplified_posts
+                    if p.label not in overlapping and p.argument_compressed
+                ]
+                kept_args_str = "\n".join(f"- {a}" for a in overlapping_kept_arguments[:6]) or "(none)"
+
+                overlap_idx = 0
                 for idx, post in enumerate(amplified_posts):
-                    if post.label in overlapping:
-                        diversity_note = f"\n\nCONVERGENCE FAILURE: {conv.get('recommendation', '')}\nYour previous version argued too similarly to other posts. Generate a DIFFERENT angle on the source material."
-                        amended_source = source + diversity_note
-                        if post.batch == "A":
-                            new_post = _generate_a_variant(llm_gen, amended_source, pack.dissection, int(post.label[1:]), state)
-                        else:
-                            new_post = _generate_b_variant(llm_gen, amended_source, pack.dissection, post.entry_door, int(post.label[1:]), [], state)
-                        new_post = _enforce_word_count(new_post, state, llm=llm_gen)
-                        new_post = amplify_post(llm_gen, new_post, [], state, llm_prep=llm_prep,
-                                                source_dissection=pack.dissection if new_post.batch == "A" else None)
-                        amplified_posts[idx] = new_post
+                    if post.label not in overlapping:
+                        continue
+                    assigned_angle = angles[overlap_idx % len(angles)] if angles else recommendation
+                    overlap_idx += 1
+                    diversity_note = (
+                        "\n\n---\nCONVERGENCE REGEN — HARD OVERRIDE (read before generating)\n"
+                        f"Your previous version argued: \"{post.argument_compressed}\".\n"
+                        f"Other posts in this pack already argue:\n{kept_args_str}\n\n"
+                        f"REQUIRED DIFFERENT ANGLE for this regeneration: {assigned_angle}\n\n"
+                        "Do NOT argue any variant of the thesis you already wrote. Do NOT argue any variant of the kept posts' theses. "
+                        "The source material is the launching pad — argue the ASSIGNED ANGLE above. "
+                        "Recommendation context: " + (recommendation or "(none)")
+                    )
+                    amended_source = source + diversity_note
+                    if post.batch == "A":
+                        new_post = _generate_a_variant(llm_gen, amended_source, pack.dissection, int(post.label[1:]), state)
+                    else:
+                        new_post = _generate_b_variant(llm_gen, amended_source, pack.dissection, post.entry_door, int(post.label[1:]), [], state)
+                    new_post = _enforce_word_count(new_post, state, llm=llm_gen)
+                    new_post = amplify_post(llm_gen, new_post, [], state, llm_prep=llm_prep,
+                                            source_dissection=pack.dissection if new_post.batch == "A" else None)
+                    amplified_posts[idx] = new_post
 
                 conv = convergence_test(llm_prep, amplified_posts, source[:200], state)
                 tracer.trace_decision(
@@ -297,6 +380,13 @@ class BatchSession:
                     f"retry={'PASS' if conv.get('passed', True) else 'STILL_FAIL'}",
                     metadata=conv,
                 )
+
+                if not conv.get("passed", True):
+                    pack.convergence_warning = True
+                    logger.warning(
+                        "[batch] Pack %d: convergence STILL_FAIL after regen — shipping with convergence_warning=True. Recommendation: %s",
+                        pack_num, conv.get("recommendation", ""),
+                    )
 
             pack.convergence_test = conv
             pack.posts = amplified_posts
@@ -335,6 +425,8 @@ class BatchSession:
 
     def _web_search_enrich(self, llm: LLMProvider, state: BatchState) -> dict:
         """Use web search to find trending topics and facts about the founder and their domain."""
+        if getattr(state, "llm_router", None):
+            llm = state.llm_router.for_task("web_search")
         if not hasattr(llm, 'generate_with_search'):
             return {"searches": [], "trending_topics": [], "facts": []}
 

@@ -32,6 +32,7 @@ class AmplifiedPost:
     violations: list[str] = field(default_factory=list)
     events_used: list[str] = field(default_factory=list)
     argument_compressed: str = ""
+    saturation_warning: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -45,6 +46,8 @@ class PackResult:
     batch_b_count: int = 0
     convergence_test_a: dict = field(default_factory=dict)
     convergence_test: dict = field(default_factory=dict)
+    convergence_warning: bool = False
+    convergence_retry_attempted: bool = False
 
 
 @dataclass
@@ -89,3 +92,9 @@ class BatchState:
 
     # Tracer (set by session, not serialized)
     tracer: BatchTracer | None = field(default=None, repr=False)
+
+    # Per-task LLM router (set by session, not serialized). When present, every
+    # downstream LLM call should consult `state.llm_router.for_task(<task_id>)`
+    # to honour admin defaults + founder overrides instead of using the bare
+    # `llm` parameter it was passed.
+    llm_router: object | None = field(default=None, repr=False)

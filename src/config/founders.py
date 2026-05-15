@@ -35,7 +35,13 @@ def get_active_founder(config: dict | None = None) -> dict:
 
 
 def get_founder_paths(config: dict, slug: str) -> dict:
-    """Resolve all absolute paths for a founder."""
+    """Resolve all absolute paths for a founder.
+
+    Auto-detects the new layout (config/identity/graph/content) vs the legacy
+    one (founder-data/knowledge-graph). Registry entries can override; when
+    `layout: new` is set or the new dirs exist, paths resolve into `graph/`,
+    `identity/personality-card.md`, etc.
+    """
     founders = config.get("founders", {})
     registry = founders.get("registry", {})
     entry = registry.get(slug)
@@ -50,6 +56,23 @@ def get_founder_paths(config: dict, slug: str) -> dict:
             "graph_path": str(PROJECT_ROOT / stores.get("graph_path", "data/knowledge-graph/graph.json")),
             "personality_card_path": str(PROJECT_ROOT / stores.get("personality_card_path", "data/knowledge-graph/personality-card.md")),
             "vectors_path": str(PROJECT_ROOT / stores.get("vectors_path", "data/knowledge-graph/chroma")),
+            "layout": "old",
+        }
+
+    # Auto-detect new layout by directory presence (preferred when ambiguous).
+    base = PROJECT_ROOT / f"data/founders/{slug}"
+    explicit_layout = entry.get("layout")
+    has_new_dirs = (base / "identity").is_dir() and (base / "graph" / "graph.json").exists()
+
+    if explicit_layout == "new" or (explicit_layout is None and has_new_dirs):
+        return {
+            "slug": slug,
+            "display_name": entry.get("display_name", slug.title()),
+            "data_dir": str(base),
+            "graph_path": str(base / "graph" / "graph.json"),
+            "personality_card_path": str(base / "identity" / "personality-card.md"),
+            "vectors_path": str(base / "graph" / "chroma"),
+            "layout": "new",
         }
 
     return {
@@ -59,6 +82,7 @@ def get_founder_paths(config: dict, slug: str) -> dict:
         "graph_path": str(PROJECT_ROOT / entry["graph_path"]),
         "personality_card_path": str(PROJECT_ROOT / entry["personality_card_path"]),
         "vectors_path": str(PROJECT_ROOT / entry["vectors_path"]),
+        "layout": "old",
     }
 
 

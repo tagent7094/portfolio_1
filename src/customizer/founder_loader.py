@@ -1,48 +1,31 @@
-"""Load raw founder files (voice-dna, story-bank, linkedin posts) at generation time."""
+"""Founder data loader — thin wrapper around the universal ingestion reader.
+
+Historically this read only `voice-dna-*.md`, `story-bank-*.md`, and `*posts*.txt`
+from `data/founders/<slug>/founder-data/`. Now backed by `src/ingestion/founder_reader`
+which understands docx/xlsx/csv/yaml/json and both the legacy and new layouts.
+
+The legacy three-key contract is preserved so existing callers in
+`src/batch/corpus_reader.py` (including `_verify_founder_identity`) keep working
+unchanged. New keys are additive.
+"""
 
 from __future__ import annotations
 
-from pathlib import Path
+from ..ingestion.founder_reader import read_founder
 
 
 def load_raw_founder_data(founder_slug: str) -> dict:
-    """Read voice-dna, story-bank, and linkedin-posts from founder's data dir.
+    """Return the founder bundle dict.
 
-    Returns dict with keys: raw_voice_dna, raw_story_bank, founder_posts_sample.
-    Falls back to empty strings if files don't exist.
+    Guaranteed keys (legacy contract):
+        raw_voice_dna: str
+        raw_story_bank: str
+        founder_posts_sample: str
+
+    Additive keys (new — consumers that don't know about them ignore them):
+        slug, layout, founder_posts_structured, identity{bio, personality_card,
+        tensions, voice_dna}, config{founder_config, linkedin_account,
+        instructions}, transcripts, co_founder_posts, viral_used_urls,
+        extra_xlsx_data, files_ingested, files_skipped
     """
-    import yaml
-    from ..config.founders import get_founder_paths
-
-    config_path = Path(__file__).parent.parent.parent / "config" / "llm-config.yaml"
-    with open(config_path) as f:
-        config = yaml.safe_load(f)
-
-    paths = get_founder_paths(config, founder_slug)
-    data_dir = Path(paths["data_dir"])
-
-    result = {"raw_voice_dna": "", "raw_story_bank": "", "founder_posts_sample": ""}
-
-    if not data_dir.exists():
-        return result
-
-    # Voice DNA file (voice-dna-*.md)
-    for f in data_dir.glob("*voice-dna*.md"):
-        result["raw_voice_dna"] = f.read_text(encoding="utf-8")
-        break
-
-    # Story bank file (story-bank-*.md)
-    for f in data_dir.glob("*story-bank*.md"):
-        result["raw_story_bank"] = f.read_text(encoding="utf-8")
-        break
-
-    # LinkedIn posts file (*.txt with "posts" in name, or linkedin-posts)
-    for f in data_dir.glob("*linkedin*posts*.txt"):
-        result["founder_posts_sample"] = f.read_text(encoding="utf-8")
-        break
-    if not result["founder_posts_sample"]:
-        for f in data_dir.glob("*posts*.txt"):
-            result["founder_posts_sample"] = f.read_text(encoding="utf-8")
-            break
-
-    return result
+    return read_founder(founder_slug)

@@ -40,8 +40,30 @@ Exact sentence count and structural function of opening lines. This is the mold 
 ### 5. BODY STRUCTURE
 How is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)
 
+### 5b. BODY FORMAT (STRICT ENUM)
+Pick the ONE body format that best describes the source's body structure. This is the structural mold a Batch A mirror MUST preserve.
+- `numbered_list` — body is a numbered list (1. ..., 2. ..., 3. ...). Every numbered item is its own paragraph or block. The list IS the body.
+- `bullet_list` — body is an unnumbered bulleted list (-, •, *, or similar) where each bullet is a discrete unit
+- `parallel_paragraphs` — body has 2-4 parallel paragraphs with identical or near-identical structure (each opens with the same shape, builds the same way)
+- `three_examples` — body presents three distinct examples building toward a conclusion. Not strictly numbered, but each example is clearly delimited.
+- `before_after` — body presents a before/after pair (X was true; now Y is true) with the pivot as the engine.
+- `progressive_revelation` — body progressively reveals an insight, each paragraph adding a new turn or layer.
+- `single_scene` — body is one continuous scene or moment, explored deeply.
+- `prose_essay` — body is flowing argumentative prose without clear discrete units; one paragraph leads to the next without parallel structure.
+
 ### 6. ENDING TYPE
 (concrete image, challenge to reader, quiet admission, unresolved tension, physical detail, callback to opening)
+
+### 6b. CLOSER MECHANIC (STRICT ENUM)
+Pick the ONE closer mechanic that best describes how the source ends. This is the mold a Batch A mirror MUST preserve.
+- `cta` — explicit call to action: "DM me," "link in comments," "I put together the full breakdown," "subscribe," "follow for more"
+- `reframe_question` — closes with a question that flips the reader's posture: "Ask yourself whether…", "What would you do if…"
+- `terminal_verdict` — a final declarative line that closes the case: "That's the only metric that matters." "The market doesn't care about your roadmap."
+- `physical_image` — ends on a concrete physical detail or scene image
+- `challenge` — direct challenge to the reader: "Stop X. Start Y."
+- `callback` — calls back to a phrase, name, or image from the opening
+- `unresolved_tension` — ends with the tension still unresolved (wrestling-mode close)
+- `quiet_admission` — a quiet, vulnerable admission as the final line
 
 ### 7. MIRRORABILITY ASSESSMENT
 Can this source's opening be mirrored (same shape, new content)?
@@ -86,7 +108,11 @@ Run these three tests on the source's opening line(s). These determine whether t
   ],
   "sentence_count": 2,
   "body_structure": "description of body organization",
+  "body_format": "numbered_list|bullet_list|parallel_paragraphs|three_examples|before_after|progressive_revelation|single_scene|prose_essay",
+  "body_item_count": 7,
   "ending_type": "description of ending mechanic",
+  "closer_mechanic": "cta|reframe_question|terminal_verdict|physical_image|challenge|callback|unresolved_tension|quiet_admission",
+  "closer_text": "the exact text of the closing line(s) — one or two sentences",
   "mirrorable": true,
   "mirrorability_reason": "why or why not — be specific",
   "register_energy": "the emotional register doing mechanical work, if any",

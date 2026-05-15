@@ -80,12 +80,18 @@ def _normalize_mechanic(raw: str) -> str:
 
 def diagnose_opener(llm: LLMProvider, post: AmplifiedPost, state: BatchState, source_dissection: dict | None = None) -> dict:
     """Run 7-gate diagnosis on a post's opening line (Gate 7 for Batch A only)."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("amplifier_diagnose")
     template = load_prompt(PROMPTS_DIR / "amplifier_diagnose.txt")
     source_diss_str = "N/A"
     source_mechanic = "N/A"
+    source_body_format = "N/A"
+    source_closer_mechanic = "N/A"
     if source_dissection:
         source_diss_str = str(source_dissection)[:800]
         source_mechanic = source_dissection.get("hook_mechanic_primary", "unknown")
+        source_body_format = source_dissection.get("body_format") or "prose_essay"
+        source_closer_mechanic = source_dissection.get("closer_mechanic") or "terminal_verdict"
     prompt = fill_prompt(
         template,
         post_text=post.text,
@@ -93,6 +99,8 @@ def diagnose_opener(llm: LLMProvider, post: AmplifiedPost, state: BatchState, so
         mode=post.mode,
         source_dissection=source_diss_str,
         source_hook_mechanic=source_mechanic,
+        source_body_format=source_body_format,
+        source_closer_mechanic=source_closer_mechanic,
     )
 
     import time as _t
@@ -136,6 +144,8 @@ def generate_alternatives(
     state: BatchState,
 ) -> list[dict]:
     """Generate exactly 5 replacement opening lines (variants A-E) using different mechanics."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("amplifier_generate")
     template = load_prompt(PROMPTS_DIR / "amplifier_generate.txt")
     prompt = fill_prompt(
         template,
@@ -227,11 +237,20 @@ def amplify_post(
     post.weakness = diagnosis.get("weakness", "")
 
     all_pass = diagnosis.get("all_gates_pass", True)
+    gate7_fail_reason = ""
     if source_dissection:
         gate7 = gates.get("source_mirror", {})
         if isinstance(gate7, dict) and not gate7.get("pass", True):
             all_pass = False
-            logger.info("[amplifier] %s: Gate 7 (source mirror) FAIL — mechanic mismatch", post.label)
+            failed_subchecks = []
+            if not gate7.get("mechanic_match", True):
+                failed_subchecks.append("mechanic")
+            if not gate7.get("body_format_match", True):
+                failed_subchecks.append(f"body_format(actual={gate7.get('body_format_actual', '?')})")
+            if not gate7.get("closer_mechanic_match", True):
+                failed_subchecks.append(f"closer(actual={gate7.get('closer_mechanic_actual', '?')})")
+            gate7_fail_reason = ",".join(failed_subchecks) or "unspecified"
+            logger.info("[amplifier] %s: Gate 7 (source mirror) FAIL — %s", post.label, gate7_fail_reason)
     is_slop = _is_slop(post.original_opening)
 
     alternatives = generate_alternatives(llm, post, diagnosis, state)
@@ -248,11 +267,30 @@ def amplify_post(
             return (coh, plaus, vfit, mode_fit, rating)
         best = max(alternatives, key=_sort_key)
         post.recommended_variant = best.get("variant", "A")
+        best_rating = best.get("rating", 0)
 
-        if not all_pass or is_slop:
+        # Apply rebuild when: gates failed, slop detected, or the recommended variant
+        # is materially better than baseline (rating >= 8). Without this, the amplifier
+        # recommends a variant but ships the original — the "Recommended: C but Final
+        # Opening unchanged" failure mode.
+        BASELINE_RATING = 7
+        rating_lift = best_rating >= BASELINE_RATING + 1
+        coh_ok = best.get("coherence_with_body", True)
+        plaus_ok = best.get("plausibility", True)
+        vfit_ok = best.get("voice_fit", True)
+        mode_ok = best.get("mode_preservation", True)
+        variant_safe = coh_ok and plaus_ok and vfit_ok and mode_ok
+
+        if (not all_pass) or is_slop or (rating_lift and variant_safe):
+            apply_reason = (
+                f"gate_fail({gate7_fail_reason})" if not all_pass and gate7_fail_reason
+                else "gate_fail" if not all_pass
+                else "slop" if is_slop
+                else f"rating_lift({best_rating})"
+            )
             post = _apply_best_opener(post, best)
-            logger.info("[amplifier] %s: replaced opener (mechanic=%s, rating=%d)",
-                        post.label, post.mechanic, post.rating)
+            logger.info("[amplifier] %s: replaced opener (mechanic=%s, rating=%d, reason=%s)",
+                        post.label, post.mechanic, post.rating, apply_reason)
         else:
             post.final_opening = post.original_opening
             post.mechanic = _normalize_mechanic(diagnosis.get("current_mechanic", "kept"))
@@ -282,6 +320,8 @@ def convergence_test(
     state: BatchState,
 ) -> dict:
     """Test whether posts in a pack argue too-similar things."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("convergence_test")
     if len(pack_posts) < 3:
         return {"passed": True, "recommendation": "too few posts to test"}
 

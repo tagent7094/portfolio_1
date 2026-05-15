@@ -21,6 +21,8 @@ The framework's argument matrix is supposed to prevent this; it doesn't always. 
 
 4. If FAIL: identify which posts should be pushed back for rework. Ask for posts that argue meaningfully different takes. Don't keep amplifying versions that all converge on the founder's central thesis.
 
+5. If FAIL: also produce a `replacement_angles` list of 3-5 DISTINCT, MUTUALLY EXCLUSIVE angles on the source material — each angle must be different enough that a post written to it could not collapse into the others. These are fed directly to the regen step, one per overlapping post.
+
 ## OUTPUT FORMAT
 
 ```json
@@ -37,6 +39,12 @@ The framework's argument matrix is supposed to prevent this; it doesn't always. 
   ],
   "duplicate_count": 0,
   "max_convergence_pct": 22,
-  "recommendation": "pack has good argument diversity — or — posts X, Y, Z should argue different takes"
+  "overlapping_posts": ["A1", "A2", "A3"],
+  "replacement_angles": [
+    "specific angle 1 — a take no other post in the pack argues",
+    "specific angle 2 — different lens, different claim",
+    "specific angle 3 — different lens, different claim"
+  ],
+  "recommendation": "pack has good argument diversity — or — posts X, Y, Z should argue different takes such as: (1) angle one; (2) angle two; (3) angle three"
 }}}}
 ```

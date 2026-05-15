@@ -24,6 +24,36 @@ HARD RULE: Your opener MUST use the source's primary mechanic ({source_hook_mech
 - If the source anchors authority with a credential ("I've backed 40+ companies"), your opener must anchor with the founder's credential
 - If the source makes a numbered promise ("here are 5 patterns"), your opener must include a numbered promise
 
+## SOURCE BODY FORMAT — YOUR BODY MUST USE THIS (NON-NEGOTIABLE)
+Body format: {source_body_format}
+Item count (if applicable): {source_body_item_count}
+
+HARD RULE: Your body MUST use the source's body format. Do NOT collapse a numbered list into flowing prose. Do NOT expand a single scene into multiple parallel paragraphs.
+
+- If `numbered_list` → your body MUST be a numbered list with discrete items. Match the item count within ±1 (so if source has 7 items, generate 6-8 items; if source has 5, generate 4-6). Each numbered item gets its own paragraph or short block. The list IS the body. Do NOT write it as flowing prose with "first... then... finally..." — actual numbers (1., 2., 3., …) must appear.
+- If `bullet_list` → use bullets (•, -, *) for each discrete unit.
+- If `parallel_paragraphs` → write 2-4 paragraphs that open with the same shape and build the same way.
+- If `three_examples` → present three distinct examples, each clearly delimited (could be three short paragraphs, three numbered items, or three named scenes).
+- If `before_after` → structure as before-pivot-after.
+- If `progressive_revelation` → flowing build is allowed.
+- If `single_scene` → one continuous scene, no list structure.
+- If `prose_essay` → flowing argumentative prose, no list structure.
+
+The single most common failure mode for Batch A is: source is `numbered_list` but the generated post writes a flowing contrarian essay that mentions the same themes. This is a HARD STRUCTURAL FAILURE. The mold of the source must transfer.
+
+## SOURCE CLOSER MECHANIC — YOUR CLOSER MUST USE THIS (NON-NEGOTIABLE)
+Closer mechanic: {source_closer_mechanic}
+Source closer text: {source_closer_text}
+
+HARD RULE: Your closer MUST use the source's closer mechanic.
+- If source closer is `cta` (e.g., "I put together the breakdown of these 7 companies — link in comments"), the generated post MUST close with a parallel CTA referring to the founder's own work / breakdown / playbook / DM offer.
+- If source closer is `reframe_question`, the generated post MUST close with a question that flips the reader's posture.
+- If source closer is `terminal_verdict`, the generated post MUST close with a declarative final line.
+- If source closer is `physical_image`, the generated post MUST close with a concrete physical image / detail.
+- If source closer is `challenge`, the generated post MUST close with a direct challenge ("Stop X. Start Y.").
+- If source closer is `callback`, the generated post MUST call back to a phrase or image from the opening.
+- Do NOT swap CTA → reframe question. Do NOT swap terminal verdict → physical image. The closer carries the source's energy into the reader.
+
 ## OPENER QUALITY TESTS (from source dissection)
 {opener_tests}
 If any test FAILED, do NOT replicate that quality in your opener.
@@ -128,8 +158,10 @@ If any test FAILED, do NOT replicate that quality in your opener.
    - Your opener must have the SAME number of sentences as the source's opener
    - Each sentence must serve the SAME structural function (from hook_mechanics[].structural_function)
    - The rhythm pattern (short/medium/long sequence) must match
-   If any of these don't match, revise your opener before returning.
-   Set structural_match to true only if all three conditions hold.
+   - Your BODY must match the source's body_format (`{source_body_format}`). If source is `numbered_list`, your body must contain visible numbered items (1., 2., 3., …). If source is `parallel_paragraphs`, your body must have parallel paragraph openings.
+   - Your CLOSER must match the source's closer_mechanic (`{source_closer_mechanic}`).
+   If any of these don't match, revise the post before returning.
+   Set structural_match to true only if ALL conditions hold (opener mechanic + opener shape + body format + closer mechanic).
 
 ## OUTPUT FORMAT
 

@@ -30,7 +30,7 @@ def convert(json_path: str) -> str:
         "Buried Gold", "Weakness",
         "Argument",
         "Events Used", "Violations",
-        "Gates Passed", "Convergence",
+        "Gates Passed", "Convergence", "Saturation",
     ]
 
     wb = openpyxl.Workbook()
@@ -41,7 +41,14 @@ def convert(json_path: str) -> str:
     for pack in data.get("packs", []):
         src_num = pack.get("source_number", 0)
         conv = pack.get("convergence_test", {})
-        conv_str = "PASS" if conv.get("passed", True) else f"FAIL: {conv.get('recommendation', '')[:200]}"
+        conv_warning = pack.get("convergence_warning", False)
+        conv_retried = pack.get("convergence_retry_attempted", False)
+        if conv.get("passed", True):
+            conv_str = "PASS (after regen)" if conv_retried else "PASS"
+        elif conv_warning:
+            conv_str = f"WARN — STILL FAIL after regen: {conv.get('recommendation', '')[:200]}"
+        else:
+            conv_str = f"FAIL: {conv.get('recommendation', '')[:200]}"
 
         for post in pack.get("posts", []):
             amp = post.get("amplifier", {})
@@ -61,6 +68,14 @@ def convert(json_path: str) -> str:
             violations_str = "; ".join(violations) if violations else ""
 
             voice_score = post.get("voice_validation", {}).get("voice_score", "")
+
+            sat = post.get("saturation_warning") or {}
+            if sat.get("warning"):
+                sat_str = f"WARN — {sat.get('count', 0)} shared 6-grams with {sat.get('worst_match_id', '?')}"
+            elif sat.get("count", 0):
+                sat_str = f"{sat.get('count')} shared"
+            else:
+                sat_str = ""
 
             row = [
                 post.get("label", ""),
@@ -83,6 +98,7 @@ def convert(json_path: str) -> str:
                 violations_str,
                 gates_str,
                 conv_str,
+                sat_str,
             ]
             ws.append([str(v) if v is not None else "" for v in row])
 
@@ -100,7 +116,7 @@ def convert(json_path: str) -> str:
         "N": 60, "O": 60,
         "P": 80,
         "Q": 40, "R": 30,
-        "S": 20, "T": 40,
+        "S": 20, "T": 40, "U": 35,
     }
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
