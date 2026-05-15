@@ -130,16 +130,28 @@ PROVIDER_CATALOG: dict[str, ProviderEntry] = {
 }
 
 
-def provider_catalog_with_env_status() -> dict[str, dict]:
-    """Same as PROVIDER_CATALOG but with `key_present` populated per provider.
+def provider_catalog_with_env_status(stored_keys: dict | None = None) -> dict[str, dict]:
+    """Same as PROVIDER_CATALOG but with ``key_present`` and ``key_source``.
 
-    The frontend uses this to render a "⚠️ no key configured" badge. Keys
-    themselves are never returned over the wire.
+    The frontend uses these to render status badges.  Keys themselves are
+    never returned over the wire.  ``stored_keys`` is an optional dict of
+    provider-name → API-key from the admin (or founder) config file.
     """
     out: dict[str, dict] = {}
+    sk = stored_keys or {}
     for name, entry in PROVIDER_CATALOG.items():
         env_var = entry.get("api_key_env", "")
-        key_present = bool(os.environ.get(env_var)) if env_var else True  # local providers need no key
+        has_env = bool(os.environ.get(env_var)) if env_var else False
+        has_stored = bool(sk.get(name))
+        is_local = name in ("ollama", "lmstudio")
+        if is_local:
+            key_present, key_source = True, "local"
+        elif has_stored:
+            key_present, key_source = True, "saved"
+        elif has_env:
+            key_present, key_source = True, "env"
+        else:
+            key_present, key_source = False, "none"
         out[name] = {
             "label": entry.get("label", name),
             "models": entry.get("models", []),
@@ -148,5 +160,6 @@ def provider_catalog_with_env_status() -> dict[str, dict]:
             "api_key_env": env_var,
             "custom_models_allowed": entry.get("custom_models_allowed", True),
             "key_present": key_present,
+            "key_source": key_source,
         }
     return out

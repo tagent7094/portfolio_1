@@ -231,10 +231,16 @@ class LLMRouter:
         return instance
 
     def _resolve_key(self, provider: str, resolved: dict) -> str:
-        # Explicit key in config wins; otherwise fall through to env var.
+        # Resolution: task-level key → founder stored key → admin stored key → env var
         key = resolved.get("api_key") or ""
         if key:
             return key
+        founder_keys = (self._founder_cfg or {}).get("provider_keys", {})
+        if founder_keys.get(provider):
+            return founder_keys[provider]
+        admin_keys = (self._admin_cfg or {}).get("provider_keys", {})
+        if admin_keys.get(provider):
+            return admin_keys[provider]
         defaults = PROVIDER_DEFAULTS.get(provider, {})
         env_var = defaults.get("api_key_env", "")
         if env_var:

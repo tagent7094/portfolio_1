@@ -30,6 +30,42 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+def mask_key(key: str) -> str:
+    """Mask an API key for safe display (first 4 + **** + last 4)."""
+    if not key:
+        return ""
+    if len(key) <= 8:
+        return "****"
+    return key[:4] + "****" + key[-4:]
+
+
+def is_masked(value: str) -> bool:
+    """True if the value looks like a masked key from mask_key()."""
+    return isinstance(value, str) and "****" in value
+
+
+def mask_provider_keys(keys: dict) -> dict:
+    """Return a copy with all key values masked."""
+    return {p: mask_key(k) for p, k in keys.items() if k}
+
+
+def _merge_provider_keys(incoming: dict, existing: dict) -> dict:
+    """Merge incoming provider_keys with existing, respecting masked values.
+
+    Empty string = remove the stored key.  Masked value = keep existing.
+    Missing provider = keep existing.
+    """
+    merged = dict(existing)
+    for provider, key in incoming.items():
+        if not key:
+            merged.pop(provider, None)
+        elif is_masked(key):
+            pass
+        else:
+            merged[provider] = key
+    return merged
+
+
 def _empty_admin_config() -> dict:
     """Build a default admin config from the task catalog.
 
@@ -86,6 +122,16 @@ def save_admin_config(cfg: dict) -> dict:
             raise ValueError(f"task config for {task_id!r} must be a dict")
         if "provider" not in task_cfg or "model" not in task_cfg:
             raise ValueError(f"task {task_id!r} missing required 'provider' or 'model'")
+    incoming_keys = cfg.get("provider_keys")
+    if incoming_keys is not None:
+        existing_keys = {}
+        if ADMIN_CONFIG_PATH.exists():
+            try:
+                old = json.loads(ADMIN_CONFIG_PATH.read_text(encoding="utf-8"))
+                existing_keys = old.get("provider_keys", {})
+            except Exception:
+                pass
+        cfg["provider_keys"] = _merge_provider_keys(incoming_keys, existing_keys)
     cfg["updated_at"] = _now_iso()
     cfg.setdefault("version", 1)
     ADMIN_CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -122,6 +168,17 @@ def save_founder_override(slug: str, cfg: dict) -> dict:
             raise ValueError(f"override for {task_id!r} missing required 'provider' or 'model'")
         cleaned[task_id] = task_cfg
     out = {"version": 1, "updated_at": _now_iso(), "tasks": cleaned}
+    incoming_keys = cfg.get("provider_keys")
+    if incoming_keys is not None:
+        existing_keys = {}
+        override_path = _founder_override_path(slug)
+        if override_path.exists():
+            try:
+                old = json.loads(override_path.read_text(encoding="utf-8"))
+                existing_keys = old.get("provider_keys", {})
+            except Exception:
+                pass
+        out["provider_keys"] = _merge_provider_keys(incoming_keys, existing_keys)
     p = _founder_override_path(slug)
     p.parent.mkdir(parents=True, exist_ok=True)
     tmp = p.with_suffix(".json.tmp")
@@ -168,8 +225,10 @@ def merged_config_for_founder(slug: str | None) -> dict:
                 "_source": "default",
             }
         resolved[task_id] = entry
+    founder_keys = founder.get("provider_keys", {})
     return {
         "admin_defaults": admin,
         "founder_overrides": founder,
         "resolved": resolved,
+        "provider_keys": mask_provider_keys(founder_keys),
     }

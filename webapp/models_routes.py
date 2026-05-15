@@ -18,6 +18,7 @@ from src.llm.config_io import (
     delete_founder_override_task,
     load_admin_config,
     load_founder_override,
+    mask_provider_keys,
     merged_config_for_founder,
     save_admin_config,
     save_founder_override,
@@ -43,15 +44,15 @@ def _strip_synth(cfg: dict) -> dict:
 
 @router.get("/api/admin/models/providers")
 async def get_models_providers(request: Request) -> dict:
-    from webapp.auth_routes import _require_admin
-    _require_admin(request)
-    return {"providers": provider_catalog_with_env_status()}
+    # No auth — read-only catalog with no secrets (just model lists + key_present booleans)
+    admin_cfg = load_admin_config()
+    stored_keys = admin_cfg.get("provider_keys", {})
+    return {"providers": provider_catalog_with_env_status(stored_keys=stored_keys)}
 
 
 @router.get("/api/admin/models/tasks")
 async def get_models_tasks(request: Request) -> dict:
-    from webapp.auth_routes import _require_admin
-    _require_admin(request)
+    # No auth — read-only catalog, no secrets
     return {"tasks": task_catalog_dict()}
 
 
@@ -59,7 +60,9 @@ async def get_models_tasks(request: Request) -> dict:
 async def get_admin_models_config(request: Request) -> dict:
     from webapp.auth_routes import _require_admin
     _require_admin(request)
-    return _strip_synth(load_admin_config())
+    cfg = _strip_synth(load_admin_config())
+    cfg["provider_keys"] = mask_provider_keys(cfg.get("provider_keys", {}))
+    return cfg
 
 
 @router.put("/api/admin/models/config")
@@ -98,6 +101,7 @@ async def get_founder_models_config(slug: str, request: Request) -> dict:
     _require_founder(request, slug)
     merged = merged_config_for_founder(slug)
     merged["admin_defaults"] = _strip_synth(merged.get("admin_defaults", {}))
+    merged["admin_defaults"].pop("provider_keys", None)
     return merged
 
 

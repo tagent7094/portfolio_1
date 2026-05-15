@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Save, RotateCcw, Beaker, CheckCircle2, XCircle, AlertTriangle, ChevronDown, ChevronRight } from 'lucide-react'
+import { Save, RotateCcw, Beaker, CheckCircle2, XCircle, AlertTriangle, ChevronDown, ChevronRight, KeyRound } from 'lucide-react'
 import { apiGet, apiPut, apiPost, apiDelete } from '../../api/client'
 import { Card, CardHeader, CardBody, CardTitle, Button, Spinner } from '../ui'
 
@@ -12,6 +12,7 @@ interface ProviderEntry {
   api_key_env: string
   custom_models_allowed: boolean
   key_present: boolean
+  key_source: string
 }
 interface TaskSpec {
   task_id: string
@@ -37,11 +38,13 @@ interface AdminConfig {
   version: number
   updated_at: string
   tasks: Record<string, TaskConfig>
+  provider_keys?: Record<string, string>
 }
 interface FounderConfig {
   admin_defaults: AdminConfig
   founder_overrides: { tasks: Record<string, TaskConfig> }
   resolved: Record<string, TaskConfig & { _source: 'founder' | 'admin' | 'default' }>
+  provider_keys?: Record<string, string>
 }
 interface TestResult { ok: boolean; latency_ms: number; sample_output: string; error?: string }
 
@@ -61,7 +64,8 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
   const [tasks, setTasks] = useState<TaskSpec[]>([])
   const [configByTask, setConfigByTask] = useState<Record<string, TaskConfig>>({})
   const [sources, setSources] = useState<Record<string, 'founder' | 'admin' | 'default'>>({})
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({ light: true })
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({ light: true, keys: true })
+  const [providerKeys, setProviderKeys] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -76,6 +80,7 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
   const refresh = async () => {
     setLoading(true)
     setError(null)
+    setProviderKeys({})
     try {
       const [pData, tData] = await Promise.all([
         apiGet<{ providers: Record<string, ProviderEntry> }>('/api/admin/models/providers'),
@@ -157,11 +162,13 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
             overrides[tid] = stripSource(cfg)
           }
         }
-        await apiPut(`/api/founders/${founderSlug}/models/config`, { tasks: overrides })
+        const keysToSend = Object.fromEntries(Object.entries(providerKeys).filter(([, v]) => v))
+        await apiPut(`/api/founders/${founderSlug}/models/config`, { tasks: overrides, provider_keys: keysToSend })
       } else {
         const body: Record<string, TaskConfig> = {}
         for (const [tid, cfg] of Object.entries(configByTask)) body[tid] = stripSource(cfg)
-        await apiPut('/api/admin/models/config', { tasks: body })
+        const keysToSend = Object.fromEntries(Object.entries(providerKeys).filter(([, v]) => v))
+        await apiPut('/api/admin/models/config', { tasks: body, provider_keys: keysToSend })
       }
       setSaved(true)
       setTimeout(() => setSaved(false), 3000)
@@ -231,6 +238,57 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
           </Button>
         </div>
       </div>
+
+      <Card>
+        <CardHeader>
+          <button
+            onClick={() => setCollapsed((p) => ({ ...p, keys: !p.keys }))}
+            className="flex items-center gap-1.5 text-left"
+          >
+            {collapsed.keys ? <ChevronRight size={14} /> : <ChevronDown size={14} />}
+            <CardTitle><span className="flex items-center gap-1.5"><KeyRound size={14} /> API Keys</span></CardTitle>
+          </button>
+        </CardHeader>
+        {!collapsed.keys && (
+          <CardBody className="space-y-3">
+            <p className="text-[11px] text-white/40">
+              Enter API keys here or set them as environment variables on the server.
+              {isFounder && ' Keys you set here override the admin defaults for your pipeline runs.'}
+            </p>
+            {Object.entries(providers)
+              .filter(([name]) => name !== 'ollama' && name !== 'lmstudio')
+              .map(([name, info]) => (
+                <div key={name} className="flex items-center gap-3">
+                  <div className="w-44 text-[12px] text-white/70 flex items-center gap-1.5 shrink-0">
+                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${
+                      info.key_present ? 'bg-emerald-400' : 'bg-white/20'
+                    }`} />
+                    {info.label || name}
+                  </div>
+                  <input
+                    type="password"
+                    value={providerKeys[name] || ''}
+                    onChange={(e) => setProviderKeys((p) => ({ ...p, [name]: e.target.value }))}
+                    placeholder={
+                      info.key_source === 'env' ? `Loaded from ${info.api_key_env}`
+                        : info.key_source === 'saved' ? 'Key saved — enter new value to replace'
+                        : 'Enter API key…'
+                    }
+                    className="flex-1 bg-white/5 text-white/80 rounded px-2 py-1.5 text-xs border border-white/10 font-mono placeholder:text-white/25"
+                  />
+                  {info.key_source !== 'none' && (
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full border shrink-0 ${
+                      info.key_source === 'env' ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                        : info.key_source === 'saved' ? 'border-blue-500/30 bg-blue-500/10 text-blue-300'
+                        : 'border-white/10 text-white/30'
+                    }`}>{info.key_source}</span>
+                  )}
+                </div>
+              ))
+            }
+          </CardBody>
+        )}
+      </Card>
 
       {TIER_ORDER.map((tier) => {
         const tierTasks = tasksByTier[tier]
