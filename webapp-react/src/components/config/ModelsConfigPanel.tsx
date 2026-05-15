@@ -229,22 +229,43 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
 
   const bulkModels = bulkProvider ? (providers[bulkProvider]?.models || []) : []
 
-  const applyBulk = () => {
+  const applyBulk = async () => {
     if (!bulkProvider || !bulkModel) return
     const affected = tasks.filter((t) => bulkTier === 'all' || t.quality_tier === bulkTier)
-    setConfigByTask((prev) => {
-      const next = { ...prev }
-      for (const t of affected) {
-        next[t.task_id] = { ...next[t.task_id], provider: bulkProvider, model: bulkModel }
+
+    // Build the new config state inline so we can save it immediately
+    const nextConfig = { ...configByTask }
+    const nextSources = { ...sources }
+    for (const t of affected) {
+      nextConfig[t.task_id] = { ...nextConfig[t.task_id], provider: bulkProvider, model: bulkModel }
+      if (isFounder) nextSources[t.task_id] = 'founder'
+    }
+    setConfigByTask(nextConfig)
+    if (isFounder) setSources(nextSources)
+
+    // Auto-save immediately
+    setSaving(true)
+    setSaved(false)
+    setError(null)
+    try {
+      if (isFounder && founderSlug) {
+        const overrides: Record<string, TaskConfig> = {}
+        for (const [tid, cfg] of Object.entries(nextConfig)) {
+          if (nextSources[tid] === 'founder') overrides[tid] = stripSource(cfg)
+        }
+        await apiPut(`/api/founders/${founderSlug}/models/config`, { tasks: overrides })
+      } else {
+        const body: Record<string, TaskConfig> = {}
+        for (const [tid, cfg] of Object.entries(nextConfig)) body[tid] = stripSource(cfg)
+        await apiPut('/api/admin/models/config', { tasks: body })
       }
-      return next
-    })
-    if (isFounder) {
-      setSources((prev) => {
-        const next = { ...prev }
-        for (const t of affected) next[t.task_id] = 'founder'
-        return next
-      })
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+      refresh()
+    } catch (e: any) {
+      setError(String(e?.message || e))
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -305,9 +326,9 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
               <option value="light">Light only</option>
             </select>
           </div>
-          <Button onClick={applyBulk} disabled={!bulkProvider || !bulkModel}
-            className="text-xs">
-            Apply
+          <Button onClick={applyBulk} disabled={!bulkProvider || !bulkModel || saving}
+            loading={saving} className="text-xs">
+            {saving ? 'Saving…' : 'Apply & Save'}
           </Button>
         </CardBody>
       </Card>
