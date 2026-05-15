@@ -223,6 +223,31 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
     }
   }
 
+  const [bulkProvider, setBulkProvider] = useState('')
+  const [bulkModel, setBulkModel] = useState('')
+  const [bulkTier, setBulkTier] = useState<'all' | 'heavy' | 'medium' | 'light'>('all')
+
+  const bulkModels = bulkProvider ? (providers[bulkProvider]?.models || []) : []
+
+  const applyBulk = () => {
+    if (!bulkProvider || !bulkModel) return
+    const affected = tasks.filter((t) => bulkTier === 'all' || t.quality_tier === bulkTier)
+    setConfigByTask((prev) => {
+      const next = { ...prev }
+      for (const t of affected) {
+        next[t.task_id] = { ...next[t.task_id], provider: bulkProvider, model: bulkModel }
+      }
+      return next
+    })
+    if (isFounder) {
+      setSources((prev) => {
+        const next = { ...prev }
+        for (const t of affected) next[t.task_id] = 'founder'
+        return next
+      })
+    }
+  }
+
   const tasksByTier = useMemo(() => {
     const grouped: Record<TaskSpec['quality_tier'], TaskSpec[]> = { heavy: [], medium: [], light: [] }
     for (const t of tasks) grouped[t.quality_tier].push(t)
@@ -238,6 +263,54 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
           {error}
         </div>
       )}
+
+      {/* Quick-switch: apply one provider+model to all (or a tier of) tasks */}
+      <Card>
+        <CardBody className="flex items-end gap-3 flex-wrap">
+          <div>
+            <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-white/40">Switch all to</label>
+            <select value={bulkProvider}
+              onChange={(e) => {
+                setBulkProvider(e.target.value)
+                const first = providers[e.target.value]?.models?.[0]?.id || ''
+                setBulkModel(first)
+              }}
+              className="bg-white/5 text-white/80 rounded px-2 py-1.5 text-xs border border-white/10 [&>option]:bg-[#1a1a1f] [&>option]:text-white/90 w-40">
+              <option value="">Provider…</option>
+              {Object.entries(providers).map(([name, info]) => (
+                <option key={name} value={name}>{info.label || name}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-white/40">Model</label>
+            <select value={bulkModel}
+              onChange={(e) => setBulkModel(e.target.value)}
+              className="bg-white/5 text-white/80 rounded px-2 py-1.5 text-xs border border-white/10 [&>option]:bg-[#1a1a1f] [&>option]:text-white/90 w-56"
+              disabled={!bulkProvider}>
+              {bulkModels.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}
+              {bulkModel && !bulkModels.some((m) => m.id === bulkModel) && (
+                <option value={bulkModel}>{bulkModel} (custom)</option>
+              )}
+            </select>
+          </div>
+          <div>
+            <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-white/40">Apply to</label>
+            <select value={bulkTier}
+              onChange={(e) => setBulkTier(e.target.value as any)}
+              className="bg-white/5 text-white/80 rounded px-2 py-1.5 text-xs border border-white/10 [&>option]:bg-[#1a1a1f] [&>option]:text-white/90 w-32">
+              <option value="all">All tasks</option>
+              <option value="heavy">Heavy only</option>
+              <option value="medium">Medium only</option>
+              <option value="light">Light only</option>
+            </select>
+          </div>
+          <Button onClick={applyBulk} disabled={!bulkProvider || !bulkModel}
+            className="text-xs">
+            Apply
+          </Button>
+        </CardBody>
+      </Card>
 
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2 flex-wrap">
