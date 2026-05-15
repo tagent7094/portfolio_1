@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
@@ -82,6 +82,33 @@ from webapp.os_routes import router as os_router
 app.include_router(os_router)
 
 
+@app.get("/api/admin/notify/config")
+async def get_notify_config(request: Request):
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+    from src.batch.notify import get_notify_config as _get
+    return _get()
+
+
+@app.put("/api/admin/notify/config")
+async def update_notify_config(request: Request):
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+    body = await request.json()
+    from src.batch.notify import update_notify_config as _update
+    return _update(body)
+
+
+@app.post("/api/admin/notify/test")
+async def send_test_notification(request: Request):
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+    from src.batch.notify import send_batch_notification
+    import asyncio
+    await asyncio.to_thread(send_batch_notification, founder_slug="test", total_posts=0, trigger="test")
+    return {"ok": True, "message": "Test email sent (check inbox)"}
+
+
 @app.on_event("startup")
 async def _startup_scheduler():
     start_scheduler()
@@ -99,7 +126,6 @@ WEBAPP_DIR = Path(__file__).parent
 # ── Simple request logging ──
 
 import time as _time
-from starlette.requests import Request
 
 
 @app.middleware("http")

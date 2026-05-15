@@ -18,26 +18,33 @@ interface LlmEntry {
   raw: string
 }
 
+const LLM_PATTERN = /anthropic|openai|ollama|claude|gpt-|llm|embed|tokens?[\s=:]|prompt|complet|huggingface|sentence.transform|httpx.*api\.(anthropic|openai)|model[=:]/i
+
 function parseLlmLogs(lines: string[]): LlmEntry[] {
   const entries: LlmEntry[] = []
-  const llmPatterns = [
-    /anthropic|openai|ollama|claude|gpt|llm|embed|token|prompt|complet/i,
-  ]
   for (const line of lines) {
-    if (!llmPatterns.some(p => p.test(line))) continue
-    const tsMatch = line.match(/^(\d{4}-\d{2}-\d{2}T[\d:.+]+)\s/)
-    const levelMatch = line.match(/\b(ERROR|WARN|WARNING|INFO|DEBUG)\b/i)
+    if (!LLM_PATTERN.test(line)) continue
+    // Journal ISO format: 2026-05-15T06:59:35+00:00 srv... uvicorn[...]: <message>
+    const tsMatch = line.match(/^(\d{4}-\d{2}-\d{2}T[\d:]+[+\d:]+)\s/)
+    // Extract message after the uvicorn[...]: prefix
+    const msgMatch = line.match(/uvicorn\[\d+\]:\s*(.*)/)
+    const message = msgMatch ? msgMatch[1] : (tsMatch ? line.slice(tsMatch[0].length) : line)
+    const levelMatch = message.match(/\b(ERROR|WARN|WARNING|INFO|DEBUG)\b/i)
+
     let provider: string | undefined
     if (/anthropic|claude/i.test(line)) provider = 'Anthropic'
-    else if (/openai|gpt/i.test(line)) provider = 'OpenAI'
+    else if (/openai|gpt-/i.test(line)) provider = 'OpenAI'
     else if (/ollama/i.test(line)) provider = 'Ollama'
-    const modelMatch = line.match(/model[=:]\s*["']?([a-z0-9._-]+)/i)
+    else if (/huggingface|sentence.transform|embed/i.test(line)) provider = 'HuggingFace'
+
+    const modelMatch = line.match(/model[=:]\s*["']?([a-z0-9._/-]+)/i)
     const tokenMatch = line.match(/(\d+)\s*tokens?/i)
     const latencyMatch = line.match(/(\d+\.?\d*)\s*(?:ms|sec|s)\b/i)
+
     entries.push({
       timestamp: tsMatch ? tsMatch[1] : '',
       level: levelMatch ? levelMatch[1].toUpperCase() : 'INFO',
-      message: line.slice(tsMatch ? tsMatch[0].length : 0).trim(),
+      message: message.trim(),
       provider,
       model: modelMatch?.[1],
       tokens: tokenMatch ? parseInt(tokenMatch[1]) : undefined,
@@ -54,7 +61,7 @@ export default function LlmLogs() {
   const [expanded, setExpanded] = useState<Set<number>>(new Set())
   const [search, setSearch] = useState('')
   const [providerFilter, setProviderFilter] = useState<string>('all')
-  const [lines, setLines] = useState(500)
+  const [lines, setLines] = useState(2000)
 
   const refresh = async () => {
     setLoading(true)
@@ -95,10 +102,10 @@ export default function LlmLogs() {
           {providers.map(p => <option key={p} value={p}>{p}</option>)}
         </select>
         <select value={lines} onChange={e => setLines(Number(e.target.value))} className="bg-white/5 text-white/60 rounded px-2 py-1 text-xs border border-white/[0.06]">
-          <option value={200}>200 lines</option>
-          <option value={500}>500 lines</option>
-          <option value={1000}>1000 lines</option>
-          <option value={2000}>2000 lines</option>
+          <option value={1000}>1K lines</option>
+          <option value={2000}>2K lines</option>
+          <option value={5000}>5K lines</option>
+          <option value={10000}>10K lines</option>
         </select>
         <button onClick={refresh} disabled={loading} className="p-1.5 rounded hover:bg-white/5 text-white/40">
           <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
@@ -110,7 +117,7 @@ export default function LlmLogs() {
         {totalTokens > 0 && <span>{totalTokens.toLocaleString()} total tokens</span>}
         {providers.map(p => (
           <span key={p} className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full" style={{ background: p === 'Anthropic' ? '#d4a574' : p === 'OpenAI' ? '#74b9ff' : '#a29bfe' }} />
+            <span className="w-2 h-2 rounded-full" style={{ background: p === 'Anthropic' ? '#d4a574' : p === 'OpenAI' ? '#74b9ff' : p === 'HuggingFace' ? '#ffcb6b' : '#a29bfe' }} />
             {p}: {entries.filter(e => e.provider === p).length}
           </span>
         ))}
@@ -118,8 +125,14 @@ export default function LlmLogs() {
 
       <div className="flex-1 overflow-auto">
         {filtered.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-white/20">
-            {loading ? 'Loading...' : 'No LLM log entries found'}
+          <div className="flex flex-col items-center justify-center h-full gap-2 text-white/20">
+            {loading ? 'Loading journal...' : (
+              <>
+                <Brain size={24} className="text-white/10" />
+                <span>No LLM log entries found in last {lines} journal lines</span>
+                <span className="text-xs">LLM entries appear during batch generation runs</span>
+              </>
+            )}
           </div>
         ) : (
           <table className="w-full">
@@ -139,12 +152,12 @@ export default function LlmLogs() {
                 <>
                   <tr key={i} onClick={() => toggle(i)} className="border-b border-white/[0.03] hover:bg-white/[0.02] cursor-pointer">
                     <td className="px-1 text-white/20">{expanded.has(i) ? <ChevronDown size={12} /> : <ChevronRight size={12} />}</td>
-                    <td className="px-2 py-1 font-mono text-xs text-white/40">{e.timestamp ? new Date(e.timestamp).toLocaleTimeString() : '-'}</td>
+                    <td className="px-2 py-1 font-mono text-xs text-white/40 whitespace-nowrap">{e.timestamp ? new Date(e.timestamp).toLocaleTimeString() : '-'}</td>
                     <td className="px-2 py-1">
                       {e.provider && (
-                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs" style={{
-                          background: e.provider === 'Anthropic' ? 'rgba(212,165,116,0.15)' : e.provider === 'OpenAI' ? 'rgba(116,185,255,0.15)' : 'rgba(162,155,254,0.15)',
-                          color: e.provider === 'Anthropic' ? '#d4a574' : e.provider === 'OpenAI' ? '#74b9ff' : '#a29bfe',
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs whitespace-nowrap" style={{
+                          background: e.provider === 'Anthropic' ? 'rgba(212,165,116,0.15)' : e.provider === 'OpenAI' ? 'rgba(116,185,255,0.15)' : e.provider === 'HuggingFace' ? 'rgba(255,203,107,0.15)' : 'rgba(162,155,254,0.15)',
+                          color: e.provider === 'Anthropic' ? '#d4a574' : e.provider === 'OpenAI' ? '#74b9ff' : e.provider === 'HuggingFace' ? '#ffcb6b' : '#a29bfe',
                         }}>{e.provider}</span>
                       )}
                     </td>

@@ -5,10 +5,10 @@ import {
   RefreshCw, X, ExternalLink, FileSpreadsheet, Sparkles,
   Clock, Plus, Trash2, Power, Upload, Database, Search,
   ThumbsUp, MessageSquare, Repeat2, Star, ChevronDown,
-  LayoutDashboard, GitFork, Merge,
+  LayoutDashboard, GitFork, Merge, Mail, Send, Save,
 } from 'lucide-react'
 import clsx from 'clsx'
-import { apiGet, apiPost, apiDelete, apiUpload } from '../api/client'
+import { apiGet, apiPost, apiPut, apiDelete, apiUpload } from '../api/client'
 import { Button, Badge, Card, CardBody, Spinner } from '../components/ui'
 
 const ALL_PAGES = ['dashboard', 'generate', 'graph', 'coverage', 'workflow', 'history', 'config']
@@ -132,6 +132,40 @@ export default function AdminPage() {
   const [vpSheets, setVpSheets] = useState<string[]>([])
   const [vpDeep, setVpDeep] = useState(false)
 
+  // Email notification settings
+  const [notifyConfig, setNotifyConfig] = useState<{ recipients: string; subject_template: string; body_header: string; body_footer: string; enabled: boolean } | null>(null)
+  const [notifySaving, setNotifySaving] = useState(false)
+  const [notifySaved, setNotifySaved] = useState(false)
+  const [notifyTesting, setNotifyTesting] = useState(false)
+
+  const refreshNotifyConfig = useCallback(async () => {
+    try {
+      const cfg = await apiGet<{ recipients: string; subject_template: string; body_header: string; body_footer: string; enabled: boolean }>('/api/admin/notify/config')
+      setNotifyConfig(cfg)
+    } catch {}
+  }, [])
+
+  const saveNotifyConfig = async () => {
+    if (!notifyConfig) return
+    setNotifySaving(true)
+    try {
+      const updated = await apiPut<any>('/api/admin/notify/config', notifyConfig)
+      setNotifyConfig(updated)
+      setNotifySaved(true)
+      setTimeout(() => setNotifySaved(false), 2000)
+    } catch {}
+    setNotifySaving(false)
+  }
+
+  const sendTestEmail = async () => {
+    setNotifyTesting(true)
+    try {
+      await apiPost('/api/admin/notify/test', {})
+      alert('Test email sent — check inbox')
+    } catch (e: any) { alert(`Failed: ${e?.message}`) }
+    setNotifyTesting(false)
+  }
+
   const refreshRepos = useCallback(async () => {
     setRepoLoading(true)
     try {
@@ -232,9 +266,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     apiGet('/api/admin/me')
-      .then(() => { setAuthed(true); refresh(); refreshSchedules(); refreshRepos(); refreshStatus(); refreshSchedulerStatus() })
+      .then(() => { setAuthed(true); refresh(); refreshSchedules(); refreshRepos(); refreshStatus(); refreshSchedulerStatus(); refreshNotifyConfig() })
       .catch(() => { setAuthed(false); navigate('/admin/login', { replace: true }) })
-  }, [navigate, refresh, refreshSchedules, refreshRepos, refreshSchedulerStatus])
+  }, [navigate, refresh, refreshSchedules, refreshRepos, refreshSchedulerStatus, refreshNotifyConfig])
 
   useEffect(() => {
     if (!authed) return
@@ -880,6 +914,82 @@ export default function AdminPage() {
             </div>
           </>
         )}
+      </Card>
+
+      {/* Email Notification Settings */}
+      <Card>
+        <CardBody>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2 text-[14px] font-semibold text-[var(--text-primary)]">
+              <Mail size={15} /> Email Notifications
+            </div>
+            <div className="flex items-center gap-2">
+              {notifySaved && <span className="text-[12px] text-[var(--success)]">Saved</span>}
+              <Button variant="secondary" size="xs" onClick={sendTestEmail} loading={notifyTesting} icon={<Send size={12} />}>
+                Test
+              </Button>
+              <Button variant="primary" size="xs" onClick={saveNotifyConfig} loading={notifySaving} icon={<Save size={12} />}>
+                Save
+              </Button>
+            </div>
+          </div>
+          {notifyConfig ? (
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <label className="text-[12px] text-[var(--text-secondary)] w-24 shrink-0">Enabled</label>
+                <button
+                  onClick={() => setNotifyConfig({ ...notifyConfig, enabled: !notifyConfig.enabled })}
+                  className={clsx('relative w-10 h-5 rounded-full transition-colors', notifyConfig.enabled ? 'bg-[var(--success)]' : 'bg-[var(--surface-4)]')}
+                >
+                  <div className={clsx('absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all', notifyConfig.enabled ? 'left-5' : 'left-0.5')} />
+                </button>
+              </div>
+              <div className="flex items-start gap-3">
+                <label className="text-[12px] text-[var(--text-secondary)] w-24 shrink-0 pt-2">Recipients</label>
+                <textarea
+                  value={notifyConfig.recipients}
+                  onChange={e => setNotifyConfig({ ...notifyConfig, recipients: e.target.value })}
+                  rows={2}
+                  placeholder="email1@example.com, email2@example.com"
+                  className="flex-1 rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] px-3 py-2 text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none resize-none"
+                />
+              </div>
+              <div className="flex items-center gap-3">
+                <label className="text-[12px] text-[var(--text-secondary)] w-24 shrink-0">Subject</label>
+                <input
+                  value={notifyConfig.subject_template}
+                  onChange={e => setNotifyConfig({ ...notifyConfig, subject_template: e.target.value })}
+                  placeholder="[Tagent] Batch ready — {founder} ({posts} posts)"
+                  className="flex-1 rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] px-3 py-2 text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none"
+                />
+              </div>
+              <div className="flex items-center gap-3">
+                <label className="text-[12px] text-[var(--text-secondary)] w-24 shrink-0">Header</label>
+                <input
+                  value={notifyConfig.body_header}
+                  onChange={e => setNotifyConfig({ ...notifyConfig, body_header: e.target.value })}
+                  placeholder="Batch Ready"
+                  className="flex-1 rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] px-3 py-2 text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none"
+                />
+              </div>
+              <div className="flex items-start gap-3">
+                <label className="text-[12px] text-[var(--text-secondary)] w-24 shrink-0 pt-2">Footer</label>
+                <textarea
+                  value={notifyConfig.body_footer}
+                  onChange={e => setNotifyConfig({ ...notifyConfig, body_footer: e.target.value })}
+                  rows={2}
+                  placeholder="Optional footer text for the email"
+                  className="flex-1 rounded-lg border border-[var(--border-1)] bg-[var(--surface-3)] px-3 py-2 text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none resize-none"
+                />
+              </div>
+              <div className="text-[11px] text-[var(--text-muted)] pl-[108px]">
+                Subject variables: {'{'}founder{'}'}, {'{'}posts{'}'}, {'{'}trigger{'}'}, {'{'}date{'}'}
+              </div>
+            </div>
+          ) : (
+            <div className="text-[13px] text-[var(--text-muted)]">Loading notification settings...</div>
+          )}
+        </CardBody>
       </Card>
 
       {/* Reveal password modal */}
