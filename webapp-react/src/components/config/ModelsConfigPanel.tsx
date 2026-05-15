@@ -254,8 +254,8 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
                     <thead className="bg-white/[0.02] text-white/40">
                       <tr>
                         <th className="text-left px-3 py-2 font-medium">Task</th>
-                        <th className="text-left px-2 py-2 font-medium w-32">Provider</th>
-                        <th className="text-left px-2 py-2 font-medium w-56">Model</th>
+                        <th className="text-left px-2 py-2 font-medium w-44">Provider</th>
+                        <th className="text-left px-2 py-2 font-medium w-64">Model</th>
                         <th className="text-right px-2 py-2 font-medium w-20">Max tokens</th>
                         <th className="text-right px-2 py-2 font-medium w-16">Temp</th>
                         {isFounder && <th className="text-left px-2 py-2 font-medium w-20">Source</th>}
@@ -280,7 +280,7 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
                             <td className="px-2 py-2">
                               <select value={cfg.provider}
                                 onChange={(e) => updateTask(t.task_id, { provider: e.target.value })}
-                                className="w-full bg-white/5 rounded px-1.5 py-1 text-xs border border-white/10">
+                                className="w-full bg-white/5 text-white/80 rounded px-1.5 py-1 text-xs border border-white/10 [&>option]:bg-[#1a1a1f] [&>option]:text-white/90">
                                 {Object.entries(providers).map(([name, info]) => (
                                   <option key={name} value={name}>{info.label || name}</option>
                                 ))}
@@ -293,7 +293,7 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
                                     if (e.target.value === '__custom__') return
                                     updateTask(t.task_id, { model: e.target.value })
                                   }}
-                                  className="flex-1 bg-white/5 rounded px-1.5 py-1 text-xs border border-white/10">
+                                  className="flex-1 bg-white/5 text-white/80 rounded px-1.5 py-1 text-xs border border-white/10 [&>option]:bg-[#1a1a1f] [&>option]:text-white/90">
                                   {models.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}
                                   <option value="__custom__">Custom…</option>
                                 </select>
@@ -301,19 +301,19 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
                                   <input type="text" value={cfg.model}
                                     onChange={(e) => updateTask(t.task_id, { model: e.target.value })}
                                     placeholder="model id"
-                                    className="w-32 bg-white/5 rounded px-1.5 py-1 text-xs border border-white/10 font-mono" />
+                                    className="w-32 bg-white/5 text-white/80 rounded px-1.5 py-1 text-xs border border-white/10 font-mono" />
                                 )}
                               </div>
                             </td>
                             <td className="px-2 py-2">
                               <input type="number" value={cfg.max_tokens ?? t.default_max_tokens}
                                 onChange={(e) => updateTask(t.task_id, { max_tokens: Number(e.target.value) })}
-                                className="w-full bg-white/5 rounded px-1.5 py-1 text-xs border border-white/10 text-right" />
+                                className="w-full bg-white/5 text-white/80 rounded px-1.5 py-1 text-xs border border-white/10 text-right" />
                             </td>
                             <td className="px-2 py-2">
                               <input type="number" step="0.1" min="0" max="1" value={cfg.temperature ?? t.default_temperature}
                                 onChange={(e) => updateTask(t.task_id, { temperature: Number(e.target.value) })}
-                                className="w-full bg-white/5 rounded px-1.5 py-1 text-xs border border-white/10 text-right" />
+                                className="w-full bg-white/5 text-white/80 rounded px-1.5 py-1 text-xs border border-white/10 text-right" />
                             </td>
                             {isFounder && (
                               <td className="px-2 py-2">
