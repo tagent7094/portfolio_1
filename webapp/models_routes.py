@@ -21,6 +21,8 @@ from src.llm.config_io import (
     mask_provider_keys,
     merged_config_for_founder,
     save_admin_config,
+    save_admin_keys_only,
+    save_founder_keys_only,
     save_founder_override,
 )
 from src.llm.provider_catalog import provider_catalog_with_env_status
@@ -92,6 +94,18 @@ async def admin_test_provider(request: Request) -> dict:
     return result
 
 
+@router.put("/api/admin/models/keys")
+async def put_admin_models_keys(request: Request) -> dict:
+    from webapp.auth_routes import _require_admin
+    _require_admin(request)
+    body = await request.json()
+    keys = body.get("provider_keys")
+    if not isinstance(keys, dict):
+        raise HTTPException(status_code=400, detail="provider_keys dict required")
+    saved = save_admin_keys_only(keys)
+    return {"provider_keys": saved}
+
+
 # ---------- founder endpoints ----------
 
 
@@ -139,3 +153,15 @@ async def founder_test_provider(slug: str, request: Request) -> dict:
         raise HTTPException(status_code=400, detail="provider and model required")
     result = await asyncio.to_thread(quick_test, provider, model, api_key, base_url)
     return result
+
+
+@router.put("/api/founders/{slug}/models/keys")
+async def put_founder_models_keys(slug: str, request: Request) -> dict:
+    from webapp.pack_routes import _require_founder
+    _require_founder(request, slug)
+    body = await request.json()
+    keys = body.get("provider_keys")
+    if not isinstance(keys, dict):
+        raise HTTPException(status_code=400, detail="provider_keys dict required")
+    saved = save_founder_keys_only(slug, keys)
+    return {"provider_keys": saved}

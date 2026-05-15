@@ -52,7 +52,7 @@ PROVIDER_CATALOG: dict[str, ProviderEntry] = {
             {"id": "moonshot-v1-32k",    "label": "Moonshot v1 (32k context)",    "tier": "medium"},
             {"id": "moonshot-v1-8k",     "label": "Moonshot v1 (8k, cheap)",      "tier": "light"},
         ],
-        "supports": ["streaming", "json"],
+        "supports": ["streaming", "web_search", "json"],
         "custom_models_allowed": True,
     },
     "openai": {

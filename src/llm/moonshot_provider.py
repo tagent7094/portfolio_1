@@ -18,8 +18,10 @@ Auth: Bearer token from MOONSHOT_API_KEY env var (resolved by factory).
 
 from __future__ import annotations
 
+import json
 import logging
 import sys
+import time
 from typing import Generator
 
 from .base import LLMProvider
@@ -80,6 +82,8 @@ class MoonshotProvider(LLMProvider):
         effort: str | None = None,
     ) -> Generator[str, None, None]:
         self._wait_for_rate_limit()
+        t0 = time.time()
+        text_len = 0
         messages: list[dict] = []
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
@@ -104,6 +108,7 @@ class MoonshotProvider(LLMProvider):
                 continue
             delta = chunk.choices[0].delta
             if delta and delta.content:
+                text_len += len(delta.content)
                 if self.on_token:
                     try:
                         self.on_token(delta.content)
@@ -111,6 +116,8 @@ class MoonshotProvider(LLMProvider):
                         pass
                 yield delta.content
 
+        elapsed = time.time() - t0
+        print(f"\033[36m[LLM:kimi/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m │ text: {text_len:,} chars", file=sys.stderr, flush=True)
         self._report_success()
 
     def generate_json(self, prompt: str, system_prompt: str = None) -> dict:
@@ -131,3 +138,81 @@ class MoonshotProvider(LLMProvider):
                 return result
             logger.warning("[moonshot] JSON parse attempt %d failed, retrying", attempt + 1)
         return {}
+
+    def generate_with_search(
+        self,
+        prompt: str,
+        system_prompt: str = None,
+        temperature: float = 0.7,
+        max_tokens: int = 2000,
+        max_searches: int = 3,
+        allowed_domains: list[str] | None = None,
+    ) -> dict:
+        """Generate with Kimi's built-in $web_search tool. Returns {text, searches[]}."""
+        self._wait_for_rate_limit()
+        t0 = time.time()
+        print(
+            f"\033[36m[LLM:kimi/{self.model}]\033[0m generate_with_search() "
+            f"prompt={len(prompt)} chars, max_searches={max_searches}",
+            file=sys.stderr, flush=True,
+        )
+
+        messages: list[dict] = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
+        tools = [{"type": "builtin_function", "function": {"name": "$web_search"}}]
+        searches: list[dict] = []
+        rounds = 0
+
+        while rounds < max_searches + 2:
+            rounds += 1
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    tools=tools,
+                    extra_body={"thinking": {"type": "disabled"}},
+                )
+            except Exception as e:
+                if "429" in str(e) or "rate" in str(e).lower():
+                    self._report_429()
+                raise
+
+            choice = response.choices[0]
+            if choice.finish_reason == "tool_calls" and choice.message.tool_calls:
+                messages.append(choice.message)
+                for tc in choice.message.tool_calls:
+                    args = json.loads(tc.function.arguments) if tc.function.arguments else {}
+                    searches.append({"query": args.get("query", tc.function.arguments or ""), "tool_call_id": tc.id})
+                    messages.append({
+                        "role": "tool",
+                        "tool_call_id": tc.id,
+                        "name": tc.function.name,
+                        "content": json.dumps(args),
+                    })
+                continue
+
+            text = choice.message.content or ""
+            elapsed = time.time() - t0
+            print(
+                f"\033[36m[LLM:kimi/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m │ "
+                f"{len(text)} chars + {len(searches)} web searches",
+                file=sys.stderr, flush=True,
+            )
+            self._report_success()
+            return {"text": text, "searches": searches}
+
+        text = ""
+        elapsed = time.time() - t0
+        logger.warning("[moonshot] web search exhausted %d rounds without final answer", rounds)
+        print(
+            f"\033[36m[LLM:kimi/{self.model}]\033[0m \033[33m⚠ exhausted rounds in {elapsed:.1f}s\033[0m │ "
+            f"{len(searches)} searches, no final answer",
+            file=sys.stderr, flush=True,
+        )
+        self._report_success()
+        return {"text": text, "searches": searches}

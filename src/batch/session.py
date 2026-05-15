@@ -131,8 +131,8 @@ class BatchSession:
         # callers that haven't been migrated to task-aware lookups yet.
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
         router.set_on_token(self._on_llm_token)
-        llm_gen = router.for_purpose("generation")
-        llm_prep = router.for_purpose("prep")
+        llm_gen = router.for_task("generate_a")
+        llm_prep = router.for_task("dissect")
 
         if hasattr(llm_gen, 'enable_thinking'):
             llm_gen.enable_thinking = enable_thinking

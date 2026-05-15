@@ -234,11 +234,12 @@ export default function AdminPage() {
         params.set('page', String(vpPage))
         params.set('page_size', '20')
         const storedKey = localStorage.getItem('asksharath_api_key') || ''
+        const hdrs: Record<string, string> = {}
         if (vpDeep && storedKey) {
           params.set('deep', 'true')
-          params.set('api_key', storedKey)
+          hdrs['x-rerank-api-key'] = storedKey
         }
-        data = await apiGet(`/api/viral-posts/best-match/${vpFounder}?${params}`)
+        data = await apiGet(`/api/viral-posts/best-match/${vpFounder}?${params}`, hdrs)
       } else {
         params.set('sort_by', vpSortBy)
         data = await apiGet(`/api/viral-sources?${params}`)

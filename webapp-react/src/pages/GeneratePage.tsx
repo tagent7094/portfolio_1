@@ -264,11 +264,12 @@ export default function GeneratePage() {
       if (vpSortBy === 'best_match' && active) {
         params.set('page', String(vpPage))
         params.set('page_size', '20')
+        const hdrs: Record<string, string> = {}
         if (vpDeep && custApiKey) {
           params.set('deep', 'true')
-          params.set('api_key', custApiKey)
+          hdrs['x-rerank-api-key'] = custApiKey
         }
-        data = await apiGet(`/api/viral-posts/best-match/${active}?${params}`)
+        data = await apiGet(`/api/viral-posts/best-match/${active}?${params}`, hdrs)
       } else {
         params.set('sort_by', vpSortBy)
         data = await apiGet(`/api/viral-sources?${params}`)

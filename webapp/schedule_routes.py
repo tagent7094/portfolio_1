@@ -43,7 +43,9 @@ def _load_schedules():
 
 def _save_schedules():
     SCHEDULES_FILE.parent.mkdir(parents=True, exist_ok=True)
-    SCHEDULES_FILE.write_text(json.dumps(_schedules, indent=2), encoding="utf-8")
+    tmp = SCHEDULES_FILE.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(_schedules, indent=2), encoding="utf-8")
+    tmp.replace(SCHEDULES_FILE)
 
 
 class ScheduleCreate(BaseModel):

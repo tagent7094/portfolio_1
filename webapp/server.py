@@ -122,6 +122,15 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     datefmt="%H:%M:%S",
 )
+
+
+class _SuppressPollingFilter(logging.Filter):
+    """Hide the flood of /batch/status polling from uvicorn access log."""
+    def filter(self, record: logging.LogRecord) -> bool:
+        return "batch/status" not in record.getMessage()
+
+
+logging.getLogger("uvicorn.access").addFilter(_SuppressPollingFilter())
 logger = logging.getLogger(__name__)
 
 WEBAPP_DIR = Path(__file__).parent
@@ -256,7 +265,11 @@ async def js():
 
 @app.get("/api/config")
 async def get_config():
-    return _load_config()
+    config = _load_config()
+    for section in ("llm", "llm_prep", "llm_ingestion"):
+        if isinstance(config.get(section), dict):
+            config[section].pop("api_key", None)
+    return config
 
 
 @app.get("/api/config/providers")
@@ -282,7 +295,9 @@ async def set_config(data: ConfigUpdate):
         config["llm"]["api_key"] = data.api_key
     with open(config_path, "w") as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
-    return {"status": "ok", "config": config}
+    logger.warning("[set_config] DEPRECATED — use /api/admin/models/config instead")
+    safe = {k: {kk: vv for kk, vv in v.items() if kk != "api_key"} if isinstance(v, dict) else v for k, v in config.items()}
+    return {"status": "ok", "config": safe}
 
 
 @app.post("/api/config/ingestion")
@@ -306,7 +321,9 @@ async def set_ingestion_config(data: ConfigUpdate):
     config["llm_ingestion"].setdefault("max_tokens", 2000)
     with open(config_path, "w") as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
-    return {"status": "ok", "config": config}
+    logger.warning("[set_ingestion_config] DEPRECATED — use /api/admin/models/config instead")
+    safe = {k: {kk: vv for kk, vv in v.items() if kk != "api_key"} if isinstance(v, dict) else v for k, v in config.items()}
+    return {"status": "ok", "config": safe}
 
 
 # --- Graph routes ---
@@ -397,7 +414,8 @@ async def graph_nodes():
         return {"nodes": nodes, "edges": edges}
     except Exception as e:
         logger.exception("Failed to load graph nodes")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request failed")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 # --- Graph CRUD ---
@@ -615,7 +633,8 @@ async def ingest_viral(use_llm: bool = False):
         }
     except Exception as e:
         logger.exception("Viral ingestion failed")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request failed")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 # --- Coverage ---
@@ -663,7 +682,8 @@ async def run_ingest():
         }
     except Exception as e:
         logger.error("[run_ingest] Failed: %s", e)
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request failed")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 # --- Scoring ---
@@ -688,7 +708,8 @@ async def score_post(data: ScoreRequest):
         }
     except Exception as e:
         logger.exception("Scoring failed")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request failed")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 # --- Workflow ---
@@ -756,7 +777,8 @@ async def dedup_graph():
         }
     except Exception as e:
         logger.exception("Dedup failed")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request failed")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 # --- Post Database + Customization ---
@@ -898,7 +920,8 @@ async def generate_batch(data: BatchGenerateRequest):
         return {"status": "ok", **result}
     except Exception as e:
         logger.exception("Batch generation failed")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request failed")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 ## ── Background batch tasks ──────────────────────────────────────────────
@@ -1156,6 +1179,16 @@ async def get_server_status(request: Request):
 VIRAL_DIR = PROJECT_ROOT / "data" / "viral-posts-samples"
 
 
+def _safe_filename(name: str) -> str:
+    """Strip directory components and reject path-traversal attempts."""
+    base = Path(name).name
+    if not base or base.startswith(".") or ".." in base:
+        raise HTTPException(status_code=400, detail="Invalid filename")
+    if not re.match(r'^[\w\-. ]+$', base):
+        raise HTTPException(status_code=400, detail="Invalid filename characters")
+    return base
+
+
 @app.get("/api/admin/viral-repos")
 async def list_viral_repos(request: Request):
     """List viral post repo files."""
@@ -1195,7 +1228,8 @@ async def upload_viral_repo(request: Request, file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Only .csv and .xlsx files accepted")
 
     VIRAL_DIR.mkdir(parents=True, exist_ok=True)
-    dest = VIRAL_DIR / file.filename
+    safe_name = _safe_filename(file.filename)
+    dest = VIRAL_DIR / safe_name
     content = await file.read()
     dest.write_bytes(content)
     logger.info("[viral-repos] Uploaded %s (%d bytes)", dest.name, len(content))
@@ -1216,12 +1250,14 @@ async def delete_viral_repo(name: str, request: Request):
     from webapp.auth_routes import _require_admin
     _require_admin(request)
 
+    safe_name = _safe_filename(name)
+
     from src.config.founders import get_viral_csv_path
     active_name = Path(get_viral_csv_path()).name
-    if name == active_name:
+    if safe_name == active_name:
         raise HTTPException(status_code=400, detail="Cannot delete the active viral repo file")
 
-    target = VIRAL_DIR / name
+    target = VIRAL_DIR / safe_name
     if not target.exists():
         raise HTTPException(status_code=404, detail="File not found")
     target.unlink()
@@ -1246,9 +1282,10 @@ async def combine_viral_repos(body: CombineRequest, request: Request):
     merged: list[dict] = []
 
     for fname in body.files:
-        fpath = VIRAL_DIR / fname
+        safe = _safe_filename(fname)
+        fpath = VIRAL_DIR / safe
         if not fpath.exists():
-            raise HTTPException(status_code=404, detail=f"File not found: {fname}")
+            raise HTTPException(status_code=404, detail=f"File not found: {safe}")
         records = parse_viral_csv(str(fpath))
         for r in records:
             if r["post_id"] not in seen_ids:
@@ -1256,7 +1293,8 @@ async def combine_viral_repos(body: CombineRequest, request: Request):
                 merged.append(r)
 
     output_name = body.output_name if body.output_name.endswith(".csv") else f"{body.output_name}.csv"
-    dest = VIRAL_DIR / output_name
+    safe_output = _safe_filename(output_name)
+    dest = VIRAL_DIR / safe_output
 
     fieldnames = ["post_id", "content", "likes", "comments", "reposts",
                    "followers", "likes_ratio", "engagement_score", "content_type", "creator_url"]
@@ -1291,7 +1329,8 @@ async def activate_viral_repo(body: ActivateRequest, request: Request):
     from webapp.auth_routes import _require_admin
     _require_admin(request)
 
-    target = VIRAL_DIR / body.filename
+    safe_name = _safe_filename(body.filename)
+    target = VIRAL_DIR / safe_name
     if not target.exists():
         raise HTTPException(status_code=404, detail="File not found")
 
@@ -1299,7 +1338,7 @@ async def activate_viral_repo(body: ActivateRequest, request: Request):
     config = _load_config()
     if "viral_graph" not in config:
         config["viral_graph"] = {}
-    config["viral_graph"]["source_csv"] = f"data/viral-posts-samples/{body.filename}"
+    config["viral_graph"]["source_csv"] = f"data/viral-posts-samples/{safe_name}"
     _save_config(config)
 
     from src.customizer.post_db import import_from_csv
@@ -1517,10 +1556,10 @@ async def best_match_viral_posts(
     q: str = "",
     source_sheet: str | None = None,
     deep: bool = False,
-    api_key: str = "",
 ):
     """Return viral posts scored by semantic alignment with a founder's knowledge graph.
-    With deep=true and an api_key, uses Haiku to re-rank top 50 candidates."""
+    With deep=true and x-rerank-api-key header, uses Haiku to re-rank top 50 candidates."""
+    api_key = request.headers.get("x-rerank-api-key", "")
     from src.config.founders import _load_config, get_founder_paths
     from src.graph.store import load_graph
     from src.customizer.post_db import (
@@ -1698,16 +1737,14 @@ if __name__ == "__main__":
 
     # Kill any process using the port before starting
     try:
-        result = _sp.run(
-            f"netstat -ano | findstr :{PORT} | findstr LISTENING",
-            capture_output=True, text=True, shell=True,
-        )
+        result = _sp.run(["netstat", "-ano"], capture_output=True, text=True)
         for line in result.stdout.strip().splitlines():
-            parts = line.strip().split()
-            pid = parts[-1] if parts else ""
-            if pid.isdigit() and int(pid) != os.getpid():
-                print(f"[startup] Killing PID {pid} on port {PORT}")
-                _sp.run(f"taskkill /F /PID {pid}", shell=True, capture_output=True)
+            if f":{PORT}" in line and "LISTENING" in line:
+                parts = line.strip().split()
+                pid = parts[-1] if parts else ""
+                if pid.isdigit() and int(pid) != os.getpid():
+                    print(f"[startup] Killing PID {pid} on port {PORT}")
+                    _sp.run(["taskkill", "/F", "/PID", pid], capture_output=True)
                 import time; time.sleep(0.5)
     except Exception as e:
         print(f"[startup] Port cleanup skipped: {e}")

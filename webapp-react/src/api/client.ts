@@ -25,8 +25,8 @@ function _maybeRedirectOn401(status: number, url: string) {
   }
 }
 
-export async function apiGet<T>(url: string): Promise<T> {
-  const res = await fetch(`${BASE}${url}`, { credentials: 'include' })
+export async function apiGet<T>(url: string, headers?: Record<string, string>): Promise<T> {
+  const res = await fetch(`${BASE}${url}`, { credentials: 'include', headers })
   if (!res.ok) {
     _maybeRedirectOn401(res.status, url)
     throw new Error(`GET ${url}: ${res.status}`)

@@ -69,6 +69,8 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [savingKeys, setSavingKeys] = useState(false)
+  const [savedKeys, setSavedKeys] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [testResults, setTestResults] = useState<Record<string, TestResult>>({})
   const [testing, setTesting] = useState<Record<string, boolean>>({})
@@ -180,6 +182,28 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
     }
   }
 
+  const handleSaveKeys = async () => {
+    const keysToSend = Object.fromEntries(Object.entries(providerKeys).filter(([, v]) => v))
+    if (!Object.keys(keysToSend).length) return
+    setSavingKeys(true)
+    setSavedKeys(false)
+    setError(null)
+    try {
+      const endpoint = isFounder && founderSlug
+        ? `/api/founders/${founderSlug}/models/keys`
+        : '/api/admin/models/keys'
+      await apiPut(endpoint, { provider_keys: keysToSend })
+      setSavedKeys(true)
+      setProviderKeys({})
+      setTimeout(() => setSavedKeys(false), 3000)
+      refresh()
+    } catch (e: any) {
+      setError(String(e?.message || e))
+    } finally {
+      setSavingKeys(false)
+    }
+  }
+
   const handleTest = async (taskId: string) => {
     const cfg = configByTask[taskId]
     if (!cfg) return
@@ -241,13 +265,24 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
 
       <Card>
         <CardHeader>
-          <button
-            onClick={() => setCollapsed((p) => ({ ...p, keys: !p.keys }))}
-            className="flex items-center gap-1.5 text-left"
-          >
-            {collapsed.keys ? <ChevronRight size={14} /> : <ChevronDown size={14} />}
-            <CardTitle><span className="flex items-center gap-1.5"><KeyRound size={14} /> API Keys</span></CardTitle>
-          </button>
+          <div className="flex items-center justify-between w-full">
+            <button
+              onClick={() => setCollapsed((p) => ({ ...p, keys: !p.keys }))}
+              className="flex items-center gap-1.5 text-left"
+            >
+              {collapsed.keys ? <ChevronRight size={14} /> : <ChevronDown size={14} />}
+              <CardTitle><span className="flex items-center gap-1.5"><KeyRound size={14} /> API Keys</span></CardTitle>
+            </button>
+            {!collapsed.keys && (
+              <div className="flex items-center gap-2">
+                {savedKeys && <span className="flex items-center gap-1 text-[11px] text-emerald-400"><CheckCircle2 size={11} /> Saved</span>}
+                <Button onClick={handleSaveKeys} loading={savingKeys} icon={<Save size={12} />}
+                  className="text-[11px] px-2 py-1">
+                  {savingKeys ? 'Saving…' : 'Save Keys'}
+                </Button>
+              </div>
+            )}
+          </div>
         </CardHeader>
         {!collapsed.keys && (
           <CardBody className="space-y-3">

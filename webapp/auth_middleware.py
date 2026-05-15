@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
@@ -53,7 +54,10 @@ def _resolve_subdomain_slug(host: str) -> str | None:
         # Let's Encrypt rejects underscores in hostnames, so subdomains use hyphens
         # (e.g. anish-popli.tagent.club) but backend slugs use underscores (anish_popli).
         # Normalize by converting hyphens → underscores.
-        return parts[0].replace("-", "_")
+        slug = parts[0].replace("-", "_")
+        if not re.match(r'^[a-z][a-z0-9_]{0,63}$', slug):
+            return None
+        return slug
     return None
 
 

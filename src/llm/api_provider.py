@@ -3,6 +3,7 @@
 import logging
 import os
 import sys
+import time
 from typing import Generator
 
 from .base import LLMProvider
@@ -11,6 +12,20 @@ from ..utils.json_parser import parse_llm_json
 logger = logging.getLogger(__name__)
 
 _STREAM_DEBUG = os.environ.get("DIGITALDNA_STREAM_DEBUG", "") == "1"
+
+_COST_PER_MTK: dict[str, tuple[float, float]] = {
+    "claude-opus-4-6": (15.0, 75.0),
+    "claude-opus-4-7": (15.0, 75.0),
+    "claude-sonnet-4-6": (3.0, 15.0),
+    "claude-haiku-4-5-20251001": (0.80, 4.0),
+}
+
+
+def _estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
+    prices = _COST_PER_MTK.get(model)
+    if not prices:
+        return 0.0
+    return (input_tokens * prices[0] + output_tokens * prices[1]) / 1_000_000
 
 
 class APIProvider(LLMProvider):
@@ -105,14 +120,25 @@ class APIProvider(LLMProvider):
         else:
             kwargs["temperature"] = temperature
 
+        t0 = time.time()
         thinking_parts = []
         text_len = 0
+        input_tokens = output_tokens = 0
+        preview_parts = []
+        preview_len = 0
         self.last_thinking = ""
 
         with self.client.messages.stream(**kwargs) as stream:
             for event in stream:
                 if hasattr(event, 'type'):
-                    if event.type == 'content_block_start':
+                    if event.type == 'message_start':
+                        msg = getattr(event, 'message', None)
+                        if msg:
+                            u = getattr(msg, 'usage', None)
+                            if u:
+                                input_tokens = getattr(u, 'input_tokens', 0) or 0
+
+                    elif event.type == 'content_block_start':
                         block = event.content_block
                         if _STREAM_DEBUG and hasattr(block, 'type'):
                             if block.type == 'thinking':
@@ -131,6 +157,9 @@ class APIProvider(LLMProvider):
                                     self.on_thinking(delta.thinking)
                             elif delta.type == 'text_delta':
                                 text_len += len(delta.text)
+                                if preview_len < 200:
+                                    preview_parts.append(delta.text)
+                                    preview_len += len(delta.text)
                                 if _STREAM_DEBUG:
                                     print(delta.text, end="", flush=True, file=sys.stderr)
                                 if self.on_token:
@@ -141,11 +170,30 @@ class APIProvider(LLMProvider):
                         if _STREAM_DEBUG:
                             print("", file=sys.stderr)
 
+                    elif event.type == 'message_delta':
+                        u = getattr(event, 'usage', None)
+                        if u:
+                            output_tokens = getattr(u, 'output_tokens', 0) or 0
+
+        elapsed = time.time() - t0
         self.last_thinking = "".join(thinking_parts)
-        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m stream done: {len(self.last_thinking)} thinking chars, {text_len} text chars", file=sys.stderr, flush=True)
+
+        log = [f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m"]
+        if input_tokens or output_tokens:
+            log.append(f"tokens: {input_tokens:,} in → {output_tokens:,} out")
+            cost = _estimate_cost(self.model, input_tokens, output_tokens)
+            if cost > 0:
+                log.append(f"~${cost:.3f}")
+        log.append(f"thinking: {len(self.last_thinking):,} chars")
+        log.append(f"text: {text_len:,} chars")
+        print(" │ ".join(log), file=sys.stderr, flush=True)
+        preview = "".join(preview_parts)[:200].replace("\n", " ").strip()
+        if preview:
+            print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m   ↳ {preview!r}{'…' if text_len > 200 else ''}", file=sys.stderr, flush=True)
 
     def _stream_openai(self, prompt, system_prompt, temperature, max_tokens):
         """Stream from OpenAI-compatible APIs."""
+        t0 = time.time()
         messages = []
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
@@ -159,16 +207,21 @@ class APIProvider(LLMProvider):
             stream=True,
         )
 
+        text_len = 0
         for chunk in stream:
             if not chunk.choices:
                 continue
             delta = chunk.choices[0].delta
             if delta.content:
+                text_len += len(delta.content)
                 if _STREAM_DEBUG:
                     print(delta.content, end="", flush=True, file=sys.stderr)
                 if self.on_token:
                     self.on_token(delta.content)
                 yield delta.content
+
+        elapsed = time.time() - t0
+        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m │ text: {text_len:,} chars", file=sys.stderr, flush=True)
 
     def generate_with_search(
         self,
@@ -212,6 +265,7 @@ class APIProvider(LLMProvider):
         else:
             kwargs["temperature"] = temperature
 
+        t0 = time.time()
         response = self.client.messages.create(**kwargs)
 
         text_parts = []
@@ -242,7 +296,18 @@ class APIProvider(LLMProvider):
                             break
 
         text = "\n".join(text_parts)
-        print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m→ {len(text)} chars + {len(searches)} web searches\033[0m", file=sys.stderr, flush=True)
+        elapsed = time.time() - t0
+        usage = getattr(response, 'usage', None)
+        in_tok = getattr(usage, 'input_tokens', 0) if usage else 0
+        out_tok = getattr(usage, 'output_tokens', 0) if usage else 0
+        log = [f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m"]
+        if in_tok or out_tok:
+            log.append(f"tokens: {in_tok:,} in → {out_tok:,} out")
+            cost = _estimate_cost(self.model, in_tok, out_tok)
+            if cost > 0:
+                log.append(f"~${cost:.3f}")
+        log.append(f"{len(text)} chars + {len(searches)} web searches")
+        print(" │ ".join(log), file=sys.stderr, flush=True)
 
         self._report_success()
         return {"text": text, "searches": searches}

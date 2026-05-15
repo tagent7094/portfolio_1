@@ -198,6 +198,37 @@ def delete_founder_override_task(slug: str, task_id: str) -> dict:
     return save_founder_override(slug, current)
 
 
+def save_admin_keys_only(incoming_keys: dict) -> dict:
+    """Merge and persist only the provider_keys field of admin config."""
+    cfg = load_admin_config()
+    existing_keys = cfg.get("provider_keys", {})
+    cfg["provider_keys"] = _merge_provider_keys(incoming_keys, existing_keys)
+    cfg["updated_at"] = _now_iso()
+    cfg.pop("_synthesized", None)
+    cfg.setdefault("version", 1)
+    ADMIN_CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp = ADMIN_CONFIG_PATH.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
+    tmp.replace(ADMIN_CONFIG_PATH)
+    logger.info("[models_config] admin provider keys saved")
+    return mask_provider_keys(cfg.get("provider_keys", {}))
+
+
+def save_founder_keys_only(slug: str, incoming_keys: dict) -> dict:
+    """Merge and persist only the provider_keys field of a founder override."""
+    cfg = load_founder_override(slug)
+    existing_keys = cfg.get("provider_keys", {})
+    cfg["provider_keys"] = _merge_provider_keys(incoming_keys, existing_keys)
+    cfg["updated_at"] = _now_iso()
+    p = _founder_override_path(slug)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
+    tmp.replace(p)
+    logger.info("[models_config] founder provider keys saved for %s", slug)
+    return mask_provider_keys(cfg.get("provider_keys", {}))
+
+
 def merged_config_for_founder(slug: str | None) -> dict:
     """Return the full resolved config + source labels for the UI.
 
