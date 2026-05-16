@@ -259,7 +259,7 @@ _RAW_TASKS: list[TaskSpec] = [
         quality_tier="medium",
         frequency="per_batch",
         default_temperature=0.3,
-        default_max_tokens=4000,
+        default_max_tokens=8000,
         default_thinking_budget=10000,
     ),
     TaskSpec(
