@@ -99,10 +99,8 @@ class APIProvider(LLMProvider):
         call_thinking = self.enable_thinking if thinking_budget is None else bool(thinking_budget)
         call_effort = effort if effort is not None else self.effort
 
-        if call_thinking:
-            effective_max = max(max_tokens, 16000)
-        else:
-            effective_max = max_tokens
+        thinking_tokens = self._configured_thinking_budget if call_thinking else 0
+        effective_max = max_tokens + thinking_tokens
 
         kwargs = {
             "model": self.model,
@@ -116,7 +114,7 @@ class APIProvider(LLMProvider):
         if call_thinking:
             kwargs["thinking"] = {"type": "adaptive"}
             kwargs["output_config"] = {"effort": call_effort}
-            print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m thinking=adaptive, effort={call_effort}, effective_max_tokens={effective_max}", file=sys.stderr, flush=True)
+            print(f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m thinking=adaptive, effort={call_effort}, output={max_tokens}+thinking={thinking_tokens}={effective_max}", file=sys.stderr, flush=True)
         else:
             kwargs["temperature"] = temperature
 
@@ -128,52 +126,70 @@ class APIProvider(LLMProvider):
         preview_len = 0
         self.last_thinking = ""
 
-        with self.client.messages.stream(**kwargs) as stream:
-            for event in stream:
-                if hasattr(event, 'type'):
-                    if event.type == 'message_start':
-                        msg = getattr(event, 'message', None)
-                        if msg:
-                            u = getattr(msg, 'usage', None)
+        for _attempt in range(2):
+            try:
+                with self.client.messages.stream(**kwargs) as stream:
+                    for event in stream:
+                        if not hasattr(event, 'type'):
+                            continue
+                        if event.type == 'message_start':
+                            msg = getattr(event, 'message', None)
+                            if msg:
+                                u = getattr(msg, 'usage', None)
+                                if u:
+                                    input_tokens = getattr(u, 'input_tokens', 0) or 0
+                        elif event.type == 'content_block_start':
+                            block = event.content_block
+                            if _STREAM_DEBUG and hasattr(block, 'type'):
+                                if block.type == 'thinking':
+                                    print("\033[2m[thinking] ", end="", flush=True, file=sys.stderr)
+                                elif block.type == 'text':
+                                    print("\033[0m", end="", flush=True, file=sys.stderr)
+                        elif event.type == 'content_block_delta':
+                            delta = event.delta
+                            if hasattr(delta, 'type'):
+                                if delta.type == 'thinking_delta':
+                                    thinking_parts.append(delta.thinking)
+                                    if _STREAM_DEBUG:
+                                        print(f"\033[2m{delta.thinking}\033[0m", end="", flush=True, file=sys.stderr)
+                                    if self.on_thinking:
+                                        self.on_thinking(delta.thinking)
+                                elif delta.type == 'text_delta':
+                                    text_len += len(delta.text)
+                                    if preview_len < 200:
+                                        preview_parts.append(delta.text)
+                                        preview_len += len(delta.text)
+                                    if _STREAM_DEBUG:
+                                        print(delta.text, end="", flush=True, file=sys.stderr)
+                                    if self.on_token:
+                                        self.on_token(delta.text)
+                                    yield delta.text
+                        elif event.type == 'content_block_stop':
+                            if _STREAM_DEBUG:
+                                print("", file=sys.stderr)
+                        elif event.type == 'message_delta':
+                            u = getattr(event, 'usage', None)
                             if u:
-                                input_tokens = getattr(u, 'input_tokens', 0) or 0
-
-                    elif event.type == 'content_block_start':
-                        block = event.content_block
-                        if _STREAM_DEBUG and hasattr(block, 'type'):
-                            if block.type == 'thinking':
-                                print("\033[2m[thinking] ", end="", flush=True, file=sys.stderr)
-                            elif block.type == 'text':
-                                print("\033[0m", end="", flush=True, file=sys.stderr)
-
-                    elif event.type == 'content_block_delta':
-                        delta = event.delta
-                        if hasattr(delta, 'type'):
-                            if delta.type == 'thinking_delta':
-                                thinking_parts.append(delta.thinking)
-                                if _STREAM_DEBUG:
-                                    print(f"\033[2m{delta.thinking}\033[0m", end="", flush=True, file=sys.stderr)
-                                if self.on_thinking:
-                                    self.on_thinking(delta.thinking)
-                            elif delta.type == 'text_delta':
-                                text_len += len(delta.text)
-                                if preview_len < 200:
-                                    preview_parts.append(delta.text)
-                                    preview_len += len(delta.text)
-                                if _STREAM_DEBUG:
-                                    print(delta.text, end="", flush=True, file=sys.stderr)
-                                if self.on_token:
-                                    self.on_token(delta.text)
-                                yield delta.text
-
-                    elif event.type == 'content_block_stop':
-                        if _STREAM_DEBUG:
-                            print("", file=sys.stderr)
-
-                    elif event.type == 'message_delta':
-                        u = getattr(event, 'usage', None)
-                        if u:
-                            output_tokens = getattr(u, 'output_tokens', 0) or 0
+                                output_tokens = getattr(u, 'output_tokens', 0) or 0
+                break
+            except Exception as e:
+                if _attempt == 0 and call_thinking and getattr(e, 'status_code', None) == 400:
+                    print(f"\033[33m[LLM:{self.provider}/{self.model}] thinking not supported, retrying without\033[0m", file=sys.stderr, flush=True)
+                    kwargs.pop("thinking", None)
+                    kwargs.pop("output_config", None)
+                    kwargs["temperature"] = temperature
+                    kwargs["max_tokens"] = max_tokens
+                    call_thinking = False
+                    thinking_parts = []
+                    text_len = 0
+                    input_tokens = output_tokens = 0
+                    preview_parts = []
+                    preview_len = 0
+                    continue
+                print(f"\033[31m[LLM:{self.provider}/{self.model}] API error: {e}\033[0m", file=sys.stderr, flush=True)
+                if hasattr(e, 'body'):
+                    print(f"\033[31m[LLM:{self.provider}/{self.model}] Error body: {e.body}\033[0m", file=sys.stderr, flush=True)
+                raise
 
         elapsed = time.time() - t0
         self.last_thinking = "".join(thinking_parts)
@@ -259,14 +275,29 @@ class APIProvider(LLMProvider):
 
         call_thinking = self.enable_thinking
         if call_thinking:
+            thinking_tokens = self._configured_thinking_budget
             kwargs["thinking"] = {"type": "adaptive"}
             kwargs["output_config"] = {"effort": self.effort}
-            kwargs["max_tokens"] = max(max_tokens, 16000)
+            kwargs["max_tokens"] = max_tokens + thinking_tokens
         else:
             kwargs["temperature"] = temperature
 
         t0 = time.time()
-        response = self.client.messages.create(**kwargs)
+        try:
+            response = self.client.messages.create(**kwargs)
+        except Exception as e:
+            if call_thinking and getattr(e, 'status_code', None) == 400:
+                print(f"\033[33m[LLM:{self.provider}/{self.model}] thinking not supported, retrying without\033[0m", file=sys.stderr, flush=True)
+                kwargs.pop("thinking", None)
+                kwargs.pop("output_config", None)
+                kwargs["temperature"] = temperature
+                kwargs["max_tokens"] = max_tokens
+                response = self.client.messages.create(**kwargs)
+            else:
+                print(f"\033[31m[LLM:{self.provider}/{self.model}] API error: {e}\033[0m", file=sys.stderr, flush=True)
+                if hasattr(e, 'body'):
+                    print(f"\033[31m[LLM:{self.provider}/{self.model}] Error body: {e.body}\033[0m", file=sys.stderr, flush=True)
+                raise
 
         text_parts = []
         searches = []

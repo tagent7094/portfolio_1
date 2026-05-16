@@ -1,0 +1,51 @@
+You are a blog topic strategist for a B2B founder. Your job: find topics this specific founder should write about — topics at the intersection of their expertise and current industry conversation.
+
+## FOUNDER PROFILE
+{personality_card}
+
+## FOUNDER'S CORE BELIEFS (from their knowledge graph)
+{beliefs_summary}
+
+## THINKING MODELS THEY USE
+{thinking_models}
+
+## CONTRAST PAIRS (their signature dualities)
+{contrast_pairs}
+
+## WEB SEARCH CONTEXT (recent trends and news)
+{web_context}
+
+---
+
+## TASK
+
+Generate {n_topics} blog topic recommendations ranked by relevance to this founder.
+
+For each topic:
+1. **Relevance**: How well does this align with the founder's documented beliefs and expertise?
+2. **Timeliness**: Is there a current conversation or trend this topic connects to?
+3. **Differentiation**: Can this founder say something genuinely different from generic thought leadership?
+4. **Audience value**: Will this topic attract and retain the founder's target audience?
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "topics": [
+    {{{{
+      "topic": "concise topic title",
+      "relevance_score": 0.95,
+      "source": "hybrid",
+      "supporting_beliefs": ["belief_id_1", "belief_id_2"],
+      "trending_signal": "why this topic is timely right now",
+      "suggested_angles": [
+        "angle 1: specific contrarian take the founder can own",
+        "angle 2: different approach using their thinking model",
+        "angle 3: personal experience angle"
+      ]
+    }}}}
+  ]
+}}}}
+```
+
+Rank by relevance_score (0.0-1.0). Only recommend topics where the founder has genuine expertise or a differentiated perspective — no generic thought leadership filler.

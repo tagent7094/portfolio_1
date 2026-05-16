@@ -1,0 +1,67 @@
+You are a blog architect for a B2B founder. Create a structured outline for a blog post that sounds like THIS specific founder wrote it — not a generic AI blog.
+
+## TOPIC
+{topic}
+
+## TONE
+{tone}
+
+## TARGET LENGTH
+{target_words} words total
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## FOUNDER'S BELIEFS ON THIS TOPIC
+{beliefs}
+
+## RELEVANT STORIES & EXPERIENCES
+{stories}
+
+## STYLE RULES
+{style_rules}
+
+## VOCABULARY (use / never-use)
+{vocabulary}
+
+## CUSTOM INSTRUCTIONS (from the user — follow these if provided)
+{custom_instructions}
+
+## SOURCE DOCUMENTS (reference material provided by the user)
+{source_documents}
+
+---
+
+## TASK
+
+Create a blog outline with:
+1. A compelling opening hook (2-3 sentences) that uses the founder's voice
+2. 3-5 body sections, each with a clear argument progression
+3. A closing that ties back to the founder's core conviction
+
+Each section should:
+- Advance a distinct sub-argument (no repetition)
+- Reference specific beliefs or stories where relevant
+- Have an estimated word count that sums to the target
+
+The outline should read like a conversation the founder is having with their audience — not a textbook or corporate whitepaper.
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "title": "compelling blog title (50-70 chars)",
+  "intro_hook": "2-3 sentence opening that hooks the reader using the founder's voice",
+  "sections": [
+    {{{{
+      "heading": "section heading",
+      "key_points": ["point 1", "point 2", "point 3"],
+      "beliefs_used": ["belief_id"],
+      "stories_used": ["story_id"],
+      "target_words": 300
+    }}}}
+  ],
+  "conclusion_cta": "closing thought or call to action in founder's voice",
+  "total_target_words": {target_words}
+}}}}
+```

@@ -24,11 +24,13 @@ interface TaskSpec {
   frequency: string
   default_temperature: number
   default_max_tokens: number
+  default_thinking_budget: number
 }
 interface TaskConfig {
   provider: string
   model: string
   max_tokens?: number
+  thinking_budget?: number
   temperature?: number
   enable_thinking?: boolean
   effort?: string
@@ -443,7 +445,8 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
                         <th className="text-left px-3 py-2 font-medium">Task</th>
                         <th className="text-left px-2 py-2 font-medium w-44">Provider</th>
                         <th className="text-left px-2 py-2 font-medium w-64">Model</th>
-                        <th className="text-right px-2 py-2 font-medium w-20">Max tokens</th>
+                        <th className="text-right px-2 py-2 font-medium w-20">Output</th>
+                        <th className="text-right px-2 py-2 font-medium w-20">Thinking</th>
                         <th className="text-right px-2 py-2 font-medium w-16">Temp</th>
                         {isFounder && <th className="text-left px-2 py-2 font-medium w-20">Source</th>}
                         <th className="text-left px-2 py-2 font-medium w-40">Test</th>
@@ -496,6 +499,15 @@ export default function ModelsConfigPanel({ mode, founderSlug }: Props) {
                               <input type="number" value={cfg.max_tokens ?? t.default_max_tokens}
                                 onChange={(e) => updateTask(t.task_id, { max_tokens: Number(e.target.value) })}
                                 className="w-full bg-white/5 text-white/80 rounded px-1.5 py-1 text-xs border border-white/10 text-right" />
+                            </td>
+                            <td className="px-2 py-2">
+                              <input type="number" value={cfg.thinking_budget ?? t.default_thinking_budget ?? 0}
+                                onChange={(e) => updateTask(t.task_id, { thinking_budget: Number(e.target.value) })}
+                                className={`w-full rounded px-1.5 py-1 text-xs border text-right ${
+                                  (cfg.thinking_budget ?? t.default_thinking_budget ?? 0) > 0
+                                    ? 'bg-purple-500/10 text-purple-300 border-purple-500/20'
+                                    : 'bg-white/5 text-white/40 border-white/10'
+                                }`} />
                             </td>
                             <td className="px-2 py-2">
                               <input type="number" step="0.1" min="0" max="1" value={cfg.temperature ?? t.default_temperature}

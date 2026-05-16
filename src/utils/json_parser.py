@@ -93,6 +93,12 @@ def _find_balanced_json(text: str, open_char: str = "{", close_char: str = "}") 
     return None
 
 
+def _fix_common_json_issues(text: str) -> str:
+    """Fix common LLM JSON issues: trailing commas, etc."""
+    text = re.sub(r',\s*([}\]])', r'\1', text)
+    return text
+
+
 def parse_llm_json(response: str) -> dict | list:
     """Extract JSON from LLM response, handling markdown fences and extra text."""
     if not response or not response.strip():
@@ -111,6 +117,13 @@ def parse_llm_json(response: str) -> dict | list:
     except json.JSONDecodeError:
         pass
 
+    # Fix trailing commas and retry
+    fixed = _fix_common_json_issues(text)
+    try:
+        return json.loads(fixed)
+    except json.JSONDecodeError:
+        pass
+
     # Find first balanced JSON object or array
     for open_ch, close_ch in [("{", "}"), ("[", "]")]:
         balanced = _find_balanced_json(text, open_ch, close_ch)
@@ -118,7 +131,10 @@ def parse_llm_json(response: str) -> dict | list:
             try:
                 return json.loads(balanced)
             except json.JSONDecodeError:
-                continue
+                try:
+                    return json.loads(_fix_common_json_issues(balanced))
+                except json.JSONDecodeError:
+                    continue
 
     # Fallback: find first { and last } (handles some edge cases)
     for start_char, end_char in [("{", "}"), ("[", "]")]:
@@ -128,10 +144,14 @@ def parse_llm_json(response: str) -> dict | list:
         end = text.rfind(end_char)
         if end == -1 or end <= start:
             continue
+        candidate = text[start : end + 1]
         try:
-            return json.loads(text[start : end + 1])
+            return json.loads(candidate)
         except json.JSONDecodeError:
-            continue
+            try:
+                return json.loads(_fix_common_json_issues(candidate))
+            except json.JSONDecodeError:
+                continue
 
     # Try to repair truncated JSON (e.g. from token limit)
     repaired = _try_repair_truncated(text)

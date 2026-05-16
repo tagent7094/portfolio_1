@@ -91,6 +91,108 @@ def validate_voice(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> 
     return result
 
 
+def validate_voice_batch(llm: LLMProvider, posts: list[AmplifiedPost], state: BatchState) -> list[dict]:
+    """Lean mode: validate all posts' voice in one LLM call.
+
+    Runs deterministic blacklist first (zero cost). Only sends passing posts to LLM.
+    Returns one validation dict per post, in order.
+    """
+    results: list[dict] = []
+    llm_posts: list[tuple[int, AmplifiedPost]] = []
+
+    for i, post in enumerate(posts):
+        blacklist_hits = _deterministic_voice_check(post.text)
+        if blacklist_hits:
+            logger.info("[voice_validator] %s: blacklist FAIL — %s", post.label, ", ".join(blacklist_hits))
+            results.append({
+                "_index": i,
+                "overall": "FAIL",
+                "voice_marker_score": 0,
+                "register_score": 0,
+                "register_reads_as": "corporate",
+                "violations": [f"Blacklisted phrase: '{p}'" for p in blacklist_hits],
+                "suggestion": f"Remove corporate language: {', '.join(blacklist_hits)}",
+                "blacklist_fail": True,
+            })
+        else:
+            results.append({"_index": i, "_pending": True})
+            llm_posts.append((i, post))
+
+    if not llm_posts:
+        for r in results:
+            r.pop("_index", None)
+            r.pop("_pending", None)
+        return results
+
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("voice_validation_batch")
+    template = load_prompt(PROMPTS_DIR / "voice_validation_batch.txt")
+
+    intern = state.founder_internalization
+    argument_rhythm = intern.get("argument_rhythm", "Not documented")
+
+    posts_block_parts = []
+    for idx, (_, post) in enumerate(llm_posts):
+        posts_block_parts.append(f"### POST {idx + 1}: {post.label}\n{post.text}\n")
+    posts_block = "\n".join(posts_block_parts)
+
+    prompt = fill_prompt(
+        template,
+        posts_block=posts_block,
+        calibration_paragraph=state.calibration_paragraph or "(no calibration paragraph available)",
+        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
+        argument_rhythm=str(argument_rhythm)[:1000],
+        formatting_habits=str(state.formatting_habits),
+        word_count_range=f"{state.word_count_range[0]}-{state.word_count_range[1]} words",
+    )
+
+    import time as _t
+    _start = _t.time()
+    try:
+        response = llm.generate(prompt, temperature=0.2, max_tokens=llm.max_output_tokens)
+    except Exception as e:
+        logger.warning("[voice_validator] batch API error (%s), auto-passing all posts", e)
+        for orig_idx, _ in llm_posts:
+            results[orig_idx] = {"overall": "PASS", "voice_marker_score": 3, "register_score": 3}
+        for r in results:
+            r.pop("_index", None)
+            r.pop("_pending", None)
+        return results
+    _dur = int((_t.time() - _start) * 1000)
+    parsed = parse_llm_json(response)
+
+    if state.tracer:
+        state.tracer.trace_llm_call(
+            stage="voice_validation_batch",
+            template="voice_validation_batch.txt",
+            prompt=prompt,
+            response=response,
+            temperature=0.2,
+            max_tokens=llm.max_output_tokens,
+            duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
+            metadata={"post_count": len(llm_posts), "lean": True},
+        )
+
+    llm_results = []
+    if isinstance(parsed, dict) and "results" in parsed:
+        llm_results = parsed["results"]
+    elif isinstance(parsed, list):
+        llm_results = parsed
+
+    for j, (orig_idx, _) in enumerate(llm_posts):
+        if j < len(llm_results) and isinstance(llm_results[j], dict):
+            results[orig_idx] = llm_results[j]
+        else:
+            results[orig_idx] = {"overall": "PASS", "voice_marker_score": 3, "register_score": 3}
+
+    for r in results:
+        r.pop("_index", None)
+        r.pop("_pending", None)
+
+    return results
+
+
 def regenerate_with_voice_override(
     llm: LLMProvider,
     post: AmplifiedPost,

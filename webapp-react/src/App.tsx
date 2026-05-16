@@ -16,6 +16,7 @@ import LandingPage from './pages/LandingPage'
 import FounderPackPage from './pages/FounderPackPage'
 import AskSharathPage from './pages/AskSharathPage'
 import ChatPage from './pages/ChatPage'
+import ContentStudioPage from './pages/ContentStudioPage'
 import AskSharathAdminPage from './pages/AskSharathAdminPage'
 import { isApexDomain, getSubdomainSlug } from './utils/subdomain'
 import { Loader2 } from 'lucide-react'
@@ -59,6 +60,7 @@ export default function App() {
           <Route element={<AppShell />}>
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="generate" element={<GeneratePage />} />
+            <Route path="content-studio" element={<ContentStudioPage />} />
             <Route path="graph" element={<GraphPage />} />
             <Route path="coverage" element={<CoveragePage />} />
             <Route path="workflow" element={<WorkflowPage />} />
@@ -85,6 +87,7 @@ export default function App() {
         <Route element={<AppShell />}>
           <Route index element={<DashboardPage />} />
           <Route path="generate" element={<GeneratePage />} />
+          <Route path="content-studio" element={<ContentStudioPage />} />
           <Route path="graph" element={<GraphPage />} />
           <Route path="coverage" element={<CoveragePage />} />
           <Route path="workflow" element={<WorkflowPage />} />

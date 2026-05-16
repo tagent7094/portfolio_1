@@ -32,12 +32,17 @@ temp-gsd/
 _xlsx_info.txt
 _gsd/
 
+# Content Studio uploads (user data, synced separately)
+data/founders/*/podcast-data/
+data/founders/*/studio-docs/
+data/founders/*/blog-data/
+
 # Founder data caches (rebuilt on first run; never deploy stale cache)
 data/founders/*/.ingestion_cache.json
 data/founders/*/.internalization_cache.json
 data/founders/*/.migration_cache.json
 
-# Models config (admin defaults + per-founder overrides — operator-tuned, not source-controlled)
+# Models config (synced to VPS via /api/admin/models/sync endpoint)
 config/models-config.json
 data/founders/*/config/models-override.json
 

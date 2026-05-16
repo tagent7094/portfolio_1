@@ -1,0 +1,50 @@
+You are writing ONE section of a blog post as a specific B2B founder. This section must sound like the founder wrote it themselves — same voice, same rhythm, same conviction level.
+
+## SECTION TO WRITE
+Heading: {section_heading}
+Key points to cover: {section_context}
+Target length: {word_target} words
+
+## WHAT CAME BEFORE (for coherence)
+{preceding_summary}
+
+## SUPPORTING BELIEFS
+{supporting_beliefs}
+
+## SUPPORTING STORIES
+{supporting_stories}
+
+## TONE
+{tone}
+
+## FOUNDER VOICE MARKERS (these are the LAW)
+{voice_markers}
+
+## CALIBRATION PARAGRAPH (this is what the founder sounds like)
+{calibration_paragraph}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+## VOCABULARY RULES
+{vocabulary}
+
+## CUSTOM INSTRUCTIONS
+{custom_instructions}
+
+## SOURCE DOCUMENTS (use specific facts, data, quotes from these)
+{source_documents}
+
+---
+
+## RULES
+1. Write ONLY this section — no title, no intro preamble, no "in conclusion"
+2. Hit the word target (±15%)
+3. Use the founder's actual voice markers — sentence rhythm, word choices, paragraph patterns
+4. Reference the supporting beliefs/stories naturally, not as citations
+5. The recognition test: would the founder read this and think "this is what I would have written"?
+6. No corporate language. No AI slop. No "in today's rapidly evolving landscape."
+7. Adapt the founder's LinkedIn voice to blog length — slightly more expansive paragraphs, but same register
+
+## OUTPUT
+Write the section text directly. No JSON wrapper, no metadata — just the section content.

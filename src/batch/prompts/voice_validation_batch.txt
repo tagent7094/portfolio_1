@@ -1,0 +1,75 @@
+Compare these generated posts against the founder's voice profile. You are a quality gate — if a post doesn't sound like the founder, it must be caught here before it ships.
+
+## CALIBRATION PARAGRAPH (what the founder's voice sounds like when done right)
+{calibration_paragraph}
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## ARGUMENT RHYTHM
+{argument_rhythm}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+## WORD COUNT RANGE
+{word_count_range}
+
+---
+
+## POSTS TO VALIDATE
+
+{posts_block}
+
+---
+
+## SCORING (per post)
+
+Score each dimension 0-5:
+
+### 1. VOICE-MARKER COMPLIANCE
+How many voice markers appear naturally? (0=none, 3=two markers, 5=four+ seamlessly)
+
+### 2. REGISTER CHECK
+Does the post read like THIS specific founder wrote it? (0=corporate copy, 3=a founder in this space, 5=indistinguishable from calibration paragraph)
+
+### 3. POSTURE CHECK
+Is the founder an OPERATOR inside the experience or a COMMENTATOR? (0=pure commentator, 5=fully inside lived experience)
+
+## DECISION RULE
+- ANY dimension below 3 → "FAIL"
+- register_score below 3 → ALWAYS "FAIL"
+- posture_score below 3 → "FAIL"
+
+## OUTPUT FORMAT
+
+Return one result per post, in order:
+
+```json
+{{{{
+  "results": [
+    {{{{
+      "label": "A1",
+      "voice_marker_score": 4,
+      "register_score": 5,
+      "register_reads_as": "founder|corporate|generic",
+      "posture_score": 4,
+      "posture_reads_as": "operator|commentator|mixed",
+      "overall": "PASS",
+      "violations": [],
+      "suggestion": ""
+    }}}},
+    {{{{
+      "label": "A2",
+      "voice_marker_score": 2,
+      "register_score": 2,
+      "register_reads_as": "corporate",
+      "posture_score": 3,
+      "posture_reads_as": "mixed",
+      "overall": "FAIL",
+      "violations": ["Register reads as corporate announcement", "Only 1 voice marker present"],
+      "suggestion": "Rewrite from the founder's posture — operator inside the experience, not analyst outside it"
+    }}}}
+  ]
+}}}}
+```

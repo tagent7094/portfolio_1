@@ -11,6 +11,7 @@ class LLMProvider(ABC):
     _model_name: str = "unknown"
     _rate_limiter = None
     _configured_max_tokens: int = 2000  # Set from config in factory
+    _configured_thinking_budget: int = 0  # Explicit thinking token allocation
     last_thinking: str = ""  # Last thinking/reasoning from the model (if enabled)
 
     @property

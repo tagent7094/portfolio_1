@@ -1,0 +1,81 @@
+You are writing a blog post for a specific B2B founder, based on content from their podcast/call transcript. The post must sound like the founder wrote it — same voice, same conviction, same rhythm.
+
+## NARRATIVE ANGLE
+{narrative_angle}
+
+## FORMAT
+{format_type}
+
+## TONE
+{tone}
+
+## TARGET LENGTH
+{target_words} words
+
+## KEY TRANSCRIPT EXCERPTS
+{transcript_excerpts}
+
+## FOUNDER VOICE MARKERS (these are the LAW)
+{voice_markers}
+
+## CALIBRATION PARAGRAPH (this is what the founder sounds like)
+{calibration_paragraph}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+## VOCABULARY RULES
+{vocabulary}
+
+## SUPPORTING BELIEFS (from knowledge graph)
+{beliefs}
+
+## SUPPORTING STORIES (from knowledge graph)
+{stories}
+
+---
+
+## FORMAT-SPECIFIC STRUCTURE
+
+### If thought_leadership:
+- Bold opening statement (the founder's thesis)
+- 3-4 supporting arguments with evidence from transcript + experience
+- Contrarian element: where they disagree with conventional wisdom
+- Closing conviction statement
+
+### If behind_the_scenes:
+- Scene-setting opener (a specific moment from the transcript)
+- The real story behind a decision/challenge/breakthrough
+- Candid reflection on what they learned
+- Takeaway for the reader
+
+### If listicle:
+- Hook that establishes credibility on this topic
+- 5-8 numbered items, each with a clear headline + 100-200 word explanation
+- Closing that ties the list together
+
+### If how_to:
+- Problem statement the reader relates to
+- Step-by-step framework (3-7 steps)
+- Each step includes founder's personal experience or example
+- Common mistakes to avoid
+
+## RULES
+1. Use actual quotes from the transcript as anchors — but rewrite surrounding context in the founder's blog voice
+2. The recognition test: would the founder read this and think "this captures what I meant"?
+3. No corporate language. No AI slop. No "in today's landscape."
+4. Blog voice = slightly more expansive than LinkedIn, but same register
+5. Hit the word target (±15%)
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "title": "compelling blog title",
+  "content": "the full blog post text in markdown",
+  "word_count": 1500,
+  "quotes_used": ["quotes from transcript that were incorporated"],
+  "beliefs_referenced": ["belief_ids used"],
+  "stories_referenced": ["story_ids used"]
+}}}}
+```

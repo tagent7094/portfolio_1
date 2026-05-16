@@ -130,6 +130,9 @@ class LLMRouter:
         resolved.setdefault("temperature", spec.default_temperature)
         resolved.setdefault("enable_thinking", False)
         resolved.setdefault("effort", "high")
+        resolved.setdefault("thinking_budget", spec.default_thinking_budget)
+        if resolved["enable_thinking"] and not resolved.get("thinking_budget"):
+            resolved["thinking_budget"] = 10000
         resolved["task_id"] = task_id
         return resolved
 
@@ -182,7 +185,8 @@ class LLMRouter:
         provider = resolved["provider"]
         model = resolved["model"]
         max_tokens = resolved.get("max_tokens", 4000)
-        key = (provider, model, max_tokens, resolved.get("enable_thinking", False), resolved.get("effort", "high"))
+        thinking_budget = resolved.get("thinking_budget", 0)
+        key = (provider, model, max_tokens, resolved.get("enable_thinking", False), resolved.get("effort", "high"), thinking_budget)
         cached = self._instance_cache.get(key)
         if cached is not None:
             if self._on_token_callback and hasattr(cached, "on_token"):
@@ -219,13 +223,15 @@ class LLMRouter:
             raise ValueError(f"unknown provider in resolved config: {provider!r}")
 
         instance._configured_max_tokens = max_tokens
+        instance._configured_thinking_budget = thinking_budget
         if self._on_token_callback and hasattr(instance, "on_token"):
             instance.on_token = self._on_token_callback
         self._instance_cache[key] = instance
 
+        thinking_info = f", thinking_budget={thinking_budget}" if thinking_budget else ""
         print(
             f"\033[36m[LLM Router]\033[0m built provider={provider!r}, model={model!r}, "
-            f"max_tokens={max_tokens}, source={resolved.get('_source')!r}, task={resolved.get('task_id')!r}",
+            f"max_tokens={max_tokens}{thinking_info}, source={resolved.get('_source')!r}, task={resolved.get('task_id')!r}",
             file=sys.stderr, flush=True,
         )
         return instance

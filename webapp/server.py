@@ -85,6 +85,10 @@ app.include_router(os_router)
 from webapp.models_routes import router as models_router
 app.include_router(models_router)
 
+# Blog & Narrative routes (Content Studio)
+from webapp.blog_routes import blog_router
+app.include_router(blog_router)
+
 
 @app.get("/api/admin/notify/config")
 async def get_notify_config(request: Request):
@@ -839,6 +843,7 @@ class BatchGenerateRequest(BaseModel):
     enable_thinking: bool = True
     source_posts: list[str] | None = None
     effort: str = "high"
+    lean: bool = False
 
 
 @app.post("/api/generate/batch/stream")
@@ -866,6 +871,7 @@ async def generate_batch_stream(data: BatchGenerateRequest, request: Request):
                 enable_thinking=data.enable_thinking,
                 source_posts=data.source_posts,
                 effort=data.effort,
+                lean=data.lean,
             )
         except CancelledError:
             logger.info("Batch generation cancelled by user")
@@ -916,6 +922,7 @@ async def generate_batch(data: BatchGenerateRequest):
             enable_thinking=data.enable_thinking,
             source_posts=data.source_posts,
             effort=data.effort,
+            lean=data.lean,
         )
         return {"status": "ok", **result}
     except Exception as e:
@@ -980,6 +987,7 @@ async def generate_batch_background(data: BatchGenerateRequest):
                 enable_thinking=data.enable_thinking,
                 source_posts=data.source_posts,
                 effort=data.effort,
+                lean=data.lean,
             ))
 
             # Drain event bus into task_state

@@ -1,0 +1,109 @@
+You are generating 3 BATCH B (mechanics-only) posts from the same source. Same psychological move as the source, but FULLY different surfaces — different sentence counts, different phrasing, different imagery, different delivery vehicles.
+
+Each post uses a different assigned entry door. The source's structure is informational — NOT a mold.
+
+## SOURCE POST
+{source_post}
+
+## SOURCE DISSECTION
+{dissection}
+
+## OPENER QUALITY TESTS (from source dissection)
+{opener_tests}
+If any test FAILED, do NOT replicate that quality in your openers.
+
+## ASSIGNED ENTRY DOORS
+- Post 1: {door_1}
+- Post 2: {door_2}
+- Post 3: {door_3}
+
+Entry door definitions:
+- scene_drop: Start in the MIDDLE of a specific physical moment. No setup, no context.
+- diagnostic_question: Open with a question that makes the reader self-diagnose.
+- borrowed_authority_quote: Open with something someone credible said, then react.
+- data_contradiction: Two data points that shouldn't both be true.
+- confession: Admit something that costs you credibility. Not fake vulnerability.
+- physical_object: Anchor on a specific physical thing.
+- direct_address: Talk directly to a specific type of person.
+- mocked_counter_example: State the bad version of what people do, then flip.
+- contrarian_claim: State something most people would disagree with. Earned, not clickbait.
+- parallel_structure: Two or three parallel sentences with a twist in the last one.
+- age_time_anchor: Open with a specific age, date, or time marker that signals real memory.
+- second_party_verdict: Someone else's judgment or reaction to your situation.
+
+## FOUNDER INTERNALIZATION
+{internalization}
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## WORD COUNT RANGE
+{word_count_range}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+## EVENTS ALREADY USED (do NOT reuse)
+{events_used}
+
+## STORIES ALREADY USED (do NOT reuse)
+{stories_used}
+
+---
+
+## ANTI-CONVERGENCE (CRITICAL)
+Before writing Post N, re-read all previous posts' argument_compressed fields. Post N MUST argue something DIFFERENT. Three posts from the same source arriving at the same thesis = convergence failure.
+
+## RULES FOR ALL 3 POSTS
+
+1. PSYCHOLOGICAL MOVE must match the source's primary mechanic ({hook_mechanic_primary}) but through a completely different surface via the assigned entry door.
+2. Each post MUST clearly employ its assigned entry door in the opening sentences.
+3. ANTI-RECYCLING: If a sentence could be copy-pasted from the founder's posts, rewrite it.
+4. EVERY POST MUST:
+   - Hit the word count range (±30% of median)
+   - Match the founder's formatting habits EXACTLY
+   - Orbit one scene the reader can physically picture
+   - Put the founder INSIDE the experience — vulnerable, exposed
+   - End on a concrete detail — NOT a summary, NOT a moral
+5. PLAUSIBILITY: Any quote, scene, or dialogue must pass the dinner test.
+6. SPECIFICITY: Default to third-degree patterns when in doubt. Never invent first-degree.
+7. VOICE COMPLIANCE: Founder card voice overrides source register. Use AT LEAST 3 voice markers per post.
+8. MODE: Specify "wrestling" or "declaring" — vary across the 3 posts.
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "posts": [
+    {{{{
+      "text": "full post text — hook + body + close",
+      "entry_door": "{door_1}",
+      "mode": "wrestling|declaring",
+      "events_used": ["event 1"],
+      "stories_used": ["story 1"],
+      "argument_compressed": "one sentence summary"
+    }}}},
+    {{{{
+      "text": "full post 2",
+      "entry_door": "{door_2}",
+      "mode": "wrestling|declaring",
+      "events_used": [],
+      "stories_used": [],
+      "argument_compressed": "DIFFERENT argument from post 1"
+    }}}},
+    {{{{
+      "text": "full post 3",
+      "entry_door": "{door_3}",
+      "mode": "wrestling|declaring",
+      "events_used": [],
+      "stories_used": [],
+      "argument_compressed": "DIFFERENT argument from posts 1 and 2"
+    }}}}
+  ]
+}}}}
+```
+
+No preamble. No meta-commentary. Just 3 finished posts in one JSON object.

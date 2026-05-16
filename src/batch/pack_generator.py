@@ -172,9 +172,11 @@ def _generate_a_variant(
         source_closer_text=source_closer_text,
     )
 
+    max_tok = llm.max_output_tokens
+
     import time as _t
     _start = _t.time()
-    response = llm.generate(prompt, temperature=temp, max_tokens=3000)
+    response = llm.generate(prompt, temperature=temp, max_tokens=max_tok)
     _dur = int((_t.time() - _start) * 1000)
     result = parse_llm_json(response)
 
@@ -185,7 +187,7 @@ def _generate_a_variant(
             prompt=prompt,
             response=response,
             temperature=temp,
-            max_tokens=2000,
+            max_tokens=max_tok,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
             metadata={"variant": variant_num, "batch": "A"},
@@ -201,7 +203,7 @@ def _generate_a_variant(
     if not result.get("structural_match", True):
         logger.info("[batch] A%d: structural mismatch, regenerating once", variant_num)
         _start = _t.time()
-        response = llm.generate(prompt, temperature=min(temp + 0.1, 1.0), max_tokens=3000)
+        response = llm.generate(prompt, temperature=min(temp + 0.1, 1.0), max_tokens=max_tok)
         _dur = int((_t.time() - _start) * 1000)
         retry = parse_llm_json(response)
         if isinstance(retry, dict) and retry.get("text"):
@@ -272,9 +274,11 @@ def _generate_b_variant(
         source_cast=source_cast,
     )
 
+    max_tok = llm.max_output_tokens
+
     import time as _t
     _start = _t.time()
-    response = llm.generate(prompt, temperature=temp, max_tokens=3000)
+    response = llm.generate(prompt, temperature=temp, max_tokens=max_tok)
     _dur = int((_t.time() - _start) * 1000)
     result = parse_llm_json(response)
 
@@ -285,7 +289,7 @@ def _generate_b_variant(
             prompt=prompt,
             response=response,
             temperature=temp,
-            max_tokens=2000,
+            max_tokens=max_tok,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
             metadata={"variant": variant_num, "batch": "B", "entry_door": entry_door},
@@ -329,9 +333,15 @@ Trim it to fit by removing the least essential paragraph. Rules:
 
 Return ONLY the trimmed post text, no JSON wrapping, no explanation.""" + f"\n\n---\n\n{post.text}"
 
+    max_tok = llm.max_output_tokens
+
     import time as _t
     _start = _t.time()
-    response = llm.generate(prompt, temperature=0.2, max_tokens=2000)
+    try:
+        response = llm.generate(prompt, temperature=0.2, max_tokens=max_tok)
+    except Exception as e:
+        logger.warning("[batch] LLM trim API error for %s (%s), keeping original", post.label, e)
+        return post
     _dur = int((_t.time() - _start) * 1000)
 
     trimmed = response.strip()
@@ -352,7 +362,7 @@ Return ONLY the trimmed post text, no JSON wrapping, no explanation.""" + f"\n\n
             prompt=prompt,
             response=response,
             temperature=0.2,
-            max_tokens=2000,
+            max_tokens=max_tok,
             duration_ms=_dur,
             thinking="",
             metadata={"original_wc": post.word_count, "target": f"{lo}-{hi}"},
@@ -408,6 +418,270 @@ def select_entry_doors(n: int, used_globally: dict, pack_number: int) -> list[st
                 if len(selected) >= n:
                     break
     return selected
+
+
+def _generate_a_batch(
+    llm: LLMProvider,
+    source: str,
+    pack_number: int,
+    state: BatchState,
+) -> tuple[dict, list[AmplifiedPost]]:
+    """Lean mode: dissect source + generate 3 A posts in one LLM call."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("generate_a_batch")
+    template = load_prompt(PROMPTS_DIR / "generate_pack_a_batch.txt")
+    temp = creativity_to_temperature(state.creativity)
+
+    events_str = "\n".join(f"- {e}" for e in sorted(state.events_used_global)[:50]) or "None yet"
+    stories_str = "\n".join(f"- {s}" for s in sorted(state.stories_used_global)[:30]) or "None yet"
+
+    prompt = fill_prompt(
+        template,
+        source_post=source,
+        platform=state.platform,
+        internalization=_format_internalization(state),
+        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
+        personality_card=state.personality_card[:2000],
+        word_count_range=f"{state.word_count_range[0]}-{state.word_count_range[1]} words",
+        formatting_habits=str(state.formatting_habits),
+        events_used=events_str,
+        stories_used=stories_str,
+    )
+
+    max_tok = llm.max_output_tokens
+
+    import time as _t
+    _start = _t.time()
+    try:
+        response = llm.generate(prompt, temperature=temp, max_tokens=max_tok)
+    except Exception as e:
+        logger.warning("[batch] lean A batch API error (%s), falling back to sequential", e)
+        return None, []
+    _dur = int((_t.time() - _start) * 1000)
+    result = parse_llm_json(response)
+
+    if state.tracer:
+        state.tracer.trace_llm_call(
+            stage=f"pack_{pack_number}_generate_a_batch",
+            template="generate_pack_a_batch.txt",
+            prompt=prompt,
+            response=response,
+            temperature=temp,
+            max_tokens=max_tok,
+            duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
+            metadata={"batch": "A_batch", "lean": True},
+        )
+
+    if not isinstance(result, dict) or "dissection" not in result or "posts" not in result:
+        logger.warning("[batch] lean A batch parse failed, falling back to sequential")
+        return None, []
+
+    dissection = result["dissection"]
+    posts = []
+    for i, p in enumerate(result.get("posts", [])[:3], start=1):
+        if not isinstance(p, dict) or not p.get("text"):
+            continue
+        post = AmplifiedPost(
+            label=f"A{i}", batch="A", entry_door="mirrored",
+            mode=p.get("mode", "declaring"),
+            text=p.get("text", ""),
+            word_count=len(p.get("text", "").split()),
+            events_used=p.get("events_used", []),
+            argument_compressed=p.get("argument_compressed", ""),
+        )
+        state.events_used_global.update(post.events_used)
+        state.stories_used_global.update(p.get("stories_used", []))
+        posts.append(post)
+
+    return dissection, posts
+
+
+def _generate_b_batch(
+    llm: LLMProvider,
+    source: str,
+    dissection: dict,
+    doors: list[str],
+    start_num: int,
+    state: BatchState,
+) -> list[AmplifiedPost]:
+    """Lean mode: generate 3 B posts with different entry doors in one LLM call."""
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("generate_b_batch")
+    template = load_prompt(PROMPTS_DIR / "generate_pack_b_batch.txt")
+    temp = creativity_to_temperature(state.creativity)
+
+    events_str = "\n".join(f"- {e}" for e in sorted(state.events_used_global)[:50]) or "None yet"
+    stories_str = "\n".join(f"- {s}" for s in sorted(state.stories_used_global)[:30]) or "None yet"
+
+    prompt = fill_prompt(
+        template,
+        source_post=source,
+        dissection=str(dissection)[:1000],
+        opener_tests=_format_opener_tests(dissection),
+        door_1=doors[0] if len(doors) > 0 else "scene_drop",
+        door_2=doors[1] if len(doors) > 1 else "contrarian_claim",
+        door_3=doors[2] if len(doors) > 2 else "confession",
+        hook_mechanic_primary=dissection.get("hook_mechanic_primary", "unknown"),
+        internalization=_format_internalization(state),
+        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
+        personality_card=state.personality_card[:2000],
+        word_count_range=f"{state.word_count_range[0]}-{state.word_count_range[1]} words",
+        formatting_habits=str(state.formatting_habits),
+        events_used=events_str,
+        stories_used=stories_str,
+    )
+
+    max_tok = llm.max_output_tokens
+
+    import time as _t
+    _start = _t.time()
+    try:
+        response = llm.generate(prompt, temperature=temp, max_tokens=max_tok)
+    except Exception as e:
+        logger.warning("[batch] lean B batch API error (%s), falling back to sequential", e)
+        return []
+    _dur = int((_t.time() - _start) * 1000)
+    result = parse_llm_json(response)
+
+    if state.tracer:
+        state.tracer.trace_llm_call(
+            stage=f"generate_b_batch_{start_num}",
+            template="generate_pack_b_batch.txt",
+            prompt=prompt,
+            response=response,
+            temperature=temp,
+            max_tokens=max_tok,
+            duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
+            metadata={"batch": "B_batch", "lean": True, "doors": doors},
+        )
+
+    if not isinstance(result, dict) or "posts" not in result:
+        logger.warning("[batch] lean B batch parse failed, falling back to sequential")
+        return []
+
+    posts = []
+    for i, p in enumerate(result.get("posts", [])[:3]):
+        if not isinstance(p, dict) or not p.get("text"):
+            continue
+        num = start_num + i
+        door = doors[i] if i < len(doors) else "unknown"
+        post = AmplifiedPost(
+            label=f"B{num}", batch="B", entry_door=p.get("entry_door", door),
+            mode=p.get("mode", "declaring"),
+            text=p.get("text", ""),
+            word_count=len(p.get("text", "").split()),
+            events_used=p.get("events_used", []),
+            argument_compressed=p.get("argument_compressed", ""),
+        )
+        state.events_used_global.update(post.events_used)
+        state.stories_used_global.update(p.get("stories_used", []))
+        posts.append(post)
+
+    return posts
+
+
+def _generate_pack_lean(
+    llm: LLMProvider,
+    source: str,
+    pack_number: int,
+    state: BatchState,
+    posts_per_source: int = 9,
+    event_callback=None,
+    llm_prep: LLMProvider | None = None,
+) -> PackResult:
+    """Lean mode pack generation: batched calls to reduce total LLM requests."""
+    logger.info("[batch] Generating lean pack %d (%d posts)...", pack_number, posts_per_source)
+
+    posts_per_source = max(1, min(posts_per_source, 9))
+
+    # Call 1: dissect + 3 A posts in one call
+    dissection, a_posts = _generate_a_batch(llm, source, pack_number, state)
+
+    # Fallback to sequential if batch parse failed
+    if dissection is None:
+        logger.info("[batch] Lean A batch failed, falling back to standard generate_pack")
+        return generate_pack(llm, source, pack_number, state, posts_per_source, event_callback, llm_prep)
+
+    dissection = verify_opener_tests(dissection)
+    state.source_dissections.append(dissection)
+    mirrorable = dissection.get("mirrorable", True) and not dissection.get("skip_batch_a", False)
+
+    if event_callback:
+        event_callback(f"pack_{pack_number}_dissected", {
+            "hook_mechanic": dissection.get("hook_mechanic_primary", "unknown"),
+            "mirrorable": mirrorable,
+            "lean": True,
+        })
+
+    posts: list[AmplifiedPost] = []
+
+    if mirrorable and a_posts:
+        for post in a_posts[:min(3, posts_per_source)]:
+            post = _enforce_word_count(post, state, llm=llm)
+            posts.append(post)
+        if event_callback:
+            event_callback(f"pack_{pack_number}_a_batch", {"count": len(posts)})
+        n_b = max(0, posts_per_source - len(posts))
+    else:
+        n_b = posts_per_source
+
+    # B posts: 2 batched calls of 3 each (calls 2-3)
+    if n_b > 0:
+        doors = select_entry_doors(n_b, state.entry_doors_used, pack_number)
+        state.entry_doors_used[pack_number] = doors
+
+        batch_1_doors = doors[:3]
+        b_posts_1 = _generate_b_batch(llm, source, dissection, batch_1_doors, 1, state)
+
+        # Fallback for first batch
+        if not b_posts_1:
+            doors_used_so_far = []
+            for i, door in enumerate(batch_1_doors):
+                post = _generate_b_variant(llm, source, dissection, door, i + 1, doors_used_so_far, state)
+                post = _enforce_word_count(post, state, llm=llm)
+                b_posts_1.append(post)
+                doors_used_so_far.append(door)
+
+        for post in b_posts_1:
+            post = _enforce_word_count(post, state, llm=llm)
+            posts.append(post)
+
+        if event_callback:
+            event_callback(f"pack_{pack_number}_b_batch_1", {"count": len(b_posts_1)})
+
+        remaining = n_b - len(b_posts_1)
+        if remaining > 0 and len(doors) > 3:
+            batch_2_doors = doors[3:6]
+            b_posts_2 = _generate_b_batch(llm, source, dissection, batch_2_doors, len(b_posts_1) + 1, state)
+
+            if not b_posts_2:
+                doors_used_so_far = [d for d in doors[:3]]
+                for i, door in enumerate(batch_2_doors):
+                    post = _generate_b_variant(llm, source, dissection, door, len(b_posts_1) + i + 1, doors_used_so_far, state)
+                    post = _enforce_word_count(post, state, llm=llm)
+                    b_posts_2.append(post)
+                    doors_used_so_far.append(door)
+
+            for post in b_posts_2:
+                post = _enforce_word_count(post, state, llm=llm)
+                posts.append(post)
+
+            if event_callback:
+                event_callback(f"pack_{pack_number}_b_batch_2", {"count": len(b_posts_2)})
+
+    n_a_actual = len([p for p in posts if p.batch == "A"])
+    n_b_actual = len([p for p in posts if p.batch == "B"])
+    return PackResult(
+        source_number=pack_number,
+        source_post=source,
+        dissection=dissection,
+        mirrorable=mirrorable,
+        posts=posts,
+        batch_a_count=n_a_actual,
+        batch_b_count=n_b_actual,
+    )
 
 
 def generate_pack(

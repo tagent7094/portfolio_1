@@ -4,17 +4,26 @@ Mirrors the notify-config pattern at server.py:85-109 — JSON file on disk,
 admin auth via _require_admin, founder auth via _require_founder (which
 already permits admin-as-founder). All write endpoints validate task IDs
 against the canonical TASK_CATALOG.
+
+Config sync: when TAGENT_VPS_URL + DEPLOY_SECRET are set, every config save
+also POSTs the full config to the VPS sync endpoint so both environments
+stay identical without committing secrets to git.
 """
 
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
+import os
 from typing import Any
 
+import httpx
 from fastapi import APIRouter, HTTPException, Request
 
 from src.llm.config_io import (
+    ADMIN_CONFIG_PATH,
+    _founder_override_path,
     delete_founder_override_task,
     load_admin_config,
     load_founder_override,
@@ -34,6 +43,58 @@ logger = logging.getLogger(__name__)
 router = APIRouter(tags=["models"])
 
 
+# ---------- VPS config sync ----------
+
+
+async def _sync_to_vps(payload: dict) -> None:
+    """POST config to VPS so it stays in sync. Requires TAGENT_VPS_URL + DEPLOY_SECRET."""
+    vps_url = os.environ.get("TAGENT_VPS_URL", "").rstrip("/")
+    secret = os.environ.get("DEPLOY_SECRET", "")
+    if not vps_url or not secret:
+        return
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.post(
+                f"{vps_url}/api/admin/models/sync",
+                json=payload,
+                headers={"x-sync-secret": secret},
+            )
+            if resp.status_code == 200:
+                logger.info("[config_sync] synced to VPS (%s)", vps_url)
+            else:
+                logger.warning("[config_sync] VPS returned %d: %s", resp.status_code, resp.text[:200])
+    except Exception:
+        logger.warning("[config_sync] VPS sync failed — config saved locally only", exc_info=True)
+
+
+@router.post("/api/admin/models/sync")
+async def sync_receive(request: Request) -> dict:
+    """Receive config from another environment. Auth via X-Sync-Secret header."""
+    expected = os.environ.get("DEPLOY_SECRET", "").strip()
+    if not expected:
+        raise HTTPException(status_code=503, detail="sync not configured")
+    incoming = (request.headers.get("x-sync-secret") or "").strip()
+    if incoming != expected:
+        raise HTTPException(status_code=401, detail="invalid sync secret")
+    body = await request.json()
+    saved = {}
+    if "admin_config" in body:
+        try:
+            saved["admin"] = bool(save_admin_config(body["admin_config"]))
+        except ValueError as e:
+            saved["admin_error"] = str(e)
+    for key, val in body.items():
+        if key.startswith("founder:") and isinstance(val, dict):
+            slug = key.split(":", 1)[1]
+            try:
+                save_founder_override(slug, val)
+                saved[key] = True
+            except ValueError as e:
+                saved[f"{key}_error"] = str(e)
+    logger.info("[config_sync] received sync: %s", list(body.keys()))
+    return {"ok": True, "saved": saved}
+
+
 def _strip_synth(cfg: dict) -> dict:
     """Don't ship the internal _synthesized flag to the client."""
     if isinstance(cfg, dict) and "_synthesized" in cfg:
@@ -46,7 +107,6 @@ def _strip_synth(cfg: dict) -> dict:
 
 @router.get("/api/admin/models/providers")
 async def get_models_providers(request: Request) -> dict:
-    # No auth — read-only catalog with no secrets (just model lists + key_present booleans)
     admin_cfg = load_admin_config()
     stored_keys = admin_cfg.get("provider_keys", {})
     return {"providers": provider_catalog_with_env_status(stored_keys=stored_keys)}
@@ -54,7 +114,6 @@ async def get_models_providers(request: Request) -> dict:
 
 @router.get("/api/admin/models/tasks")
 async def get_models_tasks(request: Request) -> dict:
-    # No auth — read-only catalog, no secrets
     return {"tasks": task_catalog_dict()}
 
 
@@ -76,6 +135,7 @@ async def put_admin_models_config(request: Request) -> dict:
         saved = save_admin_config(body)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    asyncio.create_task(_sync_to_vps({"admin_config": saved}))
     return _strip_synth(saved)
 
 
@@ -103,6 +163,8 @@ async def put_admin_models_keys(request: Request) -> dict:
     if not isinstance(keys, dict):
         raise HTTPException(status_code=400, detail="provider_keys dict required")
     saved = save_admin_keys_only(keys)
+    full_cfg = load_admin_config()
+    asyncio.create_task(_sync_to_vps({"admin_config": full_cfg}))
     return {"provider_keys": saved}
 
 
@@ -128,6 +190,7 @@ async def put_founder_models_config(slug: str, request: Request) -> dict:
         saved = save_founder_override(slug, body)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    asyncio.create_task(_sync_to_vps({f"founder:{slug}": saved}))
     return saved
 
 
@@ -137,7 +200,9 @@ async def delete_founder_models_task(slug: str, task_id: str, request: Request) 
     _require_founder(request, slug)
     if not validate_task_id(task_id):
         raise HTTPException(status_code=400, detail=f"unknown task_id: {task_id!r}")
-    return delete_founder_override_task(slug, task_id)
+    result = delete_founder_override_task(slug, task_id)
+    asyncio.create_task(_sync_to_vps({f"founder:{slug}": result}))
+    return result
 
 
 @router.post("/api/founders/{slug}/models/test")
@@ -164,4 +229,6 @@ async def put_founder_models_keys(slug: str, request: Request) -> dict:
     if not isinstance(keys, dict):
         raise HTTPException(status_code=400, detail="provider_keys dict required")
     saved = save_founder_keys_only(slug, keys)
+    founder_cfg = load_founder_override(slug)
+    asyncio.create_task(_sync_to_vps({f"founder:{slug}": founder_cfg}))
     return {"provider_keys": saved}

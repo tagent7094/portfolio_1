@@ -98,3 +98,6 @@ class BatchState:
     # to honour admin defaults + founder overrides instead of using the bare
     # `llm` parameter it was passed.
     llm_router: object | None = field(default=None, repr=False)
+
+    # Lean mode: batch multiple operations per LLM call to reduce total calls
+    lean_mode: bool = False

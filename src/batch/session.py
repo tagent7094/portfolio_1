@@ -15,9 +15,9 @@ from .state import BatchState
 from .tracer import BatchTracer
 from .corpus_reader import load_founder_state, internalize_corpus, calibration_check
 from .source_selector import select_sources
-from .pack_generator import generate_pack, _enforce_word_count, _generate_a_variant, _generate_b_variant
-from .amplifier import amplify_post, convergence_test
-from .voice_validator import validate_voice, regenerate_with_voice_override
+from .pack_generator import generate_pack, _generate_pack_lean, _enforce_word_count, _generate_a_variant, _generate_b_variant
+from .amplifier import amplify_post, amplify_batch, convergence_test
+from .voice_validator import validate_voice, validate_voice_batch, regenerate_with_voice_override
 from .compiler import compile_json, save_output
 from .exclusion_scanner import load_exclusions, scan_for_exclusions
 from .saturation import check_saturation
@@ -117,6 +117,7 @@ class BatchSession:
         source_posts: list[str] | None = None,
         config_path: str = "config/llm-config.yaml",
         effort: str = "high",
+        lean: bool = False,
     ) -> dict:
         """Run the full batch generation pipeline.
 
@@ -152,6 +153,7 @@ class BatchSession:
         state.creativity = creativity
         state.tracer = tracer
         state.llm_router = router
+        state.lean_mode = lean
 
         state.exclusions = load_exclusions(founder_slug)
         tracer.trace_step("load_founder", f"Loaded founder data for {founder_slug}")
@@ -240,41 +242,70 @@ class BatchSession:
             def pack_callback(sub_stage, data):
                 self._emit(f"pack_{pack_num}", "progress", {sub_stage: data})
 
-            pack = generate_pack(
-                llm_gen, source, pack_num, state,
-                posts_per_source=posts_per_source,
-                event_callback=pack_callback,
-                llm_prep=llm_prep,
-            )
+            if state.lean_mode:
+                pack = _generate_pack_lean(
+                    llm_gen, source, pack_num, state,
+                    posts_per_source=posts_per_source,
+                    event_callback=pack_callback,
+                    llm_prep=llm_prep,
+                )
+            else:
+                pack = generate_pack(
+                    llm_gen, source, pack_num, state,
+                    posts_per_source=posts_per_source,
+                    event_callback=pack_callback,
+                    llm_prep=llm_prep,
+                )
 
-            # Voice validation pass (Haiku — does it sound like the founder?)
+            # Voice validation pass
             validated_posts = []
-            for j, post in enumerate(pack.posts):
+            if state.lean_mode:
                 self._check_cancel()
-                validation = validate_voice(llm_gen, post, state)
-                post.validation_result = validation
+                batch_validations = validate_voice_batch(llm_gen, pack.posts, state)
+                for j, (post, validation) in enumerate(zip(pack.posts, batch_validations)):
+                    post.validation_result = validation
+                    if validation.get("overall") == "FAIL":
+                        tracer.trace_decision(
+                            f"voice_validation_{post.label}",
+                            f"FAIL: {validation.get('suggestion', '')}",
+                            metadata=validation,
+                        )
+                        post = regenerate_with_voice_override(llm_gen, post, validation, state)
+                        post = _enforce_word_count(post, state, llm=llm_gen)
+                        post.voice_score = 2
+                    else:
+                        post.voice_score = min(
+                            validation.get("voice_marker_score", 3),
+                            validation.get("register_score", 3),
+                        )
+                    validated_posts.append(post)
+            else:
+                for j, post in enumerate(pack.posts):
+                    self._check_cancel()
+                    validation = validate_voice(llm_gen, post, state)
+                    post.validation_result = validation
 
-                if validation.get("overall") == "FAIL":
-                    tracer.trace_decision(
-                        f"voice_validation_{post.label}",
-                        f"FAIL: {validation.get('suggestion', '')}",
-                        metadata=validation,
-                    )
-                    post = regenerate_with_voice_override(llm_gen, post, validation, state)
-                    post = _enforce_word_count(post, state, llm=llm_gen)
-                    reval = validate_voice(llm_gen, post, state)
-                    post.voice_score = min(
-                        reval.get("voice_marker_score", 3),
-                        reval.get("register_score", 3),
-                    )
-                    post.validation_result = {**post.validation_result, "reval_score": post.voice_score}
-                else:
-                    post.voice_score = min(
-                        validation.get("voice_marker_score", 3),
-                        validation.get("register_score", 3),
-                    )
+                    if validation.get("overall") == "FAIL":
+                        tracer.trace_decision(
+                            f"voice_validation_{post.label}",
+                            f"FAIL: {validation.get('suggestion', '')}",
+                            metadata=validation,
+                        )
+                        post = regenerate_with_voice_override(llm_gen, post, validation, state)
+                        post = _enforce_word_count(post, state, llm=llm_gen)
+                        reval = validate_voice(llm_gen, post, state)
+                        post.voice_score = min(
+                            reval.get("voice_marker_score", 3),
+                            reval.get("register_score", 3),
+                        )
+                        post.validation_result = {**post.validation_result, "reval_score": post.voice_score}
+                    else:
+                        post.voice_score = min(
+                            validation.get("voice_marker_score", 3),
+                            validation.get("register_score", 3),
+                        )
 
-                validated_posts.append(post)
+                    validated_posts.append(post)
 
             # Exclusion scan (flag only, don't reject)
             if state.exclusions:
@@ -287,7 +318,7 @@ class BatchSession:
                             metadata={"exclusions": hits},
                         )
 
-            # Amplifier pass on each validated post
+            # Amplifier pass
             amplified_posts = []
             published_corpus = (
                 state.raw_data.get("founder_posts_structured")
@@ -295,26 +326,44 @@ class BatchSession:
                     state.raw_data.get("founder_posts_sample", "").split("\n\n---\n\n")
                 ) if p.strip()]
             )
-            for j, post in enumerate(validated_posts):
+
+            if state.lean_mode:
                 self._check_cancel()
-                post = amplify_post(llm_gen, post, amplified_posts, state, llm_prep=llm_prep,
-                                    source_dissection=pack.dissection if post.batch == "A" else None)
-                sat = check_saturation(post.text, published_corpus, n=6, threshold=5)
-                post.saturation_warning = sat
-                if sat.get("warning"):
-                    logger.warning(
-                        "[batch] %s saturation WARN: %d shared 6-grams with %s",
-                        post.label, sat["count"], sat["worst_match_id"],
-                    )
-                amplified_posts.append(post)
-                state.arguments_compressed.append(post.argument_compressed)
+                amplified_posts = amplify_batch(
+                    llm_gen, validated_posts, state,
+                    source_dissection=pack.dissection,
+                )
+                for post in amplified_posts:
+                    sat = check_saturation(post.text, published_corpus, n=6, threshold=5)
+                    post.saturation_warning = sat
+                    if sat.get("warning"):
+                        logger.warning(
+                            "[batch] %s saturation WARN: %d shared 6-grams with %s",
+                            post.label, sat["count"], sat["worst_match_id"],
+                        )
+                    state.arguments_compressed.append(post.argument_compressed)
+            else:
+                for j, post in enumerate(validated_posts):
+                    self._check_cancel()
+                    post = amplify_post(llm_gen, post, amplified_posts, state, llm_prep=llm_prep,
+                                        source_dissection=pack.dissection if post.batch == "A" else None)
+                    sat = check_saturation(post.text, published_corpus, n=6, threshold=5)
+                    post.saturation_warning = sat
+                    if sat.get("warning"):
+                        logger.warning(
+                            "[batch] %s saturation WARN: %d shared 6-grams with %s",
+                            post.label, sat["count"], sat["worst_match_id"],
+                        )
+                    amplified_posts.append(post)
+                    state.arguments_compressed.append(post.argument_compressed)
 
             # Staged convergence testing (Haiku — classification)
             self._check_cancel()
             a_posts = [p for p in amplified_posts if p.batch == "A"]
             b_posts = [p for p in amplified_posts if p.batch == "B"]
 
-            if a_posts and b_posts:
+            # In lean mode, skip the separate A-batch convergence test (saves 1 call)
+            if a_posts and b_posts and not state.lean_mode:
                 conv_a = convergence_test(llm_prep, a_posts, source[:200], state)
                 pack.convergence_test_a = conv_a
                 tracer.trace_decision(

@@ -313,6 +313,162 @@ def amplify_post(
     return post
 
 
+_BATCH_CHUNK_SIZE = 3
+
+
+def _amplify_chunk(
+    llm: LLMProvider,
+    chunk: list[AmplifiedPost],
+    state: BatchState,
+    chunk_idx: int,
+) -> dict:
+    """Run amplifier on a small chunk of posts, return label->result map."""
+    template = load_prompt(PROMPTS_DIR / "amplifier_batch.txt")
+
+    posts_block = "\n".join(
+        f"### POST: {p.label} (mode: {p.mode})\n{p.text}\n" for p in chunk
+    )
+    prompt = fill_prompt(
+        template,
+        posts_block=posts_block,
+        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
+    )
+
+    import time as _t
+    _start = _t.time()
+    try:
+        response = llm.generate(prompt, temperature=0.5, max_tokens=llm.max_output_tokens)
+    except Exception as e:
+        logger.warning("[amplifier] chunk %d API error (%s), skipping", chunk_idx, e)
+        return {}
+    _dur = int((_t.time() - _start) * 1000)
+    parsed = parse_llm_json(response)
+
+    if state.tracer:
+        state.tracer.trace_llm_call(
+            stage=f"amplifier_batch_chunk_{chunk_idx}",
+            template="amplifier_batch.txt",
+            prompt=prompt,
+            response=response,
+            temperature=0.5,
+            max_tokens=llm.max_output_tokens,
+            duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
+            metadata={"post_count": len(chunk), "chunk": chunk_idx, "lean": True},
+        )
+
+    amp_results = []
+    if isinstance(parsed, dict) and "posts" in parsed:
+        amp_results = parsed["posts"]
+    elif isinstance(parsed, list):
+        amp_results = parsed
+
+    return {r["label"]: r for r in amp_results if isinstance(r, dict) and r.get("label")}
+
+
+def amplify_batch(
+    llm: LLMProvider,
+    posts: list[AmplifiedPost],
+    state: BatchState,
+    source_dissection: dict | None = None,
+) -> list[AmplifiedPost]:
+    """Lean mode: diagnose + generate 5 opener variants per post.
+
+    Chunks posts into groups of 3 so the LLM reliably produces all 5
+    variants A-E per post (9 posts × 5 variants in one call is too much
+    output and the LLM collapses to a single best_alternative).
+    """
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("amplifier_batch")
+
+    chunks = [posts[i:i + _BATCH_CHUNK_SIZE] for i in range(0, len(posts), _BATCH_CHUNK_SIZE)]
+    label_to_result: dict = {}
+    for ci, chunk in enumerate(chunks):
+        label_to_result.update(_amplify_chunk(llm, chunk, state, ci))
+
+    for post in posts:
+        r = label_to_result.get(post.label)
+        if not r:
+            post.final_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+            post.original_opening = post.final_opening
+            post.mechanic = "kept"
+            post.rating = 5
+            continue
+
+        post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+        post.buried_gold = r.get("buried_gold", "")
+        post.weakness = r.get("weakness", "")
+
+        alternatives = r.get("variants", [])
+        if isinstance(alternatives, list) and alternatives:
+            post.opener_variants = alternatives
+            post.versions_considered = len(alternatives)
+        else:
+            best_alt = r.get("best_alternative")
+            if isinstance(best_alt, dict) and best_alt.get("opening"):
+                post.opener_variants = [{**best_alt, "variant": "A"}]
+                post.versions_considered = 1
+                alternatives = post.opener_variants
+                logger.info("[amplifier_batch] %s: LLM returned best_alternative instead of variants array", post.label)
+            else:
+                logger.warning("[amplifier_batch] %s: no variants and no best_alternative in response", post.label)
+
+        rec_variant = r.get("recommended_variant", "A")
+        post.recommended_variant = rec_variant
+
+        should_apply = r.get("apply", False)
+        all_pass = r.get("all_gates_pass", True)
+        is_slop = _is_slop(post.original_opening)
+
+        if alternatives:
+            def _sort_key(v):
+                coh = 1 if v.get("coherence_with_body", True) else 0
+                plaus = 1 if v.get("plausibility", True) else 0
+                vfit = 1 if v.get("voice_fit", True) else 0
+                mode_fit = 1 if v.get("mode_preservation", True) else 0
+                rating = v.get("rating", 0)
+                return (coh, plaus, vfit, mode_fit, rating)
+
+            best = None
+            for v in alternatives:
+                if v.get("variant") == rec_variant:
+                    best = v
+                    break
+            if not best:
+                best = max(alternatives, key=_sort_key)
+
+            coh = best.get("coherence_with_body", True)
+            plaus = best.get("plausibility", True)
+            vfit = best.get("voice_fit", True)
+            mode_ok = best.get("mode_preservation", True)
+            rating = best.get("rating", 0)
+
+            if (should_apply or not all_pass or is_slop or rating >= 8) and coh and plaus and vfit and mode_ok:
+                post = _apply_best_opener(post, best)
+                logger.info("[amplifier_batch] %s: replaced opener (variant=%s, mechanic=%s, rating=%d)",
+                            post.label, best.get("variant", "?"), post.mechanic, post.rating)
+            else:
+                post.final_opening = post.original_opening
+                post.mechanic = _normalize_mechanic(r.get("current_mechanic", "kept"))
+                post.rating = rating or 5
+        else:
+            post.final_opening = post.original_opening
+            post.mechanic = _normalize_mechanic(r.get("current_mechanic", "kept"))
+            post.rating = 5
+
+        state.amplifier_log.append({
+            "label": post.label,
+            "original": post.original_opening[:100],
+            "final": post.final_opening[:100],
+            "gates_passed": r.get("all_gates_pass", True),
+            "replaced": post.original_opening != post.final_opening,
+            "variants_count": len(post.opener_variants),
+            "lean": True,
+        })
+
+    return posts
+
+
 def convergence_test(
     llm: LLMProvider,
     pack_posts: list[AmplifiedPost],

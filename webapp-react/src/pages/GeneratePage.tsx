@@ -5,7 +5,7 @@ import {
   Search, X, ThumbsUp, MessageSquare, Repeat2, Star,
   Shuffle, Library, Brain, Download, ExternalLink,
   ChevronDown, ChevronUp, Save, Circle, ClipboardPaste, SlidersHorizontal,
-  Clock, Trash2, Power,
+  Clock, Trash2, Power, Zap,
 } from 'lucide-react'
 import clsx from 'clsx'
 import { apiGet, apiPost, apiDelete } from '../api/client'
@@ -52,6 +52,7 @@ export default function GeneratePage() {
   const [creativity, setCreativity] = useState(0.5)
   const [enableThinking, setEnableThinking] = useState(true)
   const [effort, setEffort] = useState<'low' | 'medium' | 'high'>('high')
+  const [lean, setLean] = useState(false)
   const [sourceMode, setSourceMode] = useState<SourceMode>('auto')
   const [selectedSources, setSelectedSources] = useState<ViralSource[]>([])
   const [customPosts, setCustomPosts] = useState<string[]>([''])
@@ -408,6 +409,7 @@ export default function GeneratePage() {
       creativity,
       enable_thinking: enableThinking,
       effort,
+      lean,
       platform: 'linkedin',
     }
     if (sourceMode === 'pick') {
@@ -731,6 +733,30 @@ export default function GeneratePage() {
                   </div>
                 </div>
               )}
+
+              {/* Lean mode toggle */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Zap size={14} className={lean ? 'text-green-400' : 'text-[var(--text-faint)]'} />
+                  <div>
+                    <div className="text-[12px] text-[var(--text-secondary)]">Lean Mode</div>
+                    <div className="text-[10px] text-[var(--text-faint)]">
+                      {lean ? 'Batched calls (~8 per source) — for rate-limited providers' : 'Standard pipeline (~39 calls per source)'}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setLean(!lean)}
+                  disabled={generating}
+                  className={`relative h-5 w-9 rounded-full transition-colors ${
+                    lean ? 'bg-green-500' : 'bg-[var(--surface-3)]'
+                  }`}
+                >
+                  <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform ${
+                    lean ? 'translate-x-4' : 'translate-x-0.5'
+                  }`} />
+                </button>
+              </div>
 
               <div className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-3 text-[12px] text-[var(--text-muted)]">
                 <p className="font-semibold text-[var(--text-secondary)]">{totalPosts} posts total</p>

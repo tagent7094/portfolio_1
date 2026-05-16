@@ -33,10 +33,10 @@ export function DetailPanel({
 
   const variants = VARIANT_LETTERS.map(v => ({
     letter: v,
-    opening: s(post[`${v}, Opening`] ?? post[`${v} - Opening`]),
-    type:    s(post[`${v}, Rewrite Type`] ?? post[`${v} - Rewrite Type`]),
-    change:  s(post[`${v}, Key Change`] ?? post[`${v} - Key Change`]),
-    lift:    Number(post[`${v}, Expected Lift`] ?? post[`${v} - Expected Lift`]) || 0,
+    opening: s(post[`Variant ${v} Opening`] ?? post[`${v}, Opening`] ?? post[`${v} - Opening`]),
+    type:    s(post[`Variant ${v} Rewrite Type`] ?? post[`${v}, Rewrite Type`] ?? post[`${v} - Rewrite Type`]),
+    change:  s(post[`Variant ${v} Key Change`] ?? post[`${v}, Key Change`] ?? post[`${v} - Key Change`]),
+    lift:    Number(post[`Variant ${v} Expected Lift`] ?? post[`${v}, Expected Lift`] ?? post[`${v} - Expected Lift`]) || 0,
   })).filter(v => v.opening)
 
   return (

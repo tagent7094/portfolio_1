@@ -21,6 +21,9 @@ fi
 if [ -f "$APP_DIR/config/llm-config.yaml" ]; then
     cp -a "$APP_DIR/config/llm-config.yaml" /tmp/tagent-llm-config-backup
 fi
+if [ -f "$APP_DIR/config/models-config.json" ]; then
+    cp -a "$APP_DIR/config/models-config.json" /tmp/tagent-models-config-backup
+fi
 
 git fetch origin main
 git reset --hard origin/main
@@ -30,7 +33,7 @@ if [ -d /tmp/tagent-data-backup/founders ]; then
     echo "=== [ci-deploy] Restoring VPS data ==="
     for slug_dir in /tmp/tagent-data-backup/founders/*/; do
         slug=$(basename "$slug_dir")
-        for subdir in post-data knowledge-graph; do
+        for subdir in post-data knowledge-graph config podcast-data studio-docs blog-data; do
             src="$slug_dir$subdir"
             dst="$APP_DIR/data/founders/$slug/$subdir"
             if [ -d "$src" ]; then
@@ -38,6 +41,10 @@ if [ -d /tmp/tagent-data-backup/founders ]; then
                 cp -an "$src"/. "$dst"/ 2>/dev/null || true
             fi
         done
+    done
+    # Restore databases (blogs.db, schedules, etc.)
+    for dbfile in /tmp/tagent-data-backup/*.db /tmp/tagent-data-backup/*.json; do
+        [ -f "$dbfile" ] && cp -an "$dbfile" "$APP_DIR/data/" 2>/dev/null || true
     done
     rm -rf /tmp/tagent-data-backup
 fi
@@ -49,13 +56,20 @@ if [ -f /tmp/tagent-llm-config-backup ] && [ ! -f "$APP_DIR/config/llm-config.ya
     cp -a /tmp/tagent-llm-config-backup "$APP_DIR/config/llm-config.yaml"
 fi
 rm -f /tmp/tagent-llm-config-backup
+# Restore models-config.json if git version is missing (safety net)
+if [ -f /tmp/tagent-models-config-backup ] && [ ! -f "$APP_DIR/config/models-config.json" ]; then
+    echo "=== [ci-deploy] Restoring models-config.json ==="
+    mkdir -p "$APP_DIR/config"
+    cp -a /tmp/tagent-models-config-backup "$APP_DIR/config/models-config.json"
+fi
+rm -f /tmp/tagent-models-config-backup
 
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/.git"
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/data" || true
 chown -R "$APP_USER":"$APP_USER" "$APP_DIR/config" || true
 
 echo "=== [ci-deploy] Installing Python deps ==="
-"$APP_DIR/venv/bin/pip" install --quiet openpyxl anthropic python-multipart
+"$APP_DIR/venv/bin/pip" install --quiet openpyxl anthropic python-multipart httpx youtube-transcript-api pdfplumber
 
 echo "=== [ci-deploy] Building frontend ==="
 cd "$APP_DIR/webapp-react"

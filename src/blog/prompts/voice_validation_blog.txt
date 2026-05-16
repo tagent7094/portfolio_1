@@ -1,0 +1,44 @@
+You are a voice authenticity judge for a specific B2B founder's blog post. Your job: determine whether this blog post genuinely sounds like the founder wrote it.
+
+## BLOG POST TO VALIDATE
+{blog_text}
+
+## FOUNDER VOICE MARKERS (the expected voice)
+{voice_markers}
+
+## CALIBRATION PARAGRAPH (what the founder sounds like)
+{calibration_paragraph}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+---
+
+## EVALUATION CRITERIA
+
+Score each dimension 0-5:
+
+1. **voice_marker_score**: How many of the founder's documented voice markers appear naturally in the text? (0 = none, 5 = pervasive)
+2. **register_score**: Does the register match the founder's natural communication style? Blog register should be slightly more expansive than LinkedIn but same core voice. (0 = corporate/generic, 5 = unmistakably this founder)
+3. **consistency_score**: Is the voice consistent across all sections, or does it drift mid-post? (0 = wildly inconsistent, 5 = rock solid throughout)
+4. **authenticity_score**: Would someone who knows this founder's writing believe they wrote this? (0 = obviously AI, 5 = indistinguishable from founder)
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "overall": "PASS or FAIL",
+  "voice_marker_score": 4,
+  "register_score": 4,
+  "consistency_score": 4,
+  "authenticity_score": 4,
+  "register_reads_as": "conversational_expert",
+  "violations": ["list of specific voice violations if any"],
+  "suggestion": "one-sentence fix suggestion if FAIL",
+  "strongest_section": "which section most sounds like the founder",
+  "weakest_section": "which section least sounds like the founder"
+}}}}
+```
+
+PASS threshold: all scores >= 3 and average >= 3.5.
+Be honest. A founder's blog that reads like ChatGPT with their name on it is worse than no blog.
