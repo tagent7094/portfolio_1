@@ -67,13 +67,15 @@ class NarrativeSession:
         config_path: str = "config/llm-config.yaml",
         override_transcript: str | None = None,
     ) -> dict:
-        """Analyze transcripts and return narrative angles (without generating)."""
+        """Analyze transcripts and return narrative angles (transcript-first, no graph)."""
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
         router.set_on_token(self._on_llm_token)
-        llm = router.for_task("narrative_transcript_analysis")
 
-        batch_state = load_founder_state(founder_slug, "linkedin")
-        transcript_text = override_transcript or batch_state.raw_data.get("transcripts", "")
+        if override_transcript:
+            transcript_text = override_transcript
+        else:
+            batch_state = load_founder_state(founder_slug, "linkedin")
+            transcript_text = batch_state.raw_data.get("transcripts", "")
 
         if not transcript_text:
             return {"error": "No transcripts found for this founder", "angles": []}
@@ -81,12 +83,10 @@ class NarrativeSession:
         state = NarrativeState(
             founder_slug=founder_slug,
             transcript_text=transcript_text,
-            personality_card=batch_state.personality_card,
-            founder_ctx=batch_state.founder_ctx,
-            raw_data=batch_state.raw_data,
             llm_router=router,
         )
 
+        llm = router.for_task("narrative_transcript_analysis")
         analysis = analyze_transcript(llm, state)
         angles = mine_narratives(llm, state, analysis)
 
@@ -105,6 +105,9 @@ class NarrativeSession:
         target_word_count: int = 1500,
         config_path: str = "config/llm-config.yaml",
         override_transcript: str | None = None,
+        use_founder_voice: bool = True,
+        custom_instructions: str = "",
+        narrative_angles: list[str] | None = None,
     ) -> dict:
         """Run the full narrative blog generation pipeline."""
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
@@ -116,39 +119,52 @@ class NarrativeSession:
             provider=getattr(llm_gen, '_provider_name', 'unknown'),
         )
 
-        # Phase 1: Load founder data
+        # Phase 1: Load founder data (conditionally)
         self._check_cancel()
         self._emit("internalize", "started", progress=0.0)
 
         batch_state = load_founder_state(founder_slug, "linkedin")
-        internalization = internalize_corpus(llm_gen, batch_state)
-        batch_state.founder_internalization = internalization
-        batch_state.voice_markers = internalization.get("voice_markers", [])
-        batch_state.formatting_habits = internalization.get("formatting_habits", {})
-
-        cal = calibration_check(llm_gen, batch_state)
-        batch_state.calibration_paragraph = cal.get("calibration_paragraph", "")
-
         transcript_text = override_transcript or batch_state.raw_data.get("transcripts", "")
+
         if not transcript_text:
             self._emit("error", "pipeline_done", {"error": "No transcripts found"}, progress=1.0)
             if self.event_bus:
                 self.event_bus.close()
             return {"error": "No transcripts found for this founder"}
 
+        if use_founder_voice:
+            internalization = internalize_corpus(llm_gen, batch_state)
+            batch_state.founder_internalization = internalization
+            batch_state.voice_markers = internalization.get("voice_markers", [])
+            batch_state.formatting_habits = internalization.get("formatting_habits", {})
+            cal = calibration_check(llm_gen, batch_state)
+            batch_state.calibration_paragraph = cal.get("calibration_paragraph", "")
+        else:
+            logger.info("[narrative] Founder voice OFF — skipping internalize + calibration")
+            batch_state.founder_internalization = {}
+            batch_state.voice_markers = []
+            batch_state.formatting_habits = {}
+            batch_state.calibration_paragraph = ""
+
+        combined_angle = narrative_angle
+        if narrative_angles:
+            all_angles = [narrative_angle] + [a for a in narrative_angles if a != narrative_angle]
+            combined_angle = " | ".join(all_angles)
+
         state = NarrativeState(
             founder_slug=founder_slug,
-            topic=narrative_angle,
+            topic=combined_angle,
             tone=tone,
             target_words=(max(500, target_word_count - 500), target_word_count),
             format_type=format_type,
             transcript_text=transcript_text,
+            custom_instructions=custom_instructions,
             founder_internalization=batch_state.founder_internalization,
             voice_markers=batch_state.voice_markers,
             formatting_habits=batch_state.formatting_habits,
             calibration_paragraph=batch_state.calibration_paragraph,
-            personality_card=batch_state.personality_card,
-            founder_ctx=batch_state.founder_ctx,
+            personality_card=batch_state.personality_card if use_founder_voice else "",
+            founder_ctx=batch_state.founder_ctx if use_founder_voice else {},
             raw_data=batch_state.raw_data,
             tracer=tracer,
             llm_router=router,
@@ -157,6 +173,7 @@ class NarrativeSession:
         self._emit("internalize", "completed", {
             "voice_markers": len(state.voice_markers),
             "transcript_length": len(transcript_text),
+            "founder_voice": use_founder_voice,
         }, progress=0.1)
 
         # Phase 2: Analyze transcript
@@ -183,11 +200,9 @@ class NarrativeSession:
             selected = angles[0]
         if not selected:
             selected = {
-                "angle": narrative_angle,
+                "angle": combined_angle,
                 "format_recommendation": format_type,
                 "supporting_transcript_quotes": [],
-                "related_beliefs": [],
-                "related_stories": [],
             }
         state.selected_angle = selected
 
@@ -210,10 +225,13 @@ class NarrativeSession:
             "word_count": len(content.split()),
         }, progress=0.6)
 
-        # Phase 5: Voice validation
+        # Phase 5: Voice validation (skip if no founder voice)
         self._check_cancel()
         self._emit("voice_check", "started", progress=0.6)
-        validation = validate_blog_voice(llm_gen, content, state)
+        if use_founder_voice:
+            validation = validate_blog_voice(llm_gen, content, state)
+        else:
+            validation = {"overall": "SKIP", "voice_marker_score": 0, "note": "Founder voice disabled"}
         state.voice_validation = validation
         self._emit("voice_check", "completed", {
             "overall": validation.get("overall", "PASS"),

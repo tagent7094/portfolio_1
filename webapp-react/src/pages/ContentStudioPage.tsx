@@ -23,7 +23,6 @@ interface NarrativeAngle {
   format_recommendation: string
   headline_draft?: string
   supporting_transcript_quotes: string[]
-  related_beliefs: string[]
   confidence: number
   rationale?: string
 }
@@ -514,21 +513,31 @@ function NarrativeTab() {
   const [analyzing, setAnalyzing] = useState(false)
   const [analysis, setAnalysis] = useState<any>(null)
   const [angles, setAngles] = useState<NarrativeAngle[]>([])
-  const [selectedAngle, setSelectedAngle] = useState<NarrativeAngle | null>(null)
+  const [selectedAngles, setSelectedAngles] = useState<Set<string>>(new Set())
+  const [customAngle, setCustomAngle] = useState('')
   const [format, setFormat] = useState('thought_leadership')
   const [tone, setTone] = useState('conversational')
   const [wordCount, setWordCount] = useState(1500)
+  const [useFounderVoice, setUseFounderVoice] = useState(true)
+  const [customInstructions, setCustomInstructions] = useState('')
   const [taskId, setTaskId] = useState<string | null>(null)
   const [taskStatus, setTaskStatus] = useState<TaskStatus | null>(null)
   const [generating, setGenerating] = useState(false)
 
-  // v2: podcast selection
   const [podcasts, setPodcasts] = useState<Podcast[]>([])
   const [selectedPodIds, setSelectedPodIds] = useState<string[]>([])
 
   useEffect(() => {
     apiGet<{ podcasts: Podcast[] }>(`/api/studio/podcasts/${founder}`).then(r => setPodcasts(r.podcasts || [])).catch(() => {})
   }, [founder])
+
+  const toggleAngle = (angle: string) => {
+    setSelectedAngles(prev => {
+      const next = new Set(prev)
+      if (next.has(angle)) next.delete(angle); else next.add(angle)
+      return next
+    })
+  }
 
   const analyzeTranscripts = async () => {
     setAnalyzing(true)
@@ -543,10 +552,8 @@ function NarrativeTab() {
       }
       setAnalysis(res.analysis)
       setAngles(res.angles || [])
-      if (res.angles?.length) {
-        setSelectedAngle(res.angles[0])
-        setFormat(res.angles[0].format_recommendation || 'thought_leadership')
-      }
+      setSelectedAngles(new Set())
+      setCustomAngle('')
     } catch (e) {
       console.error('Analysis failed:', e)
     } finally {
@@ -554,18 +561,29 @@ function NarrativeTab() {
     }
   }
 
+  const canGenerate = selectedAngles.size > 0 || customAngle.trim().length > 0
+
   const startGeneration = async () => {
-    if (!selectedAngle) return
+    if (!canGenerate) return
+    const anglesList = Array.from(selectedAngles)
+    const primaryAngle = customAngle.trim() || anglesList[0] || ''
+    const additionalAngles = customAngle.trim()
+      ? anglesList
+      : anglesList.slice(1)
+
     setGenerating(true)
     setTaskStatus(null)
     try {
       const res = await apiPost<{ task_id: string }>('/api/blog/narrative/generate/background', {
         founder_slug: founder,
-        narrative_angle: selectedAngle.angle,
+        narrative_angle: primaryAngle,
+        narrative_angles: additionalAngles,
         format_type: format,
         tone,
         target_word_count: wordCount,
         podcast_ids: selectedPodIds,
+        use_founder_voice: useFounderVoice,
+        custom_instructions: customInstructions,
       })
       setTaskId(res.task_id)
     } catch (e) {
@@ -661,43 +679,118 @@ function NarrativeTab() {
         {angles.length > 0 && (
           <div className="space-y-2">
             <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-              Narrative Angles
+              Narrative Angles (select one or more)
             </p>
-            {angles.slice(0, 5).map((a, i) => (
-              <button
-                key={i}
-                onClick={() => { setSelectedAngle(a); setFormat(a.format_recommendation || 'thought_leadership') }}
-                className={`w-full rounded-xl border p-3 text-left transition-all ${
-                  selectedAngle?.angle === a.angle
-                    ? 'border-white/30 bg-[var(--surface-3)]'
-                    : 'border-[var(--border-2)] hover:border-[var(--border-1)] hover:bg-[var(--surface-2)]'
-                }`}
-              >
-                <div className="mb-1 flex items-center gap-2">
-                  <span className="text-[13px] font-medium text-[var(--text-primary)]">{a.angle}</span>
-                  {scoreBadge(a.confidence)}
-                </div>
-                {a.headline_draft && (
-                  <p className="text-[11px] italic text-[var(--text-secondary)]">{a.headline_draft}</p>
-                )}
-                <div className="mt-1 flex items-center gap-2">
-                  <span className="rounded bg-[var(--surface-4)] px-1.5 py-0.5 text-[10px] text-[var(--text-muted)]">
-                    {a.format_recommendation}
-                  </span>
-                </div>
-              </button>
-            ))}
+            {angles.slice(0, 6).map((a, i) => {
+              const isSelected = selectedAngles.has(a.angle)
+              return (
+                <button
+                  key={i}
+                  onClick={() => toggleAngle(a.angle)}
+                  className={`w-full rounded-xl border p-3 text-left transition-all ${
+                    isSelected
+                      ? 'border-white/30 bg-[var(--surface-3)]'
+                      : 'border-[var(--border-2)] hover:border-[var(--border-1)] hover:bg-[var(--surface-2)]'
+                  }`}
+                >
+                  <div className="mb-1 flex items-center gap-2">
+                    <div className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-all ${
+                      isSelected ? 'border-white bg-white' : 'border-[var(--text-muted)]'
+                    }`}>
+                      {isSelected && <Check size={10} className="text-black" />}
+                    </div>
+                    <span className="text-[13px] font-medium text-[var(--text-primary)]">{a.angle}</span>
+                    {scoreBadge(a.confidence)}
+                  </div>
+                  {a.headline_draft && (
+                    <p className="ml-6 text-[11px] italic text-[var(--text-secondary)]">{a.headline_draft}</p>
+                  )}
+                  {a.rationale && (
+                    <p className="ml-6 mt-1 text-[11px] text-[var(--text-muted)]">{a.rationale}</p>
+                  )}
+                  <div className="ml-6 mt-1 flex items-center gap-2">
+                    <span className="rounded bg-[var(--surface-4)] px-1.5 py-0.5 text-[10px] text-[var(--text-muted)]">
+                      {a.format_recommendation}
+                    </span>
+                    {a.supporting_transcript_quotes?.length > 0 && (
+                      <span className="text-[10px] text-[var(--text-muted)]">
+                        {a.supporting_transcript_quotes.length} quote{a.supporting_transcript_quotes.length > 1 ? 's' : ''}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              )
+            })}
           </div>
         )}
+
+        {/* Custom Narrative Direction */}
+        <div className="mt-4">
+          <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+            Custom Narrative Direction
+          </label>
+          <textarea
+            value={customAngle}
+            onChange={e => setCustomAngle(e.target.value)}
+            placeholder="Write your own angle or refine selected ones. E.g., 'Compare the coaching industry in India vs US, focusing on the IIT admissions angle...'"
+            className="field w-full resize-none"
+            rows={3}
+          />
+        </div>
       </div>
 
-      {selectedAngle && (
+      {/* Generation Controls — visible when angles selected or custom angle entered */}
+      {canGenerate && (
         <div className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-1)] p-5">
           <h2 className="mb-4 text-[14px] font-semibold text-[var(--text-primary)]">
             <Sparkles size={14} className="mr-2 inline text-[var(--text-muted)]" />
             Generate from Narrative
           </h2>
 
+          {/* Selected angles summary */}
+          {selectedAngles.size > 0 && (
+            <div className="mb-4">
+              <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+                Selected Angles ({selectedAngles.size})
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {Array.from(selectedAngles).map(a => (
+                  <span key={a} className="flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 text-[11px] text-[var(--text-secondary)]">
+                    {a.length > 60 ? a.slice(0, 60) + '...' : a}
+                    <button onClick={() => toggleAngle(a)} className="ml-1 text-[var(--text-muted)] hover:text-[var(--text-primary)]">
+                      <X size={10} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Founder Voice Toggle */}
+          <div className="mb-4 flex items-center justify-between rounded-xl bg-[var(--surface-2)] p-3">
+            <div>
+              <p className="text-[13px] font-medium text-[var(--text-primary)]">Founder Voice</p>
+              <p className="text-[11px] text-[var(--text-muted)]">
+                {useFounderVoice
+                  ? 'Blog will use founder voice markers, beliefs & stories'
+                  : 'Pure podcast content — no founder voice overlay'}
+              </p>
+            </div>
+            <button
+              onClick={() => setUseFounderVoice(v => !v)}
+              className={`relative h-6 w-11 rounded-full transition-colors ${
+                useFounderVoice ? 'bg-white' : 'bg-[var(--surface-4)]'
+              }`}
+            >
+              <span className={`absolute top-0.5 h-5 w-5 rounded-full transition-all ${
+                useFounderVoice
+                  ? 'left-[22px] bg-black'
+                  : 'left-0.5 bg-[var(--text-muted)]'
+              }`} />
+            </button>
+          </div>
+
+          {/* Format & Tone */}
           <div className="mb-4 grid gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
@@ -740,6 +833,40 @@ function NarrativeTab() {
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Word Count */}
+          <div className="mb-4">
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+              Target length: {wordCount} words
+            </label>
+            <input
+              type="range"
+              min={800}
+              max={3000}
+              step={100}
+              value={wordCount}
+              onChange={e => setWordCount(Number(e.target.value))}
+              className="w-full accent-white"
+            />
+            <div className="mt-1 flex justify-between text-[10px] text-[var(--text-muted)]">
+              <span>800</span>
+              <span>3000</span>
+            </div>
+          </div>
+
+          {/* Custom Instructions */}
+          <div className="mb-4">
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+              Additional Instructions (optional)
+            </label>
+            <textarea
+              value={customInstructions}
+              onChange={e => setCustomInstructions(e.target.value)}
+              placeholder="E.g., 'Focus on the comparison between Indian and US education systems' or 'Include specific data points about market size'"
+              className="field w-full resize-none"
+              rows={3}
+            />
           </div>
 
           <button

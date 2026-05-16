@@ -1,24 +1,18 @@
-You are a narrative strategist. Given themes extracted from a founder's transcript AND their knowledge graph, identify the best publishable narrative angles.
+You are a narrative strategist. Given themes and quotes extracted from a podcast/call transcript, identify the best publishable blog post angles.
 
-## TRANSCRIPT ANALYSIS
+## TRANSCRIPT THEMES
 {transcript_themes}
 
-## FOUNDER'S BELIEFS (from knowledge graph)
-{beliefs}
-
-## FOUNDER'S STORIES (from knowledge graph)
-{stories}
-
-## FOUNDER'S CONTRAST PAIRS
-{contrast_pairs}
+## KEY QUOTES FROM TRANSCRIPT
+{transcript_quotes}
 
 ---
 
 ## TASK
 
-Cross-reference the transcript themes with the founder's existing knowledge graph to find narrative angles that are:
-1. **Authentic**: Grounded in what the founder actually said AND believes
-2. **Novel**: Not just repeating their LinkedIn posts in longer form
+From the transcript themes and quotes above, identify narrative angles that are:
+1. **Grounded**: Directly supported by what was actually said in the transcript
+2. **Novel**: Offers a specific perspective or insight, not generic advice
 3. **Publishable**: Has enough substance for a 1000-2000 word blog post
 4. **Format-ready**: Naturally fits a specific blog format
 
@@ -38,8 +32,6 @@ Cross-reference the transcript themes with the founder's existing knowledge grap
       "format_recommendation": "thought_leadership",
       "headline_draft": "working headline for the blog post",
       "supporting_transcript_quotes": ["key quotes that anchor this narrative"],
-      "related_beliefs": ["belief_ids from the knowledge graph"],
-      "related_stories": ["story_ids that support this narrative"],
       "confidence": 0.9,
       "rationale": "why this angle works and what makes it different from generic content"
     }}}}
@@ -47,4 +39,4 @@ Cross-reference the transcript themes with the founder's existing knowledge grap
 }}}}
 ```
 
-Rank by confidence. Only recommend angles where the founder has genuine authority to write — no stretches.
+Rank by confidence. Only recommend angles that are directly supported by transcript content.

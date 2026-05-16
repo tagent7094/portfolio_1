@@ -63,6 +63,9 @@ class NarrativeGenerateRequest(BaseModel):
     format_type: str = "thought_leadership"
     tone: str = "conversational"
     target_word_count: int = 1500
+    narrative_angles: list[str] = []
+    use_founder_voice: bool = True
+    custom_instructions: str = ""
 
 
 class BlogStatusUpdate(BaseModel):
@@ -390,6 +393,9 @@ async def generate_narrative_background(data: NarrativeGenerateRequest):
                 tone=data.tone,
                 target_word_count=data.target_word_count,
                 override_transcript=podcast_transcript_text or None,
+                use_founder_voice=data.use_founder_voice,
+                custom_instructions=data.custom_instructions,
+                narrative_angles=data.narrative_angles or None,
             ))
 
             async for chunk in event_bus.stream():

@@ -19,14 +19,6 @@ def analyze_transcript(llm: LLMProvider, state: NarrativeState) -> dict:
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("narrative_transcript_analysis")
 
-    founder_name = state.founder_slug.replace("_", " ").title()
-
-    beliefs = state.founder_ctx.get("beliefs", [])[:10]
-    beliefs_summary = "\n".join(
-        f"- {b.get('topic', '')}: {b.get('stance', '')}" for b in beliefs
-    )
-
-    # Truncate transcript to fit context window
     transcript = state.transcript_text[:15000]
     if len(state.transcript_text) > 15000:
         logger.info("[narrative] Truncated transcript from %d to 15000 chars", len(state.transcript_text))
@@ -35,9 +27,6 @@ def analyze_transcript(llm: LLMProvider, state: NarrativeState) -> dict:
     prompt = fill_prompt(
         template,
         transcript_text=transcript,
-        founder_name=founder_name,
-        beliefs_summary=beliefs_summary,
-        personality_card=state.personality_card[:2000],
     )
 
     import time as _t
@@ -67,7 +56,7 @@ def analyze_transcript(llm: LLMProvider, state: NarrativeState) -> dict:
 
 
 def mine_narratives(llm: LLMProvider, state: NarrativeState, transcript_analysis: dict) -> list[dict]:
-    """Cross-reference transcript themes with founder graph to find narrative angles."""
+    """Mine publishable narrative angles from transcript themes."""
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("narrative_mining")
 
@@ -78,39 +67,16 @@ def mine_narratives(llm: LLMProvider, state: NarrativeState, transcript_analysis
     )
 
     quotes = transcript_analysis.get("quotes", [])
-    for t in themes:
-        if isinstance(t, dict):
-            related_quotes = [
-                q.get("text", "") for q in quotes
-                if isinstance(q, dict) and q.get("usability") == "high"
-            ][:3]
-            t["key_quotes"] = related_quotes
-
-    beliefs = state.founder_ctx.get("beliefs", [])[:10]
-    beliefs_str = "\n".join(
-        f"- [{b.get('node_id', '')}] {b.get('topic', '')}: {b.get('stance', '')}"
-        for b in beliefs
-    )
-
-    stories = state.founder_ctx.get("stories", [])[:10]
-    stories_str = "\n".join(
-        f"- [{s.get('node_id', '')}] {s.get('title', '')}: {s.get('summary', '')}"
-        for s in stories
-    )
-
-    contrast_pairs = state.founder_ctx.get("contrast_pairs", [])[:5]
-    contrasts_str = "\n".join(
-        f"- {c.get('left', '')} vs {c.get('right', '')}: {c.get('description', '')}"
-        for c in contrast_pairs
-    )
+    quotes_str = "\n".join(
+        f'- "{q.get("text", "")}" (context: {q.get("context", "")})'
+        for q in quotes if isinstance(q, dict) and q.get("usability") in ("high", "medium")
+    )[:3000]
 
     template = load_prompt(PROMPTS_DIR / "narrative_mining.txt")
     prompt = fill_prompt(
         template,
         transcript_themes=themes_str or "(no themes extracted)",
-        beliefs=beliefs_str or "Not documented",
-        stories=stories_str or "Not documented",
-        contrast_pairs=contrasts_str or "Not documented",
+        transcript_quotes=quotes_str or "(no quotes extracted)",
     )
 
     import time as _t
@@ -144,8 +110,6 @@ def mine_narratives(llm: LLMProvider, state: NarrativeState, transcript_analysis
             a.setdefault("confidence", 0.5)
             a.setdefault("format_recommendation", "thought_leadership")
             a.setdefault("supporting_transcript_quotes", [])
-            a.setdefault("related_beliefs", [])
-            a.setdefault("related_stories", [])
 
     angles.sort(key=lambda a: a.get("confidence", 0) if isinstance(a, dict) else 0, reverse=True)
     state.narrative_angles = angles

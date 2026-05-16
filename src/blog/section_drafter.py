@@ -138,6 +138,7 @@ def draft_narrative(llm: LLMProvider, state: NarrativeState) -> dict:
         tone=state.tone,
         target_words=str(state.target_words[1]),
         transcript_excerpts=transcript_excerpts,
+        custom_instructions=state.custom_instructions or "(none)",
         voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
         calibration_paragraph=state.calibration_paragraph or "(not available)",
         formatting_habits=str(state.formatting_habits),

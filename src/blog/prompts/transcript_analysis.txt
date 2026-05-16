@@ -1,29 +1,19 @@
-You are analyzing a podcast/call transcript to extract publishable content for a B2B founder's blog.
+You are analyzing a podcast/call transcript to extract all publishable content themes.
 
 ## TRANSCRIPT
 {transcript_text}
-
-## FOUNDER
-{founder_name}
-
-## FOUNDER'S CORE BELIEFS
-{beliefs_summary}
-
-## FOUNDER PROFILE
-{personality_card}
 
 ---
 
 ## TASK
 
-Extract everything from this transcript that could become compelling blog content:
+Extract everything from this transcript that could become a compelling blog post. Focus exclusively on what is discussed in the transcript — do not infer topics not present.
 
-1. **Key themes**: What are the 3-5 major themes discussed?
+1. **Key themes**: What are the 3-8 major themes discussed?
 2. **Memorable quotes**: Direct quotes that are punchy, insightful, or contrarian
 3. **Stories & anecdotes**: Personal experiences, case studies, or examples shared
 4. **Contrarian positions**: Opinions that go against conventional wisdom
 5. **Actionable insights**: Practical advice or frameworks mentioned
-6. **Emotional peaks**: Moments of passion, vulnerability, or strong conviction
 
 ## OUTPUT FORMAT
 
@@ -32,9 +22,8 @@ Extract everything from this transcript that could become compelling blog conten
   "themes": [
     {{{{
       "theme": "theme title",
-      "summary": "2-3 sentence summary",
-      "strength": "strong/medium/weak",
-      "related_beliefs": ["belief_ids that connect to this theme"]
+      "summary": "2-3 sentence summary of what was said about this theme",
+      "strength": "strong/medium/weak"
     }}}}
   ],
   "quotes": [
