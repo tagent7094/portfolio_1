@@ -44,6 +44,11 @@ def compile_blog(state: BlogState) -> str:
         if i < len(state.sections):
             parts.append(f"{state.sections[i]}\n")
 
+    # Narrative drafts store content in state.sections without outline entries
+    for i in range(len(sections), len(state.sections)):
+        if state.sections[i]:
+            parts.append(f"{state.sections[i]}\n")
+
     # Conclusion
     conclusion = state.outline.get("conclusion_cta", "")
     if conclusion:

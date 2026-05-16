@@ -108,20 +108,16 @@ def draft_narrative(llm: LLMProvider, state: NarrativeState) -> dict:
     ) or state.transcript_text[:3000]
 
     beliefs = state.founder_ctx.get("beliefs", [])
-    belief_ids = angle.get("related_beliefs", [])
     beliefs_str = "\n".join(
         f"- {b.get('topic', '')}: {b.get('stance', '')}"
-        for b in beliefs
-        if b.get("node_id") in belief_ids or b.get("topic") in belief_ids
-    ) or "\n".join(f"- {b.get('topic', '')}: {b.get('stance', '')}" for b in beliefs[:5])
+        for b in beliefs[:5]
+    ) or "(none available)"
 
     stories = state.founder_ctx.get("stories", [])
-    story_ids = angle.get("related_stories", [])
     stories_str = "\n".join(
         f"- {s.get('title', '')}: {s.get('summary', '')}"
-        for s in stories
-        if s.get("node_id") in story_ids or s.get("title") in story_ids
-    ) or "\n".join(f"- {s.get('title', '')}: {s.get('summary', '')}" for s in stories[:3])
+        for s in stories[:3]
+    ) or "(none available)"
 
     vocabulary = state.founder_ctx.get("vocabulary", {})
     vocab_str = ""
