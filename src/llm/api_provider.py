@@ -49,10 +49,10 @@ class APIProvider(LLMProvider):
 
         if provider == "anthropic":
             import anthropic
-            # Explicitly set base_url to override any env var (ANTHROPIC_BASE_URL)
             self.client = anthropic.Anthropic(
                 api_key=api_key,
                 base_url="https://api.anthropic.com",
+                timeout=180.0,
             )
         else:
             from openai import OpenAI

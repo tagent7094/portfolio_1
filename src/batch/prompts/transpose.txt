@@ -1,0 +1,126 @@
+You are generating {post_count} LinkedIn posts from a viral source post. Mode: {mode}.
+
+Same bones. New content. Founder's voice. Each post argues something DIFFERENT.
+
+## SOURCE POST
+{source_post}
+
+## SOURCE DISSECTION
+{dissection}
+
+## PLATFORM
+{platform}
+
+---
+
+## MODE RULES
+{mode_rules}
+
+---
+
+## PRE-COMMIT DECLARATION (CRITICAL — fill BEFORE writing each post)
+
+Before writing each post's text, you MUST fill a "declaration" object with:
+- **mechanic**: which of the 13 opener mechanics you WILL use
+- **body_format**: which body structure you WILL use (numbered_list | bullet_list | parallel_paragraphs | three_examples | before_after | progressive_revelation | single_scene | prose_essay)
+- **closer_mechanic**: which closer you WILL use (cta | reframe_question | terminal_verdict | physical_image | challenge | callback | unresolved_tension | quiet_admission)
+- **argument_compressed**: the one-sentence thesis of THIS post (MUST differ from ALL prior_arguments below)
+- **authority_anchor**: which specific verified event/story from the FOUNDER INTERNALIZATION you will use as a first-degree anchor
+
+After writing, your output text MUST match your declarations. A numbered_list declaration with a prose_essay body = structural failure. Revise before returning.
+
+---
+
+## FOUNDER INTERNALIZATION
+{internalization}
+
+## FOUNDER VOICE MARKERS
+{voice_markers}
+
+## EXPECTED MARKER RATES (per-post averages from founder's published corpus)
+{marker_rates}
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## CALIBRATION PARAGRAPH (this is EXACTLY what the founder sounds like — match this register)
+{calibration_paragraph}
+
+## FORMATTING HABITS
+{formatting_habits}
+
+---
+
+## ANTI-CONVERGENCE: PRIOR ARGUMENTS (do NOT repeat these theses)
+{prior_arguments}
+
+## EVENTS ALREADY USED (do NOT reuse)
+{events_used}
+
+## STORIES ALREADY USED (do NOT reuse)
+{stories_used}
+
+---
+
+## THE 13 PROVEN OPENER MECHANICS
+1. Specific number + context — "$412K closed last quarter. Target was $350K."
+2. Juxtaposition — "Our competitor raised $40M. We outshipped them with 3 engineers."
+3. First-person confession — "I told 50 buyers we were ready. I was wrong."
+4. Quote hook + reaction — "'We need you to present to the supervisor.' That's when I knew the deal was dead."
+5. Scene-entry — "We walked into their call center. Post-it notes on every monitor."
+6. Decision reveal — "A Fortune 500 asked us to build a CRM. We said no."
+7. Contrarian declaration — "Most founder advice is wrong."
+8. Pattern observation — "Every founder I know who's crossed $20M runs into the same wall."
+9. Tension pair — "The market says automate everything. Customers keep asking for humans."
+10. Before/after snapshot — "Two years ago we couldn't close a single deal. Last month we turned down three."
+11. Micro story — "An investor asked what happens if a competitor copies us. I showed him our NPS scores."
+12. Authority redirect — "McKinsey says 70% of transformations fail. They left out why the 30% succeed."
+13. Data inversion — "95% customer satisfaction. We were measuring the wrong customers."
+
+---
+
+## RULES FOR ALL POSTS
+
+1. **MANDATORY EVENT USAGE**: Every post MUST include at least one verified first-degree authority anchor from the FOUNDER INTERNALIZATION (signature scenes, key moments, story bank). A post with zero personal evidence reads as generic advice, not earned authority.
+
+2. **FIRST-DEGREE FABRICATION CHECK**: Never invent scenes, quotes, or interactions the founder hasn't documented. Use signature_scenes from internalization. If you need a scene that doesn't exist, translate to third-degree pattern ("Every founder I know...").
+
+3. **ANTI-RECYCLING**: If a sentence could be copy-pasted from the founder's published posts, rewrite it. Treat their existing posts as raw material, not finished material.
+
+4. **VOICE COMPLIANCE (CRITICAL — post will be voice-validated after generation)**: The post MUST pass 5-dimension voice validation on first try. Requirements: use AT LEAST 3 voice markers from the list above, naturally integrated. Register MUST match the calibration paragraph — not corporate, not generic thought-leader. Posture MUST be operator-inside (first person, lived experience), not commentator-outside. Match the formatting habits and marker rates. No AI slop ("In today's...", "Here's the thing", "Game-changer", "Let that sink in"). First-pass failure = wasted API call.
+
+5. **WORD COUNT**: Hit the range: {word_count_range}
+
+6. **ENDING CHECK**: End on a concrete detail — a name, an image, a physical object, a challenge, a quiet admission. NOT a summary, NOT a moral, NOT a restatement of the thesis. If the ending feels over-explained, cut the second-to-last paragraph.
+
+7. **MODE**: Specify "wrestling" (exploring tension, uncertain, the turn IS the point) or "declaring" (stating position, confident, defending in a straight line). Vary across posts.
+
+8. **MARKER RATES**: Match the founder's natural formatting — use em-dashes, smileys, hashtags at approximately the rates shown in EXPECTED MARKER RATES. Don't force markers but don't strip them either.
+
+---
+
+## OUTPUT FORMAT
+
+Return a single JSON object:
+
+```json
+{{
+  "posts": [
+    {{
+      "declaration": {{
+        "mechanic": "specific_number",
+        "body_format": "numbered_list",
+        "closer_mechanic": "terminal_verdict",
+        "argument_compressed": "one sentence — what this post argues",
+        "authority_anchor": "the specific event/story being used"
+      }},
+      "text": "full post text — hook + body + close as one continuous unit",
+      "mode": "wrestling|declaring",
+      "events_used": ["event 1 from internalization"],
+      "stories_used": ["story reference"]
+    }}
+  ]
+}}
+```
+
+No preamble. No meta-commentary. Just {post_count} finished posts with declarations.

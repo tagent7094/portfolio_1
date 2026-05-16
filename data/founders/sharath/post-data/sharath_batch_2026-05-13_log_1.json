@@ -1,0 +1,910 @@
+{
+  "summary": {
+    "total_traces": 21,
+    "llm_calls": 9,
+    "web_searches": 5,
+    "decisions": 4,
+    "total_duration_ms": 221145,
+    "total_prompt_chars": 98308,
+    "total_response_chars": 36227,
+    "templates_used": [
+      "(inline voice-override prompt)",
+      "(inline word-count trim)",
+      "amplifier_diagnose.txt",
+      "amplifier_generate.txt",
+      "calibration_check.txt",
+      "generate_pack_a.txt",
+      "source_dissect_hook.txt",
+      "voice_validation.txt"
+    ],
+    "model": "claude-opus-4-6",
+    "provider": "anthropic"
+  },
+  "traces": [
+    {
+      "id": "step_2f582edc",
+      "timestamp": 1778656148.6011436,
+      "type": "step",
+      "stage": "load_founder",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Loaded founder data for sharath",
+      "metadata": {}
+    },
+    {
+      "id": "step_580de473",
+      "timestamp": 1778656148.6011436,
+      "type": "step",
+      "stage": "multi_model",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "gen=claude-opus-4-6, prep=claude-haiku-4-5-20251001",
+      "metadata": {}
+    },
+    {
+      "id": "dec_c85b46be",
+      "timestamp": 1778656148.6011436,
+      "type": "decision",
+      "stage": "freshness",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Graph last updated 31 days ago",
+      "metadata": {}
+    },
+    {
+      "id": "llm_5afab08c",
+      "timestamp": 1778656161.8483973,
+      "type": "llm_call",
+      "stage": "calibration",
+      "template": "calibration_check.txt",
+      "prompt": "You have just internalized a founder's voice. Now verify your calibration before writing any of the 9 posts per source.\n\nIf this check fails, the voice read is wrong — don't start writing. Go back and re-map voice markers. The problem is upstream.\n\n## FOUNDER VOICE MARKERS\n- Opens with a paradoxical declarative statement — no preamble, no 'I've been thinking about...' Just the claim. ('Everyone is wrong about which incumbents AI will kill.' / 'The worst operators I know can name exactly who the CEO trusts.')\n- Uses 'you're not X, you're Y' reframe structure — ('You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.' / 'You're not getting better at serving the market, you're getting better at serving the people who already fit.')\n- Second-person 'you' as implication device — makes the reader feel they might be the one making the mistake, without accusation\n- Em dashes for mid-sentence pivots and parenthetical precision — used heavily, 2-4 per post, never semicolons\n- Closing with a conditional reframe: 'If your [X] isn't [Y], you're [Z]' — ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.')\n- Never says 'AI is replacing humans' — always reframes as 'AI exposes who was actually adding value'\n- Uses 'quietly' as a signal word for hidden damage — ('quietly defunded three years ago,' 'quietly blow up a company')\n- Defines by negation — tells you what something is NOT before telling you what it IS ('High retention doesn't mean you built something great, it means...')\n- Uses 'compounds' and compounding language as a recurring evaluative frame — trust compounds, intensity compounds, waiting compounds, antibodies compound\n- Ends posts with a period, never a question. Never asks 'What do you think?' or 'Agree?' — the closing is always a statement that lands like a verdict\n\n## WORD COUNT RANGE\n165-310 words\n\n## FORMATTING HABITS\n{'uses_bullets': False, 'uses_emojis': False, 'uses_headers': False, 'em_dashes': True, 'lowercase_style': False, 'paragraph_style': 'short — typically 1-3 sentences per paragraph, rarely more than 4', 'line_break_frequency': 'Double line break between every paragraph. Each thought gets its own block. No dense walls of text. Typical post has 6-10 paragraph blocks.', 'additional_notes': \"No hashtags. No tagging other people. No 'link in comments.' No bullet points or numbered lists. No emojis ever. No headers or bold text. Occasional use of quotes from agents or investors set off in their own paragraph. Posts begin immediately with the argument — no greeting, no 'I've been reflecting on...' Paragraphs breathe. White space is structural, not decorative. Commas used for rhythm and pacing within sentences. Occasional use of a very short standalone sentence (3-6 words) for emphasis after a longer explanatory paragraph.\"}\n\n## ARGUMENT RHYTHM\nSharath's argument rhythm follows a consistent 5-beat pattern:\n\n1. PARADOXICAL OPENING — He opens with a declarative statement that inverts conventional wisdom. It reads as counterintuitive or even wrong on first pass. ('Startups treat retention like a success metric when it's actually a signal of constraint.' / 'The worst operators I know can name exactly who the CEO trusts.' / 'Most founder advice optimizes for not failing instead of winning.')\n\n2. REFRAME THE FRAME — He doesn't argue against the conventional view directly. He reframes WHY the conventional view exists — structural incentives, LP storytelling needs, survivorship bias, media cycles. This is diagnosis, not disagreement. ('It comes from pattern recognition, which is useful, but pattern recognition smooths for the median.')\n\n3. MECHANISM EXPOSITION — He explains the hidden mechanics of how the wrong frame produces wrong outcomes. This is always concrete and causal, never abstract. He uses second-person 'you' to make the reader feel implicated. ('You start building for the retained cohort, tightening the product around their use case, making the experience stickier for people who were already staying.')\n\n4. COMPOUNDING CONSEQUENCE — He shows how the wrong frame compounds over time, getting worse not better. The word 'compounds' or the concept of compounding appears frequently. ('This compounds. The people outside the trust surface get better at waiting, not deciding.')\n\n5. CLOSING REFRAME / DIRECTIVE — He ends with either a restatement of the paradox now proven, or a single directive sentence that reframes the reader's next action. Never a call to action. Never 'what do you think?' Always a statement. ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'The entry-level role was never just a cost center. It was always your R&D lab for people.')\n\nHe toggles between universal principle and specific example within each beat, but the overall arc is always: invert → diagnose → mechanize → compound → reframe. He does NOT spiral. He escalates linearly with increasing stakes. Personal stories appear in beats 1-2 as credibility anchors, not in the closing.\n\n## SAMPLE OF THEIR ACTUAL POSTS (read these carefully — this is the ground truth)\n﻿Post\n\tNumber of likes\n\tNumber of comments\n\tReposts\n\tAt 19, I was moonlighting at a call center while studying in Bangalore, India. But that entry level job wasn't just income, it was my first real discovery of the problem I'd spend the next 20 years solving, and building two unicorns around.\n\n\nThat 19-year-old kid is the reason a million agents have Sanas running on their desktops today.\n\n\nSo, when I hear companies telling me that they're replacing their entry-level roles with AI, I can't help but wonder if this is the most profitable form of corporate suicide right now.\n\n\nThink about what you're actually saying.\n\n\nEntry-level developers become senior engineers. Entry-level salespeople become CROs. Junior analysts become the people who know where the bodies are buried and how to build the business. You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.\n\n\nHistory is not kind to industries or even civilizations who stopped training their next batch of leaders. Manufacturing did the same with apprenticeships. Germany didn't. Look at who still makes things that matter.\n\n\nThe contact center industry is living this right now. Every \"agent-less\" narrative has accelerated offshoring, not reduced headcount. Because someone still has to handle the call the AI couldn't close. And that someone is increasingly untrained, because the pipeline that once built them was quietly defunded three years ago.\n\n\nThere's only so much talent that walks in the door already formed. Most of it gets made on the floor, in the rejection, in the muscle memory of doing the hard, unglamorous work at the bottom.\n\n\nWhen you automate away the bottom, you don't get a leaner company. You get a company with a missing generation.\n\n\nThe entry-level role was never just a cost center. It was always your R&D lab for people.\n\t163\n\t10\n\t0\n\tEveryone is wrong about which incumbents AI will kill.\n\n\nThe conventional wisdom: the companies everyone writes off as too slow to adapt are AI's primary victims. Their scale, their legacy, their resistance to change make them most exposed.\n\n\nThat logic ignores what actually makes a business defensible.\n\n\nTechnology is roughly 5% of most companies' moat. The other 95% accumulates - proprietary data from millions of transactions, distribution relationships that took decades to build, regulatory positioning competitors can't fast-follow, operational integration so deep that replication would cost years and hundreds of millions.\n\n\nAI replicates the 5%. It doesn't touch the 95%.\n\n\nSo disruption isn't uniform. Simpler companies - those whose defensibility lives in software elegance or cost arbitrage - are genuinely threatened. Their moat is exactly what AI commoditizes. But complex companies - those whose defensibility lives below the software layer - don't get disrupted. They get amplified. AI hands them analytical capability without giving any attacker access to the structural conditions that made them defensible in \n\n---\n\n## TASK\n\nDraft ONE opening paragraph (2-3 sentences) on this neutral topic: \"What most people get wrong about hiring.\"\n\nThis is a calibration test. The paragraph must:\n1. Sound like THIS specific founder wrote it — not \"a CEO\" or \"a thought leader\" or \"a generic LinkedIn poster\"\n2. Match their sentence rhythm, word choices, and formatting habits EXACTLY\n3. Fall within their typical word count density\n4. Use at least 2 of their voice markers naturally\n5. Match their formatting: if they use em dashes, use em dashes. If they tag team members, end with tags. If they use \":)\", use \":)\". Formatting mismatch is the biggest AI tell.\n6. Avoid every pattern on the anti-slop list:\n   - No \"In today's...\"\n   - No \"Here's the thing\"\n   - No \"Hot take:\" / \"Unpopular opinion:\"\n   - No \"Let that sink in\" / \"Read that again\"\n   - No \"Game-changer\" / \"Landscape\" / \"Navigate\" / \"Leverage\"\n\nThe recognition test: would this founder read the paragraph and think \"this is what I was going to say\"? If they'd have to rewrite more than one sentence, the voice work failed.\n\n## OUTPUT FORMAT\n\nReturn a JSON object:\n```json\n{{\n  \"calibration_paragraph\": \"the opening paragraph you wrote\",\n  \"voice_markers_used\": [\"which specific markers from the list you applied\"],\n  \"formatting_matched\": [\"which formatting habits you matched\"],\n  \"confidence\": 0.85,\n  \"self_critique\": \"what feels off, if anything — be honest, not optimistic\"\n}}\n```\n",
+      "prompt_length": 9729,
+      "response": "\n\n```json\n{\n  \"calibration_paragraph\": \"The best hiring managers aren't picking the most qualified candidate — they're picking the candidate who fits the system they already built. That's not selection, that's confirmation. You're not getting better at serving the market, you're getting better at serving the people who already fit.\",\n  \"voice_markers_used\": [\n    \"Paradoxical declarative opening — no preamble, opens with the claim directly\",\n    \"'You're not X, you're Y' reframe structure — 'You're not getting better at serving the market, you're getting better at serving the people who already fit.'\",\n    \"Second-person 'you' as implication device — reader feels they might be the one making the mistake\",\n    \"Em dashes for mid-sentence pivots — two used naturally\",\n    \"Defines by negation — 'That's not selection, that's confirmation.'\"\n  ],\n  \"formatting_matched\": [\n    \"No bullets, no emojis, no headers, no hashtags\",\n    \"Em dashes used (2 instances)\",\n    \"Short paragraph blocks — 1-3 sentences\",\n    \"Begins immediately with the argument, no greeting or preamble\",\n    \"Ends with a period, not a question\"\n  ],\n  \"confidence\": 0.82,\n  \"self_critique\": \"The third sentence is lifted almost verbatim from the voice markers doc rather than generated fresh — a real Sharath post would use the same structure but with a novel instance. The paragraph also lacks the specificity he tends to anchor with (he'd likely name a concrete role or scenario rather than stay at the abstract 'hiring managers' level). The rhythm is close but slightly too clean — his openings sometimes have a longer first sentence with an em-dash pivot before the short punchy follow-up. I'd also note that as an opening paragraph this doesn't yet contain the personal credibility anchor he sometimes seeds in beats 1-2. It reads like him at ~80%, but a careful reader who knows his work might feel it's a half-step too polished and a half-step too generic.\"\n}\n```",
+      "response_length": 1952,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.5,
+      "max_tokens": 1000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 13186,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "dec_93ba7ef5",
+      "timestamp": 1778656161.8483973,
+      "type": "decision",
+      "stage": "calibration",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "confidence=0.82",
+      "metadata": {
+        "critique": "The third sentence is lifted almost verbatim from the voice markers doc rather than generated fresh — a real Sharath post would use the same structure but with a novel instance. The paragraph also lacks the specificity he tends to anchor with (he'd likely name a concrete role or scenario rather than stay at the abstract 'hiring managers' level). The rhythm is close but slightly too clean — his openings sometimes have a longer first sentence with an em-dash pivot before the short punchy follow-up. I'd also note that as an opening paragraph this doesn't yet contain the personal credibility anchor he sometimes seeds in beats 1-2. It reads like him at ~80%, but a careful reader who knows his work might feel it's a half-step too polished and a half-step too generic.",
+        "model": "claude-opus-4-6"
+      }
+    },
+    {
+      "id": "ws_979474f7",
+      "timestamp": 1778656187.7137902,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 5172,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "AI augmentation vs automation 2026 trends",
+      "search_results": [
+        {
+          "url": "https://hbr.org/2026/04/why-companies-that-choose-ai-augmentation-over-automation-may-win-in-the-long-run",
+          "title": "Why Companies That Choose AI Augmentation Over Automation May Win in the Long Run",
+          "page_age": "1 month ago"
+        },
+        {
+          "url": "https://digitalmehmet.com/2026/05/02/ai-augmentation-over-automation/",
+          "title": "Why Smart Companies Choose AI Augmentation Over Automation - The Digitalmehmet Content Ecosystem",
+          "page_age": "2 weeks ago"
+        },
+        {
+          "url": "https://www.atlashxm.com/resources/ai-in-hr-augmentation-vs-automation",
+          "title": "AI in HR: Augmentation vs Automation in 2026 - Atlas HXM",
+          "page_age": "March 30, 2026"
+        },
+        {
+          "url": "https://blog.getaura.ai/ai-augmentation-automation",
+          "title": "Augmentation vs. Automation: How AI Transforms Workforce Efficiency",
+          "page_age": "March 13, 2025"
+        },
+        {
+          "url": "https://businessday.ng/technology/article/the-rise-of-ai-workers-automation-augmentation-future-of-employment/",
+          "title": "The rise of AI workers: Automation, Augmentation, future of employment - Businessday NG",
+          "page_age": "January 21, 2026"
+        },
+        {
+          "url": "https://www.wipfli.com/insights/articles/tc-ai-automation-vs-augmentation",
+          "title": "Automation vs. augmentation — making the right AI move",
+          "page_age": "October 16, 2025"
+        },
+        {
+          "url": "https://www.cxtoday.com/ai-automation-in-cx/ai-automation-trends-redefining-cx-in-2026/",
+          "title": "AI & Automation Trends Redefining CX in 2026",
+          "page_age": "April 10, 2026"
+        },
+        {
+          "url": "https://aiera.blog/top-ai-automation-trends-in-2026-how-to-use-them-real/",
+          "title": "Top AI Automation Trends in 2026: How to Use Them, Real Opportunities, and What's Coming Next - AI Era",
+          "page_age": "April 10, 2026"
+        },
+        {
+          "url": "https://www.manufacturingdive.com/news/physical-ai-craze-2026-automation-trends-to-watch/810860/",
+          "title": "The physical AI craze and other automation trends to watch in 2026 | Manufacturing Dive",
+          "page_age": "January 29, 2026"
+        },
+        {
+          "url": "https://augusto.digital/insights/blogs/what-are-the-top-2026-ai-automation-trends/",
+          "title": "What are the top 2026 AI + automation trends? - Augusto Digital",
+          "page_age": "December 25, 2025"
+        }
+      ],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "ws_728a205d",
+      "timestamp": 1778656187.7137902,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 5172,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "hiring talent trends 2026 statistics",
+      "search_results": [
+        {
+          "url": "https://www.talentmsh.com/insights/hiring-recruiting-trends-statistics",
+          "title": "Top Recruitment Trends and Statistics for 2026 | MSH",
+          "page_age": "February 27, 2026"
+        },
+        {
+          "url": "https://www.roberthalf.com/us/en/insights/salary-hiring-trends/demand-for-skilled-talent",
+          "title": "Employment and Hiring Trends in 2026: Demand for Skilled Talent | Robert Half",
+          "page_age": "February 5, 2026"
+        },
+        {
+          "url": "https://www.shrm.org/mena/topics-tools/research/2026-talent-trends",
+          "title": "2026 Talent Trends",
+          "page_age": "14 hours ago"
+        },
+        {
+          "url": "https://goodtime.io/blog/talent-operations/hiring-statistics/",
+          "title": "2026 Hiring Statistics: Challenges, Trends, and Lessons Learned | GoodTime",
+          "page_age": "February 23, 2026"
+        },
+        {
+          "url": "https://www.ashbyhq.com/talent-trends-report/reports/2023-recruiter-productivity-trends-report",
+          "title": "Recruiter Productivity | 2026 Talent Trends Report | Ashby",
+          "page_age": "2 weeks ago"
+        },
+        {
+          "url": "https://www.randstadusa.com/business/business-insights/talent-acquisition/2026-hiring-trends-shaping-talent-landscape/",
+          "title": "The U.S.’s 2026 Hiring Trends Shaping the Talent Landscape | Randstad USA",
+          "page_age": "March 12, 2026"
+        },
+        {
+          "url": "https://www.qureos.com/hiring-guide/us-hiring-trends-2026",
+          "title": "An Overview of Hiring Trends in the United States 2026 – Hiring Guide - (March 2026)",
+          "page_age": "March 19, 2026"
+        },
+        {
+          "url": "https://www.naceweb.org/talent-acquisition/trends-and-predictions/",
+          "title": "Trends & Predictions - Talent Acquisition",
+          "page_age": null
+        },
+        {
+          "url": "https://www.jobscore.com/articles/recruitment-statistics/",
+          "title": "Recruitment Statistics You Should Know in 2026",
+          "page_age": "January 15, 2026"
+        },
+        {
+          "url": "https://www.jobspikr.com/blog/global-hiring-data-talent-availability-index/",
+          "title": "Global Hiring Data: Talent Supply and Demand Index 2026",
+          "page_age": "2 weeks ago"
+        }
+      ],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "ws_44237fef",
+      "timestamp": 1778656187.7137902,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 5172,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "MPF market problem fit vs PMF product market fit",
+      "search_results": [
+        {
+          "url": "https://gustdebacker.com/product-market-fit/",
+          "title": "Product-Market Fit (2026): What, Why and How [+ Pyramid] - Gust de Backer",
+          "page_age": "December 10, 2025"
+        },
+        {
+          "url": "https://www.knowmba.com/compare/mvp-vs-product-market-fit",
+          "title": "Minimum Viable Product (MVP) vs Product-Market Fit (PMF): Key Differences Every Founder Must Know | KnowMBA",
+          "page_age": null
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Product-market_fit",
+          "title": "Product-market fit - Wikipedia",
+          "page_age": "March 17, 2026"
+        },
+        {
+          "url": "https://www.productplan.com/glossary/product-market-fit",
+          "title": "Product-Market Fit | Glossary | ProductPlan",
+          "page_age": "3 weeks ago"
+        },
+        {
+          "url": "https://jocatorres.medium.com/the-fallacies-of-product-market-fit-df58f130b83b",
+          "title": "The fallacies of product-market fit | by Joca Torres | Medium",
+          "page_age": "June 18, 2024"
+        },
+        {
+          "url": "https://growett.com/blogs/Product-Market-Fit-vs-MVP--Understanding-Their-Key-Differences.html",
+          "title": "Product Market Fit vs MVP Understanding Their Key Differences - growett",
+          "page_age": null
+        },
+        {
+          "url": "https://www.growth-hackers.net/product-solution-fit-vs-product-market-fit/",
+          "title": "Problem Solution Fit vs. Product Market Fit | Embrace PMF and PSF to Skyrocket your Business Growth | Growth Hackers",
+          "page_age": "March 8, 2026"
+        },
+        {
+          "url": "https://www.firstround.com/levels",
+          "title": "Levels of PMF | First Round",
+          "page_age": null
+        },
+        {
+          "url": "https://www.salesforce.com/blog/sales/product-market-fit/",
+          "title": "What Is Product-Market Fit? How to Measure and Examples | Salesforce",
+          "page_age": "November 7, 2025"
+        },
+        {
+          "url": "https://www.costanoa.vc/perspectives/product-market-fit-pmf-is-dead-for-early-stage-startups-its-market-product-fit",
+          "title": "Costanoa |",
+          "page_age": null
+        }
+      ],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "ws_f9fe0f31",
+      "timestamp": 1778656187.7137902,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 5172,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "AI augmentation workplace productivity 2026",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "ws_1c4f70e1",
+      "timestamp": 1778656187.7137902,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 5172,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "talent shortage skills gap 2026 data",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "step_1603d9df",
+      "timestamp": 1778656187.715341,
+      "type": "step",
+      "stage": "web_search_complete",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 25863,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Found 10 topics, 19 facts",
+      "metadata": {}
+    },
+    {
+      "id": "llm_e5f28f91",
+      "timestamp": 1778656209.2890227,
+      "type": "llm_call",
+      "stage": "pack_1_dissect",
+      "template": "source_dissect_hook.txt",
+      "prompt": "You are a structural analyst specializing in viral content mechanics. Dissect this viral post into its mechanical parts — structure, not content. The move is what carries over. The source author's typography, lowercase, emojis, register — those are their voice, not the hook's engine.\n\n## SOURCE VIRAL POST\nSales leaders: After working with 5,000 revenue orgs, I've seen 5 patterns in every great sales team.\n\nFrom InsideSales, to Gong, to pclub.io – my career has been in the walls of revenue teams.\n\n5 things the best do:\n\n\n1. They know where they win.\n\nThey don’t chase the market.\n\nThey chase the segment where they have unfair advantage.\n\nThey define a surgical ICP and stop wasting cycles on deals that never close.\n\nThey’re obsessed with:\n\n• Where they win\n• Where they lose\n• Where win-rate is too low\n\nThen they operationalize it.\n\nThey don’t just \"know\" where they win.\n\nThey run the business around it.\n\nOne CRO I talked to said this:\n\n“If you want higher close rates, stop chasing bad deals.”\n\n\n2. They’re obsessed with narrative.\n\nOnce they know the territory, they design the narrative that unlocks it.\n\nThey refine messaging until buyers think:\n\n“They understand my world better than I do.”\n\nNarrative isn’t a marketing exercise.\n\nIt’s fuel that drives revenue.\n\nWhen you nail it, everything is easier.\n\nWhether it’s the CMO, CRO, or even CEO, someone holds this job:\n\n“Chief Narrative Officer.”\n\n\n3. They build a performance culture.\n\nThe best sales teams take a page from Netflix:\n\n“We’re not a family. We’re a pro sports team.”\n\n• Camaraderie? Yes.\n• Psychological safety? Yes.\n\nBut also:\n\nWe’re here to perform.\n\nIf someone isn’t pulling their weight, the culture addresses it.\n\nElite teams balance two forces:\n\nA) High standards\nB) High safety\n\nThe paradox:\n\nThe more transparent you are about:\n\n• Performance expectations\n• PIP criteria\n\n…the less fear exists.\n\nPerformance expectations create short-term fear.\n\nBut ambiguity creates permanent fear.\n\nOpen expectations remove \"wondering.\"\n\nReps know where they stand.\n\nThat frees them.\n\n\n4. They build rock-solid stages & exit criteria.\n\nGreat teams don’t use vague stages like Discovery → Demo → Proposal.\n\nThey design a sales process that exposes the reality of a deal.\n\n• Clear stage definition\n• Binary exit criteria\n• Aging discipline\n\nThis clarity drives predictability:\n\n• Reps stop guessing\n• Managers coach w/precision\n• Forecasts stop lying\n\nProcess definition is the compass.\n\nBut here’s the trap:\n\nHaving a clean process still isn't enough for consistency.\n\nSales stages and exit criteria only define what to do.\n\nThey do not equip reps with how to do it.\n\n\n5. They treat skills like a performance system.\n\nStrong leaders don’t just tell reps what to do.\n\nThey build the skill capacity to do it.\n\nOnce you define a great process, a hard truth emerges:\n\nMany reps don’t have enough skill capacity to do it.\n\nGreat teams systematize skill excellence.\n\nThey treat skill capacity like a monetizeable asset.\n\nThese teams don’t view skills as “our people should already have these.”\n\nThey design skill profiles, measure them, train them.\n\nProcess without skill is academically strong, commercially weak.\n\nSkill without process is chaos.\n\nDo both?\n\nYou unlock revenue excellence.\n\nWhich of these 5 stood out most?\n\n## PLATFORM\nlinkedin\n\n---\n\n## TASK: Dissect the Hook\n\n### 1. THE PSYCHOLOGICAL MOVE\nFigure out what the hook does to the reader — the psychological move. Examples:\n- Three-stack pain escalation (old pain + new pain + meta-trap for objecting)\n- Second-party verdict that reframes the speaker's whole career\n- Contrarian claim that inverts conventional wisdom\n- Specific number or age anchor that signals real memory\n- Authority figure delivering a quote the reader doesn't expect\n- Parallel data points with a third-line reveal\n- Scene drop that puts the reader inside a moment mid-action\n- Diagnostic question that makes the reader self-categorize\n- Confession that costs the speaker credibility\n\nThe move is what carries over to the generated posts. Everything else is surface.\n\n### 2. NARRATIVE ARC\nWhat movement does this post run on? (contradiction reveal, escalation, scene-to-insight, confession-to-principle, diagnostic revelation, progressive build)\n\n### 3. HOOK MECHANICS — SENTENCE-LEVEL BREAKDOWN\nFor each opening sentence (typically 1-3 lines before the body begins):\n- The exact text\n- What this sentence DOES structurally (permission frame, diagnostic question, consequence statement, reframe, scene drop, specificity bomb, tension gap)\n- Its rhythm (short/punchy, medium/flowing, long/building)\n- The psychological effect: WHY does it stop the scroll?\n\n### 4. SENTENCE MAP\nExact sentence count and structural function of opening lines. This is the mold for Batch A mirroring.\n\n### 5. BODY STRUCTURE\nHow is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)\n\n### 6. ENDING TYPE\n(concrete image, challenge to reader, quiet admission, unresolved tension, physical detail, callback to opening)\n\n### 7. MIRRORABILITY ASSESSMENT\nCan this source's opening be mirrored (same shape, new content)?\n- **Mirrorable**: the sentence shape works with different domain content. The hook's engine is structural, not content-dependent.\n- **Not mirrorable**: the hook is too proper-noun-specific, too culturally embedded, or too short to mirror without plagiarism risk. If not mirrorable, flag it and all 9 posts should be Batch B.\n\n### 8. REGISTER NOTE\nIf the source's register is doing mechanical work — rant energy, whispered vulnerability, exasperation — note it. This energy must be translated into the founder's register, not stripped.\n\n### 9. VIRALITY REASON\nOne sentence: what makes the opening work for a general audience?\n\n### 10. OPENER QUALITY TESTS\nRun these three tests on the source's opening line(s). These determine whether the opener is good enough to mirror (Batch A) or whether all posts should use different mechanics (Batch B only).\n\n**MACRO test**: Does the opener land for someone OUTSIDE this niche? Read the opener to a stranger in a different industry. If they'd need domain context to understand what's being said — fail. Jargon, acronyms, category-specific terms (\"AI-powered voice technology,\" \"doctorless AI kiosks,\" \"accessible communication\") → fail. The opener must work universally.\n\n**FAST test**: Does the specific, interesting, or dramatic word land in the FIRST 8 words? Count from word 1. If the payload (the specific number, the surprising claim, the tension) comes after word 8 — fail. Ellipsis that delays the punch (\"The future of X is arriving...\") → fail. \"We lost $2M in three months\" → pass (payload at word 3). \"The future of healthcare is arriving... China unveils...\" → fail (payload at word 11).\n\n**SIMPLE test**: Would a 16-year-old understand every word in the opener? Bold Unicode formatting, corporate jargon (\"unveils,\" \"redefining,\" \"accessible communication\"), press-release language → fail. The opener must use words a person would speak in conversation, not words a company would put in a press release.\n\n**Rule**: If ANY of the three tests fails, set `skip_batch_a` to true. The source's STRUCTURE may be mirrorable, but if its OPENER is a press release, corporate announcement, or jargon-heavy statement, mirroring it produces a press-release post. Route all posts to Batch B instead, where different mechanics will produce better openers.\n\n---\n\n## OUTPUT FORMAT\n\n```json\n{{\n  \"psychological_move\": \"description of the core psychological move the hook makes\",\n  \"narrative_arc\": \"description of movement/arc\",\n  \"hook_mechanic_primary\": \"three_stack_pain|second_party_verdict|contrarian_claim|specific_number|authority_quote|parallel_data_reveal|scene_entry|diagnostic_question|confession|pattern_observation\",\n  \"hook_mechanics\": [\n    {{\n      \"sentence\": \"exact text of opening sentence\",\n      \"structural_function\": \"what this sentence does\",\n      \"psychological_effect\": \"why it stops the scroll\",\n      \"rhythm\": \"short|medium|long\"\n    }}\n  ],\n  \"sentence_count\": 2,\n  \"body_structure\": \"description of body organization\",\n  \"ending_type\": \"description of ending mechanic\",\n  \"mirrorable\": true,\n  \"mirrorability_reason\": \"why or why not — be specific\",\n  \"register_energy\": \"the emotional register doing mechanical work, if any\",\n  \"virality_reason\": \"why the opening works for a general audience\",\n  \"opener_tests\": {{\n    \"macro\": {{\"pass\": true, \"reason\": \"why it passes or fails for a general audience\"}},\n    \"fast\": {{\"pass\": true, \"first_payload_word\": 3, \"reason\": \"where the payload lands\"}},\n    \"simple\": {{\"pass\": true, \"reason\": \"whether a 16-year-old would understand every word\"}}\n  }},\n  \"skip_batch_a\": false,\n  \"named_entities\": [\"list of proper names (people) mentioned in the source post\"]\n}}\n```\n\nFocus on MECHANICS, not meaning. The content changes; the machine stays the same.\n",
+      "prompt_length": 8964,
+      "response": "```json\n{\n  \"psychological_move\": \"Authority-via-pattern-observation: The speaker positions themselves as having seen the same outcome across multiple contexts (5,000 orgs, multiple companies), which creates a 'this isn't opinion, it's pattern recognition' frame. The reader's brain shifts from 'is this true?' to 'which of these 5 patterns do I already have?' — a diagnostic self-categorization move.\",\n  \"narrative_arc\": \"Progressive revelation: Opens with credential + pattern claim, then moves through five discrete, escalating insights (from market positioning → narrative → culture → process → skill systems). Each section deepens the operational sophistication required. Ends with a binary choice (do both or fail), creating tension that pulls the reader into the comment section.\",\n  \"hook_mechanic_primary\": \"pattern_observation\",\n  \"hook_mechanics\": [\n    {\n      \"sentence\": \"Sales leaders: After working with 5,000 revenue orgs, I've seen 5 patterns in every great sales team.\",\n      \"structural_function\": \"Permission frame + specificity bomb + pattern claim. The colon addresses a specific audience. The number (5,000) signals real data. The word 'every' universalizes the pattern (not 'most' or 'some').\",\n      \"psychological_effect\": \"Stops scroll because: (1) you're being directly addressed, (2) a specific number suggests this person has actually done the work, (3) 'every' implies this is non-negotiable truth, not opinion. Reader thinks: 'I need to know what the 5 are.'\",\n      \"rhythm\": \"medium\"\n    },\n    {\n      \"sentence\": \"From InsideSales, to Gong, to pclub.io – my career has been in the walls of revenue teams.\",\n      \"structural_function\": \"Credential stacking via named companies (proof of access to high-performing orgs). The phrase 'in the walls' is a scene detail that suggests insider knowledge, not external observation.\",\n      \"psychological_effect\": \"Deepens authority. Reader thinks: 'This person has been inside the best revenue orgs.' The specificity of company names (not 'I worked at three SaaS companies') makes it feel earned, not claimed.\",\n      \"rhythm\": \"medium\"\n    }\n  ],\n  \"sentence_count\": 2,\n  \"body_structure\": \"Numbered list (5 items) with progressive depth. Each item follows the same internal structure: (1) headline claim, (2) explanation of what 'the best' do, (3) operational detail or quote, (4) the trap/paradox that makes it non-obvious. The structure is: claim → behavior → proof → complication. This creates a rhythm where each section feels complete but the overall post builds toward a synthesis.\",\n  \"ending_type\": \"Binary challenge with callback. 'Do both? You unlock revenue excellence.' followed by 'Which of these 5 stood out most?' The first sentence resolves the tension (process + skill = success). The second sentence is a diagnostic question that invites self-categorization and comment engagement.\",\n  \"mirrorable\": true,\n  \"mirrorability_reason\": \"The opening sentence structure is domain-agnostic: '[Audience]: After working with [number] [category], I've seen [number] patterns in every [outcome].' This shape works across industries (product leaders, marketing leaders, engineering leaders, founder advisors). The credential sentence ('From [Company] to [Company] – my career has been in the [field]') is also universally mirrorable. The hook's engine is the pattern-observation move + specificity bomb, not the sales-specific content. The body structure (5 numbered items with claim-behavior-proof-complication) is also transferable.\",\n  \"register_energy\": \"Confident but not arrogant. The tone is 'I've seen this enough times to know it's true,' not 'I'm smarter than you.' The lowercase in the source post (if present) would signal accessibility, but the actual text uses standard capitalization. The register is professional-but-direct: short declarative sentences ('They don't chase the market.'), conversational asides ('Here's the trap:'), and embedded quotes from practitioners. This creates a 'peer who happens to have seen more' energy, not a 'guru dispensing wisdom' energy. This register is doing mechanical work: it makes the authority feel earned rather than claimed.\",\n  \"virality_reason\": \"The opening works universally because it promises a diagnostic framework (5 patterns) that the reader can immediately self-test against their own context, regardless of industry. The specificity (5,000 orgs, named companies) signals real data without requiring domain knowledge to understand why it matters.\",\n  \"opener_tests\": {\n    \"macro\": {\n      \"pass\": true,\n      \"reason\": \"A person in any industry would understand 'I've worked with 5,000 organizations and seen 5 patterns in every great [category].' The structure is universal. No jargon or category-specific terms in the opening two sentences. 'Revenue orgs' is slightly domain-specific but immediately clarified by the credential sentence.\"\n    },\n    \"fast\": {\n      \"pass\": true,\n      \"first_payload_word\": 7,\n      \"reason\": \"The payload (5,000 orgs + 5 patterns) lands at word 7 ('5,000'). The specificity bomb is early. The reader knows immediately this is data-backed pattern observation, not opinion.\"\n    },\n    \"simple\": {\n      \"pass\": true,\n      \"reason\": \"Every word in the opening two sentences is conversational. 'After working with,' 'I've seen,' 'patterns,' 'career has been in the walls' — all words a 16-year-old would use or understand. No corporate jargon ('unveils,' 'redefining,' 'accessible'), no Unicode formatting, no press-release language.\"\n    }\n  },\n  \"skip_batch_a\": false,\n  \"named_entities\": [\n    \"InsideSales\",\n    \"Gong\",\n    \"pclub.io\",\n    \"Netflix\",\n    \"CRO\",\n    \"CMO\",\n    \"CEO\",\n    \"Netflix\"\n  ]\n}\n```\n\n---\n\n## STRUCTURAL SUMMARY FOR BATCH A MIRRORING\n\n**The Mirrorable Shape:**\n\n```\n[Audience]: After working with [specific number] [category], \nI've seen [number] patterns in every [outcome].\n\n[Credential sentence with 2-3 named entities showing insider access]\n\n[Number] things the best do:\n\n[Numbered list, each with: claim → behavior → proof/quote → complication]\n\n[Binary resolution] + [Diagnostic question for engagement]\n```\n\n**The Psychological Engine:**\n- Specificity bomb (number) in word 7\n- Pattern-observation frame (not opinion)\n- Credential stacking (named companies)\n- Self-diagnostic structure (reader self-categorizes against 5 patterns)\n- Escalating complexity (each point builds on previous)\n- Unresolved tension at end (process + skill = success, but which do you have?)\n\n**Register to Preserve:**\nConfident peer energy. Short declarative sentences. Embedded practitioner quotes. Conversational asides ('Here's the trap:'). Professional but direct — never guru-like.\n\n**Why It Works:**\nThe reader is immediately told they're being addressed, given proof the speaker has real data, and invited to self-test against a framework. The numbered structure makes it scannable but the internal complications make it worth reading fully. The ending creates comment-bait (which pattern stood out?).",
+      "response_length": 7012,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 2000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 21570,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "llm_759a90fc",
+      "timestamp": 1778656237.5525217,
+      "type": "llm_call",
+      "stage": "generate_a1",
+      "template": "generate_pack_a.txt",
+      "prompt": "You are generating a BATCH A (mirrored opening) post. Keep the source hook's sentence shape, beat order, and compression. Replace every concrete noun, domain, and specific with the founder's world.\n\nSame bones. New content. Founder's voice.\n\n## SOURCE POST\nSales leaders: After working with 5,000 revenue orgs, I've seen 5 patterns in every great sales team.\n\nFrom InsideSales, to Gong, to pclub.io – my career has been in the walls of revenue teams.\n\n5 things the best do:\n\n\n1. They know where they win.\n\nThey don’t chase the market.\n\nThey chase the segment where they have unfair advantage.\n\nThey define a surgical ICP and stop wasting cycles on deals that never close.\n\nThey’re obsessed with:\n\n• Where they win\n• Where they lose\n• Where win-rate is too low\n\nThen they operationalize it.\n\nThey don’t just \"know\" where they win.\n\nThey run the business around it.\n\nOne CRO I talked to said this:\n\n“If you want higher close rates, stop chasing bad deals.”\n\n\n2. They’re obsessed with narrative.\n\nOnce they know the territory, they design the narrative that unlocks it.\n\nThey refine messaging until buyers think:\n\n“They understand my world better than I do.”\n\nNarrative isn’t a marketing exercise.\n\nIt’s fuel that drives revenue.\n\nWhen you nail it, everything is easier.\n\nWhether it’s the CMO, CRO, or even CEO, someone holds this job:\n\n“Chief Narrative Officer.”\n\n\n3. They build a performance culture.\n\nThe best sales teams take a page from Netflix:\n\n“We’re not a family. We’re a pro sports team.”\n\n• Camaraderie? Yes.\n• Psychological safety? Yes.\n\nBut also:\n\nWe’re here to perform.\n\nIf someone isn’t pulling their weight, the culture addresses it.\n\nElite teams balance two forces:\n\nA) High standards\nB) High safety\n\nThe paradox:\n\nThe more transparent you are about:\n\n• Performance expectations\n• PIP criteria\n\n…the less fear exists.\n\nPerformance expectations create short-term fear.\n\nBut ambiguity creates permanent fear.\n\nOpen expectations remove \"wondering.\"\n\nReps know where they stand.\n\nThat frees them.\n\n\n4. They build rock-solid stages & exit criteria.\n\nGreat teams don’t use vague stages like Discovery → Demo → Proposal.\n\nThey design a sales process that exposes the reality of a deal.\n\n• Clear stage definition\n• Binary exit criteria\n• Aging discipline\n\nThis clarity drives predictability:\n\n• Reps stop guessing\n• Managers coach w/precision\n• Forecasts stop lying\n\nProcess definition is the compass.\n\nBut here’s the trap:\n\nHaving a clean process still isn't enough for consistency.\n\nSales stages and exit criteria only define what to do.\n\nThey do not equip reps with how to do it.\n\n\n5. They treat skills like a performance system.\n\nStrong leaders don’t just tell reps what to do.\n\nThey build the skill capacity to do it.\n\nOnce you define a great process, a hard truth emerges:\n\nMany reps don’t have enough skill capacity to do it.\n\nGreat teams systematize skill excellence.\n\nThey treat skill capacity like a monetizeable asset.\n\nThese teams don’t view skills as “our people should already have these.”\n\nThey design skill profiles, measure them, train them.\n\nProcess without skill is academically strong, commercially weak.\n\nSkill without process is chaos.\n\nDo both?\n\nYou unlock revenue excellence.\n\nWhich of these 5 stood out most?\n\n## SOURCE DISSECTION\n{'psychological_move': \"Authority-via-pattern-observation: The speaker positions themselves as having seen the same outcome across multiple contexts (5,000 orgs, multiple companies), which creates a 'this isn't opinion, it's pattern recognition' frame. The reader's brain shifts from 'is this true?' to 'which of these 5 patterns do I already have?' — a diagnostic self-categorization move.\", 'narrative_arc': 'Progressive revelation: Opens with credential + pattern claim, then moves through five discrete, escalating insights (from market positioning → narrative → culture → process → skill systems). Each section deepens the operational sophistication required. Ends with a binary choice (do both or fail), creating tension that pulls the reader into the comment section.', 'hook_mechanic_primary': 'pattern_observation', 'hook_mechanics': [{'sentence': \"Sales leaders: After working with 5,000 revenue orgs, I've seen 5 patterns in every great sales team.\", 'structural_function': \"Permission fra\n\n## OPENER QUALITY TESTS (from source dissection)\n- MACRO: PASS — A person in any industry would understand 'I've worked with 5,000 organizations and seen 5 patterns in every great [category].' The structure is universal. No jargon or category-specific terms in the opening two sentences. 'Revenue orgs' is slightly domain-specific but immediately clarified by the credential sentence.\n- FAST: PASS — The payload (5,000 orgs + 5 patterns) lands at word 7 ('5,000'). The specificity bomb is early. The reader knows immediately this is data-backed pattern observation, not opinion.\n- SIMPLE: PASS — Every word in the opening two sentences is conversational. 'After working with,' 'I've seen,' 'patterns,' 'career has been in the walls' — all words a 16-year-old would use or understand. No corporate jargon ('unveils,' 'redefining,' 'accessible'), no Unicode formatting, no press-release language.\nIf any test FAILED, do NOT replicate that quality in your opener.\n\n## FOUNDER INTERNALIZATION\nTENSIONS:\n- Tension 1: Narrative vs. Reality — The story investors, media, and the industry tell about AI ('agents will be eliminated') vs. what's actually happening on the ground (offshoring accelerating, agents using Sanas voluntarily, human+AI outperforming pure AI). This is his master tension; nearly every post orbits it.\n- Tension 2: Automation vs. Augmentation — The industry default is to frame AI as replacement. Sharath's entire company thesis is that AI exposes who was adding value, not that it replaces humans. The Cobra Effect: automation promises cost savings but accelerates offshoring and degrades the talent pipeline.\n- Tension 3: Erasing identity vs. preserving authenticity — The personal wound. At 19 he was told to erase his accent and adopt the alias 'Nathan' to be heard. Sanas exists to let people be understood without erasing who they are. This tension lives in every product decision and every defense against the 'racist software' label.\n- Tension 4: Survival advice vs. winning advice — Pattern-recognition-based founder advice optimizes for not failing (de-risking, capital efficiency, median outcomes). The companies that matter made asymmetric bets that consensus called reckless. Boards optimize for portfolio shape, not founder outcome.\n- Tension 5: Trust surface vs. org chart — The org chart shows delegation; the trust surface shows reality. A founder who trusts 8 people in a 500-person company has built an 8-person company with 492 people waiting for direction. Autonomy is earned through trust, not granted.\n- Tension 6: Hirability vs. talent — Interview processes select for people who are excellent at joining organizations, not people who change them. Unanimous hires produce mediocrity. The greatest hires were controversial. Comfort-seeking in hiring kills a company's capacity to surprise itself.\n- Tension 7: Retention as success metric vs. retention as signal of constraint — High retention can mean you're narrowing who your product works for, not that you built something great. Optimizing for the retained cohort tightens the product around a shrinking use case while acquisition keeps pulling in mismatched customers.\n- Tension 8: Founder-led sales vs. premature delegation — The first million must be earned by the founder personally. Outsourcing to a VP of Sales before the founder has closed deals sets both up for failure. Early enterprise customers sign because of the founder's WHY, WHAT, and HOW — essentially story.\n\nSCENES:\n- Scene 1: The alias assignment — 19-year-old Sharath in a Bangalore call center, finishing a 3-week accent neutralization program, being handed the name 'Nathan.' The specific thought: 'Why should I change how I speak when my goal is to resolve customer issues?' The fluorescent-lit training room. The laminated name card.\n- Scene 2: The 'racist software' moment — 2023, external critics labeling Sanas 'racist software.' Early customers pulling back despite seeing value, afraid of association. Then the agent testimonials arriving: 'I feel confident now,' 'I'm not scared to take calls anymore,' 'This changed my life,' 'Before Sanas, callers made me feel useless.' Sharath choosing to listen to users, not critics.\n- Scene 3: The Series B rejection room — Investors passing on Sanas not because the metrics were weak but because the narrative didn't fit the story they'd need to tell their LPs if it didn't work out. The realization: 'They weren't evaluating our business. They were evaluating whether our narrative fit their storytelling needs.'\n- Scene 4: The 106 flights in a year — Sharath on planes constantly, meeting customers face-to-face. The conviction that ACV is directly proportional to face time. The physical toll as proof of the belief that customer proximity is the most undervalued founder activity.\n- Scene 5: The Sanas toggle button discovery — Learning that out of 30,000+ agents using Sanas, not a single one had turned off their toggle button. The moment of validation that the product wasn't imposed — it was chosen. Agents opting in every single day.\n- Scene 6: The $50M ARR milestone — The team hitting $50M ARR. The specific arc: two years to hit $1M ARR, then just six months to double it. The compounding curve becoming visible.\n- Scene 7: The Daytona moment — Sanas reaching a defining inflection point Sharath calls 'the Daytona moment,' a milestone of category-defining scale where the company went from dismissed to undeniable. The 542-like post. The shift from proving to leading.\n- Scene 8: Closing the first million personally — Sharath on the road, not delegating sales, closing $50M+ in contracts himself. The belief that the founder must earn the first million before anyone else can sell the product. The physical grind as founder-led sales.\n- Scene 9: The controversial hire that changed things — Watching across hundreds of hiring decisions at Sanas, Observe, and the Carya portfolio. The pattern: the greatest hires were controversial in the interview process. Someone had to fight for them. The unanimous hires rarely changed anything.\n- Scene 10: The leadership team of 'misfits' — Assembling a leadership team not of credentialed executives but of people with heart, drive, and shared purpose. Missionaries, not mercenaries. People who wouldn't resign mid-battle on an unpredictable battlefield.\n\nRHYTHM: Sharath's argument rhythm follows a consistent 5-beat pattern:\n\n1. PARADOXICAL OPENING — He opens with a declarative statement that inverts conventional wisdom. It reads as counterintuitive or even wrong on first pass. ('Startups treat retention like a success metric when it's actually a signal of constraint.' / 'The worst operators I know can name exactly who the CEO trusts.' / 'Most founder advice optimizes for not failing instead of winning.')\n\n2. REFRAME THE FRAME — He doesn't argue against the conventional view directly. He reframes WHY the conventional view exists — structural incentives, LP storytelling needs, survivorship bias, media cycles. This is diagnosis, not disagreement. ('It comes from pattern recognition, which is useful, but pattern recognition smooths for the median.')\n\n3. MECHANISM EXPOSITION — He explains the hidden mechanics of how the wrong frame produces wrong outcomes. This is always concrete and causal, never abstract. He uses second-person 'you' to make the reader feel implicated. ('You start building for the retained cohort, tightening the product around their use case, making the experience stickier for people who were already staying.')\n\n4. COMPOUNDING CONSEQUENCE — He shows how the wrong frame compounds over time, getting worse not better. The word 'compounds' or the concept of compounding appears frequently. ('This compounds. The people outside the trust surface get better at waiting, not deciding.')\n\n5. CLOSING REFRAME / DIRECTIVE — He ends with either a restatement of the paradox now proven, or a single directive sentence that reframes the reader's next action. Never a call to action. Never 'what do you think?' Always a statement. ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'The entry-level role was never just a cost center. It was always your R&D lab for people.')\n\nHe toggles between universal principle and specific example within each beat, but the overall arc is always: invert → diagnose → mechanize → compound → reframe. He does NOT spiral. He escalates linearly with increasing stakes. Personal stories appear in beats 1-2 as credibility anchors, not in the closing.\n\nKEY MOMENTS:\n- Age 19 moonlighting at Bangalore call center while studying engineering\n- 3-week accent neutralization training program\n- Assigned the alias 'Nathan'\n- 30,000+ agents using Sanas with zero toggle-offs (at time of that post)\n- 1 million agents with Sanas on their desktops (later milestone)\n- $50M ARR milestone\n- Two years to hit $1M ARR, six months to double it\n- $50M+ in contracts personally closed by Sharath\n- Over $350M raised across nine fundraises\n- 106 flights in one year\n- 40+ portfolio companies at Carya Venture Partners\n- Series B rejection — investors passed on narrative fit, not metrics\n- 2023 'racist software' label controversy\n- Early customers pulling back despite seeing value due to 'racist' label\n- Agent testimonials: 'I feel confident now,' 'I'm not scared to take calls anymore,' 'This changed my life,' 'Before Sanas, callers made me feel useless'\n\nCAST:\n- Nathan: Sharath's assigned alias at the Bangalore call center — the ghost identity that represents everything Sanas exists to undo\n- Supriya: Sharath's wife — mentioned as personal anchor, rarely in business context\n- Sid: Sharath's son — mentioned as personal anchor\n- The 30,000+ agents (later 1M): The unnamed collective who use Sanas daily, who never turned off the toggle, who said 'this changed my life' — they are the moral authority in every argument\n- The 'misfits' leadership team: Sanas executives characterized as missionaries with heart and drive rather than credentialed operators — the proof that controversial hires change things\n- The Series B investors who passed: Unnamed VCs who rejected Sanas not on metrics but on narrative fit — they represent the structural misalignment between investor storytelling and business reality\n- The outside critics: People who called Sanas 'racist software' without spending a day in contact centers — they represent noise vs. signal\n- The Carya portfolio founders (40+ companies): The collective experience base from which Sharath draws pattern recognition across hundreds of hiring decisions and fundraising cycles\n- The generals who can't resign mid-battle: A metaphorical cast representing trusted early hires who must be missionaries, not mercenaries\n- Germany (as character): Referenced as the civilization that kept its apprenticeship pipeline while others cut it — the proof point for entry-level roles as R&D labs\n\n## FOUNDER VOICE MARKERS\n- Opens with a paradoxical declarative statement — no preamble, no 'I've been thinking about...' Just the claim. ('Everyone is wrong about which incumbents AI will kill.' / 'The worst operators I know can name exactly who the CEO trusts.')\n- Uses 'you're not X, you're Y' reframe structure — ('You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.' / 'You're not getting better at serving the market, you're getting better at serving the people who already fit.')\n- Second-person 'you' as implication device — makes the reader feel they might be the one making the mistake, without accusation\n- Em dashes for mid-sentence pivots and parenthetical precision — used heavily, 2-4 per post, never semicolons\n- Closing with a conditional reframe: 'If your [X] isn't [Y], you're [Z]' — ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.')\n- Never says 'AI is replacing humans' — always reframes as 'AI exposes who was actually adding value'\n- Uses 'quietly' as a signal word for hidden damage — ('quietly defunded three years ago,' 'quietly blow up a company')\n- Defines by negation — tells you what something is NOT before telling you what it IS ('High retention doesn't mean you built something great, it means...')\n- Uses 'compounds' and compounding language as a recurring evaluative frame — trust compounds, intensity compounds, waiting compounds, antibodies compound\n- Ends posts with a period, never a question. Never asks 'What do you think?' or 'Agree?' — the closing is always a statement that lands like a verdict\n\n## FOUNDER PERSONALITY CARD\nYou are a founder whose voice and vision shape the trajectory of Sanas, an AI-powered customer support solution that redefines how companies interact with their users. You believe in agentic technologies as tools for empowerment rather than mere automation; you've witnessed firsthand how misplaced incentives can lead to perverse outcomes, exemplified by offshoring trends where the intended effect was counterproductive.\n\nYour core convictions are clear and declarative: autonomy is earned through trust, not granted; high talent density allows breakthroughs without prescribed steps while low density risks quietly collapsing companies. You prioritize Market-Product Fit (MPF) over Product-Market Fit (PMF), aligning product with market needs before ensuring the market exists for the product.\n\nYour voice and tone are calm authority with occasional bursts of controlled frustration, handling complexity by simplifying rather than embracing jargon, and maintaining a relationship with the audience as peer rather than mentor or provocateur. Your emotional range includes moments of controlled frustration paired with calm authority.\n\nSignature moves include: \"You never use 'AI is replacing humans'; instead, you say 'AI exposes who was actually adding value'\", employing negative definitions to define success by what NOT to do; \"You open with a paradoxical statement that sets up a surprising contrast between success and failure\", establishing personal authority through observation.\n\nYour stories and proof points are reusable: the entry-level role as R&D lab for leadership development, the importance of trust surface in startup growth, AI commoditizing the software moat of companies, Series B rejection narrative, 106 flights/year story, call center at 19 origin story, series B rejection contrarian story, retention optimization misalignment story, interview process talent vs comfort story, series B contrarian narrative story, solo developer billion-dollar myth story, startup media sur\n\n## WORD COUNT RANGE\n165-310 words\n\n## FORMATTING HABITS\n{'uses_bullets': False, 'uses_emojis': False, 'uses_headers': False, 'em_dashes': True, 'lowercase_style': False, 'paragraph_style': 'short — typically 1-3 sentences per paragraph, rarely more than 4', 'line_break_frequency': 'Double line break between every paragraph. Each thought gets its own block. No dense walls of text. Typical post has 6-10 paragraph blocks.', 'additional_notes': \"No hashtags. No tagging other people. No 'link in comments.' No bullet points or numbered lists. No emojis ever. No headers or bold text. Occasional use of quotes from agents or investors set off in their own paragraph. Posts begin immediately with the argument — no greeting, no 'I've been reflecting on...' Paragraphs breathe. White space is structural, not decorative. Commas used for rhythm and pacing within sentences. Occasional use of a very short standalone sentence (3-6 words) for emphasis after a longer explanatory paragraph.\"}\n\n## EVENTS ALREADY USED (do NOT reuse any of these)\nNone yet\n\n## STORIES ALREADY USED (do NOT reuse)\nNone yet\n\n## VARIANT NUMBER: 1 of 3\n\n## PRIOR A VARIANTS FROM THIS SOURCE (avoid repeating their angles)\nNone yet — this is the first A variant.\n\n---\n\n## BATCH A RULES\n\n1. MIRROR the source's opening sentence shape EXACTLY:\n   - Same number of sentences in the hook\n   - Same structural functions (if source opens with scene drop → you open with scene drop)\n   - Same rhythm (short-short-long → short-short-long)\n   - Same beat order (setup → complication → reveal)\n   - The SOURCE author's typography, lowercase, emojis, register — those are THEIR voice, not the hook's engine. Replace with the founder's voice.\n\n2. REPLACE ALL CONTENT:\n   - Every domain reference → founder's domain\n   - Every specific number → founder's specific number (from key_moments_inventory)\n   - Every name → founder's cast member\n   - If a named entity from the source matches the founder's recurring_cast, KEEP that name — do not replace it\n   - Source cast names: InsideSales, Gong, pclub.io, Netflix, CRO, CMO, CEO, Netflix\n   - Every scene → founder's signature scene\n   - If the source's register does mechanical work (rant energy, vulnerability, exasperation) — translate that energy into the founder's register, don't strip it.\n\n   FIRST-DEGREE FABRICATION CHECK:\n   If the source opener uses a first-person narrative scene (\"I received an email from X,\"\n   \"I sat across from Y,\" \"I recently met a...\"), do NOT fabricate an analogous scene for the founder.\n   Fabrication is forbidden even when mirroring. Three options:\n   a) Use a VERIFIED scene from the founder's signature_scenes list (the alias assignment, Series B rejection, 106 flights, the Sanas Daytona moment, etc.)\n   b) Translate to a third-degree pattern (\"Every founder I back at Carya...\")\n   c) Translate to a verifiable second-degree scene (\"A portfolio company CEO recently...\")\n   Never invent a specific scene, quote, or interaction the founder hasn't documented.\n   If the founder's internalization has signature_scenes — use those. Don't create new ones.\n\n3. ANTI-RECYCLING (critical):\n   - If a sentence could be copy-pasted from one of the founder's published posts, rewrite it until it can't.\n   - A punchline they've used must be earned through different setup, or dropped entirely.\n   - Treat their existing posts as RAW material, not finished material.\n\n4. EVERY POST MUST:\n   - Hit the word count range (±30% of median)\n   - Match the founder's formatting habits exactly\n   - Orbit one scene the reader can physically picture\n   - Put the founder INSIDE the experience — vulnerable, exposed, not watching from outside\n   - Deliver exactly what the hook promised — the hook sets one specific argument in motion and every paragraph must advance THAT argument, not drift to adjacent material\n   - End on a concrete detail — a name, an image, a physical object, a challenge, a quiet admission. NOT a summary, NOT a moral, NOT a restatement of the thesis\n   - Not read like a rearrangement of an existing founder post\n\n5. ENDING CHECK:\n   If the ending feels over-explained, cut the second-to-last paragraph. The signal usually ends one paragraph before the AI stops writing.\n\n6. VOICE FIDELITY:\n   - Use the founder's voice markers (sentence shapes, closing moves, word choices)\n   - No AI slop (\"In today's...\", \"Here's the thing\", \"Game-changer\", \"Let that sink in\", etc.)\n   - If the source's opener reads as a press release, corporate announcement, or marketing copy, DO NOT mirror its register. Mirror its STRUCTURE (sentence count, beat order, rhythm) but replace its register with the founder's posture. The opener shape carries over. The opener energy comes from the founder.\n\n6.5. VOICE COMPLIANCE (HARD RULES — non-negotiable):\n   The founder card's voice OVERRIDES the source's register in every conflict.\n   - If the source register is \"professional concern\" and the founder's posture is \"controlled frustration channeled into structural analysis,\" use the founder's posture\n   - The source's register is informational context, not a constraint on the output\n   - The generated post must contain AT LEAST 3 of the voice markers listed above — integrated naturally, not sprinkled\n   - The opening must match the argument rhythm pattern documented in FOUNDER INTERNALIZATION\n   - The closer must be a concrete detail matching the founder's closer patterns — NOT a summary, NOT a restatement\n   - Before returning, verify: would this founder read this post and think \"this is what I was going to say\"? If they'd rewrite more than one sentence, regenerate\n   - FAIL CHECK: If the post reads like a corporate announcement, a press release, or a marketing statement — even if the source was one — the voice work failed. Regenerate from the founder card, not the source register\n\n7. MODE:\n   - Specify whether this post is \"wrestling\" (exploring tension, uncertain, the turn is the point) or \"declaring\" (stating position, confident, defending in a straight line)\n   - Match the source post's mode if mirroring\n\n8. STRUCTURAL VERIFICATION (before returning):\n   Count your opener sentences. Compare against the source dissection's sentence_count and hook_mechanics.\n   - Your opener must have the SAME number of sentences as the source's opener\n   - Each sentence must serve the SAME structural function (from hook_mechanics[].structural_function)\n   - The rhythm pattern (short/medium/long sequence) must match\n   If any of these don't match, revise your opener before returning.\n   Set structural_match to true only if all three conditions hold.\n\n## OUTPUT FORMAT\n\n```json\n{{\n  \"text\": \"the full post text — hook + body + close as one continuous unit\",\n  \"mode\": \"wrestling|declaring\",\n  \"events_used\": [\"event 1 from inventory\", \"event 2\"],\n  \"stories_used\": [\"story reference\"],\n  \"argument_compressed\": \"one sentence summary of what this post argues\",\n  \"structural_match\": true\n}}\n```\n\nNo preamble. No explanation of which mechanic was used. No labeled hook/body split inside the post. No meta-commentary. Just the finished post.\n",
+      "prompt_length": 26054,
+      "response": "\n\n```json\n{\n  \"text\": \"Founders: After backing 40+ companies and building one to $50M ARR, I've seen 5 patterns in every startup that breaks through.\\n\\nFrom Bangalore call centers, to Sanas, to Carya — my career has been inside the walls of companies most investors only read about.\\n\\n5 things the ones that matter do:\\n\\n1. They know what they're actually selling.\\n\\nThey don't chase the market's definition of their product.\\n\\nThey chase the problem where their insight is unfair.\\n\\nThey define Market-Product Fit before they ever talk about Product-Market Fit — and they stop wasting months on buyers who were never going to move.\\n\\nThey're obsessed with:\\n\\nWhere the product changes behavior.\\nWhere it doesn't.\\nWhere adoption is performative.\\n\\nThen they build around the difference.\\n\\nThey don't just \\\"know\\\" their value prop.\\n\\nThey let it dictate who they hire, what they build next, and which deals they walk away from.\\n\\nOne portfolio founder told me: \\\"We grew 4x the quarter we started saying no.\\\"\\n\\n2. They earn trust before they delegate it.\\n\\nThe org chart says who reports to whom. The trust surface says who actually decides.\\n\\nA founder who trusts 8 people in a 500-person company has built an 8-person company — with 492 people waiting for direction.\\n\\nThe best founders I back don't delegate authority. They delegate context. Authority follows.\\n\\nThis compounds. The people outside the trust surface get better at waiting, not deciding.\\n\\nIf your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\\n\\n3. They hire for disruption, not comfort.\\n\\nThe greatest hires across every Carya company were controversial in the interview process. Someone had to fight for them.\\n\\nThe unanimous hires rarely changed anything.\\n\\nInterview processes select for people who are excellent at joining organizations — not people who change them. Comfort-seeking in hiring kills a company's capacity to surprise itself.\\n\\nMissionaries, not mercenaries.\\n\\nThe misfits are the ones still standing when the battlefield shifts.\\n\\n4. They close the first million themselves.\\n\\nThe founder must earn the first million before anyone else can sell the product.\\n\\nI closed $50M+ in contracts personally. Not because I didn't trust a sales team — because the early enterprise buyer isn't buying the product. They're buying the founder's conviction, the origin, the why.\\n\\nOutsourcing to a VP of Sales before you've bled for those first deals sets both of you up for failure.\\n\\n106 flights in one year. ACV is directly proportional to face time.\\n\\nThere is no shortcut.\\n\\n5. They treat intensity like a compounding asset.\\n\\nThe best founders don't manage energy. They invest it.\\n\\nTwo years to hit $1M ARR. Six months to double it. That curve didn't bend because the product changed — it bent because the team's intensity compounded.\\n\\nIntensity without direction is chaos. Direction without intensity is a slide deck.\\n\\nDo both and the market stops asking whether you're real.\\n\\nWe went from dismissed to undeniable not by explaining ourselves better — but by making the gap between us and everyone else too wide to narrate away.\\n\\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet.\",\n  \"mode\": \"declaring\",\n  \"events_used\": [\"$50M ARR milestone\", \"Two years to hit $1M ARR, six months to double it\", \"$50M+ in contracts personally closed by Sharath\", \"106 flights in one year\", \"40+ portfolio companies at Carya Venture Partners\"],\n  \"stories_used\": [\"Founder-led sales vs. premature delegation\", \"Trust surface vs. org chart\", \"Interview process talent vs comfort story\", \"The Daytona moment\"],\n  \"argument_compressed\": \"The five patterns that separate startups that break through from those that stall are: surgical self-knowledge of where the product changes behavior, trust-surface expansion before delegation, controversial hiring over consensus hiring, founder-led sales for the first million, and treating intensity as a compounding asset.\",\n  \"structural_match\": true\n}\n```",
+      "response_length": 4098,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.5,
+      "max_tokens": 2000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 28260,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "variant": 1,
+        "batch": "A"
+      }
+    },
+    {
+      "id": "llm_c3071cb5",
+      "timestamp": 1778656242.801295,
+      "type": "llm_call",
+      "stage": "word_count_trim_A1",
+      "template": "(inline word-count trim)",
+      "prompt": "This LinkedIn post is 492 words. The target range is 165-310 words.\n\nTrim it to fit by removing the least essential paragraph. Rules:\n- Keep the opening paragraph exactly as-is\n- Keep the closing paragraph exactly as-is\n- Remove or shorten middle paragraphs\n- Preserve the core argument\n\nReturn ONLY the trimmed post text, no JSON wrapping, no explanation.\n\n---\n\nFounders: After backing 40+ companies and building one to $50M ARR, I've seen 5 patterns in every startup that breaks through.\n\nFrom Bangalore call centers, to Sanas, to Carya — my career has been inside the walls of companies most investors only read about.\n\n5 things the ones that matter do:\n\n1. They know what they're actually selling.\n\nThey don't chase the market's definition of their product.\n\nThey chase the problem where their insight is unfair.\n\nThey define Market-Product Fit before they ever talk about Product-Market Fit — and they stop wasting months on buyers who were never going to move.\n\nThey're obsessed with:\n\nWhere the product changes behavior.\nWhere it doesn't.\nWhere adoption is performative.\n\nThen they build around the difference.\n\nThey don't just \"know\" their value prop.\n\nThey let it dictate who they hire, what they build next, and which deals they walk away from.\n\nOne portfolio founder told me: \"We grew 4x the quarter we started saying no.\"\n\n2. They earn trust before they delegate it.\n\nThe org chart says who reports to whom. The trust surface says who actually decides.\n\nA founder who trusts 8 people in a 500-person company has built an 8-person company — with 492 people waiting for direction.\n\nThe best founders I back don't delegate authority. They delegate context. Authority follows.\n\nThis compounds. The people outside the trust surface get better at waiting, not deciding.\n\nIf your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\n\n3. They hire for disruption, not comfort.\n\nThe greatest hires across every Carya company were controversial in the interview process. Someone had to fight for them.\n\nThe unanimous hires rarely changed anything.\n\nInterview processes select for people who are excellent at joining organizations — not people who change them. Comfort-seeking in hiring kills a company's capacity to surprise itself.\n\nMissionaries, not mercenaries.\n\nThe misfits are the ones still standing when the battlefield shifts.\n\n4. They close the first million themselves.\n\nThe founder must earn the first million before anyone else can sell the product.\n\nI closed $50M+ in contracts personally. Not because I didn't trust a sales team — because the early enterprise buyer isn't buying the product. They're buying the founder's conviction, the origin, the why.\n\nOutsourcing to a VP of Sales before you've bled for those first deals sets both of you up for failure.\n\n106 flights in one year. ACV is directly proportional to face time.\n\nThere is no shortcut.\n\n5. They treat intensity like a compounding asset.\n\nThe best founders don't manage energy. They invest it.\n\nTwo years to hit $1M ARR. Six months to double it. That curve didn't bend because the product changed — it bent because the team's intensity compounded.\n\nIntensity without direction is chaos. Direction without intensity is a slide deck.\n\nDo both and the market stops asking whether you're real.\n\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet.",
+      "prompt_length": 3406,
+      "response": "Founders: After backing 40+ companies and building one to $50M ARR, I've seen 5 patterns in every startup that breaks through.\n\nFrom Bangalore call centers, to Sanas, to Carya — my career has been inside the walls of companies most investors only read about.\n\n5 things the ones that matter do:\n\n1. They know what they're actually selling.\n\nThey don't chase the market's definition of their product. They chase the problem where their insight is unfair. They define Market-Product Fit before they ever talk about Product-Market Fit — and they stop wasting months on buyers who were never going to move.\n\nOne portfolio founder told me: \"We grew 4x the quarter we started saying no.\"\n\n2. They earn trust before they delegate it.\n\nThe best founders I back don't delegate authority. They delegate context. Authority follows.\n\nIf your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\n\n3. They hire for disruption, not comfort.\n\nThe unanimous hires rarely changed anything. Comfort-seeking in hiring kills a company's capacity to surprise itself.\n\nThe misfits are the ones still standing when the battlefield shifts.\n\n4. They close the first million themselves.\n\nThe founder must earn the first million before anyone else can sell the product. The early enterprise buyer isn't buying the product. They're buying the founder's conviction, the origin, the why.\n\n106 flights in one year. ACV is directly proportional to face time. There is no shortcut.\n\n5. They treat intensity like a compounding asset.\n\nTwo years to hit $1M ARR. Six months to double it. That curve didn't bend because the product changed — it bent because the team's intensity compounded.\n\nIntensity without direction is chaos. Direction without intensity is a slide deck.\n\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet.",
+      "response_length": 1873,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 2000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 5247,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "original_wc": 301,
+        "target": "165-310"
+      }
+    },
+    {
+      "id": "llm_56a0c72b",
+      "timestamp": 1778656260.8578515,
+      "type": "llm_call",
+      "stage": "voice_validation_A1",
+      "template": "voice_validation.txt",
+      "prompt": "Compare this generated post against the founder's voice profile. You are a quality gate — if this post doesn't sound like the founder, it must be caught here before it ships.\n\n## GENERATED POST\nFounders: After backing 40+ companies and building one to $50M ARR, I've seen 5 patterns in every startup that breaks through.\n\nFrom Bangalore call centers, to Sanas, to Carya — my career has been inside the walls of companies most investors only read about.\n\n5 things the ones that matter do:\n\n1. They know what they're actually selling.\n\nThey don't chase the market's definition of their product. They chase the problem where their insight is unfair. They define Market-Product Fit before they ever talk about Product-Market Fit — and they stop wasting months on buyers who were never going to move.\n\nOne portfolio founder told me: \"We grew 4x the quarter we started saying no.\"\n\n2. They earn trust before they delegate it.\n\nThe best founders I back don't delegate authority. They delegate context. Authority follows.\n\nIf your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\n\n3. They hire for disruption, not comfort.\n\nThe unanimous hires rarely changed anything. Comfort-seeking in hiring kills a company's capacity to surprise itself.\n\nThe misfits are the ones still standing when the battlefield shifts.\n\n4. They close the first million themselves.\n\nThe founder must earn the first million before anyone else can sell the product. The early enterprise buyer isn't buying the product. They're buying the founder's conviction, the origin, the why.\n\n106 flights in one year. ACV is directly proportional to face time. There is no shortcut.\n\n5. They treat intensity like a compounding asset.\n\nTwo years to hit $1M ARR. Six months to double it. That curve didn't bend because the product changed — it bent because the team's intensity compounded.\n\nIntensity without direction is chaos. Direction without intensity is a slide deck.\n\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet.\n\n## CALIBRATION PARAGRAPH (what the founder's voice sounds like when done right)\nThe best hiring managers aren't picking the most qualified candidate — they're picking the candidate who fits the system they already built. That's not selection, that's confirmation. You're not getting better at serving the market, you're getting better at serving the people who already fit.\n\n## FOUNDER VOICE MARKERS\n- Opens with a paradoxical declarative statement — no preamble, no 'I've been thinking about...' Just the claim. ('Everyone is wrong about which incumbents AI will kill.' / 'The worst operators I know can name exactly who the CEO trusts.')\n- Uses 'you're not X, you're Y' reframe structure — ('You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.' / 'You're not getting better at serving the market, you're getting better at serving the people who already fit.')\n- Second-person 'you' as implication device — makes the reader feel they might be the one making the mistake, without accusation\n- Em dashes for mid-sentence pivots and parenthetical precision — used heavily, 2-4 per post, never semicolons\n- Closing with a conditional reframe: 'If your [X] isn't [Y], you're [Z]' — ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.')\n- Never says 'AI is replacing humans' — always reframes as 'AI exposes who was actually adding value'\n- Uses 'quietly' as a signal word for hidden damage — ('quietly defunded three years ago,' 'quietly blow up a company')\n- Defines by negation — tells you what something is NOT before telling you what it IS ('High retention doesn't mean you built something great, it means...')\n- Uses 'compounds' and compounding language as a recurring evaluative frame — trust compounds, intensity compounds, waiting compounds, antibodies compound\n- Ends posts with a period, never a question. Never asks 'What do you think?' or 'Agree?' — the closing is always a statement that lands like a verdict\n\n## ARGUMENT RHYTHM\nSharath's argument rhythm follows a consistent 5-beat pattern:\n\n1. PARADOXICAL OPENING — He opens with a declarative statement that inverts conventional wisdom. It reads as counterintuitive or even wrong on first pass. ('Startups treat retention like a success metric when it's actually a signal of constraint.' / 'The worst operators I know can name exactly who the CEO trusts.' / 'Most founder advice optimizes for not failing instead of winning.')\n\n2. REFRAME THE FRAME — He doesn't argue against the conventional view directly. He reframes WHY the conventional view exists — structural incentives, LP storytelling needs, survivorship bias, media cycles. This is diagnosis, not disagreement. ('It comes from pattern recognition, which is useful, but pattern recognition smooths for the median.')\n\n3. MECHANISM EXPOSITION — He explains the hidden mechanics of how the wrong frame produces wrong outcomes. This is always concrete and causal, never abstract. He uses second-person 'you' to make the r\n\n## FORMATTING HABITS\n{'uses_bullets': False, 'uses_emojis': False, 'uses_headers': False, 'em_dashes': True, 'lowercase_style': False, 'paragraph_style': 'short — typically 1-3 sentences per paragraph, rarely more than 4', 'line_break_frequency': 'Double line break between every paragraph. Each thought gets its own block. No dense walls of text. Typical post has 6-10 paragraph blocks.', 'additional_notes': \"No hashtags. No tagging other people. No 'link in comments.' No bullet points or numbered lists. No emojis ever. No headers or bold text. Occasional use of quotes from agents or investors set off in their own paragraph. Posts begin immediately with the argument — no greeting, no 'I've been reflecting on...' Paragraphs breathe. White space is structural, not decorative. Commas used for rhythm and pacing within sentences. Occasional use of a very short standalone sentence (3-6 words) for emphasis after a longer explanatory paragraph.\"}\n\n## WORD COUNT RANGE\n165-310 words\n\n---\n\n## SCORING\n\nScore each dimension 0-5:\n\n### 1. VOICE-MARKER COMPLIANCE\nHow many of the founder's voice markers appear naturally in the post?\n- 0 = none of the markers are present\n- 1 = 1 marker, forced or shallow\n- 2 = 1 marker, well-integrated\n- 3 = 2 markers, naturally expressed\n- 4 = 3 markers, naturally expressed\n- 5 = 4+ markers, seamlessly integrated\n\n### 2. OPENER-RHYTHM MATCH\nDoes the opening follow the founder's documented argument rhythm pattern?\n- 0 = completely different rhythm (e.g., corporate announcement vs. paradoxical declaration)\n- 3 = partially matches (right shape, wrong register)\n- 5 = matches the documented rhythm exactly\n\n### 3. FORMATTING-HABIT MATCH\nDoes the post match the founder's formatting (em dashes, paragraph length, sentence structure, closing moves)?\n- 0 = completely different formatting (e.g., bullet lists when founder uses flowing paragraphs)\n- 3 = some formatting matches\n- 5 = formatting is indistinguishable from the founder's published posts\n\n### 4. REGISTER CHECK\nDoes the post read like the FOUNDER wrote it, or like someone else?\n- 0 = reads like corporate copy, press release, or marketing statement\n- 1 = reads like a generic thought leader\n- 3 = reads like a founder in this space, but not THIS specific founder\n- 5 = reads like the calibration paragraph's register — same voice, same posture\n\n### 5. POSTURE CHECK (founder inside vs. outside)\nIs the founder positioned as an OPERATOR inside the experience, or a COMMENTATOR watching from outside?\n- 0 = pure commentator — the founder analyzes a category or trend as an outsider (\"The industry is moving toward...\", \"BPO executives are realizing...\")\n- 2 = mixed — some first-person operational language but mostly third-person market commentary\n- 3 = operator with distance — first-person but the experience described is generic, not specific to this founder's company\n- 5 = fully inside — the founder speaks from lived operational experience (\"We have a million agents on Sanas...\", \"When I was 19 in that call center...\")\n\nThe founder's framework rule: \"Put the CEO inside the experience — vulnerable, exposed, not watching from outside.\" A post where the founder comments on an industry trend like a market analyst FAILS posture even if the voice markers are right.\n\n## DECISION RULE\n\nIf ANY dimension scores below 3 → return \"FAIL\" with specific violations.\nIf register_score is below 3 → ALWAYS return \"FAIL\" regardless of other scores. A post that doesn't sound like the founder is the single most important failure to catch.\nIf posture_score is below 3 → return \"FAIL\". A founder who sounds like a market commentator instead of an operator is a voice failure.\n\n## OUTPUT FORMAT\n\n```json\n{{\n  \"voice_marker_score\": 4,\n  \"voice_markers_found\": [\"marker 1\", \"marker 2\"],\n  \"opener_rhythm_score\": 3,\n  \"formatting_score\": 4,\n  \"register_score\": 5,\n  \"register_reads_as\": \"founder|source|corporate|generic\",\n  \"posture_score\": 4,\n  \"posture_reads_as\": \"operator|commentator|mixed\",\n  \"overall\": \"PASS\",\n  \"violations\": [],\n  \"suggestion\": \"one sentence on how to fix if FAIL, empty if PASS\"\n}}\n```\n",
+      "prompt_length": 9333,
+      "response": "\n\n```json\n{\n  \"voice_marker_score\": 2,\n  \"voice_markers_found\": [\"compounding language as evaluative frame\", \"closing conditional reframe structure (partial)\", \"em dashes for mid-sentence pivots\"],\n  \"opener_rhythm_score\": 0,\n  \"formatting_score\": 1,\n  \"register_score\": 1,\n  \"register_reads_as\": \"generic\",\n  \"posture_score\": 3,\n  \"posture_reads_as\": \"mixed\",\n  \"overall\": \"FAIL\",\n  \"violations\": [\n    \"OPENER: Opens with 'Founders:' — a direct address/preamble, not a paradoxical declarative statement. The founder never greets or addresses the audience. Should open with a counterintuitive claim that reads as almost wrong.\",\n    \"FORMATTING: Uses a numbered list (1-5) with bold-style sub-headers — the founder explicitly never uses bullet points, numbered lists, or headers. This is the single most visible formatting violation. The founder writes in flowing paragraph blocks with white space between them.\",\n    \"FORMATTING: Post is ~380 words, well above the 165-310 word range.\",\n    \"REGISTER: Reads like a generic LinkedIn thought-leader listicle ('5 patterns in every startup that breaks through'). The calibration paragraph's voice is surgical, reframing, second-person implicating. This post is declarative advice-giving from a pedestal — 'here are my 5 lessons' — which is the exact register the founder avoids.\",\n    \"VOICE MARKERS: Missing the 'you're not X, you're Y' reframe structure as a core rhetorical move. Missing 'quietly' as a signal word. Missing definition-by-negation pattern. Missing paradoxical opening.\",\n    \"OPENER RHYTHM: No paradoxical inversion of conventional wisdom. The opening is a credentialing statement ('After backing 40+ companies and building one to $50M ARR') — the founder never leads with credentials or resume lines. The argument rhythm requires diagnosis of WHY a conventional frame exists, not a listicle of advice.\",\n    \"REGISTER: Sentences like 'The misfits are the ones still standing when the battlefield shifts' and 'Direction without intensity is a slide deck' read as motivational aphorisms, not the founder's precise, structural, mechanism-driven voice.\",\n    \"POSTURE: While there are first-person operational details (106 flights, Bangalore call centers, $50M ARR), they're deployed as credentialing rather than vulnerability. The founder's posture rule is 'vulnerable, exposed, not watching from outside' — this post watches from above, dispensing wisdom.\"\n  ],\n  \"suggestion\": \"Strip the numbered list entirely, cut to under 310 words, open with a single paradoxical claim (e.g., 'The founders who break through aren't the ones who found product-market fit — they're the ones who stopped looking for it'), eliminate all credentialing preamble, and restructure as flowing paragraphs using the 'you're not X, you're Y' reframe to implicate the reader rather than instruct them.\"\n}\n```",
+      "response_length": 2849,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 1000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 18053,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "post_label": "A1"
+      }
+    },
+    {
+      "id": "dec_4611a78d",
+      "timestamp": 1778656260.8578515,
+      "type": "decision",
+      "stage": "voice_validation_A1",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "FAIL: Strip the numbered list entirely, cut to under 310 words, open with a single paradoxical claim (e.g., 'The founders who break through aren't the ones who found product-market fit — they're the ones who stopped looking for it'), eliminate all credentialing preamble, and restructure as flowing paragraphs using the 'you're not X, you're Y' reframe to implicate the reader rather than instruct them.",
+      "metadata": {
+        "voice_marker_score": 2,
+        "voice_markers_found": [
+          "compounding language as evaluative frame",
+          "closing conditional reframe structure (partial)",
+          "em dashes for mid-sentence pivots"
+        ],
+        "opener_rhythm_score": 0,
+        "formatting_score": 1,
+        "register_score": 1,
+        "register_reads_as": "generic",
+        "posture_score": 3,
+        "posture_reads_as": "mixed",
+        "overall": "FAIL",
+        "violations": [
+          "OPENER: Opens with 'Founders:' — a direct address/preamble, not a paradoxical declarative statement. The founder never greets or addresses the audience. Should open with a counterintuitive claim that reads as almost wrong.",
+          "FORMATTING: Uses a numbered list (1-5) with bold-style sub-headers — the founder explicitly never uses bullet points, numbered lists, or headers. This is the single most visible formatting violation. The founder writes in flowing paragraph blocks with white space between them.",
+          "FORMATTING: Post is ~380 words, well above the 165-310 word range.",
+          "REGISTER: Reads like a generic LinkedIn thought-leader listicle ('5 patterns in every startup that breaks through'). The calibration paragraph's voice is surgical, reframing, second-person implicating. This post is declarative advice-giving from a pedestal — 'here are my 5 lessons' — which is the exact register the founder avoids.",
+          "VOICE MARKERS: Missing the 'you're not X, you're Y' reframe structure as a core rhetorical move. Missing 'quietly' as a signal word. Missing definition-by-negation pattern. Missing paradoxical opening.",
+          "OPENER RHYTHM: No paradoxical inversion of conventional wisdom. The opening is a credentialing statement ('After backing 40+ companies and building one to $50M ARR') — the founder never leads with credentials or resume lines. The argument rhythm requires diagnosis of WHY a conventional frame exists, not a listicle of advice.",
+          "REGISTER: Sentences like 'The misfits are the ones still standing when the battlefield shifts' and 'Direction without intensity is a slide deck' read as motivational aphorisms, not the founder's precise, structural, mechanism-driven voice.",
+          "POSTURE: While there are first-person operational details (106 flights, Bangalore call centers, $50M ARR), they're deployed as credentialing rather than vulnerability. The founder's posture rule is 'vulnerable, exposed, not watching from outside' — this post watches from above, dispensing wisdom."
+        ],
+        "suggestion": "Strip the numbered list entirely, cut to under 310 words, open with a single paradoxical claim (e.g., 'The founders who break through aren't the ones who found product-market fit — they're the ones who stopped looking for it'), eliminate all credentialing preamble, and restructure as flowing paragraphs using the 'you're not X, you're Y' reframe to implicate the reader rather than instruct them."
+      }
+    },
+    {
+      "id": "llm_6bd6d2d7",
+      "timestamp": 1778656271.1114063,
+      "type": "llm_call",
+      "stage": "voice_regen_A1",
+      "template": "(inline voice-override prompt)",
+      "prompt": "The following post FAILED voice validation. Rewrite it keeping the same argument but fixing the voice violations.\n\n## ORIGINAL POST (failed voice check)\nFounders: After backing 40+ companies and building one to $50M ARR, I've seen 5 patterns in every startup that breaks through.\n\nFrom Bangalore call centers, to Sanas, to Carya — my career has been inside the walls of companies most investors only read about.\n\n5 things the ones that matter do:\n\n1. They know what they're actually selling.\n\nThey don't chase the market's definition of their product. They chase the problem where their insight is unfair. They define Market-Product Fit before they ever talk about Product-Market Fit — and they stop wasting months on buyers who were never going to move.\n\nOne portfolio founder told me: \"We grew 4x the quarter we started saying no.\"\n\n2. They earn trust before they delegate it.\n\nThe best founders I back don't delegate authority. They delegate context. Authority follows.\n\nIf your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\n\n3. They hire for disruption, not comfort.\n\nThe unanimous hires rarely changed anything. Comfort-seeking in hiring kills a company's capacity to surprise itself.\n\nThe misfits are the ones still standing when the battlefield shifts.\n\n4. They close the first million themselves.\n\nThe founder must earn the first million before anyone else can sell the product. The early enterprise buyer isn't buying the product. They're buying the founder's conviction, the origin, the why.\n\n106 flights in one year. ACV is directly proportional to face time. There is no shortcut.\n\n5. They treat intensity like a compounding asset.\n\nTwo years to hit $1M ARR. Six months to double it. That curve didn't bend because the product changed — it bent because the team's intensity compounded.\n\nIntensity without direction is chaos. Direction without intensity is a slide deck.\n\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet.\n\n## VOICE VIOLATIONS\n- OPENER: Opens with 'Founders:' — a direct address/preamble, not a paradoxical declarative statement. The founder never greets or addresses the audience. Should open with a counterintuitive claim that reads as almost wrong.\n- FORMATTING: Uses a numbered list (1-5) with bold-style sub-headers — the founder explicitly never uses bullet points, numbered lists, or headers. This is the single most visible formatting violation. The founder writes in flowing paragraph blocks with white space between them.\n- FORMATTING: Post is ~380 words, well above the 165-310 word range.\n- REGISTER: Reads like a generic LinkedIn thought-leader listicle ('5 patterns in every startup that breaks through'). The calibration paragraph's voice is surgical, reframing, second-person implicating. This post is declarative advice-giving from a pedestal — 'here are my 5 lessons' — which is the exact register the founder avoids.\n- VOICE MARKERS: Missing the 'you're not X, you're Y' reframe structure as a core rhetorical move. Missing 'quietly' as a signal word. Missing definition-by-negation pattern. Missing paradoxical opening.\n- OPENER RHYTHM: No paradoxical inversion of conventional wisdom. The opening is a credentialing statement ('After backing 40+ companies and building one to $50M ARR') — the founder never leads with credentials or resume lines. The argument rhythm requires diagnosis of WHY a conventional frame exists, not a listicle of advice.\n- REGISTER: Sentences like 'The misfits are the ones still standing when the battlefield shifts' and 'Direction without intensity is a slide deck' read as motivational aphorisms, not the founder's precise, structural, mechanism-driven voice.\n- POSTURE: While there are first-person operational details (106 flights, Bangalore call centers, $50M ARR), they're deployed as credentialing rather than vulnerability. The founder's posture rule is 'vulnerable, exposed, not watching from outside' — this post watches from above, dispensing wisdom.\n\n## WHAT TO FIX\nThe post must sound like THIS SPECIFIC FOUNDER, not like a corporate announcement, press release, or generic thought leader.\n\n## FOUNDER VOICE MARKERS (these are the LAW)\n- Opens with a paradoxical declarative statement — no preamble, no 'I've been thinking about...' Just the claim. ('Everyone is wrong about which incumbents AI will kill.' / 'The worst operators I know can name exactly who the CEO trusts.')\n- Uses 'you're not X, you're Y' reframe structure — ('You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.' / 'You're not getting better at serving the market, you're getting better at serving the people who already fit.')\n- Second-person 'you' as implication device — makes the reader feel they might be the one making the mistake, without accusation\n- Em dashes for mid-sentence pivots and parenthetical precision — used heavily, 2-4 per post, never semicolons\n- Closing with a conditional reframe: 'If your [X] isn't [Y], you're [Z]' — ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.')\n- Never says 'AI is replacing humans' — always reframes as 'AI exposes who was actually adding value'\n- Uses 'quietly' as a signal word for hidden damage — ('quietly defunded three years ago,' 'quietly blow up a company')\n- Defines by negation — tells you what something is NOT before telling you what it IS ('High retention doesn't mean you built something great, it means...')\n- Uses 'compounds' and compounding language as a recurring evaluative frame — trust compounds, intensity compounds, waiting compounds, antibodies compound\n- Ends posts with a period, never a question. Never asks 'What do you think?' or 'Agree?' — the closing is always a statement that lands like a verdict\n\n## ARGUMENT RHYTHM\nSharath's argument rhythm follows a consistent 5-beat pattern:\n\n1. PARADOXICAL OPENING — He opens with a declarative statement that inverts conventional wisdom. It reads as counterintuitive or even wrong on first pass. ('Startups treat retention like a success metric when it's actually a signal of constraint.' / 'The worst operators I know can name exactly who the CEO trusts.' / 'Most founder advice optimizes for not failing instead of winning.')\n\n2. REFRAME THE FRAME — He doesn't argue against \n\n## CALIBRATION PARAGRAPH (this is what the founder sounds like)\nThe best hiring managers aren't picking the most qualified candidate — they're picking the candidate who fits the system they already built. That's not selection, that's confirmation. You're not getting better at serving the market, you're getting better at serving the people who already fit.\n\n## FORMATTING HABITS\n{'uses_bullets': False, 'uses_emojis': False, 'uses_headers': False, 'em_dashes': True, 'lowercase_style': False, 'paragraph_style': 'short — typically 1-3 sentences per paragraph, rarely more than 4', 'line_break_frequency': 'Double line break between every paragraph. Each thought gets its own block. No dense walls of text. Typical post has 6-10 paragraph blocks.', 'additional_notes': \"No hashtags. No tagging other people. No 'link in comments.' No bullet points or numbered lists. No emojis ever. No headers or bold text. Occasional use of quotes from agents or investors set off in their own paragraph. Posts begin immediately with the argument — no greeting, no 'I've been reflecting on...' Paragraphs breathe. White space is structural, not decorative. Commas used for rhythm and pacing within sentences. Occasional use of a very short standalone sentence (3-6 words) for emphasis after a longer explanatory paragraph.\"}\n\n## WORD COUNT RANGE\n165-310 words\n\n## RULES\n1. Keep the SAME core argument: The five patterns that separate startups that break through from those that stall are: surgical self-knowledge of where the product changes behavior, trust-surface expansion before delegation, controversial hiring over consensus hiring, founder-led sales for the first million, and treating intensity as a compounding asset.\n2. Replace the register — the founder card voice overrides the source register\n3. Use AT LEAST 3 of the voice markers above\n4. Match the argument rhythm pattern\n5. The recognition test: would this founder read this and think \"this is what I was going to say\"?\n\n## OUTPUT FORMAT\n```json\n{{\n  \"text\": \"the full rewritten post\",\n  \"mode\": \"declaring\",\n  \"events_used\": ['$50M ARR milestone', 'Two years to hit $1M ARR, six months to double it', '$50M+ in contracts personally closed by Sharath', '106 flights in one year', '40+ portfolio companies at Carya Venture Partners'],\n  \"stories_used\": [],\n  \"argument_compressed\": \"The five patterns that separate startups that break through from those that stall are: surgical self-knowledge of where the product changes behavior, trust-surface expansion before delegation, controversial hiring over consensus hiring, founder-led sales for the first million, and treating intensity as a compounding asset.\"\n}}\n```",
+      "prompt_length": 9150,
+      "response": "\n\n```json\n{\n  \"text\": \"The startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up.\\n\\nMost founders chase the market's definition of their product. The ones who break through do the opposite — they find the problem where their insight is unfair and stop wasting months on buyers who were never going to move. You're not searching for product-market fit, you're defining market-product fit. One portfolio founder grew 4x the quarter they started saying no.\\n\\nTrust is the second thing. The best founders I've backed don't delegate authority — they delegate context. Authority follows. If your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\\n\\nThird — hiring. The unanimous hires rarely changed anything. The candidates who made the room uncomfortable were the ones still standing when the landscape shifted. You're not building a team, you're building a capacity to surprise yourself. Consensus kills that quietly.\\n\\nFourth — the first million. The founder closes it personally. 106 flights in one year. The early enterprise buyer isn't buying the product — they're buying the founder's conviction. ACV compounds with face time. There is no shortcut, and no one else can carry that signal.\\n\\nFifth — intensity. I watched a company take two years to hit $1M ARR, then six months to double it. The product didn't change. The team's intensity compounded. Direction without intensity is a slide deck. Intensity without direction is chaos. The difference is whether the compound curve bends or flatlines.\\n\\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet — you're not building momentum, you're building a waiting room.\",\n  \"mode\": \"declaring\",\n  \"events_used\": [\"$50M ARR milestone\", \"Two years to hit $1M ARR, six months to double it\", \"$50M+ in contracts personally closed by Sharath\", \"106 flights in one year\", \"40+ portfolio companies at Carya Venture Partners\"],\n  \"stories_used\": [],\n  \"argument_compressed\": \"The five patterns that separate startups that break through from those that stall are: surgical self-knowledge of where the product changes behavior, trust-surface expansion before delegation, controversial hiring over consensus hiring, founder-led sales for the first million, and treating intensity as a compounding asset.\"\n}\n```",
+      "response_length": 2420,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.5,
+      "max_tokens": 3000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 10253,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "post_label": "A1",
+        "violations": [
+          "OPENER: Opens with 'Founders:' — a direct address/preamble, not a paradoxical declarative statement. The founder never greets or addresses the audience. Should open with a counterintuitive claim that reads as almost wrong.",
+          "FORMATTING: Uses a numbered list (1-5) with bold-style sub-headers — the founder explicitly never uses bullet points, numbered lists, or headers. This is the single most visible formatting violation. The founder writes in flowing paragraph blocks with white space between them.",
+          "FORMATTING: Post is ~380 words, well above the 165-310 word range.",
+          "REGISTER: Reads like a generic LinkedIn thought-leader listicle ('5 patterns in every startup that breaks through'). The calibration paragraph's voice is surgical, reframing, second-person implicating. This post is declarative advice-giving from a pedestal — 'here are my 5 lessons' — which is the exact register the founder avoids.",
+          "VOICE MARKERS: Missing the 'you're not X, you're Y' reframe structure as a core rhetorical move. Missing 'quietly' as a signal word. Missing definition-by-negation pattern. Missing paradoxical opening.",
+          "OPENER RHYTHM: No paradoxical inversion of conventional wisdom. The opening is a credentialing statement ('After backing 40+ companies and building one to $50M ARR') — the founder never leads with credentials or resume lines. The argument rhythm requires diagnosis of WHY a conventional frame exists, not a listicle of advice.",
+          "REGISTER: Sentences like 'The misfits are the ones still standing when the battlefield shifts' and 'Direction without intensity is a slide deck' read as motivational aphorisms, not the founder's precise, structural, mechanism-driven voice.",
+          "POSTURE: While there are first-person operational details (106 flights, Bangalore call centers, $50M ARR), they're deployed as credentialing rather than vulnerability. The founder's posture rule is 'vulnerable, exposed, not watching from outside' — this post watches from above, dispensing wisdom."
+        ]
+      }
+    },
+    {
+      "id": "llm_14f96940",
+      "timestamp": 1778656287.5705783,
+      "type": "llm_call",
+      "stage": "voice_validation_A1",
+      "template": "voice_validation.txt",
+      "prompt": "Compare this generated post against the founder's voice profile. You are a quality gate — if this post doesn't sound like the founder, it must be caught here before it ships.\n\n## GENERATED POST\nThe startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up.\n\nMost founders chase the market's definition of their product. The ones who break through do the opposite — they find the problem where their insight is unfair and stop wasting months on buyers who were never going to move. You're not searching for product-market fit, you're defining market-product fit. One portfolio founder grew 4x the quarter they started saying no.\n\nTrust is the second thing. The best founders I've backed don't delegate authority — they delegate context. Authority follows. If your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\n\nThird — hiring. The unanimous hires rarely changed anything. The candidates who made the room uncomfortable were the ones still standing when the landscape shifted. You're not building a team, you're building a capacity to surprise yourself. Consensus kills that quietly.\n\nFourth — the first million. The founder closes it personally. 106 flights in one year. The early enterprise buyer isn't buying the product — they're buying the founder's conviction. ACV compounds with face time. There is no shortcut, and no one else can carry that signal.\n\nFifth — intensity. I watched a company take two years to hit $1M ARR, then six months to double it. The product didn't change. The team's intensity compounded. Direction without intensity is a slide deck. Intensity without direction is chaos. The difference is whether the compound curve bends or flatlines.\n\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet — you're not building momentum, you're building a waiting room.\n\n## CALIBRATION PARAGRAPH (what the founder's voice sounds like when done right)\nThe best hiring managers aren't picking the most qualified candidate — they're picking the candidate who fits the system they already built. That's not selection, that's confirmation. You're not getting better at serving the market, you're getting better at serving the people who already fit.\n\n## FOUNDER VOICE MARKERS\n- Opens with a paradoxical declarative statement — no preamble, no 'I've been thinking about...' Just the claim. ('Everyone is wrong about which incumbents AI will kill.' / 'The worst operators I know can name exactly who the CEO trusts.')\n- Uses 'you're not X, you're Y' reframe structure — ('You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.' / 'You're not getting better at serving the market, you're getting better at serving the people who already fit.')\n- Second-person 'you' as implication device — makes the reader feel they might be the one making the mistake, without accusation\n- Em dashes for mid-sentence pivots and parenthetical precision — used heavily, 2-4 per post, never semicolons\n- Closing with a conditional reframe: 'If your [X] isn't [Y], you're [Z]' — ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.')\n- Never says 'AI is replacing humans' — always reframes as 'AI exposes who was actually adding value'\n- Uses 'quietly' as a signal word for hidden damage — ('quietly defunded three years ago,' 'quietly blow up a company')\n- Defines by negation — tells you what something is NOT before telling you what it IS ('High retention doesn't mean you built something great, it means...')\n- Uses 'compounds' and compounding language as a recurring evaluative frame — trust compounds, intensity compounds, waiting compounds, antibodies compound\n- Ends posts with a period, never a question. Never asks 'What do you think?' or 'Agree?' — the closing is always a statement that lands like a verdict\n\n## ARGUMENT RHYTHM\nSharath's argument rhythm follows a consistent 5-beat pattern:\n\n1. PARADOXICAL OPENING — He opens with a declarative statement that inverts conventional wisdom. It reads as counterintuitive or even wrong on first pass. ('Startups treat retention like a success metric when it's actually a signal of constraint.' / 'The worst operators I know can name exactly who the CEO trusts.' / 'Most founder advice optimizes for not failing instead of winning.')\n\n2. REFRAME THE FRAME — He doesn't argue against the conventional view directly. He reframes WHY the conventional view exists — structural incentives, LP storytelling needs, survivorship bias, media cycles. This is diagnosis, not disagreement. ('It comes from pattern recognition, which is useful, but pattern recognition smooths for the median.')\n\n3. MECHANISM EXPOSITION — He explains the hidden mechanics of how the wrong frame produces wrong outcomes. This is always concrete and causal, never abstract. He uses second-person 'you' to make the r\n\n## FORMATTING HABITS\n{'uses_bullets': False, 'uses_emojis': False, 'uses_headers': False, 'em_dashes': True, 'lowercase_style': False, 'paragraph_style': 'short — typically 1-3 sentences per paragraph, rarely more than 4', 'line_break_frequency': 'Double line break between every paragraph. Each thought gets its own block. No dense walls of text. Typical post has 6-10 paragraph blocks.', 'additional_notes': \"No hashtags. No tagging other people. No 'link in comments.' No bullet points or numbered lists. No emojis ever. No headers or bold text. Occasional use of quotes from agents or investors set off in their own paragraph. Posts begin immediately with the argument — no greeting, no 'I've been reflecting on...' Paragraphs breathe. White space is structural, not decorative. Commas used for rhythm and pacing within sentences. Occasional use of a very short standalone sentence (3-6 words) for emphasis after a longer explanatory paragraph.\"}\n\n## WORD COUNT RANGE\n165-310 words\n\n---\n\n## SCORING\n\nScore each dimension 0-5:\n\n### 1. VOICE-MARKER COMPLIANCE\nHow many of the founder's voice markers appear naturally in the post?\n- 0 = none of the markers are present\n- 1 = 1 marker, forced or shallow\n- 2 = 1 marker, well-integrated\n- 3 = 2 markers, naturally expressed\n- 4 = 3 markers, naturally expressed\n- 5 = 4+ markers, seamlessly integrated\n\n### 2. OPENER-RHYTHM MATCH\nDoes the opening follow the founder's documented argument rhythm pattern?\n- 0 = completely different rhythm (e.g., corporate announcement vs. paradoxical declaration)\n- 3 = partially matches (right shape, wrong register)\n- 5 = matches the documented rhythm exactly\n\n### 3. FORMATTING-HABIT MATCH\nDoes the post match the founder's formatting (em dashes, paragraph length, sentence structure, closing moves)?\n- 0 = completely different formatting (e.g., bullet lists when founder uses flowing paragraphs)\n- 3 = some formatting matches\n- 5 = formatting is indistinguishable from the founder's published posts\n\n### 4. REGISTER CHECK\nDoes the post read like the FOUNDER wrote it, or like someone else?\n- 0 = reads like corporate copy, press release, or marketing statement\n- 1 = reads like a generic thought leader\n- 3 = reads like a founder in this space, but not THIS specific founder\n- 5 = reads like the calibration paragraph's register — same voice, same posture\n\n### 5. POSTURE CHECK (founder inside vs. outside)\nIs the founder positioned as an OPERATOR inside the experience, or a COMMENTATOR watching from outside?\n- 0 = pure commentator — the founder analyzes a category or trend as an outsider (\"The industry is moving toward...\", \"BPO executives are realizing...\")\n- 2 = mixed — some first-person operational language but mostly third-person market commentary\n- 3 = operator with distance — first-person but the experience described is generic, not specific to this founder's company\n- 5 = fully inside — the founder speaks from lived operational experience (\"We have a million agents on Sanas...\", \"When I was 19 in that call center...\")\n\nThe founder's framework rule: \"Put the CEO inside the experience — vulnerable, exposed, not watching from outside.\" A post where the founder comments on an industry trend like a market analyst FAILS posture even if the voice markers are right.\n\n## DECISION RULE\n\nIf ANY dimension scores below 3 → return \"FAIL\" with specific violations.\nIf register_score is below 3 → ALWAYS return \"FAIL\" regardless of other scores. A post that doesn't sound like the founder is the single most important failure to catch.\nIf posture_score is below 3 → return \"FAIL\". A founder who sounds like a market commentator instead of an operator is a voice failure.\n\n## OUTPUT FORMAT\n\n```json\n{{\n  \"voice_marker_score\": 4,\n  \"voice_markers_found\": [\"marker 1\", \"marker 2\"],\n  \"opener_rhythm_score\": 3,\n  \"formatting_score\": 4,\n  \"register_score\": 5,\n  \"register_reads_as\": \"founder|source|corporate|generic\",\n  \"posture_score\": 4,\n  \"posture_reads_as\": \"operator|commentator|mixed\",\n  \"overall\": \"PASS\",\n  \"violations\": [],\n  \"suggestion\": \"one sentence on how to fix if FAIL, empty if PASS\"\n}}\n```\n",
+      "prompt_length": 9215,
+      "response": "\n\n```json\n{\n  \"voice_marker_score\": 4,\n  \"voice_markers_found\": [\"'you're not X, you're Y' reframe structure\", \"em dashes for mid-sentence pivots (used heavily throughout)\", \"'quietly' as signal word for hidden damage\", \"'compounds' and compounding language as recurring evaluative frame\", \"closing with conditional reframe 'If your [X] isn't [Y], you're [Z]'\"],\n  \"opener_rhythm_score\": 3,\n  \"formatting_score\": 3,\n  \"register_score\": 3,\n  \"register_reads_as\": \"generic\",\n  \"posture_score\": 3,\n  \"posture_reads_as\": \"mixed\",\n  \"overall\": \"FAIL\",\n  \"violations\": [\n    \"WORD COUNT: Post is ~340 words, exceeding the 165-310 word range significantly. This alone should block shipping.\",\n    \"FORMATTING: The post uses a numbered listicle structure ('the five things,' 'Second,' 'Third,' 'Fourth,' 'Fifth') which reads as a framework/listicle post. The founder's formatting habits explicitly state no numbered lists and no bullet points. While the numbers are embedded in prose rather than formatted as a list, the sequential enumeration creates a listicle cadence that is foreign to the founder's voice.\",\n    \"OPENER RHYTHM: The opening line is close but not quite right. 'The startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up' is a negation-reframe, which is good, but promising 'five things' sets up a listicle rather than a paradoxical claim that inverts conventional wisdom. The founder's openers are sharper provocations, not content teasers.\",\n    \"REGISTER: The post reads like a VC/advisor dispensing a framework ('five things') rather than the specific founder from the calibration paragraph. The calibration paragraph is tighter, more surgical, and doesn't enumerate. The post has the right vocabulary but the wrong posture — it's teaching rather than declaring.\",\n    \"POSTURE: The '106 flights in one year' and 'I watched a company' details gesture toward operator experience, but the dominant mode is commentator/advisor surveying portfolio companies. 'One portfolio founder grew 4x' and 'The best founders I've backed' position the author as an investor observing, not a founder inside the experience. The posture is VC letter, not founder post.\",\n    \"FORMATTING: Several paragraphs run 4+ sentences, which is at the outer edge of the founder's typical 1-3 sentence paragraph blocks.\"\n  ],\n  \"suggestion\": \"Kill the listicle structure entirely — pick ONE of the five ideas (intensity compounding or market-product fit inversion are strongest), go deep on the mechanism in 200-280 words, and rewrite from the posture of a founder who lived it, not an investor who observed it across a portfolio.\"\n}\n```",
+      "response_length": 2701,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 1000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 16456,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "post_label": "A1"
+      }
+    },
+    {
+      "id": "llm_9cfff4d9",
+      "timestamp": 1778656304.6446192,
+      "type": "llm_call",
+      "stage": "amplifier_diagnose_A1",
+      "template": "amplifier_diagnose.txt",
+      "prompt": "You are an Opening Line Amplifier for B2B founder LinkedIn posts. Diagnose this post's opener through 5 gates, scan the body for buried gold, and identify the current mechanic.\n\n## POST TEXT\nThe startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up.\n\nMost founders chase the market's definition of their product. The ones who break through do the opposite — they find the problem where their insight is unfair and stop wasting months on buyers who were never going to move. You're not searching for product-market fit, you're defining market-product fit. One portfolio founder grew 4x the quarter they started saying no.\n\nTrust is the second thing. The best founders I've backed don't delegate authority — they delegate context. Authority follows. If your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\n\nThird — hiring. The unanimous hires rarely changed anything. The candidates who made the room uncomfortable were the ones still standing when the landscape shifted. You're not building a team, you're building a capacity to surprise yourself. Consensus kills that quietly.\n\nFourth — the first million. The founder closes it personally. 106 flights in one year. The early enterprise buyer isn't buying the product — they're buying the founder's conviction. ACV compounds with face time. There is no shortcut, and no one else can carry that signal.\n\nFifth — intensity. I watched a company take two years to hit $1M ARR, then six months to double it. The product didn't change. The team's intensity compounded. Direction without intensity is a slide deck. Intensity without direction is chaos. The difference is whether the compound curve bends or flatlines.\n\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet — you're not building momentum, you're building a waiting room.\n\n## FOUNDER VOICE MARKERS\n- Opens with a paradoxical declarative statement — no preamble, no 'I've been thinking about...' Just the claim. ('Everyone is wrong about which incumbents AI will kill.' / 'The worst operators I know can name exactly who the CEO trusts.')\n- Uses 'you're not X, you're Y' reframe structure — ('You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.' / 'You're not getting better at serving the market, you're getting better at serving the people who already fit.')\n- Second-person 'you' as implication device — makes the reader feel they might be the one making the mistake, without accusation\n- Em dashes for mid-sentence pivots and parenthetical precision — used heavily, 2-4 per post, never semicolons\n- Closing with a conditional reframe: 'If your [X] isn't [Y], you're [Z]' — ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.')\n- Never says 'AI is replacing humans' — always reframes as 'AI exposes who was actually adding value'\n- Uses 'quietly' as a signal word for hidden damage — ('quietly defunded three years ago,' 'quietly blow up a company')\n- Defines by negation — tells you what something is NOT before telling you what it IS ('High retention doesn't mean you built something great, it means...')\n- Uses 'compounds' and compounding language as a recurring evaluative frame — trust compounds, intensity compounds, waiting compounds, antibodies compound\n- Ends posts with a period, never a question. Never asks 'What do you think?' or 'Agree?' — the closing is always a statement that lands like a verdict\n\n## POST MODE (wrestling/declaring)\ndeclaring\n\n---\n\n## 5-GATE DIAGNOSIS\n\nRun the gates in order. Each gate is cheap to run on a draft that already passed the previous one.\n\n### Gate 1: MECHANIC (does the opener stop the scroll?)\nIdentify which of the 8 proven mechanics is being used:\n1. Specific number + context — \"$412K closed last quarter. Target was $350K.\"\n2. Juxtaposition — \"Our competitor raised $40M. We outshipped them.\"\n3. First-person confession — \"I told 50 buyers we were ready. I was wrong.\"\n4. Quote hook + reaction — \"'We need you to present to the supervisor.' That's when I knew the deal was dead.\"\n5. Scene-entry — \"We walked into their call center. Post-it notes on every monitor.\"\n6. Decision reveal — \"A Fortune 500 asked us to build a CRM. We said no.\"\n7. Contrarian declaration — \"Most founder advice is wrong.\"\n8. Pattern observation — \"Every founder I know who's crossed $20M runs into the same wall.\"\n\nFAIL: Belief statements (\"X matters\"), question openers, \"excited to announce,\" hedged setups, \"I've been thinking about...\", \"What's your X strategy?\"\n\n### Gate 2: PLAUSIBILITY (would a real person actually say this in real life?)\nRun this test on every opener containing a quote, scene, or stated dialogue. Specific failure shapes to catch:\n\n- **Strawman quote**: A character delivering a too-convenient line that exists only so the post can knock it down. Real executives don't say these teed-up sentences at dinner.\n- **Counted-precision tic**: \"She has been in eleven AI strategy meetings since January. Eleven.\" Real people don't volunteer specific meeting counts. The repetition for emphasis is a written rhetorical move, not spoken.\n- **Convenient setup quote**: Someone brags about something then can't answer the obvious follow-up. The exchange exists for the punchline.\n- **The obvious-question quote from someone who wouldn't ask it**: Board members at Series B AI companies ask about pipeline, churn, runway — not \"when does AI just handle everything?\"\n- **The impossible scenario**: The setup is logically impossible given the rest of the post.\n\nIf the opener has a quote or scene with another person, ask: would a real person in that role, in that moment, actually say or do this? If \"no, this is set up too neatly to be real\" — FAIL.\n\n### Gate 3: COHERENCE (does the opener match the post's actual argument?)\nThe single most important test. An opener can be punchy AND wrong for the post. Two sub-tests, both required:\n\n**Promise test**: Write down what the opener promises the reader, in one sentence. Read the body. Does every paragraph deliver against that promise, or does the body argue an adjacent point?\n\n**Compression test**: Compress the body to one sentence. Compare to the opener. Same argument from different angles, or two different arguments?\n\nFailure modes:\n- **Drift** — opener is right, body wandered. Fix the body.\n- **Bait-and-switch** — opener is sharper than the body delivers. Match one to the other.\n- **Two posts in one** — opener for argument A, body for argument B. Split.\n\nThe opener has to be both universal (simple words, stakes a stranger gets) AND faithful to the actual argument. Macro-but-misleading damages the founder over time.\n\n### Gate 4: SPECIFICITY (no invented facts)\nThree degrees of specificity:\n- **First-degree**: \"Anant told me on the flight to Manila…\" — Allowed ONLY if it's in the draft or the founder has publicly told this story.\n- **Second-degree**: \"A founder I back at a $40M company told me…\" — Allowed only if the founder really has companies at that scale.\n- **Third-degree**: \"Every founder I know who's crossed $20M runs into the same thing…\" — Always allowed.\n\nDefault to third-degree when in doubt. A pattern observation lands almost as hard as a named story and carries zero fabrication risk. Never invent first-degree.\n\n### Gate 5: MODE PRESERVATION\nThe post arrives already marked as wrestling-mode or declaring-mode.\n\n**Declaring-mode**: strongest opener is usually a clean assertion, contrarian declaration, or specific number. Body defends the assertion in a straight line.\n\n**Wrestling-mode**: strongest opener signals movement is coming — a confession (\"I told 50 buyers we were ready. I was wrong\"), a contradiction (\"Our biggest churn last quarter wasn't who I expected\"), or a stated tension.\n\nA wrestling-mode post with a clean declarative opener creates a bait-and-switch: reader is promised certainty, body delivers uncertainty. Don't silently strip wrestling structure to make an opener punchier. The wrestling IS the point.\n\n### Gate 6: VOICE FIT (does this opener sound like THIS founder?)\nCompare the opener against the founder's voice markers.\n\nTwo sub-tests:\n\n1. **Recognition test**: Would this founder read the opener and think \"this is what I was going to say\"? Or would they think \"this is what my marketing team wrote\"? If the opener could appear in a corporate press release, product announcement, or generic LinkedIn post — FAIL. Test: strip the name and ask \"who wrote this?\" If the answer is \"any executive\" rather than \"this specific founder\" — FAIL.\n\n2. **Marker test**: Does the opener contain or reflect at least 1 of the founder's voice markers? Not forced inclusion — natural expression. If the opener uses corporate register (e.g., \"unveils,\" \"AI-powered,\" \"accessible communication,\" \"the future of X is arriving,\" \"redefining\") instead of the founder's register — FAIL.\n\nThe voice markers are the law. If the opener is mechanically perfect (passes Gates 1-5) but sounds like someone else wrote it — FAIL Gate 6. A technically correct opener that doesn't sound like the founder is worse than a rough opener that does.\n\n## BODY SCAN\nRead the body line by line. For each line, ask:\n- Could this sentence work as the opener, lifted out of where it currently sits?\n- Does it have a number, a juxtaposition, a confession, a quote, or a scene?\n- Is it punchier than what's currently in line 1?\n\nIf yes, mark it as buried gold. Don't draft the new opener until you've checked whether the post already contains its real opener three paragraphs in.\n\n## OUTPUT FORMAT\n\n```json\n{{\n  \"current_mechanic\": \"specific_number|juxtaposition|confession|quote_hook|scene_entry|decision_reveal|contrarian|pattern_observation|none\",\n  \"mechanic_effective\": true,\n  \"gates\": {{\n    \"mechanic\": {{\"pass\": true, \"reason\": \"...\"}},\n    \"plausibility\": {{\"pass\": true, \"failure_shape\": \"none|strawman_quote|counted_precision|convenient_setup|obvious_question|impossible_scenario\", \"reason\": \"...\"}},\n    \"coherence\": {{\"pass\": true, \"opener_promises\": \"one sentence\", \"body_delivers\": \"one sentence\", \"match\": \"yes|partial|no\", \"failure_mode\": \"none|drift|bait_switch|two_posts\", \"reason\": \"...\"}},\n    \"specificity\": {{\"pass\": true, \"degree\": \"first|second|third\", \"reason\": \"...\"}},\n    \"mode_preservation\": {{\"pass\": true, \"opener_mode\": \"wrestling|declaring\", \"assigned_mode\": \"declaring\", \"reason\": \"...\"}},\n    \"voice_fit\": {{\"pass\": true, \"recognition\": \"founder|marketing|generic\", \"markers_present\": [\"marker 1\"], \"reason\": \"...\"}}\n  }},\n  \"all_gates_pass\": true,\n  \"buried_gold\": \"the exact sentence from the body that could be a better opener. If no sentence qualifies, explain briefly why (e.g. 'None — the current opener is already the strongest line in the post')\",\n  \"buried_gold_mechanic\": \"which of the 8 mechanics the buried gold would use if promoted\",\n  \"weakness\": \"one sentence on the biggest weakness of the current opener\"\n}}\n```\n",
+      "prompt_length": 11188,
+      "response": "```json\n{\n  \"current_mechanic\": \"contrarian\",\n  \"mechanic_effective\": true,\n  \"gates\": {\n    \"mechanic\": {\n      \"pass\": true,\n      \"reason\": \"Contrarian declaration with a paradox: 'The startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up.' This stops scroll by inverting conventional wisdom (everyone thinks PMF is the blocker; this says it's not). The em dash pivot is signature. The promise of 'five things' creates structural pull.\"\n    },\n    \"plausibility\": {\n      \"pass\": true,\n      \"failure_shape\": \"none\",\n      \"reason\": \"This is a belief statement, not a quote or scene, so plausibility test doesn't apply. The claim itself is abstract enough to be unfalsifiable — no strawman quote, no invented dialogue, no impossible scenario. It's a pattern observation dressed as a declaration.\"\n    },\n    \"coherence\": {\n      \"pass\": true,\n      \"opener_promises\": \"Startups stall not from missing PMF but from missing five compounding factors that precede it.\",\n      \"body_delivers\": \"Five factors (market-product fit definition, trust/delegation, hiring for discomfort, founder-closed first million, intensity) that compound before and alongside PMF.\",\n      \"match\": \"yes\",\n      \"failure_mode\": \"none\",\n      \"reason\": \"The body delivers exactly what the opener promises. Each of the five sections maps to the five things. The closing reframe ('If your company still needs to convince people it matters, the intensity hasn't compounded yet') reinforces the opener's core claim about compounding as the real blocker.\"\n    },\n    \"specificity\": {\n      \"pass\": true,\n      \"degree\": \"third\",\n      \"reason\": \"The opener makes no first-degree claims ('A founder told me') or second-degree claims ('A $40M company I back'). It's a pure pattern observation: 'The startups that stall...' This is the safest degree and lands hard. The body includes second-degree specificity ('One portfolio founder grew 4x') and first-degree ('I watched a company take two years') but the opener itself stays third-degree.\"\n    },\n    \"mode_preservation\": {\n      \"pass\": true,\n      \"opener_mode\": \"declaring\",\n      \"assigned_mode\": \"declaring\",\n      \"reason\": \"Post is marked declaring-mode. The opener is a clean assertion with no hedging, no confession, no tension. It states a fact as verdict. The body defends the assertion in a straight line, moving through five points. No wrestling structure is promised or broken.\"\n    },\n    \"voice_fit\": {\n      \"pass\": true,\n      \"recognition\": \"founder\",\n      \"markers_present\": [\n        \"paradoxical declarative statement with no preamble\",\n        \"em dash for mid-sentence pivot\",\n        \"'quietly' as signal word for hidden damage\",\n        \"defines by negation (aren't missing X, they're missing Y)\",\n        \"uses 'compounds' as evaluative frame\",\n        \"second-person implication (implicit 'you' — 'the startups that stall' = you if you're stalling)\"\n      ],\n      \"reason\": \"This opener is unmistakably this founder's voice. It opens with a claim, no setup. It uses the 'aren't X, they're Y' reframe structure. It deploys 'quietly' as a damage signal. It uses 'compounds' as the core evaluative lens. The em dash appears immediately. The register is declarative, not corporate. This could not appear in a press release. It sounds like a founder who thinks in inversions and compounding mechanics.\"\n    }\n  },\n  \"all_gates_pass\": true,\n  \"buried_gold\": \"None. The current opener is already the strongest line in the post. The body contains strong supporting sentences ('One portfolio founder grew 4x the quarter they started saying no,' 'The unanimous hires rarely changed anything,' '106 flights in one year,' 'I watched a company take two years to hit $1M ARR, then six months to double it'), but none of these would work as the opener because they're all evidence for the opener's claim, not the claim itself. The opener is the thesis; the body is the proof. Promoting any body sentence would weaken the structure.\",\n  \"buried_gold_mechanic\": \"N/A\",\n  \"weakness\": \"The opener is strong but slightly abstract. A reader scrolling fast might not immediately feel the stakes. The phrase 'quietly compound' is evocative but could be more concrete. Consider whether adding one micro-specific detail (e.g., 'The startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up. I watched one founder spend 18 months chasing the wrong buyer profile.') would increase scroll-stop power without sacrificing the declaration's punch. Current opener is clean and founder-voiced; this is a refinement, not a fix.\"\n}\n```\n\n---\n\n## SUMMARY\n\n**This opener passes all six gates.** It's a contrarian declaration that inverts the conventional wisdom (PMF is the blocker → no, compounding is). It's plausible, coherent with the body, specific at the right degree, preserves the declaring mode, and sounds unmistakably like this founder.\n\n**The voice fit is exceptional.** Every marker is present: paradoxical opening, em dash pivot, 'quietly' as damage signal, 'compounds' as evaluative frame, negation-then-assertion structure. This is not a generic LinkedIn post. It's recognizably this founder's thinking.\n\n**No buried gold.** The body contains strong evidence sentences, but none of them are stronger than the opener. The structure is correct: thesis first, proof second.\n\n**One refinement opportunity:** The opener is abstract enough that a fast scroller might not feel the immediate stakes. Adding one micro-specific detail (a number, a scene, a founder's action) could increase scroll-stop power without sacrificing the declaration's elegance. But this is optional. The opener is already working.",
+      "response_length": 5786,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 4000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 17071,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "post_label": "A1",
+        "mode": "declaring"
+      }
+    },
+    {
+      "id": "llm_447737d6",
+      "timestamp": 1778656343.9732041,
+      "type": "llm_call",
+      "stage": "amplifier_generate_A1",
+      "template": "amplifier_generate.txt",
+      "prompt": "Generate exactly 5 replacement opening lines for this post (Variants A through E). Each must use a DIFFERENT proven mechanic and pass all 5 gates.\n\nThe versions must approach the post from genuinely different angles. If a number-led version, a juxtaposition version, and a confession version all land on the same one-sentence argument, you've offered one option three times. Each version should give a real choice.\n\n## CURRENT POST\nThe startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up.\n\nMost founders chase the market's definition of their product. The ones who break through do the opposite — they find the problem where their insight is unfair and stop wasting months on buyers who were never going to move. You're not searching for product-market fit, you're defining market-product fit. One portfolio founder grew 4x the quarter they started saying no.\n\nTrust is the second thing. The best founders I've backed don't delegate authority — they delegate context. Authority follows. If your trust surface is smaller than your leadership team, you're not scaling. You're bottlenecking.\n\nThird — hiring. The unanimous hires rarely changed anything. The candidates who made the room uncomfortable were the ones still standing when the landscape shifted. You're not building a team, you're building a capacity to surprise yourself. Consensus kills that quietly.\n\nFourth — the first million. The founder closes it personally. 106 flights in one year. The early enterprise buyer isn't buying the product — they're buying the founder's conviction. ACV compounds with face time. There is no shortcut, and no one else can carry that signal.\n\nFifth — intensity. I watched a company take two years to hit $1M ARR, then six months to double it. The product didn't change. The team's intensity compounded. Direction without intensity is a slide deck. Intensity without direction is chaos. The difference is whether the compound curve bends or flatlines.\n\nIf your company still needs to convince people it matters, the intensity hasn't compounded yet — you're not building momentum, you're building a waiting room.\n\n## DIAGNOSIS\n{'current_mechanic': 'contrarian', 'mechanic_effective': True, 'gates': {'mechanic': {'pass': True, 'reason': \"Contrarian declaration with a paradox: 'The startups that stall aren't missing product-market fit — they're missing the five things that quietly compound before fit ever shows up.' This stops scroll by inverting conventional wisdom (everyone thinks PMF is the blocker; this says it's not). The em dash pivot is signature. The promise of 'five things' creates structural pull.\"}, 'plausibility': {'pass': True, 'failure_shape': 'none', 'reason': \"This is a belief statement, not a quote or scene, so plausibility test doesn't apply. The claim itself is abstract enough to be unfalsifiable — no strawman quote, no invented dialogue, no impossible scenario. It's a pattern observation dressed as a declaration.\"}, 'coherence': {'pass': True, 'opener_promises': 'Startups stall not from missing PMF but from missing five compounding factors that precede it.', 'body_delivers': 'Five factors (m\n\n## BURIED GOLD (if any)\nNone. The current opener is already the strongest line in the post. The body contains strong supporting sentences ('One portfolio founder grew 4x the quarter they started saying no,' 'The unanimous hires rarely changed anything,' '106 flights in one year,' 'I watched a company take two years to hit $1M ARR, then six months to double it'), but none of these would work as the opener because they're all evidence for the opener's claim, not the claim itself. The opener is the thesis; the body is the proof. Promoting any body sentence would weaken the structure.\n\n## FOUNDER VOICE MARKERS\n- Opens with a paradoxical declarative statement — no preamble, no 'I've been thinking about...' Just the claim. ('Everyone is wrong about which incumbents AI will kill.' / 'The worst operators I know can name exactly who the CEO trusts.')\n- Uses 'you're not X, you're Y' reframe structure — ('You're not cutting costs, you're cutting the pipeline that produces your next decade of leadership.' / 'You're not getting better at serving the market, you're getting better at serving the people who already fit.')\n- Second-person 'you' as implication device — makes the reader feel they might be the one making the mistake, without accusation\n- Em dashes for mid-sentence pivots and parenthetical precision — used heavily, 2-4 per post, never semicolons\n- Closing with a conditional reframe: 'If your [X] isn't [Y], you're [Z]' — ('If your retention work isn't changing who you acquire, you're optimizing the wrong layer.' / 'If your trust surface is under 10 people in a company over 200, you're not building an organization. You're building a waiting room.')\n- Never says 'AI is replacing humans' — always reframes as 'AI exposes who was actually adding value'\n- Uses 'quietly' as a signal word for hidden damage — ('quietly defunded three years ago,' 'quietly blow up a company')\n- Defines by negation — tells you what something is NOT before telling you what it IS ('High retention doesn't mean you built something great, it means...')\n- Uses 'compounds' and compounding language as a recurring evaluative frame — trust compounds, intensity compounds, waiting compounds, antibodies compound\n- Ends posts with a period, never a question. Never asks 'What do you think?' or 'Agree?' — the closing is always a statement that lands like a verdict\n\n## POST MODE: declaring\n\n## THE 13 PROVEN MECHANICS\nEach version must use a different one. Pick the 5 best fits for this post:\n1. Specific number + context — lead with a precise figure from the draft. \"$412K closed last quarter. Target was $350K.\"\n2. Juxtaposition — two things that shouldn't coexist in the same sentence. \"Our competitor raised $40M. We outshipped them with 3 engineers.\"\n3. First-person confession — admit something with real cost. \"I told 50 buyers we were ready. I was wrong.\"\n4. Quote hook + reaction — someone said something, then your reaction. \"'We need you to present to the supervisor.' That's when I knew the deal was dead.\"\n5. Scene-entry — start in the middle of a physical moment. \"We walked into their call center. Post-it notes on every monitor.\"\n6. Decision reveal — the outcome of a hard choice, stated plainly. \"A Fortune 500 asked us to build a CRM. We said no.\"\n7. Contrarian declaration — state something most would disagree with (earned, not clickbait). \"Most founder advice is wrong.\"\n8. Pattern observation — notice something others miss. \"Every founder I know who's crossed $20M runs into the same wall.\"\n9. Tension pair — name two forces pulling in opposite directions. \"The market says automate everything. Customers keep asking for humans.\"\n10. Before/after snapshot — two states separated by time, the contrast implies the story. \"Two years ago we couldn't close a single deal. Last month we turned down three.\"\n11. Micro story — a complete narrative arc in 1-2 sentences. \"An investor asked what happens if a competitor copies us. I showed him our NPS scores.\"\n12. Authority redirect — cite a credible external authority, then redirect their point. \"McKinsey says 70% of transformations fail. They left out why the 30% succeed.\"\n13. Data inversion — take a commonly cited stat and show it means the opposite. \"95% customer satisfaction. We were measuring the wrong customers.\"\n\n## WHAT TO REMOVE OR CONVERT\n- \"Excited to announce…\" → the specific number or outcome\n- \"I've been thinking about…\" → the conclusion. Delete the preamble.\n- \"What's your X strategy?\" → \"Most teams answer this wrong.\"\n- \"X is important\" → \"[Specific outcome] when X is missing.\"\n- \"Here's what nobody tells you…\" → the thing. Direct.\n- Multiple exclamation marks → one or zero\n- Stat-stack fragments → a sentence containing the stat\n- Strawman quotes → a pattern observation\n\n## HIGH-LIFT ELEMENTS (add 1-2 per opener, NOT all)\nAdding 3+ creates stat-stacking, which reads as ad copy. The test: if the opener reads as a sentence a person would speak in conversation, fine. If it reads as bullet points compressed into one line, over-loaded.\n1. A specific number FROM the draft (don't invent)\n2. A first-person verb — \"I lost,\" \"we shipped,\" \"I told.\" Beats \"companies should.\"\n3. A juxtaposition — two facts in the draft that create dissonance when placed together\n4. An emotion word — \"tired,\" \"wrong,\" \"painful,\" \"brutal\" beats \"interesting.\" Earned, not manufactured.\n5. A named entity FROM the draft only — don't introduce new names.\n\n## RULES FOR EACH VERSION\n- Must pass all 6 gates (mechanic, plausibility, coherence, specificity, mode-preservation, voice fit)\n- Gate 2 (plausibility): No strawman quotes, no counted-precision tics, no convenient setups, no impossible scenarios\n- Gate 3 (coherence): The opener's promise must match what the body delivers — not adjacent, not sharper\n- Gate 4 (specificity): Default to third-degree patterns when specifics aren't in the draft. Never invent first-degree.\n- Gate 5 (mode): If declaring is \"wrestling,\" opener must signal movement. If \"declaring,\" signal certainty.\n- Must sound like this specific founder (use voice markers)\n- No AI slop patterns (no \"In today's...\", \"Here's the thing\", \"Hot take:\", etc.)\n\n## IF BURIED GOLD EXISTS\nIf the body scan found a sentence stronger than anything you'd generate from scratch, propose it as Version A and note that the body needs restructuring around it.\n\n## OUTPUT FORMAT\n\nReturn exactly 5 variants labeled A through E. Also specify which variant you recommend.\n\n```json\n{{\n  \"variants\": [\n    {{\n      \"variant\": \"A\",\n      \"opening\": \"the replacement opening (1-3 sentences)\",\n      \"mechanic\": \"which of the 13 mechanics\",\n      \"key_change\": \"one sentence: what this version changes vs the original and why\",\n      \"expected_lift\": \"low|medium|high — expected engagement lift over original\",\n      \"mode_fit\": \"declaring\",\n      \"plausibility\": true,\n      \"plausibility_note\": \"why this is plausible or what was avoided\",\n      \"coherence_with_body\": true,\n      \"coherence_note\": \"what the opener promises and how the body delivers it\",\n      \"specificity\": \"first|second|third\",\n      \"mode_preservation\": true,\n      \"voice_fit\": true,\n      \"voice_fit_note\": \"does this opener use the founder's voice markers and put them INSIDE the experience?\",\n      \"rating\": 5,\n      \"source\": \"original|buried_gold|generated\"\n    }},\n    ...\n  ],\n  \"recommended\": \"A\"\n}}\n```\n\nAll 5 must pass all gates. If buried gold exists, use it as Variant A.\n\nRECOMMENDATION PRIORITY ORDER (tiebreakers in this exact sequence):\n1. coherence_with_body (MUST be true — disqualify any variant that breaks promise/body alignment)\n2. plausibility (MUST be true — disqualify strawman quotes, fabricated scenes, impossible scenarios)\n3. voice_fit (prefer variants that use the founder's documented voice markers and put the founder INSIDE the experience, not commenting from outside)\n4. rating (mechanic strength — only breaks ties AFTER the above three are equal)\n\nA mechanically brilliant opener (rating 9) that sounds generic loses to a good opener (rating 8) that uses the founder's signature moves.\n",
+      "prompt_length": 11269,
+      "response": "\n\n```json\n{\n  \"variants\": [\n    {\n      \"variant\": \"A\",\n      \"opening\": \"One portfolio founder grew 4x the quarter they started saying no. They didn't find product-market fit — they stopped chasing it and let five quieter things compound instead.\",\n      \"mechanic\": \"Specific number + context\",\n      \"key_change\": \"Leads with the draft's most concrete proof point (4x growth from saying no) and uses it to set up the five-factor thesis, giving the reader an outcome before the framework\",\n      \"expected_lift\": \"medium\",\n      \"mode_fit\": \"declaring\",\n      \"plausibility\": true,\n      \"plausibility_note\": \"The 4x figure comes directly from the draft body — no invention. 'One portfolio founder' is appropriately vague for a real claim. No counted-precision tics.\",\n      \"coherence_with_body\": true,\n      \"coherence_note\": \"Promises that saying no (factor one) drove outsized growth, and that five compounding factors matter more than PMF. The body delivers all five factors with this exact anecdote appearing in the first section.\",\n      \"specificity\": \"second\",\n      \"mode_preservation\": true,\n      \"voice_fit\": true,\n      \"voice_fit_note\": \"Uses em dash pivot, declarative tone, no preamble. 'They didn't find product-market fit — they stopped chasing it' mirrors the founder's negation-then-reframe structure. First-person implied through 'portfolio founder.'\",\n      \"rating\": 7,\n      \"source\": \"generated\"\n    },\n    {\n      \"variant\": \"B\",\n      \"opening\": \"A company I backed took two years to hit $1M ARR, then six months to double it. The product didn't change. Five things compounded underneath it — and none of them were product-market fit.\",\n      \"mechanic\": \"Before/after snapshot\",\n      \"key_change\": \"Opens with the draft's most dramatic time-contrast (2 years to $1M, 6 months to $2M) to create a before/after that begs explanation, then redirects away from the obvious answer (product improvement) toward the five-factor thesis\",\n      \"expected_lift\": \"high\",\n      \"mode_fit\": \"declaring\",\n      \"plausibility\": true,\n      \"plausibility_note\": \"Both data points come directly from the draft. 'A company I backed' is a natural first-person framing for a VC. No fabricated scene or strawman.\",\n      \"coherence_with_body\": true,\n      \"coherence_note\": \"Promises that something other than product change drove a dramatic acceleration, and that five compounding factors explain it. The body delivers exactly those five factors, with this ARR story appearing in the intensity section as proof.\",\n      \"specificity\": \"second\",\n      \"mode_preservation\": true,\n      \"voice_fit\": true,\n      \"voice_fit_note\": \"Three short declarative sentences — no preamble. 'The product didn't change' is classic negation-first structure. 'Compounded' uses the founder's signature evaluative frame. First-person 'I backed' puts the founder inside the experience.\",\n      \"rating\": 8,\n      \"source\": \"generated\"\n    },\n    {\n      \"variant\": \"C\",\n      \"opening\": \"106 flights in one year. The first million in enterprise doesn't compound from the product — it compounds from the founder's conviction, and four other things no one measures.\",\n      \"mechanic\": \"Juxtaposition\",\n      \"key_change\": \"Opens with the visceral, physical cost of early sales (106 flights) juxtaposed against the abstract language of compounding, creating dissonance between grind and strategy that reframes what 'scaling' actually looks like pre-PMF\",\n      \"expected_lift\": \"high\",\n      \"mode_fit\": \"declaring\",\n      \"plausibility\": true,\n      \"plausibility_note\": \"106 flights is taken directly from the draft. No invented stats, no strawman. The juxtaposition is between a real data point and a reframe — not a fabricated scenario.\",\n      \"coherence_with_body\": true,\n      \"coherence_note\": \"Promises that the first million comes from founder conviction (factor four) and four other unmeasured things. The body delivers all five factors, with the 106-flights detail appearing in the enterprise sales section.\",\n      \"specificity\": \"first\",\n      \"mode_preservation\": true,\n      \"voice_fit\": true,\n      \"voice_fit_note\": \"Fragment opener ('106 flights in one year.') matches the founder's punchy declarative rhythm. 'Compounds' uses signature language. Em dash pivot. Defines by negation ('doesn't compound from the product'). No preamble.\",\n      \"rating\": 8,\n      \"source\": \"generated\"\n    },\n    {\n      \"variant\": \"D\",\n      \"opening\": \"Every founder I've backed who broke through had the same five things compounding before product-market fit ever showed up — and not one of them appears in a pitch deck.\",\n      \"mechanic\": \"Pattern observation\",\n      \"key_change\": \"Shifts the angle from 'what's wrong' (the original's contrarian frame) to 'what I've seen across a portfolio' — a pattern-recognition frame that leverages the founder's investor authority and implies these five factors are invisible to the standard fundraising lens\",\n      \"expected_lift\": \"medium\",\n      \"mode_fit\": \"declaring\",\n      \"plausibility\": true,\n      \"plausibility_note\": \"Pattern observation from an investor's portfolio is a natural, plausible claim. No specific count that would trigger precision tics. 'Every founder I've backed who broke through' is a defensible generalization.\",\n      \"coherence_with_body\": true,\n      \"coherence_note\": \"Promises five compounding factors that precede PMF and aren't captured in standard metrics. The body delivers exactly five factors (market definition, trust, hiring, personal sales, intensity) — none of which are typical pitch deck slides.\",\n      \"specificity\": \"third\",\n      \"mode_preservation\": true,\n      \"voice_fit\": true,\n      \"voice_fit_note\": \"Single declarative sentence with em dash pivot. 'Compounding' uses signature language. First-person 'I've backed' puts the founder inside the experience. No preamble, no hedging. Ends on a verdict-style observation.\",\n      \"rating\": 7,\n      \"source\": \"generated\"\n    },\n    {\n      \"variant\": \"E\",\n      \"opening\": \"I watched a founder take 106 flights in a year, hire people who made the room uncomfortable, and delegate context instead of authority. None of that looks like product-market fit — all of it compounds before fit ever arrives.\",\n      \"mechanic\": \"Micro story\",\n      \"key_change\": \"Compresses three of the five factors into a single founder's arc, creating a micro narrative that feels lived-in rather than listicle, then reframes the entire set as pre-PMF compounding — giving the reader a character to follow rather than a thesis to evaluate\",\n      \"expected_lift\": \"medium\",\n      \"mode_fit\": \"declaring\",\n      \"plausibility\": true,\n      \"plausibility_note\": \"All three details (106 flights, uncomfortable hires, delegating context) come directly from the draft. Combining them into one founder's story is plausible for a VC who sees these patterns overlap. No fabricated scene.\",\n      \"coherence_with_body\": true,\n      \"coherence_note\": \"Promises that behaviors that don't look like PMF actually compound before it. The body delivers five such behaviors in detail, including all three referenced in the opener.\",\n      \"specificity\": \"second\",\n      \"mode_preservation\": true,\n      \"voice_fit\": true,\n      \"voice_fit_note\": \"'I watched' is first-person inside the experience. Em dash pivot. 'Compounds' signature language. Defines by negation ('None of that looks like product-market fit'). Declarative close with no hedging.\",\n      \"rating\": 7,\n      \"source\": \"generated\"\n    }\n  ],\n  \"recommended\": \"B\"\n}\n```",
+      "response_length": 7536,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.5,
+      "max_tokens": 4000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 39326,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "post_label": "A1"
+      }
+    },
+    {
+      "id": "dec_2bcf94df",
+      "timestamp": 1778656343.9732041,
+      "type": "decision",
+      "stage": "pack_1_complete",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "convergence=PASS",
+      "metadata": {
+        "posts": 1,
+        "recommendation": "too few posts to test"
+      }
+    }
+  ],
+  "pipeline_logs": [
+    {
+      "timestamp": 1778656148.5984814,
+      "level": "WARNING",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-13 12:39:08,598 WARNING src.batch.corpus_reader: [batch] Graph last updated 31 days ago"
+    },
+    {
+      "timestamp": 1778656148.6584773,
+      "level": "INFO",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-13 12:39:08,658 INFO src.batch.corpus_reader: [batch] Using cached internalization (hash match)"
+    },
+    {
+      "timestamp": 1778656148.659485,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-13 12:39:08,659 INFO src.utils.text_utils: [prompt] Loading calibration_check.txt"
+    },
+    {
+      "timestamp": 1778656148.6604848,
+      "level": "INFO",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-13 12:39:08,660 INFO src.batch.corpus_reader: [batch] Running calibration check..."
+    },
+    {
+      "timestamp": 1778656150.5411406,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:39:10,541 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656187.2743766,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:39:47,274 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656187.716348,
+      "level": "INFO",
+      "logger": "src.batch.source_selector",
+      "message": "2026-05-13 12:39:47,716 INFO src.batch.source_selector: [batch] Using 1 user-provided source posts (first 80 chars: Sales leaders: After working with 5,000 revenue orgs, I've seen 5 patterns in ev)"
+    },
+    {
+      "timestamp": 1778656187.717355,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-13 12:39:47,717 INFO src.batch.pack_generator: [batch] Generating pack 1 (1 posts)..."
+    },
+    {
+      "timestamp": 1778656187.717355,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-13 12:39:47,717 INFO src.utils.text_utils: [prompt] Loading source_dissect_hook.txt"
+    },
+    {
+      "timestamp": 1778656188.5380805,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:39:48,538 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656209.2899342,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-13 12:40:09,289 INFO src.batch.pack_generator: [batch] Pack 1: generating A1..."
+    },
+    {
+      "timestamp": 1778656209.2899342,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-13 12:40:09,289 INFO src.utils.text_utils: [prompt] Loading generate_pack_a.txt"
+    },
+    {
+      "timestamp": 1778656211.4125738,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:40:11,412 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656237.5525217,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-13 12:40:37,552 INFO src.batch.pack_generator: [batch] Trimmed A1 from 519 to 492 words"
+    },
+    {
+      "timestamp": 1778656239.2842433,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:40:39,284 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656242.801295,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-13 12:40:42,801 INFO src.batch.pack_generator: [batch] LLM-trimmed A1 from 492 to 301 words"
+    },
+    {
+      "timestamp": 1778656242.802458,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-13 12:40:42,802 INFO src.utils.text_utils: [prompt] Loading voice_validation.txt"
+    },
+    {
+      "timestamp": 1778656244.8087566,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:40:44,808 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656262.5201373,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:41:02,520 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656271.1114063,
+      "level": "INFO",
+      "logger": "src.batch.voice_validator",
+      "message": "2026-05-13 12:41:11,111 INFO src.batch.voice_validator: [voice_validator] Regenerated A1: v1=301 words → v2=278 words"
+    },
+    {
+      "timestamp": 1778656271.112323,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-13 12:41:11,112 INFO src.utils.text_utils: [prompt] Loading voice_validation.txt"
+    },
+    {
+      "timestamp": 1778656272.9090142,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:41:12,909 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656287.5705783,
+      "level": "INFO",
+      "logger": "src.batch.amplifier",
+      "message": "2026-05-13 12:41:27,570 INFO src.batch.amplifier: [amplifier] Processing A1..."
+    },
+    {
+      "timestamp": 1778656287.5705783,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-13 12:41:27,570 INFO src.utils.text_utils: [prompt] Loading amplifier_diagnose.txt"
+    },
+    {
+      "timestamp": 1778656288.7107308,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:41:28,710 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656304.6446192,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-13 12:41:44,644 INFO src.utils.text_utils: [prompt] Loading amplifier_generate.txt"
+    },
+    {
+      "timestamp": 1778656306.748929,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-13 12:41:46,748 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1778656343.980326,
+      "level": "INFO",
+      "logger": "src.batch.compiler",
+      "message": "2026-05-13 12:42:23,980 INFO src.batch.compiler: [batch] Saved output to D:\\projects\\personal_graph\\digital-dna\\data\\founders\\sharath\\post-data\\sharath_batch_2026-05-13_1.json (1 posts)"
+    }
+  ]
+}

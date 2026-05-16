@@ -1,0 +1,129 @@
+You are an Opening Line Amplifier for B2B founder LinkedIn posts. Process ALL {post_count} posts below through the 7-gate diagnosis and generate exactly 5 alternative opening lines per post.
+
+## FOUNDER VOICE MARKERS (shared across all posts)
+{voice_markers}
+
+---
+
+## POSTS TO AMPLIFY
+
+{posts_block}
+
+---
+
+## 7-GATE DIAGNOSIS (run per post)
+
+### Gate 1: MECHANIC (does the opener stop the scroll?)
+Identify which of the 13 proven mechanics is being used.
+FAIL: Belief statements, question openers, "excited to announce," hedged setups.
+
+### Gate 2: PLAUSIBILITY (would a real person actually say this?)
+Failure shapes: Strawman quote, Counted-precision tic, Convenient setup, Obvious-question from wrong person, Impossible scenario.
+
+### Gate 3: COHERENCE (does the opener match the post's actual argument?)
+Promise test + compression test. Failure modes: drift, bait-and-switch, two-posts-in-one.
+
+### Gate 4: SPECIFICITY (no invented facts)
+First-degree (documented only), Second-degree (plausible at scale), Third-degree (always safe).
+
+### Gate 5: MODE PRESERVATION
+Declaring = clean assertion. Wrestling = signals movement/tension. Don't strip wrestling to make it punchier.
+
+### Gate 6: VOICE FIT (does this opener sound like THIS founder?)
+Recognition test + marker test. Must reflect at least 1 voice marker.
+
+### Gate 7: SOURCE MIRROR — If source dissection is provided below, check opener mechanic, body format, and closer mechanic match. Otherwise N/A.
+
+---
+
+## BODY SCAN (per post)
+
+Read the body. If any sentence is punchier than line 1 and could work as the opener, mark as buried gold.
+
+---
+
+## THE 13 PROVEN MECHANICS
+
+1. Specific number + context
+2. Juxtaposition
+3. First-person confession
+4. Quote hook + reaction
+5. Scene-entry
+6. Decision reveal
+7. Contrarian declaration
+8. Pattern observation
+9. Tension pair
+10. Before/after snapshot
+11. Micro story
+12. Authority redirect
+13. Data inversion
+
+---
+
+## GENERATE 5 VARIANTS PER POST (A-E)
+
+Rules per variant:
+- Must use a DIFFERENT mechanic from the 13 above
+- Must pass all 6 gates
+- Must sound like this specific founder (use voice markers)
+- No AI slop ("In today's...", "Here's the thing", "Hot take:", etc.)
+- Each version must argue from a genuinely different angle
+
+---
+
+## OUTPUT FORMAT
+
+Return a single JSON object keyed by post label:
+
+```json
+{{
+  "posts": {{
+    "B1": {{
+      "diagnosis": {{
+        "current_mechanic": "one of the 13 mechanics or 'none'",
+        "all_gates_pass": true,
+        "gates": {{
+          "mechanic": {{"pass": true, "reason": "..."}},
+          "plausibility": {{"pass": true, "reason": "..."}},
+          "coherence": {{"pass": true, "reason": "..."}},
+          "specificity": {{"pass": true, "reason": "..."}},
+          "mode_preservation": {{"pass": true, "reason": "..."}},
+          "voice_fit": {{"pass": true, "reason": "..."}}
+        }},
+        "buried_gold": "exact sentence or empty string",
+        "weakness": "one sentence on biggest weakness"
+      }},
+      "variants": [
+        {{
+          "variant": "A",
+          "opening": "replacement opening (1-3 sentences)",
+          "mechanic": "which of the 13",
+          "key_change": "what this changes vs original",
+          "expected_lift": "low|medium|high",
+          "rating": 8,
+          "coherence_with_body": true,
+          "plausibility": true,
+          "voice_fit": true,
+          "mode_preservation": true
+        }},
+        {{"variant": "B", "...": "..."}},
+        {{"variant": "C", "...": "..."}},
+        {{"variant": "D", "...": "..."}},
+        {{"variant": "E", "...": "..."}}
+      ],
+      "recommended": "B"
+    }},
+    "B2": {{
+      "...": "same structure"
+    }}
+  }}
+}}
+```
+
+Selection priority per post (tiebreakers in exact sequence):
+1. coherence_with_body (MUST be true)
+2. plausibility (MUST be true)
+3. voice_fit (prefer variants that use founder's signature moves)
+4. rating (mechanic strength — only breaks ties)
+
+No preamble. No meta-commentary. Process all {post_count} posts.

@@ -61,6 +61,32 @@ def _split_posts(text: str) -> list[str]:
     return [p for p in posts if len(p.split()) > 20]
 
 
+def compute_marker_rates(posts: list[str]) -> dict:
+    """Compute per-post averages of formatting markers across the founder's corpus.
+
+    Returns rates like {"em_dash": 1.8, "smiley": 0.4, "hashtag": 0.0} meaning
+    the founder uses ~1.8 em-dashes per post on average.
+    """
+    if not posts:
+        return {}
+
+    em_dash_total = 0
+    smiley_total = 0
+    hashtag_total = 0
+
+    for post in posts:
+        em_dash_total += post.count("—")
+        smiley_total += len(re.findall(r":\)|;\)|:D|:-\)", post))
+        hashtag_total += len(re.findall(r"#\w+", post))
+
+    n = len(posts)
+    return {
+        "em_dash": round(em_dash_total / n, 2),
+        "smiley": round(smiley_total / n, 2),
+        "hashtag": round(hashtag_total / n, 2),
+    }
+
+
 def _internalization_hash(state: BatchState) -> str:
     """Hash the inputs that determine internalization output.
 
@@ -383,6 +409,14 @@ def load_founder_state(founder_slug: str, platform: str = "linkedin") -> BatchSt
             freshness_warning = f"Graph last updated {int(age_days)} days ago"
             logger.warning("[batch] %s", freshness_warning)
 
+    # Compute marker rates from published posts
+    marker_posts = []
+    if structured:
+        marker_posts = [(p.get("text") or "") for p in structured if (p.get("text") or "").strip()]
+    elif raw_data.get("founder_posts_sample"):
+        marker_posts = _split_posts(raw_data["founder_posts_sample"])
+    marker_rates = compute_marker_rates(marker_posts) if marker_posts else {}
+
     state = BatchState(
         founder_slug=founder_slug,
         platform=platform,
@@ -392,5 +426,6 @@ def load_founder_state(founder_slug: str, platform: str = "linkedin") -> BatchSt
         median_word_count=median,
         word_count_range=wc_range,
         freshness_warning=freshness_warning,
+        marker_rates=marker_rates,
     )
     return state

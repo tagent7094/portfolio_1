@@ -971,6 +971,8 @@ async def generate_batch_background(data: BatchGenerateRequest):
         "filepath": None,
         "web_search_summary": None,
         "_session": session,
+        "_event_log": [],
+        "_event_notify": asyncio.Event(),
     }
     _bg_tasks[task_id] = task_state
     _cleanup_old_tasks()
@@ -990,7 +992,7 @@ async def generate_batch_background(data: BatchGenerateRequest):
                 lean=data.lean,
             ))
 
-            # Drain event bus into task_state
+            # Drain event bus into task_state + broadcast to SSE clients
             async for chunk in event_bus.stream():
                 if not chunk.startswith("data:"):
                     continue
@@ -1003,6 +1005,9 @@ async def generate_batch_background(data: BatchGenerateRequest):
                 llm_text = ev.get("llm_text", "")
                 if llm_text:
                     task_state["current_llm_text"] = llm_text
+                # Broadcast every event (including llm_chunk) to SSE clients
+                task_state["_event_log"].append(ev)
+                task_state["_event_notify"].set()
                 if ev.get("status") == "llm_chunk":
                     continue
                 task_state["log"].append({
@@ -1094,6 +1099,44 @@ async def cancel_batch_task(task_id: str):
     task["status"] = "cancelled"
     task["finished_at"] = datetime.now(timezone.utc).isoformat()
     return {"status": "cancelled"}
+
+
+@app.get("/api/generate/batch/events/{task_id}")
+async def batch_events_sse(task_id: str, request: Request):
+    """SSE stream that replays all events then tails live. For real-time token streaming."""
+    task = _bg_tasks.get(task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+
+    last_event_id = request.headers.get("Last-Event-ID")
+    initial_cursor = int(last_event_id) if last_event_id and last_event_id.isdigit() else 0
+
+    async def event_generator():
+        cursor = initial_cursor
+        notify: asyncio.Event = task["_event_notify"]
+        while True:
+            event_log = task["_event_log"]
+            while cursor < len(event_log):
+                ev = event_log[cursor]
+                cursor += 1
+                yield f"id: {cursor}\ndata: {json.dumps(ev)}\n\n"
+                if ev.get("status") == "pipeline_done":
+                    return
+            if task["status"] in ("done", "error", "cancelled"):
+                return
+            try:
+                await asyncio.wait_for(asyncio.shield(notify.wait()), timeout=15)
+                notify.clear()
+            except asyncio.TimeoutError:
+                yield ": keepalive\n\n"
+            if await request.is_disconnected():
+                return
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
 
 
 @app.get("/api/viral-sources/sheets")

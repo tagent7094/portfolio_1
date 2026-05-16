@@ -81,6 +81,8 @@ Run these three tests on the source's opening line(s). These determine whether t
 
 **MACRO test**: Does the opener land for someone OUTSIDE this niche? Read the opener to a stranger in a different industry. If they'd need domain context to understand what's being said — fail. Jargon, acronyms, category-specific terms ("AI-powered voice technology," "doctorless AI kiosks," "accessible communication") → fail. The opener must work universally.
 
+Exception — audience-address openers: If the opener addresses a broad professional role that exists across multiple industries (e.g., "Founders:", "Sales leaders:", "CTOs:", "Operators:", "Engineers:", "Recruiters:", "Managers:"), this is NOT niche jargon. These pass macro because ANY professional recognizes the role even if they don't hold it. Fail only for subcategories that require domain knowledge to parse (e.g., "RevOps managers:", "MLOps engineers:", "Series B CFOs:").
+
 **FAST test**: Does the specific, interesting, or dramatic word land in the FIRST 8 words? Count from word 1. If the payload (the specific number, the surprising claim, the tension) comes after word 8 — fail. Ellipsis that delays the punch ("The future of X is arriving...") → fail. "We lost $2M in three months" → pass (payload at word 3). "The future of healthcare is arriving... China unveils..." → fail (payload at word 11).
 
 **SIMPLE test**: Would a 16-year-old understand every word in the opener? Bold Unicode formatting, corporate jargon ("unveils," "redefining," "accessible communication"), press-release language → fail. The opener must use words a person would speak in conversation, not words a company would put in a press release.
@@ -123,7 +125,8 @@ Run these three tests on the source's opening line(s). These determine whether t
     "simple": {{{{"pass": true, "reason": "whether a 16-year-old would understand every word"}}}}
   }}}},
   "skip_batch_a": false,
-  "named_entities": ["list of proper names (people) mentioned in the source post"]
+  "named_entities": ["list of proper names (people) mentioned in the source post"],
+  "source_domain": "1-3 word topic label for the source post's core domain (e.g., 'sales leadership', 'hiring', 'product strategy', 'fundraising', 'engineering management')"
 }}}}
 ```
 

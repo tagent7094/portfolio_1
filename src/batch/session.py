@@ -15,9 +15,9 @@ from .state import BatchState
 from .tracer import BatchTracer
 from .corpus_reader import load_founder_state, internalize_corpus, calibration_check
 from .source_selector import select_sources
-from .pack_generator import generate_pack, _generate_pack_lean, _enforce_word_count, _generate_a_variant, _generate_b_variant
-from .amplifier import amplify_post, amplify_batch, convergence_test
-from .voice_validator import validate_voice, validate_voice_batch, regenerate_with_voice_override
+from .pack_generator import generate_pack, _generate_pack_lean, _enforce_word_count
+from .amplifier import amplify_post_v2, amplify_batch_v2, convergence_test
+from .voice_validator import validate_voice, regenerate_with_voice_override
 from .compiler import compile_json, save_output
 from .exclusion_scanner import load_exclusions, scan_for_exclusions
 from .saturation import check_saturation
@@ -74,7 +74,7 @@ class BatchSession:
         self._llm_text_buf = ""
         self._llm_stage = ""
         self._llm_progress = 0.0
-        self._LLM_FLUSH_CHARS = 500
+        self._LLM_FLUSH_CHARS = 50
         self._LLM_MAX_WINDOW = 2000
 
     def _check_cancel(self):
@@ -126,6 +126,45 @@ class BatchSession:
           - llm_prep (Haiku): analysis/classification — calibration, source selection, dissection,
             opener diagnosis, convergence testing
         """
+        try:
+            return self._run_pipeline(
+                founder_slug=founder_slug,
+                platform=platform,
+                creativity=creativity,
+                n_sources=n_sources,
+                posts_per_source=posts_per_source,
+                enable_thinking=enable_thinking,
+                source_posts=source_posts,
+                config_path=config_path,
+                effort=effort,
+                lean=lean,
+            )
+        except CancelledError:
+            raise
+        except Exception as exc:
+            import traceback
+            traceback.print_exc(file=sys.stderr)
+            self._emit("batch", "pipeline_done", {
+                "error": f"{type(exc).__name__}: {exc}",
+                "total_posts": 0,
+            }, progress=1.0)
+            if self.event_bus:
+                self.event_bus.close()
+            raise
+
+    def _run_pipeline(
+        self,
+        founder_slug: str,
+        platform: str = "linkedin",
+        creativity: float = 0.5,
+        n_sources: int = 10,
+        posts_per_source: int = 9,
+        enable_thinking: bool = True,
+        source_posts: list[str] | None = None,
+        config_path: str = "config/llm-config.yaml",
+        effort: str = "high",
+        lean: bool = False,
+    ) -> dict:
         # Task-aware LLM resolution. The router consults founder override →
         # admin default → llm-config.yaml fallback for every distinct pipeline
         # task. `llm_gen` and `llm_prep` are kept as back-compat handles for
@@ -257,55 +296,43 @@ class BatchSession:
                     llm_prep=llm_prep,
                 )
 
-            # Voice validation pass
+            # Voice validation pass (per-post via validate.txt — full 5 dimensions)
+            self._emit(f"pack_{pack_num}", "progress", {"voice_validation": "starting"})
             validated_posts = []
-            if state.lean_mode:
+            for j, post in enumerate(pack.posts):
                 self._check_cancel()
-                batch_validations = validate_voice_batch(llm_gen, pack.posts, state)
-                for j, (post, validation) in enumerate(zip(pack.posts, batch_validations)):
-                    post.validation_result = validation
-                    if validation.get("overall") == "FAIL":
-                        tracer.trace_decision(
-                            f"voice_validation_{post.label}",
-                            f"FAIL: {validation.get('suggestion', '')}",
-                            metadata=validation,
-                        )
-                        post = regenerate_with_voice_override(llm_gen, post, validation, state)
-                        post = _enforce_word_count(post, state, llm=llm_gen)
-                        post.voice_score = 2
-                    else:
-                        post.voice_score = min(
-                            validation.get("voice_marker_score", 3),
-                            validation.get("register_score", 3),
-                        )
-                    validated_posts.append(post)
-            else:
-                for j, post in enumerate(pack.posts):
-                    self._check_cancel()
-                    validation = validate_voice(llm_gen, post, state)
-                    post.validation_result = validation
 
-                    if validation.get("overall") == "FAIL":
-                        tracer.trace_decision(
-                            f"voice_validation_{post.label}",
-                            f"FAIL: {validation.get('suggestion', '')}",
-                            metadata=validation,
-                        )
-                        post = regenerate_with_voice_override(llm_gen, post, validation, state)
-                        post = _enforce_word_count(post, state, llm=llm_gen)
-                        reval = validate_voice(llm_gen, post, state)
-                        post.voice_score = min(
-                            reval.get("voice_marker_score", 3),
-                            reval.get("register_score", 3),
-                        )
-                        post.validation_result = {**post.validation_result, "reval_score": post.voice_score}
-                    else:
-                        post.voice_score = min(
-                            validation.get("voice_marker_score", 3),
-                            validation.get("register_score", 3),
-                        )
-
+                if post.batch == "A":
+                    post.validation_result = {"overall": "SKIP", "reason": "batch_a_mirrored"}
+                    post.voice_score = 3
+                    logger.info("[batch] %s: Batch A — skipping voice validation (mirrored)", post.label)
                     validated_posts.append(post)
+                    continue
+
+                validation = validate_voice(llm_gen, post, state)
+                post.validation_result = validation
+
+                if validation.get("overall") == "FAIL":
+                    tracer.trace_decision(
+                        f"voice_validation_{post.label}",
+                        f"FAIL: {validation.get('suggestion', '')}",
+                        metadata=validation,
+                    )
+                    post = regenerate_with_voice_override(llm_gen, post, validation, state)
+                    post = _enforce_word_count(post, state, llm=llm_gen)
+                    reval = validate_voice(llm_gen, post, state)
+                    post.voice_score = min(
+                        reval.get("voice_marker_score", 3),
+                        reval.get("register_score", 3),
+                    )
+                    post.validation_result = {**post.validation_result, "reval_score": post.voice_score}
+                else:
+                    post.voice_score = min(
+                        validation.get("voice_marker_score", 3),
+                        validation.get("register_score", 3),
+                    )
+
+                validated_posts.append(post)
 
             # Exclusion scan (flag only, don't reject)
             if state.exclusions:
@@ -318,7 +345,7 @@ class BatchSession:
                             metadata={"exclusions": hits},
                         )
 
-            # Amplifier pass
+            # Amplifier pass — Batch A skips, Batch B uses single batched call
             amplified_posts = []
             published_corpus = (
                 state.raw_data.get("founder_posts_structured")
@@ -327,35 +354,80 @@ class BatchSession:
                 ) if p.strip()]
             )
 
-            if state.lean_mode:
-                self._check_cancel()
-                amplified_posts = amplify_batch(
-                    llm_gen, validated_posts, state,
-                    source_dissection=pack.dissection,
+            # Phase A: amplify A posts in ONE batched call (variants only, never replace)
+            a_validated = []
+            b_validated = []
+            for post in validated_posts:
+                if post.batch == "A":
+                    a_validated.append(post)
+                else:
+                    b_validated.append(post)
+
+            if a_validated:
+                a_amplified = amplify_batch_v2(
+                    llm_gen, a_validated, state,
+                    source_dissection=pack.dissection, never_replace=True,
                 )
-                for post in amplified_posts:
-                    sat = check_saturation(post.text, published_corpus, n=6, threshold=5)
-                    post.saturation_warning = sat
-                    if sat.get("warning"):
-                        logger.warning(
-                            "[batch] %s saturation WARN: %d shared 6-grams with %s",
-                            post.label, sat["count"], sat["worst_match_id"],
-                        )
-                    state.arguments_compressed.append(post.argument_compressed)
+                for post in a_amplified:
+                    paragraphs = post.text.strip().split("\n\n")
+                    post.original_opening = paragraphs[0] if paragraphs else ""
+                    post.final_opening = post.original_opening
+                    post.mechanic = "mirrored"
+                    post.rating = 0
+                    logger.info("[batch] %s: Batch A — %d variants generated (opener kept)",
+                                post.label, getattr(post, 'versions_considered', 0))
+                    self._emit(f"pack_{pack_num}", "post_ready", {
+                        "label": post.label,
+                        "batch": post.batch,
+                        "mode": post.mode,
+                        "text": post.text,
+                        "word_count": post.word_count,
+                        "mechanic": post.mechanic,
+                        "final_opening": post.final_opening,
+                        "entry_door": post.entry_door,
+                        "voice_score": getattr(post, "voice_score", 0),
+                        "source_number": pack_num,
+                        "opener_variants": getattr(post, "opener_variants", []),
+                        "versions_considered": getattr(post, "versions_considered", 0),
+                    })
+                a_validated = a_amplified
+
+            # Phase B: batch amplify all B posts in one call
+            self._check_cancel()
+            if b_validated:
+                b_amplified = amplify_batch_v2(llm_gen, b_validated, state)
             else:
-                for j, post in enumerate(validated_posts):
-                    self._check_cancel()
-                    post = amplify_post(llm_gen, post, amplified_posts, state, llm_prep=llm_prep,
-                                        source_dissection=pack.dissection if post.batch == "A" else None)
-                    sat = check_saturation(post.text, published_corpus, n=6, threshold=5)
-                    post.saturation_warning = sat
-                    if sat.get("warning"):
-                        logger.warning(
-                            "[batch] %s saturation WARN: %d shared 6-grams with %s",
-                            post.label, sat["count"], sat["worst_match_id"],
-                        )
-                    amplified_posts.append(post)
-                    state.arguments_compressed.append(post.argument_compressed)
+                b_amplified = []
+
+            # Merge back in original order, run saturation, emit post_ready for B posts
+            b_map = {p.label: p for p in b_amplified}
+            for post in validated_posts:
+                if post.batch == "A":
+                    matched = post
+                else:
+                    matched = b_map.get(post.label, post)
+                sat = check_saturation(matched.text, published_corpus, n=6, threshold=5)
+                matched.saturation_warning = sat
+                if sat.get("warning"):
+                    logger.warning(
+                        "[batch] %s saturation WARN: %d shared 6-grams with %s",
+                        matched.label, sat["count"], sat["worst_match_id"],
+                    )
+                amplified_posts.append(matched)
+                state.arguments_compressed.append(matched.argument_compressed)
+                if matched.batch == "B":
+                    self._emit(f"pack_{pack_num}", "post_ready", {
+                        "label": matched.label,
+                        "batch": matched.batch,
+                        "mode": matched.mode,
+                        "text": matched.text,
+                        "word_count": matched.word_count,
+                        "mechanic": matched.mechanic,
+                        "final_opening": getattr(matched, "final_opening", ""),
+                        "entry_door": matched.entry_door,
+                        "voice_score": getattr(matched, "voice_score", 0),
+                        "source_number": pack_num,
+                    })
 
             # Staged convergence testing (Haiku — classification)
             self._check_cancel()
@@ -405,23 +477,40 @@ class BatchSession:
                     assigned_angle = angles[overlap_idx % len(angles)] if angles else recommendation
                     overlap_idx += 1
                     diversity_note = (
-                        "\n\n---\nCONVERGENCE REGEN — HARD OVERRIDE (read before generating)\n"
-                        f"Your previous version argued: \"{post.argument_compressed}\".\n"
-                        f"Other posts in this pack already argue:\n{kept_args_str}\n\n"
-                        f"REQUIRED DIFFERENT ANGLE for this regeneration: {assigned_angle}\n\n"
-                        "Do NOT argue any variant of the thesis you already wrote. Do NOT argue any variant of the kept posts' theses. "
-                        "The source material is the launching pad — argue the ASSIGNED ANGLE above. "
-                        "Recommendation context: " + (recommendation or "(none)")
+                        f"CONVERGENCE REGEN: Your previous version argued: \"{post.argument_compressed}\". "
+                        f"Other posts already argue:\n{kept_args_str}\n\n"
+                        f"REQUIRED DIFFERENT ANGLE: {assigned_angle}\n\n"
+                        "Do NOT argue any variant of the theses above. "
+                        "Recommendation: " + (recommendation or "(none)")
                     )
-                    amended_source = source + diversity_note
-                    if post.batch == "A":
-                        new_post = _generate_a_variant(llm_gen, amended_source, pack.dissection, int(post.label[1:]), state)
-                    else:
-                        new_post = _generate_b_variant(llm_gen, amended_source, pack.dissection, post.entry_door, int(post.label[1:]), [], state)
+                    from .pack_generator import transpose
+                    regen_mode = "A" if post.batch == "A" else "B"
+                    regen_doors = [post.entry_door] if post.batch == "B" and post.entry_door else None
+                    regen_posts = transpose(
+                        llm_gen, source, pack.dissection, mode=regen_mode, state=state,
+                        doors=regen_doors, prior_arguments=overlapping_kept_arguments,
+                        post_count=1, pack_number=pack_num, diversity_override=diversity_note,
+                    )
+                    new_post = regen_posts[0] if regen_posts else post
                     new_post = _enforce_word_count(new_post, state, llm=llm_gen)
-                    new_post = amplify_post(llm_gen, new_post, [], state, llm_prep=llm_prep,
-                                            source_dissection=pack.dissection if new_post.batch == "A" else None)
+                    new_post = amplify_post_v2(
+                        llm_gen, new_post, state,
+                        source_dissection=pack.dissection if new_post.batch == "A" else None,
+                    )
                     amplified_posts[idx] = new_post
+                    self._emit(f"pack_{pack_num}", "post_updated", {
+                        "label": new_post.label,
+                        "batch": new_post.batch,
+                        "mode": new_post.mode,
+                        "text": new_post.text,
+                        "word_count": new_post.word_count,
+                        "mechanic": new_post.mechanic,
+                        "final_opening": getattr(new_post, "final_opening", ""),
+                        "entry_door": new_post.entry_door,
+                        "voice_score": getattr(new_post, "voice_score", 0),
+                        "source_number": pack_num,
+                        "reason": "convergence_regen",
+                    })
 
                 conv = convergence_test(llm_prep, amplified_posts, source[:200], state)
                 tracer.trace_decision(

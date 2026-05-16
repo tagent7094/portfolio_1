@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "source_hash": "dc2f6f19029a3e18",
+      "source_snippet": "My biggest regret as founder of Outreach: I stopped trying to kill the competition.  Early on, I had no choice.  We rais",
+      "used_in_batch": "sharath_batch_2026-05-15.json",
+      "used_at": "2026-05-15T19:30:25.833461+05:30"
+    },
+    {
+      "source_hash": "5f02186f8b2b715a",
+      "source_snippet": "10 years ago, I stopped hiring AEs for “being a people person,” after Challenger research showed Relationship Builders u",
+      "used_in_batch": "sharath_batch_2026-05-15_1.json",
+      "used_at": "2026-05-15T20:33:35.625807+05:30"
+    },
+    {
+      "source_hash": "17f64f583e6fee15",
+      "source_snippet": "If I wanted a VP of Marketing job right now, I’d approach the process differently than most.  I wouldn’t spend time prov",
+      "used_in_batch": "sharath_batch_2026-05-15_2.json",
+      "used_at": "2026-05-16T00:01:41.675551+05:30"
+    },
+    {
+      "source_hash": "b8bde214ddb8c11b",
+      "source_snippet": "I can immediately tell whether a company is dominated by product, engineering, growth or sales by looking at their roadm",
+      "used_in_batch": "sharath_batch_2026-05-16.json",
+      "used_at": "2026-05-16T12:31:54.214496+05:30"
+    },
+    {
+      "source_hash": "b2f23182b70ee28b",
+      "source_snippet": "Sales leaders: After working with 5,000 revenue orgs, I've seen 5 patterns in every great sales team.  From InsideSales,",
+      "used_in_batch": "sharath_batch_2026-05-16_2.json",
+      "used_at": "2026-05-16T17:18:52.408347+05:30"
+    }
+  ]
+}

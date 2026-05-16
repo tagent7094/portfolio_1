@@ -84,6 +84,12 @@ class BatchState:
     source_dissections: list[dict] = field(default_factory=list)
     packs: list[PackResult] = field(default_factory=list)
 
+    # Marker rates (per-post averages from founder's published corpus)
+    marker_rates: dict = field(default_factory=dict)
+
+    # Story usage counter (story_name -> times used in this batch run)
+    story_usage_counter: dict = field(default_factory=dict)
+
     # Amplifier log
     amplifier_log: list[dict] = field(default_factory=list)
 

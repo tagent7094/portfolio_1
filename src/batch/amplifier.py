@@ -63,6 +63,22 @@ _MECHANIC_ALIASES = {
 }
 
 
+_DOOR_FAMILIES = {
+    "scene_drop": {"scene_entry", "scene_drop", "micro_story"},
+    "diagnostic_question": {"diagnostic_question"},
+    "borrowed_authority_quote": {"quote_hook", "authority_redirect"},
+    "data_contradiction": {"data_inversion", "juxtaposition"},
+    "confession": {"confession"},
+    "physical_object": {"scene_entry", "physical_object"},
+    "direct_address": {"direct_address"},
+    "mocked_counter_example": {"contrarian", "pattern_observation"},
+    "contrarian_claim": {"contrarian", "contrarian_claim"},
+    "parallel_structure": {"juxtaposition", "tension_pair"},
+    "age_time_anchor": {"specific_number", "scene_entry"},
+    "second_party_verdict": {"quote_hook", "authority_redirect"},
+}
+
+
 def _normalize_mechanic(raw: str) -> str:
     """Map free-text mechanic names to canonical VALID_MECHANICS identifiers."""
     if not raw:
@@ -78,121 +94,26 @@ def _normalize_mechanic(raw: str) -> str:
     return raw
 
 
-def diagnose_opener(llm: LLMProvider, post: AmplifiedPost, state: BatchState, source_dissection: dict | None = None) -> dict:
-    """Run 7-gate diagnosis on a post's opening line (Gate 7 for Batch A only)."""
-    if getattr(state, "llm_router", None):
-        llm = state.llm_router.for_task("amplifier_diagnose")
-    template = load_prompt(PROMPTS_DIR / "amplifier_diagnose.txt")
-    source_diss_str = "N/A"
-    source_mechanic = "N/A"
-    source_body_format = "N/A"
-    source_closer_mechanic = "N/A"
-    if source_dissection:
-        source_diss_str = str(source_dissection)[:800]
-        source_mechanic = source_dissection.get("hook_mechanic_primary", "unknown")
-        source_body_format = source_dissection.get("body_format") or "prose_essay"
-        source_closer_mechanic = source_dissection.get("closer_mechanic") or "terminal_verdict"
-    prompt = fill_prompt(
-        template,
-        post_text=post.text,
-        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
-        mode=post.mode,
-        source_dissection=source_diss_str,
-        source_hook_mechanic=source_mechanic,
-        source_body_format=source_body_format,
-        source_closer_mechanic=source_closer_mechanic,
-    )
-
-    import time as _t
-    _start = _t.time()
-    response = llm.generate(prompt, temperature=0.2, max_tokens=4000)
-    _dur = int((_t.time() - _start) * 1000)
-    result = parse_llm_json(response)
-
-    if state.tracer:
-        state.tracer.trace_llm_call(
-            stage=f"amplifier_diagnose_{post.label}",
-            template="amplifier_diagnose.txt",
-            prompt=prompt,
-            response=response,
-            temperature=0.2,
-            max_tokens=4000,
-            duration_ms=_dur,
-            thinking=getattr(llm, 'last_thinking', ''),
-            metadata={"post_label": post.label, "mode": post.mode},
-        )
-
-    if not isinstance(result, dict) or not result:
-        logger.warning("[amplifier] diagnose JSON parse failed for %s, raw: %.300s", post.label, response)
-        import re as _re
-        json_match = _re.search(r'\{[\s\S]*\}', response)
-        if json_match:
-            try:
-                result = json.loads(json_match.group())
-            except (json.JSONDecodeError, ValueError):
-                pass
-        if not isinstance(result, dict) or not result:
-            return {"all_gates_pass": True, "current_mechanic": "unclear", "buried_gold": "", "weakness": "", "gates": {}}
-
-    return result
+def _mechanic_matches_door(current_mechanic: str, assigned_door: str) -> bool:
+    """Check if the opener's identified mechanic matches its assigned entry door."""
+    if not current_mechanic or not assigned_door:
+        return False
+    mech = _normalize_mechanic(current_mechanic)
+    door = assigned_door.lower().strip()
+    if mech == door:
+        return True
+    family = _DOOR_FAMILIES.get(door, set())
+    return mech in family
 
 
-def generate_alternatives(
-    llm: LLMProvider,
-    post: AmplifiedPost,
-    diagnosis: dict,
-    state: BatchState,
-) -> list[dict]:
-    """Generate exactly 5 replacement opening lines (variants A-E) using different mechanics."""
-    if getattr(state, "llm_router", None):
-        llm = state.llm_router.for_task("amplifier_generate")
-    template = load_prompt(PROMPTS_DIR / "amplifier_generate.txt")
-    prompt = fill_prompt(
-        template,
-        post_text=post.text,
-        diagnosis=str(diagnosis)[:1000],
-        buried_gold=diagnosis.get("buried_gold", ""),
-        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
-        mode=post.mode,
-    )
+def _count_mechanic_in_peers(peers: list, mechanic: str) -> int:
+    """Count how many already-processed posts use this mechanic."""
+    if not mechanic:
+        return 0
+    normalized = _normalize_mechanic(mechanic)
+    return sum(1 for p in peers if _normalize_mechanic(p.mechanic) == normalized)
 
-    import time as _t
-    _start = _t.time()
-    response = llm.generate(prompt, temperature=0.5, max_tokens=4000)
-    _dur = int((_t.time() - _start) * 1000)
-    result = parse_llm_json(response)
 
-    if state.tracer:
-        state.tracer.trace_llm_call(
-            stage=f"amplifier_generate_{post.label}",
-            template="amplifier_generate.txt",
-            prompt=prompt,
-            response=response,
-            temperature=0.5,
-            max_tokens=4000,
-            duration_ms=_dur,
-            thinking=getattr(llm, 'last_thinking', ''),
-            metadata={"post_label": post.label},
-        )
-
-    variants_list = []
-    if isinstance(result, dict) and "variants" in result:
-        variants_list = result.get("variants", [])
-    elif isinstance(result, list):
-        variants_list = result
-
-    valid = []
-    letters = ["A", "B", "C", "D", "E"]
-    for i, v in enumerate(variants_list):
-        if not isinstance(v, dict) or "opening" not in v:
-            continue
-        if _is_slop(v["opening"]):
-            continue
-        v["variant"] = v.get("variant", letters[i] if i < 5 else f"X{i}")
-        v["mechanic"] = _normalize_mechanic(v.get("mechanic", ""))
-        valid.append(v)
-
-    return valid
 
 
 def _apply_best_opener(post: AmplifiedPost, best: dict) -> AmplifiedPost:
@@ -211,49 +132,385 @@ def _apply_best_opener(post: AmplifiedPost, best: dict) -> AmplifiedPost:
     return post
 
 
-def amplify_post(
+
+
+def amplify_post_v2(
     llm: LLMProvider,
     post: AmplifiedPost,
-    pack_posts: list[AmplifiedPost],
     state: BatchState,
-    llm_prep: LLMProvider | None = None,
     source_dissection: dict | None = None,
+    peers: list | None = None,
 ) -> AmplifiedPost:
-    """Full amplifier pass on a single post: diagnose → generate → select best.
+    """Combined amplifier: 7-gate diagnosis + 5 variants in one LLM call.
 
-    llm is the generation model (Opus) for writing alternatives.
-    llm_prep is the lightweight model (Haiku) for diagnosis. Falls back to llm.
+    Uses amplify.txt — unified 13-mechanic list, always includes Gate 7 for Batch A.
     """
-    logger.info("[amplifier] Processing %s...", post.label)
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("amplify")
 
-    diagnosis = diagnose_opener(llm_prep or llm, post, state, source_dissection=source_dissection)
-    if not diagnosis.get("buried_gold") and not diagnosis.get("weakness"):
-        logger.warning("[amplifier] %s: diagnosis returned no buried_gold/weakness — possible parse failure", post.label)
+    logger.info("[amplifier_v2] Processing %s...", post.label)
+
+    template = load_prompt(PROMPTS_DIR / "amplify.txt")
+    source_dissection_str = "N/A"
+    if source_dissection and post.batch == "A":
+        source_dissection_str = json.dumps(source_dissection, ensure_ascii=False)[:2000]
+
+    prompt = fill_prompt(
+        template,
+        post_text=post.text,
+        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
+        mode=post.mode,
+        source_dissection=source_dissection_str,
+    )
+
+    import time as _t
+    _start = _t.time()
+    try:
+        response = llm.generate(prompt, temperature=0.3, max_tokens=6000, thinking_budget=0)
+    except Exception as e:
+        logger.warning("[amplifier_v2] %s: API error (%s), keeping original", post.label, e)
+        post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+        post.final_opening = post.original_opening
+        post.mechanic = "kept"
+        post.rating = 5
+        return post
+    _dur = int((_t.time() - _start) * 1000)
+
+    if not response or not response.strip():
+        logger.warning("[amplifier_v2] %s: empty response, keeping original", post.label)
+        post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+        post.final_opening = post.original_opening
+        post.mechanic = "kept"
+        post.rating = 5
+        return post
+
+    result = parse_llm_json(response)
+
+    if state.tracer:
+        state.tracer.trace_llm_call(
+            stage=f"amplify_v2_{post.label}",
+            template="amplify.txt",
+            prompt=prompt,
+            response=response,
+            temperature=0.3,
+            max_tokens=4000,
+            duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
+            metadata={"label": post.label, "batch": post.batch},
+        )
+
+    if not isinstance(result, dict):
+        logger.warning("[amplifier_v2] %s: parse failed, keeping original", post.label)
+        post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+        post.final_opening = post.original_opening
+        post.mechanic = "kept"
+        post.rating = 5
+        return post
+
+    # Extract diagnosis
+    diag = result.get("diagnosis", {})
     post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
-
-    gates = diagnosis.get("gates", {})
+    gates = diag.get("gates", {})
     post.gates = {k: v.get("pass", True) if isinstance(v, dict) else v for k, v in gates.items()}
-    post.buried_gold = diagnosis.get("buried_gold", "")
-    post.weakness = diagnosis.get("weakness", "")
+    post.buried_gold = diag.get("buried_gold", "")
+    post.weakness = diag.get("weakness", "")
 
-    all_pass = diagnosis.get("all_gates_pass", True)
+    all_pass = diag.get("all_gates_pass", True)
     gate7_fail_reason = ""
-    if source_dissection:
+    if source_dissection and post.batch == "A":
         gate7 = gates.get("source_mirror", {})
         if isinstance(gate7, dict) and not gate7.get("pass", True):
             all_pass = False
-            failed_subchecks = []
+            failed_sub = []
             if not gate7.get("mechanic_match", True):
-                failed_subchecks.append("mechanic")
+                failed_sub.append("mechanic")
             if not gate7.get("body_format_match", True):
-                failed_subchecks.append(f"body_format(actual={gate7.get('body_format_actual', '?')})")
+                failed_sub.append(f"body_format(actual={gate7.get('body_format_actual', '?')})")
             if not gate7.get("closer_mechanic_match", True):
-                failed_subchecks.append(f"closer(actual={gate7.get('closer_mechanic_actual', '?')})")
-            gate7_fail_reason = ",".join(failed_subchecks) or "unspecified"
-            logger.info("[amplifier] %s: Gate 7 (source mirror) FAIL — %s", post.label, gate7_fail_reason)
+                failed_sub.append(f"closer(actual={gate7.get('closer_mechanic_actual', '?')})")
+            gate7_fail_reason = ",".join(failed_sub) or "unspecified"
+            logger.info("[amplifier_v2] %s: Gate 7 FAIL — %s", post.label, gate7_fail_reason)
+
     is_slop = _is_slop(post.original_opening)
 
-    alternatives = generate_alternatives(llm, post, diagnosis, state)
+    # Extract variants
+    alternatives = []
+    for v in result.get("variants", []):
+        if not isinstance(v, dict) or "opening" not in v:
+            continue
+        if _is_slop(v["opening"]):
+            continue
+        v["mechanic"] = _normalize_mechanic(v.get("mechanic", ""))
+        alternatives.append(v)
+
+    post.versions_considered = len(alternatives)
+    post.opener_variants = alternatives
+
+    # Batch A: never replace opener — variants are for display only
+    if post.batch == "A":
+        if alternatives:
+            best = max(alternatives, key=lambda v: (
+                1 if v.get("coherence_with_body", True) else 0,
+                1 if v.get("plausibility", True) else 0,
+                v.get("rating", 0),
+            ))
+            post.recommended_variant = best.get("variant", "A")
+        post.final_opening = post.original_opening
+        post.mechanic = "mirrored"
+        post.rating = 0
+        state.amplifier_log.append({
+            "label": post.label,
+            "original": post.original_opening[:100],
+            "final": post.final_opening[:100],
+            "gates_passed": all(post.gates.values()) if post.gates else True,
+            "replaced": False,
+            "variants_count": len(alternatives),
+            "recommended": getattr(post, "recommended_variant", ""),
+            "v2": True,
+        })
+        return post
+
+    if alternatives:
+        def _sort_key(v):
+            coh = 1 if v.get("coherence_with_body", True) else 0
+            plaus = 1 if v.get("plausibility", True) else 0
+            vfit = 1 if v.get("voice_fit", True) else 0
+            mode_fit = 1 if v.get("mode_preservation", True) else 0
+            rating = v.get("rating", 0)
+            return (coh, plaus, vfit, mode_fit, rating)
+
+        best = max(alternatives, key=_sort_key)
+        post.recommended_variant = best.get("variant", "A")
+        best_rating = best.get("rating", 0)
+
+        BASELINE_RATING = 7
+        rating_lift = best_rating >= BASELINE_RATING + 1
+        coh_ok = best.get("coherence_with_body", True)
+        plaus_ok = best.get("plausibility", True)
+        vfit_ok = best.get("voice_fit", True)
+        mode_ok = best.get("mode_preservation", True)
+        variant_safe = coh_ok and plaus_ok and vfit_ok and mode_ok
+
+        door_preserved = False
+        if rating_lift and variant_safe and all_pass and not is_slop:
+            vr = getattr(post, "validation_result", {}) or {}
+            voice_passed = (
+                vr.get("overall") == "PASS"
+                or getattr(post, "voice_score", 0) >= 4
+            )
+            current_mech = diag.get("current_mechanic", "")
+            door_matches = _mechanic_matches_door(current_mech, post.entry_door)
+            best_mech = best.get("mechanic", "")
+            would_saturate = (
+                peers is not None
+                and _count_mechanic_in_peers(peers, best_mech) >= 3
+            )
+
+            if voice_passed and door_matches:
+                door_preserved = True
+                logger.info(
+                    "[amplifier_v2] %s: door-preserved (entry_door=%s, current_mech=%s, "
+                    "voice_score=%d, best_variant_rating=%d)",
+                    post.label, post.entry_door, current_mech,
+                    getattr(post, "voice_score", 0), best_rating,
+                )
+            elif would_saturate:
+                door_preserved = True
+                logger.info(
+                    "[amplifier_v2] %s: saturation-blocked (proposed_mech=%s already at 3+, "
+                    "keeping original)",
+                    post.label, best_mech,
+                )
+
+        if not door_preserved and ((not all_pass) or is_slop or (rating_lift and variant_safe)):
+            apply_reason = (
+                f"gate_fail({gate7_fail_reason})" if not all_pass and gate7_fail_reason
+                else "gate_fail" if not all_pass
+                else "slop" if is_slop
+                else f"rating_lift({best_rating})"
+            )
+            post = _apply_best_opener(post, best)
+            logger.info("[amplifier_v2] %s: replaced opener (mechanic=%s, rating=%d, reason=%s)",
+                        post.label, post.mechanic, post.rating, apply_reason)
+        elif not door_preserved:
+            post.final_opening = post.original_opening
+            post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
+            post.rating = 5
+        else:
+            post.final_opening = post.original_opening
+            post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
+            post.rating = 5
+    else:
+        post.final_opening = post.original_opening
+        post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "unchanged" if not all_pass else "kept"))
+        post.rating = 5 if all_pass else 0
+
+    state.amplifier_log.append({
+        "label": post.label,
+        "original": post.original_opening[:100],
+        "final": post.final_opening[:100],
+        "gates_passed": all(post.gates.values()) if post.gates else True,
+        "replaced": post.original_opening != post.final_opening,
+        "variants_count": len(alternatives),
+        "recommended": post.recommended_variant,
+        "v2": True,
+    })
+
+    return post
+
+
+
+
+def amplify_batch_v2(
+    llm: LLMProvider,
+    posts: list[AmplifiedPost],
+    state: BatchState,
+    source_dissection: dict | None = None,
+    never_replace: bool = False,
+) -> list[AmplifiedPost]:
+    """Batch amplifier: process posts in a single LLM call.
+
+    When never_replace=True (Batch A): generates variants for display but never
+    replaces the opener. Falls back to sequential amplify_post_v2() if batch call fails.
+    """
+    if getattr(state, "llm_router", None):
+        llm = state.llm_router.for_task("amplify")
+
+    if not posts:
+        return posts
+
+    if len(posts) > 8:
+        mid = len(posts) // 2
+        left = amplify_batch_v2(llm, posts[:mid], state, source_dissection=source_dissection, never_replace=never_replace)
+        right = amplify_batch_v2(llm, posts[mid:], state, source_dissection=source_dissection, never_replace=never_replace)
+        return left + right
+
+    template = load_prompt(PROMPTS_DIR / "amplify_batch.txt")
+
+    posts_block_parts = []
+    for post in posts:
+        posts_block_parts.append(
+            f"### POST: {post.label}\nMode: {post.mode}\n\n{post.text}\n\n---"
+        )
+    posts_block = "\n\n".join(posts_block_parts)
+
+    source_dissection_note = ""
+    if source_dissection and never_replace:
+        import json as _json
+        source_dissection_note = (
+            f"\n\n## SOURCE DISSECTION (for Gate 7 — Batch A mirror fidelity)\n"
+            f"{_json.dumps(source_dissection, ensure_ascii=False)[:2000]}"
+        )
+
+    prompt = fill_prompt(
+        template,
+        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
+        posts_block=posts_block + source_dissection_note,
+        post_count=str(len(posts)),
+    )
+
+    max_tokens = min(len(posts) * 2500, 30000)
+    batch_type = "A" if never_replace else "B"
+
+    logger.info("[amplifier_batch] Processing %d %s posts in single call (max_tokens=%d)...",
+                len(posts), batch_type, max_tokens)
+
+    import time as _t
+    _start = _t.time()
+    try:
+        response = llm.generate(prompt, temperature=0.3, max_tokens=max_tokens, thinking_budget=0)
+    except Exception as e:
+        logger.warning("[amplifier_batch] API error (%s), falling back to sequential", e)
+        return _fallback_sequential(llm, posts, state)
+    _dur = int((_t.time() - _start) * 1000)
+
+    if not response or not response.strip():
+        logger.warning("[amplifier_batch] empty response, falling back to sequential")
+        return _fallback_sequential(llm, posts, state)
+
+    result = parse_llm_json(response)
+
+    if state.tracer:
+        state.tracer.trace_llm_call(
+            stage=f"amplify_batch_{batch_type}",
+            template="amplify_batch.txt",
+            prompt=prompt,
+            response=response,
+            temperature=0.3,
+            max_tokens=max_tokens,
+            duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
+            metadata={"post_count": len(posts), "never_replace": never_replace},
+        )
+
+    if not isinstance(result, dict) or "posts" not in result:
+        logger.warning("[amplifier_batch] parse failed, falling back to sequential")
+        return _fallback_sequential(llm, posts, state)
+
+    posts_result = result["posts"]
+    amplified = []
+    failed_labels = []
+
+    for post in posts:
+        post_data = posts_result.get(post.label)
+        if not post_data or not isinstance(post_data, dict):
+            failed_labels.append(post.label)
+            amplified.append(post)
+            continue
+        post = _apply_batch_result(post, post_data, state, peers=amplified, never_replace=never_replace)
+        amplified.append(post)
+
+    if failed_labels:
+        logger.warning("[amplifier_batch] %d posts failed parse, running sequential: %s",
+                       len(failed_labels), failed_labels)
+        for i, post in enumerate(amplified):
+            if post.label in failed_labels:
+                amplified[i] = amplify_post_v2(llm, post, state, source_dissection=source_dissection, peers=amplified)
+
+    from collections import Counter
+    preserved = sum(1 for p in amplified if p.original_opening == p.final_opening and p.mechanic not in ("unchanged", "unknown"))
+    replaced = sum(1 for p in amplified if p.original_opening != p.final_opening)
+    distribution = Counter(p.mechanic for p in amplified if p.mechanic)
+    logger.info(
+        "[amplifier_pack_summary] preserved=%d/%d replaced=%d distribution=%s",
+        preserved, len(amplified), replaced, dict(distribution),
+    )
+
+    logger.info("[amplifier_batch] Completed %d %s posts in %.1fs", len(posts), batch_type, _dur / 1000)
+    return amplified
+
+
+def _fallback_sequential(llm, posts, state):
+    """Fall back to per-post amplification."""
+    logger.info("[amplifier_batch] Falling back to sequential (%d posts)", len(posts))
+    results = []
+    for p in posts:
+        results.append(amplify_post_v2(llm, p, state, source_dissection=None, peers=results))
+    return results
+
+
+def _apply_batch_result(post: AmplifiedPost, data: dict, state: BatchState, peers: list | None = None, never_replace: bool = False) -> AmplifiedPost:
+    """Apply batch amplifier result to a single post."""
+    diag = data.get("diagnosis", {})
+    post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+
+    gates = diag.get("gates", {})
+    post.gates = {k: v.get("pass", True) if isinstance(v, dict) else v for k, v in gates.items()}
+    post.buried_gold = diag.get("buried_gold", "")
+    post.weakness = diag.get("weakness", "")
+
+    all_pass = diag.get("all_gates_pass", True)
+    is_slop = _is_slop(post.original_opening)
+
+    alternatives = []
+    for v in data.get("variants", []):
+        if not isinstance(v, dict) or "opening" not in v:
+            continue
+        if _is_slop(v["opening"]):
+            continue
+        v["mechanic"] = _normalize_mechanic(v.get("mechanic", ""))
+        alternatives.append(v)
+
     post.versions_considered = len(alternatives)
     post.opener_variants = alternatives
 
@@ -265,40 +522,92 @@ def amplify_post(
             mode_fit = 1 if v.get("mode_preservation", True) else 0
             rating = v.get("rating", 0)
             return (coh, plaus, vfit, mode_fit, rating)
+
         best = max(alternatives, key=_sort_key)
         post.recommended_variant = best.get("variant", "A")
+
+    # Batch A: never replace opener — variants are for display only
+    if never_replace or post.batch == "A":
+        post.final_opening = post.original_opening
+        post.mechanic = "mirrored" if post.batch == "A" else _normalize_mechanic(diag.get("current_mechanic", "kept"))
+        post.rating = 0 if post.batch == "A" else 5
+        state.amplifier_log.append({
+            "label": post.label,
+            "original": post.original_opening[:100],
+            "final": post.final_opening[:100],
+            "gates_passed": all(post.gates.values()) if post.gates else True,
+            "replaced": False,
+            "variants_count": len(alternatives),
+            "recommended": getattr(post, "recommended_variant", ""),
+            "v2": True,
+            "batch_mode": True,
+            "never_replace": True,
+        })
+        return post
+
+    if alternatives:
+        best = max(alternatives, key=_sort_key)
         best_rating = best.get("rating", 0)
 
-        # Apply rebuild when: gates failed, slop detected, or the recommended variant
-        # is materially better than baseline (rating >= 8). Without this, the amplifier
-        # recommends a variant but ships the original — the "Recommended: C but Final
-        # Opening unchanged" failure mode.
         BASELINE_RATING = 7
         rating_lift = best_rating >= BASELINE_RATING + 1
-        coh_ok = best.get("coherence_with_body", True)
-        plaus_ok = best.get("plausibility", True)
-        vfit_ok = best.get("voice_fit", True)
-        mode_ok = best.get("mode_preservation", True)
-        variant_safe = coh_ok and plaus_ok and vfit_ok and mode_ok
+        variant_safe = (best.get("coherence_with_body", True) and
+                        best.get("plausibility", True) and
+                        best.get("voice_fit", True) and
+                        best.get("mode_preservation", True))
 
-        if (not all_pass) or is_slop or (rating_lift and variant_safe):
+        door_preserved = False
+        if rating_lift and variant_safe and all_pass and not is_slop:
+            vr = getattr(post, "validation_result", {}) or {}
+            voice_passed = (
+                vr.get("overall") == "PASS"
+                or getattr(post, "voice_score", 0) >= 4
+            )
+            current_mech = diag.get("current_mechanic", "")
+            door_matches = _mechanic_matches_door(current_mech, post.entry_door)
+            best_mech = best.get("mechanic", "")
+            would_saturate = (
+                peers is not None
+                and _count_mechanic_in_peers(peers, best_mech) >= 3
+            )
+
+            if voice_passed and door_matches:
+                door_preserved = True
+                logger.info(
+                    "[amplifier_batch] %s: door-preserved (entry_door=%s, current_mech=%s, "
+                    "voice_score=%d, best_variant_rating=%d)",
+                    post.label, post.entry_door, current_mech,
+                    getattr(post, "voice_score", 0), best_rating,
+                )
+            elif would_saturate:
+                door_preserved = True
+                logger.info(
+                    "[amplifier_batch] %s: saturation-blocked (proposed_mech=%s already at 3+, "
+                    "keeping original)",
+                    post.label, best_mech,
+                )
+
+        if not door_preserved and ((not all_pass) or is_slop or (rating_lift and variant_safe)):
             apply_reason = (
-                f"gate_fail({gate7_fail_reason})" if not all_pass and gate7_fail_reason
-                else "gate_fail" if not all_pass
+                "gate_fail" if not all_pass
                 else "slop" if is_slop
                 else f"rating_lift({best_rating})"
             )
             post = _apply_best_opener(post, best)
-            logger.info("[amplifier] %s: replaced opener (mechanic=%s, rating=%d, reason=%s)",
+            logger.info("[amplifier_batch] %s: replaced opener (mechanic=%s, rating=%d, reason=%s)",
                         post.label, post.mechanic, post.rating, apply_reason)
+        elif not door_preserved:
+            post.final_opening = post.original_opening
+            post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
+            post.rating = 5
         else:
             post.final_opening = post.original_opening
-            post.mechanic = _normalize_mechanic(diagnosis.get("current_mechanic", "kept"))
+            post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
             post.rating = 5
     else:
         post.final_opening = post.original_opening
-        post.mechanic = _normalize_mechanic(diagnosis.get("current_mechanic", "unchanged" if not all_pass else "kept"))
-        post.rating = 5 if all_pass else 0
+        post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
+        post.rating = 5
 
     state.amplifier_log.append({
         "label": post.label,
@@ -307,184 +616,12 @@ def amplify_post(
         "gates_passed": all(post.gates.values()) if post.gates else True,
         "replaced": post.original_opening != post.final_opening,
         "variants_count": len(alternatives),
-        "recommended": post.recommended_variant,
+        "recommended": getattr(post, "recommended_variant", ""),
+        "v2": True,
+        "batch_mode": True,
     })
 
     return post
-
-
-_BATCH_CHUNK_SIZE = 3
-
-
-def _amplify_chunk(
-    llm: LLMProvider,
-    chunk: list[AmplifiedPost],
-    state: BatchState,
-    chunk_idx: int,
-) -> dict:
-    """Run amplifier on a small chunk of posts, return label->result map."""
-    template = load_prompt(PROMPTS_DIR / "amplifier_batch.txt")
-
-    posts_block = "\n".join(
-        f"### POST: {p.label} (mode: {p.mode})\n{p.text}\n" for p in chunk
-    )
-    prompt = fill_prompt(
-        template,
-        posts_block=posts_block,
-        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
-    )
-
-    import time as _t
-    _start = _t.time()
-    try:
-        response = llm.generate(prompt, temperature=0.5, max_tokens=llm.max_output_tokens)
-    except Exception as e:
-        logger.warning("[amplifier] chunk %d API error (%s), skipping", chunk_idx, e)
-        return {}
-    _dur = int((_t.time() - _start) * 1000)
-    parsed = parse_llm_json(response)
-
-    if state.tracer:
-        state.tracer.trace_llm_call(
-            stage=f"amplifier_batch_chunk_{chunk_idx}",
-            template="amplifier_batch.txt",
-            prompt=prompt,
-            response=response,
-            temperature=0.5,
-            max_tokens=llm.max_output_tokens,
-            duration_ms=_dur,
-            thinking=getattr(llm, 'last_thinking', ''),
-            metadata={"post_count": len(chunk), "chunk": chunk_idx, "lean": True},
-        )
-
-    amp_results = []
-    if isinstance(parsed, dict) and "posts" in parsed:
-        amp_results = parsed["posts"]
-    elif isinstance(parsed, list):
-        amp_results = parsed
-
-    result_map = {r["label"]: r for r in amp_results if isinstance(r, dict) and r.get("label")}
-    if not result_map and response:
-        logger.warning(
-            "[amplifier] chunk %d: LLM returned %d chars but parsed to %d results (expected %d). Raw start: %.200s",
-            chunk_idx, len(response), len(amp_results), len(chunk), response[:200],
-        )
-    return result_map
-
-
-def amplify_batch(
-    llm: LLMProvider,
-    posts: list[AmplifiedPost],
-    state: BatchState,
-    source_dissection: dict | None = None,
-) -> list[AmplifiedPost]:
-    """Lean mode: diagnose + generate 5 opener variants per post.
-
-    Chunks posts into groups of 3 so the LLM reliably produces all 5
-    variants A-E per post (9 posts × 5 variants in one call is too much
-    output and the LLM collapses to a single best_alternative).
-    """
-    if getattr(state, "llm_router", None):
-        llm = state.llm_router.for_task("amplifier_batch")
-
-    chunks = [posts[i:i + _BATCH_CHUNK_SIZE] for i in range(0, len(posts), _BATCH_CHUNK_SIZE)]
-    label_to_result: dict = {}
-    for ci, chunk in enumerate(chunks):
-        label_to_result.update(_amplify_chunk(llm, chunk, state, ci))
-
-    failed_posts = [p for p in posts if p.label not in label_to_result]
-    if failed_posts:
-        logger.warning(
-            "[amplifier_batch] %d/%d posts got no amplifier results — falling back to per-post amplify",
-            len(failed_posts), len(posts),
-        )
-        for post in failed_posts:
-            try:
-                amplify_post(llm, post, [], state, source_dissection=source_dissection)
-            except Exception as e:
-                logger.warning("[amplifier_batch] per-post fallback failed for %s: %s", post.label, e)
-                post.final_opening = post.text.strip().split("\n\n")[0] if post.text else ""
-                post.original_opening = post.final_opening
-                post.mechanic = "kept"
-                post.rating = 5
-
-    for post in posts:
-        r = label_to_result.get(post.label)
-        if not r:
-            continue
-
-        post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
-        post.buried_gold = r.get("buried_gold", "")
-        post.weakness = r.get("weakness", "")
-
-        alternatives = r.get("variants", [])
-        if isinstance(alternatives, list) and alternatives:
-            post.opener_variants = alternatives
-            post.versions_considered = len(alternatives)
-        else:
-            best_alt = r.get("best_alternative")
-            if isinstance(best_alt, dict) and best_alt.get("opening"):
-                post.opener_variants = [{**best_alt, "variant": "A"}]
-                post.versions_considered = 1
-                alternatives = post.opener_variants
-                logger.info("[amplifier_batch] %s: LLM returned best_alternative instead of variants array", post.label)
-            else:
-                logger.warning("[amplifier_batch] %s: no variants and no best_alternative in response", post.label)
-
-        rec_variant = r.get("recommended_variant", "A")
-        post.recommended_variant = rec_variant
-
-        should_apply = r.get("apply", False)
-        all_pass = r.get("all_gates_pass", True)
-        is_slop = _is_slop(post.original_opening)
-
-        if alternatives:
-            def _sort_key(v):
-                coh = 1 if v.get("coherence_with_body", True) else 0
-                plaus = 1 if v.get("plausibility", True) else 0
-                vfit = 1 if v.get("voice_fit", True) else 0
-                mode_fit = 1 if v.get("mode_preservation", True) else 0
-                rating = v.get("rating", 0)
-                return (coh, plaus, vfit, mode_fit, rating)
-
-            best = None
-            for v in alternatives:
-                if v.get("variant") == rec_variant:
-                    best = v
-                    break
-            if not best:
-                best = max(alternatives, key=_sort_key)
-
-            coh = best.get("coherence_with_body", True)
-            plaus = best.get("plausibility", True)
-            vfit = best.get("voice_fit", True)
-            mode_ok = best.get("mode_preservation", True)
-            rating = best.get("rating", 0)
-
-            if (should_apply or not all_pass or is_slop or rating >= 8) and coh and plaus and vfit and mode_ok:
-                post = _apply_best_opener(post, best)
-                logger.info("[amplifier_batch] %s: replaced opener (variant=%s, mechanic=%s, rating=%d)",
-                            post.label, best.get("variant", "?"), post.mechanic, post.rating)
-            else:
-                post.final_opening = post.original_opening
-                post.mechanic = _normalize_mechanic(r.get("current_mechanic", "kept"))
-                post.rating = rating or 5
-        else:
-            post.final_opening = post.original_opening
-            post.mechanic = _normalize_mechanic(r.get("current_mechanic", "kept"))
-            post.rating = 5
-
-        state.amplifier_log.append({
-            "label": post.label,
-            "original": post.original_opening[:100],
-            "final": post.final_opening[:100],
-            "gates_passed": r.get("all_gates_pass", True),
-            "replaced": post.original_opening != post.final_opening,
-            "variants_count": len(post.opener_variants),
-            "lean": True,
-        })
-
-    return posts
 
 
 def convergence_test(

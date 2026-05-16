@@ -85,7 +85,9 @@ export default function GeneratePage() {
   const [traceData, setTraceData] = useState<any>(null)
   const [loadingTraces, setLoadingTraces] = useState(false)
   const [bgTaskId, setBgTaskId] = useState<string | null>(null)
+  const [readyPosts, setReadyPosts] = useState<any[]>([])
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const eventSourceRef = useRef<EventSource | null>(null)
   const logOffsetRef = useRef(0)
   const logEndRef = useRef<HTMLDivElement>(null)
   const lastPackDateRef = useRef<string>('')
@@ -321,6 +323,62 @@ export default function GeneratePage() {
     }
   }, [active])
 
+  const startSSE = useCallback((taskId: string) => {
+    if (eventSourceRef.current) { eventSourceRef.current.close(); eventSourceRef.current = null }
+    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null }
+
+    const es = new EventSource(`/api/generate/batch/events/${taskId}`)
+    eventSourceRef.current = es
+
+    es.onmessage = (msg) => {
+      try {
+        const ev = JSON.parse(msg.data)
+        if (ev.progress != null) setProgress(ev.progress)
+        if (ev.stage) setStage(ev.stage)
+        if (ev.llm_text) setLlmText(ev.llm_text)
+
+        if (ev.status === 'post_ready' && ev.data) {
+          setReadyPosts(prev => [...prev, ev.data])
+          return
+        }
+        if (ev.status === 'post_updated' && ev.data) {
+          setReadyPosts(prev => prev.map(p => p.label === ev.data.label ? ev.data : p))
+          return
+        }
+        if (ev.status === 'llm_chunk') return
+
+        if (ev.stage === 'web_search' && ev.status === 'completed') {
+          setWebSearchSummary(ev.data || {})
+        }
+        const fp = ev.data?.filepath
+        if (fp) {
+          lastFilepathRef.current = fp
+          const match = fp.match(/(\d{4}-\d{2}-\d{2})/)
+          if (match) lastPackDateRef.current = match[1]
+        }
+        if (ev.data?.error) setError(ev.data.error)
+
+        setLog(prev => [...prev, { stage: ev.stage || '', status: ev.status || '', ts: Date.now() }])
+
+        if (ev.status === 'pipeline_done') {
+          es.close()
+          eventSourceRef.current = null
+          setBgTaskId(null)
+          setLlmText('')
+          localStorage.removeItem(`gen_task_${active}`)
+          setDone(true)
+          setGenerating(false)
+        }
+      } catch { /* ignore parse errors */ }
+    }
+
+    es.onerror = () => {
+      es.close()
+      eventSourceRef.current = null
+      startPolling(taskId)
+    }
+  }, [active])
+
   const startPolling = useCallback((taskId: string) => {
     if (pollRef.current) clearInterval(pollRef.current)
     logOffsetRef.current = 0
@@ -361,7 +419,7 @@ export default function GeneratePage() {
     }, 3000)
   }, [active])
 
-  // Resume polling on mount if a task was running
+  // Resume SSE on mount if a task was running
   useEffect(() => {
     if (!active) return
     const savedTask = localStorage.getItem(`gen_task_${active}`)
@@ -370,10 +428,13 @@ export default function GeneratePage() {
       setGenerating(true)
       setStage('resuming...')
       setPipelineSteps(buildSteps())
-      startPolling(savedTask)
+      startSSE(savedTask)
     }
-    return () => { if (pollRef.current) clearInterval(pollRef.current) }
-  }, [active, startPolling, buildSteps])
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current)
+      if (eventSourceRef.current) { eventSourceRef.current.close(); eventSourceRef.current = null }
+    }
+  }, [active, startSSE, buildSteps])
 
   const handleGenerate = async () => {
     if (!active) {
@@ -419,10 +480,11 @@ export default function GeneratePage() {
     }
 
     try {
+      setReadyPosts([])
       const res = await apiPost<{ task_id: string }>('/api/generate/batch/background', body)
       setBgTaskId(res.task_id)
       localStorage.setItem(`gen_task_${active}`, res.task_id)
-      startPolling(res.task_id)
+      startSSE(res.task_id)
     } catch (e: any) {
       setError(e?.message || 'Failed to start generation')
       setGenerating(false)
@@ -967,6 +1029,32 @@ export default function GeneratePage() {
                       </div>
                     ))}
                   </div>
+
+                  {/* Streaming posts — appear as they are created */}
+                  {generating && readyPosts.length > 0 && (
+                    <div className="space-y-2">
+                      <div className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-faint)' }}>
+                        Posts Ready ({readyPosts.length})
+                      </div>
+                      <div className="grid gap-2">
+                        {readyPosts.map((p) => (
+                          <div key={p.label} className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-2)] p-3 transition-all duration-300">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <span className="text-[11px] font-bold" style={{ color: 'var(--text-primary)' }}>{p.label}</span>
+                              <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: p.batch === 'A' ? 'var(--accent-dim)' : 'var(--surface-3)', color: 'var(--text-muted)' }}>
+                                {p.batch === 'A' ? 'mirrored' : p.mechanic || 'amplified'}
+                              </span>
+                              <span className="text-[10px]" style={{ color: 'var(--text-faint)' }}>{p.mode}</span>
+                              <span className="text-[10px] ml-auto" style={{ color: 'var(--text-faint)' }}>{p.word_count}w</span>
+                            </div>
+                            <p className="text-[11px] leading-relaxed line-clamp-3" style={{ color: 'var(--text-muted)' }}>
+                              {p.text}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Live LLM output */}
                   {generating && llmText && (
