@@ -19,9 +19,6 @@ build/
 config/llm-config.yaml
 config/founder-auth.yaml
 
-# Databases (large binary files — VPS deploy script backs up/restores these)
-*.db
-*.sqlite3
 
 # OS
 .DS_Store
