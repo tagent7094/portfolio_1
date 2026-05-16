@@ -53,10 +53,12 @@ class BlogGenerateRequest(BaseModel):
 
 class NarrativeAnalyzeRequest(BaseModel):
     founder_slug: str
+    podcast_ids: list[str] = []
 
 
 class NarrativeGenerateRequest(BaseModel):
     founder_slug: str
+    podcast_ids: list[str] = []
     narrative_angle: str
     format_type: str = "thought_leadership"
     tone: str = "conversational"
@@ -303,13 +305,29 @@ async def cancel_blog_task(task_id: str):
 @blog_router.post("/api/blog/narrative/analyze")
 async def analyze_narrative_endpoint(data: NarrativeAnalyzeRequest):
     """Analyze transcripts and return narrative angles."""
-    logger.info("[narrative] analyze founder=%s", data.founder_slug)
+    logger.info("[narrative] analyze founder=%s podcast_ids=%s", data.founder_slug, data.podcast_ids)
 
     from src.blog.narrative_session import NarrativeSession
 
+    podcast_transcript_text = ""
+    if data.podcast_ids:
+        from src.blog.db import get_podcast
+        from pathlib import Path as _Path
+        parts = []
+        for pid in data.podcast_ids:
+            pod = get_podcast(pid)
+            if pod and pod.get("transcript_path"):
+                p = _Path(pod["transcript_path"])
+                if p.exists():
+                    parts.append(p.read_text(encoding="utf-8", errors="replace"))
+        podcast_transcript_text = "\n\n---\n\n".join(parts)
+
     try:
         session = NarrativeSession()
-        result = await asyncio.to_thread(session.analyze, data.founder_slug)
+        result = await asyncio.to_thread(
+            session.analyze, data.founder_slug,
+            override_transcript=podcast_transcript_text or None,
+        )
         return result
     except Exception as e:
         logger.exception("[narrative] analysis failed")
@@ -319,12 +337,25 @@ async def analyze_narrative_endpoint(data: NarrativeAnalyzeRequest):
 @blog_router.post("/api/blog/narrative/generate/background")
 async def generate_narrative_background(data: NarrativeGenerateRequest):
     """Start narrative blog generation as a background task."""
-    logger.info("[narrative_bg] founder=%s angle=%s format=%s",
-                data.founder_slug, data.narrative_angle[:50], data.format_type)
+    logger.info("[narrative_bg] founder=%s angle=%s format=%s podcast_ids=%s",
+                data.founder_slug, data.narrative_angle[:50], data.format_type, data.podcast_ids)
 
     from src.generation.pipeline_events import PipelineEventBus
     from src.blog.narrative_session import NarrativeSession
     from src.blog.session import CancelledError
+
+    podcast_transcript_text = ""
+    if data.podcast_ids:
+        from src.blog.db import get_podcast
+        from pathlib import Path as _Path
+        parts = []
+        for pid in data.podcast_ids:
+            pod = get_podcast(pid)
+            if pod and pod.get("transcript_path"):
+                p = _Path(pod["transcript_path"])
+                if p.exists():
+                    parts.append(p.read_text(encoding="utf-8", errors="replace"))
+        podcast_transcript_text = "\n\n---\n\n".join(parts)
 
     task_id = uuid.uuid4().hex[:10]
     event_bus = PipelineEventBus()
@@ -358,6 +389,7 @@ async def generate_narrative_background(data: NarrativeGenerateRequest):
                 format_type=data.format_type,
                 tone=data.tone,
                 target_word_count=data.target_word_count,
+                override_transcript=podcast_transcript_text or None,
             ))
 
             async for chunk in event_bus.stream():
@@ -635,6 +667,29 @@ async def list_podcasts_endpoint(founder_slug: str):
     from src.blog import db
     db.init_db()
     return {"podcasts": db.list_podcasts(founder_slug)}
+
+
+@blog_router.get("/api/studio/podcasts/{podcast_id}/transcript")
+async def get_podcast_transcript(podcast_id: str):
+    """Return the full transcript text for a podcast."""
+    from src.blog import db
+    from pathlib import Path as _Path
+    db.init_db()
+    pod = db.get_podcast(podcast_id)
+    if not pod:
+        raise HTTPException(status_code=404, detail="Podcast not found")
+    p = _Path(pod["transcript_path"])
+    if not p.exists():
+        raise HTTPException(status_code=404, detail="Transcript file not found")
+    text = p.read_text(encoding="utf-8", errors="replace")
+    structured = None
+    json_path = p.with_suffix(".json")
+    if json_path.exists():
+        try:
+            structured = json.loads(json_path.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {"podcast_id": podcast_id, "text": text, "structured": structured}
 
 
 @blog_router.delete("/api/studio/podcasts/{podcast_id}")

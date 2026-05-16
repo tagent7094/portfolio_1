@@ -535,7 +535,7 @@ function NarrativeTab() {
     try {
       const res = await apiPost<{ angles: NarrativeAngle[]; analysis: any; transcript_length: number }>(
         '/api/blog/narrative/analyze',
-        { founder_slug: founder },
+        { founder_slug: founder, podcast_ids: selectedPodIds },
       )
       if ((res as any).error) {
         alert((res as any).error)
@@ -565,6 +565,7 @@ function NarrativeTab() {
         format_type: format,
         tone,
         target_word_count: wordCount,
+        podcast_ids: selectedPodIds,
       })
       setTaskId(res.task_id)
     } catch (e) {
@@ -933,29 +934,110 @@ function PodcastsTab() {
         ) : (
           <div className="space-y-2">
             {podcasts.map(p => (
-              <div key={p.podcast_id} className="flex items-center gap-3 rounded-xl border border-[var(--border-2)] p-3">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13px] font-medium text-[var(--text-primary)]">{p.title}</p>
-                  <div className="mt-1 flex items-center gap-2 text-[11px] text-[var(--text-muted)]">
-                    {p.host && <span>{p.host}</span>}
-                    {p.host && p.date && <span>·</span>}
-                    {p.date && <span>{p.date}</span>}
-                    <span>·</span>
-                    <span>{(p.transcript_length / 1000).toFixed(1)}k chars</span>
-                  </div>
-                </div>
-                {sourceBadge(p.source_type)}
-                <button
-                  onClick={() => deletePodcast(p.podcast_id)}
-                  className="rounded-lg p-1.5 text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-3)] hover:text-[var(--error, #ef4444)]"
-                >
-                  <Trash2 size={13} />
-                </button>
-              </div>
+              <PodcastRow key={p.podcast_id} podcast={p} onDelete={deletePodcast} />
             ))}
           </div>
         )}
       </div>
+    </div>
+  )
+}
+
+function PodcastRow({ podcast: p, onDelete }: { podcast: Podcast; onDelete: (id: string) => void }) {
+  const [expanded, setExpanded] = useState(false)
+  const [transcript, setTranscript] = useState<{ text: string; structured: any } | null>(null)
+  const [loadingTranscript, setLoadingTranscript] = useState(false)
+
+  const toggleTranscript = async () => {
+    if (expanded) { setExpanded(false); return }
+    if (transcript) { setExpanded(true); return }
+    setLoadingTranscript(true)
+    try {
+      const res = await apiGet<{ text: string; structured: any }>(`/api/studio/podcasts/${p.podcast_id}/transcript`)
+      setTranscript(res)
+      setExpanded(true)
+    } catch (e) {
+      console.error('Failed to load transcript:', e)
+    } finally {
+      setLoadingTranscript(false)
+    }
+  }
+
+  const structured = transcript?.structured
+  const segments = structured?.segments || []
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-[var(--border-2)]">
+      <div className="flex items-center gap-3 p-3">
+        <button onClick={toggleTranscript} className="text-[var(--text-muted)]">
+          {expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+        </button>
+        <div className="min-w-0 flex-1 cursor-pointer" onClick={toggleTranscript}>
+          <p className="truncate text-[13px] font-medium text-[var(--text-primary)]">{p.title}</p>
+          <div className="mt-1 flex items-center gap-2 text-[11px] text-[var(--text-muted)]">
+            {p.host && <span>{p.host}</span>}
+            {p.host && p.date && <span>·</span>}
+            {p.date && <span>{p.date}</span>}
+            <span>·</span>
+            <span>{(p.transcript_length / 1000).toFixed(1)}k chars</span>
+            {structured && <span>· {segments.length} segments</span>}
+          </div>
+        </div>
+        {sourceBadge(p.source_type)}
+        {loadingTranscript && <Loader2 size={13} className="animate-spin text-[var(--text-muted)]" />}
+        <button
+          onClick={() => onDelete(p.podcast_id)}
+          className="rounded-lg p-1.5 text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-3)] hover:text-[var(--error, #ef4444)]"
+        >
+          <Trash2 size={13} />
+        </button>
+      </div>
+
+      {expanded && transcript && (
+        <div className="border-t border-[var(--border-2)] bg-[var(--surface-2)] p-4">
+          {structured?.summary && (
+            <div className="mb-3 rounded-lg bg-[var(--surface-3)] p-3">
+              <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Summary</p>
+              <p className="text-[12px] leading-relaxed text-[var(--text-secondary)]">{structured.summary}</p>
+            </div>
+          )}
+          {structured?.speakers?.length > 0 && (
+            <div className="mb-3 flex items-center gap-2">
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Speakers:</span>
+              {structured.speakers.map((s: string, i: number) => (
+                <span key={i} className="rounded bg-[var(--surface-4)] px-2 py-0.5 text-[11px] text-[var(--text-secondary)]">{s}</span>
+              ))}
+            </div>
+          )}
+          {segments.length > 0 ? (
+            <div className="space-y-2 max-h-[400px] overflow-y-auto">
+              {segments.map((seg: any, i: number) => (
+                <div key={i} className="rounded-lg bg-[var(--surface-1)] p-3">
+                  <div className="mb-1 flex items-center gap-2">
+                    {seg.speaker && <span className="text-[11px] font-semibold text-[var(--text-primary)]">{seg.speaker}</span>}
+                    {seg.topic && <span className="rounded bg-[var(--surface-4)] px-1.5 py-0.5 text-[10px] text-[var(--text-muted)]">{seg.topic}</span>}
+                  </div>
+                  <p className="text-[12px] leading-relaxed text-[var(--text-secondary)]">{seg.text}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <pre className="max-h-[400px] overflow-y-auto whitespace-pre-wrap text-[12px] leading-relaxed text-[var(--text-secondary)]">
+              {transcript.text}
+            </pre>
+          )}
+          {structured?.key_quotes?.length > 0 && (
+            <div className="mt-3">
+              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Key Quotes</p>
+              <div className="space-y-1">
+                {structured.key_quotes.map((q: string, i: number) => (
+                  <p key={i} className="border-l-2 border-[var(--text-muted)] pl-3 text-[12px] italic text-[var(--text-secondary)]">"{q}"</p>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

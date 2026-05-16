@@ -65,6 +65,7 @@ class NarrativeSession:
         self,
         founder_slug: str,
         config_path: str = "config/llm-config.yaml",
+        override_transcript: str | None = None,
     ) -> dict:
         """Analyze transcripts and return narrative angles (without generating)."""
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
@@ -72,7 +73,7 @@ class NarrativeSession:
         llm = router.for_task("narrative_transcript_analysis")
 
         batch_state = load_founder_state(founder_slug, "linkedin")
-        transcript_text = batch_state.raw_data.get("transcripts", "")
+        transcript_text = override_transcript or batch_state.raw_data.get("transcripts", "")
 
         if not transcript_text:
             return {"error": "No transcripts found for this founder", "angles": []}
@@ -103,6 +104,7 @@ class NarrativeSession:
         tone: str = "conversational",
         target_word_count: int = 1500,
         config_path: str = "config/llm-config.yaml",
+        override_transcript: str | None = None,
     ) -> dict:
         """Run the full narrative blog generation pipeline."""
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
@@ -127,7 +129,7 @@ class NarrativeSession:
         cal = calibration_check(llm_gen, batch_state)
         batch_state.calibration_paragraph = cal.get("calibration_paragraph", "")
 
-        transcript_text = batch_state.raw_data.get("transcripts", "")
+        transcript_text = override_transcript or batch_state.raw_data.get("transcripts", "")
         if not transcript_text:
             self._emit("error", "pipeline_done", {"error": "No transcripts found"}, progress=1.0)
             if self.event_bus:
