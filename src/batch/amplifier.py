@@ -363,7 +363,13 @@ def _amplify_chunk(
     elif isinstance(parsed, list):
         amp_results = parsed
 
-    return {r["label"]: r for r in amp_results if isinstance(r, dict) and r.get("label")}
+    result_map = {r["label"]: r for r in amp_results if isinstance(r, dict) and r.get("label")}
+    if not result_map and response:
+        logger.warning(
+            "[amplifier] chunk %d: LLM returned %d chars but parsed to %d results (expected %d). Raw start: %.200s",
+            chunk_idx, len(response), len(amp_results), len(chunk), response[:200],
+        )
+    return result_map
 
 
 def amplify_batch(
@@ -386,13 +392,25 @@ def amplify_batch(
     for ci, chunk in enumerate(chunks):
         label_to_result.update(_amplify_chunk(llm, chunk, state, ci))
 
+    failed_posts = [p for p in posts if p.label not in label_to_result]
+    if failed_posts:
+        logger.warning(
+            "[amplifier_batch] %d/%d posts got no amplifier results — falling back to per-post amplify",
+            len(failed_posts), len(posts),
+        )
+        for post in failed_posts:
+            try:
+                amplify_post(llm, post, [], state, source_dissection=source_dissection)
+            except Exception as e:
+                logger.warning("[amplifier_batch] per-post fallback failed for %s: %s", post.label, e)
+                post.final_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+                post.original_opening = post.final_opening
+                post.mechanic = "kept"
+                post.rating = 5
+
     for post in posts:
         r = label_to_result.get(post.label)
         if not r:
-            post.final_opening = post.text.strip().split("\n\n")[0] if post.text else ""
-            post.original_opening = post.final_opening
-            post.mechanic = "kept"
-            post.rating = 5
             continue
 
         post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""

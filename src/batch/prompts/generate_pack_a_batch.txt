@@ -38,12 +38,13 @@ Can the source's opening be mirrored with different content? If too proper-noun-
 ## STEP 2: GENERATE 3 MIRRORED POSTS
 
 Generate 3 Batch A posts. Each MUST:
-- Mirror the source's opener mechanic, sentence count, rhythm, and beat order
+- COPY the source's opener text and surgically replace content-specific words (domain, names, numbers, scenes) with the founder's equivalents — keep function words, punctuation, sentence structure, and rhythm as close to the source as possible
 - Mirror the source's body format (if source is numbered_list, post MUST be numbered_list)
 - Mirror the source's closer mechanic
-- Replace ALL content with the founder's domain, numbers, scenes, cast
+- Replace content-specific words (nouns, names, domain adjectives, credentials, numbers) but keep sentence skeleton (articles, prepositions, conjunctions, structural verbs)
 - Hit the word count range: {word_count_range}
 - Use AT LEAST 3 of the founder's voice markers naturally
+- Use at least 1 verified event/story from the FOUNDER INTERNALIZATION (signature scenes, key moments) as a first-degree authority anchor
 
 ### ANTI-CONVERGENCE (CRITICAL)
 Before writing Variant N, re-read all previous variants' argument_compressed fields. Variant N MUST argue something DIFFERENT. Three posts from the same source that all arrive at the same thesis = convergence failure. The source material is a launching pad, not a destination.
@@ -66,19 +67,24 @@ Before writing Variant N, re-read all previous variants' argument_compressed fie
 ### STORIES ALREADY USED (do NOT reuse)
 {stories_used}
 
+### MANDATORY EVENT USAGE
+Every post MUST include at least one verified first-degree authority anchor from the FOUNDER INTERNALIZATION (signature scenes, key moments, or story bank). A post with zero personal evidence (no specific numbers, no named scenes, no verified events) is a structural failure — it reads as generic advice instead of earned authority.
+
 ---
 
 ## RULES FOR ALL 3 POSTS
 
-1. MIRROR the source's structural mold (mechanic + body format + closer mechanic)
-2. If the source addresses the audience directly, you must too
-3. If the source anchors with a credential/number, anchor with the founder's
-4. FIRST-DEGREE FABRICATION CHECK: Never invent scenes/quotes the founder hasn't documented. Use signature_scenes from internalization, or translate to third-degree patterns.
-5. ANTI-RECYCLING: If a sentence could be copy-pasted from the founder's published posts, rewrite it.
-6. Every post orbits one scene the reader can physically picture
-7. End on a concrete detail — NOT a summary, NOT a moral
-8. Voice compliance: founder card voice overrides source register. No AI slop.
-9. Mode: specify "wrestling" or "declaring" — vary across variants
+1. COPY THE SOURCE OPENER and surgically replace content words — keep function words, punctuation, sentence structure, rhythm as close to the source text as possible. The opener must read like a content-swapped version of the source's opening, not a newly written sentence that happens to use the same mechanic.
+2. MIRROR the source's body format (if source is numbered_list with 5 items, your body MUST be a numbered_list with 4-6 items — NOT a flowing prose essay)
+3. MIRROR the source's closer mechanic
+4. If the source addresses the audience directly, you must too
+5. If the source anchors with a credential/number, anchor with the founder's
+6. FIRST-DEGREE FABRICATION CHECK: Never invent scenes/quotes the founder hasn't documented. Use signature_scenes from internalization, or translate to third-degree patterns.
+7. ANTI-RECYCLING: If a sentence could be copy-pasted from the founder's published posts, rewrite it.
+8. Every post orbits one scene the reader can physically picture
+9. End on a concrete detail — NOT a summary, NOT a moral
+10. Voice compliance: founder card voice overrides source register. No AI slop.
+11. Mode: specify "wrestling" or "declaring" — vary across variants
 
 ## OUTPUT FORMAT
 

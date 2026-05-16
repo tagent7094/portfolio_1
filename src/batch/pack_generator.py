@@ -106,6 +106,9 @@ def _format_internalization(state: BatchState) -> str:
         parts.append("KEY MOMENTS:\n" + "\n".join(f"- {k}" for k in intern["key_moments_inventory"][:15]))
     if intern.get("recurring_cast"):
         parts.append("CAST:\n" + "\n".join(f"- {c}" for c in intern["recurring_cast"][:10]))
+    story_bank = state.raw_data.get("raw_story_bank", "")
+    if story_bank:
+        parts.append("STORY BANK (verified events — use these as first-degree authority anchors):\n" + story_bank[:3000])
     return "\n\n".join(parts) if parts else "No internalization data available."
 
 

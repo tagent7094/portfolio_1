@@ -79,6 +79,9 @@ If any test FAILED, do NOT replicate that quality in your opener.
 ## STORIES ALREADY USED (do NOT reuse)
 {stories_used}
 
+## MANDATORY EVENT USAGE
+Every Batch A post MUST include at least one verified first-degree authority anchor from the FOUNDER INTERNALIZATION (signature scenes, key moments, or story bank). A post about the founder's domain that contains zero personal evidence (no specific numbers, no named scenes, no verified events) is a structural failure — the founder's worldview without the founder's evidence reads as generic advice, not earned authority.
+
 ## VARIANT NUMBER: {variant_number} of 3
 
 ## PRIOR A VARIANTS FROM THIS SOURCE (avoid repeating their angles)
@@ -88,17 +91,26 @@ If any test FAILED, do NOT replicate that quality in your opener.
 
 ## BATCH A RULES
 
-1. MIRROR the source's opening MECHANIC and sentence shape EXACTLY:
-   - Same PRIMARY MECHANIC — if the source uses specific_number, you use specific_number with the founder's numbers. If the source uses scene_entry, you use scene_entry with the founder's scene. Do NOT substitute a different mechanic.
+1. COPY THE SOURCE OPENER TEXT AND SURGICALLY REPLACE CONTENT WORDS:
+   Start with the source's EXACT opening text as your template. Replace ONLY the content-specific words (domain, names, numbers, scenes) with the founder's equivalents. Keep the function words, punctuation, sentence structure, and rhythm as close to the source as possible.
+
+   Example:
+   Source: "If I wanted a VP of Marketing job right now, I'd approach the process differently."
+   Good mirror: "If I wanted to hire our first VP of Sales right now, I'd evaluate the process completely differently."
+   Bad mirror: "Your first VP of Sales hire isn't a sales hire — it's a conviction transfer hire." ← this rewrites the entire sentence structure, violating the mirror rule.
+
+   Specific rules:
+   - Same PRIMARY MECHANIC — if the source uses specific_number, you use specific_number with the founder's numbers
    - Same number of sentences in the hook
    - Same structural functions (if source opens with scene drop → you open with scene drop)
    - Same rhythm (short-short-long → short-short-long)
    - Same beat order (setup → complication → reveal)
+   - Same sentence shapes — keep articles, prepositions, conjunctions, relative clauses similar
    - If the source addresses the audience directly, you must address the audience directly
    - If the source anchors with a credential/number, you must anchor with the founder's credential/number
    - The SOURCE author's typography, lowercase, emojis, register — those are THEIR voice, not the hook's engine. Replace with the founder's voice.
 
-2. REPLACE ALL CONTENT:
+2. REPLACE ALL CONTENT (but keep the sentence skeleton):
    - Every domain reference → founder's domain
    - Every specific number → founder's specific number (from key_moments_inventory)
    - Every name → founder's cast member
@@ -106,6 +118,7 @@ If any test FAILED, do NOT replicate that quality in your opener.
    - Source cast names: {source_cast}
    - Every scene → founder's signature scene
    - If the source's register does mechanical work (rant energy, vulnerability, exasperation) — translate that energy into the founder's register, don't strip it.
+   - The words that STAY are: articles (the, a), prepositions (of, for, in), conjunctions (and, but, or), sentence connectors, structural verbs. The words that CHANGE are: nouns, proper names, domain-specific adjectives, credentials, numbers, scenes.
 
    FIRST-DEGREE FABRICATION CHECK:
    If the source opener uses a first-person narrative scene ("I received an email from X,"
