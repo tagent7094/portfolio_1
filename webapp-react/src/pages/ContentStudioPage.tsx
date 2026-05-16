@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
-  PenTool, Search, Sparkles, FileText, Mic, Loader2, Download,
+  PenTool, Search, Sparkles, FileText, Mic, Loader2,
   Trash2, ChevronDown, ChevronRight, Check, X, Clock, Upload,
   FolderPlus, Video, ClipboardPaste, Plus, FolderOpen,
 } from 'lucide-react'
@@ -205,7 +205,7 @@ function BlogsTab() {
   const [mode, setMode] = useState<'auto' | 'instructed'>('auto')
   const [instructions, setInstructions] = useState('')
   const [podcasts, setPodcasts] = useState<Podcast[]>([])
-  const [categories, setCategories] = useState<DocCategory[]>([])
+  const [, setCategories] = useState<DocCategory[]>([])
   const [documents, setDocuments] = useState<StudioDocument[]>([])
   const [selectedDocIds, setSelectedDocIds] = useState<string[]>([])
   const [selectedPodIds, setSelectedPodIds] = useState<string[]>([])
