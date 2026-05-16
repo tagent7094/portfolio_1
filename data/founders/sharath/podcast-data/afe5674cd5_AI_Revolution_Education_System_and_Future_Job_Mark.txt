@@ -1,0 +1,119 @@
+# AI Revolution, Education System, and Future Job Market in India
+
+
+Summary: Vishwamohun, founder of Upgrade School of Tech and veteran of top tech companies, discusses India's position in the AI revolution and the broken education system. He critiques the 'crack' mentality that dominates Indian education, explains which jobs will disappear due to AI and automation, and outlines the skills needed to survive in the future job market. He emphasizes the need for specialization, continuous learning, and a shift from the traditional 'Crack-Switch-EMI' success script to a new model focused on depth, building, and compounding knowledge.
+
+
+
+## Host [India's Position in the AI Revolution]
+
+As a country, India is at the threshold of something called an AI revolution. I believe this might be the last generation that has the opportunity for wealth creation. When we look at the entire world today, AI is still being dominated only by the US. Where are we? And if we don't do it, we're going to be permanent slaves. That's a big challenge.
+
+
+## Guest [Jobs That Will Disappear in the Next 2-3 Years]
+
+There are three types of jobs that will completely disappear. First, service-based jobs where you maintain records, write documentation, and create content—these will go away entirely. Second, simple coding jobs where you just write basic code or simple APIs—those will also be depleted. Third, if you don't have a learning attitude, you will be fired. When you work in big companies like Amazon, Oracle, PayPal, and LinkedIn, they expect certain skills from day one that colleges don't teach.
+
+
+## Guest [The Broken Education System and the 'Crack' Mentality]
+
+Our education system is built around a 'crack' mentality. From childhood, we're told to crack the 10th board exam, then the 12th, then JEE, then engineering. There's a script of success that society has written for us. In 2006, we were teaching Physics, Chemistry, and Math. In 2026, we're still teaching the same subjects. But the world has changed. We need to move toward specialization, not generalization. The problem is that this entire system is connected—degrees, jobs, EMI—everything is linked. We can't just replace it overnight.
+
+
+## Guest [The JEE Exam as a Long-Running Scam]
+
+I believe JEE is one of the longest-running scams in the country. When we talk about JEE, we feel proud saying it's the world's toughest exam. But if you look deeper, this is the only race where we're running alone and we've self-proclaimed ourselves as the best. No university in the world boasts about their entrance examination. But when it comes to JEE, we boast that we're the best. Look at the ICPC competition—the gold standard for coding. In 2025, there's no Indian in the top 10. No one from any IIT has cracked this toughest world competition. Not even in the top 20, 45, or 50. This has been happening for the last five to seven years. We've created a hype around JEE, and because of it, there's huge pressure on students.
+
+
+## Guest [Personal Journey: From IIT Selection to Corporate Life]
+
+I come from a very low middle-class family. When I got selected for IIT, it was one of the most beautiful days of my life. I remember going to a cyber café to check the result because there was no internet at home. The cyber café owner was excited because it was the first IIT selection from his café. When I reached home, there were press people outside. For the first time in that city, someone was going to IIT. That was the craze. But this craze has a dark side. Most people don't succeed in JEE. I see people from Bihar and UP selling their land to send their children to coaching centers in Kota. For 20 years, the same teachers are teaching the same things, but the outcome has changed completely.
+
+
+## Guest [The Three Phases of India's Success Script]
+
+There's a 15-chapter book about success in India, and it has three phases. Phase One is 'Crack'—you crack the 10th, 12th, JEE, and get into college. Phase Two is 'Switch'—once you get a job, you keep switching companies every two years for higher salaries because of peer pressure. Phase Three is 'EMI'—you buy a house, a car, and your entire life revolves around paying EMI. This entire script is written. But now with AI, there's no script for what happens when you get fired suddenly. No one prepared us for this.
+
+
+## Guest [The Reality of Mass Recruiters and Service-Based Companies]
+
+Service-based companies like TCS, Infosys, and Wipro assume that you haven't learned anything in college. They give you six months of training and then deploy you to clients. The expectation is minimal—just do the basic work. But when you join companies like Amazon, Google, or LinkedIn, it's different. They don't care which language you code in. They want someone who is flexible, who can learn new technologies, and who can solve unknown problems. The hiring bar is much higher.
+
+
+## Guest [LinkedIn Interview Experience: Seven Rounds of Grilling]
+
+When I interviewed at LinkedIn for a senior position, there were seven rounds. The first two rounds were about hands-on coding—data structures and algorithms. The next two rounds were about system design and hypothetical situations. The third round was about a real use case I had solved in a previous company. They would grill me deeply, and my developers would sit with me to understand how I work and if I fit the culture. Finally, the manager round checked if I was better than at least 3/4 of the team. This is how they raise the bar—every new hire should be better than the existing team.
+
+
+## Guest [Why IIT vs MIT Doesn't Matter in Hiring]
+
+When a hiring manager at Netflix receives 3-4 lakh resumes for one position, they have to filter somehow. They're not biased toward IIT or MIT, but practically, they use filters. If someone from IIT has already 'cracked' the system, they're more likely to get the first chance. But if that person doesn't perform, the company will look elsewhere. The system is changing because of automation and AI. Now, fair chances are being given to people from other institutions because machines can evaluate faster and better than humans.
+
+
+## Guest [The Harsh Reality of Layoffs in Big Tech]
+
+When Google did layoffs, many senior engineers posted on LinkedIn saying they gave 12 years to the company and weren't even informed properly. They were just told to submit their laptop and not come to the desk. That's how harsh firing is. At PayPal, there was a pattern—every February, layoffs would happen. People would gossip about who would be fired. Bodyguards would appear on campus, and an ambulance would be stationed below. It was a signal that layoffs were coming. The problem is that this uncertainty destroys productivity. If you don't know if you'll have a job in two months, how can you give 100%?
+
+
+## Guest [Who Survives Automation and Layoffs]
+
+Generally, the people who get fired are those who have been in the company the longest. There's an understanding that with age and experience in IT, flexibility decreases. People can't adapt quickly to new technologies. But here's the hard truth: it's not always based on talent. It's based on whether the company thinks you're flexible enough for the future. If you don't upskill yourself every day, your chances of being laid off increase. I still spend 30 minutes to an hour every day learning new concepts because I fear that a 20-year-old fresh graduate could replace me, especially in this age of AI.
+
+
+## Guest [Quantum Computing: The Next Frontier]
+
+While everyone is talking about AI, I'm very bullish about quantum computing. The way computer science works today will change completely with quantum. Everything we've written today won't be safe in the quantum world. Our passwords won't be safe. Our software won't be safe. Everything has to be rewritten. I believe this is coming in three to four years. There are already over 100 companies working on quantum computing. If someone is building something in quantum, there's huge opportunity. This is the next big thing after AI.
+
+
+## Guest [The Future: Interdisciplinary and Specialized Skills]
+
+The future is about cross-collaborations and interdisciplinary work. Things will be very much interlinked. If you're doing mechanical engineering, AI will be involved. If you're doing electrical engineering, AI will be involved. The beautiful thing about computer science and AI is that almost every industry needs AI people. Every company needs a digital presence. So there's a lot of opportunity if you're willing to go deep into a field with AI. The key is specialization, not generalization.
+
+
+## Guest [Three High-Paying Jobs of the Future]
+
+First, the top 3% who are actually building AI—the architects and builders creating foundational models. These people will be insanely paid. Second, people working in quantum computing. This is a completely new frontier that will disrupt everything. Third, people doing interdisciplinary work—combining AI with other fields like biology, physics, or any domain. These are the spaces where there's huge opportunity and high compensation.
+
+
+## Guest [The Litmus Test for AI Readiness]
+
+Here's a simple litmus test: if something that took you 10 days to build in software now takes you more than one day, you're not fit for today's world. That's how advanced we've become. All the tools are available. All the coding tools are there. If you can't leverage them to reduce your time by 10 times, you're not ready for the AI age. This applies to both professionals and final-year engineering students.
+
+
+## Guest [Why We Need a New Script for Success]
+
+We need to write a new script for success in India. Instead of 'Crack, Switch, EMI,' we need 'Depth, Build, Compound.' Go deep into specialization instead of just cracking exams. Build something instead of just switching jobs. Compound your knowledge instead of just paying EMI. This is what's needed for the AI age. As a society, we're addicted to scripts. It's time to talk about future scripts so that the next generation is ready.
+
+
+## Guest [The Problem with Private Colleges and False Promises]
+
+Many private colleges are making false claims about placements. They advertise that students got 1 crore packages, but the reality is different. There are 10,000 students in computer science, and only a handful get placed in good companies. The rest are just paying fees. These colleges are using gold coins and gifts to build relationships with HR managers from big companies. It's a systematic corruption. The real issue is that they're not teaching relevant skills. They're still teaching old curriculum while the industry has moved on.
+
+
+## Guest [The Gap Between College Education and Industry Needs]
+
+Colleges are teaching data science from five years ago, but they're not teaching transformers or modern AI concepts. No professor has written a single line of code that's relevant today. They're teaching theory, but students need practical, hands-on experience. The responsibility lies with top institutions like IITs. They need to teach what's relevant today and what will be relevant in four years. If they don't, we won't have the right talent, and that's one of the biggest challenges we're facing.
+
+
+## Host [Upgrade School of Tech: A New Learning Model]
+
+Vishwamohun has built Upgrade School of Tech as an alternative to traditional college education. He's worked at Oracle, PayPal, Walmart, Amazon, and LinkedIn—building systems that serve millions. He's mentored over 10 lakh students. Now he's creating a learning model that replaces traditional college education. In this episode, we discuss what big companies look for in freshers, what skills will make you future-ready, and which jobs AI will replace in the next five years.
+
+
+## Key Quotes
+
+> "This might be the last generation that has the opportunity for wealth creation in India."
+
+> "JEE is one of the longest-running scams in the country."
+
+> "If something that took you 10 days to build now takes you more than one day, you're not fit for today's world."
+
+> "We need to move from 'Crack, Switch, EMI' to 'Depth, Build, Compound.'"
+
+> "The beautiful thing about computer science is that almost every industry needs AI people."
+
+> "Quantum computing will disrupt everything we've built in computer science."
+
+> "Colleges are teaching data science from five years ago, but students need to learn what's relevant today."
+
+> "I still spend 30 minutes every day learning because I fear a 20-year-old could replace me."

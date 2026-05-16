@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "updated_at": "2026-05-16T10:30:00+00:00",
+  "tasks": {
+    "internalize": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 6000,
+      "thinking_budget": 10000,
+      "temperature": 0.3
+    },
+    "calibration": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": false,
+      "max_tokens": 1500,
+      "temperature": 0.5
+    },
+    "web_search": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-6",
+      "enable_thinking": false,
+      "max_tokens": 2000,
+      "temperature": 0.3
+    },
+    "select_sources": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-6",
+      "enable_thinking": false,
+      "max_tokens": 2000,
+      "temperature": 0.3
+    },
+    "dissect": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-6",
+      "enable_thinking": false,
+      "max_tokens": 3000,
+      "temperature": 0.2
+    },
+    "generate_a": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 1500,
+      "thinking_budget": 12000,
+      "temperature": 0.5
+    },
+    "generate_b": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 1500,
+      "thinking_budget": 12000,
+      "temperature": 0.5
+    },
+    "word_count_trim": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "enable_thinking": false,
+      "max_tokens": 800,
+      "temperature": 0.2
+    },
+    "voice_validation": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 3000,
+      "thinking_budget": 10000,
+      "temperature": 0.3
+    },
+    "voice_regen": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 2000,
+      "thinking_budget": 12000,
+      "temperature": 0.5
+    },
+    "amplify": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 6000,
+      "thinking_budget": 10000,
+      "temperature": 0.3
+    },
+    "transpose": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 12000,
+      "thinking_budget": 14000,
+      "temperature": 0.5
+    },
+    "convergence_test": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-6",
+      "enable_thinking": false,
+      "max_tokens": 2000,
+      "temperature": 0.2
+    }
+  },
+  "provider_keys": {}
+}

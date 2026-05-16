@@ -15,11 +15,11 @@ node_modules/
 dist/
 build/
 
-# Local Config & Data
-data/knowledge-graph/
-data/output/
+# Secrets (API keys, auth tokens — NEVER commit)
 config/llm-config.yaml
 config/founder-auth.yaml
+
+# Databases (large binary files — VPS deploy script backs up/restores these)
 *.db
 *.sqlite3
 
@@ -27,30 +27,16 @@ config/founder-auth.yaml
 .DS_Store
 Thumbs.db
 
-# Project-specific
+# Project-specific temp files
 temp-gsd/
 _xlsx_info.txt
 _gsd/
 
-# Content Studio uploads (user data, synced separately)
-data/founders/*/podcast-data/
-data/founders/*/studio-docs/
-data/founders/*/blog-data/
-
-# Founder data caches (rebuilt on first run; never deploy stale cache)
-data/founders/*/.ingestion_cache.json
-data/founders/*/.internalization_cache.json
-data/founders/*/.migration_cache.json
-
-# Models config (synced to VPS via /api/admin/models/sync endpoint)
-config/models-config.json
-data/founders/*/config/models-override.json
-
-# Migration sandboxes (transient; promoted via `--commit` which renames to <slug>)
+# Migration sandboxes (transient)
 data/founders/*_v2/
 data/founders/*_pre_migration_*/
 
-# Run-history bulk artifacts (5MB+ per run; keep run-log.md and coverage/)
+# Run-history verbose logs (5MB+ per run)
 data/founders/*/run-history/handoffs/
 data/founders/*/run-history/verbose-logs/
 

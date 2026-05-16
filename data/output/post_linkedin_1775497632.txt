@@ -1,0 +1,29 @@
+Third PM in two years just gave notice. Same exit interview feedback, nearly word for word.
+
+Product management doesn't fail because of bad PMs. It fails because leadership never built the conditions for it to work.
+
+Here's what people miss. Three things have to be true first.
+
+Someone needs to own the reasoning between leadership's vision and team execution. Not the backlog. The why behind what gets built.
+
+Teams need to receive problems, not solutions dictated from above. When an executive tells a designer what stays and what goes, that's not product management. It's delegation with a chokehold on every real decision.
+
+And PMs need access to the information that makes decisions possible. Business goals. Pricing. Customer data. Not filtered summaries. The actual context.
+
+Without those conditions, product decisions still happen, but they happen through executive intuition, internal politics, and whoever's closest to the decision maker. That works in a five-person startup where the founder is the product. It breaks fast once the org grows.
+
+I've watched it play out more than once. A company gets acquired. The product team becomes "IT" overnight. They take orders from "the business." Nobody knows the why behind specifications but everybody's asked to report on progress. Deadlines collapse. Trust erodes. Eight months later the office shuts down.
+
+Meanwhile, a PM sits inside another org for two years and never once sees the product's price list. Can't compare a feature's cost to expected revenue. Can't make the brutally honest calculation that would've saved leadership from a bad bet.
+
+This is why hiring a Senior PM into an org that hasn't set these conditions is not a product hire. It's a setup.
+
+The PM shows up to own decisions. They discover decisions are already made somewhere else. They get pushed into sprint ceremonies and small improvements. Then leadership says product management didn't work for us.
+
+It's not that product management didn't work. It's that you hired someone to lead and then refused to let them see the battlefield.
+
+It did work. It just wasn't allowed to.
+
+Product management isn't a hire. It's not a headcount on a roadmap slide. It's a decision about how decisions get made. Most companies won't make that decision. So the person they hired to make it for them sits in a room with no authority, building something nobody's committed to protecting.
+
+That's not a product failure. That's an org that doesn't know what it's asking for.

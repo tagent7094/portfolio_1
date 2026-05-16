@@ -1,0 +1,15 @@
+I build AI for support teams. The phrase 'integrate AI everywhere' has probably cost my clients more than any bad quarter.
+
+Here's what people miss. It's not about whether the CEO can prompt ChatGPT. It's about whether they understand the work deeply enough to know where AI actually changes things.
+
+I've watched this play out. Founder tells the team to "integrate AI everywhere." Team builds demos. Demos look impressive in board meetings. Meanwhile, the actual customer problem hasn't moved an inch.
+
+Same pattern as offshoring. Companies chased cost savings without understanding the work itself. The result wasn't less complexity. It was more. A Cobra Effect where the "solution" accelerated the very problem it was supposed to fix.
+
+AI doesn't replace leaders who understand their business. It exposes the ones who never did.
+
+The founders who'll still be standing aren't the ones with the best AI strategy decks. They're the ones who sat with their customers, broke their own workflows, rebuilt them, and then handed it to the team with conviction. Not a memo.
+
+You can't delegate understanding. You never could. But now the gap between founders who get it and founders who outsource it is impossible to hide.
+
+Meanwhile, there's a VP of Product somewhere finalizing a 2026 roadmap. For a customer they haven't visited once this year.

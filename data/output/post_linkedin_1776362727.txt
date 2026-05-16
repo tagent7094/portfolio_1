@@ -1,0 +1,19 @@
+When I was building Wiser, our biggest retail client told me their entire pricing engine — billions in revenue — ran on a database someone chose in 1997 because it was the cheapest option that quarter.
+
+She said it almost casually, like confessing a family secret everyone already knew.
+
+Twenty-six years of transaction data, supplier integrations, and compliance logs had piled on top of that decision — making it heavier than any technology could lift.
+
+I nodded, made a note, and moved on to the next feature request.
+
+I didn't realize I was looking at a law of physics, not a procurement mistake.
+
+Every infrastructure layer has a solidification window — shorter than anyone expects. Teams pick tools based on what's convenient, what's cheap, what the vendor bundled for free. Data accumulates. Integrations hook in. Compliance workflows wire themselves to the layer beneath. One morning the foundation is no longer a decision — it's a geological fact.
+
+Databases did this in the '90s. Cloud platforms through the 2010s. AI infrastructure is doing it right now — except the window is compressing from years to months.
+
+A company that's spent six months fine-tuning on OpenAI's APIs, built retrieval pipelines around Pinecone, and wired compliance logging to specific model outputs has already poured its foundation. Switching isn't an API call — it's a migration. And the cost compounds weekly: evaluation frameworks calibrated to particular model behavior, downstream products that quietly assumed the shape of whatever sat beneath them.
+
+The whole industry is watching which model wins the next benchmark. Almost nobody is asking which infrastructure decisions they're making today that they'll still be living inside in 2035.
+
+That retail client never planned to build a company on a 1997 database. She just never found a good week to migrate.

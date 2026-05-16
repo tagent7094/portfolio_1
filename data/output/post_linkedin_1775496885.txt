@@ -1,0 +1,35 @@
+The email hit my inbox at 11pm last Wednesday. Subject line: 'Too late to contribute to AI?' Kid was 18.
+
+Subject line: "Too late to contribute to AI?" He'd given himself a death sentence based on headlines. By the time he graduates, he figures, AI will be so advanced that humans just collect UBI checks and watch. He gave me permission to share this.
+
+I started my first company at 19. Running a call center. I've spent years building AI that sits at the center of millions of customer conversations. Here's what I know from the inside, not from a keynote stage: AI isn't replacing the people who actually add value. It's exposing who never was.
+
+I wrote him back. Told him the work ahead is bigger, not smaller. That AI is the electrical grid moment for cognition. It won't shrink opportunity. It'll multiply it. Think about what Uber did. Made booking rides so effortless that people who never used car services started using them daily. AI will do the same thing for customer experience, for healthcare, for every industry this kid is scared of entering. More touchpoints. More need for humans who can think.
+
+But his fear didn't come from nowhere. It came from a very specific place. And that place is the problem.
+
+I use AI every day to build things I couldn't have built a year ago. But here's what people miss. The problem isn't that AI is limited. The problem is companies keep asking AI to replace humans instead of making their best people dangerous.
+
+I wouldn't trust a frontier LLM to screen resumes by itself, prioritize my calendar, or decide what to order for lunch. Tasks businesses routinely hand to junior employees. One of my teams actually built an AI resume screening assistant. You know what that required? Weeks of custom engineering. A human with deep pattern recognition who could teach the system what actually matters for a specific role. Not credentials on a checklist. Patterns.
+
+That's the part people skip. Every single time.
+
+Companies are rushing to rip out headcount and plug in AI, expecting cost savings. I've watched this movie before. Same logic that drove offshoring. Companies shipped support overseas to cut 40% of costs. Satisfaction cratered, churn spiked, total spend went up. The incentive produced the exact opposite outcome.
+
+Same thing is happening right now with blunt AI deployment.
+
+Here's the second-order effect no one's talking about. AI doesn't shrink the work. It expands it. Uber making rides effortless didn't reduce trips. It pulled in millions of people who'd never booked a car service in their life. AI is doing the same for customer experience right now. More interactions. More places where a great human actually matters.
+
+It's not that AI is too limited to matter. It's that treating AI as a headcount replacement instead of a force multiplier for your best people is how you end up spending more and getting less.
+
+The AI conversation isn't overhyped. It isn't underhyped. It's hyped in the wrong direction.
+
+Everyone's arguing about whether AI will replace humans. Wrong question. AI doesn't replace anyone. It exposes who was actually adding value.
+
+Meanwhile, the companies that used AI to create more customer touchpoints? They grew. More engagement. More interactions. More places where judgment matters.
+
+The nuance isn't "AI is general, but not that general." The nuance is that AI is the electrical grid moment for cognition, and most people are still arguing about the lightbulb.
+
+Stop debating whether AGI is ten years away or fifty. Start asking who on your team gets more dangerous with these tools and who gets exposed.
+
+That answer will tell you everything the hype won't.

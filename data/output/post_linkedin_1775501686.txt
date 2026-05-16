@@ -1,0 +1,11 @@
+Our CTO sent a company-wide AI mandate, then Slacked me asking how prompts work.
+
+If your CEO keeps telling everyone to "use more AI" but hasn't personally built a single workflow with it, that's not leadership. It's delegation dressed up as vision.
+
+I've watched this pattern before. Executives who mandated offshoring to cut costs but never sat on a customer call themselves. The numbers looked great on a slide deck. Meanwhile, 85% of agents were getting rejected for their accents and customer satisfaction collapsed underneath them. The directive created the exact problem it was meant to solve.
+
+AI adoption is heading down the same road. A founder who won't get their hands dirty with the technology can't know what it changes, what it breaks, or where the real opportunity sits. It's not about managing a transformation. It's about whether you understand the tool well enough to see what your team can't.
+
+The companies that survive the next five years won't be run by people who announce AI strategies in all-hands meetings. They'll be run by founders who broke something this week, rebuilt it, and shipped it before anyone wrote a memo about it.
+
+Meanwhile, next quarter's roadmap review is already on the calendar. No customers in the room. There never were.

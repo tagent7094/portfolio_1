@@ -1,0 +1,15 @@
+Halfway through our 'AI-first' memo, I realized I hadn't touched the product in nine days.
+
+I've watched founders send company-wide emails about "AI-first culture" but can't show you a single workflow they've built themselves.
+
+Their teams notice. Everybody notices.
+
+It's not about management anymore. It's about whether you've actually touched the thing you're telling everyone else to use.
+
+I built our first demos myself. Sat on customer calls. Broke things. Fixed them. Broke them again. You know what that required? Not a strategy deck. Just the willingness to look stupid for a few weeks.
+
+Meanwhile, the founders who outsource their understanding to a "Head of AI" are doing the same thing founders do when they hire a VP of Sales before earning their first dollar. Delegating conviction.
+
+And you can't delegate conviction.
+
+Stop telling your team to adopt AI. Start building something with it yourself, even badly, and watch how fast the culture follows.

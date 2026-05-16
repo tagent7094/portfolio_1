@@ -1,0 +1,33 @@
+<reasoning>
+The original frames Claude as an "AI operator that runs my work while I sleep." This directly contradicts the founder's core belief that AI augments rather than automates, and that treating AI as a replacement tool triggers a Cobra Effect where the intended outcome backfires. The founder's signature reframe is "AI exposes who was actually adding value," not "AI does my job for me." So I pivoted the core argument: instead of celebrating autonomous automation, the opening now sets up a paradox where most people use Claude to automate busywork (the failure) while the real win is using it to surface which work actually matters (the success). This aligns with the founder's Cobra Effect lens and their belief that cognitively agile talent matters more as AI commoditizes busywork. I also used the "Meanwhile" ironic contrast and negative definition patterns per style rules.
+</reasoning>
+
+Claude can run entire workflows end-to-end. So people turned it into a glorified autopilot. Meanwhile, the work that actually matters kept piling up untouched.
+
+I rebuilt how I use it. Not to run my work while I sleep. To expose which work was worth staying awake for.
+
+<reasoning>
+The original text is a product-promotion listicle for "Cowork" built on bullet points, arrows, and engagement bait ("Comment 'Claude Cowork'"). None of that fits this founder. More critically, the core argument—"stop prompting, start delegating"—frames AI as a pure automation shortcut, which directly contradicts the founder's belief that AI exposes who was actually adding value rather than replacing humans. I pivoted the argument: the real gap isn't prompt skill vs. delegation skill. It's whether the person defining "done" has the judgment to know what good looks like. I grounded this in the founder's Cobra Effect lens (offshoring didn't deliver on its promise either), his call center at 19 origin story, and his conviction that talent density is the actual variable. I removed all bullet-point formatting, engagement bait, and product promotion, replacing them with accumulative prose, "Meanwhile..." ironic contrast, and negative definitions.
+</reasoning>
+
+Most people treat AI the way companies treated offshoring in the early 2000s. Throw work at it. Assume it'll be cheaper. Move on. That's not a strategy. That's a Cobra Effect waiting to happen.
+
+I started running a call center at 19. I've seen what happens when you optimize for cost instead of outcome. You don't get efficiency. You get a slower, more expensive version of the same problem with no one accountable for the result.
+
+Here's what people miss about agentic AI. The tool is not the bottleneck. The person defining "done" is.
+
+I don't write step-by-step instructions for AI. I define what the finished product looks like. Clear outcome, context about how I think and operate, then one prompt that kicks off a full workflow. Not fragmented tasks. Not micromanagement dressed up as delegation.
+
+But that only works if you already know what good looks like. If you can't define the outcome, no agent is saving you. AI doesn't replace judgment. It exposes who never had it.
+
+I use this for content. The system reads what I've written before, extracts patterns, generates drafts that actually sound like me. I use it for financial analysis. Raw transactions turn into dashboards with anomalies flagged before I ask. I use it for ops. Tasks, messages, files get synthesized into a weekly brief and daily priorities without me touching any of it. Same tool every time. Completely different output every time. The variable is never the AI. It's the clarity of the person running it.
+
+Meanwhile, most teams are still optimizing their prompts like that's the skill that matters. It's not. The skill that matters is knowing what "done" looks like before you type a single word. Context over cleverness. Defined outcomes over detailed instructions. Systems over shortcuts.
+
+The industry trained a generation to write better prompts. The actual gap is between people who build systems and people who ask questions. And that gap is compounding every single day.
+
+<reasoning>
+The original closing is a generic P.S. link drop with an emoji, which contradicts multiple style rules: no engagement bait, no emojis (except rare strategic use), and the closing should be contrarian and challenge mainstream narratives. I pivoted this into a contrarian closing that filters the AI coding tool topic through the founder's core belief that "AI exposes who was actually adding value" rather than replacing engineers. This aligns with their conviction about cognitively agile talent and AI commoditizing busywork, and it uses their natural vocabulary pattern of "It's not [X]. It's [Y]."
+</reasoning>
+
+P.S. Everyone's racing to find the one file, the one prompt, the one trick that turns AI into their best engineer. It's not about the tool. It's about whether you were actually a good engineer before the tool showed up. AI doesn't create talent. It exposes where talent was never there.

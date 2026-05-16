@@ -1,0 +1,25 @@
+I automate the exact call center job I started at when I was 19. We keep hiring more people.
+
+Someone forwarded me his email recently. Kid's preparing for college but he's convinced that by the time he graduates, AI will have made his contributions pointless. His plan? Collect UBI and wait it out.
+
+I started in a call center at 19. Now I build AI for that same industry at Sanas. Every year someone tells me this work is about to disappear. Meanwhile, we're creating more customer touchpoints, not fewer. Uber didn't kill transportation. It got people who never booked rides to start booking them. AI does the same for customer experience. More interactions. More complexity. More need for people who actually know what they're doing.
+
+But this kid doesn't know any of that. He's been fed a story where AI replaces humans. That was never the right frame. AI exposes who was actually adding value. And the hype is convincing an entire generation that the answer is nobody.
+
+I use AI every day to build things I couldn't have built a year ago. But I also wouldn't trust a frontier LLM to screen resumes, prioritize my calendar, or pick what to order for lunch. Tasks any sharp junior employee handles on day one.
+
+One of my teams spent months on an AI resume screening assistant. It works. But the customization required was enormous, because the real job was never "read resumes and sort them." It was replicating the pattern recognition our best hiring managers do intuitively. Nobody budgets for that part.
+
+LLMs are extraordinary with text but clumsy with almost everything else. They need heavy custom engineering to get the right context for a specific application. And we have almost no efficient way to get them to learn from repeated exposure the way a sharp 22-year-old does in their first three months.
+
+This isn't just a technology limitation story. I ran my first call center at 19. I watched companies offshore support to save money, watched satisfaction drop, watched ticket volume spike, and then watched them offshore more. The Cobra Effect. Perverse incentives producing the opposite of the intended outcome.
+
+AI heads down that same path when companies treat it as pure automation. The ones getting real returns are using it to expose who was actually adding value in their organization, then giving those people better tools.
+
+Here's what people miss. The conversation about whether AI is overhyped or underhyped is itself the problem. AI is the electrical grid moment for cognition. Nobody debated whether electricity was "general enough." They wired their factory or they went under.
+
+I've watched companies invest millions in AI to cut headcount. Meanwhile, their offshoring budgets grew. Same Cobra Effect. Same perverse incentives producing the exact opposite outcome.
+
+Stop waiting for AI to become "general enough." Start solving the problem your customer has this quarter. I took 106 flights last year sitting across from customers. Not one of them asked me about AGI timelines. Every single one asked me to fix something they were dealing with right now.
+
+AI doesn't replace people. It exposes who was actually adding value. And it's about to create more customer touchpoints than we've ever seen, several folds over. The founders still having the AGI timeline debate are having the wrong conversation entirely.

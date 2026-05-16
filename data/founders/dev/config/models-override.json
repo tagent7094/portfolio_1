@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "updated_at": "2026-05-15T16:20:51+00:00",
+  "tasks": {
+    "internalize": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 16000,
+      "temperature": 0.3
+    },
+    "calibration": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 1000,
+      "temperature": 0.5
+    },
+    "web_search": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 2000,
+      "temperature": 0.3
+    },
+    "select_sources": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 4000,
+      "temperature": 0.3
+    },
+    "dissect": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 2000,
+      "temperature": 0.2
+    },
+    "generate_a": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    "generate_b": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    "word_count_trim": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 2000,
+      "temperature": 0.2
+    },
+    "voice_validation": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 2000,
+      "temperature": 0.3
+    },
+    "voice_regen": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    "amplifier_diagnose": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 4000,
+      "temperature": 0.2
+    },
+    "amplifier_generate": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 4000,
+      "temperature": 0.5
+    },
+    "convergence_test": {
+      "provider": "kimi",
+      "model": "kimi-k2-instruct",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 1000,
+      "temperature": 0.2
+    }
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "title": "AI Revolution, Education System, and Future Job Market in India",
+  "language": "hi",
+  "duration_estimate": "~90 minutes",
+  "speakers": [
+    "Host",
+    "Vishwamohun (Guest) - Founder & CEO, Upgrade School of Tech"
+  ],
+  "segments": [
+    {
+      "topic": "India's Position in the AI Revolution",
+      "speaker": "Host",
+      "text": "As a country, India stands on the edge of something called an AI revolution. I believe this might be the last generation that has the opportunity for wealth creation. When we look at the entire world today, AI is still dominated only by the US. Where are we? And if we don't do it, we're going to be permanent slaves. That's a big challenge."
+    },
+    {
+      "topic": "Jobs That Will Disappear in the Next 2-3 Years",
+      "speaker": "Guest",
+      "text": "There are three types of jobs that will completely disappear. First, service-based jobs where you maintain records, write documentation, and create content—these will go away entirely. Second, simple coding jobs where you just write basic code or simple APIs—those will also be depleted. Third, if you don't have a learning attitude, you will be fired. When you work in big companies like Amazon, Oracle, PayPal, and LinkedIn, they expect you to constantly upskill yourself."
+    },
+    {
+      "topic": "Top Three Skills Expected on Day One at Major Tech Companies",
+      "speaker": "Guest",
+      "text": "I had seven rounds of interviews at LinkedIn. The first two rounds were about hands-on coding—how much can you code? Then they put you in hypothetical situations: How do you react? How will you design it? How will you solve it? The third round goes deep, asking about a use case you solved at previous companies. Finally, there's the manager round. The entire team has a directive: the next person we hire should be better than at least 3 out of 4 current team members. That's how you improve the bar."
+    },
+    {
+      "topic": "The Broken Education System and 'Cracking' Culture",
+      "speaker": "Guest",
+      "text": "India has a script of success written in 15-16 chapters. The first few chapters are all about 'cracking'—cracking 10th, cracking 12th, cracking JEE, cracking engineering. This is a dangerous term. Today, everyone wants to crack everything. The problem is that JEE is one of the longest-running scams in the country. We boast that it's the world's toughest exam, but if you look at the ICPC competition—the Olympics of coding—there's no Indian in the top 10, top 20, or even top 50. This has been happening for the last five to seven years. We've created a myth around JEE, and because of it, there's huge pressure on students."
+    },
+    {
+      "topic": "The Three Phases of Life: Crack, Switch, and EMI",
+      "speaker": "Guest",
+      "text": "The entire script has three phases. Phase one is 'Crack'—you crack your exams and get into college. Phase two is 'Switch'—once you get a job, you keep switching companies every two years for higher salaries and growth. I worked at Oracle, then switched to Snapdeal, then to PayPal, then to LinkedIn. It's a switching mentality that society has taught us. Phase three is 'EMI'—once you've made good money, you buy a house and a car on EMI, and your entire life revolves around paying those EMIs. This entire script is written, but the AI impact wasn't in the script."
+    },
+    {
+      "topic": "The Reality of Mass Recruiters and Service-Based Companies",
+      "speaker": "Guest",
+      "text": "Service-based companies like TCS, Infosys, and Cognizant assume you haven't learned anything in college. They give you six months of training, then deploy you to clients. The expectation is minimal—just build a website, and you're done. They look for people who won't have high aspirations, won't demand high salaries, and will stay long-term. When I passed out in 2011, these companies would only interview students with 6-point averages, not 7 or 8-pointers, because they knew those students would leave after a month."
+    },
+    {
+      "topic": "Hiring Bias and the Role of Institutions",
+      "speaker": "Guest",
+      "text": "No company will admit they only hire from IITs, but practically, when a hiring manager has a pile of resumes and limited time, they prefer candidates from top institutions because they've already been filtered. It's not bias; it's practicality. When I was at LinkedIn, we had 3-4 lakh applications for one position. 97% were immediately rejected because they didn't match the job requirements. The remaining 3% is still 900 people—humanly impossible to interview. So companies rely on institutional filters that society has already created."
+    },
+    {
+      "topic": "The Problem with Current Engineering Education",
+      "speaker": "Guest",
+      "text": "In 2006, we taught physics, chemistry, and math. In 2026, we're still teaching the same subjects. The Indian education system is all about generalization. But today, if you want to succeed, you need specialization. When a student wants to become an AI engineer, why are we forcing them to memorize inorganic chemistry reactions? That's a big challenge. We need to teach what's relevant today and what will be relevant four years from now."
+    },
+    {
+      "topic": "The Lack of Hands-On Expertise in Top Institutions",
+      "speaker": "Guest",
+      "text": "With all due respect to our professors, most of them haven't written a single line of code that's relevant today. They teach old algorithms and machine learning theory, but no one is teaching what transformers are. No college in the country is teaching what's actually being used in the industry right now. That's the biggest challenge. Someone has to take hands-on responsibility and teach what's relevant."
+    },
+    {
+      "topic": "Vishwamohun's Journey: From IIT to Building Upgrade School of Tech",
+      "speaker": "Guest",
+      "text": "I come from a very low-middle-class family. My journey is similar to many people preparing for IIT or engineering today from different cities. When I wanted to do B.Tech, my only focus was getting a good salary to support my family. I followed the script perfectly—cracked 10th, cracked 12th, went to Kota for IIT preparation, and cracked JEE. I was the school topper in 10th. When I got selected for IIT, it was a huge celebration in my town. The cyber café owner had never seen an IIT selection from our city before. My father was so proud. But I've seen both sides of the system, and I believe JEE is one of the longest-running scams in the country."
+    },
+    {
+      "topic": "The Myth of JEE and Entrance Examinations",
+      "speaker": "Guest",
+      "text": "When JEE is mentioned, we feel proud saying it's the world's toughest exam. But if you look deeper, this is the only race where we're running alone and we've self-proclaimed ourselves as the best. No other country boasts about their entrance exams like this. If JEE is truly the best exam, then the top engineers from IIT should be winning the ICPC competition globally. But they're not. This shows that entrance exams don't necessarily produce the best engineers. The real issue is the pressure and false narrative we've created around JEE."
+    },
+    {
+      "topic": "The Cost of Chasing the IIT Dream",
+      "speaker": "Guest",
+      "text": "People from Bihar and UP are selling their land to send children to Kota for IIT coaching. For 20 years, the same teachers are teaching the same content. The outcome has changed—the job market is completely different now—but the preparation method hasn't changed at all. Every year, JEE gets more glorified. Children spend years in Kota studying physics, chemistry, and math, even if they want to become computer engineers. They're getting exhausted badly. And it's all because of this keyword called 'crack.'"
+    },
+    {
+      "topic": "The Arranged Marriage Analogy of Career Planning",
+      "speaker": "Guest",
+      "text": "The entire journey is like an arranged marriage. In childhood, you're told your 'spouse' is a job. You have to prepare for it. You spend years preparing. You go to college with a predetermined idea of what job you'll get. In the third year, when you realize there might be a challenge, you start beautifying yourself—taking online courses, learning new skills—like preparing for marriage. And somehow, you get a job. It's like everyone gets married eventually. But this script doesn't account for sudden disruptions like AI."
+    },
+    {
+      "topic": "The Impact of Sudden Layoffs and Lack of Preparedness",
+      "speaker": "Guest",
+      "text": "When companies like Google, Oracle, and Block started massive layoffs citing AI, senior engineers posted on LinkedIn that they gave 12 years to the company and weren't even informed properly. They were just told to submit their laptop and not come to their desk. There's no script for this situation. No book tells you what to do when you're suddenly fired after following the entire script perfectly. This is one of the biggest challenges we're facing right now."
+    },
+    {
+      "topic": "The Reality of Layoffs in Tech Companies",
+      "speaker": "Guest",
+      "text": "At PayPal, there was a pattern—layoffs happened every February. We used to joke that they'd come with trucks and take people to factories. They'd only interview 6-pointers because they knew 9-pointers would leave after a month. The real problem is that companies aren't doing this because they're struggling. Google is doing well. Oracle is doing well. They're doing it because the stock market rewards it. When a company announces layoffs, their stock price goes up. So now more companies are firing people just to show they're optimizing, even if there's no real impact."
+    },
+    {
+      "topic": "The Emotional and Practical Impact of Sudden Firings",
+      "speaker": "Guest",
+      "text": "When you don't know if you'll have a job in two months, you can't give 100% to your work. You're preparing for interviews elsewhere, worried about your family's expenses, and stressed about the uncertainty. This creates a FOMO—fear of missing out—where people are constantly switching jobs. I've worked at almost all top tech companies, and I was always in a switching mentality. But when I look back, I realize I was just chasing what society told me to chase, not what I actually needed."
+    },
+    {
+      "topic": "The Importance of Continuous Learning and Flexibility",
+      "speaker": "Guest",
+      "text": "The key to surviving in today's world is flexibility and continuous learning. If you think you've learned one thing and that's your entire life, you will become obsolete. Every day, I spend at least 30 minutes to an hour learning new concepts because I live with the fear that a 20-year-old fresh graduate might replace me, especially in this age of AI. If you don't uplift yourself, you'll be left behind. The approach should be: I have to be flexible, I'm open to change, and change is the only constant."
+    },
+    {
+      "topic": "Three Jobs That Will Disappear",
+      "speaker": "Guest",
+      "text": "First, operational service-based jobs where you maintain records, write documentation, and create content will completely disappear. Second, entry-level coding jobs where you write simple code or APIs will be depleted. Third, if you don't have a learning attitude and think you can coast on one skill forever, you will be fired. These three categories will be hit the hardest by automation and AI."
+    },
+    {
+      "topic": "Three High-Paying Jobs of the Future",
+      "speaker": "Guest",
+      "text": "First, the top 3% who are actually building AI—the architects and builders creating foundational models—will be insanely well-paid. Second, quantum computing is the next frontier. The way computing works today will completely change with quantum. Everything we've written will need to be rewritten. Companies are already working on this, and there are over 100 startups in India working on quantum. Third, the future is about cross-disciplinary collaboration. AI will be integrated into every field—mechanical engineering, electrical engineering, biology, everything. The beautiful thing about computer science is that you can fit yourself into any industry."
+    },
+    {
+      "topic": "The Litmus Test for AI Readiness",
+      "speaker": "Guest",
+      "text": "Here's a simple litmus test: If a task that took you 10 days to complete before now takes you more than one day with all the tools and automation available, you're not fit for today's world. That's how advanced we've become. All the tools are available—IDEs, coding assistants, automation frameworks. If you're not leveraging them to reduce your time by 90%, you're not ready for the AI age."
+    },
+    {
+      "topic": "The Need for a New Script for Society",
+      "speaker": "Guest",
+      "text": "We need to write a new script for society. The old script of Crack, Switch, and EMI needs to be replaced with Depth (specialization), Build (creating something), and Compound (long-term growth). Instead of just switching jobs, we should focus on building something meaningful. Instead of living on EMI, we should think about compounding our skills and wealth. This new script is needed so that the next generation is ready for the AI age."
+    },
+    {
+      "topic": "The Role of Top Institutions in the AI Era",
+      "speaker": "Guest",
+      "text": "The responsibility lies with our top institutions. They need to teach what's relevant today and what will be relevant in the future. They need to focus on specialization, not generalization. They need to bring quantum computing into their curriculum. They need to teach hands-on skills that are actually used in the industry. Right now, most institutions are stuck in the past, and that's why we're not producing the right talent for the AI revolution."
+    },
+    {
+      "topic": "India's Challenge in the Global AI Race",
+      "speaker": "Guest",
+      "text": "Today, AI is dominated by the US. ChatGPT is a US company. Gemini is Google, a US company. Grok is a US company. Claude is a US company. Where are we? We're still talking about our achievements, but we haven't built foundational models. We don't have our own compute power. We're still just wrappers around existing models. If we don't build our own foundational models, this will be the last generation that has the opportunity for wealth creation. After that, we'll be permanent slaves to the technology created by others."
+    },
+    {
+      "topic": "The False Narrative Around Indian AI Summit",
+      "speaker": "Guest",
+      "text": "Recently, there was a big AI summit in India, and we're calling it the biggest event for the Global South. But 99% of the people showcasing their work are just wrappers around existing models. We haven't built our own foundation. We haven't expressed our compute power. We only have a few models to talk about. Sarvam is ahead, but we're still nowhere close. The US is leading, China has some models like DeepSeek and Qwen. Europe has Mistral. India is lagging behind, and that's a big challenge."
+    },
+    {
+      "topic": "The Importance of Hands-On Experience in Interviews",
+      "speaker": "Guest",
+      "text": "When I interviewed at Amazon, they gave me four coding rounds. These weren't theoretical questions—they were real, challenging problems. The difference between solving a problem at home on your comfortable couch and solving it in an interview with pressure is huge. You have to prepare for the actual conditions. You can't just take online courses and expect to crack interviews at top companies. You need to practice under pressure, in uncomfortable situations, at the right time of day."
+    },
+    {
+      "topic": "The Difference Between Service-Based and Product-Based Companies",
+      "speaker": "Guest",
+      "text": "Service-based companies like TCS and Infosys assume you know nothing and train you for six months. They deploy you to clients and expect minimal work. Product-based companies like Amazon, Google, and Microsoft expect you to be ready from day one. They're looking for people who can solve novel problems, design systems at scale, and adapt to new technologies. The hiring bar is completely different. Service companies filter by GPA; product companies filter by actual problem-solving ability."
+    },
+    {
+      "topic": "The Corruption in Placement Systems",
+      "speaker": "Guest",
+      "text": "I've seen something very controversial but true: some of the biggest universities have their placement heads taking bribes from mass recruiters. They literally carry gold coins in their pockets and give them to HR heads to build relationships. During Diwali, they send their entire team across India with pockets full of gold coins to build these relationships. This is why certain colleges always get placements from certain companies, regardless of student quality. It's a systemic corruption that's been normalized."
+    },
+    {
+      "topic": "The False Promises of Private Colleges",
+      "speaker": "Guest",
+      "text": "Private colleges advertise that their students get 1 crore packages, but this is misleading. Out of 10,000 computer science students, maybe one or two get such packages. The rest are just paying fees. These colleges use flashy marketing and social media to attract students with false promises. They might have one legitimate placement, but they advertise it as if everyone gets it. Students should be very careful about these false narratives."
+    },
+    {
+      "topic": "Why Degrees Still Matter Despite System Flaws",
+      "speaker": "Guest",
+      "text": "Even though the education system is broken, degrees still matter. You can't get into MIT for a master's without a bachelor's degree. You can't apply for certain government jobs without a degree. The system is flawed, but we can't just abolish it overnight. Change has to happen gradually. We need to improve how degrees are executed, not eliminate them. The solution is to make the four years of engineering more relevant and practical, not to replace it with online certificates."
+    },
+    {
+      "topic": "The Generalization Problem in Engineering Education",
+      "speaker": "Guest",
+      "text": "In engineering, 30-40% of a computer science student's time is spent on irrelevant subjects—biology labs, physics labs, carpentry. If a student wants to become an AI engineer, why are they forced to memorize inorganic chemistry reactions? This is the core problem. We need to move toward specialization. Students should be able to focus on their chosen field from day one, not waste time on subjects they'll never use."
+    },
+    {
+      "topic": "The Quantum Computing Revolution",
+      "speaker": "Guest",
+      "text": "Quantum computing is going to disrupt everything. Today's computers work on bits—zero or one. Quantum computers work on qubits, which can be zero, one, or both simultaneously. This means infinite possibilities in the same system. A problem that takes years to solve today could be solved in weeks with quantum. All our current passwords and encryption will become useless. Everything we've written will need to be rewritten. Three to four years from now, everyone will be talking about quantum AI, not just AI."
+    },
+    {
+      "topic": "The Opportunity in Quantum Computing for India",
+      "speaker": "Guest",
+      "text": "The government has started a quantum mission, and over 100 startups are already working on quantum in India. If someone builds something in quantum computing, there's a huge opportunity. But most institutions aren't focusing on it. I want to bring quantum computing into Upgrade School of Tech because I believe this is where the next big opportunity lies. The companies that build quantum solutions will be the leaders of the next decade."
+    },
+    {
+      "topic": "The Self-Audit Test for AI Readiness",
+      "speaker": "Guest",
+      "text": "If you're already a software professional and a task that took you 10 days now takes you more than one day, you're not fit for today's world. That's the litmus test. If you're a final-year engineering student and you don't know this, you need to start learning immediately. The tools are available—GitHub Copilot, ChatGPT, Claude. If you're not using them to be 10 times faster, you're not ready for the AI age."
+    },
+    {
+      "topic": "The Importance of Building vs. Just Switching",
+      "speaker": "Guest",
+      "text": "Instead of the switching mentality, we need a building mentality. Instead of jumping from job to job for higher salaries, we should focus on building something meaningful. Build a product, build a skill, build expertise in a domain. This is what will make you valuable in the long term. The switching mentality is exhausting and doesn't lead to real growth. Building something, on the other hand, compounds over time."
+    },
+    {
+      "topic": "The Role of Upgrade School of Tech",
+      "speaker": "Guest",
+      "text": "I've worked at Oracle, PayPal, Walmart, Amazon, and LinkedIn—all global tech giants. I've mentored over 10 lakh students. Now I'm building Upgrade School of Tech to create a learning model that replaces traditional college education. We're focusing on hands-on, industry-relevant skills. We're teaching what's actually needed in the industry, not what was relevant 20 years ago. We're preparing students for the AI age with a new script."
+    },
+    {
+      "topic": "The Closing Message for Students and Professionals",
+      "speaker": "Guest",
+      "text": "To students: Don't follow the old script blindly. Don't get caught in the 'crack' mentality. Focus on building real skills. To professionals: Don't be complacent. Keep learning. Be flexible. The world is changing faster than ever. To institutions: Teach what's relevant today and what will be relevant tomorrow. Stop glorifying entrance exams. Start focusing on specialization and hands-on skills. The AI revolution is here, and we need to be ready for it."
+    }
+  ],
+  "key_quotes": [
+    "This might be the last generation that has the opportunity for wealth creation. If we don't do it, we're going to be permanent slaves.",
+    "JEE is one of the longest-running scams in the country.",
+    "The entire script has three phases: Crack, Switch, and EMI.",
+    "If a task that took you 10 days now takes you more than one day, you're not fit for today's world.",
+    "We need to write a new script for society: Depth, Build, and Compound.",
+    "No company will admit they only hire from IITs, but practically, they do.",
+    "Quantum computing is going to disrupt everything we know about computing.",
+    "The beautiful thing about computer science is that you can fit yourself into any industry.",
+    "Change has to happen gradually. We can't abolish the system overnight.",
+    "The responsibility lies with our top institutions to teach what's relevant today."
+  ],
+  "summary": "In this episode, Vishwamohun, Founder & CEO of Upgrade School of Tech, discusses India's position in the AI revolution and critiques the broken education system. He explains how the 'Crack, Switch, EMI' script that has guided generations is no longer relevant in the age of AI. The conversation covers which jobs will disappear, what skills are needed for top tech companies, the reality of layoffs, and the importance of continuous learning. Vishwamohun advocates for a new script based on specialization, building meaningful products, and long-term growth, while highlighting quantum computing as the next frontier and the urgent need for institutions to teach relevant, hands-on skills.",
+  "structured": true
+}

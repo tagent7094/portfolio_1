@@ -1,0 +1,25 @@
+I re-read one line in his email three times — 'my backup plan is UBI.' He hasn't even started college.
+
+I started running a call center at 19. No degree, no AI, no safety net. Sanas just passed $50M ARR. Last week, an 18-year-old emailed me asking if it's already too late for him to contribute anything meaningful to the world. He's preparing for college. By the time he graduates, he's been told AI will have made human effort irrelevant. His backup plan was UBI. He gave me permission to share this.
+
+I told him to work hard, learn to build with AI, and that decades of meaningful work are ahead of him. But his email stayed with me. Not because of what he asked. Because someone had already sold an 18-year-old kid the idea that his future was over before it started.
+
+That's what AI hype actually costs.
+
+I use AI every single day to build things at Sanas that would've taken us 10x longer a year ago. It's genuinely powerful. But I've also watched companies throw an LLM at resume screening, calendar management, basic customer routing, and then act surprised when it falls apart. These are tasks any competent entry-level hire handles on day one.
+
+Here's what people miss. The gap between "AI can do this in a demo" and "AI can do this reliably in production" is filled entirely by human judgment and custom engineering. One of my teams spent months building a decent AI resume screening assistant. Months. For a task a sharp 22-year-old learns in a week.
+
+That's not a knock on the technology. I'm building my company on it. But it proves something I keep saying. AI doesn't replace people. It exposes who was actually adding value. The companies rushing to automate everything are running straight into a Cobra Effect. They cut headcount, lose the human context that made their systems work, then spend more rebuilding what they destroyed.
+
+LLMs are still far better at processing text than understanding a customer's tone on a live call. They still need massive custom work to fit a specific workflow. They still can't learn from repetition the way a new hire absorbs their first 90 days on a support floor. I started working in a call center at 19. I watched people develop pattern recognition in weeks that we still can't encode into a model.
+
+AI's real constraint isn't intelligence. It's the absence of trust and context that humans build through exposure and repetition. That gap isn't closing as fast as the hype suggests.
+
+AI isn't overhyped. It's mis-hyped. Everyone's arguing about when AGI arrives. Meanwhile, AI is already doing something far more uncomfortable. Exposing who was actually adding value and who was hiding behind process.
+
+I've watched this exact pattern in contact centers. Companies chased offshoring for decades to cut costs. The result? More offshoring, not less. Classic Cobra Effect. Now the same playbook is running with AI. Cut headcount, automate everything, declare victory. Same inputs, same outcome.
+
+Here's the second-order effect. AI is the electrical grid moment for cognition. The grid didn't kill factories. It made entirely new industries possible. AI won't reduce customer interactions. It'll multiply them several folds. Think about what Uber did. It made booking rides so frictionless that people who never used car services started taking them daily. AI does the same thing for CX.
+
+The companies still optimizing for fewer human touchpoints are going to wonder why their competitors have ten times the engagement at a fraction of the cost. We built Sanas to $50M ARR betting on more touchpoints, not fewer. That bet hasn't changed. Most boardrooms are still having the wrong conversation.
