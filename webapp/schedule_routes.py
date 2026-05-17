@@ -13,13 +13,43 @@ import uuid
 from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
 
+import os
+
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
-from webapp.auth_routes import _require_admin
+from webapp.auth_routes import _require_admin, decode_token
 
 router = APIRouter(prefix="/api/admin/schedules", tags=["admin-schedules"])
 logger = logging.getLogger(__name__)
+
+_ADMIN_COOKIE = "admin_token"
+_FOUNDER_COOKIE = "tagent_token"
+
+
+def _resolve_caller(request: Request) -> tuple[str, bool]:
+    """Return (slug, is_admin). Founders can manage only their own schedules;
+    admins can manage all. Raises 401 if neither cookie is valid.
+
+    Auth is bypassed when TAGENT_AUTH_ENABLED is unset (local dev mode) —
+    caller is treated as admin in that case.
+    """
+    if os.environ.get("TAGENT_AUTH_ENABLED", "").lower() not in ("1", "true", "yes"):
+        return ("admin", True)
+
+    admin_claims = decode_token(request.cookies.get(_ADMIN_COOKIE, ""))
+    if admin_claims and admin_claims.get("sub") == "admin":
+        return ("admin", True)
+
+    founder_claims = decode_token(request.cookies.get(_FOUNDER_COOKIE, ""))
+    if founder_claims and founder_claims.get("sub"):
+        return (founder_claims["sub"], False)
+
+    raise HTTPException(status_code=401, detail="authentication required")
+
+
+def _check_owns(slug: str, is_admin: bool, schedule: dict) -> bool:
+    return is_admin or schedule.get("founder_slug") == slug
 
 SCHEDULES_FILE = Path(__file__).parent.parent / "data" / "schedules.json"
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -62,7 +92,7 @@ class ScheduleCreate(BaseModel):
 
 @router.get("/status")
 async def scheduler_status(request: Request):
-    _require_admin(request)
+    _require_admin(request)  # admin-only — exposes global tick state
     return {
         "running": _running_loop is not None and not _running_loop.done(),
         "tick_count": _tick_count,
@@ -74,13 +104,19 @@ async def scheduler_status(request: Request):
 
 @router.get("")
 async def list_schedules(request: Request):
-    _require_admin(request)
-    return {"schedules": _schedules}
+    slug, is_admin = _resolve_caller(request)
+    if is_admin:
+        return {"schedules": _schedules}
+    # Founders see only their own schedules.
+    return {"schedules": [s for s in _schedules if s.get("founder_slug") == slug]}
 
 
 @router.post("")
 async def create_schedule(body: ScheduleCreate, request: Request):
-    _require_admin(request)
+    slug, is_admin = _resolve_caller(request)
+    # Founders may only create schedules for themselves.
+    if not is_admin and body.founder_slug != slug:
+        raise HTTPException(status_code=403, detail=f"founder '{slug}' cannot schedule for '{body.founder_slug}'")
     schedule = {
         "id": uuid.uuid4().hex[:8],
         "founder_slug": body.founder_slug,
@@ -93,21 +129,28 @@ async def create_schedule(body: ScheduleCreate, request: Request):
         "effort": body.effort,
         "enabled": body.enabled,
         "created_at": datetime.now(IST).isoformat(),
+        "created_by": "admin" if is_admin else slug,
         "last_run": None,
         "last_status": None,
     }
     _schedules.append(schedule)
     _save_schedules()
-    logger.info("[schedule] Created: %s for %s at %02d:%02d",
-                schedule["id"], body.founder_slug, body.hour, body.minute)
+    logger.info("[schedule] Created: %s for %s at %02d:%02d by %s",
+                schedule["id"], body.founder_slug, body.hour, body.minute,
+                "admin" if is_admin else slug)
     return schedule
 
 
 @router.put("/{schedule_id}")
 async def update_schedule(schedule_id: str, body: ScheduleCreate, request: Request):
-    _require_admin(request)
+    slug, is_admin = _resolve_caller(request)
     for s in _schedules:
         if s["id"] == schedule_id:
+            if not _check_owns(slug, is_admin, s):
+                raise HTTPException(status_code=403, detail="not your schedule")
+            # Founders cannot move a schedule to a different founder.
+            if not is_admin and body.founder_slug != slug:
+                raise HTTPException(status_code=403, detail="cannot reassign schedule to another founder")
             s.update({
                 "founder_slug": body.founder_slug,
                 "hour": body.hour,
@@ -126,21 +169,25 @@ async def update_schedule(schedule_id: str, body: ScheduleCreate, request: Reque
 
 @router.delete("/{schedule_id}")
 async def delete_schedule(schedule_id: str, request: Request):
-    _require_admin(request)
+    slug, is_admin = _resolve_caller(request)
     global _schedules
-    before = len(_schedules)
-    _schedules = [s for s in _schedules if s["id"] != schedule_id]
-    if len(_schedules) == before:
+    target = next((s for s in _schedules if s["id"] == schedule_id), None)
+    if not target:
         raise HTTPException(status_code=404, detail="Schedule not found")
+    if not _check_owns(slug, is_admin, target):
+        raise HTTPException(status_code=403, detail="not your schedule")
+    _schedules = [s for s in _schedules if s["id"] != schedule_id]
     _save_schedules()
     return {"ok": True}
 
 
 @router.post("/{schedule_id}/toggle")
 async def toggle_schedule(schedule_id: str, request: Request):
-    _require_admin(request)
+    slug, is_admin = _resolve_caller(request)
     for s in _schedules:
         if s["id"] == schedule_id:
+            if not _check_owns(slug, is_admin, s):
+                raise HTTPException(status_code=403, detail="not your schedule")
             s["enabled"] = not s["enabled"]
             _save_schedules()
             return s
@@ -149,9 +196,11 @@ async def toggle_schedule(schedule_id: str, request: Request):
 
 @router.post("/{schedule_id}/run-now")
 async def run_schedule_now(schedule_id: str, request: Request):
-    _require_admin(request)
+    slug, is_admin = _resolve_caller(request)
     for s in _schedules:
         if s["id"] == schedule_id:
+            if not _check_owns(slug, is_admin, s):
+                raise HTTPException(status_code=403, detail="not your schedule")
             asyncio.create_task(_run_scheduled_generation(s))
             return {"ok": True, "message": f"Started generation for {s['founder_slug']}"}
     raise HTTPException(status_code=404, detail="Schedule not found")
