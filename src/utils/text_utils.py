@@ -40,8 +40,12 @@ def load_prompt(prompt_path) -> str:
 
 
 def fill_prompt(template: str, **kwargs) -> str:
-    """Fill placeholders in a prompt template."""
-    return template.format(**kwargs)
+    """Fill placeholders in a prompt template. Missing keys become empty strings."""
+    import string
+    class _Default(dict):
+        def __missing__(self, key):
+            return ""
+    return string.Formatter().vformat(template, (), _Default(kwargs))
 
 
 def save_to_history(text: str, platform: str = "linkedin", folder: str = "data/output") -> str:

@@ -12,6 +12,7 @@ from ..batch.corpus_reader import load_founder_state, internalize_corpus, calibr
 from ..batch.tracer import BatchTracer
 from .state import NarrativeState
 from .transcript_analyzer import analyze_transcript, mine_narratives
+from .seo_research import keyword_research, serp_analysis
 from .section_drafter import draft_narrative
 from .voice_validator import validate_blog_voice
 from .seo_optimizer import optimize_seo
@@ -71,29 +72,45 @@ class NarrativeSession:
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
         router.set_on_token(self._on_llm_token)
 
+        batch_state = load_founder_state(founder_slug, "linkedin")
         if override_transcript:
             transcript_text = override_transcript
         else:
-            batch_state = load_founder_state(founder_slug, "linkedin")
             transcript_text = batch_state.raw_data.get("transcripts", "")
 
         if not transcript_text:
             return {"error": "No transcripts found for this founder", "angles": []}
 
+        founder_ctx = batch_state.founder_ctx if batch_state else {}
+        personality_card = batch_state.personality_card if batch_state else ""
+
         state = NarrativeState(
             founder_slug=founder_slug,
             transcript_text=transcript_text,
             llm_router=router,
+            founder_ctx=founder_ctx,
+            personality_card=personality_card,
         )
 
         llm = router.for_task("narrative_transcript_analysis")
         analysis = analyze_transcript(llm, state)
+
+        # Derive a topic from top theme for keyword research
+        themes = analysis.get("themes", [])
+        if themes and isinstance(themes[0], dict):
+            state.topic = themes[0].get("theme", "")
+
+        if state.topic:
+            keyword_research(llm, state)
+            serp_analysis(llm, state)
+
         angles = mine_narratives(llm, state, analysis)
 
         return {
             "transcript_length": len(transcript_text),
             "analysis": analysis,
             "angles": angles,
+            "seo_inputs": state.seo_inputs,
         }
 
     def run(
@@ -183,11 +200,30 @@ class NarrativeSession:
         self._emit("transcript_analysis", "completed", {
             "themes": len(analysis.get("themes", [])),
             "quotes": len(analysis.get("quotes", [])),
+        }, progress=0.2)
+
+        # Phase 3: Keyword research + SERP analysis
+        self._check_cancel()
+        themes = analysis.get("themes", [])
+        if themes and isinstance(themes[0], dict) and not state.topic:
+            state.topic = themes[0].get("theme", narrative_angle)
+
+        self._emit("keyword_research", "started", progress=0.2)
+        keyword_research(llm_gen, state)
+        self._emit("keyword_research", "completed", {
+            "primary_keyword": state.seo_inputs.get("primary_keyword", ""),
         }, progress=0.25)
 
-        # Phase 3: Mine narrative angles
         self._check_cancel()
-        self._emit("narrative_mining", "started", progress=0.25)
+        self._emit("serp_analysis", "started", progress=0.25)
+        serp_analysis(llm_gen, state)
+        self._emit("serp_analysis", "completed", {
+            "recommended_format": state.serp_competition.get("recommended_format", ""),
+        }, progress=0.3)
+
+        # Phase 4: Mine narrative angles
+        self._check_cancel()
+        self._emit("narrative_mining", "started", progress=0.3)
         angles = mine_narratives(llm_gen, state, analysis)
 
         # Select the matching angle or first one
@@ -211,7 +247,7 @@ class NarrativeSession:
             "selected": selected.get("angle", ""),
         }, progress=0.35)
 
-        # Phase 4: Draft the full post
+        # Phase 5: Draft the full post
         self._check_cancel()
         self._emit("draft", "started", progress=0.35)
         draft_result = draft_narrative(llm_gen, state)
@@ -225,7 +261,7 @@ class NarrativeSession:
             "word_count": len(content.split()),
         }, progress=0.6)
 
-        # Phase 5: Voice validation (skip if no founder voice)
+        # Phase 6: Voice validation (skip if no founder voice)
         self._check_cancel()
         self._emit("voice_check", "started", progress=0.6)
         if use_founder_voice:
@@ -238,7 +274,7 @@ class NarrativeSession:
             "voice_score": validation.get("voice_marker_score", 0),
         }, progress=0.8)
 
-        # Phase 6: SEO
+        # Phase 7: SEO audit
         self._check_cancel()
         self._emit("seo_optimize", "started", progress=0.8)
         seo = optimize_seo(llm_gen, content, state)
@@ -246,7 +282,7 @@ class NarrativeSession:
             "seo_title": seo.get("seo_title", ""),
         }, progress=0.9)
 
-        # Phase 7: Compile
+        # Phase 8: Compile
         self._check_cancel()
         self._emit("compile", "started", progress=0.9)
         markdown = compile_blog(state)

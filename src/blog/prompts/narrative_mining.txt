@@ -1,26 +1,64 @@
-You are a narrative strategist. Given themes and quotes extracted from a podcast/call transcript, identify the best publishable blog post angles.
+You are a narrative strategist. Given themes and quotes from a podcast/call transcript AND the SEO keyword strategy for this blog, identify the best publishable blog post angle.
 
-## TRANSCRIPT THEMES
+The angle you pick must be (a) directly supported by what was actually said in the transcript and (b) capable of ranking for the target keyword.
+
+## TRANSCRIPT THEMES (with SEO potential ratings)
 {transcript_themes}
 
 ## KEY QUOTES FROM TRANSCRIPT
 {transcript_quotes}
 
+## CONTRARIAN POSITIONS FROM TRANSCRIPT
+{contrarian_positions}
+
+## SEARCHABLE QUESTIONS RAISED IN TRANSCRIPT
+{searchable_questions}
+
+## SEO STRATEGY (from keyword_research step)
+Primary keyword: {primary_keyword}
+Long-tail variations: {long_tail_variations}
+Search intent: {search_intent}
+Founder owned angle: {founder_owned_angle}
+Recommended format: {recommended_format}
+People Also Ask targets: {paa_targets}
+
+## SERP COMPETITION (from serp_analysis step)
+Table stakes: {table_stakes}
+Content gaps to exploit: {content_gaps}
+Unique angle refined: {unique_angle}
+
 ---
 
 ## TASK
 
-From the transcript themes and quotes above, identify narrative angles that are:
-1. **Grounded**: Directly supported by what was actually said in the transcript
-2. **Novel**: Offers a specific perspective or insight, not generic advice
-3. **Publishable**: Has enough substance for a 1000-2000 word blog post
-4. **Format-ready**: Naturally fits a specific blog format
+Recommend 2-4 narrative angles for this blog. Each angle must score well on:
+
+### 1. GROUNDED
+Directly supported by what was actually said in the transcript. No fabrication. No inferences. The angle should be defensible against "show me where the speaker said this."
+
+### 2. NOVEL FOR THIS FOUNDER
+Offers this founder's specific perspective. NOT generic advice anyone could give.
+
+### 3. RANKABLE
+Matches the SEO strategy:
+- Contains the primary keyword in a natural way
+- Aligns with search intent
+- Can support the recommended word count (typically 2,000+)
+- Has structural hooks (something to compare, list, define, or explain)
+
+### 4. PUBLISHABLE
+Has enough substance for the recommended word count without padding. Repetitive themes that can only stretch to 800 words are NOT publishable for SEO blogs.
+
+### 5. FORMAT-READY
+Naturally fits one of the blog formats. The recommended_format from SEO strategy should dominate unless transcript demands a different shape.
 
 ## BLOG FORMATS
-- **thought_leadership**: A definitive take on an industry topic. Requires: strong conviction + evidence
-- **behind_the_scenes**: Inside look at how things really work. Requires: specific stories + candid moments
-- **listicle**: Structured list of insights/lessons/mistakes. Requires: 5+ discrete points
-- **how_to**: Practical guide based on experience. Requires: actionable steps + credibility
+
+- **thought_leadership**: A definitive take on an industry topic. Requires: strong conviction + evidence + named opposition.
+- **behind_the_scenes**: Inside look at how things really work. Requires: specific stories + candid moments + practical takeaway.
+- **listicle**: Structured list of insights/lessons/mistakes. Requires: 5+ discrete, distinct points + ranking or ordering logic.
+- **how_to**: Practical guide based on experience. Requires: actionable sequential steps + the founder's credibility to teach this.
+- **comparison**: X vs Y framework. Requires: two clearly differentiated options + criteria for choice.
 
 ## OUTPUT FORMAT
 
@@ -28,15 +66,27 @@ From the transcript themes and quotes above, identify narrative angles that are:
 {{{{
   "narrative_angles": [
     {{{{
-      "angle": "the specific narrative angle",
-      "format_recommendation": "thought_leadership",
-      "headline_draft": "working headline for the blog post",
-      "supporting_transcript_quotes": ["key quotes that anchor this narrative"],
-      "confidence": 0.9,
-      "rationale": "why this angle works and what makes it different from generic content"
+      "angle": "the specific narrative angle in one sentence",
+      "format_recommendation": "thought_leadership|behind_the_scenes|listicle|how_to|comparison",
+      "headline_draft": "working headline that includes primary_keyword",
+      "primary_keyword_placement": "where in the headline the primary keyword sits",
+      "supporting_transcript_quotes": ["exact quotes from transcript that anchor this narrative"],
+      "supporting_transcript_themes": ["theme1", "theme2"],
+      "supporting_contrarian_positions": ["position1"],
+      "structural_hooks": [
+        "specific element to include (e.g., comparison table of X vs Y)",
+        "another structural element"
+      ],
+      "expected_word_count": 2800,
+      "ranking_confidence": 0.75,
+      "voice_authenticity_confidence": 0.90,
+      "composite_score": 0.82,
+      "rationale": "why this angle works — covers founder owned angle, hits primary keyword naturally, exploits content gap from SERP analysis"
     }}}}
-  ]
+  ],
+  "recommended_angle_index": 0,
+  "recommendation_reasoning": "why this is the best angle balancing voice + SEO + transcript fidelity"
 }}}}
 ```
 
-Rank by confidence. Only recommend angles that are directly supported by transcript content.
+Rank by composite_score (average of ranking_confidence and voice_authenticity_confidence). Only recommend angles directly supported by transcript content. An angle that scores 0.9 on ranking but isn't actually in the transcript is a fabrication risk.

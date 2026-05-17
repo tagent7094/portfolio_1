@@ -192,6 +192,28 @@ _RAW_TASKS: list[TaskSpec] = [
     ),
     # ── Blog / Narrative tasks ──
     TaskSpec(
+        task_id="keyword_research",
+        display_name="SEO keyword research",
+        description="Identifies primary keyword, long-tail variations, related entities, PAA targets, and competition format for a blog topic.",
+        call_site="src/blog/seo_research.py:keyword_research",
+        default_purpose="prep",
+        quality_tier="medium",
+        frequency="per_batch",
+        default_temperature=0.3,
+        default_max_tokens=3000,
+    ),
+    TaskSpec(
+        task_id="serp_analysis",
+        display_name="SERP competition analysis",
+        description="Analyzes likely top-10 competitors for primary keyword and identifies structural requirements to outrank them.",
+        call_site="src/blog/seo_research.py:serp_analysis",
+        default_purpose="prep",
+        quality_tier="medium",
+        frequency="per_batch",
+        default_temperature=0.3,
+        default_max_tokens=3000,
+    ),
+    TaskSpec(
         task_id="blog_topic_discovery",
         display_name="Blog topic discovery",
         description="Combines founder graph beliefs with web search to find high-relevance trending topics for blog posts.",

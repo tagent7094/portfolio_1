@@ -9,6 +9,7 @@ from ..utils.json_parser import parse_llm_json
 from ..utils.text_utils import load_prompt, fill_prompt
 from ..llm.base import LLMProvider
 from .state import BlogState
+from .seo_research import format_seo_for_prompt
 
 logger = logging.getLogger(__name__)
 PROMPTS_DIR = Path(__file__).parent / "prompts"
@@ -20,13 +21,21 @@ def optimize_seo(llm: LLMProvider, blog_text: str, state: BlogState) -> dict:
         llm = state.llm_router.for_task("blog_seo")
 
     founder_name = state.founder_slug.replace("_", " ").title()
+    seo_vars = format_seo_for_prompt(state)
 
     template = load_prompt(PROMPTS_DIR / "seo_optimize.txt")
     prompt = fill_prompt(
         template,
-        blog_content=blog_text[:6000],
+        blog_content=blog_text[:8000],
         topic=state.topic,
         founder_name=founder_name,
+        primary_keyword=seo_vars["primary_keyword"],
+        long_tail_variations=seo_vars["long_tail_variations"],
+        related_entities=seo_vars["related_entities"],
+        search_intent=seo_vars["search_intent"],
+        paa_targets=seo_vars["paa_targets"],
+        target_min=seo_vars["target_min"],
+        target_max=seo_vars["target_max"],
     )
 
     import time as _t

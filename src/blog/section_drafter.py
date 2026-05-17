@@ -9,6 +9,7 @@ from ..utils.json_parser import parse_llm_json
 from ..utils.text_utils import load_prompt, fill_prompt
 from ..llm.base import LLMProvider
 from .state import BlogState, NarrativeState
+from .seo_research import format_seo_for_prompt
 
 logger = logging.getLogger(__name__)
 PROMPTS_DIR = Path(__file__).parent / "prompts"
@@ -53,12 +54,23 @@ def draft_section(llm: LLMProvider, section: dict, section_idx: int,
     if not source_docs:
         source_docs = "(none provided)"
 
+    seo_vars = format_seo_for_prompt(state)
+    section_entities = section.get("related_entities_required", [])
+    section_entities_str = ", ".join(section_entities) if section_entities else seo_vars["related_entities"]
+
     template = load_prompt(PROMPTS_DIR / "section_draft.txt")
     prompt = fill_prompt(
         template,
         section_heading=section.get("heading", f"Section {section_idx + 1}"),
+        heading_type=section.get("heading_type", "h2"),
+        is_paa_question=str(section.get("is_paa_question", False)).lower(),
         section_context="\n".join(f"- {p}" for p in section.get("key_points", [])),
         word_target=str(section.get("target_words", 400)),
+        primary_keyword=seo_vars["primary_keyword"],
+        section_entities=section_entities_str,
+        section_long_tail=section.get("long_tail_phrase_used", ""),
+        structured_element=section.get("structured_element", "none"),
+        internal_link_anchors=", ".join(section.get("internal_link_anchors", [])),
         preceding_summary=preceding_summary or "(this is the first section)",
         supporting_beliefs=supporting_beliefs,
         supporting_stories=supporting_stories,
@@ -126,6 +138,8 @@ def draft_narrative(llm: LLMProvider, state: NarrativeState) -> dict:
     if vocabulary.get("phrases_never"):
         vocab_str += "NEVER USE: " + ", ".join(vocabulary["phrases_never"][:10])
 
+    seo_vars = format_seo_for_prompt(state)
+
     template = load_prompt(PROMPTS_DIR / "narrative_draft.txt")
     prompt = fill_prompt(
         template,
@@ -141,6 +155,13 @@ def draft_narrative(llm: LLMProvider, state: NarrativeState) -> dict:
         vocabulary=vocab_str or "Not documented",
         beliefs=beliefs_str,
         stories=stories_str,
+        primary_keyword=seo_vars["primary_keyword"],
+        long_tail_variations=seo_vars["long_tail_variations"],
+        related_entities=seo_vars["related_entities"],
+        search_intent=seo_vars["search_intent"],
+        paa_targets=seo_vars["paa_targets"],
+        required_structural_elements=seo_vars["required_structural_elements"],
+        content_gaps=seo_vars["content_gaps"],
     )
 
     import time as _t

@@ -35,6 +35,10 @@ class BlogState:
     podcast_names: list[str] = field(default_factory=list)
     generation_mode: str = "auto"
 
+    # SEO research (v2 pipeline)
+    seo_inputs: dict = field(default_factory=dict)
+    serp_competition: dict = field(default_factory=dict)
+
     # Pipeline outputs
     discovered_topics: list[dict] = field(default_factory=list)
     outline: dict = field(default_factory=dict)

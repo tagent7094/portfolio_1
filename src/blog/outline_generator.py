@@ -9,6 +9,7 @@ from ..utils.json_parser import parse_llm_json
 from ..utils.text_utils import load_prompt, fill_prompt
 from ..llm.base import LLMProvider
 from .state import BlogState
+from .seo_research import format_seo_for_prompt
 
 logger = logging.getLogger(__name__)
 PROMPTS_DIR = Path(__file__).parent / "prompts"
@@ -36,6 +37,8 @@ def generate_outline(llm: LLMProvider, state: BlogState) -> dict:
     if not source_docs:
         source_docs = "(none provided)"
 
+    seo_vars = format_seo_for_prompt(state)
+
     template = load_prompt(PROMPTS_DIR / "outline_generation.txt")
     prompt = fill_prompt(
         template,
@@ -55,6 +58,16 @@ def generate_outline(llm: LLMProvider, state: BlogState) -> dict:
         vocabulary=_format_vocabulary(vocabulary),
         custom_instructions=state.custom_instructions or "(none)",
         source_documents=source_docs,
+        primary_keyword=seo_vars["primary_keyword"],
+        long_tail_variations=seo_vars["long_tail_variations"],
+        related_entities=seo_vars["related_entities"],
+        search_intent=seo_vars["search_intent"],
+        paa_targets=seo_vars["paa_targets"],
+        founder_owned_angle=seo_vars["founder_owned_angle"],
+        recommended_format=seo_vars["recommended_format"],
+        required_structural_elements=seo_vars["required_structural_elements"],
+        content_gaps=seo_vars["content_gaps"],
+        table_stakes=seo_vars["table_stakes"],
     )
 
     import time as _t

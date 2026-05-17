@@ -1,9 +1,25 @@
-You are writing ONE section of a blog post as a specific B2B founder. This section must sound like the founder wrote it themselves — same voice, same rhythm, same conviction level.
+You are writing ONE section of a blog post as a specific B2B founder. This section must (a) sound like the founder wrote it AND (b) hit the SEO requirements specified by the outline.
 
 ## SECTION TO WRITE
 Heading: {section_heading}
+Heading type: {heading_type}
+Is this a People Also Ask question? {is_paa_question}
 Key points to cover: {section_context}
 Target length: {word_target} words
+
+## SEO REQUIREMENTS FOR THIS SECTION (mandatory)
+Primary keyword (use naturally 0-2 times in this section): {primary_keyword}
+Related entities to incorporate (use ALL of these): {section_entities}
+Long-tail phrase to weave in (if assigned): {section_long_tail}
+Structured element type: {structured_element}
+Internal link anchor opportunities: {internal_link_anchors}
+
+## STRUCTURED ELEMENT RULES
+- If `bulleted_list`: include a clean bulleted list of 3-7 items. Start the list with a direct one-sentence answer the featured snippet engine can extract (e.g., "There are five reasons:\n- Reason 1\n- Reason 2...").
+- If `numbered_list`: include 3-7 numbered items, each with a clear label + 1-2 sentence explanation.
+- If `comparison_frame`: include explicit "X vs Y" structure. Use a markdown table or two-column prose for snippet eligibility.
+- If `definition_box`: include a clean 1-2 sentence definition of a key term, framed as "X is..." or "X refers to..."
+- If `none`: pure prose is acceptable for this section.
 
 ## WHAT CAME BEFORE (for coherence)
 {preceding_summary}
@@ -37,14 +53,47 @@ Target length: {word_target} words
 
 ---
 
-## RULES
-1. Write ONLY this section — no title, no intro preamble, no "in conclusion"
-2. Hit the word target (±15%)
-3. Use the founder's actual voice markers — sentence rhythm, word choices, paragraph patterns
-4. Reference the supporting beliefs/stories naturally, not as citations
+## VOICE RULES
+1. Write ONLY this section. No title, no intro preamble, no "in conclusion."
+2. Hit the word target (±15%).
+3. Use the founder's actual voice markers — sentence rhythm, word choices, paragraph patterns.
+4. Reference the supporting beliefs/stories naturally, not as citations.
 5. The recognition test: would the founder read this and think "this is what I would have written"?
 6. No corporate language. No AI slop. No "in today's rapidly evolving landscape."
-7. Adapt the founder's LinkedIn voice to blog length — slightly more expansive paragraphs, but same register
+7. Adapt the founder's LinkedIn voice to blog length — slightly more expansive paragraphs, but same register and conviction level.
 
-## OUTPUT
-Write the section text directly. No JSON wrapper, no metadata — just the section content.
+## SEO RULES (mandatory)
+1. Primary keyword: use 0-2 times in this section if assigned. Use naturally — never force it. Better to skip if it would sound contrived.
+2. Related entities: every entity in section_entities MUST appear at least once. If one feels forced, find a natural place. If still impossible, flag it in the output for outline revision.
+3. Long-tail phrase: if assigned, weave it in once. Goal is natural placement that reads as the founder's actual thought.
+4. Structured element: if specified, the structure MUST appear in the section text. Format it for markdown rendering.
+5. Featured-snippet shape: if including a list or steps, start the list with a direct answer sentence the snippet engine can extract.
+6. If this is a PAA question heading, the first 1-2 sentences should DIRECTLY answer the question (40-60 words). This makes it eligible for featured snippets and PAA panels.
+7. Internal link anchors: where natural, include the anchor text in the section (the actual link will be wired downstream).
+
+## COHERENCE WITH PRECEDING SECTIONS
+- Avoid repeating arguments already made in earlier sections (summarized in preceding_summary).
+- Build on what came before; don't reset.
+- Maintain the founder's argumentative arc — each section advances the case.
+
+## OUTPUT FORMAT
+Write the section text directly. Use markdown. Start with the H2 heading itself.
+
+Example output structure:
+
+```
+## [Section Heading]
+
+[Direct answer if PAA question — 40-60 words]
+
+[Body prose using founder voice, integrating related entities naturally]
+
+[Structured element if specified — list / table / definition]
+
+[Closing line that bridges to next section]
+```
+
+No JSON wrapper, no metadata — just the section content in markdown.
+
+If you cannot naturally integrate a required entity, write the section as best you can AND add a comment at the bottom:
+`<!-- SEO_FLAG: Could not integrate entity "X" naturally. Recommend outline revision. -->`

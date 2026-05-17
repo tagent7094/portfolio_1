@@ -1,0 +1,124 @@
+You are a SERP analyst. For the given primary keyword, estimate what currently ranks in the top 10 Google results and identify what this founder's blog must do differently — and better — to compete.
+
+This step runs AFTER keyword_research and BEFORE outline_generation. Output directly shapes the outline's structural decisions.
+
+## PRIMARY KEYWORD
+{primary_keyword}
+
+## SEARCH INTENT
+{search_intent}
+
+## RELATED ENTITIES (must be covered for topical depth)
+{related_entities}
+
+## FOUNDER OWNED ANGLE
+{founder_owned_angle}
+
+## RECOMMENDED WORD COUNT RANGE
+{recommended_word_count_min} to {recommended_word_count_max} words
+
+---
+
+## TASK
+
+Based on the primary keyword and your understanding of typical search results in this niche, produce a competitive analysis.
+
+### 1. TOP 5 LIKELY COMPETITORS
+
+For each of 5 likely top-ranking sources (estimate based on your knowledge of the niche), describe:
+
+- **Domain type**: news_site | established_blog | forum (Quora/Reddit) | niche_authority | video | aggregator
+- **Estimated format**: listicle | long_form_guide | news_report | opinion | how_to | comparison
+- **Estimated word count**: rough number based on typical pieces in this niche
+- **Likely strengths**: what they cover well, why they rank
+- **Specific gaps**: what they miss, treat superficially, or get wrong
+
+### 2. TABLE STAKES (mandatory inclusions)
+
+What every top-ranking piece on this topic covers. The founder's blog MUST cover these to be competitive. Missing table stakes = automatic disqualification from page 1.
+
+These will be enforced in the outline as required H2 sections.
+
+### 3. UNIQUE OWNED ANGLE (the differentiator)
+
+Refine the founder_owned_angle into a specific structural recommendation:
+- What chapter/section of the blog carries the unique angle
+- What data, scenes, or evidence supports it
+- Why current rankers cannot replicate this
+
+### 4. STRUCTURAL ELEMENTS NEEDED TO COMPETE
+
+Based on competitor analysis, identify which structured elements this blog MUST include:
+- Comparison table (especially for "X vs Y" or "best X" queries)
+- FAQ section (especially for informational queries — drives PAA rankings)
+- Numbered or bulleted list (drives featured snippets)
+- Definition box (for "what is X" sub-queries)
+- Step-by-step structure (for how-to intent)
+- Data visualization or stats block (for credibility)
+- Quote/expert citation (for E-E-A-T signals)
+
+Pick the 3-5 elements that BEAT what current rankers offer.
+
+### 5. CONTENT GAPS (where this blog WILL outrank competition)
+
+Identify 2-4 specific aspects of the topic that:
+- Are searched (low-volume long-tails)
+- Are NOT covered well by current top 10
+- The founder can credibly address with their experience
+
+These become the blog's competitive moat. They are MUST-INCLUDE sections.
+
+### 6. RECOMMENDED LENGTH & FORMAT
+
+Given competition:
+- If current rankers average 2,000 words, this blog should be 2,500-3,000 (longer = perceived as deeper)
+- If current rankers are all listicles, consider long-form for differentiation
+- If current rankers all use the same angle, the founder's owned angle is the differentiator
+- If current rankers have weak FAQ coverage, oversized FAQ section wins PAA panels
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "competitors": [
+    {{{{
+      "rank_estimate": 1,
+      "domain_type": "established_blog",
+      "estimated_format": "long_form_guide",
+      "estimated_word_count": 2800,
+      "covers_well": ["aspect 1", "aspect 2", "aspect 3"],
+      "gaps": ["specific gap 1", "specific gap 2"]
+    }}}}
+  ],
+  "table_stakes": [
+    "mandatory aspect 1 that all top rankers cover",
+    "mandatory aspect 2",
+    "mandatory aspect 3"
+  ],
+  "unique_owned_angle_refined": {{{{
+    "angle_statement": "one-sentence statement of the differentiating take",
+    "section_placement": "introduction|early_body|middle_body|conclusion — where this angle should land in the blog",
+    "evidence_required": ["specific data, scenes, or numbers needed to support this"]
+  }}}},
+  "required_structural_elements": [
+    "comparison_table",
+    "faq_section",
+    "numbered_list",
+    "definition_box",
+    "data_block"
+  ],
+  "content_gaps_to_exploit": [
+    {{{{
+      "gap": "specific aspect underrepresented in top 10",
+      "long_tail_query_it_serves": "the specific search this gap captures",
+      "founder_credibility": "why this founder can credibly write about this"
+    }}}}
+  ],
+  "recommended_format": "long_form_guide|listicle|comparison|how_to|opinion",
+  "recommended_word_count": 2800,
+  "ranking_difficulty_assessment": "low|medium|high — be honest about whether top 5 is achievable",
+  "realistic_ranking_timeline": "3-6 months|6-12 months|12-18 months|likely unrankable"
+}}}}
+```
+
+Be honest about ranking difficulty. If competition is established media (Forbes, HBR, NYT), realistic_ranking_timeline should reflect that — likely 12-18+ months even with perfect execution, or "rank only for long-tails not head term."

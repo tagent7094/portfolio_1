@@ -12,6 +12,7 @@ from ..batch.corpus_reader import load_founder_state, internalize_corpus, calibr
 from ..batch.tracer import BatchTracer
 from .state import BlogState
 from .topic_discovery import discover_topics
+from .seo_research import keyword_research, serp_analysis
 from .outline_generator import generate_outline
 from .section_drafter import draft_section
 from .voice_validator import validate_blog_voice
@@ -155,21 +156,37 @@ class BlogSession:
                 "selected": topic,
             }, progress=0.2)
 
-        # Phase 3: Generate outline
+        # Phase 3: Keyword research
         self._check_cancel()
-        self._emit("outline", "started", progress=0.2)
+        self._emit("keyword_research", "started", progress=0.2)
+        seo_inputs = keyword_research(llm_gen, state)
+        self._emit("keyword_research", "completed", {
+            "primary_keyword": seo_inputs.get("primary_keyword", ""),
+        }, progress=0.25)
+
+        # Phase 4: SERP analysis
+        self._check_cancel()
+        self._emit("serp_analysis", "started", progress=0.25)
+        serp = serp_analysis(llm_gen, state)
+        self._emit("serp_analysis", "completed", {
+            "recommended_format": serp.get("recommended_format", ""),
+        }, progress=0.3)
+
+        # Phase 5: Generate outline
+        self._check_cancel()
+        self._emit("outline", "started", progress=0.3)
         outline = generate_outline(llm_gen, state)
         self._emit("outline", "completed", {
             "title": outline.get("title", ""),
             "sections": len(outline.get("sections", [])),
-        }, progress=0.3)
+        }, progress=0.4)
 
-        # Phase 4: Draft sections
+        # Phase 6: Draft sections
         sections = outline.get("sections", [])
         drafted_sections: list[str] = []
         for i, section in enumerate(sections):
             self._check_cancel()
-            progress = 0.3 + (i / max(len(sections), 1)) * 0.4
+            progress = 0.4 + (i / max(len(sections), 1)) * 0.3
             self._emit(f"section_{i+1}", "started", {
                 "heading": section.get("heading", ""),
             }, progress=progress)
@@ -179,11 +196,11 @@ class BlogSession:
 
             self._emit(f"section_{i+1}", "completed", {
                 "word_count": len(text.split()),
-            }, progress=progress + 0.4 / max(len(sections), 1))
+            }, progress=progress + 0.3 / max(len(sections), 1))
 
         state.sections = drafted_sections
 
-        # Phase 5: Voice validation
+        # Phase 7: Voice validation
         self._check_cancel()
         self._emit("voice_check", "started", progress=0.75)
         full_text = "\n\n".join(drafted_sections)
@@ -194,18 +211,19 @@ class BlogSession:
             "voice_score": validation.get("voice_marker_score", 0),
         }, progress=0.85)
 
-        # Phase 6: SEO optimization
+        # Phase 8: SEO audit
         self._check_cancel()
         if seo_focus:
             self._emit("seo_optimize", "started", progress=0.85)
             seo = optimize_seo(llm_gen, full_text, state)
             self._emit("seo_optimize", "completed", {
                 "seo_title": seo.get("seo_title", ""),
+                "should_publish": seo.get("publication_decision", {}).get("should_publish", True),
             }, progress=0.9)
         else:
             state.seo_data = {"seo_title": outline.get("title", topic)}
 
-        # Phase 7: Compile and save
+        # Phase 9: Compile and save
         self._check_cancel()
         self._emit("compile", "started", progress=0.9)
         markdown = compile_blog(state)

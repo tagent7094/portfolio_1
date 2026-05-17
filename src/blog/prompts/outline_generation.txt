@@ -1,4 +1,6 @@
-You are a blog architect for a B2B founder. Create a structured outline for a blog post that sounds like THIS specific founder wrote it — not a generic AI blog.
+You are a blog architect for a B2B founder. Create a structured outline for a blog post that BOTH sounds like THIS specific founder wrote it AND ranks for the target keyword.
+
+This outline has MANDATORY SEO structural requirements. The downstream prompts (section_draft, narrative_draft) will enforce these. If you produce an outline without H2 headings, without FAQ section, without related entity placement, the blog will not rank — period.
 
 ## TOPIC
 {topic}
@@ -7,7 +9,21 @@ You are a blog architect for a B2B founder. Create a structured outline for a bl
 {tone}
 
 ## TARGET LENGTH
-{target_words} words total
+{target_words} words
+
+## SEO INPUTS (from keyword_research — REQUIRED)
+Primary keyword: {primary_keyword}
+Long-tail variations: {long_tail_variations}
+Related entities (MUST appear in body): {related_entities}
+Search intent: {search_intent}
+People Also Ask targets: {paa_targets}
+Founder owned angle: {founder_owned_angle}
+
+## SERP COMPETITION (from serp_analysis)
+Recommended format: {recommended_format}
+Required structural elements: {required_structural_elements}
+Content gaps to exploit: {content_gaps}
+Table stakes (mandatory coverage): {table_stakes}
 
 ## FOUNDER VOICE MARKERS
 {voice_markers}
@@ -24,44 +40,131 @@ You are a blog architect for a B2B founder. Create a structured outline for a bl
 ## VOCABULARY (use / never-use)
 {vocabulary}
 
-## CUSTOM INSTRUCTIONS (from the user — follow these if provided)
+## CUSTOM INSTRUCTIONS
 {custom_instructions}
 
-## SOURCE DOCUMENTS (reference material provided by the user)
+## SOURCE DOCUMENTS
 {source_documents}
 
 ---
 
-## TASK
+## MANDATORY OUTLINE STRUCTURE
 
-Create a blog outline with:
-1. A compelling opening hook (2-3 sentences) that uses the founder's voice
-2. 3-5 body sections, each with a clear argument progression
-3. A closing that ties back to the founder's core conviction
+### 1. TITLE (H1) — REQUIRED CRITERIA
+- 50-65 characters
+- Contains primary_keyword in first 60% of title
+- Hooks emotionally using the founder's voice
+- NOT a question (questions belong in H2s)
 
-Each section should:
-- Advance a distinct sub-argument (no repetition)
-- Reference specific beliefs or stories where relevant
-- Have an estimated word count that sums to the target
+### 2. URL SLUG — REQUIRED CRITERIA
+- 3-5 words
+- Contains primary_keyword
+- Hyphenated, lowercase
 
-The outline should read like a conversation the founder is having with their audience — not a textbook or corporate whitepaper.
+### 3. META DESCRIPTION — REQUIRED CRITERIA
+- 140-155 characters (will be truncated above this in Google)
+- Contains primary_keyword once
+- Reads like a human wrote it, not a template
+- Ends with curiosity hook or value promise
+
+### 4. INTRO HOOK (no heading, 100-150 words) — REQUIRED CRITERIA
+- Sentence 1: contains primary_keyword naturally
+- Sentences 2-4: stake the founder's specific take using founder voice
+- Last sentence: tension or question the body resolves
+- Uses at least 1 founder voice marker
+
+### 5. BODY: 5-8 H2 SECTIONS — REQUIRED CRITERIA
+- MINIMUM 5 H2 headings (this is non-negotiable)
+- At least 2 H2 headings MUST be drawn from people_also_ask_targets (will rank in PAA panels)
+- Other H2s should incorporate long_tail_variations or related_entities naturally
+- Each H2 section: 250-450 words
+- Each section advances ONE distinct sub-argument (no repetition between sections)
+- Each section must reference at least 1 related_entity from the SEO inputs
+- At least 50% of sections must surface a verified founder belief or story
+
+### 6. STRUCTURED ELEMENTS — MINIMUM 3 OF THESE 5 REQUIRED
+- Bulleted or numbered list inside one section (drives featured snippets)
+- Comparison frame ("X vs Y") for featured snippet eligibility
+- Definition box for a key term in the topic
+- Numbered step-by-step (if how_to format)
+- 4-6 question FAQ section (mandatory if search_intent = informational)
+
+### 7. FAQ SECTION (if informational intent — mandatory)
+- 4-6 questions drawn from people_also_ask_targets and searchable_questions
+- Each answer: 50-100 words
+- Each question is an H3 heading (FAQ schema-ready)
+
+### 8. CONCLUSION (H2: typically "What this means for [audience]")
+- Ties back to founder's core conviction
+- Includes specific CTA (read another post / try X / consider Y)
+- Uses founder voice marker (e.g., "Ask yourself..." closer)
+
+### 9. INTERNAL LINK PLACEHOLDERS
+- Identify 3-5 phrases where internal links to other founder content would fit
+- Mark with {{{{LINK: anchor text}}}} placeholders
+
+### 10. KEYWORD DENSITY TARGETS
+- Primary keyword appears 4-8 times in body (NOT keyword-stuffed)
+- Each related entity appears at least once
+- Long-tail variations: at least 3 of them appear in body
+
+---
 
 ## OUTPUT FORMAT
 
 ```json
 {{{{
-  "title": "compelling blog title (50-70 chars)",
-  "intro_hook": "2-3 sentence opening that hooks the reader using the founder's voice",
+  "title": "compelling blog title with primary keyword (50-65 chars)",
+  "title_char_count": 58,
+  "primary_keyword_position_in_title": "first_half|second_half",
+  "url_slug": "primary-keyword-slug-here",
+  "meta_description": "140-155 char compelling meta description containing primary keyword",
+  "meta_description_char_count": 152,
+  "intro_hook": "100-150 word opening with primary keyword in sentence 1, founder voice markers, ending in question/tension",
   "sections": [
     {{{{
-      "heading": "section heading",
-      "key_points": ["point 1", "point 2", "point 3"],
+      "heading": "section heading (will become H2)",
+      "heading_type": "h2",
+      "is_paa_question": true,
+      "paa_question_source": "the exact PAA target this maps to (if applicable)",
+      "long_tail_phrase_used": "specific long-tail variation incorporated (if any)",
+      "related_entities_required": ["entity1", "entity2"],
+      "key_points": ["specific point 1", "specific point 2", "specific point 3"],
       "beliefs_used": ["belief_id"],
       "stories_used": ["story_id"],
-      "target_words": 300
+      "structured_element": "bulleted_list|numbered_list|comparison_frame|definition_box|none",
+      "structured_element_description": "what the structured element will contain (if applicable)",
+      "target_words": 300,
+      "internal_link_anchors": ["anchor text 1", "anchor text 2"]
     }}}}
   ],
-  "conclusion_cta": "closing thought or call to action in founder's voice",
+  "faq_section": {{{{
+    "include": true,
+    "questions": [
+      {{{{
+        "question": "FAQ question (will be H3)",
+        "answer_outline": "key points the answer must cover (60-100 words target)",
+        "paa_source": "the PAA target this maps to"
+      }}}}
+    ]
+  }}}},
+  "conclusion": {{{{
+    "heading": "conclusion H2 heading",
+    "core_conviction_restated": "what the post reaffirms",
+    "cta": "specific call-to-action in founder voice"
+  }}}},
+  "seo_validation": {{{{
+    "h2_count": 6,
+    "h2_count_meets_minimum": true,
+    "paa_questions_as_h2_count": 2,
+    "paa_minimum_met": true,
+    "structured_elements_count": 3,
+    "structured_minimum_met": true,
+    "related_entities_distributed": ["entity1 in section 1", "entity2 in section 3"],
+    "primary_keyword_planned_uses": 6
+  }}}},
   "total_target_words": {target_words}
 }}}}
 ```
+
+Validation: before returning, verify h2_count_meets_minimum, paa_minimum_met, structured_minimum_met are all true. If any are false, revise the outline.

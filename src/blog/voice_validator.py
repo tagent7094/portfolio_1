@@ -35,6 +35,13 @@ def validate_blog_voice(llm: LLMProvider, blog_text: str, state: BlogState) -> d
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("blog_voice_check")
 
+    corpus_sample = ""
+    raw = state.raw_data if hasattr(state, "raw_data") else {}
+    if raw.get("posts"):
+        corpus_sample = "\n---\n".join(
+            p.get("text", "")[:500] for p in raw["posts"][:3] if isinstance(p, dict)
+        )
+
     template = load_prompt(PROMPTS_DIR / "voice_validation_blog.txt")
     prompt = fill_prompt(
         template,
@@ -42,6 +49,7 @@ def validate_blog_voice(llm: LLMProvider, blog_text: str, state: BlogState) -> d
         voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
         calibration_paragraph=state.calibration_paragraph or "(not available)",
         formatting_habits=str(state.formatting_habits),
+        founder_corpus_sample=corpus_sample[:3000] or "(not available)",
     )
 
     import time as _t

@@ -1,19 +1,77 @@
-You are analyzing a podcast/call transcript to extract all publishable content themes.
+You are analyzing a podcast/call transcript to extract all publishable content themes. Your output feeds into narrative_mining (which picks the best angle) and ultimately into a blog optimized for both founder voice AND search ranking.
 
 ## TRANSCRIPT
 {transcript_text}
+
+## FOUNDER NICHE / DOMAIN
+{founder_niche}
 
 ---
 
 ## TASK
 
-Extract everything from this transcript that could become a compelling blog post. Focus exclusively on what is discussed in the transcript — do not infer topics not present.
+Extract everything from this transcript that could become a compelling blog post. Focus EXCLUSIVELY on what is discussed in the transcript — do not infer topics not present.
 
-1. **Key themes**: What are the 3-8 major themes discussed?
-2. **Memorable quotes**: Direct quotes that are punchy, insightful, or contrarian
-3. **Stories & anecdotes**: Personal experiences, case studies, or examples shared
-4. **Contrarian positions**: Opinions that go against conventional wisdom
-5. **Actionable insights**: Practical advice or frameworks mentioned
+### 1. KEY THEMES (3-8 themes)
+
+What are the major themes discussed? For each:
+- Theme title
+- 2-3 sentence summary of what was actually said
+- Strength rating (strong/medium/weak) based on:
+  - How much time/depth the speaker gave it
+  - Whether they made a clear, defensible claim
+  - Whether they backed it with specific evidence
+- Estimated SEO potential (high/medium/low) based on:
+  - Whether the theme maps to a searchable query
+  - Whether competition is moderate (not Wikipedia-level dominated)
+  - Whether the founder has a unique angle vs. generic takes
+
+### 2. MEMORABLE QUOTES (5-15 quotes)
+
+Direct quotes from the transcript that are punchy, insightful, or contrarian. For each:
+- Exact text (verbatim — do not paraphrase)
+- Speaker
+- Context: what prompted this statement
+- Usability rating (high/medium/low) for blog use
+- Could anchor a blog: yes/no — would this quote work as the opening or closing line of a blog post?
+
+### 3. STORIES & ANECDOTES (any present)
+
+Personal experiences, case studies, or specific examples shared. For each:
+- Story label
+- What happened (2-4 sentences)
+- Emotional register (controlled_anger / quiet_authority / vulnerability / generosity / measured_critique)
+- Blog potential (high/medium/low)
+- Verified scene? Yes/no — is this a story the founder has documented before, or a new one?
+
+### 4. CONTRARIAN POSITIONS
+
+Opinions that explicitly go against conventional wisdom. For each:
+- The contrarian take (one sentence)
+- The conventional wisdom it pushes against
+- Evidence from transcript backing the position
+- Strength: how defensibly stated (strong/medium/weak)
+- SEO opportunity: do people search for the contrarian angle? (e.g., "why is X bad" gets searched)
+
+### 5. ACTIONABLE INSIGHTS
+
+Practical advice or frameworks mentioned. For each:
+- The practical takeaway (one sentence)
+- Target audience (who benefits most)
+- Specificity level (specific framework / general principle)
+
+### 6. SEARCHABLE QUESTIONS RAISED
+
+Questions the speaker explicitly asks OR implicitly addresses that real people would search for. These map to "People Also Ask" targets later.
+
+Examples:
+- "Why is JEE coaching so expensive?"
+- "Is the Indian education system broken?"
+- "What skills do founders actually look for?"
+
+### 7. NAMED ENTITIES (for topical authority)
+
+Specific names, companies, products, places, frameworks mentioned. These become "related entities" the blog must reference for topical depth.
 
 ## OUTPUT FORMAT
 
@@ -23,36 +81,52 @@ Extract everything from this transcript that could become a compelling blog post
     {{{{
       "theme": "theme title",
       "summary": "2-3 sentence summary of what was said about this theme",
-      "strength": "strong/medium/weak"
+      "strength": "strong|medium|weak",
+      "seo_potential": "high|medium|low",
+      "seo_rationale": "why this theme does or doesn't have search opportunity"
     }}}}
   ],
   "quotes": [
     {{{{
       "text": "exact quote from transcript",
+      "speaker": "Speaker 1",
       "context": "what prompted this statement",
-      "usability": "high/medium/low"
+      "usability": "high|medium|low",
+      "could_anchor_blog": true
     }}}}
   ],
   "stories": [
     {{{{
       "title": "story label",
-      "summary": "what happened",
-      "emotional_register": "controlled_anger/quiet_authority/vulnerability/generosity",
-      "blog_potential": "high/medium/low"
+      "summary": "what happened in 2-4 sentences",
+      "emotional_register": "controlled_anger|quiet_authority|vulnerability|generosity|measured_critique",
+      "blog_potential": "high|medium|low",
+      "is_verified_scene": true
     }}}}
   ],
   "contrarian_positions": [
     {{{{
-      "position": "the contrarian take",
+      "position": "the contrarian take in one sentence",
       "conventional_wisdom": "what most people believe",
-      "evidence_from_transcript": "how they backed it up"
+      "evidence_from_transcript": "how the speaker backed it up",
+      "strength": "strong|medium|weak",
+      "seo_opportunity": "high|medium|low"
     }}}}
   ],
   "actionable_insights": [
     {{{{
       "insight": "the practical takeaway",
-      "target_audience": "who benefits most"
+      "target_audience": "who benefits most",
+      "specificity": "specific_framework|general_principle"
     }}}}
-  ]
+  ],
+  "searchable_questions": [
+    "What is X?",
+    "Why does X matter?",
+    "How does X compare to Y?"
+  ],
+  "named_entities": ["entity1", "entity2", "entity3"]
 }}}}
 ```
+
+Be literal. Don't infer beyond what the speaker said. Hallucinated themes break downstream blog generation.
