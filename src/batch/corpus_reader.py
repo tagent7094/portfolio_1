@@ -325,7 +325,11 @@ def _verify_founder_identity(
     card_lower = (personality_card or "").lower()
     voice_lower = (raw_data.get("raw_voice_dna") or "").lower()
     story_lower = (raw_data.get("raw_story_bank") or "").lower()
-    combined = "\n".join([card_lower, voice_lower, story_lower])
+    file_names = " ".join(
+        f.get("file", "") for f in raw_data.get("files_ingested", [])
+    ).lower()
+    identity_bio = (raw_data.get("identity") or {}).get("bio", "").lower()
+    combined = "\n".join([card_lower, voice_lower, story_lower, file_names, identity_bio])
 
     own_hits = sum(combined.count(tok) for tok in name_tokens)
     if own_hits >= 1:
