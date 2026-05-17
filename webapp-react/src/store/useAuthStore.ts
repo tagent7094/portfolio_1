@@ -4,7 +4,7 @@ import { getSubdomainSlug } from '../utils/subdomain'
 
 type AuthStatus = 'unknown' | 'authed' | 'anon'
 
-const ALL_PAGES = ['dashboard', 'generate', 'customize', 'graph', 'coverage', 'workflow', 'history', 'config']
+const ALL_PAGES = ['dashboard', 'generate', 'content-studio', 'customize', 'graph', 'coverage', 'workflow', 'history', 'config']
 
 interface AuthState {
   slug: string

@@ -12,7 +12,7 @@ _PROJECT_ROOT = Path(__file__).parent.parent.parent
 _PERMISSIONS_FILE = _PROJECT_ROOT / "config" / "founder-permissions.yaml"
 
 ALL_PAGES = [
-    "dashboard", "generate", "customize", "graph",
+    "dashboard", "generate", "content-studio", "customize", "graph",
     "coverage", "workflow", "history", "config",
 ]
 
