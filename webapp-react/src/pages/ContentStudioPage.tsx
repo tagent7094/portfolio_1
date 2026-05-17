@@ -676,6 +676,14 @@ function NarrativeTab() {
           </div>
         )}
 
+        {analysis && angles.length === 0 && (
+          <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-3">
+            <p className="text-[12px] text-yellow-400">
+              No narrative angles found. The transcript may be too short, or analysis output was truncated. Try selecting a different transcript or try again.
+            </p>
+          </div>
+        )}
+
         {angles.length > 0 && (
           <div className="space-y-2">
             <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">

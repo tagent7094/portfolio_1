@@ -116,10 +116,11 @@ class LLMRouter:
                 "prep":       yaml_cfg.get("llm_prep", yaml_cfg.get("llm", {})),
                 "ingestion":  yaml_cfg.get("llm_ingestion", yaml_cfg.get("llm", {})),
             }.get(spec.default_purpose, yaml_cfg.get("llm", {}))
+            section_max = section.get("max_tokens", spec.default_max_tokens)
             resolved = {
                 "provider": section.get("provider", "anthropic"),
                 "model": section.get("model", "claude-opus-4-6"),
-                "max_tokens": section.get("max_tokens", spec.default_max_tokens),
+                "max_tokens": max(section_max, spec.default_max_tokens),
                 "temperature": section.get("temperature", spec.default_temperature),
                 "enable_thinking": section.get("enable_thinking", False),
                 "effort": section.get("effort", "high"),
