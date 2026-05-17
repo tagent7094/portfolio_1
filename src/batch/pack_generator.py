@@ -258,6 +258,8 @@ def transpose(
     post_count: int = 3,
     pack_number: int = 0,
     diversity_override: str | None = None,
+    regen_hint: str = "",
+    mechanic_override: str = "",
 ) -> list[AmplifiedPost]:
     """Generate posts using the consolidated transpose prompt.
 
@@ -282,6 +284,18 @@ def transpose(
 
     if diversity_override:
         prior_args_str += f"\n\nFORCED ANGLE: This post MUST argue: {diversity_override}"
+
+    if regen_hint:
+        prior_args_str += (
+            f"\n\n## REGEN GUIDANCE — fix these specific issues from the prior draft\n{regen_hint}"
+        )
+
+    if mechanic_override:
+        prior_args_str += (
+            f"\n\n## AVOID MECHANIC: {mechanic_override}\n"
+            f"Use a DIFFERENT opener mechanic from the 13 proven options. "
+            f"The pack already has too many posts using {mechanic_override}."
+        )
 
     marker_rates_str = "Not measured"
     if state.marker_rates:

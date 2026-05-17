@@ -97,6 +97,52 @@ After writing, your output text MUST match your declarations. A numbered_list de
 
 8. **MARKER RATES**: Match the founder's natural formatting — use em-dashes, smileys, hashtags at approximately the rates shown in EXPECTED MARKER RATES. Don't force markers but don't strip them either.
 
+9. **BATCH A REGISTER SWAP (CRITICAL — applies ONLY when MODE RULES say Batch A)**:
+   Beyond opener mirroring, the FULL post must swap the source's URGENCY VOCABULARY for the founder's register.
+
+   REPLACE (must NOT appear in output):
+   - Source's exact urgency idioms ("you're already behind", "this hits hard", "let me cook", "and it shows", "the moment X happens, Y")
+   - Source's emoji / punctuation tics (!!, ✨, →, all-caps phrases)
+   - Inflammatory adjectives the source uses ("absurd", "wild", "insane", "crazy", "ridiculous")
+   - Source's audience-callout phrasing ("hey founders", "listen up", "if you're a CEO reading this")
+
+   SUBSTITUTE from founder's register (use CALIBRATION PARAGRAPH + VOICE MARKERS as the source of truth):
+   - Urgency derived from founder's documented closer patterns
+   - Founder's adjective vocabulary, not the source's
+   - Founder's audience phrasing
+
+   PRESERVE EXACTLY (do not touch):
+   - Sentence count in opener
+   - Beat order (e.g., achievement → temporal inversion → urgency)
+   - Mechanic family (audience-address, scale credential, count promise — whatever source used)
+   - Rhythm pattern (short/medium/long sequence)
+
+   Each of the 3 Batch A variants MUST have a DIFFERENT urgency construction. Never let all 3 share the same threat phrase (e.g., all three ending with "you're already behind").
+
+   NO CREATIVITY. This is surgical substitution, not rewriting. The structure is locked.
+
+10. **ANCHOR SPECIFICITY (Batch B only — Batch A inherits source's anchor structure)**:
+    Each Batch B post body MUST contain at least ONE of these anchors:
+
+    TIER 1 — Specific operating rule (preferred):
+    Pattern: [named role] + [specific action] + [specific number with emphasis]
+    Example: "The product team doesn't ship a feature until the CRO has heard the request from three buyers. Not one. Not two. Three."
+
+    TIER 2 — Named scene with quoted dialogue + specific time:
+    Pattern: [specific time marker] + [specific setting] + [direct quote with attribution]
+    Example: "I had coffee with this founder last week and asked her why she hired her CRO at month two. Her answer: 'Because I needed to know if there was a market before I built a product for it.'"
+
+    NOT ACCEPTABLE alone — generic third-degree pattern observations:
+    "I've watched war rooms at $500M companies where personalized decks get finalized in the final hours."
+    (Plausible. Not specific. Could be said by anyone. Not a publishable anchor.)
+
+11. **CLOSER SHAPE (Batch B only)**:
+    The final 1-2 sentences must have at least TWO of:
+    - Specific time measurement ("six weeks", "thirty minutes", "month two")
+    - Parallel structure with twist on the second clause ("Demos can be matched in six weeks. The thirty minutes after a demo cannot.")
+    - Compression (≤30 words total in the closer)
+    - Concrete physical/temporal image (not abstract systems language like "the upstream sensor")
+
 ---
 
 ## OUTPUT FORMAT

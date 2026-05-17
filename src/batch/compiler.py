@@ -43,6 +43,7 @@ def compile_json(state: BatchState) -> dict:
                     "original_opening": p.original_opening,
                     "final_opening": p.final_opening,
                     "mechanic": p.mechanic,
+                    "actual_mechanic": p.actual_mechanic,
                     "gates": p.gates,
                     "rating": p.rating,
                     "buried_gold": p.buried_gold,
@@ -59,6 +60,8 @@ def compile_json(state: BatchState) -> dict:
                 "events_used": p.events_used,
                 "argument_compressed": p.argument_compressed,
                 "saturation_warning": p.saturation_warning,
+                "quality_flags": p.quality_flags,
+                "regen_count": p.regen_count,
             })
             total_posts += 1
 
@@ -73,6 +76,7 @@ def compile_json(state: BatchState) -> dict:
             "convergence_test": pack.convergence_test,
             "convergence_warning": pack.convergence_warning,
             "convergence_retry_attempted": pack.convergence_retry_attempted,
+            "total_regens": pack.total_regens,
         })
 
     raw_data = state.raw_data or {}

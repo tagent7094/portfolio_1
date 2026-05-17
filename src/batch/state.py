@@ -33,6 +33,9 @@ class AmplifiedPost:
     events_used: list[str] = field(default_factory=list)
     argument_compressed: str = ""
     saturation_warning: dict = field(default_factory=dict)
+    quality_flags: dict = field(default_factory=dict)
+    regen_count: int = 0
+    actual_mechanic: str = ""
 
 
 @dataclass
@@ -48,6 +51,7 @@ class PackResult:
     convergence_test: dict = field(default_factory=dict)
     convergence_warning: bool = False
     convergence_retry_attempted: bool = False
+    total_regens: int = 0
 
 
 @dataclass

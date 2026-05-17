@@ -114,6 +114,46 @@ def _count_mechanic_in_peers(peers: list, mechanic: str) -> int:
     return sum(1 for p in peers if _normalize_mechanic(p.mechanic) == normalized)
 
 
+def _should_preserve_door(
+    post: AmplifiedPost,
+    diag: dict,
+    best: dict | None,
+    peers: list | None,
+) -> tuple[bool, str]:
+    """Unified door-preservation logic (Batch B only — A short-circuits earlier).
+
+    Returns (should_preserve, reason). Tightened in 2026-05 to require:
+      - validation_result.overall == "PASS" strictly (no voice_score fallback)
+      - voice_fit, coherence, mode_preservation gates all pass (source_mirror also for A)
+      - mechanic_matches_door AND no saturation
+    """
+    vr = getattr(post, "validation_result", {}) or {}
+    voice_strict_pass = vr.get("overall") == "PASS"
+
+    gates = post.gates or {}
+    required = ["voice_fit", "coherence", "mode_preservation"]
+    if post.batch == "A":
+        required.append("source_mirror")
+    gates_ok = all(gates.get(g, False) for g in required)
+
+    current_mech = diag.get("current_mechanic", "")
+    door_matches = _mechanic_matches_door(current_mech, post.entry_door)
+
+    best_mech = (best or {}).get("mechanic", "") if best else ""
+    would_saturate = (
+        peers is not None
+        and best_mech
+        and _count_mechanic_in_peers(peers, best_mech) >= 3
+    )
+
+    if voice_strict_pass and gates_ok and door_matches and not would_saturate:
+        return True, "strict_pass"
+    if would_saturate and gates_ok:
+        return True, "saturation_blocked"
+    return False, (
+        f"guard_failed(voice_pass={voice_strict_pass},gates_ok={gates_ok},"
+        f"door_match={door_matches},sat={would_saturate})"
+    )
 
 
 def _apply_best_opener(post: AmplifiedPost, best: dict) -> AmplifiedPost:
@@ -257,6 +297,7 @@ def amplify_post_v2(
             post.recommended_variant = best.get("variant", "A")
         post.final_opening = post.original_opening
         post.mechanic = "mirrored"
+        post.actual_mechanic = _normalize_mechanic(diag.get("current_mechanic", ""))
         post.rating = 0
         state.amplifier_log.append({
             "label": post.label,
@@ -291,36 +332,13 @@ def amplify_post_v2(
         mode_ok = best.get("mode_preservation", True)
         variant_safe = coh_ok and plaus_ok and vfit_ok and mode_ok
 
-        door_preserved = False
-        if rating_lift and variant_safe and all_pass and not is_slop:
-            vr = getattr(post, "validation_result", {}) or {}
-            voice_passed = (
-                vr.get("overall") == "PASS"
-                or getattr(post, "voice_score", 0) >= 4
+        door_preserved, preserve_reason = _should_preserve_door(post, diag, best, peers)
+        if door_preserved:
+            logger.info(
+                "[amplifier_v2] %s: door-preserved (reason=%s, entry_door=%s, "
+                "best_variant_rating=%d)",
+                post.label, preserve_reason, post.entry_door, best_rating,
             )
-            current_mech = diag.get("current_mechanic", "")
-            door_matches = _mechanic_matches_door(current_mech, post.entry_door)
-            best_mech = best.get("mechanic", "")
-            would_saturate = (
-                peers is not None
-                and _count_mechanic_in_peers(peers, best_mech) >= 3
-            )
-
-            if voice_passed and door_matches:
-                door_preserved = True
-                logger.info(
-                    "[amplifier_v2] %s: door-preserved (entry_door=%s, current_mech=%s, "
-                    "voice_score=%d, best_variant_rating=%d)",
-                    post.label, post.entry_door, current_mech,
-                    getattr(post, "voice_score", 0), best_rating,
-                )
-            elif would_saturate:
-                door_preserved = True
-                logger.info(
-                    "[amplifier_v2] %s: saturation-blocked (proposed_mech=%s already at 3+, "
-                    "keeping original)",
-                    post.label, best_mech,
-                )
 
         if not door_preserved and ((not all_pass) or is_slop or (rating_lift and variant_safe)):
             apply_reason = (
@@ -330,19 +348,18 @@ def amplify_post_v2(
                 else f"rating_lift({best_rating})"
             )
             post = _apply_best_opener(post, best)
+            post.actual_mechanic = post.mechanic  # replaced opener — actual matches mechanic
             logger.info("[amplifier_v2] %s: replaced opener (mechanic=%s, rating=%d, reason=%s)",
                         post.label, post.mechanic, post.rating, apply_reason)
-        elif not door_preserved:
-            post.final_opening = post.original_opening
-            post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
-            post.rating = 5
         else:
             post.final_opening = post.original_opening
             post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
+            post.actual_mechanic = post.mechanic
             post.rating = 5
     else:
         post.final_opening = post.original_opening
         post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "unchanged" if not all_pass else "kept"))
+        post.actual_mechanic = post.mechanic
         post.rating = 5 if all_pass else 0
 
     state.amplifier_log.append({
@@ -530,6 +547,7 @@ def _apply_batch_result(post: AmplifiedPost, data: dict, state: BatchState, peer
     if never_replace or post.batch == "A":
         post.final_opening = post.original_opening
         post.mechanic = "mirrored" if post.batch == "A" else _normalize_mechanic(diag.get("current_mechanic", "kept"))
+        post.actual_mechanic = _normalize_mechanic(diag.get("current_mechanic", ""))
         post.rating = 0 if post.batch == "A" else 5
         state.amplifier_log.append({
             "label": post.label,
@@ -556,36 +574,13 @@ def _apply_batch_result(post: AmplifiedPost, data: dict, state: BatchState, peer
                         best.get("voice_fit", True) and
                         best.get("mode_preservation", True))
 
-        door_preserved = False
-        if rating_lift and variant_safe and all_pass and not is_slop:
-            vr = getattr(post, "validation_result", {}) or {}
-            voice_passed = (
-                vr.get("overall") == "PASS"
-                or getattr(post, "voice_score", 0) >= 4
+        door_preserved, preserve_reason = _should_preserve_door(post, diag, best, peers)
+        if door_preserved:
+            logger.info(
+                "[amplifier_batch] %s: door-preserved (reason=%s, entry_door=%s, "
+                "best_variant_rating=%d)",
+                post.label, preserve_reason, post.entry_door, best_rating,
             )
-            current_mech = diag.get("current_mechanic", "")
-            door_matches = _mechanic_matches_door(current_mech, post.entry_door)
-            best_mech = best.get("mechanic", "")
-            would_saturate = (
-                peers is not None
-                and _count_mechanic_in_peers(peers, best_mech) >= 3
-            )
-
-            if voice_passed and door_matches:
-                door_preserved = True
-                logger.info(
-                    "[amplifier_batch] %s: door-preserved (entry_door=%s, current_mech=%s, "
-                    "voice_score=%d, best_variant_rating=%d)",
-                    post.label, post.entry_door, current_mech,
-                    getattr(post, "voice_score", 0), best_rating,
-                )
-            elif would_saturate:
-                door_preserved = True
-                logger.info(
-                    "[amplifier_batch] %s: saturation-blocked (proposed_mech=%s already at 3+, "
-                    "keeping original)",
-                    post.label, best_mech,
-                )
 
         if not door_preserved and ((not all_pass) or is_slop or (rating_lift and variant_safe)):
             apply_reason = (
@@ -594,19 +589,18 @@ def _apply_batch_result(post: AmplifiedPost, data: dict, state: BatchState, peer
                 else f"rating_lift({best_rating})"
             )
             post = _apply_best_opener(post, best)
+            post.actual_mechanic = post.mechanic
             logger.info("[amplifier_batch] %s: replaced opener (mechanic=%s, rating=%d, reason=%s)",
                         post.label, post.mechanic, post.rating, apply_reason)
-        elif not door_preserved:
-            post.final_opening = post.original_opening
-            post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
-            post.rating = 5
         else:
             post.final_opening = post.original_opening
             post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
+            post.actual_mechanic = post.mechanic
             post.rating = 5
     else:
         post.final_opening = post.original_opening
         post.mechanic = _normalize_mechanic(diag.get("current_mechanic", "kept"))
+        post.actual_mechanic = post.mechanic
         post.rating = 5
 
     state.amplifier_log.append({

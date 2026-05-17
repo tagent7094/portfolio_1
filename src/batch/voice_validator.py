@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
 
 from ..utils.json_parser import parse_llm_json
@@ -212,4 +213,155 @@ The post must sound like THIS SPECIFIC FOUNDER, not like a corporate announcemen
         post.validation_result = {**validation, "regenerated": False, "v1_text": v1_text}
         logger.warning("[voice_validator] Regeneration failed for %s, keeping original", post.label)
 
+    return post
+
+
+# ---------------------------------------------------------------------------
+# Quality-gate helpers (Fixes 4, 5, 6) — pure-Python checks, zero LLM cost.
+# ---------------------------------------------------------------------------
+
+_T1_NUM = re.compile(
+    r"\b\d+[\.\)]\s|\$[\d,]+(?:\.\d+)?[KMB]?\b|\b\d+%\b|\b\d+x\b|"
+    r"\bNot one\.\s+Not two\.|\bonce\.\s+twice\.|\bthree\b.{0,15}\bbuyers\b",
+    re.I,
+)
+_T1_ROLE = re.compile(
+    r"\b(CRO|CEO|CTO|CFO|CMO|COO|VP|head of [\w ]+|director|founder|engineer|"
+    r"product manager|PM|AE|SE|SDR|sales rep|customer success|CS team|investor)\b",
+    re.I,
+)
+_T2_QUOTE = re.compile(r'["""“”][^"""“”]{20,200}["""“”]')
+_T2_TIME = re.compile(
+    r"\b(last (?:week|month|quarter|year)|\d+ (?:weeks?|months?|years?|"
+    r"minutes?|hours?|days?) (?:ago|later)|month two|six weeks|thirty minutes|"
+    r"yesterday|tomorrow|two years ago)\b",
+    re.I,
+)
+_TIME_MEASURE = re.compile(
+    r"\b\d+\s*(?:weeks?|months?|years?|minutes?|hours?|days?|quarters?)\b",
+    re.I,
+)
+_ABSTRACT_WORDS = {
+    "system", "function", "structure", "framework", "model", "approach",
+    "mechanism", "paradigm", "fundamental", "essential", "crucial", "valuable",
+    "meaningful", "powerful",
+}
+
+
+def check_anchor_specificity(post: AmplifiedPost) -> dict:
+    """Detect whether the post body contains a Tier 1 or Tier 2 anchor.
+
+    Tier 1 — specific operating rule: numbered emphasis AND a named role.
+    Tier 2 — named scene with quoted dialogue AND specific time marker.
+
+    Generic third-degree patterns ("I've watched war rooms at $500M companies")
+    fail both tiers — they're plausible but not anchored.
+    """
+    text = post.text or ""
+    has_num = bool(_T1_NUM.search(text))
+    has_role = bool(_T1_ROLE.search(text))
+    has_quote = bool(_T2_QUOTE.search(text))
+    has_time = bool(_T2_TIME.search(text))
+
+    if has_num and has_role:
+        return {"pass": True, "tier": 1, "reason": "tier1_operating_rule"}
+    if has_quote and has_time:
+        return {"pass": True, "tier": 2, "reason": "tier2_named_scene"}
+    return {
+        "pass": False,
+        "tier": None,
+        "reason": (
+            f"no_tier1_or_tier2 (num={has_num},role={has_role},"
+            f"quote={has_quote},time={has_time})"
+        ),
+    }
+
+
+def check_closer_shape(post: AmplifiedPost) -> dict:
+    """Evaluate whether the closing 1-2 sentences are compressed + concrete.
+
+    Pass requires >=2 of:
+      - Specific time measurement ("six weeks", "thirty minutes")
+      - Parallel structure with twist on the second clause
+      - Compression (closer <= 30 words)
+      - Concrete imagery (low abstract-word ratio)
+    """
+    text = (post.text or "").strip()
+    if not text:
+        return {"pass": False, "score": 0, "wc": 0, "reason": "empty_text"}
+
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    sentences = [s for s in sentences if s.strip()]
+    closer = " ".join(sentences[-2:]) if len(sentences) >= 2 else sentences[-1]
+    closer_words = closer.split()
+    wc = len(closer_words)
+
+    has_time = bool(_TIME_MEASURE.search(closer))
+
+    has_parallel_twist = False
+    if len(sentences) >= 2:
+        s_minus_2 = sentences[-2].split()
+        s_minus_1 = sentences[-1].split()
+        if len(s_minus_2) >= 2 and len(s_minus_1) >= 2:
+            has_parallel_twist = (
+                s_minus_2[0].lower() == s_minus_1[0].lower()
+                and s_minus_2[1].lower() == s_minus_1[1].lower()
+            )
+
+    is_short = wc <= 30
+
+    if wc > 0:
+        abstract_count = sum(1 for w in closer_words if w.lower().strip(".,!?;:") in _ABSTRACT_WORDS)
+        abstract_ratio = abstract_count / wc
+    else:
+        abstract_ratio = 0.0
+    is_concrete = abstract_ratio < 0.05
+
+    score = int(has_time) + int(has_parallel_twist) + int(is_short) + int(is_concrete)
+    return {
+        "pass": score >= 2,
+        "score": score,
+        "wc": wc,
+        "reason": (
+            f"time={has_time},parallel={has_parallel_twist},"
+            f"short={is_short},concrete={is_concrete}"
+        ),
+    }
+
+
+def run_voice_validation_with_retries(
+    llm: LLMProvider,
+    post: AmplifiedPost,
+    state: BatchState,
+    max_passes: int = 2,
+) -> AmplifiedPost:
+    """Validate voice; if FAIL, regen up to max_passes times. Stamp threshold
+    violation flag in quality_flags if still failing after max attempts.
+    Increments post.regen_count for each regen attempt.
+    """
+    for _ in range(max_passes):
+        validation = validate_voice(llm, post, state)
+        post.validation_result = validation
+        if validation.get("overall") != "FAIL":
+            post.voice_score = min(
+                validation.get("voice_marker_score", 3),
+                validation.get("register_score", 3),
+            )
+            return post
+        post = regenerate_with_voice_override(llm, post, validation, state)
+        post.regen_count += 1
+
+    final = validate_voice(llm, post, state)
+    post.validation_result = final
+    if final.get("overall") == "FAIL":
+        post.quality_flags["voice_threshold_warning"] = True
+        post.quality_flags["voice_violations_final"] = final.get("violations", [])
+        logger.warning(
+            "[voice_validator] %s: shipped with voice threshold violation after %d regens",
+            post.label, max_passes,
+        )
+    post.voice_score = min(
+        final.get("voice_marker_score", 3),
+        final.get("register_score", 3),
+    )
     return post

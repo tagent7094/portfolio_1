@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import sys
 import threading
@@ -11,18 +12,30 @@ from ..llm.factory import create_llm
 from ..llm.base import LLMProvider
 from ..llm.task_router import LLMRouter
 from ..generation.pipeline_events import PipelineEvent, PipelineEventBus
-from .state import BatchState
+from .state import BatchState, AmplifiedPost, PackResult
 from .tracer import BatchTracer
 from .corpus_reader import load_founder_state, internalize_corpus, calibration_check
 from .source_selector import select_sources
 from .pack_generator import generate_pack, _generate_pack_lean, _enforce_word_count
 from .amplifier import amplify_post_v2, amplify_batch_v2, convergence_test
-from .voice_validator import validate_voice, regenerate_with_voice_override
+from .voice_validator import (
+    validate_voice,
+    regenerate_with_voice_override,
+    run_voice_validation_with_retries,
+    check_anchor_specificity,
+    check_closer_shape,
+)
 from .compiler import compile_json, save_output
 from .exclusion_scanner import load_exclusions, scan_for_exclusions
 from .saturation import check_saturation
 
 logger = logging.getLogger(__name__)
+
+# Quality-pass regen budget (Fixes 3/5/6/7). Each post can regen at most 2 times
+# across all paths (voice, convergence, quality). Each pack caps at 6 total
+# regens to bound cost: ~$0.30 extra per pack on Haiku in the worst case.
+QUALITY_REGEN_PER_POST_CAP = 2
+QUALITY_REGEN_PER_PACK_CAP = 6
 
 
 class CancelledError(Exception):
@@ -63,6 +76,214 @@ def _split_recommendation_into_angles(recommendation: str) -> list[str]:
             return parts
 
     return []
+
+
+def _detect_duplicates(posts: list[AmplifiedPost]) -> list[dict]:
+    """Find near-identical posts by hashing the first paragraph (case-insensitive).
+
+    First-paragraph hash collisions are byte-level duplicates of the opener,
+    which in practice means the whole post will read as a clone (LLM rarely
+    rewrites the body but keeps the same opening).
+    """
+    seen: dict[str, int] = {}
+    duplicates: list[dict] = []
+    for i, post in enumerate(posts):
+        if not post.text:
+            continue
+        first_para = post.text.split("\n\n")[0].strip().lower()
+        if not first_para:
+            continue
+        h = hashlib.md5(first_para.encode("utf-8")).hexdigest()
+        if h in seen:
+            duplicates.append({
+                "kept_idx": seen[h],
+                "kept_label": posts[seen[h]].label,
+                "dup_idx": i,
+                "dup_label": post.label,
+            })
+        else:
+            seen[h] = i
+    return duplicates
+
+
+def _validate_mechanic_distribution(posts: list[AmplifiedPost]) -> dict:
+    """Detect mechanic saturation in Batch B. Returns {saturated: {mech: count}, counts}.
+
+    Uses actual_mechanic (Batch B's real mechanic) — falls back to mechanic for
+    older records. Batch A is excluded because its mechanic is hardcoded to
+    "mirrored".
+    """
+    from collections import Counter
+    batch_b = [p for p in posts if p.batch == "B"]
+    counts = Counter(
+        (p.actual_mechanic or p.mechanic)
+        for p in batch_b
+        if (p.actual_mechanic or p.mechanic)
+    )
+    saturated = {mech: c for mech, c in counts.items() if c > 2}
+    return {"saturated": saturated, "counts": dict(counts)}
+
+
+def _build_regen_hint(reasons: list[str], post: AmplifiedPost, dup_keeper_label: str = "") -> str:
+    """Compose a single multi-issue instruction so we only burn ONE LLM call per failing post."""
+    bits: list[str] = []
+    if "duplicate" in reasons and dup_keeper_label:
+        bits.append(
+            f"- Do NOT duplicate the first paragraph of {dup_keeper_label}. "
+            f"Open with a completely different scene/idea."
+        )
+    if "anchor" in reasons:
+        bits.append(
+            "- Body MUST contain a TIER 1 anchor (named role + specific number with "
+            "emphasis, e.g. \"The CRO doesn't ship until three buyers ask. Not one. "
+            "Not two. Three.\") OR a TIER 2 anchor (specific time + quoted dialogue). "
+            "Generic third-degree patterns like \"I've watched war rooms at $500M "
+            "companies\" are NOT acceptable alone."
+        )
+    if "closer" in reasons:
+        bits.append(
+            "- Closer (final 1-2 sentences) must include a specific time measurement "
+            "(\"six weeks\", \"thirty minutes\") OR parallel structure with twist "
+            "(\"X can be matched in Y. The Z cannot.\"), and be ≤30 words. "
+            "No abstract systems language like \"the upstream sensor\"."
+        )
+    if "mechanic_saturation" in reasons:
+        bits.append(
+            "- Pack already has too many posts using this opener mechanic. Pick a "
+            "different mechanic from the 13 proven options."
+        )
+    return "\n".join(bits) if bits else ""
+
+
+def _post_amplification_quality_pass(
+    posts: list[AmplifiedPost],
+    pack: PackResult,
+    state: BatchState,
+    llm: LLMProvider,
+    source_post: str,
+    dissection: dict,
+    pack_number: int,
+    emit_callback=None,
+) -> list[AmplifiedPost]:
+    """Fixes 3, 5, 6, 7 — composed regen pass after amplification + convergence.
+
+    Order matters:
+      1. Mechanic distribution (peers-aware, must run first to seed mechanic_override)
+      2. Dedup detection (peers-aware)
+      3. Per-post anchor + closer checks
+      4. Single composed regen per failing post (capped by per-post and per-pack budgets)
+      5. Re-check; persist remaining failures as quality_flags (do NOT regen again)
+
+    Batch A is flag-only — never regenerated here (would break source mirror).
+    """
+    from .pack_generator import transpose
+
+    sat_report = _validate_mechanic_distribution(posts)
+    duplicates = _detect_duplicates(posts)
+    dup_keeper_by_dup: dict[str, str] = {d["dup_label"]: d["kept_label"] for d in duplicates}
+
+    for idx, post in enumerate(posts):
+        if pack.total_regens >= QUALITY_REGEN_PER_PACK_CAP:
+            post.quality_flags["pack_regen_budget_exhausted"] = True
+            continue
+        if post.regen_count >= QUALITY_REGEN_PER_POST_CAP:
+            continue
+
+        if post.batch == "A":
+            if post.label in dup_keeper_by_dup:
+                post.quality_flags["batch_a_collapse"] = True
+                logger.warning(
+                    "[quality_pass] %s: Batch A collapse (duplicate of %s) — flag-only, "
+                    "regen disabled for A to preserve source mirror",
+                    post.label, dup_keeper_by_dup[post.label],
+                )
+            continue
+
+        reasons: list[str] = []
+
+        if post.label in dup_keeper_by_dup:
+            reasons.append("duplicate")
+
+        anchor = check_anchor_specificity(post)
+        if not anchor["pass"]:
+            post.quality_flags["anchor_failed"] = anchor["reason"]
+            reasons.append("anchor")
+
+        closer = check_closer_shape(post)
+        if not closer["pass"]:
+            post.quality_flags["closer_failed"] = closer["reason"]
+            reasons.append("closer")
+
+        mech_override = ""
+        post_mech = post.actual_mechanic or post.mechanic
+        if post_mech and post_mech in sat_report["saturated"]:
+            reasons.append("mechanic_saturation")
+            mech_override = post_mech
+
+        if not reasons:
+            continue
+
+        regen_hint = _build_regen_hint(reasons, post, dup_keeper_by_dup.get(post.label, ""))
+        logger.info(
+            "[quality_pass] %s: regen reasons=%s (regen_count=%d, pack_total=%d)",
+            post.label, reasons, post.regen_count, pack.total_regens,
+        )
+
+        regen_doors = [post.entry_door] if post.entry_door else None
+        try:
+            regen_posts = transpose(
+                llm, source_post, dissection, mode="B", state=state,
+                doors=regen_doors,
+                prior_arguments=[
+                    p.argument_compressed for p in posts
+                    if p.label != post.label and p.argument_compressed
+                ][:6],
+                post_count=1, pack_number=pack_number,
+                regen_hint=regen_hint, mechanic_override=mech_override,
+            )
+        except Exception as e:
+            logger.warning("[quality_pass] %s: transpose failed (%s) — skipping regen", post.label, e)
+            continue
+
+        if not regen_posts:
+            logger.warning("[quality_pass] %s: transpose returned empty — keeping original", post.label)
+            continue
+
+        new_post = regen_posts[0]
+        new_post.label = post.label
+        new_post.regen_count = post.regen_count + 1
+
+        new_post = _enforce_word_count(new_post, state, llm=llm)
+        new_post = amplify_post_v2(llm, new_post, state, source_dissection=None, peers=posts)
+
+        pack.total_regens += 1
+
+        # Re-check (flag-only, no further regen)
+        if not check_anchor_specificity(new_post)["pass"]:
+            new_post.quality_flags["anchor_unfixed"] = True
+        if not check_closer_shape(new_post)["pass"]:
+            new_post.quality_flags["closer_unfixed"] = True
+
+        posts[idx] = new_post
+
+        if emit_callback:
+            emit_callback({
+                "label": new_post.label,
+                "batch": new_post.batch,
+                "mode": new_post.mode,
+                "text": new_post.text,
+                "word_count": new_post.word_count,
+                "mechanic": new_post.mechanic,
+                "final_opening": getattr(new_post, "final_opening", ""),
+                "entry_door": new_post.entry_door,
+                "voice_score": getattr(new_post, "voice_score", 0),
+                "source_number": pack_number,
+                "reason": "quality_regen",
+                "regen_reasons": reasons,
+                "regen_count": new_post.regen_count,
+            })
+
+    return posts
 
 
 class BatchSession:
@@ -309,27 +530,14 @@ class BatchSession:
                     validated_posts.append(post)
                     continue
 
-                validation = validate_voice(llm_gen, post, state)
-                post.validation_result = validation
+                post = run_voice_validation_with_retries(llm_gen, post, state, max_passes=2)
+                post = _enforce_word_count(post, state, llm=llm_gen)
 
-                if validation.get("overall") == "FAIL":
+                if post.validation_result.get("overall") == "FAIL":
                     tracer.trace_decision(
                         f"voice_validation_{post.label}",
-                        f"FAIL: {validation.get('suggestion', '')}",
-                        metadata=validation,
-                    )
-                    post = regenerate_with_voice_override(llm_gen, post, validation, state)
-                    post = _enforce_word_count(post, state, llm=llm_gen)
-                    reval = validate_voice(llm_gen, post, state)
-                    post.voice_score = min(
-                        reval.get("voice_marker_score", 3),
-                        reval.get("register_score", 3),
-                    )
-                    post.validation_result = {**post.validation_result, "reval_score": post.voice_score}
-                else:
-                    post.voice_score = min(
-                        validation.get("voice_marker_score", 3),
-                        validation.get("register_score", 3),
+                        f"FAIL after retries: {post.validation_result.get('suggestion', '')}",
+                        metadata=post.validation_result,
                     )
 
                 validated_posts.append(post)
@@ -497,6 +705,8 @@ class BatchSession:
                         llm_gen, new_post, state,
                         source_dissection=pack.dissection if new_post.batch == "A" else None,
                     )
+                    new_post.regen_count = post.regen_count + 1
+                    pack.total_regens += 1
                     amplified_posts[idx] = new_post
                     self._emit(f"pack_{pack_num}", "post_updated", {
                         "label": new_post.label,
@@ -527,6 +737,29 @@ class BatchSession:
                     )
 
             pack.convergence_test = conv
+
+            # Fixes 3/5/6/7 — post-amplification quality pass: dedup, anchor,
+            # closer, mechanic distribution checks with composed regen.
+            def _quality_emit(payload):
+                self._emit(f"pack_{pack_num}", "post_updated", payload)
+
+            amplified_posts = _post_amplification_quality_pass(
+                amplified_posts, pack, state, llm_gen,
+                source_post=source, dissection=pack.dissection,
+                pack_number=pack_num, emit_callback=_quality_emit,
+            )
+
+            tracer.trace_decision(
+                f"pack_{pack_num}_quality_pass",
+                f"total_regens={pack.total_regens}/{QUALITY_REGEN_PER_PACK_CAP}",
+                metadata={
+                    "flagged_posts": [
+                        {"label": p.label, "flags": p.quality_flags}
+                        for p in amplified_posts if p.quality_flags
+                    ],
+                },
+            )
+
             pack.posts = amplified_posts
             state.packs.append(pack)
 
