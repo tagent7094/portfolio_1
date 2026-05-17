@@ -95,9 +95,12 @@ def verify_opener_tests(dissection: dict) -> dict:
         if isinstance(test, dict) and not test.get("pass", True):
             failed.append(test_name)
 
-    if failed:
+    structural_fails = [t for t in failed if t in ("macro", "fast")]
+    if structural_fails:
         dissection["skip_batch_a"] = True
         logger.info("[batch] Opener tests failed: %s → skip_batch_a=True", ", ".join(failed))
+    elif failed:
+        logger.info("[batch] Opener tests failed: %s (non-structural, A batch still allowed)", ", ".join(failed))
 
     return dissection
 

@@ -29,6 +29,10 @@ temp-gsd/
 _xlsx_info.txt
 _gsd/
 
+# VPS-generated databases (must not be overwritten by git reset)
+data/blogs.db
+data/schedules.json
+
 # Migration sandboxes (transient)
 data/founders/*_v2/
 data/founders/*_pre_migration_*/

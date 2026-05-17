@@ -42,9 +42,9 @@ if [ -d /tmp/tagent-data-backup/founders ]; then
             fi
         done
     done
-    # Restore databases (blogs.db, schedules, etc.)
+    # Restore databases (blogs.db, schedules, etc.) — force overwrite git version
     for dbfile in /tmp/tagent-data-backup/*.db /tmp/tagent-data-backup/*.json; do
-        [ -f "$dbfile" ] && cp -an "$dbfile" "$APP_DIR/data/" 2>/dev/null || true
+        [ -f "$dbfile" ] && cp -a "$dbfile" "$APP_DIR/data/" 2>/dev/null || true
     done
     rm -rf /tmp/tagent-data-backup
 fi
