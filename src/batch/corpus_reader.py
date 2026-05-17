@@ -147,6 +147,8 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
         or founder_ctx.get("milestones")
     )
     template_name = "corpus_internalize_v2.txt" if has_identity_assets else "corpus_internalize.txt"
+    if not (PROMPTS_DIR / template_name).exists():
+        template_name = "corpus_internalize_v2.txt"
     template = load_prompt(PROMPTS_DIR / template_name)
 
     beliefs_text = "\n".join(
