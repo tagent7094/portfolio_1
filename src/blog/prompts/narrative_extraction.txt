@@ -1,0 +1,110 @@
+You are extracting paradigm-level insights from a podcast transcript. Not summaries. Not takeaways. Reframes that make a founder say "I've been thinking about this completely wrong."
+
+The test of success: if a founder reads only your 5th-order paragraphs, do they walk away seeing their work differently? If yes, you've succeeded. If no, nothing else matters.
+
+## TRANSCRIPT
+{transcript_text}
+
+## FOUNDER NICHE / DOMAIN
+{founder_niche}
+
+---
+
+## HOW TO THINK
+
+Read the transcript using four lenses:
+
+Pass One: Comprehension. Understand what was said. Note the explicit claims.
+
+Pass Two: Inversion. What conventional wisdom does this contradict? What would have to be true for this to be true? What does this make impossible if it's correct?
+
+Pass Three: Paradigm Hunting. If I fully internalized this, what would I stop doing? Start doing? See differently forever? Mark every moment where you feel genuine surprise or discomfort. Those are your candidates.
+
+Pass Four: Implicit Insights. The speaker didn't articulate everything. Sometimes the most powerful insight is the one they danced around but never stated directly. Look for conclusions that follow from their claims but that they never reached themselves. You can extract insights the speaker implied but didn't say, as long as they genuinely follow from the material.
+
+## THE DIFFERENCE BETWEEN B+ AND A+ THINKING
+
+B+ insight: "Citation velocity replaces domain authority as the key ranking factor. Companies should optimize for mention frequency across platforms rather than building domain strength over time."
+
+A+ insight: "In five years, we won't search. AI companions will make decisions autonomously. The entire concept of ranking becomes meaningless when agents book your travel, choose your software, and buy your products without showing you options. Companies optimizing for 'how do I rank' are asking a question that won't exist."
+
+B+ changes how you play the game. A+ reveals the game is ending.
+
+B+ changes tactics within a domain. A+ escapes the domain entirely, questions whether the category survives, threatens identities rather than budgets, and changes how companies get built rather than how they get marketed.
+
+## THE THREE DEPTH QUESTIONS
+
+Question One: Does this category survive? If the current shift continues for ten years, does the thing everyone's optimizing for still exist?
+
+Question Two: Who builds their company differently because of this? Push until a founder would restructure their org chart, reorder their product roadmap, rethink their hiring plan, or change the sequence in which they build the company.
+
+Question Three: What becomes obsolete if this is true? Every genuine insight kills something. Not "makes less relevant." Kills. A skill becomes worthless, a job function becomes pointless, a strategy becomes counterproductive, a business model becomes unviable. If your insight adds to existing understanding rather than replacing it, you've described rather than discovered. Name what dies.
+
+## THE FIVE ORDERS OF THINKING
+
+These are not summaries at different lengths. They are a single chain of reasoning that escalates. Each order builds necessarily on the previous one. By the time you reach 5th order, the conclusion should feel inevitable even though the reader didn't see it coming.
+
+1st Order (The Claim, 40-60 words): State the insight as a bold, unhedged declaration. No qualifiers. No "might" or "could" or "in some cases." Write it as someone would say it at 2am after three drinks when they finally stop being diplomatic. This should make someone lean in.
+
+2nd Order (Immediate Implications, 60-90 words): If this is true, what changes tomorrow morning? Connect to concrete behavior shifts. What do you stop doing? What do you start doing? What meetings become pointless? What investments become urgent? Be specific. Use numbers when possible.
+
+3rd Order (The Mechanism, 80-100 words): Why is this true? What's the underlying system, incentive, or dynamic that makes this work this way? You're not describing the insight anymore. You're explaining the machinery that produces it. Identify the structural forces, psychological patterns, or market dynamics that make the 1st order claim inevitable rather than accidental.
+
+4th Order (The Uncomfortable Extension, 100-130 words): If I take this seriously and follow it to its logical conclusion, what uncomfortable truth do I have to accept? Push the logic further than feels safe. What does this mean for how entire industries work? What cherished beliefs does it invalidate? Follow one chain of reasoning until it threatens something real. If you're not slightly uncomfortable writing it, you haven't pushed far enough.
+
+5th Order (The Paradigm Reframe, 100-140 words): What does this reveal about how we should understand this entire domain? This is the moment where you step back and see that the whole frame was wrong. The question everyone's asking is the wrong question. The category everyone's optimizing for is the wrong category. The game everyone's playing has already ended. This should feel like a manifesto fragment. Someone should be able to read just this paragraph and have their mental model permanently altered. Include at least one quotable sentence a founder would text to their cofounder.
+
+## WHAT MAKES IT WORK
+
+Name It: If you discover a genuine pattern, give it a name. A phrase so precise that readers will use it in their own thinking. Good: "AI-legible product design", "The moat is unscalability", "Authenticity is algorithmically enforced". Bad: "The new SEO approach", "Better content strategy".
+
+Kill Something: Every 5th-order insight must make something obsolete. State it explicitly. If your insight doesn't kill something, it's not paradigm-level.
+
+Land One Quotable Line: Your 5th order needs at least one sentence a founder would text to their cofounder.
+
+## QUANTITY AND ORDERING
+
+Extract 5-8 paradigm-level insights. Quality over quantity, always. If the transcript only contains 4 genuine insights, extract 4. Never pad.
+
+Order by impact, not by when they appeared in the transcript. Lead with the most paradigm-shifting insight.
+
+## ANONYMIZATION
+
+Remove all names. Host, guest, companies discussed. If a company name is essential, replace with a category descriptor.
+
+Never reference the podcast format. No "the speaker mentioned," "in this conversation." The narratives should read as standalone insights.
+
+## WRITING RULES
+
+No dashes (em or en). Use commas, periods, or separate sentences.
+
+Banned structures: "This is not X, it's Y", "It's not about X, it's about Y", "The question isn't X, it's Y", "Rather than X, consider Y", "What this really means is...", "The reality is...", "Let's be clear:", "Here's the thing:"
+
+Banned words: landscape, ecosystem, holistic, synergy, robust, streamline, leverage (verb), unlock (as in "unlock value"), cutting-edge, game-changer, disrupt/disruption, fundamentally, ultimately, essentially, crucially, notably, importantly, interestingly, navigating, fostering, cultivating, harnessing, spearheading, delve, realm, myriad, it's worth noting, at the end of the day, when it comes to, in terms of, with that said, moving forward, key takeaway, actionable insights, best practices, value proposition, scalable (unless technical), impactful, learnings, spaces (as in "the B2B spaces").
+
+Active voice. Be specific. Numbers, timeframes, team sizes, dollar amounts. Each order should be pure prose. No bullet points. No numbered lists. No sub-headers within an order.
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "narratives": [
+    {{{{
+      "title": "3-7 word paradigm shift title (state the reframe directly, no questions, no How To)",
+      "first_order": "Bold claim paragraph, 40-60 words, no hedging",
+      "second_order": "Immediate implications paragraph, 60-90 words",
+      "third_order": "Mechanism paragraph, 80-100 words",
+      "fourth_order": "Uncomfortable extension paragraph, 100-130 words",
+      "fifth_order": "Paradigm reframe paragraph, 100-140 words, must include one quotable sentence",
+      "kills": "What this makes obsolete, stated explicitly in one sentence",
+      "quotable_line": "The single sentence a founder would text to their cofounder"
+    }}}}
+  ],
+  "total_extracted": 6,
+  "quality_note": "Brief self-assessment: did anything surprise you during extraction? If every conclusion felt predictable, you followed a formula instead of thinking."
+}}}}
+```
+
+Before you finish, ask yourself: Did anything I wrote surprise me? If every conclusion felt predictable from the start, go back and push until something breaks.
+
+The goal isn't to produce insights that look deep. The goal is to discover something you didn't know when you started.

@@ -308,6 +308,18 @@ _RAW_TASKS: list[TaskSpec] = [
         default_max_tokens=8000,
         default_thinking_budget=14000,
     ),
+    TaskSpec(
+        task_id="narrative_extraction",
+        display_name="Narrative Extraction Protocol",
+        description="Extracts 5-8 paradigm-level insights from podcast transcripts with 5 orders of thinking (claim → implications → mechanism → uncomfortable extension → paradigm reframe).",
+        call_site="src/blog/narrative_extractor.py:extract_narratives",
+        default_purpose="prep",
+        quality_tier="heavy",
+        frequency="per_batch",
+        default_temperature=0.4,
+        default_max_tokens=16000,
+        default_thinking_budget=14000,
+    ),
     # ── Studio utility tasks ──
     TaskSpec(
         task_id="transcript_structure",

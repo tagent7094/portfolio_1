@@ -12,6 +12,7 @@ from ..batch.corpus_reader import load_founder_state, internalize_corpus, calibr
 from ..batch.tracer import BatchTracer
 from .state import NarrativeState
 from .transcript_analyzer import analyze_transcript, mine_narratives
+from .narrative_extractor import extract_narratives
 from .seo_research import keyword_research, serp_analysis
 from .section_drafter import draft_narrative
 from .voice_validator import validate_blog_voice
@@ -106,10 +107,19 @@ class NarrativeSession:
 
         angles = mine_narratives(llm, state, analysis)
 
+        self._check_cancel()
+        self._emit("narrative_extraction", "started", progress=0.7)
+        extraction = extract_narratives(llm, state)
+        self._emit("narrative_extraction", "completed", {
+            "narratives_found": len(extraction.get("narratives", [])),
+        }, progress=0.9)
+
         return {
             "transcript_length": len(transcript_text),
             "analysis": analysis,
             "angles": angles,
+            "narratives": extraction.get("narratives", []),
+            "quality_note": extraction.get("quality_note", ""),
             "seo_inputs": state.seo_inputs,
         }
 

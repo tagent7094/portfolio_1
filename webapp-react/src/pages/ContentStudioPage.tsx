@@ -27,6 +27,17 @@ interface NarrativeAngle {
   rationale?: string
 }
 
+interface ExtractedNarrative {
+  title: string
+  first_order: string
+  second_order: string
+  third_order: string
+  fourth_order: string
+  fifth_order: string
+  kills: string
+  quotable_line: string
+}
+
 interface BlogMeta {
   blog_id: string
   founder_slug: string
@@ -527,9 +538,52 @@ function NarrativeTab() {
   const [podcasts, setPodcasts] = useState<Podcast[]>([])
   const [selectedPodIds, setSelectedPodIds] = useState<string[]>([])
 
+  const [extractedNarratives, setExtractedNarratives] = useState<ExtractedNarrative[]>([])
+  const [selectedNarrativeIndices, setSelectedNarrativeIndices] = useState<Set<number>>(new Set())
+  const [expandedNarrativeIndices, setExpandedNarrativeIndices] = useState<Set<number>>(new Set())
+
+  const [transcriptCache, setTranscriptCache] = useState<Record<string, string>>({})
+  const [expandedTranscripts, setExpandedTranscripts] = useState<Set<string>>(new Set())
+  const [loadingTranscripts, setLoadingTranscripts] = useState<Set<string>>(new Set())
+
   useEffect(() => {
     apiGet<{ podcasts: Podcast[] }>(`/api/studio/podcasts/${founder}`).then(r => setPodcasts(r.podcasts || [])).catch(() => {})
   }, [founder])
+
+  const toggleTranscriptView = async (podcastId: string) => {
+    if (expandedTranscripts.has(podcastId)) {
+      setExpandedTranscripts(prev => { const n = new Set(prev); n.delete(podcastId); return n })
+      return
+    }
+    if (!transcriptCache[podcastId]) {
+      setLoadingTranscripts(prev => new Set(prev).add(podcastId))
+      try {
+        const res = await apiGet<{ transcript: string }>(`/api/studio/podcasts/${podcastId}/transcript`)
+        setTranscriptCache(prev => ({ ...prev, [podcastId]: res.transcript || '(no transcript content)' }))
+      } catch {
+        setTranscriptCache(prev => ({ ...prev, [podcastId]: '(failed to load transcript)' }))
+      } finally {
+        setLoadingTranscripts(prev => { const n = new Set(prev); n.delete(podcastId); return n })
+      }
+    }
+    setExpandedTranscripts(prev => new Set(prev).add(podcastId))
+  }
+
+  const toggleNarrativeSelect = (idx: number) => {
+    setSelectedNarrativeIndices(prev => {
+      const next = new Set(prev)
+      if (next.has(idx)) next.delete(idx); else next.add(idx)
+      return next
+    })
+  }
+
+  const toggleNarrativeExpand = (idx: number) => {
+    setExpandedNarrativeIndices(prev => {
+      const next = new Set(prev)
+      if (next.has(idx)) next.delete(idx); else next.add(idx)
+      return next
+    })
+  }
 
   const toggleAngle = (angle: string) => {
     setSelectedAngles(prev => {
@@ -542,7 +596,7 @@ function NarrativeTab() {
   const analyzeTranscripts = async () => {
     setAnalyzing(true)
     try {
-      const res = await apiPost<{ angles: NarrativeAngle[]; analysis: any; transcript_length: number }>(
+      const res = await apiPost<{ angles: NarrativeAngle[]; analysis: any; transcript_length: number; narratives?: ExtractedNarrative[] }>(
         '/api/blog/narrative/analyze',
         { founder_slug: founder, podcast_ids: selectedPodIds },
       )
@@ -552,7 +606,10 @@ function NarrativeTab() {
       }
       setAnalysis(res.analysis)
       setAngles(res.angles || [])
+      setExtractedNarratives(res.narratives || [])
       setSelectedAngles(new Set())
+      setSelectedNarrativeIndices(new Set())
+      setExpandedNarrativeIndices(new Set())
       setCustomAngle('')
     } catch (e) {
       console.error('Analysis failed:', e)
@@ -561,11 +618,12 @@ function NarrativeTab() {
     }
   }
 
-  const canGenerate = selectedAngles.size > 0 || customAngle.trim().length > 0
+  const canGenerate = selectedAngles.size > 0 || selectedNarrativeIndices.size > 0 || customAngle.trim().length > 0
 
   const startGeneration = async () => {
     if (!canGenerate) return
-    const anglesList = Array.from(selectedAngles)
+    const narrativeTitles = Array.from(selectedNarrativeIndices).map(i => extractedNarratives[i]?.title).filter(Boolean)
+    const anglesList = [...narrativeTitles, ...Array.from(selectedAngles)]
     const primaryAngle = customAngle.trim() || anglesList[0] || ''
     const additionalAngles = customAngle.trim()
       ? anglesList
@@ -639,6 +697,46 @@ function NarrativeTab() {
               </button>
             ))}
           </div>
+
+          {selectedPodIds.length > 0 && (
+            <div className="mt-3 space-y-2">
+              {selectedPodIds.map(pid => {
+                const pod = podcasts.find(p => p.podcast_id === pid)
+                if (!pod) return null
+                const isExpanded = expandedTranscripts.has(pid)
+                const isLoading = loadingTranscripts.has(pid)
+                return (
+                  <div key={pid} className="rounded-xl border border-[var(--border-2)] bg-[var(--surface-2)]">
+                    <button
+                      onClick={() => toggleTranscriptView(pid)}
+                      className="flex w-full items-center gap-2 p-3 text-left"
+                    >
+                      {isLoading ? (
+                        <Loader2 size={12} className="shrink-0 animate-spin text-[var(--text-muted)]" />
+                      ) : isExpanded ? (
+                        <ChevronDown size={12} className="shrink-0 text-[var(--text-muted)]" />
+                      ) : (
+                        <ChevronRight size={12} className="shrink-0 text-[var(--text-muted)]" />
+                      )}
+                      <span className="text-[12px] font-medium text-[var(--text-secondary)]">
+                        {pod.title}
+                      </span>
+                      <span className="ml-auto text-[10px] text-[var(--text-muted)]">
+                        {pod.transcript_length ? `${(pod.transcript_length / 1000).toFixed(1)}k chars` : ''}
+                      </span>
+                    </button>
+                    {isExpanded && transcriptCache[pid] && (
+                      <div className="border-t border-[var(--border-2)] p-3">
+                        <pre className="max-h-[300px] overflow-y-auto whitespace-pre-wrap text-[11px] leading-relaxed text-[var(--text-secondary)]">
+                          {transcriptCache[pid]}
+                        </pre>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       )}
 
@@ -676,7 +774,7 @@ function NarrativeTab() {
           </div>
         )}
 
-        {analysis && angles.length === 0 && (
+        {analysis && angles.length === 0 && extractedNarratives.length === 0 && (
           <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-3">
             <p className="text-[12px] text-yellow-400">
               No narrative angles found. The transcript may be too short, or analysis output was truncated. Try selecting a different transcript or try again.
@@ -684,10 +782,98 @@ function NarrativeTab() {
           </div>
         )}
 
+        {extractedNarratives.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+              Paradigm-Level Insights ({extractedNarratives.length})
+            </p>
+            {extractedNarratives.map((n, i) => {
+              const isSelected = selectedNarrativeIndices.has(i)
+              const isExpanded = expandedNarrativeIndices.has(i)
+              return (
+                <div
+                  key={i}
+                  className={`rounded-xl border transition-all ${
+                    isSelected
+                      ? 'border-white/30 bg-[var(--surface-3)]'
+                      : 'border-[var(--border-2)] hover:border-[var(--border-1)]'
+                  }`}
+                >
+                  <div className="flex items-start gap-2 p-3">
+                    <button
+                      onClick={() => toggleNarrativeSelect(i)}
+                      className="mt-0.5 shrink-0"
+                    >
+                      <div className={`flex h-4 w-4 items-center justify-center rounded border transition-all ${
+                        isSelected ? 'border-white bg-white' : 'border-[var(--text-muted)]'
+                      }`}>
+                        {isSelected && <Check size={10} className="text-black" />}
+                      </div>
+                    </button>
+                    <div className="min-w-0 flex-1">
+                      <button
+                        onClick={() => toggleNarrativeExpand(i)}
+                        className="flex w-full items-center gap-2 text-left"
+                      >
+                        {isExpanded ? (
+                          <ChevronDown size={12} className="shrink-0 text-[var(--text-muted)]" />
+                        ) : (
+                          <ChevronRight size={12} className="shrink-0 text-[var(--text-muted)]" />
+                        )}
+                        <span className="text-[13px] font-semibold text-[var(--text-primary)]">{n.title}</span>
+                      </button>
+                      {!isExpanded && n.fifth_order && (
+                        <p className="mt-1 line-clamp-2 pl-5 text-[11px] leading-relaxed text-[var(--text-secondary)]">
+                          {n.fifth_order}
+                        </p>
+                      )}
+                      {isExpanded && (
+                        <div className="mt-3 space-y-3 pl-5">
+                          <div>
+                            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">1st Order — The Claim</p>
+                            <p className="text-[12px] leading-relaxed text-[var(--text-primary)]">{n.first_order}</p>
+                          </div>
+                          <div>
+                            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">2nd Order — Immediate Implications</p>
+                            <p className="text-[12px] leading-relaxed text-[var(--text-secondary)]">{n.second_order}</p>
+                          </div>
+                          <div>
+                            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">3rd Order — The Mechanism</p>
+                            <p className="text-[12px] leading-relaxed text-[var(--text-secondary)]">{n.third_order}</p>
+                          </div>
+                          <div>
+                            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">4th Order — Uncomfortable Extension</p>
+                            <p className="text-[12px] leading-relaxed text-[var(--text-secondary)]">{n.fourth_order}</p>
+                          </div>
+                          <div>
+                            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">5th Order — Paradigm Reframe</p>
+                            <p className="text-[12px] font-medium leading-relaxed text-[var(--text-primary)]">{n.fifth_order}</p>
+                          </div>
+                          {n.kills && (
+                            <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-2.5">
+                              <p className="text-[10px] font-semibold uppercase tracking-widest text-red-400/80">Makes Obsolete</p>
+                              <p className="mt-0.5 text-[12px] text-red-300/90">{n.kills}</p>
+                            </div>
+                          )}
+                          {n.quotable_line && (
+                            <div className="border-l-2 border-white/30 pl-3">
+                              <p className="text-[12px] italic leading-relaxed text-[var(--text-primary)]">"{n.quotable_line}"</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
         {angles.length > 0 && (
           <div className="space-y-2">
             <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-              Narrative Angles (select one or more)
+              {extractedNarratives.length > 0 ? 'SEO Angles (fallback)' : 'Narrative Angles (select one or more)'}
             </p>
             {angles.slice(0, 6).map((a, i) => {
               const isSelected = selectedAngles.has(a.angle)
@@ -756,12 +942,23 @@ function NarrativeTab() {
           </h2>
 
           {/* Selected angles summary */}
-          {selectedAngles.size > 0 && (
+          {(selectedNarrativeIndices.size > 0 || selectedAngles.size > 0) && (
             <div className="mb-4">
               <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
-                Selected Angles ({selectedAngles.size})
+                Selected ({selectedNarrativeIndices.size + selectedAngles.size})
               </p>
               <div className="flex flex-wrap gap-1.5">
+                {Array.from(selectedNarrativeIndices).map(i => {
+                  const t = extractedNarratives[i]?.title || ''
+                  return (
+                    <span key={`n-${i}`} className="flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1 text-[11px] font-medium text-[var(--text-primary)]">
+                      {t.length > 60 ? t.slice(0, 60) + '...' : t}
+                      <button onClick={() => toggleNarrativeSelect(i)} className="ml-1 text-[var(--text-muted)] hover:text-[var(--text-primary)]">
+                        <X size={10} />
+                      </button>
+                    </span>
+                  )
+                })}
                 {Array.from(selectedAngles).map(a => (
                   <span key={a} className="flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 text-[11px] text-[var(--text-secondary)]">
                     {a.length > 60 ? a.slice(0, 60) + '...' : a}

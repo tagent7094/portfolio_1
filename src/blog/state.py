@@ -59,3 +59,4 @@ class NarrativeState(BlogState):
     narrative_angles: list[dict] = field(default_factory=list)
     selected_angle: dict = field(default_factory=dict)
     format_type: str = "thought_leadership"
+    extracted_narratives: list[dict] = field(default_factory=list)
