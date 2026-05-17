@@ -366,6 +366,27 @@ def transpose(
 
     dissection_str = json.dumps(dissection, indent=2, ensure_ascii=False)[:2000] if dissection else "N/A"
 
+    # Compose web-search facts block for the fabrication ladder's Tier 2.
+    web_ctx = getattr(state, "web_search_context", {}) or {}
+    facts = web_ctx.get("facts") or []
+    trending = web_ctx.get("trending_topics") or []
+    web_lines: list[str] = []
+    for f in facts[:15]:
+        if isinstance(f, dict):
+            fact = f.get("fact", "").strip()
+            source_attr = f.get("source", "").strip()
+            if fact:
+                line = f"- {fact}"
+                if source_attr:
+                    line += f"  [source: {source_attr}]"
+                web_lines.append(line)
+        elif isinstance(f, str) and f.strip():
+            web_lines.append(f"- {f.strip()}")
+    if trending:
+        web_lines.append("")
+        web_lines.append("Trending topics: " + ", ".join(str(t) for t in trending[:8]))
+    web_search_facts_str = "\n".join(web_lines) or "(no verified real-time facts available — DO NOT invent stats or named events)"
+
     prompt = fill_prompt(
         template,
         post_count=str(post_count),
@@ -384,6 +405,7 @@ def transpose(
         prior_arguments=prior_args_str,
         events_used=events_str,
         stories_used=stories_str,
+        web_search_facts=web_search_facts_str,
     )
 
     max_tok = min(4000 * post_count, 12000)

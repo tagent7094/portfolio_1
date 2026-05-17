@@ -51,6 +51,11 @@ After writing, your output text MUST match your declarations. A numbered_list de
 
 ---
 
+## WEB SEARCH — VERIFIED REAL-TIME FACTS (use these for Tier 2 of fabrication ladder)
+{web_search_facts}
+
+---
+
 ## ANTI-CONVERGENCE: PRIOR ARGUMENTS (do NOT repeat these theses)
 {prior_arguments}
 
@@ -83,7 +88,31 @@ After writing, your output text MUST match your declarations. A numbered_list de
 
 1. **MANDATORY EVENT USAGE**: Every post MUST include at least one verified first-degree authority anchor from the FOUNDER INTERNALIZATION (signature scenes, key moments, story bank). A post with zero personal evidence reads as generic advice, not earned authority.
 
-2. **FIRST-DEGREE FABRICATION CHECK**: Never invent scenes, quotes, or interactions the founder hasn't documented. Use signature_scenes from internalization. If you need a scene that doesn't exist, translate to third-degree pattern ("Every founder I know...").
+2. **FABRICATION LADDER — STRICT 3-TIER FALLBACK (CRITICAL)**:
+
+   Every specific claim (a name, a number, a quote, a company event, a dated scene) MUST come from one of these THREE tiers, in order of preference. Stop at the FIRST tier that has the fact you need.
+
+   **TIER 1 — Verified founder anchor (preferred)**:
+   Pull from FOUNDER INTERNALIZATION (signature_scenes, key_moments, story_bank, recurring_cast, calibration_paragraph). These are the founder's documented, verified facts. Name people, quote them, cite dates ONLY when the anchor exists in this section.
+
+   **TIER 2 — Web-search verified fact** (if Tier 1 doesn't cover it):
+   The WEB SEARCH section (when present) contains real-time facts verified via search. You may cite these directly. If your post references a public stat, news item, or company event that ISN'T in Tier 1, it MUST come from the WEB SEARCH context or NOT appear in the post.
+
+   **TIER 3 — Third-degree pattern without naming** (if Tiers 1 + 2 don't cover it):
+   When the fact isn't verified anywhere, ABANDON the named scene and switch to a third-degree pattern:
+   - "I've watched founders who…"
+   - "Every CRO I've spoken to in the last year…"
+   - "The pattern I keep seeing is…"
+   - "A founder I talked to recently described…" (no name, no company)
+
+   **FORBIDDEN — fabrications that look first-degree but aren't**:
+   - Inventing a named person + scene + quote (e.g., "Neil joined two quarters ago and said X" — when Neil and that quote are not in the internalization)
+   - Inventing specific dollar figures or percentages attributed to "our company" without verification
+   - Inventing dated events ("last quarter we…", "two years ago at…") not in the corpus
+   - Quoting a customer by company name unless that customer + quote is documented
+   - Citing an industry report or stat without the WEB SEARCH context backing it
+
+   If you're tempted to write a first-degree named scene but can't find the anchor: DROP THE NAME, drop the specifics that aren't verified, switch to third-degree pattern. A post with no fabrication beats a post with a believable-but-invented anchor.
 
 3. **ANTI-RECYCLING**: If a sentence could be copy-pasted from the founder's published posts, rewrite it. Treat their existing posts as raw material, not finished material.
 
