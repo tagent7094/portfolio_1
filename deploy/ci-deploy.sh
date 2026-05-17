@@ -76,7 +76,10 @@ cd "$APP_DIR/webapp-react"
 npm ci --prefer-offline
 npm run build
 
-echo "=== [ci-deploy] Installing poll timer ==="
+echo "=== [ci-deploy] Installing systemd units ==="
+# Re-copy tagent.service so unit-file changes (Restart policy, env vars,
+# scheduler-related tweaks) take effect on every deploy, not just bootstrap.
+cp "$APP_DIR/deploy/tagent.service" /etc/systemd/system/tagent.service 2>/dev/null || true
 cp "$APP_DIR/deploy/tagent-poll.service" /etc/systemd/system/ 2>/dev/null || true
 cp "$APP_DIR/deploy/tagent-poll.timer" /etc/systemd/system/ 2>/dev/null || true
 systemctl daemon-reload

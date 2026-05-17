@@ -11,8 +11,12 @@ Environment=TAGENT_COOKIE_SECURE=1
 Environment=TAGENT_JWT_SECRET_FILE=/etc/tagent/jwt-secret
 Environment=TAGENT_ALLOWED_ORIGINS=https://tagent.club,https://sharath.tagent.club,https://anish_popli.tagent.club,https://deepinder.tagent.club,https://manisha.tagent.club
 ExecStart=/opt/tagent/venv/bin/uvicorn webapp.server:app --host 127.0.0.1 --port 8000 --log-level info
-Restart=on-failure
+# Always restart so the in-process scheduler runs 24/7. Founder-created
+# schedules fire at their configured IST time regardless of user activity.
+Restart=always
 RestartSec=5
+StartLimitIntervalSec=300
+StartLimitBurst=10
 
 # Hardening
 NoNewPrivileges=true

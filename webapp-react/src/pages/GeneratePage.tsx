@@ -139,6 +139,7 @@ export default function GeneratePage() {
         posts_per_source: postsPerSource,
         creativity,
         effort,
+        enable_thinking: enableThinking,
       })
       await refreshFounderSchedules()
       setShowScheduleModal(false)

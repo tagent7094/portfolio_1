@@ -87,6 +87,7 @@ class ScheduleCreate(BaseModel):
     posts_per_source: int = 9
     creativity: float = 0.5
     effort: str = "high"
+    enable_thinking: bool = True
     enabled: bool = True
 
 
@@ -127,6 +128,7 @@ async def create_schedule(body: ScheduleCreate, request: Request):
         "posts_per_source": body.posts_per_source,
         "creativity": body.creativity,
         "effort": body.effort,
+        "enable_thinking": body.enable_thinking,
         "enabled": body.enabled,
         "created_at": datetime.now(IST).isoformat(),
         "created_by": "admin" if is_admin else slug,
@@ -160,6 +162,7 @@ async def update_schedule(schedule_id: str, body: ScheduleCreate, request: Reque
                 "posts_per_source": body.posts_per_source,
                 "creativity": body.creativity,
                 "effort": body.effort,
+                "enable_thinking": body.enable_thinking,
                 "enabled": body.enabled,
             })
             _save_schedules()
@@ -219,7 +222,7 @@ async def _run_scheduled_generation(schedule: dict):
             creativity=schedule.get("creativity", 0.5),
             n_sources=schedule.get("n_sources", 3),
             posts_per_source=schedule.get("posts_per_source", 9),
-            enable_thinking=True,
+            enable_thinking=schedule.get("enable_thinking", True),
             effort=schedule.get("effort", "high"),
         )
         schedule["last_status"] = "success"
