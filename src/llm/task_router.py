@@ -237,7 +237,7 @@ class LLMRouter:
         return instance
 
     def _resolve_key(self, provider: str, resolved: dict) -> str:
-        # Resolution: task-level key → founder stored key → admin stored key → env var
+        # Resolution: task-level key → founder stored key → admin stored key → env var → yaml config
         key = resolved.get("api_key") or ""
         if key:
             return key
@@ -250,7 +250,14 @@ class LLMRouter:
         defaults = PROVIDER_DEFAULTS.get(provider, {})
         env_var = defaults.get("api_key_env", "")
         if env_var:
-            return os.environ.get(env_var, "")
+            val = os.environ.get(env_var, "")
+            if val:
+                return val
+        yaml_cfg = self._load_yaml()
+        for section_name in ("llm", "llm_prep", "llm_ingestion"):
+            section = yaml_cfg.get(section_name, {})
+            if section.get("provider") == provider and section.get("api_key"):
+                return section["api_key"]
         return ""
 
     def _resolve_url(self, provider: str, resolved: dict) -> str:
