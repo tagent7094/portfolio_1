@@ -143,6 +143,62 @@ After writing, your output text MUST match your declarations. A numbered_list de
     - Compression (≤30 words total in the closer)
     - Concrete physical/temporal image (not abstract systems language like "the upstream sensor")
 
+
+## P5 — CLOSER REQUIREMENTS (loop tweak)
+The closing 1-2 sentences must include AT LEAST 2 of:
+1. Specific time measurement ("six weeks", "thirty minutes", "two quarters")
+2. Concrete physical/temporal image (not abstract systems metaphor)
+3. Parallel structure with twist on second clause
+4. ≤30 words total
+
+Good examples:
+- "Demos can be matched in six weeks. The thirty minutes after a demo cannot."
+- "Six weeks of code can be rewritten. Six months of wrong-ICP pipeline compounds in the other direction."
+- "Feature parity arrives on a calendar. Distribution depth doesn't."
+
+Bad example (abstract restatement):
+- "The ones that win treat it as the upstream sensor that tells engineering what to ship."
+
+Do not return a post with a weak closer.
+
+---
+
+
+## P1 — OPENER MECHANIC MIRROR (loop tweak)
+The source uses this opener mechanic: refer to dissection.hook_mechanic_primary.
+Your opener MUST use the same mechanic family.
+
+If source uses "audience-address + scale credential + count promise":
+  Sentence 1: [Audience]: + [scale credential from founder, NOT source].
+  Sentence 2: [Threat or insight] in founder's voice.
+
+Source example (DO NOT COPY — this is the source's specific phrasing):
+"From zero to $4 billion ARR (!!) - one CRO, one epic run. He figured out..."
+
+Founder-voice equivalent (pattern to APPLY using THIS founder's verified anchor from FOUNDER INTERNALIZATION):
+"From zero to [founder's verified credential / scale milestone] — one [role], one [time-marker] arc. [Pronoun] figured out something about [domain]..."
+
+The structural beats match (zero→scale, count promise, threat). The phrasing differs. The voice is THIS founder's, drawn from the founder card and internalization — NOT a copied template.
+
+---
+
+
+## P6 — VOICE MARKER REQUIREMENTS (loop tweak)
+Each Batch A post MUST contain AT LEAST 3 of these common B2B operator voice patterns (if they appear in this founder's CALIBRATION PARAGRAPH and VOICE MARKERS sections):
+
+1. "I've watched" / "I've sat through" / "I keep hearing" — witness framing
+2. "Not because X. Because Y." — negation-then-truth pattern
+3. "And" sentence-start for rhythmic emphasis
+4. Capitalized emphasis on a single word (e.g., "the person explaining it IS building it")
+5. "The real [X] is [Y]" — reframe construction
+6. Short declarative provocation (≤8 words) as standalone paragraph
+7. Hyphenated bullet lists (-, not •) when bullets are used
+8. Direct audience address by role ("CROs:", "SEs:", "Founders:")
+
+Use only the patterns this founder actually uses in their published corpus (check FOUNDER INTERNALIZATION). Count markers before returning. If fewer than 3 founder-appropriate patterns are present, rewrite.
+
+---
+
 ---
 
 ## OUTPUT FORMAT

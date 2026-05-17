@@ -1,0 +1,23 @@
+From zero to $4 billion ARR (!!) - one CRO, one epic run. He figured out something about building in an AI-native world a decade before AI existed - and if you don't understand it yet, you're already behind.
+
+I just spent an hour on the GTMnow podcast listening to Chris Degnan break down how he scaled Snowflake from literally zero to IPO - and one insight kept hitting me over and over.
+
+He didn't optimize for the deal he was closing. He optimized for the GTM motion he was building.
+
+Most CROs and founders I talk to do the opposite. They obsess over the next deal, the next quarter, the next renewal. They mistake activity for advantage.
+
+Chris went a different way. He built infrastructure before he needed it. He hired the second SE before the first one was overwhelmed. He architected the partner channel three years before it mattered. He invested in customer success before customers were churning.
+
+Three patterns that compounded over a decade:
+
+1. He treated every early customer as a partner in product design. Not a feature request - a system co-architect. When a Fortune 500 asked for something specific, he asked them to commit budget AND time before he'd ship it. That filter alone killed half the bad bets.
+
+2. He measured what compounded, not what was easy to count. Pipeline velocity sounds great in board slides. He cared about net-new ARR per rep per quarter - because that's what tells you whether your motion has leverage or whether you're just throwing bodies at the problem.
+
+3. He hired GTM operators 18 months before he needed them. Not "fully ramped." Not "deal closers." Operators who could build the system that closed deals. Most companies wait until they're behind. He hired ahead of demand because GTM hiring breaks down at scale - and the only way to outrun the break is to start before it happens.
+
+The pattern across all three: he didn't ship a product, he shipped a motion.
+
+In an AI-native world this matters more, not less. Product cycles compress to weeks. Every competitor will have feature parity in months. The only durable thing is the GTM machine you've built around it.
+
+You can copy a product. You can't copy a decade of compounded GTM motion.

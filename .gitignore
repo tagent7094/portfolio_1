@@ -55,3 +55,9 @@ id_ed25519.pub
 
 # Screenshots / debug images
 images/
+
+# Quality-loop artifacts and prompt backups
+data/founders/*/quality-loop/
+data/founders/*/quality-loop_*/
+data/founders/*/.internalization_cache.json
+src/batch/prompts/*.preloop_backup
