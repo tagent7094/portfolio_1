@@ -553,7 +553,11 @@ class BatchSession:
                             metadata={"exclusions": hits},
                         )
 
-            # Amplifier pass — Batch A skips, Batch B uses single batched call
+            # Amplifier pass — Batch A SKIPS amplifier entirely, Batch B uses
+            # single batched call. Batch A is "no creativity strictly": ship
+            # the transpose output as-is, no variants generated, no gates
+            # evaluated, no recommendations. Saves one LLM call per pack and
+            # eliminates the body-line-promoted-to-opener bug entirely.
             amplified_posts = []
             published_corpus = (
                 state.raw_data.get("founder_posts_structured")
@@ -562,7 +566,6 @@ class BatchSession:
                 ) if p.strip()]
             )
 
-            # Phase A: amplify A posts in ONE batched call (variants only, never replace)
             a_validated = []
             b_validated = []
             for post in validated_posts:
@@ -571,34 +574,21 @@ class BatchSession:
                 else:
                     b_validated.append(post)
 
+            # Phase A: skip amplifier entirely. Just stamp basic fields and emit.
             if a_validated:
-                a_amplified = amplify_batch_v2(
-                    llm_gen, a_validated, state,
-                    source_dissection=pack.dissection, never_replace=True,
-                )
-                # NOTE: Batch A amplifier now applies the recommended variant
-                # when critical gates (source_mirror/coherence/voice_fit) fail
-                # AND a viable variant exists. The amplifier mutates post.text,
-                # post.final_opening, post.mechanic, post.rating accordingly.
-                # We MUST NOT overwrite those decisions here.
-                for post in a_amplified:
+                for post in a_validated:
                     paragraphs = post.text.strip().split("\n\n")
-                    # Always re-derive original_opening from current text (safety).
-                    # If the amplifier replaced the opener, post.final_opening is
-                    # already set; otherwise default to original.
-                    if not getattr(post, "final_opening", "") or post.final_opening == post.original_opening:
-                        post.original_opening = post.original_opening or (paragraphs[0] if paragraphs else "")
-                        post.final_opening = post.original_opening
-                        post.mechanic = "mirrored"
-                        post.rating = 0
-                        logger.info("[batch] %s: Batch A — %d variants generated (opener kept)",
-                                    post.label, getattr(post, 'versions_considered', 0))
-                    else:
-                        logger.info(
-                            "[batch] %s: Batch A — variant applied by amplifier "
-                            "(actual_mechanic=%s, rating=%d)",
-                            post.label, getattr(post, "actual_mechanic", ""), post.rating,
-                        )
+                    post.original_opening = paragraphs[0] if paragraphs else ""
+                    post.final_opening = post.original_opening
+                    post.mechanic = "mirrored"
+                    post.rating = 0
+                    post.versions_considered = 0
+                    post.opener_variants = []
+                    post.recommended_variant = ""
+                    logger.info(
+                        "[batch] %s: Batch A — amplifier SKIPPED (mirror-only, no variants)",
+                        post.label,
+                    )
                     self._emit(f"pack_{pack_num}", "post_ready", {
                         "label": post.label,
                         "batch": post.batch,
@@ -610,10 +600,9 @@ class BatchSession:
                         "entry_door": post.entry_door,
                         "voice_score": getattr(post, "voice_score", 0),
                         "source_number": pack_num,
-                        "opener_variants": getattr(post, "opener_variants", []),
-                        "versions_considered": getattr(post, "versions_considered", 0),
+                        "opener_variants": [],
+                        "versions_considered": 0,
                     })
-                a_validated = a_amplified
 
             # Phase B: batch amplify all B posts in one call
             self._check_cancel()
