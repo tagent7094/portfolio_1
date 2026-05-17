@@ -19,9 +19,7 @@ def analyze_transcript(llm: LLMProvider, state: NarrativeState) -> dict:
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("narrative_transcript_analysis")
 
-    transcript = state.transcript_text[:15000]
-    if len(state.transcript_text) > 15000:
-        logger.info("[narrative] Truncated transcript from %d to 15000 chars", len(state.transcript_text))
+    transcript = state.transcript_text
 
     template = load_prompt(PROMPTS_DIR / "transcript_analysis.txt")
     prompt = fill_prompt(
