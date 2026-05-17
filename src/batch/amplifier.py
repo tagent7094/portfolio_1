@@ -115,35 +115,21 @@ def _count_mechanic_in_peers(peers: list, mechanic: str) -> int:
 
 
 def _should_apply_batch_a_variant(post: AmplifiedPost, best: dict | None) -> tuple[bool, str]:
-    """Auditor's stricter rule: preserve Batch A mirror ONLY when ALL critical
-    gates pass (source_mirror, coherence, voice_fit, mode_preservation) AND
-    voice validation explicitly passed (or SKIP for Batch A). Any failure →
-    apply the recommended variant if available, regardless of rating threshold.
+    """Batch A ALWAYS preserves the source-mirrored opener.
 
-    The amplifier's own coherence_with_body / plausibility checks already
-    pre-validate variants before recommending them, so rating threshold is
-    redundant. Variants for Batch A are drawn from body buried gold —
-    reorganization, not new content.
+    User rule: "no creativity in A batch strictly". The source mirror is
+    Batch A's defining property — all 3 A posts share the source's opener
+    mechanic family (audience-address + scale credential + count promise,
+    etc.). Applying body-derived variants (buried gold lines) breaks that
+    mirror — A1/A2/A3 end up with different mechanics instead of the
+    common source-mirror structure.
+
+    Variants are still computed and surfaced as `recommended_variant` for
+    operator inspection, but never applied to the shipped post. If the
+    opener fails critical gates, regenerate via transpose with a
+    mirror-fix hint — do NOT swap in body content.
     """
-    if not best:
-        return False, "no_variant"
-
-    vr = getattr(post, "validation_result", {}) or {}
-    # SKIP counts as pass for Batch A (validation is intentionally skipped on A).
-    voice_pass = vr.get("overall") in ("PASS", "SKIP", None)
-
-    gates = post.gates or {}
-    required = ["source_mirror", "coherence", "voice_fit", "mode_preservation"]
-    gates_ok = all(gates.get(g, True) for g in required)
-
-    if voice_pass and gates_ok:
-        return False, "all_critical_gates_pass_preserve_mirror"
-
-    failing: list[str] = [g for g in required if not gates.get(g, True)]
-    if not voice_pass:
-        failing.append(f"voice_validation({vr.get('overall', 'unknown')})")
-
-    return True, f"apply_due_to_failures({','.join(failing)})"
+    return False, "batch_a_preserve_mirror_unconditional"
 
 
 def _should_preserve_door(
