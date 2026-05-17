@@ -32,6 +32,20 @@ def compile_json(state: BatchState) -> dict:
                     "rating": v.get("rating", 0),
                 })
 
+            # Batch A bypass safety net: if the session bypass set voice_score=3
+            # and something downstream reset it to 0, re-stamp from the
+            # validation_result.overall="SKIP" signal. Also surface dimension
+            # breakdown so operators can diagnose low scores at a glance.
+            vr = p.validation_result or {}
+            vs = p.voice_score
+            if p.batch == "A" and vr.get("overall") == "SKIP" and vs == 0:
+                logger.warning(
+                    "[compiler] %s: Batch A voice_score=0 despite SKIP bypass — restamping to 3",
+                    p.label,
+                )
+                vs = 3
+                p.voice_score = 3
+
             posts_out.append({
                 "label": p.label,
                 "batch": p.batch,
@@ -53,8 +67,16 @@ def compile_json(state: BatchState) -> dict:
                     "variants": variants_out,
                 },
                 "voice_validation": {
-                    "voice_score": p.voice_score,
-                    "result": p.validation_result,
+                    "voice_score": vs,
+                    "voice_marker_score": vr.get("voice_marker_score"),
+                    "register_score": vr.get("register_score"),
+                    "posture_score": vr.get("posture_score"),
+                    "opener_rhythm_score": vr.get("opener_rhythm_score"),
+                    "formatting_score": vr.get("formatting_score"),
+                    "overall": vr.get("overall"),
+                    "register_reads_as": vr.get("register_reads_as"),
+                    "posture_reads_as": vr.get("posture_reads_as"),
+                    "result": vr,
                 },
                 "violations": p.violations,
                 "events_used": p.events_used,

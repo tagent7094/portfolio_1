@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from pathlib import Path
 
 from ..utils.json_parser import parse_llm_json
@@ -140,7 +141,56 @@ def _format_internalization(state: BatchState) -> str:
     return "\n\n".join(parts) if parts else "No internalization data available."
 
 
-def _build_mode_rules_a(dissection: dict) -> str:
+def _scan_batch_a_for_token_leaks(post: AmplifiedPost, forbidden_tokens: list[str]) -> list[str]:
+    """Return the list of forbidden tokens that leaked into the post's opener.
+    Empty list = clean. Compares against the first paragraph only (the opener).
+    """
+    if not forbidden_tokens or not post.text:
+        return []
+    opener = post.text.split("\n\n")[0]
+    opener_lower = opener.lower()
+    leaks: list[str] = []
+    for tok in forbidden_tokens:
+        tok_lower = tok.lower()
+        if len(tok_lower) < 3:
+            continue
+        if tok_lower in opener_lower:
+            leaks.append(tok)
+    return leaks
+
+
+_SOURCE_NUMBER_PATTERN = re.compile(
+    r"\$\d+(?:\.\d+)?\s*(?:billion|million|thousand|B|M|K|k|m|b)\b|"
+    r"\b\d+(?:\.\d+)?\s*(?:billion|million|thousand)\b|"
+    r"\b\d+(?:\.\d+)?[BMK]\b",
+    re.IGNORECASE,
+)
+
+
+def _extract_forbidden_tokens(dissection: dict, source_post: str) -> list[str]:
+    """Compose the FORBIDDEN TOKENS list for Batch A: source's specific numbers
+    and named entities. Returns a deduplicated, length-capped list.
+    """
+    tokens: list[str] = []
+    for ent in (dissection.get("named_entities") or []):
+        if isinstance(ent, str) and ent.strip() and len(ent) >= 3:
+            tokens.append(ent.strip())
+    for m in _SOURCE_NUMBER_PATTERN.finditer(source_post or ""):
+        tok = m.group(0).strip()
+        if tok and tok not in tokens:
+            tokens.append(tok)
+    seen = set()
+    deduped = []
+    for t in tokens:
+        key = t.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(t)
+    return deduped[:20]
+
+
+def _build_mode_rules_a(dissection: dict, source_post: str = "") -> str:
     """Build mode-specific rules for Batch A (mirrored structure)."""
     source_hook = dissection.get("hook_mechanic_primary", "unknown")
     source_body = dissection.get("body_format", "prose_essay")
@@ -154,6 +204,16 @@ def _build_mode_rules_a(dissection: dict) -> str:
     source_item_count = dissection.get("body_item_count") or "n/a"
     source_closer_text = dissection.get("closer_text", "(not extracted)")
     source_domain = dissection.get("source_domain", "the source post's topic")
+    forbidden_tokens = _extract_forbidden_tokens(dissection, source_post)
+    forbidden_block = ""
+    if forbidden_tokens:
+        forbidden_block = (
+            "\n\n### FORBIDDEN TOKENS — do NOT copy any of these from source into your opener\n"
+            + "\n".join(f"- {t}" for t in forbidden_tokens)
+            + "\n\nIf the source says \"$4 billion ARR\" and the founder's documented numbers are different, "
+            "use the FOUNDER's number. Never reuse the source's specific dollar amount, company name, "
+            "or person name — substitute with founder-specific anchors from FOUNDER INTERNALIZATION."
+        )
 
     return f"""## BATCH A (MIRRORED STRUCTURE) — CRITICAL CONSTRAINTS
 
@@ -207,7 +267,7 @@ Source closer text: {source_closer_text}
 - physical_image → close with a concrete physical detail
 - challenge → close with "Stop X. Start Y."
 - callback → call back to a phrase from the opening
-- unresolved_tension / quiet_admission → match accordingly"""
+- unresolved_tension / quiet_admission → match accordingly{forbidden_block}"""
 
 
 def _build_mode_rules_b(doors: list[str], dissection: dict) -> str:
@@ -274,7 +334,7 @@ def transpose(
     temp = creativity_to_temperature(state.creativity)
 
     if mode == "A":
-        mode_rules = _build_mode_rules_a(dissection)
+        mode_rules = _build_mode_rules_a(dissection, source_post=source)
     else:
         mode_rules = _build_mode_rules_b(doors or ["scene_drop", "contrarian_claim", "confession"], dissection)
 
@@ -525,6 +585,36 @@ def _generate_pack_lean(
                     a_posts.extend(retry)
                     prior_args.extend(p.argument_compressed for p in retry if p.argument_compressed)
 
+        # Batch A forbidden-token check (Fix 10 Part B)
+        forbidden_tokens = _extract_forbidden_tokens(dissection, source)
+        for idx, post in enumerate(a_posts):
+            leaks = _scan_batch_a_for_token_leaks(post, forbidden_tokens)
+            if leaks:
+                logger.info(
+                    "[batch] Pack %d %s: forbidden source tokens leaked: %s — regenerating",
+                    pack_number, post.label, leaks,
+                )
+                post.quality_flags["batch_a_source_token_leak"] = leaks
+                regen_hint = (
+                    "The previous draft copied SOURCE tokens "
+                    f"({', '.join(leaks)}) into the opener. FORBIDDEN. "
+                    "Replace with founder-specific anchors from FOUNDER INTERNALIZATION. "
+                    "Preserve source's structural shape but use founder's own numbers/entities."
+                )
+                regen_posts = transpose(
+                    llm, source, dissection, mode="A", state=state,
+                    prior_arguments=prior_args, post_count=1, pack_number=pack_number,
+                    regen_hint=regen_hint,
+                )
+                if regen_posts:
+                    new_post = regen_posts[0]
+                    new_post.label = post.label
+                    new_post.regen_count = post.regen_count + 1
+                    new_leaks = _scan_batch_a_for_token_leaks(new_post, forbidden_tokens)
+                    if new_leaks:
+                        new_post.quality_flags["batch_a_source_token_leak_unfixed"] = new_leaks
+                    a_posts[idx] = new_post
+
         for post in a_posts:
             post = _enforce_word_count(post, state, llm=llm)
             posts.append(post)
@@ -655,6 +745,39 @@ def generate_pack(
         logger.info("[batch] Pack %d: generating %d A posts via transpose...", pack_number, n_a)
         a_posts = transpose(llm, source, dissection, mode="A", state=state,
                            prior_arguments=prior_args, post_count=n_a, pack_number=pack_number)
+
+        # Batch A forbidden-token check (Fix 10 Part B): scan each A opener for
+        # source-specific tokens; regen once if leak found.
+        forbidden_tokens = _extract_forbidden_tokens(dissection, source)
+        for idx, post in enumerate(a_posts):
+            leaks = _scan_batch_a_for_token_leaks(post, forbidden_tokens)
+            if leaks:
+                logger.info(
+                    "[batch] Pack %d %s: forbidden source tokens leaked into opener: %s — regenerating",
+                    pack_number, post.label, leaks,
+                )
+                post.quality_flags["batch_a_source_token_leak"] = leaks
+                regen_hint = (
+                    "The previous draft copied the SOURCE's specific tokens "
+                    f"({', '.join(leaks)}) into the opener. These are FORBIDDEN. "
+                    "Replace them with founder-specific anchors from FOUNDER INTERNALIZATION. "
+                    "Preserve the source's structural shape (sentence count, beat order, mechanic family) "
+                    "but use the founder's own numbers and entities."
+                )
+                regen_posts = transpose(
+                    llm, source, dissection, mode="A", state=state,
+                    prior_arguments=prior_args, post_count=1, pack_number=pack_number,
+                    regen_hint=regen_hint,
+                )
+                if regen_posts:
+                    new_post = regen_posts[0]
+                    new_post.label = post.label
+                    new_post.regen_count = post.regen_count + 1
+                    new_leaks = _scan_batch_a_for_token_leaks(new_post, forbidden_tokens)
+                    if new_leaks:
+                        new_post.quality_flags["batch_a_source_token_leak_unfixed"] = new_leaks
+                    a_posts[idx] = new_post
+
         for post in a_posts:
             post = _enforce_word_count(post, state, llm=llm)
             posts.append(post)
@@ -686,7 +809,20 @@ def generate_pack(
                 "doors": batch_doors, "count": len(b_posts),
             })
 
+    # Fix B-label collision: each transpose() call labels its outputs
+    # B1/B2/B3 starting from 1, so two calls produce duplicate labels.
+    # Renumber sequentially across the whole pack (mirrors _generate_pack_lean).
+    a_idx, b_idx = 0, 0
+    for post in posts:
+        if post.batch == "A":
+            a_idx += 1
+            post.label = f"A{a_idx}"
+        else:
+            b_idx += 1
+            post.label = f"B{b_idx}"
+
     n_a_actual = len([p for p in posts if p.batch == "A"])
+    n_b_actual = len([p for p in posts if p.batch == "B"])
     return PackResult(
         source_number=pack_number,
         source_post=source,
@@ -694,5 +830,5 @@ def generate_pack(
         mirrorable=mirrorable,
         posts=posts,
         batch_a_count=n_a_actual,
-        batch_b_count=n_b,
+        batch_b_count=n_b_actual,
     )

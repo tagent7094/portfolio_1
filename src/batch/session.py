@@ -576,14 +576,29 @@ class BatchSession:
                     llm_gen, a_validated, state,
                     source_dissection=pack.dissection, never_replace=True,
                 )
+                # NOTE: Batch A amplifier now applies the recommended variant
+                # when critical gates (source_mirror/coherence/voice_fit) fail
+                # AND a viable variant exists. The amplifier mutates post.text,
+                # post.final_opening, post.mechanic, post.rating accordingly.
+                # We MUST NOT overwrite those decisions here.
                 for post in a_amplified:
                     paragraphs = post.text.strip().split("\n\n")
-                    post.original_opening = paragraphs[0] if paragraphs else ""
-                    post.final_opening = post.original_opening
-                    post.mechanic = "mirrored"
-                    post.rating = 0
-                    logger.info("[batch] %s: Batch A — %d variants generated (opener kept)",
-                                post.label, getattr(post, 'versions_considered', 0))
+                    # Always re-derive original_opening from current text (safety).
+                    # If the amplifier replaced the opener, post.final_opening is
+                    # already set; otherwise default to original.
+                    if not getattr(post, "final_opening", "") or post.final_opening == post.original_opening:
+                        post.original_opening = post.original_opening or (paragraphs[0] if paragraphs else "")
+                        post.final_opening = post.original_opening
+                        post.mechanic = "mirrored"
+                        post.rating = 0
+                        logger.info("[batch] %s: Batch A — %d variants generated (opener kept)",
+                                    post.label, getattr(post, 'versions_considered', 0))
+                    else:
+                        logger.info(
+                            "[batch] %s: Batch A — variant applied by amplifier "
+                            "(actual_mechanic=%s, rating=%d)",
+                            post.label, getattr(post, "actual_mechanic", ""), post.rating,
+                        )
                     self._emit(f"pack_{pack_num}", "post_ready", {
                         "label": post.label,
                         "batch": post.batch,

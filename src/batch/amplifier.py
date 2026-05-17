@@ -114,6 +114,44 @@ def _count_mechanic_in_peers(peers: list, mechanic: str) -> int:
     return sum(1 for p in peers if _normalize_mechanic(p.mechanic) == normalized)
 
 
+def _should_apply_batch_a_variant(post: AmplifiedPost, best: dict | None) -> tuple[bool, str]:
+    """Decide whether a Batch A post should ship with the recommended variant
+    instead of the original mirrored opener.
+
+    Default rule: Batch A preserves the source mirror. Exception: if the post's
+    own mirror is ALREADY broken (source_mirror/coherence/voice_fit gate failed)
+    AND a viable variant exists (rating >= 8, coherent, plausible), apply the
+    variant. The variant is drawn from the post body's buried gold, so this
+    reorganizes existing content rather than introducing new ideas.
+    """
+    if not best:
+        return False, "no_variant"
+
+    gates = post.gates or {}
+    critical_fail = (
+        not gates.get("source_mirror", True)
+        or not gates.get("coherence", True)
+        or not gates.get("voice_fit", True)
+    )
+
+    if not critical_fail:
+        return False, "gates_ok_preserve_mirror"
+
+    viable = (
+        best.get("rating", 0) >= 8
+        and best.get("coherence_with_body", True)
+        and best.get("plausibility", True)
+    )
+    if not viable:
+        return False, (
+            f"variant_not_viable(rating={best.get('rating', 0)},"
+            f"coh={best.get('coherence_with_body', True)},"
+            f"plaus={best.get('plausibility', True)})"
+        )
+
+    return True, f"critical_gate_fail,rating={best.get('rating', 0)}"
+
+
 def _should_preserve_door(
     post: AmplifiedPost,
     diag: dict,
@@ -286,28 +324,48 @@ def amplify_post_v2(
     post.versions_considered = len(alternatives)
     post.opener_variants = alternatives
 
-    # Batch A: never replace opener — variants are for display only
+    # Batch A: preserve mirror by default; apply variant only when critical
+    # gates fail AND a viable variant exists (variants are drawn from body
+    # buried gold, so this reorganizes existing content — no new creativity).
     if post.batch == "A":
+        best_a = None
         if alternatives:
-            best = max(alternatives, key=lambda v: (
+            best_a = max(alternatives, key=lambda v: (
                 1 if v.get("coherence_with_body", True) else 0,
                 1 if v.get("plausibility", True) else 0,
                 v.get("rating", 0),
             ))
-            post.recommended_variant = best.get("variant", "A")
-        post.final_opening = post.original_opening
-        post.mechanic = "mirrored"
-        post.actual_mechanic = _normalize_mechanic(diag.get("current_mechanic", ""))
-        post.rating = 0
+            post.recommended_variant = best_a.get("variant", "A")
+
+        should_apply, apply_reason = _should_apply_batch_a_variant(post, best_a)
+        if should_apply:
+            post = _apply_best_opener(post, best_a)
+            post.mechanic = "mirrored"  # keep slot label; A is still A
+            post.actual_mechanic = _normalize_mechanic(best_a.get("mechanic", ""))
+            post.rating = best_a.get("rating", 0)
+            logger.info(
+                "[amplifier_v2] %s: Batch A variant APPLIED (reason=%s, actual_mechanic=%s)",
+                post.label, apply_reason, post.actual_mechanic,
+            )
+            replaced = True
+        else:
+            post.final_opening = post.original_opening
+            post.mechanic = "mirrored"
+            post.actual_mechanic = _normalize_mechanic(diag.get("current_mechanic", ""))
+            post.rating = 0
+            replaced = False
+
         state.amplifier_log.append({
             "label": post.label,
             "original": post.original_opening[:100],
             "final": post.final_opening[:100],
             "gates_passed": all(post.gates.values()) if post.gates else True,
-            "replaced": False,
+            "replaced": replaced,
             "variants_count": len(alternatives),
             "recommended": getattr(post, "recommended_variant", ""),
             "v2": True,
+            "batch_a_apply_reason": apply_reason if not replaced else None,
+            "batch_a_applied": replaced,
         })
         return post
 
@@ -543,23 +601,52 @@ def _apply_batch_result(post: AmplifiedPost, data: dict, state: BatchState, peer
         best = max(alternatives, key=_sort_key)
         post.recommended_variant = best.get("variant", "A")
 
-    # Batch A: never replace opener — variants are for display only
+    # Batch A: preserve mirror by default; apply variant when critical gates
+    # fail AND a viable variant exists. never_replace=True still forces
+    # preservation (used by callers that need it unconditionally).
     if never_replace or post.batch == "A":
-        post.final_opening = post.original_opening
-        post.mechanic = "mirrored" if post.batch == "A" else _normalize_mechanic(diag.get("current_mechanic", "kept"))
-        post.actual_mechanic = _normalize_mechanic(diag.get("current_mechanic", ""))
-        post.rating = 0 if post.batch == "A" else 5
+        best_a = alternatives[0] if alternatives else None
+        if alternatives:
+            best_a = max(alternatives, key=_sort_key)
+
+        # Batch A always evaluates the critical-fail rule, even when caller
+        # passes never_replace=True (legacy "preserve mirror" intent now means
+        # "preserve UNLESS mirror is already broken").
+        if post.batch == "A":
+            should_apply, apply_reason = _should_apply_batch_a_variant(post, best_a)
+        else:
+            should_apply, apply_reason = (False, "never_replace")
+
+        if should_apply:
+            post = _apply_best_opener(post, best_a)
+            post.mechanic = "mirrored"  # keep slot label; A is still A
+            post.actual_mechanic = _normalize_mechanic(best_a.get("mechanic", ""))
+            post.rating = best_a.get("rating", 0)
+            logger.info(
+                "[amplifier_batch] %s: Batch A variant APPLIED (reason=%s, actual_mechanic=%s)",
+                post.label, apply_reason, post.actual_mechanic,
+            )
+            replaced = True
+        else:
+            post.final_opening = post.original_opening
+            post.mechanic = "mirrored" if post.batch == "A" else _normalize_mechanic(diag.get("current_mechanic", "kept"))
+            post.actual_mechanic = _normalize_mechanic(diag.get("current_mechanic", ""))
+            post.rating = 0 if post.batch == "A" else 5
+            replaced = False
+
         state.amplifier_log.append({
             "label": post.label,
             "original": post.original_opening[:100],
             "final": post.final_opening[:100],
             "gates_passed": all(post.gates.values()) if post.gates else True,
-            "replaced": False,
+            "replaced": replaced,
             "variants_count": len(alternatives),
             "recommended": getattr(post, "recommended_variant", ""),
             "v2": True,
             "batch_mode": True,
-            "never_replace": True,
+            "never_replace": never_replace,
+            "batch_a_apply_reason": apply_reason if not replaced else None,
+            "batch_a_applied": replaced,
         })
         return post
 
