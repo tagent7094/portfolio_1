@@ -66,6 +66,7 @@ class NarrativeGenerateRequest(BaseModel):
     narrative_angles: list[str] = []
     use_founder_voice: bool = True
     custom_instructions: str = ""
+    extracted_narratives: list[dict] = []
 
 
 class BlogStatusUpdate(BaseModel):
@@ -410,6 +411,7 @@ async def generate_narrative_background(data: NarrativeGenerateRequest):
                 use_founder_voice=data.use_founder_voice,
                 custom_instructions=data.custom_instructions,
                 narrative_angles=data.narrative_angles or None,
+                extracted_narratives=data.extracted_narratives or None,
             ))
 
             async for chunk in event_bus.stream():

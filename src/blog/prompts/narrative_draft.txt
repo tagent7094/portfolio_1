@@ -5,6 +5,12 @@ This prompt is used when generating the full blog in one pass (rather than secti
 ## NARRATIVE ANGLE
 {narrative_angle}
 
+## PARADIGM-LEVEL THINKING (extracted from deep transcript analysis)
+
+This is the pre-analyzed depth structure for the narrative angle. The blog must be written FROM this understanding, not on top of it. The 5 orders of thinking below represent escalating depth. The blog should reflect this progression naturally without reproducing the structure literally. Use the claim as your thesis, the mechanism as structural backbone, the uncomfortable extension as the section that challenges the reader, and the paradigm reframe as the conclusion's core insight. The quotable line should appear verbatim or near-verbatim in the post.
+
+{paradigm_thinking}
+
 ## FORMAT
 {format_type}
 

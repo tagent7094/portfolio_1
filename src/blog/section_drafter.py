@@ -140,10 +140,28 @@ def draft_narrative(llm: LLMProvider, state: NarrativeState) -> dict:
 
     seo_vars = format_seo_for_prompt(state)
 
+    paradigm_parts = []
+    for n in (state.extracted_narratives or []):
+        if not isinstance(n, dict):
+            continue
+        part = (
+            f"### {n.get('title', 'Untitled')}\n\n"
+            f"CLAIM: {n.get('first_order', '')}\n\n"
+            f"IMPLICATIONS: {n.get('second_order', '')}\n\n"
+            f"MECHANISM: {n.get('third_order', '')}\n\n"
+            f"UNCOMFORTABLE EXTENSION: {n.get('fourth_order', '')}\n\n"
+            f"PARADIGM REFRAME: {n.get('fifth_order', '')}\n\n"
+            f"WHAT BECOMES OBSOLETE: {n.get('kills', '')}\n\n"
+            f"QUOTABLE LINE: {n.get('quotable_line', '')}"
+        )
+        paradigm_parts.append(part)
+    paradigm_thinking = "\n\n---\n\n".join(paradigm_parts)
+
     template = load_prompt(PROMPTS_DIR / "narrative_draft.txt")
     prompt = fill_prompt(
         template,
         narrative_angle=angle.get("angle", state.topic),
+        paradigm_thinking=paradigm_thinking,
         format_type=state.format_type,
         tone=state.tone,
         target_words=str(state.target_words[1]),

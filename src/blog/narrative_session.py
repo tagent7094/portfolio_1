@@ -135,6 +135,7 @@ class NarrativeSession:
         use_founder_voice: bool = True,
         custom_instructions: str = "",
         narrative_angles: list[str] | None = None,
+        extracted_narratives: list[dict] | None = None,
     ) -> dict:
         """Run the full narrative blog generation pipeline."""
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
@@ -195,6 +196,7 @@ class NarrativeSession:
             raw_data=batch_state.raw_data,
             tracer=tracer,
             llm_router=router,
+            extracted_narratives=extracted_narratives or [],
         )
 
         self._emit("internalize", "completed", {

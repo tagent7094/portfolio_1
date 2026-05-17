@@ -622,7 +622,10 @@ function NarrativeTab() {
 
   const startGeneration = async () => {
     if (!canGenerate) return
-    const narrativeTitles = Array.from(selectedNarrativeIndices).map(i => extractedNarratives[i]?.title).filter(Boolean)
+    const selectedNarrativeObjects = Array.from(selectedNarrativeIndices)
+      .map(i => extractedNarratives[i])
+      .filter(Boolean)
+    const narrativeTitles = selectedNarrativeObjects.map(n => n.title).filter(Boolean)
     const anglesList = [...narrativeTitles, ...Array.from(selectedAngles)]
     const primaryAngle = customAngle.trim() || anglesList[0] || ''
     const additionalAngles = customAngle.trim()
@@ -636,6 +639,7 @@ function NarrativeTab() {
         founder_slug: founder,
         narrative_angle: primaryAngle,
         narrative_angles: additionalAngles,
+        extracted_narratives: selectedNarrativeObjects,
         format_type: format,
         tone,
         target_word_count: wordCount,
