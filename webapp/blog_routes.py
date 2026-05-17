@@ -106,6 +106,22 @@ class UpdateDocCategoryRequest(BaseModel):
 PROJECT_ROOT = Path(__file__).parent.parent
 
 
+def _resolve_transcript_path(raw: str) -> Path:
+    """Resolve a transcript path that may be absolute (Windows or Linux) to the current PROJECT_ROOT."""
+    p = Path(raw)
+    if p.exists():
+        return p
+    # Extract relative portion after known anchors
+    for anchor in ("data/founders/", "data\\founders\\"):
+        idx = raw.replace("\\", "/").find(anchor)
+        if idx >= 0:
+            rel = raw.replace("\\", "/")[idx:]
+            resolved = PROJECT_ROOT / rel
+            if resolved.exists():
+                return resolved
+    return p
+
+
 # ── Topic Discovery ─────────────────────────────────────────────────────
 
 @blog_router.post("/api/blog/discover-topics")
@@ -193,7 +209,7 @@ async def generate_blog_background(data: BlogGenerateRequest):
             pod = blogdb.get_podcast(pid)
             if pod:
                 podcast_names.append(pod["title"])
-                fp = Path(pod["transcript_path"])
+                fp = _resolve_transcript_path(pod["transcript_path"])
                 if fp.exists():
                     podcast_transcripts_text += f"\n\n--- {pod['title']} ---\n{fp.read_text(encoding='utf-8', errors='replace')}"
 
@@ -315,12 +331,11 @@ async def analyze_narrative_endpoint(data: NarrativeAnalyzeRequest):
     podcast_transcript_text = ""
     if data.podcast_ids:
         from src.blog.db import get_podcast
-        from pathlib import Path as _Path
         parts = []
         for pid in data.podcast_ids:
             pod = get_podcast(pid)
             if pod and pod.get("transcript_path"):
-                p = _Path(pod["transcript_path"])
+                p = _resolve_transcript_path(pod["transcript_path"])
                 if p.exists():
                     parts.append(p.read_text(encoding="utf-8", errors="replace"))
         podcast_transcript_text = "\n\n---\n\n".join(parts)
@@ -350,12 +365,11 @@ async def generate_narrative_background(data: NarrativeGenerateRequest):
     podcast_transcript_text = ""
     if data.podcast_ids:
         from src.blog.db import get_podcast
-        from pathlib import Path as _Path
         parts = []
         for pid in data.podcast_ids:
             pod = get_podcast(pid)
             if pod and pod.get("transcript_path"):
-                p = _Path(pod["transcript_path"])
+                p = _resolve_transcript_path(pod["transcript_path"])
                 if p.exists():
                     parts.append(p.read_text(encoding="utf-8", errors="replace"))
         podcast_transcript_text = "\n\n---\n\n".join(parts)
@@ -552,7 +566,7 @@ async def upload_podcast_transcript(
         episode_url=episode_url,
         source_type="upload",
         youtube_url="",
-        transcript_path=str(dest_file),
+        transcript_path=str(dest_file.relative_to(PROJECT_ROOT)),
         transcript_length=len(text),
         date=date,
         notes="",
@@ -614,7 +628,7 @@ async def extract_youtube_podcast(data: YouTubeTranscriptRequest):
         episode_url=data.youtube_url,
         source_type="youtube",
         youtube_url=data.youtube_url,
-        transcript_path=str(dest_file),
+        transcript_path=str(dest_file.relative_to(PROJECT_ROOT)),
         transcript_length=len(text),
         date=data.date,
         notes=structured.get("summary", ""),
@@ -657,7 +671,7 @@ async def paste_podcast_transcript(data: PasteTranscriptRequest):
         episode_url="",
         source_type="paste",
         youtube_url="",
-        transcript_path=str(dest_file),
+        transcript_path=str(dest_file.relative_to(PROJECT_ROOT)),
         transcript_length=len(data.text),
         date=data.date,
         notes="",
@@ -684,7 +698,7 @@ async def get_podcast_transcript(podcast_id: str):
     pod = db.get_podcast(podcast_id)
     if not pod:
         raise HTTPException(status_code=404, detail="Podcast not found")
-    p = _Path(pod["transcript_path"])
+    p = _resolve_transcript_path(pod["transcript_path"])
     if not p.exists():
         raise HTTPException(status_code=404, detail="Transcript file not found")
     text = p.read_text(encoding="utf-8", errors="replace")

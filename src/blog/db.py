@@ -204,6 +204,8 @@ def delete_podcast(podcast_id: str) -> bool:
     row = conn.execute("SELECT transcript_path FROM podcasts WHERE podcast_id = ?", (podcast_id,)).fetchone()
     if row:
         fp = Path(row["transcript_path"])
+        if not fp.is_absolute():
+            fp = PROJECT_ROOT / fp
         if fp.exists():
             fp.unlink()
     cursor = conn.execute("DELETE FROM podcasts WHERE podcast_id = ?", (podcast_id,))
