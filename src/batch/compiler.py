@@ -102,6 +102,25 @@ def compile_json(state: BatchState) -> dict:
         })
 
     raw_data = state.raw_data or {}
+
+    # Cost telemetry — what this run cost in USD, broken down by task/model/pack.
+    total_cost = round(getattr(state, "total_cost_usd", 0.0), 4)
+    cost_block = {
+        "total_usd": total_cost,
+        "total_input_tokens": getattr(state, "total_input_tokens", 0),
+        "total_output_tokens": getattr(state, "total_output_tokens", 0),
+        "by_task": {k: round(v, 4) for k, v in getattr(state, "cost_by_task", {}).items()},
+        "by_model": {k: round(v, 4) for k, v in getattr(state, "cost_by_model", {}).items()},
+        "by_pack": {str(k): round(v, 4) for k, v in getattr(state, "cost_by_pack", {}).items()},
+        "warning": None,
+    }
+    if total_cost > 5.0:
+        cost_block["warning"] = f"Spend ${total_cost:.2f} exceeded $5/founder threshold"
+        logger.warning(
+            "[batch] COST WARNING: $%.2f exceeded $5.00 threshold for founder %s",
+            total_cost, state.founder_slug,
+        )
+
     output = {
         "metadata": {
             "founder": state.founder_slug,
@@ -118,6 +137,7 @@ def compile_json(state: BatchState) -> dict:
             "files_skipped_count": len(raw_data.get("files_skipped", [])),
             "files_skipped": raw_data.get("files_skipped", []),
         },
+        "cost": cost_block,
         "founder_internalization": state.founder_internalization,
         "packs": packs_out,
         "global_tracking": {

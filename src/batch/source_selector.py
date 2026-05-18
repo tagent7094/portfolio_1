@@ -155,6 +155,7 @@ Select exactly {n_sources} posts."""
             max_tokens=500,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
             metadata={"candidates": len(top), "requested": n_sources},
         )
 

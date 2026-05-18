@@ -104,6 +104,7 @@ def validate_voice(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> 
             max_tokens=1000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
             metadata={"post_label": post.label},
         )
 
@@ -190,6 +191,7 @@ The post must sound like THIS SPECIFIC FOUNDER, not like a corporate announcemen
             max_tokens=3000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
             metadata={"post_label": post.label, "violations": violations},
         )
 

@@ -51,7 +51,7 @@ export default function GeneratePage() {
   const [postsPerSource, setPostsPerSource] = useState(9)
   const [creativity, setCreativity] = useState(0.5)
   const [enableThinking, setEnableThinking] = useState(true)
-  const [effort, setEffort] = useState<'low' | 'medium' | 'high'>('high')
+  const [effort, setEffort] = useState<'low' | 'medium' | 'high'>('medium')
   const [lean, setLean] = useState(false)
   const [sourceMode, setSourceMode] = useState<SourceMode>('auto')
   const [selectedSources, setSelectedSources] = useState<ViralSource[]>([])
@@ -107,14 +107,34 @@ export default function GeneratePage() {
   const [showRawLog, setShowRawLog] = useState(false)
   const [custApiKey, setCustApiKey] = useState(() => localStorage.getItem('asksharath_api_key') || '')
 
-  // Schedule state
-  interface ScheduleItem { id: string; founder_slug: string; hour: number; minute: number; days: string[]; n_sources: number; posts_per_source: number; creativity: number; effort: string; enabled: boolean; last_run: string | null; last_status: string | null }
+  // Schedule state — scoped to the schedule modal so it doesn't inherit
+  // the page's main-flow nSources/postsPerSource/effort values.
+  interface ScheduleItem { id: string; founder_slug: string; hour: number; minute: number; days: string[]; n_sources: number; posts_per_source: number; creativity: number; effort: string; enable_thinking?: boolean; enabled: boolean; last_run: string | null; last_status: string | null }
   const [showScheduleModal, setShowScheduleModal] = useState(false)
   const [schedHour, setSchedHour] = useState(9)
   const [schedMinute, setSchedMinute] = useState(0)
   const [schedDays, setSchedDays] = useState(['mon', 'tue', 'wed', 'thu', 'fri'])
+  const [schedNSources, setSchedNSources] = useState(3)
+  const [schedPostsPerSource, setSchedPostsPerSource] = useState(9)
+  const [schedEffort, setSchedEffort] = useState<'low' | 'medium' | 'high'>('medium')
+  const [schedEnableThinking, setSchedEnableThinking] = useState(false)
+  const [schedAckExpensive, setSchedAckExpensive] = useState(false)
   const [savingSchedule, setSavingSchedule] = useState(false)
   const [founderSchedules, setFounderSchedules] = useState<ScheduleItem[]>([])
+
+  // Empirical per-source cost estimate (USD) from journalctl analysis.
+  // Adjust if Anthropic pricing changes or post-amplifier work expands.
+  const estimateScheduleCost = (sources: number, posts: number, effort_: string, thinking: boolean): number => {
+    const baseCost = effort_ === 'high' ? 2.0 : effort_ === 'low' ? 0.7 : 1.3
+    const thinkingMult = thinking ? 1.75 : 1.0
+    // posts/source scales sub-linearly (amplifier + voice validation costs are per-post)
+    const postsMult = 0.55 + 0.05 * posts  // 0.95 at posts=8, 1.00 at posts=9
+    return Math.max(0, sources * baseCost * thinkingMult * postsMult)
+  }
+  const schedEstimatedCost = estimateScheduleCost(schedNSources, schedPostsPerSource, schedEffort, schedEnableThinking)
+  const schedTotalPosts = schedNSources * schedPostsPerSource
+  const schedExpensive = schedEstimatedCost > 20
+  const schedOverBudget = schedEstimatedCost > 5
 
   const refreshFounderSchedules = useCallback(async () => {
     if (!active) return
@@ -128,6 +148,10 @@ export default function GeneratePage() {
 
   const createSchedule = async () => {
     if (!active) return
+    if (schedExpensive && !schedAckExpensive) {
+      alert(`Estimated cost ~$${schedEstimatedCost.toFixed(2)} per run. Please acknowledge the expensive-run warning before saving.`)
+      return
+    }
     setSavingSchedule(true)
     try {
       await apiPost('/api/admin/schedules', {
@@ -135,14 +159,15 @@ export default function GeneratePage() {
         hour: schedHour,
         minute: schedMinute,
         days: schedDays,
-        n_sources: nSources,
-        posts_per_source: postsPerSource,
+        n_sources: schedNSources,
+        posts_per_source: schedPostsPerSource,
         creativity,
-        effort,
-        enable_thinking: enableThinking,
+        effort: schedEffort,
+        enable_thinking: schedEnableThinking,
       })
       await refreshFounderSchedules()
       setShowScheduleModal(false)
+      setSchedAckExpensive(false)
     } catch (err: any) { alert(`Failed: ${err?.message}`) }
     finally { setSavingSchedule(false) }
   }
@@ -1608,12 +1633,74 @@ export default function GeneratePage() {
                 </div>
               </div>
 
-              <div className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-2.5 text-[11px] text-[var(--text-muted)]">
-                <p>{active} · {nSources} sources × {postsPerSource} posts · {effort} effort · creativity {creativity}</p>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Sources per run</label>
+                  <input type="number" min={1} max={10} value={schedNSources} onChange={e => setSchedNSources(Math.max(1, Math.min(10, Number(e.target.value) || 1)))} className="field w-full text-[12px] text-center" />
+                </div>
+                <div>
+                  <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Posts per source</label>
+                  <input type="number" min={1} max={9} value={schedPostsPerSource} onChange={e => setSchedPostsPerSource(Math.max(1, Math.min(9, Number(e.target.value) || 1)))} className="field w-full text-[12px] text-center" />
+                </div>
               </div>
 
+              <div>
+                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">Effort</label>
+                <div className="flex items-center gap-1">
+                  {(['low', 'medium', 'high'] as const).map(e => (
+                    <button
+                      key={e}
+                      onClick={() => setSchedEffort(e)}
+                      className={clsx(
+                        'flex-1 rounded-md px-2 py-1 text-[10px] font-medium uppercase transition-colors',
+                        schedEffort === e ? 'bg-white text-black' : 'bg-[var(--surface-3)] text-[var(--text-faint)]',
+                      )}
+                    >{e}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <label className="text-[11px] text-[var(--text-muted)]">Extended thinking</label>
+                <button
+                  onClick={() => setSchedEnableThinking(!schedEnableThinking)}
+                  className={clsx(
+                    'relative h-5 w-9 rounded-full transition-colors',
+                    schedEnableThinking ? 'bg-amber-500' : 'bg-[var(--surface-3)]',
+                  )}
+                >
+                  <span className={clsx(
+                    'absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform',
+                    schedEnableThinking ? 'translate-x-4' : 'translate-x-0.5',
+                  )} />
+                </button>
+              </div>
+
+              <div className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] p-2.5 text-[11px]">
+                <p className="text-[var(--text-muted)]">{active} · {schedTotalPosts} posts/run · creativity {creativity}</p>
+                <p className={clsx(
+                  'mt-1 font-semibold',
+                  schedExpensive ? 'text-red-400' : schedOverBudget ? 'text-amber-400' : 'text-emerald-400',
+                )}>
+                  Estimated cost per run: ~${schedEstimatedCost.toFixed(2)}
+                </p>
+                {schedOverBudget && !schedExpensive && (
+                  <p className="mt-1 text-[10px] text-amber-400/80">⚠ Exceeds $5/founder threshold. Consider lowering sources or effort.</p>
+                )}
+                {schedExpensive && (
+                  <p className="mt-1 text-[10px] text-red-400/90">⚠ Very expensive. Each fire of this schedule will cost ~${schedEstimatedCost.toFixed(2)}.</p>
+                )}
+              </div>
+
+              {schedExpensive && (
+                <label className="flex items-center gap-2 text-[11px] text-[var(--text-muted)] cursor-pointer">
+                  <input type="checkbox" checked={schedAckExpensive} onChange={e => setSchedAckExpensive(e.target.checked)} />
+                  <span>I understand each run costs ~${schedEstimatedCost.toFixed(2)}.</span>
+                </label>
+              )}
+
               <div className="flex gap-2">
-                <Button variant="primary" className="flex-1" onClick={createSchedule} disabled={savingSchedule || schedDays.length === 0} loading={savingSchedule}>
+                <Button variant="primary" className="flex-1" onClick={createSchedule} disabled={savingSchedule || schedDays.length === 0 || (schedExpensive && !schedAckExpensive)} loading={savingSchedule}>
                   Create Schedule
                 </Button>
                 <Button variant="ghost" onClick={() => setShowScheduleModal(false)}>Cancel</Button>

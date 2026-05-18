@@ -28,6 +28,7 @@ class TraceEntry:
     duration_ms: int = 0
     tokens_in: int = 0
     tokens_out: int = 0
+    cost_usd: float = 0.0
     search_query: str = ""
     search_results: list = field(default_factory=list)
     decision: str = ""
@@ -64,6 +65,9 @@ class BatchTracer:
         self.entries: list[TraceEntry] = []
         self._active_spans: dict[str, float] = {}
         self._log_handler: PipelineLogHandler | None = None
+        # Set externally by session.py so trace_llm_call can auto-accumulate
+        # cost into state without every callsite passing state explicitly.
+        self.state = None
 
     def start_log_capture(self):
         self._log_handler = PipelineLogHandler()
@@ -93,7 +97,24 @@ class BatchTracer:
         duration_ms: int = 0,
         thinking: str = "",
         metadata: dict | None = None,
+        tokens_in: int = 0,
+        tokens_out: int = 0,
+        cost_usd: float = 0.0,
+        model: str = "",
+        llm=None,
     ) -> TraceEntry:
+        # If llm provider is passed and per-call cost kwargs aren't explicit,
+        # auto-extract from the provider's last_* attributes.
+        if llm is not None:
+            if not cost_usd:
+                cost_usd = getattr(llm, "last_cost_usd", 0.0) or 0.0
+            if not tokens_in:
+                tokens_in = getattr(llm, "last_input_tokens", 0) or 0
+            if not tokens_out:
+                tokens_out = getattr(llm, "last_output_tokens", 0) or 0
+            if not model:
+                model = getattr(llm, "_model_name", "") or getattr(llm, "model", "")
+
         entry = TraceEntry(
             id=f"llm_{uuid.uuid4().hex[:8]}",
             timestamp=time.time(),
@@ -108,13 +129,63 @@ class BatchTracer:
             thinking_length=len(thinking) if thinking else 0,
             temperature=temperature,
             max_tokens=max_tokens,
-            model=self.model,
+            model=model or self.model,
             provider=self.provider,
             duration_ms=duration_ms,
+            tokens_in=tokens_in,
+            tokens_out=tokens_out,
+            cost_usd=cost_usd,
             metadata=metadata or {},
         )
         self.entries.append(entry)
+
+        # Auto-accumulate cost into BatchState if linked.
+        if self.state is not None and cost_usd:
+            self.state.total_cost_usd += cost_usd
+            self.state.total_input_tokens += tokens_in
+            self.state.total_output_tokens += tokens_out
+            task_key = stage
+            if task_key.startswith("pack_"):
+                parts = task_key.split("_")
+                task_key = "_".join(p for p in parts if not p.isdigit() and p != "pack")
+            self.state.cost_by_task[task_key] = self.state.cost_by_task.get(task_key, 0.0) + cost_usd
+            if model:
+                self.state.cost_by_model[model] = self.state.cost_by_model.get(model, 0.0) + cost_usd
+            # Also bucket by pack number if encoded in the stage
+            for part in stage.split("_"):
+                if part.isdigit():
+                    pn = int(part)
+                    self.state.cost_by_pack[pn] = self.state.cost_by_pack.get(pn, 0.0) + cost_usd
+                    break
+
         return entry
+
+    def accumulate_cost(self, state, llm, stage: str) -> None:
+        """Accumulate the last LLM call's cost into BatchState. Call this
+        immediately after llm.generate() returns. Pulls `last_cost_usd`,
+        `last_input_tokens`, `last_output_tokens`, and the model name from
+        the LLM provider's per-call attributes.
+        """
+        cost = getattr(llm, "last_cost_usd", 0.0) or 0.0
+        in_tok = getattr(llm, "last_input_tokens", 0) or 0
+        out_tok = getattr(llm, "last_output_tokens", 0) or 0
+        model = getattr(llm, "_model_name", "") or getattr(llm, "model", "")
+        state.total_cost_usd += cost
+        state.total_input_tokens += in_tok
+        state.total_output_tokens += out_tok
+
+        # Bucket by task — strip pack/post suffixes so similar tasks aggregate.
+        # e.g. "pack_3_transpose_a" → "transpose_a", "voice_validation_A1" → "voice_validation"
+        task_key = stage
+        if "_pack_" in task_key or task_key.startswith("pack_"):
+            parts = task_key.split("_")
+            task_key = "_".join(p for p in parts if not p.isdigit() and p not in ("pack",))
+        for sep in (" ", ".", "@"):
+            if sep in task_key:
+                task_key = task_key.split(sep, 1)[0]
+        state.cost_by_task[task_key] = state.cost_by_task.get(task_key, 0.0) + cost
+        if model:
+            state.cost_by_model[model] = state.cost_by_model.get(model, 0.0) + cost
 
     def trace_web_search(
         self,

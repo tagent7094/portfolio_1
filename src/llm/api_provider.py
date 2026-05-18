@@ -44,6 +44,9 @@ class APIProvider(LLMProvider):
         self._provider_name = provider
         self._model_name = model
         self.last_thinking = ""
+        self.last_input_tokens = 0
+        self.last_output_tokens = 0
+        self.last_cost_usd = 0.0
         self.on_token = None       # callback(text: str) for streaming text tokens
         self.on_thinking = None    # callback(text: str) for streaming thinking tokens
 
@@ -194,10 +197,13 @@ class APIProvider(LLMProvider):
         elapsed = time.time() - t0
         self.last_thinking = "".join(thinking_parts)
 
+        cost = _estimate_cost(self.model, input_tokens, output_tokens)
+        self.last_input_tokens = input_tokens
+        self.last_output_tokens = output_tokens
+        self.last_cost_usd = cost
         log = [f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m"]
         if input_tokens or output_tokens:
             log.append(f"tokens: {input_tokens:,} in → {output_tokens:,} out")
-            cost = _estimate_cost(self.model, input_tokens, output_tokens)
             if cost > 0:
                 log.append(f"~${cost:.3f}")
         log.append(f"thinking: {len(self.last_thinking):,} chars")
@@ -331,10 +337,13 @@ class APIProvider(LLMProvider):
         usage = getattr(response, 'usage', None)
         in_tok = getattr(usage, 'input_tokens', 0) if usage else 0
         out_tok = getattr(usage, 'output_tokens', 0) if usage else 0
+        cost = _estimate_cost(self.model, in_tok, out_tok)
+        self.last_input_tokens = in_tok
+        self.last_output_tokens = out_tok
+        self.last_cost_usd = cost
         log = [f"\033[36m[LLM:{self.provider}/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m"]
         if in_tok or out_tok:
             log.append(f"tokens: {in_tok:,} in → {out_tok:,} out")
-            cost = _estimate_cost(self.model, in_tok, out_tok)
             if cost > 0:
                 log.append(f"~${cost:.3f}")
         log.append(f"{len(text)} chars + {len(searches)} web searches")

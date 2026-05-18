@@ -86,8 +86,8 @@ class ScheduleCreate(BaseModel):
     n_sources: int = 3
     posts_per_source: int = 9
     creativity: float = 0.5
-    effort: str = "high"
-    enable_thinking: bool = True
+    effort: str = "medium"
+    enable_thinking: bool = False
     enabled: bool = True
 
 
@@ -239,7 +239,19 @@ async def _run_scheduled_generation(schedule: dict):
             logger.warning("[scheduler] Email notification failed", exc_info=True)
     except Exception as e:
         logger.exception("[scheduler] Failed for %s: %s", schedule["founder_slug"], e)
-        schedule["last_status"] = f"error: {str(e)[:100]}"
+        err = str(e)
+        # Detect Anthropic monthly spend limit and replace the noisy raw 400
+        # body with a clean operator-facing message.
+        low = err.lower()
+        if "usage limits" in low or ("400" in err and "regain access" in low):
+            import re as _re
+            m = _re.search(r"regain access on (\d{4}-\d{2}-\d{2})", err)
+            reset_date = m.group(1) if m else "next month"
+            schedule["last_status"] = f"BLOCKED: monthly API limit reached. Regain access on {reset_date}."
+        elif "credit balance" in low or "insufficient" in low:
+            schedule["last_status"] = "BLOCKED: API credit insufficient. Top up the account."
+        else:
+            schedule["last_status"] = f"error: {err[:150]}"
     schedule["last_run"] = datetime.now(IST).isoformat()
     _save_schedules()
 

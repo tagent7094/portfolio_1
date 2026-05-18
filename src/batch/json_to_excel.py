@@ -121,6 +121,30 @@ def convert(json_path: str) -> str:
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
 
+    # Cost sheet — surfaces this run's API spend so founders see where money went.
+    cost = data.get("cost") or {}
+    cs = wb.create_sheet("Run Cost")
+    cs.append(["Metric", "Value"])
+    cs.append(["Total USD", f"${cost.get('total_usd', 0):.4f}"])
+    cs.append(["Input tokens", cost.get("total_input_tokens", 0)])
+    cs.append(["Output tokens", cost.get("total_output_tokens", 0)])
+    if cost.get("warning"):
+        cs.append(["⚠ Warning", cost["warning"]])
+    cs.append([])
+    cs.append(["Cost by task (USD)", ""])
+    for k, v in sorted((cost.get("by_task") or {}).items(), key=lambda x: -x[1]):
+        cs.append([k, f"${v:.4f}"])
+    cs.append([])
+    cs.append(["Cost by model (USD)", ""])
+    for k, v in sorted((cost.get("by_model") or {}).items(), key=lambda x: -x[1]):
+        cs.append([k, f"${v:.4f}"])
+    cs.append([])
+    cs.append(["Cost by source pack (USD)", ""])
+    for k, v in sorted((cost.get("by_pack") or {}).items()):
+        cs.append([f"pack {k}", f"${v:.4f}"])
+    cs.column_dimensions["A"].width = 36
+    cs.column_dimensions["B"].width = 24
+
     xlsx_path = path.with_suffix(".xlsx")
     wb.save(xlsx_path)
     return str(xlsx_path)

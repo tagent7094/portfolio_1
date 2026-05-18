@@ -337,7 +337,7 @@ class BatchSession:
         enable_thinking: bool = True,
         source_posts: list[str] | None = None,
         config_path: str = "config/llm-config.yaml",
-        effort: str = "high",
+        effort: str = "medium",
         lean: bool = False,
     ) -> dict:
         """Run the full batch generation pipeline.
@@ -383,7 +383,7 @@ class BatchSession:
         enable_thinking: bool = True,
         source_posts: list[str] | None = None,
         config_path: str = "config/llm-config.yaml",
-        effort: str = "high",
+        effort: str = "medium",
         lean: bool = False,
     ) -> dict:
         # Task-aware LLM resolution. The router consults founder override →
@@ -412,6 +412,7 @@ class BatchSession:
         state = load_founder_state(founder_slug, platform)
         state.creativity = creativity
         state.tracer = tracer
+        tracer.state = state  # enables auto-cost-accumulation on every trace_llm_call
         state.llm_router = router
         state.lean_mode = lean
 
@@ -553,11 +554,10 @@ class BatchSession:
                             metadata={"exclusions": hits},
                         )
 
-            # Amplifier pass — Batch A SKIPS amplifier entirely, Batch B uses
-            # single batched call. Batch A is "no creativity strictly": ship
-            # the transpose output as-is, no variants generated, no gates
-            # evaluated, no recommendations. Saves one LLM call per pack and
-            # eliminates the body-line-promoted-to-opener bug entirely.
+            # Amplifier pass — Batch A runs amplifier in DISPLAY-ONLY mode
+            # (never_replace=True + _should_apply_batch_a_variant returns False
+            # unconditionally → variants computed for inspection, opener never
+            # mutated). Batch B uses single batched call with full replacement.
             amplified_posts = []
             published_corpus = (
                 state.raw_data.get("founder_posts_structured")
@@ -574,20 +574,25 @@ class BatchSession:
                 else:
                     b_validated.append(post)
 
-            # Phase A: skip amplifier entirely. Just stamp basic fields and emit.
+            # Phase A: amplify in display-only mode. Diagnosis + variants
+            # populate but the opener never changes (mirror is preserved).
             if a_validated:
-                for post in a_validated:
+                a_amplified = amplify_batch_v2(
+                    llm_gen, a_validated, state,
+                    source_dissection=pack.dissection, never_replace=True,
+                )
+                for post in a_amplified:
+                    # Defensive: amplifier should already have stamped these,
+                    # but ensure mirror invariants hold for Batch A.
                     paragraphs = post.text.strip().split("\n\n")
-                    post.original_opening = paragraphs[0] if paragraphs else ""
+                    if not post.original_opening and paragraphs:
+                        post.original_opening = paragraphs[0]
                     post.final_opening = post.original_opening
                     post.mechanic = "mirrored"
                     post.rating = 0
-                    post.versions_considered = 0
-                    post.opener_variants = []
-                    post.recommended_variant = ""
                     logger.info(
-                        "[batch] %s: Batch A — amplifier SKIPPED (mirror-only, no variants)",
-                        post.label,
+                        "[batch] %s: Batch A — %d variants generated (opener kept, mirror preserved)",
+                        post.label, getattr(post, "versions_considered", 0),
                     )
                     self._emit(f"pack_{pack_num}", "post_ready", {
                         "label": post.label,
@@ -600,8 +605,8 @@ class BatchSession:
                         "entry_door": post.entry_door,
                         "voice_score": getattr(post, "voice_score", 0),
                         "source_number": pack_num,
-                        "opener_variants": [],
-                        "versions_considered": 0,
+                        "opener_variants": getattr(post, "opener_variants", []),
+                        "versions_considered": getattr(post, "versions_considered", 0),
                     })
 
             # Phase B: batch amplify all B posts in one call

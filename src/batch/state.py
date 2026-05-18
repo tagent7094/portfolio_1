@@ -111,3 +111,11 @@ class BatchState:
 
     # Lean mode: batch multiple operations per LLM call to reduce total calls
     lean_mode: bool = False
+
+    # Cost telemetry (USD). Populated by tracer after each LLM call.
+    total_cost_usd: float = 0.0
+    cost_by_task: dict = field(default_factory=dict)   # {"transpose": 1.42, "amplify": 0.31, ...}
+    cost_by_model: dict = field(default_factory=dict)  # {"claude-opus-4-6": 1.50, "claude-haiku-4-5-20251001": 0.23}
+    cost_by_pack: dict = field(default_factory=dict)   # {1: 2.31, 2: 2.15, 3: 1.98}
+    total_input_tokens: int = 0
+    total_output_tokens: int = 0

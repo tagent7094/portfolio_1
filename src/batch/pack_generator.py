@@ -79,6 +79,7 @@ def dissect_source(llm: LLMProvider, source: str, state: BatchState, pack_num: i
             max_tokens=2000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
         )
 
     return result if isinstance(result, dict) else {"narrative_arc": "unknown", "mirrorable": True}
@@ -430,6 +431,7 @@ def transpose(
             max_tokens=max_tok,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
             metadata={"mode": mode, "post_count": post_count, "doors": doors},
         )
 
@@ -527,6 +529,7 @@ Return ONLY the trimmed post text, no JSON wrapping, no explanation.""" + f"\n\n
             max_tokens=max_tok,
             duration_ms=_dur,
             thinking="",
+            llm=llm,
             metadata={"original_wc": post.word_count, "target": f"{lo}-{hi}"},
         )
 

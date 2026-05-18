@@ -254,6 +254,7 @@ def amplify_post_v2(
             max_tokens=4000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
             metadata={"label": post.label, "batch": post.batch},
         )
 
@@ -495,6 +496,7 @@ def amplify_batch_v2(
             max_tokens=max_tokens,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
             metadata={"post_count": len(posts), "never_replace": never_replace},
         )
 
@@ -727,6 +729,7 @@ def convergence_test(
             max_tokens=1000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
             metadata={"posts_count": len(pack_posts)},
         )
 
