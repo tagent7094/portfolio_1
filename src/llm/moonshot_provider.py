@@ -76,31 +76,41 @@ _VISION_CAPABLE = {
 }
 
 # Models that REJECT any temperature other than the listed value.
-# Moonshot's K2.x reasoning models lock temperature server-side. If we send
-# anything else we get a 400 "invalid temperature" before any tokens stream.
-# We silently override the temperature and warn once per (model, requested) pair.
-_FIXED_TEMPERATURE: dict[str, float] = {
-    "kimi-k2.6":                0.6,
-    "kimi-k2.5":                0.6,
-    "kimi-k2.5-thinking":       0.6,
-    "kimi-k2.5-thinking-turbo": 0.6,
-    "kimi-latest":              0.6,
+# Moonshot's K2.x reasoning models lock temperature server-side. The locked
+# value depends on whether thinking mode is enabled:
+#   - thinking OFF → 0.6
+#   - thinking ON  → 1.0
+# If we send anything else we get a 400 "invalid temperature" before any
+# tokens stream. We silently override and warn once per (model, mode, requested).
+_FIXED_TEMPERATURE: dict[str, dict[str, float]] = {
+    "kimi-k2.6":                {"thinking_off": 0.6, "thinking_on": 1.0},
+    "kimi-k2.5":                {"thinking_off": 0.6, "thinking_on": 1.0},
+    "kimi-k2.5-thinking":       {"thinking_off": 0.6, "thinking_on": 1.0},
+    "kimi-k2.5-thinking-turbo": {"thinking_off": 0.6, "thinking_on": 1.0},
+    "kimi-latest":              {"thinking_off": 0.6, "thinking_on": 1.0},
 }
 
 
-def _coerce_temperature(model: str, requested: float) -> float:
-    """Return the temperature actually safe to send to `model`. Warn-once on override."""
-    locked = _FIXED_TEMPERATURE.get(model)
-    if locked is None:
+def _coerce_temperature(model: str, requested: float, thinking_on: bool = False) -> float:
+    """Return the temperature actually safe to send to `model`.
+
+    K2.x reasoning models have a thinking-mode-dependent temperature lock:
+    thinking off → 0.6, thinking on → 1.0. Warn-once per (model, mode,
+    requested) tuple.
+    """
+    lock_entry = _FIXED_TEMPERATURE.get(model)
+    if lock_entry is None:
         return requested
+    locked = lock_entry["thinking_on"] if thinking_on else lock_entry["thinking_off"]
     if abs(float(requested) - locked) < 1e-6:
         return locked
-    seen_key = (model, round(float(requested), 4))
+    seen_key = (model, bool(thinking_on), round(float(requested), 4))
     seen = getattr(_coerce_temperature, "_warned", set())
     if seen_key not in seen:
+        mode = "thinking=on" if thinking_on else "thinking=off"
         logger.warning(
-            "[moonshot] %s only accepts temperature=%s; overriding requested %.3f",
-            model, locked, requested,
+            "[moonshot] %s (%s) only accepts temperature=%s; overriding requested %.3f",
+            model, mode, locked, requested,
         )
         seen.add(seen_key)
         _coerce_temperature._warned = seen  # type: ignore[attr-defined]
@@ -258,7 +268,10 @@ class MoonshotProvider(LLMProvider):
         messages.append({"role": "user", "content": self._build_user_content(prompt, images)})
 
         extra_body = self._thinking_extra_body(thinking_budget=thinking_budget, effort=effort)
-        safe_temp = _coerce_temperature(self.model, temperature)
+        # Detect whether thinking is actually being sent — temperature lock
+        # value depends on it (0.6 when off, 1.0 when on for K2.x).
+        thinking_on = bool(extra_body and extra_body.get("thinking", {}).get("type") == "enabled")
+        safe_temp = _coerce_temperature(self.model, temperature, thinking_on=thinking_on)
         kwargs: dict = {
             "model": self.model,
             "messages": messages,
@@ -403,7 +416,9 @@ class MoonshotProvider(LLMProvider):
         cum_input = 0
         cum_output = 0
 
-        safe_temp = _coerce_temperature(self.model, temperature)
+        # generate_with_search forces thinking=disabled (Moonshot incompatibility
+        # note), so the temp lock value for K2.x is 0.6, not 1.0.
+        safe_temp = _coerce_temperature(self.model, temperature, thinking_on=False)
         while rounds < max_searches + 2:
             rounds += 1
             try:
