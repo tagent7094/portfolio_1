@@ -273,25 +273,20 @@ class MoonshotProvider(LLMProvider):
         thinking_on = bool(extra_body and extra_body.get("thinking", {}).get("type") == "enabled")
         safe_temp = _coerce_temperature(self.model, temperature, thinking_on=thinking_on)
 
-        # Moonshot's OpenAI-compatible API uses `max_tokens` to cover BOTH
-        # thinking + visible output. With thinking on, a small max_tokens
-        # (e.g. 1000 for calibration, 2000 for dissect) gets entirely consumed
-        # by the reasoning trace and the response comes back EMPTY. We have to
-        # add a thinking budget on top of the caller-requested visible budget
-        # so the model has room for both.
-        #
-        # Heuristic: thinking_budget hint from the router config (or 8000
-        # default), but clamped so very-cheap calls don't balloon.
-        effective_max_tokens = max_tokens
-        if thinking_on:
-            thinking_budget_hint = max(int(thinking_budget or 0), 8000)
-            effective_max_tokens = max(max_tokens + thinking_budget_hint, 16000)
-
+        # DELIBERATELY NOT sending max_tokens to Moonshot. The OpenAI-compat API
+        # treats max_tokens as the COMBINED budget for thinking + visible output;
+        # any caller-supplied cap risks the thinking phase eating the entire
+        # allowance and the response coming back empty (calibration, dissect both
+        # hit this with thinking=on + max_tokens=1000/2000). Per the project's
+        # cost stance ("don't think much about money with Kimi"), we let Moonshot
+        # use its server-side default — K2.6's 128K context is the natural
+        # ceiling and actual usage is captured in the usage stream for cost
+        # telemetry. The `max_tokens` kwarg stays in the signature so callers
+        # don't break; it's informational only (still logged below).
         kwargs: dict = {
             "model": self.model,
             "messages": messages,
             "temperature": safe_temp,
-            "max_tokens": effective_max_tokens,
             "stream": True,
             # Asks Moonshot to emit a final chunk carrying token usage stats.
             "stream_options": {"include_usage": True},
@@ -382,11 +377,11 @@ class MoonshotProvider(LLMProvider):
                 "Use empty arrays for sections with nothing to report. Extract from this prose:\n\n"
                 f"---\n{prose[:8000]}\n---"
             )
-            # Short call, low max_tokens; cheap on Kimi.
+            # No max_tokens cap (Moonshot OpenAI-compat treats it as
+            # thinking+output combined; we always omit it).
             json_out = self.generate(
                 reformat_prompt,
                 temperature=0.2,
-                max_tokens=2000,
             )
             return json_out
         except Exception as e:
@@ -437,11 +432,13 @@ class MoonshotProvider(LLMProvider):
         while rounds < max_searches + 2:
             rounds += 1
             try:
+                # No max_tokens — see note in generate_stream(). Let Moonshot
+                # default the response budget so the tool-calling loop has room
+                # to both call $web_search and compose the final answer.
                 response = self.client.chat.completions.create(
                     model=self.model,
                     messages=messages,
                     temperature=safe_temp,
-                    max_tokens=max_tokens,
                     tools=tools,
                     extra_body=self._thinking_extra_body(force_disabled=True),
                 )
