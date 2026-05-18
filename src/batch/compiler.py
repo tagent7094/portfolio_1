@@ -172,47 +172,58 @@ def compile_json(state: BatchState) -> dict:
     return output
 
 
-def _get_output_dir(state: BatchState) -> Path:
-    """Resolve the post-data output directory for a founder."""
-    import yaml
-    config_path = Path(__file__).parent.parent.parent / "config" / "llm-config.yaml"
-    with open(config_path) as f:
-        config = yaml.safe_load(f)
-    from ..config.founders import get_founder_paths
-    paths = get_founder_paths(config, state.founder_slug)
-    data_dir = Path(paths["data_dir"]).parent
-    post_data_dir = data_dir / "post-data"
-    post_data_dir.mkdir(parents=True, exist_ok=True)
-    return post_data_dir
+def _next_stem(directory: Path, base: str) -> str:
+    """Return the next available stem that's free across .json AND .xlsx AND _log.json.
 
-
-def _next_filepath(directory: Path, base: str, ext: str) -> Path:
-    """Find next available filename with counter suffix."""
-    filepath = directory / f"{base}{ext}"
-    counter = 1
-    while filepath.exists():
-        filepath = directory / f"{base}_{counter}{ext}"
+    Avoids the old bug where the JSON, Excel, and log files could drift onto
+    different counter suffixes when one extension's slot was already taken.
+    Returns the bare stem (no extension) — caller appends the right extension.
+    """
+    directory.mkdir(parents=True, exist_ok=True)
+    counter = 0
+    while True:
+        stem = base if counter == 0 else f"{base}_{counter}"
+        json_path = directory / f"{stem}.json"
+        xlsx_path = directory / f"{stem}.xlsx"
+        log_path = directory / f"{stem}_log.json"
+        if not json_path.exists() and not xlsx_path.exists() and not log_path.exists():
+            return stem
         counter += 1
-    return filepath
 
 
 def save_output(output: dict, state: BatchState) -> str:
-    """Save posts JSON + log JSON + Excel to the founder's post-data directory."""
-    post_data_dir = _get_output_dir(state)
+    """Save posts JSON + Excel + log JSON, all keyed to the same stem."""
+    from ..config.founders import get_post_data_dir
+
+    post_data_dir = get_post_data_dir(state.founder_slug, create=True)
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
     base = f"{state.founder_slug}_batch_{date_str}"
+    stem = _next_stem(post_data_dir, base)
 
-    # 1. Save posts JSON
-    filepath = _next_filepath(post_data_dir, base, ".json")
-    with open(filepath, "w", encoding="utf-8") as f:
+    json_path = post_data_dir / f"{stem}.json"
+    xlsx_path = post_data_dir / f"{stem}.xlsx"
+    log_path = post_data_dir / f"{stem}_log.json"
+
+    # 1. JSON first — Excel reads from it.
+    with open(json_path, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
-    logger.info("[batch] Saved output to %s (%d posts)", filepath, output["metadata"]["total_posts"])
+    logger.info(
+        "[batch] Saved output to %s (%d posts)",
+        json_path, output["metadata"]["total_posts"],
+    )
 
-    # 2. Save log JSON (full traces + pipeline logs)
+    # 2. Excel — keyed to the same stem so the trio stays aligned.
+    try:
+        from .json_to_excel import convert
+        convert(str(json_path), output_path=str(xlsx_path))
+        logger.info("[batch] Saved Excel to %s", xlsx_path)
+    except Exception as e:
+        logger.error("[batch] Failed to generate Excel: %s", e)
+
+    # 3. Log JSON — same stem.
     if state.tracer:
         state.tracer.stop_log_capture()
         log_data = state.tracer.get_debug_log()
-        log_path = _next_filepath(post_data_dir, f"{base}_log", ".json")
         try:
             with open(log_path, "w", encoding="utf-8") as f:
                 json.dump(log_data, f, indent=2, ensure_ascii=False, default=str)
@@ -220,26 +231,18 @@ def save_output(output: dict, state: BatchState) -> str:
         except Exception as e:
             logger.error("[batch] Failed to save log: %s", e)
 
-    # 3. Generate Excel from posts JSON
-    try:
-        from .json_to_excel import convert
-        xlsx_path = convert(str(filepath))
-        logger.info("[batch] Saved Excel to %s", xlsx_path)
-    except Exception as e:
-        logger.error("[batch] Failed to generate Excel: %s", e)
-
-    # 4. Record used source posts
+    # 4. Record used source posts.
     try:
         from .source_tracker import record_used_sources
         source_texts = [pack.source_post for pack in state.packs if pack.source_post]
-        record_used_sources(state.founder_slug, source_texts, filepath.name)
+        record_used_sources(state.founder_slug, source_texts, json_path.name)
     except Exception as e:
         logger.warning("[batch] Failed to record used sources: %s", e)
 
-    # 5. Auto-commit on VPS
-    _auto_git_if_vps(filepath)
+    # 5. Auto-commit on VPS.
+    _auto_git_if_vps(json_path)
 
-    return str(filepath)
+    return str(json_path)
 
 
 def _auto_git_if_vps(filepath: Path):

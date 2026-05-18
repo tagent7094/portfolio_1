@@ -182,6 +182,62 @@ def register_founder(
     return {"slug": slug, **entry}
 
 
+def get_post_data_dir(slug: str, *, create: bool = False) -> Path:
+    """Resolve the post-data/ folder for a founder slug.
+
+    Tolerant to case, spaces, and dashes in the on-disk folder name:
+      "Manisha"      ↔ slug "manisha"
+      "anish popli"  ↔ slug "anish_popli"
+      "Sharath-V2"   ↔ slug "sharath_v2"
+
+    Resolution order:
+      1. Scan data/founders/ for a folder whose normalized name matches.
+      2. Fall back to the registry config (data_dir field).
+      3. Last resort — `data/founders/<normalized-slug>/post-data`.
+
+    `create=True` will `mkdir(parents=True, exist_ok=True)`. Default False so
+    callers can probe for existence without creating a stub directory and
+    fooling later checks.
+    """
+    norm_slug = slug.lower().replace(" ", "_").replace("-", "_")
+    founders_root = PROJECT_ROOT / "data" / "founders"
+
+    # 1. Filesystem scan — preferred (handles real-world casing/spacing)
+    if founders_root.is_dir():
+        for folder in founders_root.iterdir():
+            if not folder.is_dir():
+                continue
+            folder_norm = folder.name.lower().replace(" ", "_").replace("-", "_")
+            if folder_norm == norm_slug:
+                target = folder / "post-data"
+                if create:
+                    target.mkdir(parents=True, exist_ok=True)
+                return target
+
+    # 2. Registry-config fallback — only if the slug is actually registered.
+    # (get_founder_paths returns legacy stores for unknown slugs, which would
+    # silently route an unknown slug onto someone else's folder.)
+    try:
+        config = _load_config()
+        registry = config.get("founders", {}).get("registry", {})
+        if slug in registry:
+            paths = get_founder_paths(config, slug)
+            data_dir = Path(paths["data_dir"])
+            parent = data_dir.parent if data_dir.name == "founder-data" else data_dir
+            target = parent / "post-data"
+            if create:
+                target.mkdir(parents=True, exist_ok=True)
+            return target
+    except Exception:
+        pass
+
+    # 3. Last resort — slug-named folder (may not exist)
+    target = founders_root / norm_slug / "post-data"
+    if create:
+        target.mkdir(parents=True, exist_ok=True)
+    return target
+
+
 def get_viral_graph_path(config: dict | None = None) -> str:
     """Return absolute path to viral graph."""
     if config is None:

@@ -67,8 +67,20 @@ PROVIDER_DEFAULTS = {
     "kimi": {
         "base_url": os.environ.get("MOONSHOT_BASE_URL", "https://api.moonshot.ai/v1"),
         "api_key_env": "MOONSHOT_API_KEY",
-        "default_model": "kimi-k2-instruct",
-        "models": ["kimi-k2-instruct", "moonshot-v1-128k", "moonshot-v1-32k", "moonshot-v1-8k"],
+        "default_model": "kimi-k2.6",
+        "models": [
+            "kimi-k2.6",
+            "kimi-k2.5",
+            "kimi-k2.5-thinking",
+            "kimi-k2.5-thinking-turbo",
+            "kimi-k2-turbo-preview",
+            "kimi-k2-0905-preview",
+            "kimi-k2-instruct",
+            "kimi-latest",
+            "moonshot-v1-128k",
+            "moonshot-v1-32k",
+            "moonshot-v1-8k",
+        ],
     },
 }
 
@@ -188,7 +200,11 @@ def create_llm(config_path: str = "config/llm-config.yaml", purpose: str = "gene
     elif provider == "openrouter":
         instance = OpenRouterProvider(model=model, api_key=api_key, base_url=base_url)
     elif provider == "kimi":
-        instance = MoonshotProvider(model=model, api_key=api_key, base_url=base_url)
+        instance = MoonshotProvider(
+            model=model, api_key=api_key, base_url=base_url,
+            enable_thinking=llm_cfg.get("enable_thinking", False),
+            effort=llm_cfg.get("effort", "medium"),
+        )
     elif provider in ("anthropic", "openai"):
         instance = APIProvider(
             provider=provider, model=model, api_key=api_key,

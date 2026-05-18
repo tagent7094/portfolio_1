@@ -21,6 +21,8 @@ from pydantic import BaseModel
 
 from webapp.auth_routes import _require_admin
 from src.auth.tokens import decode_token
+from src.batch.tabularize import BATCH_HEADERS, to_tabular
+from src.config.founders import get_post_data_dir
 
 router = APIRouter(prefix="/api/admin/founders", tags=["admin-packs"])
 setup_router = APIRouter(prefix="/api/admin", tags=["admin-setup"])
@@ -47,15 +49,11 @@ def _require_founder(request: Request, slug: str) -> None:
 
 
 def _post_data_dir(slug: str) -> Path:
-    """Resolve the post-data/ folder for a slug, tolerating mixed-case folder names."""
-    if FOUNDERS_DIR.is_dir():
-        for folder in FOUNDERS_DIR.iterdir():
-            if not folder.is_dir():
-                continue
-            folder_slug = folder.name.lower().replace(" ", "_").replace("-", "_")
-            if folder_slug == slug:
-                return folder / "post-data"
-    return FOUNDERS_DIR / slug / "post-data"
+    """Resolve the post-data/ folder for a slug. Delegates to the canonical
+    src.config.founders.get_post_data_dir so this stays in lockstep with
+    compiler.save_output and any other consumer.
+    """
+    return get_post_data_dir(slug, create=False)
 
 
 def _extract_date(filename: str) -> str:
@@ -75,93 +73,14 @@ def _latest_file_for_date(post_dir: Path, date: str, ext: str = ".json") -> Path
 
 
 # ── Batch JSON -> tabular transformer ────────────────────────────────────────
+# Schema lives in src.batch.tabularize — the SSOT used by json_to_excel too.
 
-_VARIANT_HEADERS = []
-for _letter in ("A", "B", "C", "D", "E"):
-    _VARIANT_HEADERS += [
-        f"Variant {_letter} Opening",
-        f"Variant {_letter} Rewrite Type",
-        f"Variant {_letter} Key Change",
-        f"Variant {_letter} Expected Lift",
-    ]
-
-_BATCH_HEADERS = [
-    "Row #", "Source #", "Type", "Entry Door", "Mode",
-    "Final Post", "Word Count", "Voice Score", "Violations", "Mechanic", "Original Opening",
-    "Final Opening", "Rating", "Recommended", "Buried Gold", "Weakness", "Versions Considered",
-    *_VARIANT_HEADERS,
-    "Argument", "Events Used", "Gates", "Source Post", "Convergence",
-]
+_BATCH_HEADERS = list(BATCH_HEADERS)  # back-compat: a few helpers still reference this name
 
 
 def _batch_json_to_tabular(data: dict) -> dict:
-    """Convert nested batch JSON to the flat {readme, headers, posts} format."""
-    metadata = data.get("metadata", {})
-
-    readme = {
-        "Founder": metadata.get("founder", ""),
-        "Date": str(metadata.get("generated_at", ""))[:10],
-        "Posts": str(metadata.get("total_posts", 0)),
-        "Sources": str(metadata.get("sources_count", 0)),
-        "Platform": metadata.get("platform", "linkedin"),
-        "Median word count": str(metadata.get("median_word_count", "")),
-        "Pack": "Batch Cowork",
-    }
-
-    posts: list[dict[str, Any]] = []
-    for pack in data.get("packs", []):
-        src_num = pack.get("source_number", 0)
-        source_post = str(pack.get("source_post", ""))
-        conv = pack.get("convergence_test", {})
-        conv_str = "PASS" if conv.get("passed", True) else f"FAIL: {conv.get('recommendation', '')}"
-
-        for post in pack.get("posts", []):
-            amp = post.get("amplifier", {})
-            gates = amp.get("gates", {})
-            gates_str = "; ".join(
-                f"{k}={'pass' if v else 'fail'}" for k, v in gates.items()
-            ) if gates else ""
-
-            events = post.get("events_used", [])
-            events_str = "; ".join(events) if isinstance(events, list) else str(events)
-
-            row: dict[str, Any] = {
-                "Row #": f"{src_num}-{post.get('label', '')}",
-                "Source #": src_num,
-                "Type": post.get("batch", ""),
-                "Entry Door": post.get("entry_door", ""),
-                "Mode": post.get("mode", ""),
-                "Final Post": post.get("text", ""),
-                "Word Count": post.get("word_count", 0),
-                "Voice Score": post.get("voice_validation", {}).get("voice_score", ""),
-                "Violations": "; ".join(post.get("violations", [])),
-                "Mechanic": amp.get("mechanic", ""),
-                "Original Opening": amp.get("original_opening", ""),
-                "Final Opening": amp.get("final_opening", ""),
-                "Rating": amp.get("rating", 0),
-                "Recommended": amp.get("recommended_variant", ""),
-                "Buried Gold": amp.get("buried_gold", ""),
-                "Weakness": amp.get("weakness", ""),
-                "Versions Considered": amp.get("versions_considered", 0),
-                "Argument": post.get("argument_compressed", ""),
-                "Events Used": events_str,
-                "Gates": gates_str,
-                "Source Post": source_post,
-                "Convergence": conv_str,
-            }
-
-            variants = amp.get("variants", [])
-            variant_map = {v.get("variant", ""): v for v in variants if isinstance(v, dict)}
-            for letter in ("A", "B", "C", "D", "E"):
-                v = variant_map.get(letter, {})
-                row[f"Variant {letter} Opening"] = v.get("opening", "")
-                row[f"Variant {letter} Rewrite Type"] = v.get("mechanic", "")
-                row[f"Variant {letter} Key Change"] = v.get("key_change", "")
-                row[f"Variant {letter} Expected Lift"] = v.get("expected_lift", "")
-
-            posts.append(row)
-
-    return {"readme": readme, "headers": list(_BATCH_HEADERS), "posts": posts}
+    """Thin wrapper over `tabularize.to_tabular` so we stay schema-aligned."""
+    return to_tabular(data)
 
 
 def _load_pack_data(slug: str, date: str) -> tuple[list[str], list[dict[str, Any]]]:
