@@ -21,7 +21,7 @@ import {
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-interface Pack { filename: string; date: string; size_kb: number }
+interface Pack { filename: string; date: string; size_kb: number; format?: string }
 
 // ── Main page ─────────────────────────────────────────────────────────────────
 
@@ -34,6 +34,7 @@ export default function FounderPackPage() {
   const [authed, setAuthed]             = useState<boolean | null>(null)
   const [packs, setPacks]               = useState<Pack[]>([])
   const [selectedDate, setSelectedDate] = useState<string>(searchParams.get('date') ?? '')
+  const [selectedFilename, setSelectedFilename] = useState<string>(searchParams.get('filename') ?? '')
   const [packData, setPackData]         = useState<PackData | null>(null)
   const [loadingPacks, setLoadingPacks] = useState(true)
   const [loadingData, setLoadingData]   = useState(false)
@@ -113,12 +114,21 @@ export default function FounderPackPage() {
     apiGet<{ packs: Pack[] }>(`/api/founders/${slug}/post-packs`)
       .then(d => {
         setPacks(d.packs)
-        if (autoSelectLatest && d.packs.length > 0) setSelectedDate(d.packs[0].date)
-        else if (!selectedDate && d.packs.length > 0) setSelectedDate(d.packs[0].date)
+        if (autoSelectLatest && d.packs.length > 0) {
+          setSelectedDate(d.packs[0].date)
+          setSelectedFilename(d.packs[0].filename)
+        } else if (!selectedDate && d.packs.length > 0) {
+          setSelectedDate(d.packs[0].date)
+          setSelectedFilename(d.packs[0].filename)
+        } else if (selectedDate && !selectedFilename) {
+          // URL had ?date= but no ?filename= — pick the freshest pack on that date.
+          const candidate = d.packs.find(p => p.date === selectedDate)
+          if (candidate) setSelectedFilename(candidate.filename)
+        }
       })
       .catch(() => {})
       .finally(() => setLoadingPacks(false))
-  }, [slug, selectedDate])
+  }, [slug, selectedDate, selectedFilename])
 
   useEffect(() => {
     if (!authed || !slug) return
@@ -127,12 +137,19 @@ export default function FounderPackPage() {
 
   useEffect(() => {
     if (!authed || !selectedDate || !slug) return
-    setSearchParams({ date: selectedDate }, { replace: true })
+    // Persist BOTH date and filename in the URL so shares/refreshes land on
+    // the exact pack the user picked (not just "whatever's newest for date").
+    const params: Record<string, string> = { date: selectedDate }
+    if (selectedFilename) params.filename = selectedFilename
+    setSearchParams(params, { replace: true })
     setLoadingData(true)
     setPackData(null)
     setSelectedPost(null)
     setEdits({})
-    apiGet<PackData>(`/api/founders/${slug}/post-packs/${selectedDate}`)
+    const url = selectedFilename
+      ? `/api/founders/${slug}/post-packs/${selectedDate}?filename=${encodeURIComponent(selectedFilename)}`
+      : `/api/founders/${slug}/post-packs/${selectedDate}`
+    apiGet<PackData>(url)
       .then(async d => {
         try {
           const fb = await apiGet<Record<string, { pre_feedback?: string; post_feedback?: string }>>(`/api/founders/${slug}/post-packs/${selectedDate}/feedback`)
@@ -153,7 +170,7 @@ export default function FounderPackPage() {
       })
       .catch(() => {})
       .finally(() => setLoadingData(false))
-  }, [authed, selectedDate, slug])
+  }, [authed, selectedDate, selectedFilename, slug])
 
   const filteredPosts = useMemo(() => {
     if (!packData) return []
@@ -374,14 +391,31 @@ export default function FounderPackPage() {
             ) : packs.length > 0 ? (
               <div className="relative min-w-0">
                 <select
-                  value={selectedDate}
-                  onChange={e => setSelectedDate(e.target.value)}
-                  className="appearance-none rounded-lg border pl-2 pr-6 py-1.5 text-xs focus:outline-none cursor-pointer max-w-[200px] sm:max-w-xs truncate"
+                  value={selectedFilename || (packs.find(p => p.date === selectedDate)?.filename ?? '')}
+                  onChange={e => {
+                    const fn = e.target.value
+                    const p = packs.find(x => x.filename === fn)
+                    if (p) {
+                      setSelectedFilename(fn)
+                      setSelectedDate(p.date)
+                    }
+                  }}
+                  className="appearance-none rounded-lg border pl-2 pr-6 py-1.5 text-xs focus:outline-none cursor-pointer max-w-[260px] sm:max-w-[340px] truncate"
                   style={{ borderColor: 'var(--border-1)', backgroundColor: 'var(--surface-2)', color: 'var(--text-primary)' }}
                 >
-                  {packs.map(p => (
-                    <option key={p.date} value={p.date}>{p.date}</option>
-                  ))}
+                  {packs.map(p => {
+                    // Extract the run-number suffix so users can tell entries
+                    // apart at a glance. e.g. "manisha_batch_2026-05-18_4.xlsx"
+                    // → " #4 · xlsx · 41kb"
+                    const m = p.filename.match(/_(\d+)\.(json|xlsx)$/)
+                    const suffix = m ? ` #${m[1]}` : ''
+                    const fmt = p.format || (p.filename.endsWith('.xlsx') ? 'xlsx' : 'json')
+                    return (
+                      <option key={p.filename} value={p.filename}>
+                        {p.date}{suffix} · {fmt} · {p.size_kb}kb
+                      </option>
+                    )
+                  })}
                 </select>
                 <ChevronDown size={10} className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
               </div>
