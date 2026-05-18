@@ -79,6 +79,13 @@ class LLMRouter:
         self._yaml_cfg: dict | None = None
         self._instance_cache: dict[tuple, LLMProvider] = {}
         self._on_token_callback = None
+        # Runtime overrides — applied to EVERY task's LLM instance, regardless
+        # of admin/founder config. Set by session.run() so that a founder's
+        # explicit "thinking off / effort medium" choice on a schedule actually
+        # carries through to all downstream tasks (transpose, amplify, voice
+        # validation, etc.), not just the first task accessed.
+        self._runtime_enable_thinking: bool | None = None
+        self._runtime_effort: str | None = None
 
     # ----- public API -----
 
@@ -137,10 +144,40 @@ class LLMRouter:
         resolved["task_id"] = task_id
         return resolved
 
+    def set_runtime_overrides(
+        self,
+        enable_thinking: bool | None = None,
+        effort: str | None = None,
+    ) -> None:
+        """Force enable_thinking / effort across ALL task LLM instances.
+
+        Applies retroactively to already-cached instances and prospectively to
+        any new ones returned via for_task / for_purpose. Pass None to leave a
+        field unchanged.
+        """
+        if enable_thinking is not None:
+            self._runtime_enable_thinking = bool(enable_thinking)
+        if effort is not None:
+            self._runtime_effort = effort
+        # Mutate all already-cached instances so subsequent calls hit the new value.
+        for inst in self._instance_cache.values():
+            if self._runtime_enable_thinking is not None and hasattr(inst, "enable_thinking"):
+                inst.enable_thinking = self._runtime_enable_thinking
+            if self._runtime_effort is not None and hasattr(inst, "effort"):
+                inst.effort = self._runtime_effort
+
+    def _apply_runtime_overrides(self, instance: LLMProvider) -> LLMProvider:
+        """Apply runtime overrides to a single instance before returning it."""
+        if self._runtime_enable_thinking is not None and hasattr(instance, "enable_thinking"):
+            instance.enable_thinking = self._runtime_enable_thinking
+        if self._runtime_effort is not None and hasattr(instance, "effort"):
+            instance.effort = self._runtime_effort
+        return instance
+
     def for_task(self, task_id: str) -> LLMProvider:
         """Return (and cache) an LLMProvider for the named task."""
         resolved = self.resolve(task_id)
-        return self._instance_for(resolved)
+        return self._apply_runtime_overrides(self._instance_for(resolved))
 
     def for_purpose(self, purpose: str) -> LLMProvider:
         """Back-compat: resolve via the legacy purpose buckets in llm-config.yaml.
@@ -163,7 +200,7 @@ class LLMRouter:
             "_source": "default",
             "task_id": f"_purpose:{purpose}",
         }
-        return self._instance_for(resolved)
+        return self._apply_runtime_overrides(self._instance_for(resolved))
 
     def task_sources(self) -> dict[str, str]:
         """Map of task_id → source ('founder'/'admin'/'default') for UI badges."""

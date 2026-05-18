@@ -392,13 +392,14 @@ class BatchSession:
         # callers that haven't been migrated to task-aware lookups yet.
         router = LLMRouter(config_path=config_path, founder_slug=founder_slug)
         router.set_on_token(self._on_llm_token)
+        # CRITICAL: apply runtime overrides BEFORE any for_task() call so that
+        # downstream tasks (transpose, amplify, voice_validation, etc.) honor
+        # the founder's enable_thinking + effort choice. Without this, only
+        # llm_gen got the override and other cached task LLMs kept admin
+        # defaults (thinking=True, effort=high).
+        router.set_runtime_overrides(enable_thinking=enable_thinking, effort=effort)
         llm_gen = router.for_task("generate_a")
         llm_prep = router.for_task("dissect")
-
-        if hasattr(llm_gen, 'enable_thinking'):
-            llm_gen.enable_thinking = enable_thinking
-        if hasattr(llm_gen, 'effort'):
-            llm_gen.effort = effort
 
         tracer = BatchTracer(
             model=getattr(llm_gen, '_model_name', 'unknown'),
