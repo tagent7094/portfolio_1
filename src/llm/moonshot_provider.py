@@ -226,9 +226,12 @@ class MoonshotProvider(LLMProvider):
         effort: str | None = None,
         images: list[str] | None = None,
     ) -> str:
+        # Note: max_tokens is intentionally NOT sent to Moonshot (see
+        # generate_stream comment). We don't print it here either — the
+        # log should reflect what we actually do, not what the caller asked.
         print(
             f"\033[36m[LLM:kimi/{self.model}]\033[0m generate() prompt={len(prompt)} chars, "
-            f"temp={temperature}, max_tokens={max_tokens}, thinking={self._supports_thinking() and self.enable_thinking}",
+            f"temp={temperature}, max_tokens=server-default, thinking={self._supports_thinking() and self.enable_thinking}",
             file=sys.stderr, flush=True,
         )
         result = "".join(self.generate_stream(
@@ -336,7 +339,7 @@ class MoonshotProvider(LLMProvider):
         max_tok = self.max_output_tokens
         print(
             f"\033[36m[LLM:kimi/{self.model}]\033[0m generate_json() prompt={len(prompt)} chars, "
-            f"max_output={max_tok}",
+            f"max_output=server-default",
             file=sys.stderr, flush=True,
         )
         for attempt in range(3):

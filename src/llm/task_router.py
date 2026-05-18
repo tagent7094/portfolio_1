@@ -267,9 +267,12 @@ class LLMRouter:
         self._instance_cache[key] = instance
 
         thinking_info = f", thinking_budget={thinking_budget}" if thinking_budget else ""
+        # Kimi is unconstrained by design — its provider strips max_tokens from
+        # the API request, so showing a numeric value here is misleading.
+        max_tok_str = "server-default" if provider == "kimi" else str(max_tokens)
         print(
             f"\033[36m[LLM Router]\033[0m built provider={provider!r}, model={model!r}, "
-            f"max_tokens={max_tokens}{thinking_info}, source={resolved.get('_source')!r}, task={resolved.get('task_id')!r}",
+            f"max_tokens={max_tok_str}{thinking_info}, source={resolved.get('_source')!r}, task={resolved.get('task_id')!r}",
             file=sys.stderr, flush=True,
         )
         return instance
