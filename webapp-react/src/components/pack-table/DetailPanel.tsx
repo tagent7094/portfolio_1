@@ -32,7 +32,9 @@ export function DetailPanel({
   const statusCols  = headers.filter(h => h.startsWith('Status'))
   const finalPost   = s(post['Finalized Post'] || post['Final Post'])
   const whyText     = s(post['Why'])
-  const sourceQ     = s(post['Source Quote'])
+  // Source column lookup — canonical key from BATCH_HEADERS is "Source Post",
+  // but earlier manual xlsx uploads named it "Source Quote". Accept either.
+  const sourceQ     = s(post['Source Post'] || post['Source Quote'])
   const mechanic    = s(post['Mechanic'])
   const origOpening = s(post['Original Opening'])
   const origType    = s(post['Original Type'])
