@@ -104,6 +104,10 @@ export default function GeneratePage() {
   const logEndRef = useRef<HTMLDivElement>(null)
   const lastPackDateRef = useRef<string>('')
   const lastFilepathRef = useRef<string>('')
+  // Hard guard against double-fire of the batch POST. React StrictMode + a
+  // fast double-click can each invoke handleGenerate before the `generating`
+  // state propagates, racing two batches on the same founder.
+  const startingRef = useRef<boolean>(false)
 
   // Pack display state
   const [packData, setPackData] = useState<PackData | null>(null)
@@ -498,6 +502,14 @@ export default function GeneratePage() {
   }, [active, startSSE, buildSteps])
 
   const handleGenerate = async () => {
+    // Guard against double-fire: React StrictMode dev double-render or a
+    // fast double-click both cause two POSTs to /api/generate/batch/background,
+    // which then race for the same founder's anchor inventory cache and emit
+    // duplicated SSE events to the UI. The `generating` state is async so it
+    // can't block a same-tick second call; use the ref for a hard guard.
+    if (startingRef.current) {
+      return
+    }
     if (!active) {
       setError('No founder selected')
       return
@@ -510,6 +522,7 @@ export default function GeneratePage() {
       setError('Paste at least one source post')
       return
     }
+    startingRef.current = true
     setGenerating(true)
     setProgress(0)
     setStage('starting...')
@@ -549,6 +562,8 @@ export default function GeneratePage() {
     } catch (e: any) {
       setError(e?.message || 'Failed to start generation')
       setGenerating(false)
+    } finally {
+      startingRef.current = false
     }
   }
 

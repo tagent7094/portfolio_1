@@ -33,43 +33,15 @@ def _deterministic_voice_check(text: str) -> list[str]:
 
 
 def validate_voice(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> dict:
-    """v5 shim: per-post validation moved into pack-level validate_pack()
-    (05_validate.txt). Old callers get a PASS so they don't trigger regen.
+    """v6.1 shim: pass-through PASS. The pack-level validator (05_validate.txt)
+    is now the SOLE judge of quality.
 
-    Python prechecks + blacklist check still run as zero-cost gates.
+    Previous versions ran two Python-side gates here (prechecks for banned
+    phrases + word-count range, and a blacklist regex). Both produced false
+    positives that triggered wasted regens (e.g. B2 failed on "transformative"
+    appearing in legitimate context; B5 failed on word_count=130 vs band=137).
+    Per the v6.1 "deterministic API calls only" directive: no hardcoded gates.
     """
-    from .prechecks import run_all_prechecks
-
-    precheck = run_all_prechecks(
-        post.text, state,
-        stories_declared=getattr(post, "stories_used", None) or [],
-    )
-    if not precheck["pass"]:
-        logger.info("[voice_validator] %s: precheck FAIL — %s", post.label, precheck["failures"])
-        return {
-            "overall": "FAIL",
-            "voice_marker_score": 0,
-            "register_score": 0,
-            "register_reads_as": "unknown",
-            "violations": precheck["failures"],
-            "suggestion": f"Fix: {'; '.join(precheck['failures'][:3])}",
-            "precheck_fail": True,
-        }
-
-    blacklist_hits = _deterministic_voice_check(post.text)
-    if blacklist_hits:
-        logger.info("[voice_validator] %s: blacklist FAIL — %s", post.label, ", ".join(blacklist_hits))
-        return {
-            "overall": "FAIL",
-            "voice_marker_score": 0,
-            "register_score": 0,
-            "register_reads_as": "corporate",
-            "violations": [f"Blacklisted phrase: '{p}'" for p in blacklist_hits],
-            "suggestion": f"Remove corporate language: {', '.join(blacklist_hits)}",
-            "blacklist_fail": True,
-        }
-
-    # No per-post LLM call in v5; the heavy validation runs once at pack level.
     return {"overall": "PASS", "voice_marker_score": 3, "register_score": 3}
 
 

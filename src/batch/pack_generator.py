@@ -854,59 +854,10 @@ def generate_pack_sequential(
 
         post = _enforce_word_count(post, state, llm=llm)
 
-        # v6.1: inline body-diff check on Batch A. Compare against prior A posts
-        # in this pack before moving on. If overlap ≥ 6 shared sentences, regen
-        # this single post once with a stricter diversity hint. Doing this here
-        # is much cheaper than waiting until validate (whole pack done) — we
-        # catch clones at generation time, not after 9 posts ship.
-        if batch == "A":
-            prior_a_posts = [p for p in pack if p.batch == "A"]
-            if prior_a_posts:
-                from .voice_validator import _body_diff_check as _vv_body_diff
-                bd = _vv_body_diff(prior_a_posts + [post])
-                if not bd.get("passed", True) and post.label in (bd.get("regen_targets", []) or []):
-                    logger.warning(
-                        "[generate] %s: body_diff fail vs prior A posts — regenerating with stricter diversity",
-                        label,
-                    )
-                    diversity_hint = (
-                        f"REGEN_INLINE: Your previous attempt for {label} shared "
-                        "≥6 sentences with another Batch A post. You MUST use:\n"
-                        "  - a DIFFERENT anchor from anchors_remaining\n"
-                        "  - a DIFFERENT example/scene in paragraphs 2-3\n"
-                        "  - DIFFERENT specifics (numbers, names, dates)\n"
-                        "Keep only the mirrored opener shape. Everything else must diverge."
-                    )
-                    regen_post = _generate_one_post(
-                        llm, source, dissection, voice_load_data,
-                        post_index=i, post_label=label, post_type=batch, post_count=1,
-                        prior_posts=prior_posts,
-                        state=state, pack_num=pack_num,
-                        regen_attempt=1,
-                        failed_parameters=["body_diff_overlap"],
-                        explicit_avoid=[p.text[:200] for p in prior_a_posts],
-                        prior_attempt_text=post.text or "",
-                        fallback_strategy=diversity_hint,
-                    )
-                    if regen_post is not None:
-                        regen_post = _enforce_word_count(regen_post, state, llm=llm)
-                        # Re-check; if still overlapping, accept anyway (validator
-                        # will catch and trigger another regen later).
-                        bd2 = _vv_body_diff(prior_a_posts + [regen_post])
-                        if bd2.get("passed", True) or regen_post.label not in (bd2.get("regen_targets", []) or []):
-                            logger.info(
-                                "[generate] %s: inline regen resolved body_diff overlap",
-                                label,
-                            )
-                            post = regen_post
-                        else:
-                            logger.warning(
-                                "[generate] %s: inline regen still overlaps — keeping new version; "
-                                "validator will retry",
-                                label,
-                            )
-                            post = regen_post
-
+        # v6.1: NO inline body-diff regen here. Per "deterministic API calls only"
+        # directive — the pack-level validator is the sole authority on
+        # cross-variant similarity. Previous Phase 2.5 inline Jaccard heuristic
+        # produced false-positive regens (common phrasing flagged as overlap).
         pack.append(post)
 
         # Record prior_posts entry with v6 richer schema for the NEXT call.
@@ -1197,15 +1148,18 @@ def _hard_truncate_to_word_count(post: AmplifiedPost, hi: int) -> AmplifiedPost:
 
 
 def _enforce_word_count(post: AmplifiedPost, state: BatchState, llm: LLMProvider | None = None) -> AmplifiedPost:
-    """Enforce word count range with a 3-step ladder.
+    """v6.1: NO trim ladder, NO hard truncation. Per "deterministic API calls
+    only" directive — the pack-level LLM validator judges whether word-count
+    deviation is meaningful for THIS post, not a fixed band heuristic.
 
-    1. Mechanical paragraph drop (only if post has >3 paragraphs).
-    2. First LLM trim attempt (target = midpoint of band).
-    3. Strict LLM trim (target shifted toward lower bound, harsher prompt).
-    4. Hard sentence-aware truncation as last resort.
+    A 7-word miss (e.g. 130 vs band 137-253) often isn't a quality problem;
+    forcing an LLM trim there is wasted cost. The validator can read each
+    post in context and decide whether to regen on length grounds.
 
-    A post that returns from this function is GUARANTEED to be at-or-below the
-    upper band. Under-band stays under-band (less harmful, only logged).
+    We do ONE cheap mechanical step: if the post has more than 3 paragraphs
+    AND is over band, drop the second-to-last paragraph. This is a structural
+    repair (not a heuristic gate) for the case where the generator clearly
+    appended a redundant beat. If still over-band, we accept and move on.
     """
     _lo, _hi = state.word_count_range
     lo, hi = min(_lo, _hi), max(_lo, _hi)
@@ -1213,38 +1167,24 @@ def _enforce_word_count(post: AmplifiedPost, state: BatchState, llm: LLMProvider
     if lo <= wc <= hi:
         return post
 
-    # Step 1: mechanical middle-paragraph drop if there's room.
     if wc > hi:
         paragraphs = post.text.strip().split("\n\n")
         if len(paragraphs) > 3:
             paragraphs.pop(-2)
             post.text = "\n\n".join(paragraphs)
             post.word_count = len(post.text.split())
-            logger.info("[batch] Trimmed %s from %d to %d words", post.label, wc, post.word_count)
-    if lo <= post.word_count <= hi:
-        return post
+            logger.info("[batch] %s: mechanical-trimmed (drop weakest middle paragraph) %d → %d words",
+                        post.label, wc, post.word_count)
 
-    # Step 2: first LLM trim attempt.
-    if post.word_count > hi and llm:
-        post = _llm_trim_post(llm, post, state, strict=False)
-    if lo <= post.word_count <= hi:
-        return post
-
-    # Step 3: strict LLM trim if first attempt failed to land in band.
-    if post.word_count > hi and llm:
-        post = _llm_trim_post(llm, post, state, strict=True)
-    if lo <= post.word_count <= hi:
-        return post
-
-    # Step 4: hard sentence-aware truncation. Guarantees at-or-below cap.
-    if post.word_count > hi:
-        post = _hard_truncate_to_word_count(post, hi)
-
-    # Only under-band remains as a possible residual — log but never block.
-    if post.word_count < lo:
-        violation = f"word_count: {post.word_count} (range {lo}-{hi})"
-        post.violations.append(violation)
-        logger.warning("[batch] %s VIOLATION: %s (under-band, kept as-is)", post.label, violation)
+    # Record current state for the validator to read. No further trimming,
+    # no truncation. The validator's per_post_validation will surface
+    # length-related concerns if any.
+    if not (lo <= post.word_count <= hi):
+        residual = f"word_count: {post.word_count} (band {lo}-{hi}, accepted; validator may regen)"
+        post.violations.append(residual)
+        logger.info("[batch] %s: word_count %d outside band [%d,%d] — passing to validator",
+                    post.label, post.word_count, lo, hi)
+    return post
     return post
 
 

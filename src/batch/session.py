@@ -25,7 +25,6 @@ from .voice_validator import (
     check_anchor_specificity,
     check_closer_shape,
     validate_pack,
-    _body_diff_check,
 )
 from .anchor_inventory import build_anchor_inventory
 from .inventory_state import PackInventoryState
@@ -852,78 +851,24 @@ class BatchSession:
                 metadata={"v6_replacement": True},
             )
 
-            # v5: code-side body-diff check across Batch A variants (cheap pre-check).
-            a_only = [p for p in amplified_posts if p.batch == "A"]
-            body_diff = _body_diff_check(a_only) if len(a_only) >= 2 else {"passed": True, "pair_results": [], "regen_targets": []}
-            self._emit(f"pack_{pack_num}", "body_diff_check", body_diff)
-            tracer.trace_decision(
-                f"pack_{pack_num}_body_diff",
-                f"passed={body_diff.get('passed', True)} regen_targets={body_diff.get('regen_targets', [])}",
-                metadata=body_diff,
-            )
-
-            # v6: validate-regen loop. Closes the v5.1 ceiling (validator
-            # caught failures but orchestrator shipped anyway). Regenerates
-            # failing posts up to 3× before rejecting the pack.
+            # v6.1: NO Python-side body-diff check. The pack-level LLM validator
+            # (05_validate.txt) judges cross-variant body overlap via its
+            # `body_diff_batch_a` section. Per "deterministic API calls only"
+            # directive: don't run a Jaccard 0.85 sentence-overlap heuristic
+            # that triggered false-positive regens (false matches on common
+            # phrasing like "I've watched this across dozens of calls").
             pack.posts = amplified_posts
 
             def _validator_fn(_state, _posts):
-                """Run pack-level voice validator AND merge body_diff failures.
+                """v6.1: pack-level LLM validator is the sole authority.
 
-                The validator LLM can miss cross-variant body overlaps (it sees
-                each post individually). Re-running the code-side body_diff
-                check on every iteration and merging its failures into the
-                validate output ensures Batch A clones never silently ship.
+                No Python pre/post-checks merged here. The validator reads
+                all 9 posts at once and produces per_post_validation[] plus
+                pack_level_checks including its own body_diff_batch_a. Its
+                pack_decision.ship_or_regen_or_reject + regen_targets[] drive
+                the regen loop directly.
                 """
-                result = validate_pack(llm_prep, _posts, _state)
-                a_iter = [p for p in _posts if p.batch == "A"]
-                bd = _body_diff_check(a_iter) if len(a_iter) >= 2 else {"passed": True, "regen_targets": []}
-                if not bd.get("passed", True):
-                    pd = result.setdefault("pack_decision", {}) or {}
-                    if not isinstance(pd, dict):
-                        pd = {}
-                    existing = pd.get("regen_targets", []) or []
-                    if not isinstance(existing, list):
-                        existing = []
-                    seen_labels = {
-                        t.get("label") for t in existing
-                        if isinstance(t, dict) and t.get("label")
-                    }
-                    added = 0
-                    for lbl in set(bd.get("regen_targets", []) or []):
-                        if not lbl or lbl in seen_labels:
-                            continue
-                        existing.append({
-                            "label": lbl,
-                            "failure_reason": "body_diff_overlap",
-                            "explicit_regen_instructions": {
-                                "what_to_change": (
-                                    "Body of this Batch A post shares ≥6 sentences "
-                                    "with another Batch A peer. Rewrite all middle "
-                                    "paragraphs with non-overlapping evidence."
-                                ),
-                                "what_to_preserve": (
-                                    "Opener may stay (mirror discipline). Argument "
-                                    "skeleton may stay. Specific examples/scenes/cast "
-                                    "must change."
-                                ),
-                                "constraint": (
-                                    "Pick a different anchor from anchors_remaining. "
-                                    "Use a different scene, different cast member, "
-                                    "different industry specifics from the other A posts."
-                                ),
-                            },
-                        })
-                        added += 1
-                    pd["regen_targets"] = existing
-                    pd["ship_or_regen_or_reject"] = "regen"
-                    pd["quality_floor_met"] = False
-                    result["pack_decision"] = pd
-                    logger.info(
-                        "[validate+body_diff] merged %d body_diff regen target(s): %s",
-                        added, sorted(set(bd.get("regen_targets", []) or [])),
-                    )
-                return result
+                return validate_pack(llm_prep, _posts, _state)
 
             def _regenerator_fn(*, state, post_label, regen_attempt,
                                 failed_parameters, explicit_avoid,

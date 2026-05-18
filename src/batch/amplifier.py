@@ -174,58 +174,22 @@ def _should_preserve_door(
     )
 
 
-def _paragraph_jaccard(a: str, b: str) -> float:
-    """Word-set Jaccard similarity between two paragraphs.
-
-    Words shorter than 4 chars are ignored to suppress stopword noise. Returns
-    0.0 when either side has fewer than 3 content words (paragraph too short
-    to meaningfully compare).
-    """
-    if not a or not b:
-        return 0.0
-    set_a = {w.lower() for w in a.split() if len(w) >= 4}
-    set_b = {w.lower() for w in b.split() if len(w) >= 4}
-    if len(set_a) < 3 or len(set_b) < 3:
-        return 0.0
-    inter = len(set_a & set_b)
-    union = len(set_a | set_b)
-    return inter / union if union else 0.0
-
-
 def _apply_best_opener(post: AmplifiedPost, best: dict) -> AmplifiedPost:
     """Replace the post's opening paragraph with the best alternative.
 
-    v6.1: also dedup subsequent paragraphs against the new opener. If the
-    generator already wrote a paragraph that says nearly the same thing as
-    the new opener (the B1 "paragraph 1 = paragraph 2" bug), drop the dup.
+    v6.1: NO Python paragraph dedup. Per "deterministic API calls only"
+    directive — the pack-level validator catches duplicate paragraphs via
+    its `duplicate_paragraph_within_post` check. Previous Phase 2.6
+    Jaccard-0.6 dedup could drop legitimate echo structure.
     """
     paragraphs = post.text.strip().split("\n\n")
     if not paragraphs:
         return post
 
-    new_opener = best["opening"]
     post.original_opening = paragraphs[0]
-    paragraphs[0] = new_opener
-
-    # Dedup pass: walk paragraphs 1..N. Drop any with ≥0.6 Jaccard to the new
-    # opener (high overlap = the original body contained the same idea the new
-    # opener replaced). Cap at one drop so we don't strip too aggressively if
-    # the post has legitimate echo structure.
-    drops_remaining = 1
-    deduped = [paragraphs[0]]
-    for para in paragraphs[1:]:
-        if drops_remaining > 0 and _paragraph_jaccard(new_opener, para) >= 0.6:
-            logger.info(
-                "[amplifier_v2] %s: dropped duplicate paragraph after opener replace (jaccard ≥0.6)",
-                post.label,
-            )
-            drops_remaining -= 1
-            continue
-        deduped.append(para)
-    paragraphs = deduped
-
+    paragraphs[0] = best["opening"]
     post.text = "\n\n".join(paragraphs)
-    post.final_opening = new_opener
+    post.final_opening = best["opening"]
     post.mechanic = _normalize_mechanic(best.get("mechanic", ""))
     post.rating = best.get("rating", 0)
     post.word_count = len(post.text.split())
