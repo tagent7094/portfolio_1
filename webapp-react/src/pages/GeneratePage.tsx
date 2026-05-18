@@ -403,7 +403,7 @@ export default function GeneratePage() {
           return
         }
         if (ev.status === 'post_updated' && ev.data) {
-          setReadyPosts(prev => prev.map(p => p.label === ev.data.label ? ev.data : p))
+          setReadyPosts(prev => prev.map(p => p.label === ev.data.label && p.source_number === ev.data.source_number ? ev.data : p))
           return
         }
         if (ev.status === 'llm_chunk') return
@@ -1112,7 +1112,7 @@ export default function GeneratePage() {
                       </div>
                       <div className="grid gap-2">
                         {readyPosts.map((p) => (
-                          <div key={p.label} className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-2)] p-3 transition-all duration-300">
+                          <div key={`${p.source_number}_${p.label}`} className="rounded-lg border border-[var(--border-2)] bg-[var(--surface-2)] p-3 transition-all duration-300">
                             <div className="flex items-center gap-2 mb-1.5">
                               <span className="text-[11px] font-bold" style={{ color: 'var(--text-primary)' }}>{p.label}</span>
                               <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: p.batch === 'A' ? 'var(--accent-dim)' : 'var(--surface-3)', color: 'var(--text-muted)' }}>

@@ -16,6 +16,7 @@ from ..utils.text_utils import load_prompt, fill_prompt
 from ..llm.base import LLMProvider
 from ..generation.creativity import creativity_to_temperature
 from .state import BatchState, PackResult, AmplifiedPost
+from .amplifier import TEMPLATE_REPOSITORY
 
 logger = logging.getLogger(__name__)
 PROMPTS_DIR = Path(__file__).parent / "prompts"
@@ -57,32 +58,127 @@ def select_entry_doors(n: int, used_globally: dict, pack_number: int) -> list[st
 
 
 def dissect_source(llm: LLMProvider, source: str, state: BatchState, pack_num: int = 0) -> dict:
-    """Dissect a viral source post's hook mechanics."""
+    """v6: Dissect viral source via 02_dissect.txt.
+
+    Now takes `anchor_inventory` + `inventory_summary` and outputs
+    `source_fitness_check.routing_decision` which the orchestrator honors
+    upstream of generation.
+    """
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("dissect")
     template = load_prompt(PROMPTS_DIR / "source_dissect_hook.txt")
-    prompt = fill_prompt(template, source_post=source, platform=state.platform)
+
+    # v6 placeholders: anchor_inventory + inventory_summary
+    inv_full = state.anchor_inventory or {}
+    inv_list = inv_full.get("anchor_inventory", []) or []
+    inv_summary = inv_full.get("inventory_summary", {}) or {}
+
+    # v6.1: feed the 13-template repository to the dissect prompt so it can
+    # pick a hook_mechanic_primary + hook_sub_mechanic from a known catalog
+    # AND select a batch_b_template_match. Compact view — drop verbose
+    # description fields to keep prompt size bounded.
+    repo_compact = [
+        {
+            "id": t.get("id"),
+            "tier": t.get("tier"),
+            "name": t.get("name"),
+            "sub_mechanics": t.get("sub_mechanics", []),
+            "narrative_engine": t.get("narrative_engine"),
+            "closing_move": t.get("closing_move"),
+            "parameter_list": t.get("parameter_list", []),
+            "mirror_requires": t.get("mirror_requires", []),
+            "strip_test_template": t.get("strip_test_template"),
+            "example_openings": (t.get("example_openings") or [])[:2],
+        }
+        for t in (TEMPLATE_REPOSITORY or [])
+    ]
+
+    prompt = fill_prompt(
+        template,
+        source_post=source,
+        platform=state.platform,
+        anchor_inventory=json.dumps(inv_list, ensure_ascii=False)[:8000] or "(no inventory)",
+        inventory_summary=json.dumps(inv_summary, ensure_ascii=False)[:2000] or "{}",
+        template_repository=json.dumps(repo_compact, ensure_ascii=False)[:8000] or "[]",
+    )
 
     import time as _t
     _start = _t.time()
-    response = llm.generate(prompt, temperature=0.2, max_tokens=2000)
+    response = llm.generate(prompt, temperature=0.2, max_tokens=3000)
     _dur = int((_t.time() - _start) * 1000)
     result = parse_llm_json(response)
 
     if state.tracer:
         state.tracer.trace_llm_call(
             stage=f"pack_{pack_num}_dissect",
-            template="source_dissect_hook.txt",
+            template="02_dissect.txt",
             prompt=prompt,
             response=response,
             temperature=0.2,
-            max_tokens=2000,
+            max_tokens=3000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
             llm=llm,
         )
 
-    return result if isinstance(result, dict) else {"narrative_arc": "unknown", "mirrorable": True}
+    if not isinstance(result, dict):
+        # On parse failure, default to the safe "no batch A" path.
+        state.routing_decision = "skip_batch_a_route_all_to_b"
+        return {
+            "narrative_arc": "unknown",
+            "mirrorable": True,
+            "skip_batch_a": True,
+            "source_fitness_check": {
+                "routing_decision": "skip_batch_a_route_all_to_b",
+                "fitness_explanation": "dissect parse failed — defaulting to all-B for safety",
+            },
+        }
+
+    # Surface a legacy alias so old callers looking up "hook_mechanic_primary"
+    # AND new ones referencing same key both work.
+    if "hook_mechanic_primary" not in result and "hook_mechanic" in result:
+        result["hook_mechanic_primary"] = result["hook_mechanic"]
+
+    # v6.1: parse source_fitness_check.
+    fitness = result.get("source_fitness_check") or {}
+    advisory_routing = fitness.get("routing_decision", "generate_4_batch_a_5_batch_b")
+
+    # USER OVERRIDE: always force 4A+5B. The user wants both batches every
+    # time. v6.1's conservative routing (skip Batch A when sub-mechanic
+    # mismatches) is downgraded to advisory — the validator + regen loop
+    # will still try to mirror, and posts that can't will be flagged for
+    # the user to inspect. Posts that fundamentally can't sub-mechanic-mirror
+    # may not hit Parameter 1 = 10.0 — that's the data limit, not a code bug.
+    routing = "generate_4_batch_a_5_batch_b"
+    if advisory_routing != routing:
+        logger.warning(
+            "[batch] force_4a_5b override: dissect said %s but generating 4A+5B anyway "
+            "(required_sub_mechanic=%s, anchor_matches=%s, mirror_feasible=%s). "
+            "Batch A posts may not achieve Parameter 1 = 10.0 if no anchor matches the sub-mechanic.",
+            advisory_routing,
+            fitness.get("required_sub_mechanic", "?"),
+            fitness.get("matching_sub_mechanic_count", "?"),
+            fitness.get("mirror_feasible", "?"),
+        )
+        # Flag for regen_loop to skip mirror-integrity early reject.
+        state.force_4a_5b_applied = True
+    else:
+        state.force_4a_5b_applied = False
+    state.routing_decision = routing
+    # v6.1 log line matches README §"Verifying v6.1 is working" verbatim shape.
+    logger.info(
+        "[batch] Pack %d dissect routing: %s "
+        "(fitness=%s, required_sub_mechanic=%s, sub_mechanic_matches=%s, "
+        "mirror_feasible=%s, usable_anchors=%s)",
+        pack_num,
+        routing,
+        fitness.get("fitness_score", "?"),
+        fitness.get("required_sub_mechanic", "?"),
+        fitness.get("matching_sub_mechanic_count", fitness.get("total_usable_count", "?")),
+        fitness.get("mirror_feasible", "?"),
+        fitness.get("total_usable_count", "?"),
+    )
+    return result
 
 
 def verify_opener_tests(dissection: dict) -> dict:
@@ -308,6 +404,552 @@ Same psychological move as the source ({hook_mechanic}) but FULLY different surf
 - If two doors feel functionally similar in execution, differentiate the energy/angle"""
 
 
+# ============================================================================
+# v5 sequential generation — 03_generate.txt
+# ============================================================================
+
+def _build_anchors_remaining(voice_load: dict) -> list[str]:
+    """Initial anchors list = key_moments_inventory + signature_scenes from voice_load.
+
+    These accumulate as "used" once a post claims one in its declaration.
+    """
+    moments = voice_load.get("key_moments_inventory", []) or []
+    scenes = voice_load.get("signature_scenes", []) or []
+    cast = voice_load.get("recurring_cast", []) or []
+    out: list[str] = []
+    for x in moments + scenes + cast:
+        if isinstance(x, str) and x.strip():
+            out.append(x.strip())
+        elif isinstance(x, dict):
+            label = x.get("label") or x.get("title") or x.get("name") or ""
+            if label:
+                out.append(label.strip())
+    return out
+
+
+def _compress_prior_posts_v6(prior_posts: list[dict]) -> str:
+    """Render prior_posts for the v6 03_generate.txt prompt.
+
+    v6 schema requires: label, argument_compressed, opener_text,
+    body_paragraph_2, closer_text, anchor_used, tier, closer_mechanic,
+    entry_door, structural_skeleton, surprise_quotient.
+
+    Each field is capped to keep total prior_posts block under ~3KB even
+    on post 9 of the pack.
+    """
+    if not prior_posts:
+        return "(none — this is the first post in the pack)"
+    lines = []
+    for p in prior_posts:
+        compact = {
+            "label": p.get("label", ""),
+            "argument_compressed": (p.get("argument_compressed") or "")[:300],
+            "opener_text": (p.get("opener_text") or "")[:300],
+            "body_paragraph_2": (p.get("body_paragraph_2") or "")[:300],
+            "closer_text": (p.get("closer_text") or "")[:300],
+            "anchor_used": p.get("anchor_used") or "",
+            "tier": p.get("tier") or "",
+            "closer_mechanic": p.get("closer_mechanic") or "",
+            "entry_door": p.get("entry_door") or "",
+            "structural_skeleton": (p.get("structural_skeleton") or {}),
+            "surprise_quotient": (p.get("surprise_quotient") or {}),
+        }
+        lines.append(json.dumps(compact, ensure_ascii=False))
+    return "\n".join(lines)
+
+
+def _extract_body_paragraph_2_and_closer(text: str) -> tuple[str, str]:
+    """Pull the second body paragraph + the final paragraph (closer) from a post."""
+    if not text:
+        return "", ""
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+    if not paragraphs:
+        return "", ""
+    body_p2 = paragraphs[2] if len(paragraphs) >= 3 else ""
+    closer = paragraphs[-1] if len(paragraphs) >= 2 else ""
+    return body_p2, closer
+
+
+def _generate_one_post(
+    llm: LLMProvider,
+    source: str,
+    dissection: dict,
+    voice_load: dict,
+    post_index: int,
+    post_label: str,
+    post_type: str,
+    post_count: int,
+    prior_posts: list[dict],
+    state: BatchState,
+    pack_num: int = 0,
+    regen_attempt: int = 0,
+    failed_parameters: list[str] | None = None,
+    explicit_avoid: list[str] | None = None,
+    required_sub_mechanic: str = "",
+    anchor_to_use: str = "",
+    regenerate_with_mechanic: str = "",
+    fallback_strategy: str = "",
+    prior_attempt_text: str = "",
+) -> AmplifiedPost | None:
+    """v6.1: Generate ONE post via 03_generate.txt with consumable inventory.
+
+    Reads from `state.inventory` (PackInventoryState) for anchors_remaining,
+    anchors_used_in_pack, voice_marker_budget_remaining, voice_markers_used_in_pack.
+
+    On `regen_attempt > 0`, also includes:
+      - failed_parameters / explicit_avoid (what the prior attempt did wrong)
+      - required_sub_mechanic / anchor_to_use / regenerate_with_mechanic
+        (the validator's specific guidance for what to do this time)
+      - fallback_strategy / prior_attempt_text
+
+    All regen guidance is surfaced via synthetic prior_posts entries so the v6
+    03_generate.txt prompt (unchanged in v6.1) can read it through its existing
+    prior_posts placeholder.
+
+    Returns None on parse failure.
+    """
+    if getattr(state, "llm_router", None):
+        try:
+            llm = state.llm_router.for_task("generate")
+        except Exception:
+            task = "generate_a" if post_type == "A" else "generate_b"
+            llm = state.llm_router.for_task(task)
+
+    template = load_prompt(PROMPTS_DIR / "transpose.txt")
+
+    inv = state.inventory
+    anchors_remaining_list = inv.anchors_available if inv else []
+    anchors_used_in_pack = inv.anchors_used_in_pack if inv else []
+    voice_markers_used_in_pack = inv.voice_markers_used_in_pack if inv else []
+    voice_marker_budget_remaining = inv.voice_marker_budget_remaining() if inv else []
+
+    # Cap dissection + voice_load JSON to keep prompt size bounded.
+    dissection_str = json.dumps(dissection, ensure_ascii=False)[:6000]
+    voice_load_str = json.dumps(voice_load, ensure_ascii=False)[:6000]
+
+    # Build the v6 forbidden_templates block (object array — keep as JSON).
+    forbidden_templates = dissection.get("forbidden_templates", []) or []
+    forbidden_phrases = dissection.get("forbidden_phrases", []) or []
+
+    forbidden_phrases_str = (
+        "\n".join(f"- {p}" for p in forbidden_phrases)
+        if forbidden_phrases else "(none extracted from source)"
+    )
+    forbidden_templates_str = (
+        json.dumps(forbidden_templates, ensure_ascii=False)
+        if forbidden_templates else "(none extracted from source)"
+    )
+
+    # If this is a regen, append regen-specific guidance to the prior_posts
+    # block so the model sees the prior attempt + what failed + what to avoid.
+    prior_posts_for_prompt = list(prior_posts)
+    if regen_attempt > 0:
+        # Synthesize the prior-attempt-context entry. The v6.1 validator gives
+        # us 4 levers (required_sub_mechanic, anchor_to_use, regenerate_with_mechanic,
+        # fallback_strategy) and we surface ALL of them so the model can pick
+        # the right anchor + mechanic this time.
+        regen_context = {
+            "failed_parameters": failed_parameters or [],
+            "explicit_avoid": explicit_avoid or [],
+            "required_sub_mechanic": required_sub_mechanic or "",
+            "anchor_to_use": anchor_to_use or "",
+            "regenerate_with_mechanic": regenerate_with_mechanic or "",
+            "fallback_strategy": fallback_strategy or "",
+            "instruction": (
+                f"REGEN ATTEMPT {regen_attempt}/3. Previous attempt failed on "
+                f"{failed_parameters or 'unknown parameters'}. "
+                + (f"Required sub-mechanic THIS time: {required_sub_mechanic}. " if required_sub_mechanic else "")
+                + (f"Use anchor: {anchor_to_use}. " if anchor_to_use else "")
+                + (f"Regenerate with mechanic: {regenerate_with_mechanic}. " if regenerate_with_mechanic else "")
+                + (f"Fallback strategy: {fallback_strategy}. " if fallback_strategy else "")
+            ),
+        }
+        prior_posts_for_prompt.append({
+            "label": f"PRIOR_ATTEMPT_{post_label}",
+            "argument_compressed": "Your previous attempt that failed validation — see regen_context below",
+            "opener_text": (prior_attempt_text or "")[:500],
+            "body_paragraph_2": "",
+            "closer_text": "",
+            "anchor_used": "",
+            "tier": "",
+            "closer_mechanic": "",
+            "entry_door": "",
+            "structural_skeleton": regen_context,
+            "surprise_quotient": {"explicit_avoid": explicit_avoid or []},
+        })
+
+    wc_lo, wc_hi = min(state.word_count_range), max(state.word_count_range)
+
+    # Mode rules for transpose.txt (inline — Batch A mirrors, Batch B diverges)
+    mode_rules_str = (
+        f"This is a Batch {post_type} post. "
+        + ("Mirror the source hook's sentence shape (beats 1-2 only). Replace every concrete noun with the founder's world. Body MUST diverge from other A variants."
+           if post_type == "A"
+           else "Same psychological move as source, fully different surface. Use a DIFFERENT entry door from prior posts.")
+    )
+
+    prompt = fill_prompt(
+        template,
+        post_index=str(post_index),
+        post_label=post_label,
+        post_type=post_type,
+        post_count="1",
+        regen_attempt=str(regen_attempt),
+        source_post=source,
+        dissection=dissection_str,
+        platform=state.platform,
+        voice_load=voice_load_str,
+        calibration_paragraph=voice_load.get("calibration_paragraph", "") or state.calibration_paragraph or "(no calibration available)",
+        anchors_used_in_pack=json.dumps(anchors_used_in_pack, ensure_ascii=False)[:3000] or "(none yet)",
+        anchors_remaining=json.dumps(anchors_remaining_list, ensure_ascii=False)[:6000] or "(no anchors available)",
+        voice_markers_used_in_pack=json.dumps(voice_markers_used_in_pack, ensure_ascii=False) or "(none yet)",
+        voice_marker_budget_remaining=json.dumps(voice_marker_budget_remaining, ensure_ascii=False) or "(no markers in budget)",
+        prior_posts=_compress_prior_posts_v6(prior_posts_for_prompt),
+        forbidden_phrases=forbidden_phrases_str,
+        forbidden_templates=forbidden_templates_str,
+        word_count_range=f"{wc_lo}-{wc_hi} words",
+        # transpose.txt placeholders (fill_prompt ignores extras for old prompt)
+        mode="declaring",
+        mode_rules=mode_rules_str,
+        internalization=voice_load_str,
+        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
+        marker_rates=json.dumps(state.marker_rates or {}, ensure_ascii=False),
+        personality_card=state.personality_card[:3000],
+        formatting_habits=json.dumps(state.formatting_habits or {}, ensure_ascii=False),
+        web_search_facts=json.dumps(state.web_search_context or {}, ensure_ascii=False)[:4000],
+        prior_arguments="\n".join(
+            f"- {p.get('argument_compressed', '')}" for p in prior_posts_for_prompt
+            if p.get("argument_compressed")
+        ) or "(none yet — this is the first post)",
+        events_used=json.dumps(list(state.events_used_global), ensure_ascii=False) if state.events_used_global else "(none yet)",
+        stories_used=json.dumps(list(state.stories_used_global), ensure_ascii=False) if state.stories_used_global else "(none yet)",
+    )
+
+    import time as _t
+    _start = _t.time()
+    try:
+        response = llm.generate(prompt, temperature=0.5, max_tokens=6000)
+    except Exception as e:
+        logger.warning("[generate] %s API error: %s", post_label, e)
+        return None
+    _dur = int((_t.time() - _start) * 1000)
+    result = parse_llm_json(response)
+
+    # transpose.txt wraps output in {"posts": [...]} — unwrap to flat dict.
+    if isinstance(result, dict) and "posts" in result and isinstance(result["posts"], list):
+        if result["posts"]:
+            result = result["posts"][0]
+        else:
+            result = {}
+
+    if state.tracer:
+        state.tracer.trace_llm_call(
+            stage=f"pack_{pack_num}_generate_{post_label}",
+            template="03_generate.txt",
+            prompt=prompt,
+            response=response,
+            temperature=0.5,
+            max_tokens=6000,
+            duration_ms=_dur,
+            thinking=getattr(llm, 'last_thinking', ''),
+            llm=llm,
+            metadata={
+                "label": post_label,
+                "type": post_type,
+                "prior_count": len(prior_posts),
+                "regen_attempt": regen_attempt,
+                "anchors_remaining": len(anchors_remaining_list),
+            },
+        )
+
+    if not isinstance(result, dict) or not result.get("text"):
+        logger.warning("[generate] %s parse failed or empty text", post_label)
+        return None
+
+    # v6 output schema: pre_commit{}, text, mode, events_used, stories_used,
+    # voice_markers_used (list of marker_ids), anchor_consumed_id, word_count,
+    # self_scores{}.
+    pre_commit = result.get("pre_commit") or result.get("declaration") or {}
+    if not isinstance(pre_commit, dict):
+        pre_commit = {}
+    self_scores = result.get("self_scores") or {}
+    if not isinstance(self_scores, dict):
+        self_scores = {}
+
+    text = result.get("text", "").strip()
+    paragraphs = text.split("\n\n")
+
+    anchor_consumed_id = (
+        result.get("anchor_consumed_id")
+        or (pre_commit.get("anchor_consumed") or {}).get("anchor_id")
+        or pre_commit.get("authority_anchor", "")
+        or ""
+    )
+
+    # voice_markers_used in v6 is a list of marker_ids (strings). Older v5
+    # results returned a list of marker_text strings — accept either.
+    voice_markers_used = result.get("voice_markers_used", []) or []
+    if not isinstance(voice_markers_used, list):
+        voice_markers_used = []
+
+    post = AmplifiedPost(
+        label=post_label,
+        batch=post_type,
+        entry_door=pre_commit.get("entry_door") or ("mirrored" if post_type == "A" else pre_commit.get("mechanic", "unknown")),
+        mode=result.get("mode", pre_commit.get("mode", "declaring")),
+        text=text,
+        word_count=int(result.get("word_count") or len(text.split())),
+        original_opening=paragraphs[0] if paragraphs else "",
+        final_opening=paragraphs[0] if paragraphs else "",
+        mechanic=pre_commit.get("mechanic") or "",
+        argument_compressed=pre_commit.get("argument_compressed", ""),
+        events_used=result.get("events_used", []) or [],
+        stories_used=result.get("stories_used", []) or [],
+        closer_mechanic=pre_commit.get("closer_mechanic", ""),
+        authority_anchor=(pre_commit.get("anchor_consumed") or {}).get("anchor_id", "") or pre_commit.get("authority_anchor", "") or anchor_consumed_id,
+        body_format=pre_commit.get("body_format", ""),
+        body_divergence_check=pre_commit.get("body_divergence_check", []) or [],
+        strip_test_residue=pre_commit.get("strip_test_residue", ""),
+        pre_commit=pre_commit,
+        self_scores=self_scores,
+        anchor_consumed_id=anchor_consumed_id,
+        surprise_quotient=pre_commit.get("surprise_quotient") or {},
+        regen_count=regen_attempt,
+    )
+
+    # Stash voice_markers_used on the post object via opener_variants slot
+    # (re-purposed; the regen loop reads this back via post.pre_commit too).
+    post.pre_commit["_voice_markers_used_runtime"] = voice_markers_used
+
+    # Consume inventory.
+    if inv is not None:
+        if anchor_consumed_id:
+            inv.consume_anchor(anchor_consumed_id)
+        for marker_id in voice_markers_used:
+            if isinstance(marker_id, str):
+                inv.consume_voice_marker(marker_id)
+            elif isinstance(marker_id, dict):
+                inv.consume_voice_marker(marker_id.get("marker_id", ""))
+
+    # Global tracking (events / stories) — unchanged from v5.
+    state.events_used_global.update(post.events_used)
+    state.stories_used_global.update(post.stories_used)
+    for s in post.stories_used:
+        if s:
+            state.story_usage_counter[s] = state.story_usage_counter.get(s, 0) + 1
+
+    self_score_below = self_scores.get("self_score_below_threshold", False)
+    lowest = self_scores.get("lowest_parameter_score", "?")
+    logger.info(
+        "[generate] %s done: wc=%d self_lowest=%s self_below_threshold=%s anchor=%s",
+        post_label, post.word_count, lowest, self_score_below, anchor_consumed_id,
+    )
+
+    return post
+
+
+_ROUTING_TO_LABELS = {
+    "generate_4_batch_a_5_batch_b": [("A", 1), ("A", 2), ("A", 3), ("A", 4),
+                                     ("B", 1), ("B", 2), ("B", 3), ("B", 4), ("B", 5)],
+    "generate_3_batch_a_6_batch_b": [("A", 1), ("A", 2), ("A", 3),
+                                     ("B", 1), ("B", 2), ("B", 3), ("B", 4), ("B", 5), ("B", 6)],
+    "generate_2_batch_a_7_batch_b": [("A", 1), ("A", 2),
+                                     ("B", 1), ("B", 2), ("B", 3), ("B", 4),
+                                     ("B", 5), ("B", 6), ("B", 7)],
+    "skip_batch_a_route_all_to_b": [("B", i + 1) for i in range(9)],
+}
+
+
+def generate_pack_sequential(
+    llm: LLMProvider,
+    source: str,
+    dissection: dict,
+    state: BatchState,
+    pack_num: int = 0,
+    event_callback=None,
+    posts_per_source: int = 9,
+) -> list[AmplifiedPost]:
+    """v6: Generate posts sequentially honoring `state.routing_decision`.
+
+    Routing options (from 02_dissect.source_fitness_check.routing_decision):
+      - generate_4_batch_a_5_batch_b: normal 9-post pack (4A+5B)
+      - generate_3_batch_a_6_batch_b: moderate fit (3A+6B)
+      - generate_2_batch_a_7_batch_b: low-moderate fit (2A+7B)
+      - skip_batch_a_route_all_to_b: low fit, all 9 to Batch B
+      - reject_source_insufficient_fit: caller should skip this source entirely
+
+    `posts_per_source` (1-9, default 9) caps the total number of posts produced
+    from the routing-determined labels list. posts_per_source=1 → 1 post,
+    posts_per_source=3 → 3 posts, etc. When < 9 and routing produces an A+B mix,
+    Batch A labels are taken first.
+    """
+    voice_load_data = state.voice_load or state.founder_internalization or {}
+    routing = state.routing_decision or "generate_4_batch_a_5_batch_b"
+
+    if routing == "reject_source_insufficient_fit":
+        logger.warning(
+            "[generate] Pack %d: routing=reject_source_insufficient_fit — skipping generation",
+            pack_num,
+        )
+        return []
+
+    # Legacy fallback when dissection didn't produce a routing decision
+    # (e.g., parse failure before v6 took effect): respect skip_batch_a flag.
+    if routing not in _ROUTING_TO_LABELS:
+        if dissection.get("skip_batch_a") or not dissection.get("mirrorable", True):
+            routing = "skip_batch_a_route_all_to_b"
+        else:
+            routing = "generate_4_batch_a_5_batch_b"
+
+    labels = _ROUTING_TO_LABELS[routing]
+
+    # User cap: posts_per_source (1-9, default 9) limits the total number of
+    # posts produced. When < 9, we slice from the front of the labels list,
+    # which preserves A-first ordering — so posts_per_source=1 gives just A1,
+    # posts_per_source=4 gives A1..A4, posts_per_source=5 gives A1..A4+B1, etc.
+    capped = max(1, min(int(posts_per_source or 9), len(labels)))
+    if capped < len(labels):
+        logger.info(
+            "[generate] Pack %d: posts_per_source=%d caps routing %s from %d to %d posts",
+            pack_num, capped, routing, len(labels), capped,
+        )
+        labels = labels[:capped]
+
+    logger.info("[generate] Pack %d: routing=%s → %d posts (%s)",
+                pack_num, routing, len(labels),
+                ",".join(f"{b}{n}" for b, n in labels))
+
+    prior_posts: list[dict] = []
+    wc_range = state.word_count_range
+    inv = state.inventory  # may be None when caller didn't init; helpers defend
+
+    pack: list[AmplifiedPost] = []
+    for i, (batch, n) in enumerate(labels, start=1):
+        label = f"{batch}{n}"
+        anchors_left = len(inv.anchors_available) if inv else 0
+        logger.info(
+            "[generate] %s start: post_type=%s prior_posts=%d anchors_remaining=%d",
+            label, batch, len(prior_posts), anchors_left,
+        )
+        post = _generate_one_post(
+            llm, source, dissection, voice_load_data,
+            post_index=i, post_label=label, post_type=batch, post_count=1,
+            prior_posts=prior_posts,
+            state=state, pack_num=pack_num,
+            regen_attempt=0,
+        )
+        if post is None:
+            # Single retry on parse failure (no model change).
+            logger.warning("[generate] %s: retrying once after parse failure", label)
+            post = _generate_one_post(
+                llm, source, dissection, voice_load_data,
+                post_index=i, post_label=label, post_type=batch, post_count=1,
+                prior_posts=prior_posts,
+                state=state, pack_num=pack_num,
+                regen_attempt=0,
+            )
+        if post is None:
+            logger.error("[generate] %s: failed twice — skipping post", label)
+            continue
+
+        post = _enforce_word_count(post, state, llm=llm)
+
+        # v6.1: inline body-diff check on Batch A. Compare against prior A posts
+        # in this pack before moving on. If overlap ≥ 6 shared sentences, regen
+        # this single post once with a stricter diversity hint. Doing this here
+        # is much cheaper than waiting until validate (whole pack done) — we
+        # catch clones at generation time, not after 9 posts ship.
+        if batch == "A":
+            prior_a_posts = [p for p in pack if p.batch == "A"]
+            if prior_a_posts:
+                from .voice_validator import _body_diff_check as _vv_body_diff
+                bd = _vv_body_diff(prior_a_posts + [post])
+                if not bd.get("passed", True) and post.label in (bd.get("regen_targets", []) or []):
+                    logger.warning(
+                        "[generate] %s: body_diff fail vs prior A posts — regenerating with stricter diversity",
+                        label,
+                    )
+                    diversity_hint = (
+                        f"REGEN_INLINE: Your previous attempt for {label} shared "
+                        "≥6 sentences with another Batch A post. You MUST use:\n"
+                        "  - a DIFFERENT anchor from anchors_remaining\n"
+                        "  - a DIFFERENT example/scene in paragraphs 2-3\n"
+                        "  - DIFFERENT specifics (numbers, names, dates)\n"
+                        "Keep only the mirrored opener shape. Everything else must diverge."
+                    )
+                    regen_post = _generate_one_post(
+                        llm, source, dissection, voice_load_data,
+                        post_index=i, post_label=label, post_type=batch, post_count=1,
+                        prior_posts=prior_posts,
+                        state=state, pack_num=pack_num,
+                        regen_attempt=1,
+                        failed_parameters=["body_diff_overlap"],
+                        explicit_avoid=[p.text[:200] for p in prior_a_posts],
+                        prior_attempt_text=post.text or "",
+                        fallback_strategy=diversity_hint,
+                    )
+                    if regen_post is not None:
+                        regen_post = _enforce_word_count(regen_post, state, llm=llm)
+                        # Re-check; if still overlapping, accept anyway (validator
+                        # will catch and trigger another regen later).
+                        bd2 = _vv_body_diff(prior_a_posts + [regen_post])
+                        if bd2.get("passed", True) or regen_post.label not in (bd2.get("regen_targets", []) or []):
+                            logger.info(
+                                "[generate] %s: inline regen resolved body_diff overlap",
+                                label,
+                            )
+                            post = regen_post
+                        else:
+                            logger.warning(
+                                "[generate] %s: inline regen still overlaps — keeping new version; "
+                                "validator will retry",
+                                label,
+                            )
+                            post = regen_post
+
+        pack.append(post)
+
+        # Record prior_posts entry with v6 richer schema for the NEXT call.
+        body_p2, closer_text = _extract_body_paragraph_2_and_closer(post.text)
+        prior_posts.append({
+            "label": label,
+            "argument_compressed": post.argument_compressed,
+            "opener_text": (post.text.split("\n\n")[0] if post.text else ""),
+            "body_paragraph_2": body_p2,
+            "closer_text": closer_text,
+            "anchor_used": post.authority_anchor or post.anchor_consumed_id,
+            "tier": (post.pre_commit.get("anchor_consumed") or {}).get("tier", ""),
+            "closer_mechanic": post.closer_mechanic,
+            "entry_door": post.entry_door,
+            "structural_skeleton": post.pre_commit.get("structural_skeleton") or {},
+            "surprise_quotient": post.surprise_quotient or {},
+        })
+
+        if event_callback:
+            event_callback(f"pack_{pack_num}_{label}", {
+                "word_count": post.word_count,
+                "argument": (post.argument_compressed or "")[:80],
+                "anchor": post.authority_anchor or post.anchor_consumed_id,
+                "closer": post.closer_mechanic,
+                "entry_door": post.entry_door,
+                "self_lowest_param": (post.self_scores or {}).get("lowest_parameter_score"),
+            })
+
+    # Bug B: assert labels unique within pack.
+    seen_labels = {p.label for p in pack}
+    assert len(seen_labels) == len(pack), (
+        f"label collision in generated pack: {[p.label for p in pack]}"
+    )
+
+    return pack
+
+
+# ============================================================================
+# v4 transpose — kept as a thin shim for the legacy convergence regen path.
+# Internally delegates to _generate_one_post() so old callers keep working
+# without resurrecting the deprecated transpose.txt prompt.
+# ============================================================================
+
 def transpose(
     llm: LLMProvider,
     source: str,
@@ -322,180 +964,133 @@ def transpose(
     regen_hint: str = "",
     mechanic_override: str = "",
 ) -> list[AmplifiedPost]:
-    """Generate posts using the consolidated transpose prompt.
+    """v5 shim: legacy `transpose()` callers (notably the convergence regen
+    path in session.py) get a one-shot call into `_generate_one_post()`.
 
-    mode="A": mirrored structure (mechanic, body_format, closer from source)
-    mode="B": entry-door posts (different surface, same psychological move)
+    The v5 prompt is `03_generate.txt` — there's no batched mode; we just loop.
+    `diversity_override` / `regen_hint` are appended as synthetic entries in
+    `prior_posts` so the model is told what to avoid without growing the
+    prompt schema.
     """
-    if getattr(state, "llm_router", None):
-        task = "generate_a" if mode == "A" else "generate_b"
-        llm = state.llm_router.for_task(task)
+    voice_load_data = state.voice_load or state.founder_internalization or {}
 
-    template = load_prompt(PROMPTS_DIR / "transpose.txt")
-    temp = creativity_to_temperature(state.creativity)
-
-    if mode == "A":
-        mode_rules = _build_mode_rules_a(dissection, source_post=source)
-    else:
-        mode_rules = _build_mode_rules_b(doors or ["scene_drop", "contrarian_claim", "confession"], dissection)
-
-    events_str = "\n".join(f"- {e}" for e in sorted(state.events_used_global)[:50]) or "None yet"
-    stories_str = "\n".join(f"- {s}" for s in sorted(state.stories_used_global)[:30]) or "None yet"
-    prior_args_str = "\n".join(f"- {a}" for a in (prior_arguments or [])) or "None yet — this is the first batch."
-
+    # Build synthetic prior_posts from the regen hints — the v5 prompt only
+    # speaks the `prior_posts` shape, so we encode regen guidance there.
+    prior_posts: list[dict] = []
+    for arg in (prior_arguments or []):
+        prior_posts.append({
+            "label": "prev",
+            "argument_compressed": arg,
+            "opener_text": "",
+            "anchor_used": "",
+            "closer_mechanic": "",
+            "entry_door": "",
+        })
     if diversity_override:
-        prior_args_str += f"\n\nFORCED ANGLE: This post MUST argue: {diversity_override}"
-
+        prior_posts.append({
+            "label": "FORCED_ANGLE",
+            "argument_compressed": f"FORCED ANGLE — your post MUST argue: {diversity_override}",
+            "opener_text": "",
+            "anchor_used": "",
+            "closer_mechanic": "",
+            "entry_door": "",
+        })
     if regen_hint:
-        prior_args_str += (
-            f"\n\n## REGEN GUIDANCE — fix these specific issues from the prior draft\n{regen_hint}"
-        )
-
+        prior_posts.append({
+            "label": "REGEN_HINT",
+            "argument_compressed": regen_hint,
+            "opener_text": "",
+            "anchor_used": "",
+            "closer_mechanic": "",
+            "entry_door": "",
+        })
     if mechanic_override:
-        prior_args_str += (
-            f"\n\n## AVOID MECHANIC: {mechanic_override}\n"
-            f"Use a DIFFERENT opener mechanic from the 13 proven options. "
-            f"The pack already has too many posts using {mechanic_override}."
+        prior_posts.append({
+            "label": "AVOID_MECHANIC",
+            "argument_compressed": f"Do NOT use opener mechanic: {mechanic_override}",
+            "opener_text": "",
+            "anchor_used": "",
+            "closer_mechanic": "",
+            "entry_door": "",
+        })
+
+    posts: list[AmplifiedPost] = []
+    for i in range(post_count):
+        label = f"{'A' if mode == 'A' else 'B'}{i + 1}"
+        post_type = mode if mode in ("A", "B") else "B"
+        forced_door = (doors[i] if (doors and i < len(doors)) else None)
+        # v6 signature: no more anchors_remaining / forbidden_phrases /
+        # word_count_range params — _generate_one_post pulls those from
+        # state.inventory + state directly.
+        post = _generate_one_post(
+            llm, source, dissection, voice_load_data,
+            post_index=i + 1, post_label=label, post_type=post_type,
+            post_count=post_count, prior_posts=prior_posts,
+            state=state, pack_num=pack_number,
+            regen_attempt=0,
         )
-
-    marker_rates_str = "Not measured"
-    if state.marker_rates:
-        parts = []
-        for k, v in state.marker_rates.items():
-            parts.append(f"- {k}: ~{v:.1f} per post")
-        marker_rates_str = "\n".join(parts)
-
-    dissection_str = json.dumps(dissection, indent=2, ensure_ascii=False)[:2000] if dissection else "N/A"
-
-    # Compose web-search facts block for the fabrication ladder's Tier 2.
-    web_ctx = getattr(state, "web_search_context", {}) or {}
-    facts = web_ctx.get("facts") or []
-    trending = web_ctx.get("trending_topics") or []
-    web_lines: list[str] = []
-    for f in facts[:15]:
-        if isinstance(f, dict):
-            fact = f.get("fact", "").strip()
-            source_attr = f.get("source", "").strip()
-            if fact:
-                line = f"- {fact}"
-                if source_attr:
-                    line += f"  [source: {source_attr}]"
-                web_lines.append(line)
-        elif isinstance(f, str) and f.strip():
-            web_lines.append(f"- {f.strip()}")
-    if trending:
-        web_lines.append("")
-        web_lines.append("Trending topics: " + ", ".join(str(t) for t in trending[:8]))
-    web_search_facts_str = "\n".join(web_lines) or "(no verified real-time facts available — DO NOT invent stats or named events)"
-
-    prompt = fill_prompt(
-        template,
-        post_count=str(post_count),
-        mode=f"{'A (mirrored structure)' if mode == 'A' else 'B (entry-door)'}",
-        source_post=source,
-        dissection=dissection_str,
-        platform=state.platform,
-        mode_rules=mode_rules,
-        internalization=_format_internalization(state),
-        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
-        marker_rates=marker_rates_str,
-        personality_card=state.personality_card[:2000],
-        calibration_paragraph=getattr(state, 'calibration_paragraph', '') or "(no calibration paragraph available)",
-        formatting_habits=str(state.formatting_habits),
-        word_count_range=f"{state.word_count_range[0]}-{state.word_count_range[1]} words",
-        prior_arguments=prior_args_str,
-        events_used=events_str,
-        stories_used=stories_str,
-        web_search_facts=web_search_facts_str,
-    )
-
-    max_tok = min(4000 * post_count, 12000)
-
-    import time as _t
-    _start = _t.time()
-    try:
-        response = llm.generate(prompt, temperature=temp, max_tokens=max_tok)
-    except Exception as e:
-        logger.warning("[transpose] API error for mode=%s pack=%d: %s", mode, pack_number, e)
-        return []
-    _dur = int((_t.time() - _start) * 1000)
-    result = parse_llm_json(response)
-
-    if state.tracer:
-        state.tracer.trace_llm_call(
-            stage=f"pack_{pack_number}_transpose_{mode.lower()}",
-            template="transpose.txt",
-            prompt=prompt,
-            response=response,
-            temperature=temp,
-            max_tokens=max_tok,
-            duration_ms=_dur,
-            thinking=getattr(llm, 'last_thinking', ''),
-            llm=llm,
-            metadata={"mode": mode, "post_count": post_count, "doors": doors},
-        )
-
-    if not isinstance(result, dict) or "posts" not in result:
-        logger.warning("[transpose] Parse failed for mode=%s, returning empty", mode)
-        return []
-
-    posts = []
-    for i, p in enumerate(result.get("posts", [])[:post_count], start=1):
-        if not isinstance(p, dict) or not p.get("text"):
+        if post is None:
             continue
-
-        label = f"{'A' if mode == 'A' else 'B'}{i}"
-        entry_door = "mirrored" if mode == "A" else (doors[i - 1] if doors and i <= len(doors) else "unknown")
-
-        declaration = p.get("declaration", {})
-
-        # Validate declaration matches source for Batch A
-        if mode == "A" and declaration:
-            expected_body = dissection.get("body_format", "")
-            actual_body = declaration.get("body_format", "")
-            if expected_body and actual_body and expected_body != actual_body:
-                logger.warning("[transpose] A%d: declaration body_format=%s != source %s",
-                             i, actual_body, expected_body)
-
-        post = AmplifiedPost(
-            label=label,
-            batch=mode[0] if mode else "B",
-            entry_door=entry_door,
-            mode=p.get("mode", "declaring"),
-            text=p.get("text", ""),
-            word_count=len(p.get("text", "").split()),
-            events_used=p.get("events_used", []),
-            argument_compressed=declaration.get("argument_compressed", p.get("argument_compressed", "")),
-        )
-
-        state.events_used_global.update(post.events_used)
-        stories = p.get("stories_used", [])
-        state.stories_used_global.update(stories)
-        for story in stories:
-            if story:
-                state.story_usage_counter[story] = state.story_usage_counter.get(story, 0) + 1
-
+        # If caller insisted on a specific door for Batch B, override what the
+        # model picked. Sequential generation usually picks correctly but
+        # legacy callers pass an explicit door list.
+        if forced_door and post_type == "B":
+            post.entry_door = forced_door
+        prior_posts.append({
+            "label": label,
+            "argument_compressed": post.argument_compressed,
+            "opener_text": (post.text.split("\n\n")[0] if post.text else ""),
+            "anchor_used": post.authority_anchor or post.anchor_consumed_id,
+            "closer_mechanic": post.closer_mechanic,
+            "entry_door": post.entry_door,
+        })
         posts.append(post)
 
-    logger.info("[transpose] mode=%s produced %d/%d posts", mode, len(posts), post_count)
+    logger.info("[transpose] (v6 shim) mode=%s produced %d/%d posts", mode, len(posts), post_count)
     return posts
 
 
-def _llm_trim_post(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> AmplifiedPost:
-    """Use LLM to trim a post that mechanical trimming couldn't fix."""
+def _llm_trim_post(
+    llm: LLMProvider,
+    post: AmplifiedPost,
+    state: BatchState,
+    strict: bool = False,
+) -> AmplifiedPost:
+    """Use LLM to trim a post that mechanical trimming couldn't fix.
+
+    When `strict=True`, the prompt is harsher and the target shifts toward the
+    lower bound (forces the model to cut more aggressively rather than land near
+    the ceiling). Called as the second attempt after a soft trim overshoots.
+    """
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("word_count_trim")
     _lo, _hi = state.word_count_range
     lo, hi = min(_lo, _hi), max(_lo, _hi)
-    prompt = f"""This LinkedIn post is {post.word_count} words. The target range is {lo}-{hi} words.
+    target = (lo + hi) // 2 if not strict else lo + (hi - lo) // 4
+    stage_label = "word_count_trim_strict" if strict else "word_count_trim"
+    if strict:
+        prompt = f"""STRICT TRIM. This LinkedIn post is {post.word_count} words. It MUST come down to at most {hi} words. Prior trim attempt overshot — be MORE aggressive this time.
 
-Trim it to fit by removing the least essential paragraph. Rules:
-- Keep the opening paragraph exactly as-is
-- Keep the closing paragraph exactly as-is
-- Remove or shorten middle paragraphs
-- Preserve the core argument
+Rules:
+- Keep ONLY the opening paragraph (first 1-2 sentences) and the closing line.
+- DELETE entire middle paragraphs. Pick the 2-3 strongest middle paragraphs and KEEP THOSE. Cut everything else.
+- If still over {hi}: cut filler phrases inside the surviving paragraphs.
+- Do NOT add new content. ONLY remove.
+- Aim for around {target} words; ABSOLUTE HARD CAP is {hi}.
 
-Return ONLY the trimmed post text, no JSON wrapping, no explanation.""" + f"\n\n---\n\n{post.text}"
+Return ONLY the trimmed post text. No JSON, no explanation, no preamble."""
+    else:
+        prompt = f"""This LinkedIn post is {post.word_count} words. It MUST be trimmed to EXACTLY {target} words (hard limit: {lo}-{hi}).
+
+Cut aggressively:
+- Keep opening paragraph (first 1-2 sentences) exactly as-is
+- Keep closing line exactly as-is
+- DELETE the weakest middle paragraph entirely
+- If still over {hi} words, shorten remaining middle paragraphs by cutting redundant phrases
+- Do NOT add new content. Only remove.
+
+Return ONLY the trimmed post text. No JSON, no explanation, no preamble."""
+    prompt = prompt + f"\n\n---\n\n{post.text}"
 
     max_tok = llm.max_output_tokens
 
@@ -514,14 +1109,26 @@ Return ONLY the trimmed post text, no JSON wrapping, no explanation.""" + f"\n\n
         old_wc = post.word_count
         post.text = trimmed
         post.word_count = new_wc
-        logger.info("[batch] LLM-trimmed %s from %d to %d words", post.label, old_wc, new_wc)
+        logger.info("[batch] LLM-trimmed%s %s from %d to %d words",
+                    " (strict)" if strict else "", post.label, old_wc, new_wc)
     else:
-        logger.warning("[batch] LLM trim for %s produced %d words (wanted %d-%d), keeping original",
-                       post.label, new_wc, lo, hi)
+        # Only accept the trimmed text if it's strictly better (closer to band).
+        # Otherwise keep the original — caller will escalate to hard truncation.
+        was_over = post.word_count > hi
+        is_better = abs(new_wc - hi) < abs(post.word_count - hi) and new_wc < post.word_count
+        if was_over and is_better and new_wc < post.word_count:
+            old_wc = post.word_count
+            post.text = trimmed
+            post.word_count = new_wc
+            logger.info("[batch] LLM-trimmed%s %s from %d to %d words (still over, but closer)",
+                        " (strict)" if strict else "", post.label, old_wc, new_wc)
+        else:
+            logger.warning("[batch] LLM trim%s for %s produced %d words (wanted %d-%d), keeping prior",
+                           " (strict)" if strict else "", post.label, new_wc, lo, hi)
 
     if state.tracer:
         state.tracer.trace_llm_call(
-            stage=f"word_count_trim_{post.label}",
+            stage=f"{stage_label}_{post.label}",
             template="(inline word-count trim)",
             prompt=prompt,
             response=response,
@@ -530,19 +1137,83 @@ Return ONLY the trimmed post text, no JSON wrapping, no explanation.""" + f"\n\n
             duration_ms=_dur,
             thinking="",
             llm=llm,
-            metadata={"original_wc": post.word_count, "target": f"{lo}-{hi}"},
+            metadata={"original_wc": post.word_count, "target": f"{lo}-{hi}", "strict": strict},
         )
 
     return post
 
 
+def _hard_truncate_to_word_count(post: AmplifiedPost, hi: int) -> AmplifiedPost:
+    """Last-resort sentence-aware truncation to enforce the upper band cap.
+
+    Walks paragraphs left-to-right keeping the opener intact, accumulates
+    sentences from the body until adding the next would exceed `hi`, then
+    attempts to keep the closing line so the post still has a closer. Never
+    splits a sentence mid-word.
+    """
+    import re
+    paragraphs = post.text.strip().split("\n\n")
+    if not paragraphs:
+        return post
+
+    opener = paragraphs[0]
+    closer = paragraphs[-1] if len(paragraphs) > 1 else ""
+    middle = paragraphs[1:-1] if len(paragraphs) > 2 else []
+
+    opener_wc = len(opener.split())
+    closer_wc = len(closer.split()) if closer else 0
+    budget_for_middle = max(0, hi - opener_wc - closer_wc)
+
+    kept_middle: list[str] = []
+    used = 0
+    for para in middle:
+        # Sentence-level packing within each paragraph.
+        sentences = re.split(r"(?<=[.!?])\s+", para.strip())
+        kept_sents: list[str] = []
+        for sent in sentences:
+            sent_wc = len(sent.split())
+            if used + sent_wc <= budget_for_middle:
+                kept_sents.append(sent)
+                used += sent_wc
+            else:
+                break
+        if kept_sents:
+            kept_middle.append(" ".join(kept_sents))
+        if used >= budget_for_middle:
+            break
+
+    parts = [opener] + kept_middle
+    if closer and closer != opener:
+        parts.append(closer)
+    new_text = "\n\n".join(parts)
+    new_wc = len(new_text.split())
+    logger.warning(
+        "[batch] %s hard-truncated from %d to %d words (band cap %d) — last-resort sentence-aware cut",
+        post.label, post.word_count, new_wc, hi,
+    )
+    post.text = new_text
+    post.word_count = new_wc
+    return post
+
+
 def _enforce_word_count(post: AmplifiedPost, state: BatchState, llm: LLMProvider | None = None) -> AmplifiedPost:
-    """Enforce word count range: mechanical trim -> LLM retry -> flag violation."""
+    """Enforce word count range with a 3-step ladder.
+
+    1. Mechanical paragraph drop (only if post has >3 paragraphs).
+    2. First LLM trim attempt (target = midpoint of band).
+    3. Strict LLM trim (target shifted toward lower bound, harsher prompt).
+    4. Hard sentence-aware truncation as last resort.
+
+    A post that returns from this function is GUARANTEED to be at-or-below the
+    upper band. Under-band stays under-band (less harmful, only logged).
+    """
     _lo, _hi = state.word_count_range
     lo, hi = min(_lo, _hi), max(_lo, _hi)
     wc = post.word_count
     if lo <= wc <= hi:
         return post
+
+    # Step 1: mechanical middle-paragraph drop if there's room.
     if wc > hi:
         paragraphs = post.text.strip().split("\n\n")
         if len(paragraphs) > 3:
@@ -552,16 +1223,28 @@ def _enforce_word_count(post: AmplifiedPost, state: BatchState, llm: LLMProvider
             logger.info("[batch] Trimmed %s from %d to %d words", post.label, wc, post.word_count)
     if lo <= post.word_count <= hi:
         return post
+
+    # Step 2: first LLM trim attempt.
     if post.word_count > hi and llm:
-        post = _llm_trim_post(llm, post, state)
+        post = _llm_trim_post(llm, post, state, strict=False)
     if lo <= post.word_count <= hi:
         return post
-    violation = f"word_count: {post.word_count} (range {lo}-{hi})"
-    post.violations.append(violation)
+
+    # Step 3: strict LLM trim if first attempt failed to land in band.
+    if post.word_count > hi and llm:
+        post = _llm_trim_post(llm, post, state, strict=True)
+    if lo <= post.word_count <= hi:
+        return post
+
+    # Step 4: hard sentence-aware truncation. Guarantees at-or-below cap.
+    if post.word_count > hi:
+        post = _hard_truncate_to_word_count(post, hi)
+
+    # Only under-band remains as a possible residual — log but never block.
     if post.word_count < lo:
-        logger.warning("[batch] %s VIOLATION: %s", post.label, violation)
-    else:
-        logger.warning("[batch] %s VIOLATION: %s - flagged for review", post.label, violation)
+        violation = f"word_count: {post.word_count} (range {lo}-{hi})"
+        post.violations.append(violation)
+        logger.warning("[batch] %s VIOLATION: %s (under-band, kept as-is)", post.label, violation)
     return post
 
 
@@ -574,162 +1257,12 @@ def _generate_pack_lean(
     event_callback=None,
     llm_prep: LLMProvider | None = None,
 ) -> PackResult:
-    """Lean mode: uses transpose() for batched generation (3 posts/call)."""
-    logger.info("[batch] Generating lean pack %d (%d posts) via transpose...", pack_number, posts_per_source)
-
-    posts_per_source = max(1, min(posts_per_source, 9))
-
-    # Dissect source (separate call on prep model)
-    dissection = dissect_source(llm_prep or llm, source, state, pack_num=pack_number)
-    dissection = verify_opener_tests(dissection)
-    state.source_dissections.append(dissection)
-    mirrorable = dissection.get("mirrorable", True) and not dissection.get("skip_batch_a", False)
-
-    if event_callback:
-        event_callback(f"pack_{pack_number}_dissected", {
-            "hook_mechanic": dissection.get("hook_mechanic_primary", "unknown"),
-            "mirrorable": mirrorable,
-            "lean": True,
-        })
-
-    posts: list[AmplifiedPost] = []
-    prior_args: list[str] = []
-
-    # Batch A: 1 transpose call → 3 mirrored posts
-    if mirrorable:
-        # v4 composition: 4 mirrored A + 5 mechanics-only B = 9
-        n_a = min(4, posts_per_source)
-        a_posts = transpose(llm, source, dissection, mode="A", state=state,
-                           prior_arguments=prior_args, post_count=n_a, pack_number=pack_number)
-
-        if not a_posts:
-            logger.warning("[batch] Transpose A failed — retrying with post_count=1")
-            for i in range(n_a):
-                retry = transpose(llm, source, dissection, mode="A", state=state,
-                                  prior_arguments=prior_args, post_count=1, pack_number=pack_number)
-                if retry:
-                    a_posts.extend(retry)
-                    prior_args.extend(p.argument_compressed for p in retry if p.argument_compressed)
-
-        # Batch A forbidden-token check (Fix 10 Part B)
-        forbidden_tokens = _extract_forbidden_tokens(dissection, source)
-        for idx, post in enumerate(a_posts):
-            leaks = _scan_batch_a_for_token_leaks(post, forbidden_tokens)
-            if leaks:
-                logger.info(
-                    "[batch] Pack %d %s: forbidden source tokens leaked: %s — regenerating",
-                    pack_number, post.label, leaks,
-                )
-                post.quality_flags["batch_a_source_token_leak"] = leaks
-                regen_hint = (
-                    "The previous draft copied SOURCE tokens "
-                    f"({', '.join(leaks)}) into the opener. FORBIDDEN. "
-                    "Replace with founder-specific anchors from FOUNDER INTERNALIZATION. "
-                    "Preserve source's structural shape but use founder's own numbers/entities."
-                )
-                regen_posts = transpose(
-                    llm, source, dissection, mode="A", state=state,
-                    prior_arguments=prior_args, post_count=1, pack_number=pack_number,
-                    regen_hint=regen_hint,
-                )
-                if regen_posts:
-                    new_post = regen_posts[0]
-                    new_post.label = post.label
-                    new_post.regen_count = post.regen_count + 1
-                    new_leaks = _scan_batch_a_for_token_leaks(new_post, forbidden_tokens)
-                    if new_leaks:
-                        new_post.quality_flags["batch_a_source_token_leak_unfixed"] = new_leaks
-                    a_posts[idx] = new_post
-
-        for post in a_posts:
-            post = _enforce_word_count(post, state, llm=llm)
-            posts.append(post)
-            if post.argument_compressed:
-                prior_args.append(post.argument_compressed)
-
-        if event_callback:
-            event_callback(f"pack_{pack_number}_a_transpose", {"count": len(a_posts)})
-        n_b = max(0, posts_per_source - len(posts))
-    else:
-        n_b = posts_per_source
-
-    # Batch B: 2 transpose calls of 3 posts each
-    if n_b > 0:
-        doors = select_entry_doors(n_b, state.entry_doors_used, pack_number)
-        state.entry_doors_used[pack_number] = doors
-
-        # First B batch (3 posts)
-        batch_1_doors = doors[:3]
-        b_posts_1 = transpose(llm, source, dissection, mode="B", state=state,
-                             doors=batch_1_doors, prior_arguments=prior_args,
-                             post_count=min(3, n_b), pack_number=pack_number)
-
-        if not b_posts_1:
-            logger.warning("[batch] Transpose B1 failed — retrying per-door")
-            for door in batch_1_doors:
-                retry = transpose(llm, source, dissection, mode="B", state=state,
-                                  doors=[door], prior_arguments=prior_args,
-                                  post_count=1, pack_number=pack_number)
-                if retry:
-                    b_posts_1.extend(retry)
-                    prior_args.extend(p.argument_compressed for p in retry if p.argument_compressed)
-
-        for post in b_posts_1:
-            post = _enforce_word_count(post, state, llm=llm)
-            posts.append(post)
-            if post.argument_compressed:
-                prior_args.append(post.argument_compressed)
-
-        if event_callback:
-            event_callback(f"pack_{pack_number}_b_transpose_1", {"count": len(b_posts_1)})
-
-        # Second B batch if needed
-        remaining = n_b - len(b_posts_1)
-        if remaining > 0 and len(doors) > 3:
-            batch_2_doors = doors[3:6]
-            b_posts_2 = transpose(llm, source, dissection, mode="B", state=state,
-                                 doors=batch_2_doors, prior_arguments=prior_args,
-                                 post_count=min(3, remaining), pack_number=pack_number)
-
-            if not b_posts_2:
-                logger.warning("[batch] Transpose B2 failed — retrying per-door")
-                for door in batch_2_doors:
-                    retry = transpose(llm, source, dissection, mode="B", state=state,
-                                      doors=[door], prior_arguments=prior_args,
-                                      post_count=1, pack_number=pack_number)
-                    if retry:
-                        b_posts_2.extend(retry)
-                        prior_args.extend(p.argument_compressed for p in retry if p.argument_compressed)
-
-            for post in b_posts_2:
-                post = _enforce_word_count(post, state, llm=llm)
-                posts.append(post)
-                if post.argument_compressed:
-                    prior_args.append(post.argument_compressed)
-
-            if event_callback:
-                event_callback(f"pack_{pack_number}_b_transpose_2", {"count": len(b_posts_2)})
-
-    # Fix labels to sequential numbering
-    a_idx, b_idx = 0, 0
-    for post in posts:
-        if post.batch == "A":
-            a_idx += 1
-            post.label = f"A{a_idx}"
-        else:
-            b_idx += 1
-            post.label = f"B{b_idx}"
-
-    n_a_actual = len([p for p in posts if p.batch == "A"])
-    n_b_actual = len([p for p in posts if p.batch == "B"])
-    return PackResult(
-        source_number=pack_number,
-        source_post=source,
-        dissection=dissection,
-        mirrorable=mirrorable,
-        posts=posts,
-        batch_a_count=n_a_actual,
-        batch_b_count=n_b_actual,
+    """v5: Lean mode now identical to default — both use sequential generation."""
+    return generate_pack(
+        llm, source, pack_number, state,
+        posts_per_source=posts_per_source,
+        event_callback=event_callback,
+        llm_prep=llm_prep,
     )
 
 
@@ -742,14 +1275,13 @@ def generate_pack(
     event_callback=None,
     llm_prep: LLMProvider | None = None,
 ) -> PackResult:
-    """Generate posts for one source. posts_per_source controls the total count.
+    """v5: Generate 9 posts for one source via sequential per-post generation.
 
-    llm is the generation model (Opus). llm_prep is the lightweight analysis model (Haiku)
-    used for source dissection. Falls back to llm if llm_prep is not provided.
+    Order: A1→A2→A3→A4→B1→B2→B3→B4→B5. Each call sees prior posts so it
+    can diverge. If dissection.skip_batch_a is True (opener fails strip test),
+    routes all 9 to B labels.
     """
-    logger.info("[batch] Generating pack %d (%d posts)...", pack_number, posts_per_source)
-
-    posts_per_source = max(1, min(posts_per_source, 9))
+    logger.info("[batch] Generating pack %d (v5 sequential)...", pack_number)
 
     dissection = dissect_source(llm_prep or llm, source, state, pack_num=pack_number)
     dissection = verify_opener_tests(dissection)
@@ -762,94 +1294,24 @@ def generate_pack(
             "mirrorable": mirrorable,
         })
 
-    posts: list[AmplifiedPost] = []
+    posts = generate_pack_sequential(
+        llm, source, dissection, state,
+        pack_num=pack_number, event_callback=event_callback,
+        posts_per_source=posts_per_source,
+    )
 
-    prior_args: list[str] = []
-
-    if mirrorable:
-        # v4 composition: 4 mirrored A + 5 mechanics-only B = 9
-        n_a = min(4, posts_per_source)
-        logger.info("[batch] Pack %d: generating %d A posts via transpose...", pack_number, n_a)
-        a_posts = transpose(llm, source, dissection, mode="A", state=state,
-                           prior_arguments=prior_args, post_count=n_a, pack_number=pack_number)
-
-        # Batch A forbidden-token check (Fix 10 Part B): scan each A opener for
-        # source-specific tokens; regen once if leak found.
-        forbidden_tokens = _extract_forbidden_tokens(dissection, source)
-        for idx, post in enumerate(a_posts):
-            leaks = _scan_batch_a_for_token_leaks(post, forbidden_tokens)
-            if leaks:
-                logger.info(
-                    "[batch] Pack %d %s: forbidden source tokens leaked into opener: %s — regenerating",
-                    pack_number, post.label, leaks,
-                )
-                post.quality_flags["batch_a_source_token_leak"] = leaks
-                regen_hint = (
-                    "The previous draft copied the SOURCE's specific tokens "
-                    f"({', '.join(leaks)}) into the opener. These are FORBIDDEN. "
-                    "Replace them with founder-specific anchors from FOUNDER INTERNALIZATION. "
-                    "Preserve the source's structural shape (sentence count, beat order, mechanic family) "
-                    "but use the founder's own numbers and entities."
-                )
-                regen_posts = transpose(
-                    llm, source, dissection, mode="A", state=state,
-                    prior_arguments=prior_args, post_count=1, pack_number=pack_number,
-                    regen_hint=regen_hint,
-                )
-                if regen_posts:
-                    new_post = regen_posts[0]
-                    new_post.label = post.label
-                    new_post.regen_count = post.regen_count + 1
-                    new_leaks = _scan_batch_a_for_token_leaks(new_post, forbidden_tokens)
-                    if new_leaks:
-                        new_post.quality_flags["batch_a_source_token_leak_unfixed"] = new_leaks
-                    a_posts[idx] = new_post
-
-        for post in a_posts:
-            post = _enforce_word_count(post, state, llm=llm)
-            posts.append(post)
-            if post.argument_compressed:
-                prior_args.append(post.argument_compressed)
-            if event_callback:
-                event_callback(f"pack_{pack_number}_{post.label}", {"word_count": post.word_count})
-        n_b = max(0, posts_per_source - len(a_posts))
-    else:
-        n_b = posts_per_source
-
-    doors = select_entry_doors(n_b, state.entry_doors_used, pack_number)
-    state.entry_doors_used[pack_number] = doors
-
-    for batch_start in range(0, n_b, 3):
-        batch_doors = doors[batch_start:batch_start + 3]
-        batch_count = min(3, n_b - batch_start)
-        logger.info("[batch] Pack %d: generating %d B posts (doors: %s)...", pack_number, batch_count, batch_doors)
-        b_posts = transpose(llm, source, dissection, mode="B", state=state,
-                           doors=batch_doors, prior_arguments=prior_args,
-                           post_count=batch_count, pack_number=pack_number)
-        for post in b_posts:
-            post = _enforce_word_count(post, state, llm=llm)
-            posts.append(post)
-            if post.argument_compressed:
-                prior_args.append(post.argument_compressed)
-        if event_callback:
-            event_callback(f"pack_{pack_number}_b_batch", {
-                "doors": batch_doors, "count": len(b_posts),
-            })
-
-    # Fix B-label collision: each transpose() call labels its outputs
-    # B1/B2/B3 starting from 1, so two calls produce duplicate labels.
-    # Renumber sequentially across the whole pack (mirrors _generate_pack_lean).
-    a_idx, b_idx = 0, 0
+    # Stamp Batch A forbidden-token leaks as quality_flags for downstream
+    # awareness, but don't regenerate here — validate_pack will catch real
+    # convergence/leak problems at the end.
+    forbidden_tokens = _extract_forbidden_tokens(dissection, source)
     for post in posts:
         if post.batch == "A":
-            a_idx += 1
-            post.label = f"A{a_idx}"
-        else:
-            b_idx += 1
-            post.label = f"B{b_idx}"
+            leaks = _scan_batch_a_for_token_leaks(post, forbidden_tokens)
+            if leaks:
+                post.quality_flags["batch_a_source_token_leak"] = leaks
 
-    n_a_actual = len([p for p in posts if p.batch == "A"])
-    n_b_actual = len([p for p in posts if p.batch == "B"])
+    n_a_actual = sum(1 for p in posts if p.batch == "A")
+    n_b_actual = sum(1 for p in posts if p.batch == "B")
     return PackResult(
         source_number=pack_number,
         source_post=source,

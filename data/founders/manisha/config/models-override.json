@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "updated_at": "2026-05-18T11:32:45+00:00",
+  "tasks": {
+    "internalize": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 16000,
+      "temperature": 0.3
+    },
+    "calibration": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 1000,
+      "temperature": 0.5
+    },
+    "web_search": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 2000,
+      "temperature": 0.3
+    },
+    "select_sources": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 4000,
+      "temperature": 0.3
+    },
+    "dissect": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 2000,
+      "temperature": 0.2
+    },
+    "generate_a": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    "generate_b": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    "word_count_trim": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 2000,
+      "temperature": 0.2
+    },
+    "voice_validation": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 2000,
+      "temperature": 0.3
+    },
+    "voice_regen": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 3000,
+      "temperature": 0.5
+    },
+    "amplify": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 6000,
+      "temperature": 0.3
+    },
+    "convergence_test": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 1000,
+      "temperature": 0.2
+    },
+    "transpose": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 12000,
+      "temperature": 0.5
+    },
+    "keyword_research": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 3000,
+      "temperature": 0.3
+    },
+    "serp_analysis": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 3000,
+      "temperature": 0.3
+    },
+    "blog_topic_discovery": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 3000,
+      "temperature": 0.3
+    },
+    "blog_outline": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 2000,
+      "temperature": 0.4
+    },
+    "blog_section_draft": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 4000,
+      "temperature": 0.5
+    },
+    "blog_voice_check": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 3000,
+      "temperature": 0.3
+    },
+    "blog_seo": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 1500,
+      "temperature": 0.2
+    },
+    "narrative_transcript_analysis": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 8000,
+      "temperature": 0.3
+    },
+    "narrative_mining": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 3000,
+      "temperature": 0.3
+    },
+    "narrative_draft": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 8000,
+      "temperature": 0.5
+    },
+    "narrative_extraction": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 16000,
+      "temperature": 0.4
+    },
+    "transcript_structure": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "max_tokens": 16000,
+      "temperature": 0.2
+    }
+  },
+  "provider_keys": {
+    "kimi": "sk-4GD34lEqJOHkelJv9gmT1g1ygpwxAi0rMUgYwC1rT433dsam"
+  }
+}

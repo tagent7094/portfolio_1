@@ -1,0 +1,50 @@
+{
+  "pack_quality_floor_met": false,
+  "failure_summary": "Critical failures across all criteria. First, 0/9 posts pass the 9/7 floor—all have 'passes_9_7_floor': false with empty scores, indicating the scoring pipeline failed or was bypassed. Second, anchor concentration is catastrophic: all 9 posts use the SAME anchor ('Sitting through dozens of enterprise sales calls, watching SE introductions go wrong in real time'), violating the 5+ distinct anchors requirement by extreme margin. Third, argument convergence is total: all posts argue the identical thesis—SEs fail because orgs structurally disempower them, and SEs complicitly accept this. The 'two failures leading to the same outcome' closer appears verbatim or near-verbatim in every post. Fourth, mechanic distribution is monolithic: all use pattern_observation opener with identical 'X hires in Y years, same result' structure. The pack is essentially one post cloned 9 times with minor lexical variation (A1-A4: 'five SE leads/SEs in three/two years'; B1-B5: alternate openers but same body structure). Register is consistent but the repetition creates diminishing returns—by B3-B5 the 'technical resource' framing becomes predictable. The A2 attempt to inject MUFG anchor (A011) was abandoned or failed validation. No tier-1 anchors from inventory (A001-A013) were utilized despite availability. The pack reads as a single template with synonym substitution, not diverse explorations of a theme.",
+  "rejected_posts": [],
+  "failed_parameters_by_post": {},
+  "recommendations": [
+    "Halt generation and debug scoring pipeline—empty scores with false floor flags suggest validation system failure",
+    "Mandate minimum 5 distinct anchors from tier-1 inventory; current single-anchor dependency creates unshippable concentration",
+    "Enforce argument variation: require at least 3 distinct thesis angles (e.g., SE complicity only, org structure only, buyer psychology only, solution path forward)",
+    "Diversify opener mechanics: deploy scene_entry (A009's '$500K deal' quoted dialogue), specific_number_opener (A006's market data inversion), or confession/frame_break",
+    "Consider splitting into 3 thematic packs of 3 posts each rather than 9 variants of identical structure",
+    "Review iteration 1 'ship' decision in rejection history—appears to have been overridden or erroneous given current state"
+  ],
+  "founder_slug": "manisha",
+  "pack_number": 2,
+  "total_regens_used": 0,
+  "validator_pack_decision": {},
+  "regen_log": [
+    {
+      "iteration": 1,
+      "ship_or_regen_or_reject": "ship",
+      "quality_floor_met": false,
+      "regen_targets": []
+    }
+  ],
+  "timestamp": "2026-05-18T18:30:00.388668Z",
+  "compile_decision_raw": {
+    "pack_decision": "reject",
+    "quality_floor_met": false,
+    "audit_summary": {
+      "posts_passing_floor": 0,
+      "posts_failing_floor": 9,
+      "anchor_diversity": 1,
+      "mechanic_distribution": {
+        "pattern_observation": 9
+      },
+      "argument_uniqueness": false
+    },
+    "ship_payload": null,
+    "failure_summary": "Critical failures across all criteria. First, 0/9 posts pass the 9/7 floor—all have 'passes_9_7_floor': false with empty scores, indicating the scoring pipeline failed or was bypassed. Second, anchor concentration is catastrophic: all 9 posts use the SAME anchor ('Sitting through dozens of enterprise sales calls, watching SE introductions go wrong in real time'), violating the 5+ distinct anchors requirement by extreme margin. Third, argument convergence is total: all posts argue the identical thesis—SEs fail because orgs structurally disempower them, and SEs complicitly accept this. The 'two failures leading to the same outcome' closer appears verbatim or near-verbatim in every post. Fourth, mechanic distribution is monolithic: all use pattern_observation opener with identical 'X hires in Y years, same result' structure. The pack is essentially one post cloned 9 times with minor lexical variation (A1-A4: 'five SE leads/SEs in three/two years'; B1-B5: alternate openers but same body structure). Register is consistent but the repetition creates diminishing returns—by B3-B5 the 'technical resource' framing becomes predictable. The A2 attempt to inject MUFG anchor (A011) was abandoned or failed validation. No tier-1 anchors from inventory (A001-A013) were utilized despite availability. The pack reads as a single template with synonym substitution, not diverse explorations of a theme.",
+    "recommendations": [
+      "Halt generation and debug scoring pipeline—empty scores with false floor flags suggest validation system failure",
+      "Mandate minimum 5 distinct anchors from tier-1 inventory; current single-anchor dependency creates unshippable concentration",
+      "Enforce argument variation: require at least 3 distinct thesis angles (e.g., SE complicity only, org structure only, buyer psychology only, solution path forward)",
+      "Diversify opener mechanics: deploy scene_entry (A009's '$500K deal' quoted dialogue), specific_number_opener (A006's market data inversion), or confession/frame_break",
+      "Consider splitting into 3 thematic packs of 3 posts each rather than 9 variants of identical structure",
+      "Review iteration 1 'ship' decision in rejection history—appears to have been overridden or erroneous given current state"
+    ]
+  }
+}

@@ -1,0 +1,786 @@
+{
+  "summary": {
+    "total_traces": 16,
+    "llm_calls": 5,
+    "web_searches": 4,
+    "decisions": 4,
+    "total_duration_ms": 196382,
+    "total_prompt_chars": 63524,
+    "total_response_chars": 19833,
+    "templates_used": [
+      "(inline word-count trim)",
+      "amplify_batch.txt",
+      "calibration_check.txt",
+      "source_dissect_hook.txt",
+      "transpose.txt"
+    ],
+    "model": "claude-opus-4-6",
+    "provider": "anthropic"
+  },
+  "traces": [
+    {
+      "id": "step_50f20d48",
+      "timestamp": 1779049274.5929484,
+      "type": "step",
+      "stage": "load_founder",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Loaded founder data for manisha",
+      "metadata": {}
+    },
+    {
+      "id": "step_9c5fda63",
+      "timestamp": 1779049274.5929484,
+      "type": "step",
+      "stage": "multi_model",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "gen=claude-opus-4-6, prep=claude-haiku-4-5-20251001",
+      "metadata": {}
+    },
+    {
+      "id": "dec_87fdca40",
+      "timestamp": 1779049274.5929484,
+      "type": "decision",
+      "stage": "freshness",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Graph last updated 35 days ago",
+      "metadata": {}
+    },
+    {
+      "id": "llm_17a26d9b",
+      "timestamp": 1779049339.0612097,
+      "type": "llm_call",
+      "stage": "calibration",
+      "template": "calibration_check.txt",
+      "prompt": "You have just internalized a founder's voice. Now verify your calibration before writing any of the 9 posts per source.\n\nIf this check fails, the voice read is wrong — don't start writing. Go back and re-map voice markers. The problem is upstream.\n\n## FOUNDER VOICE MARKERS\n- Opens with provocative declarative statement that challenges conventional wisdom: 'Stop introducing your SE as...', 'The moment your SE celebrates...', 'Reddit's stock is down 40%'\n- Short standalone fragment sentences as paragraph-level punctuation: 'It was the qualifier.' 'That silence is where bad revenue begins.' 'The records layer gets cheaper.'\n- 'I keep hearing/noticing/seeing' — signals sourced from the field, not theory: 'I keep hearing the same story from SE leaders', 'There's a pattern I keep noticing'\n- 'Not because... Because...' negation-then-reframe structure: 'Not because AEs aren't good at their jobs. Because the job itself changed.'\n- 'The real [X] is [Y]' reframing formula: 'The real reason is...', 'The real cost is maintaining not building', 'The real challenge is structural'\n- Data-first hooks with specific numbers in opening lines: 'down 40%', '$8B', '47% in 6 months', '67%', '$500K deals'\n- 'From a distance... Up close...' zoom-level toggle within a single post to reveal hidden complexity\n- 'I've watched / I've sat through' — first-person witness authority, never abstract opinion: 'I've sat through dozens of enterprise sales calls'\n- ALL CAPS for single words of emphasis mid-sentence: 'MORE important', 'THEIR world', 'YOUR business'\n- No explicit call-to-action or engagement bait — closes with implication or forward insight, never 'what do you think?' or 'drop a comment'\n\n## WORD COUNT RANGE\n130-300 words\n\n## FORMATTING HABITS\n{'uses_bullets': True, 'bullet_style': 'Sparse — used for lists of 3-6 items mid-post to break up a diagnostic section. Preceded by a colon or setup line. Never the entire post structure.', 'uses_emojis': False, 'uses_headers': False, 'em_dashes': True, 'em_dash_usage': 'For parenthetical asides and appositional phrases mid-sentence, also for range/contrast within a thought', 'lowercase_style': False, 'paragraph_style': 'Short — typically 1-3 sentences per paragraph, with frequent single-sentence paragraphs standing alone for emphasis', 'line_break_frequency': 'Between every paragraph/thought. Single-sentence declarations get their own line break. Creates a staccato visual rhythm with breathing room.', 'uses_hashtags': False, 'uses_questions': \"Occasionally rhetorical, never as engagement hooks. Questions diagnose rather than invite: 'Is product solving the problem? Is marketing sending qualified leads?'\", 'quotation_marks_for_critique': \"Uses quotation marks to frame specific phrases being critiqued or repositioned: 'technical resource', 'demo support', 'our technical resource'\", 'closing_pattern': \"Ends on an insight or implication. Sometimes subtly connects to SiftHub as proof of the argument. Never asks for engagement or uses 'agree?'\"}\n\n## ARGUMENT RHYTHM\nThe founder follows a consistent Provocation → Concession → Evidence → Diagnosis → Reframe → Implication pattern. Opens with a provocative, often counter-intuitive declarative statement that challenges conventional wisdom ('The moment your SE celebrates the technical win is the moment your deal starts dying'). Immediately softens with a brief concession or acknowledgment ('Sounds harsh. But...' or 'Not because AEs aren't good at their jobs.'). Then grounds the argument in a specific observed scenario, data point, or scene they've personally witnessed ('I've sat through dozens of enterprise sales calls'). Moves to diagnosing the structural root cause beneath the surface symptom ('It's rarely the product. It's security reviews, legal redlines...'). Delivers a reframe that flips the conventional narrative — often in a standalone short sentence for maximum impact ('It was the qualifier.'). Closes with forward-looking implications or a broader insight, never with an explicit call-to-action or engagement bait. The founder also toggles between macro market-level observations (stock prices, S-1 analysis, market cap shifts) and granular operational detail (APIs, MCP tools, CLI commands) within the same post. Uses the 'From a distance... Up close...' zoom-level shift to reveal hidden complexity. Short, punchy fragment sentences are deployed as paragraph-level punctuation marks throughout. SiftHub is woven in organically — never pitched, usually introduced as proof-of-concept for a larger argument or as the context for a team member's work.\n\n## SAMPLE OF THEIR ACTUAL POSTS (read these carefully — this is the ground truth)\nThe moment your SE celebrates the technical win is the moment your deal starts dying.\n\nSounds harsh. But I keep hearing the same story from SE leaders. The product passed POC. The tech team is convinced and everyone moves on. And then the deal ghosts for months before quietly dying. \n\nIt's rarely the product. It's security reviews, legal redlines, and buying committee members who were never in the demo. Most SEs are nowhere to be found by then. They thought the technical win was the finish line. \n\nIt was the qualifier.\n\nThe best SEs I've watched don't disengage after the POC. They treat the post-POC stretch as the real work. They clear security clearances before procurement asks and they give the AE a business case legal can actually defend.\n\nNeil from SiftHub along with Marco and Timo A. from Parloa are going deep on this in The POC Hangover on April 29th, 3 PM BST / 7:30 PM IST. I'm sharing the link to the webinar in comments.\n\n---\n\nSalesforce added over $8B in market cap after announcing Headless 360 last week.\n\nThey're still down 26% YTD. But the market bumped the shares up by 4.7% since the announcement. A lot of it can be attributed to going headless and exposing their entire platform as APIs, MCP tools, and CLI commands so AI agents can operate it without ever opening a browser.\n\nI've been saying this for 2 years. Intelligence needs to be decoupled from records. And Headless 360 proves it. Once the layer of records gets commoditized, leverage moves to whoever builds the intelligence layer on top of it.\n\nAnd this is just the beginning. Every major system of record will go headless now. Which unlocks hundreds, if not thousands, of vertical AI startups going deep into hospitality, sales, marketing, retail, pharma, banking, and every other domain that's been trapped inside a CRM window for decades.\n\nAs records commoditize, vertical depth and workflows around them become the only thing that matters. Horizontal agents won't win this. The context required to close a pharma deal is fundamentally different from what’s needed in retail.\n\nAnd in that world, Salesforce becomes MORE important, not less. They'll compete with Agentic startups via Agentforce while also enabling every other agentic startup riding on top of their APIs. The records layer gets cheaper while the activity and value on top of it would scale exponentially.\n\n---\n\nWhat an event! Had a great time with over 100 solution leaders at Off the Record by SolutionExec yesterday.\n\nOne signal cut through everything else in that room.\n\nBuyers want to skip AEs and go straight to solutions teams.\n\nNot because AEs aren't good at their jobs. Because the job itself changed. The hyper-informed buyer walks in having already benchmarked you against three competitors, pulled your G2 reviews, run your pricing through ChatGPT, and built their own battle-card. There's nothing left to warm up. The \"introduce the problem, build rapport, establish pain\" choreography is dead weight to them.\n\nWhat they want is\n\n---\n\n## TASK\n\nDraft ONE opening paragraph (2-3 sentences) on this neutral topic: \"What most people get wrong about hiring.\"\n\nThis is a calibration test. The paragraph must:\n1. Sound like THIS specific founder wrote it — not \"a CEO\" or \"a thought leader\" or \"a generic LinkedIn poster\"\n2. Match their sentence rhythm, word choices, and formatting habits EXACTLY\n3. Fall within their typical word count density\n4. Use at least 2 of their voice markers naturally\n5. Match their formatting: if they use em dashes, use em dashes. If they tag team members, end with tags. If they use \":)\", use \":)\". Formatting mismatch is the biggest AI tell.\n6. Avoid every pattern on the anti-slop list:\n   - No \"In today's...\"\n   - No \"Here's the thing\"\n   - No \"Hot take:\" / \"Unpopular opinion:\"\n   - No \"Let that sink in\" / \"Read that again\"\n   - No \"Game-changer\" / \"Landscape\" / \"Navigate\" / \"Leverage\"\n\nThe recognition test: would this founder read the paragraph and think \"this is what I was going to say\"? If they'd have to rewrite more than one sentence, the voice work failed.\n\n## OUTPUT FORMAT\n\nReturn a JSON object:\n```json\n{{\n  \"calibration_paragraph\": \"the opening paragraph you wrote\",\n  \"voice_markers_used\": [\"which specific markers from the list you applied\"],\n  \"formatting_matched\": [\"which formatting habits you matched\"],\n  \"confidence\": 0.85,\n  \"self_critique\": \"what feels off, if anything — be honest, not optimistic\"\n}}\n```\n",
+      "prompt_length": 9102,
+      "response": "```json\n{\n  \"calibration_paragraph\": \"Stop writing job descriptions for titles.\\n\\nI keep hearing the same story from founders — they hire a 'VP of Sales' or a 'senior engineer,' someone with the perfect pedigree, and then watch them flame out within 90 days. They hired for the resume. Not for the problem the role actually needs to solve.\",\n  \"voice_markers_used\": [\n    \"Opens with provocative declarative statement challenging conventional wisdom: 'Stop writing job descriptions for titles.'\",\n    \"'I keep hearing the same story from founders' — field-sourced signal, not theory\",\n    \"Quotation marks to frame phrases being critiqued: 'VP of Sales', 'senior engineer'\",\n    \"Short standalone fragment sentence as paragraph-level punctuation: 'They hired for the resume.'\",\n    \"'Not for...' negation-then-reframe closing structure\"\n  ],\n  \"formatting_matched\": [\n    \"Single-sentence standalone opening paragraph with its own line break\",\n    \"Em dash for mid-sentence parenthetical range ('founders — they hire')\",\n    \"Short paragraphs (1-3 sentences), staccato visual rhythm with breathing room\",\n    \"No emojis, no headers, no hashtags\",\n    \"No CTA or engagement bait — closes on implication\",\n    \"No lowercase style — standard capitalization\"\n  ],\n  \"confidence\": 0.84,\n  \"self_critique\": \"The founder's actual provocations tend to be hyper-specific to a witnessed scenario ('The moment your SE celebrates the technical win...') rather than imperative commands, so the 'Stop writing...' opener leans on the SE-intro post pattern and may slightly over-index on that one sample. '90 days' and 'flame out' are concrete but not as granular as the founder's best openings — they'd probably name a specific hiring conversation they sat through or a specific cost figure. The negation at the end ('Not for the problem...') is structurally right but lands as a half-beat rather than the full 'Not because X. Because Y.' two-sentence form. If forced to rewrite, I'd swap the opener for a more scene-setting declarative and add a specific number or data point.\"\n}\n```",
+      "response_length": 2070,
+      "thinking": "Let me carefully analyze this founder's voice before writing anything.\n\nKey patterns from the actual posts:\n\n1. Opens with a provocative declarative statement that challenges conventional wisdom\n2. Short standalone fragment sentences\n3. \"I keep hearing/noticing/seeing\" pattern\n4. \"Not because... Because...\" structure\n5. \"The real [X] is [Y]\" reframe\n6. Data-first hooks sometimes\n7. First-person witness authority\n8. ALL CAPS for single emphasis words\n9. No CTAs or engagement bait\n10. Em dashes for parenthetical asides\n11. Short paragraphs, 1-3 sentences\n\n\n12. No emojis, no headers, no hashtags\n13. Quotation marks for phrases being critiqued\n\nNow I'm drafting an opening for \"What most people get wrong about hiring.\" I need that same provocative declarative punch—something that flips conventional wisdom on its head. Looking at the founder's style, they lead with a bold claim, then follow with either a \"I keep hearing\" observation or a \"not because... because\" structure. For hiring, I should start with something that contradicts what people typically believe about the hiring process, then move into the pattern of what they're actually seeing in practice.\n\nLet me work through the opening: the core insight is that founders are hiring for titles and job descriptions rather than for the actual problem they need solved, which is why people flame out. The \"I keep hearing\" signal works here because it grounds the observation in real founder conversations. I'll keep the quotation marks around the titles being critiqued, maintain the em dash for that conversational rhythm, and aim for around 50 words across 3 sentences to match the style.\n\nStop hiring for the role you posted. I keep hearing founders describe the same pattern — they write a job description for a 'VP of Sales' or 'senior engineer,' interview for credentials, and then watch the hire disengage within 90 days. They're optimizing for the title, not the actual problem that needs solving. I'm refining the opening to be more specific and grounded. The founder uses concrete examples and a conversational \"I keep hearing\" pattern, so I should lean into that rather than keeping it generic. Let me tighten this to capture the voice more authentically—short declarative sentences with real details about what actually happens in these hiring processes. I'm testing out different structures for this opening — the \"I keep seeing\" framing works better because it grounds the provocation in actual observation rather than generic advice. The key is balancing the sharp declarative statement with concrete examples, using quotation marks to signal critique and em dashes to create rhythm. I should format it with line breaks the way this founder naturally thinks, and aim for around 50 words to keep the density tight. I'm noticing the \"Stop [doing X]\" opener resonates more with this founder's voice — it's direct and action-oriented rather than abstract. The revised version feels sharper because it grounds the problem in a concrete failure pattern (hiring for resume, watching disengagement) rather than a theoretical concept. I'm at about 0.82-0.85 confidence on this direction, though I'm still testing whether the phrasing captures their exact cadence. \"flame out\" hits harder than \"disengage\" — it's more concrete and matches the founder's directness. Let me lock this version in. it's direct language that fits their style, even if I'm not entirely certain about every word choice. The specificity could go deeper — they tend to name exact scenarios and numbers — but the core structure and rhythm feel aligned with how they actually write.",
+      "thinking_length": 3622,
+      "temperature": 0.5,
+      "max_tokens": 1000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 64429,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "dec_08649b34",
+      "timestamp": 1779049339.0612097,
+      "type": "decision",
+      "stage": "calibration",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "confidence=0.84",
+      "metadata": {
+        "critique": "The founder's actual provocations tend to be hyper-specific to a witnessed scenario ('The moment your SE celebrates the technical win...') rather than imperative commands, so the 'Stop writing...' opener leans on the SE-intro post pattern and may slightly over-index on that one sample. '90 days' and 'flame out' are concrete but not as granular as the founder's best openings — they'd probably name a specific hiring conversation they sat through or a specific cost figure. The negation at the end ('Not for the problem...') is structurally right but lands as a half-beat rather than the full 'Not because X. Because Y.' two-sentence form. If forced to rewrite, I'd swap the opener for a more scene-setting declarative and add a specific number or data point.",
+        "model": "claude-opus-4-6"
+      }
+    },
+    {
+      "id": "ws_c92ae13a",
+      "timestamp": 1779049364.2870219,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 6306,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "Manisha founder thought leader technology startups",
+      "search_results": [
+        {
+          "url": "https://www.linkedin.com/in/manisha-raisinghani",
+          "title": "Manisha Raisinghani - SiftHub | LinkedIn",
+          "page_age": "June 10, 2021"
+        },
+        {
+          "url": "https://startuptalky.com/manisha-raisinghani-loginext/",
+          "title": "Manisha Raisinghani | Co-founder at LogiNext | Women Entrepreneur",
+          "page_age": "May 3, 2022"
+        },
+        {
+          "url": "https://educationviewmagazine.com/dr-manisha-acharya-bridging-science-business-and-innovation-for-over-two-decades/",
+          "title": "Dr. Manisha Acharya: Bridging Science, Business, and Innovation for Over Two Decades",
+          "page_age": "May 2, 2025"
+        },
+        {
+          "url": "https://www.brilliantread.com/interview-with-dr-manisha-acharya-thought-leader-mentor-ceo-at-indigram-labs-foundation/",
+          "title": "Interview with Dr Manisha Acharya | Thought Leader | Mentor | CEO at Indigram Labs Foundation | BrilliantRead Media",
+          "page_age": "June 1, 2020"
+        },
+        {
+          "url": "https://techlaunch.arizona.edu/news/2021/11/bringing-experience-energy-humility-uarizona-startups-qa-mentor-residence-manisha",
+          "title": "Bringing Experience, Energy and Humility to UArizona Startups: A Q&A with Mentor-in-Residence Manisha Narasimhan | Tech Launch Arizona",
+          "page_age": "November 19, 2021"
+        },
+        {
+          "url": "https://yourstory.com/2015/05/manisha-raisinghani-loginext",
+          "title": "Yourstory",
+          "page_age": "September 5, 2019"
+        },
+        {
+          "url": "https://www.linkedin.com/in/manishagupta/",
+          "title": "Manisha Gupta - AI Strategy, Governance & Adoption",
+          "page_age": "April 20, 2025"
+        },
+        {
+          "url": "http://innompics.com/people/acharya-manisha.html",
+          "title": "Manisha Acharya, India, Startup Advisor & Mentor, CEO-CII Utkal University",
+          "page_age": null
+        },
+        {
+          "url": "https://aiboomi.org/sifthub-gtm-playbook-ai/",
+          "title": "How Manisha Raisinghani’s SiftHub is Rewriting the GTM Playbook for the AI Era - AI Boomi",
+          "page_age": "November 3, 2025"
+        },
+        {
+          "url": "https://rocketreach.co/manisha-raisinghani-email_69791555",
+          "title": "Manisha Raisinghani Email & Phone Number | SiftHub Founder and CEO Contact Information",
+          "page_age": null
+        }
+      ],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "ws_70bddf76",
+      "timestamp": 1779049364.2870219,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 6306,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "technology startups news 2026",
+      "search_results": [
+        {
+          "url": "https://techcrunch.com/",
+          "title": "TechCrunch | Startup and Technology News",
+          "page_age": null
+        },
+        {
+          "url": "https://techcrunch.com/2026/05/13/introducing-the-6-stages-of-techcrunch-disrupt-2026-built-for-todays-tougher-startup-market/",
+          "title": "The 6 stages at Disrupt 2026 — built for today’s tougher startup market | TechCrunch",
+          "page_age": "4 days ago"
+        },
+        {
+          "url": "https://hello-tomorrow.org/hello-tomorrow-unveils-the-top-100-deep-tech-startups-to-watch-in-2026/",
+          "title": "Hello Tomorrow unveils the Top 100 Deep Tech Startups to watch in 2026 - Hello Tomorrow",
+          "page_age": "3 weeks ago"
+        },
+        {
+          "url": "https://wellows.com/blog/tech-startups/",
+          "title": "30 Top Tech Startups in 2026: AI, Robotics, and Others Raising Billions",
+          "page_age": "March 3, 2026"
+        },
+        {
+          "url": "https://techcrunch.com/category/startups/",
+          "title": "Startups | TechCrunch",
+          "page_age": "1 month ago"
+        },
+        {
+          "url": "https://builtin.com/companies",
+          "title": "Top Tech Companies 2026 | Built In",
+          "page_age": "3 weeks ago"
+        },
+        {
+          "url": "https://news.crunchbase.com/venture/2026-tech-startup-trends-ipo-ai-ma/",
+          "title": "6 Trends In Tech And Startups We’re Watching In 2026, From An IPO Boom To More Huge AI Deals",
+          "page_age": "January 30, 2026"
+        },
+        {
+          "url": "https://www.seedtable.com/best-deep-tech-startups",
+          "title": "Explore 69 Best Deep Tech Startups to watch in 2026. Discover innovative companies, funding insights, and industry trends.",
+          "page_age": null
+        },
+        {
+          "url": "https://topstartups.io/",
+          "title": "Top Startups 2026 — Sequoia, Y Combinator, A16Z, Accel",
+          "page_age": "March 9, 2026"
+        },
+        {
+          "url": "https://www.startus-insights.com/innovators-guide/top-tech-startups-to-watch/",
+          "title": "Explore the 30 Top Tech Startups to Watch in 2026 & Beyond",
+          "page_age": "November 29, 2025"
+        }
+      ],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "ws_904f09fb",
+      "timestamp": 1779049364.2870219,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 6306,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "startup funding trends 2026",
+      "search_results": [
+        {
+          "url": "https://about.crunchbase.com/crunchbase-predicts-startup-funding-trends-that-will-shape-2026",
+          "title": "Crunchbase Predicts: 2026 Startup & Funding Trends",
+          "page_age": null
+        },
+        {
+          "url": "https://qubit.capital/blog/ai-startup-fundraising-trends",
+          "title": "AI Startup Funding Trends 2026: Data, Rounds & What's Next",
+          "page_age": "March 31, 2026"
+        },
+        {
+          "url": "https://seedscope.ai/blog/startup-funding-trends-in-2026-venture-capital-s-new-era",
+          "title": "Startup Funding Trends in 2026: Venture Capital’s New Era - SeedScope",
+          "page_age": "November 26, 2025"
+        },
+        {
+          "url": "https://blog.mean.ceo/startup-funding-trends-may-2026/",
+          "title": "Startup Funding Trends | May, 2026 (STARTUP EDITION)",
+          "page_age": "2 weeks ago"
+        },
+        {
+          "url": "https://blog.mean.ceo/startup-funding-trends-April-2026/",
+          "title": "Startup Funding Trends | April, 2026 (STARTUP EDITION)",
+          "page_age": "April 3, 2026"
+        },
+        {
+          "url": "https://qubit.capital/blog/startup-funding-trends",
+          "title": "How Modern Startups Really Get Funded",
+          "page_age": "3 weeks ago"
+        },
+        {
+          "url": "https://techcrunch.com/2026/04/01/startup-funding-shatters-all-records-in-q1/",
+          "title": "Startup funding shatters all records in Q1 | TechCrunch",
+          "page_age": "April 1, 2026"
+        },
+        {
+          "url": "https://youstartups.com/startup-statistics",
+          "title": "50 Startup Statistics for 2026 [Failure, Funding & Growth]",
+          "page_age": "2 days ago"
+        },
+        {
+          "url": "https://blog.mean.ceo/startup-funding-trends-march-2026/",
+          "title": "Startup Funding Trends | March, 2026 (STARTUP EDITION)",
+          "page_age": "March 3, 2026"
+        },
+        {
+          "url": "https://techcrunch.com/2025/12/26/whats-ahead-for-startups-and-vcs-in-2026-investors-weigh-in/",
+          "title": "What's ahead for startups and VCs in 2026? Investors weigh in | TechCrunch",
+          "page_age": "December 27, 2025"
+        }
+      ],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "ws_4eaa2e75",
+      "timestamp": 1779049364.2870219,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 6306,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "contrarian views technology startups emerging trends",
+      "search_results": [
+        {
+          "url": "https://www.averi.ai/blog/2026-tech-industry-trends-what-startups-need-to-know",
+          "title": "2026 Tech Industry Trends Startups Can't Ignore",
+          "page_age": "December 29, 2025"
+        },
+        {
+          "url": "https://techstartups.com/2025/10/18/unpopular-ideas-that-became-billion-dollar-businesses/",
+          "title": "Unpopular Ideas That Became Billion-Dollar Businesses - Tech Startups",
+          "page_age": "October 18, 2025"
+        },
+        {
+          "url": "https://techcrunch.com/2025/12/26/whats-ahead-for-startups-and-vcs-in-2026-investors-weigh-in/",
+          "title": "What's ahead for startups and VCs in 2026? Investors weigh in | TechCrunch",
+          "page_age": "December 27, 2025"
+        },
+        {
+          "url": "https://leadmagic.io/funded-startups/founders-fund-backed",
+          "title": "Founders Fund Startups 2026 | Portfolio Companies",
+          "page_age": "March 14, 2026"
+        },
+        {
+          "url": "https://www.quora.com/What-are-some-successful-contrarian-trends-in-software-technology-or-technical-culture",
+          "title": "What are some successful contrarian trends in software technology or technical culture? - Quora",
+          "page_age": null
+        },
+        {
+          "url": "https://www.nfx.com/post/how-contrarians-think-with-keith-rabois",
+          "title": "How Contrarians Think: The Early Days of Square, Yelp & PayPal with Keith Rabois",
+          "page_age": "May 2, 2022"
+        },
+        {
+          "url": "https://www.tractiontechnology.com/blog/top-10-technology-trends-to-watch-in-2026-emerging-startups-innovation-insights",
+          "title": "Top 10 Technology Trends to Watch in 2026 | Emerging Startups & Innovation Insights | Traction Technology",
+          "page_age": null
+        },
+        {
+          "url": "https://www.bluehost.com/blog/contrarian-thinking/",
+          "title": "Think Different: The Power of Contrarian Thinking in Life and Business",
+          "page_age": "October 15, 2025"
+        },
+        {
+          "url": "https://research.contrary.com/",
+          "title": "Contrary Research",
+          "page_age": "2 weeks ago"
+        },
+        {
+          "url": "https://www.deloitte.com/us/en/insights/topics/technology-management/tech-trends.html",
+          "title": "Tech Trends 2026 | Deloitte Insights",
+          "page_age": "March 20, 2026"
+        }
+      ],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "step_219a9e52",
+      "timestamp": 1779049364.2880259,
+      "type": "step",
+      "stage": "web_search_complete",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 25224,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Found 10 topics, 10 facts",
+      "metadata": {}
+    },
+    {
+      "id": "llm_07b3d354",
+      "timestamp": 1779049385.9904158,
+      "type": "llm_call",
+      "stage": "pack_1_dissect",
+      "template": "source_dissect_hook.txt",
+      "prompt": "You are a structural analyst specializing in viral content mechanics. Dissect this viral post into its mechanical parts — structure, not content. The move is what carries over. The source author's typography, lowercase, emojis, register — those are their voice, not the hook's engine.\n\n## SOURCE VIRAL POST\nBREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wasted. But there's a 5% that is making all the money:\n\nI dug into each case and here are the 7 things the 5% do differently:\n\n1. They pick one expensive problem: Walmart targeted truck logistics. CarMax targeted review summaries. Not 50 random pilots. One problem that moves the P&L.\n\n2. They build cross-functional teams: Engineers sit with lawyers at JPMorgan. Data scientists sit with factory line operators at BMW. AI is integrated into the core, not left to “innovation labs.”\n\n3. They partner smartly: Shell didn’t build from scratch. They teamed up with C3. ai and Microsoft. Sanofi signed billion-dollar deals with Exscientia, Atomwise, and Owkin.\n\n4. They start narrow, then scale: BMW rolled out AI inspection in one plant before standardizing globally.\n\n5. They prove ROI early: Savings, hours cut, yield improved. JPMorgan automated 360,000 hours of contract review. \n\n6. They keep humans in the loop: BMW inspectors, JPM lawyers, Colgate marketers are still involved while they use AI\n\n7. They measure and broadcast wins: Shell reports billions saved. Colgate shows 80% accuracy predicting supply issues. \n\nI put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.\n\n## PLATFORM\nlinkedin\n\n---\n\n## TASK: Dissect the Hook\n\n### 1. THE PSYCHOLOGICAL MOVE\nFigure out what the hook does to the reader — the psychological move. Examples:\n- Three-stack pain escalation (old pain + new pain + meta-trap for objecting)\n- Second-party verdict that reframes the speaker's whole career\n- Contrarian claim that inverts conventional wisdom\n- Specific number or age anchor that signals real memory\n- Authority figure delivering a quote the reader doesn't expect\n- Parallel data points with a third-line reveal\n- Scene drop that puts the reader inside a moment mid-action\n- Diagnostic question that makes the reader self-categorize\n- Confession that costs the speaker credibility\n\nThe move is what carries over to the generated posts. Everything else is surface.\n\n### 2. NARRATIVE ARC\nWhat movement does this post run on? (contradiction reveal, escalation, scene-to-insight, confession-to-principle, diagnostic revelation, progressive build)\n\n### 3. HOOK MECHANICS — SENTENCE-LEVEL BREAKDOWN\nFor each opening sentence (typically 1-3 lines before the body begins):\n- The exact text\n- What this sentence DOES structurally (permission frame, diagnostic question, consequence statement, reframe, scene drop, specificity bomb, tension gap)\n- Its rhythm (short/punchy, medium/flowing, long/building)\n- The psychological effect: WHY does it stop the scroll?\n\n### 4. SENTENCE MAP\nExact sentence count and structural function of opening lines. This is the mold for Batch A mirroring.\n\n### 5. BODY STRUCTURE\nHow is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)\n\n### 5b. BODY FORMAT (STRICT ENUM)\nPick the ONE body format that best describes the source's body structure. This is the structural mold a Batch A mirror MUST preserve.\n- `numbered_list` — body is a numbered list (1. ..., 2. ..., 3. ...). Every numbered item is its own paragraph or block. The list IS the body.\n- `bullet_list` — body is an unnumbered bulleted list (-, •, *, or similar) where each bullet is a discrete unit\n- `parallel_paragraphs` — body has 2-4 parallel paragraphs with identical or near-identical structure (each opens with the same shape, builds the same way)\n- `three_examples` — body presents three distinct examples building toward a conclusion. Not strictly numbered, but each example is clearly delimited.\n- `before_after` — body presents a before/after pair (X was true; now Y is true) with the pivot as the engine.\n- `progressive_revelation` — body progressively reveals an insight, each paragraph adding a new turn or layer.\n- `single_scene` — body is one continuous scene or moment, explored deeply.\n- `prose_essay` — body is flowing argumentative prose without clear discrete units; one paragraph leads to the next without parallel structure.\n\n### 6. ENDING TYPE\n(concrete image, challenge to reader, quiet admission, unresolved tension, physical detail, callback to opening)\n\n### 6b. CLOSER MECHANIC (STRICT ENUM)\nPick the ONE closer mechanic that best describes how the source ends. This is the mold a Batch A mirror MUST preserve.\n- `cta` — explicit call to action: \"DM me,\" \"link in comments,\" \"I put together the full breakdown,\" \"subscribe,\" \"follow for more\"\n- `reframe_question` — closes with a question that flips the reader's posture: \"Ask yourself whether…\", \"What would you do if…\"\n- `terminal_verdict` — a final declarative line that closes the case: \"That's the only metric that matters.\" \"The market doesn't care about your roadmap.\"\n- `physical_image` — ends on a concrete physical detail or scene image\n- `challenge` — direct challenge to the reader: \"Stop X. Start Y.\"\n- `callback` — calls back to a phrase, name, or image from the opening\n- `unresolved_tension` — ends with the tension still unresolved (wrestling-mode close)\n- `quiet_admission` — a quiet, vulnerable admission as the final line\n\n### 7. MIRRORABILITY ASSESSMENT\nCan this source's opening be mirrored (same shape, new content)?\n- **Mirrorable**: the sentence shape works with different domain content. The hook's engine is structural, not content-dependent.\n- **Not mirrorable**: the hook is too proper-noun-specific, too culturally embedded, or too short to mirror without plagiarism risk. If not mirrorable, flag it and all 9 posts should be Batch B.\n\n### 8. REGISTER NOTE\nIf the source's register is doing mechanical work — rant energy, whispered vulnerability, exasperation — note it. This energy must be translated into the founder's register, not stripped.\n\n### 9. VIRALITY REASON\nOne sentence: what makes the opening work for a general audience?\n\n### 10. OPENER QUALITY TESTS\nRun these three tests on the source's opening line(s). These determine whether the opener is good enough to mirror (Batch A) or whether all posts should use different mechanics (Batch B only).\n\n**MACRO test**: Does the opener land for someone OUTSIDE this niche? Read the opener to a stranger in a different industry. If they'd need domain context to understand what's being said — fail. Jargon, acronyms, category-specific terms (\"AI-powered voice technology,\" \"doctorless AI kiosks,\" \"accessible communication\") → fail. The opener must work universally.\n\nException — audience-address openers: If the opener addresses a broad professional role that exists across multiple industries (e.g., \"Founders:\", \"Sales leaders:\", \"CTOs:\", \"Operators:\", \"Engineers:\", \"Recruiters:\", \"Managers:\"), this is NOT niche jargon. These pass macro because ANY professional recognizes the role even if they don't hold it. Fail only for subcategories that require domain knowledge to parse (e.g., \"RevOps managers:\", \"MLOps engineers:\", \"Series B CFOs:\").\n\n**FAST test**: Does the specific, interesting, or dramatic word land in the FIRST 8 words? Count from word 1. If the payload (the specific number, the surprising claim, the tension) comes after word 8 — fail. Ellipsis that delays the punch (\"The future of X is arriving...\") → fail. \"We lost $2M in three months\" → pass (payload at word 3). \"The future of healthcare is arriving... China unveils...\" → fail (payload at word 11).\n\n**SIMPLE test**: Would a 16-year-old understand every word in the opener? Bold Unicode formatting, corporate jargon (\"unveils,\" \"redefining,\" \"accessible communication\"), press-release language → fail. The opener must use words a person would speak in conversation, not words a company would put in a press release.\n\n**Rule**: If ANY of the three tests fails, set `skip_batch_a` to true. The source's STRUCTURE may be mirrorable, but if its OPENER is a press release, corporate announcement, or jargon-heavy statement, mirroring it produces a press-release post. Route all posts to Batch B instead, where different mechanics will produce better openers.\n\n---\n\n## OUTPUT FORMAT\n\n```json\n{{\n  \"psychological_move\": \"description of the core psychological move the hook makes\",\n  \"narrative_arc\": \"description of movement/arc\",\n  \"hook_mechanic_primary\": \"three_stack_pain|second_party_verdict|contrarian_claim|specific_number|authority_quote|parallel_data_reveal|scene_entry|diagnostic_question|confession|pattern_observation\",\n  \"opener_mechanic_description\": \"concise description of HOW the mechanic operates in this specific opener — structural moves in order, e.g. 'authority + count: audience address → credential from scale → numbered promise' or 'scene entry: mid-action drop → sensory detail → tension gap'\",\n  \"source_opener_text\": \"the full opener text — all hook sentences joined with newlines exactly as written\",\n  \"hook_mechanics\": [\n    {{\n      \"sentence\": \"exact text of opening sentence\",\n      \"structural_function\": \"what this sentence does\",\n      \"psychological_effect\": \"why it stops the scroll\",\n      \"rhythm\": \"short|medium|long\"\n    }}\n  ],\n  \"sentence_count\": 2,\n  \"body_structure\": \"description of body organization\",\n  \"body_format\": \"numbered_list|bullet_list|parallel_paragraphs|three_examples|before_after|progressive_revelation|single_scene|prose_essay\",\n  \"body_item_count\": 7,\n  \"ending_type\": \"description of ending mechanic\",\n  \"closer_mechanic\": \"cta|reframe_question|terminal_verdict|physical_image|challenge|callback|unresolved_tension|quiet_admission\",\n  \"closer_text\": \"the exact text of the closing line(s) — one or two sentences\",\n  \"mirrorable\": true,\n  \"mirrorability_reason\": \"why or why not — be specific\",\n  \"register_energy\": \"the emotional register doing mechanical work, if any\",\n  \"virality_reason\": \"why the opening works for a general audience\",\n  \"opener_tests\": {{\n    \"macro\": {{\"pass\": true, \"reason\": \"why it passes or fails for a general audience\"}},\n    \"fast\": {{\"pass\": true, \"first_payload_word\": 3, \"reason\": \"where the payload lands\"}},\n    \"simple\": {{\"pass\": true, \"reason\": \"whether a 16-year-old would understand every word\"}}\n  }},\n  \"skip_batch_a\": false,\n  \"named_entities\": [\"list of proper names (people) mentioned in the source post\"],\n  \"source_domain\": \"1-3 word topic label for the source post's core domain (e.g., 'sales leadership', 'hiring', 'product strategy', 'fundraising', 'engineering management')\"\n}}\n```\n\nFocus on MECHANICS, not meaning. The content changes; the machine stays the same.\n",
+      "prompt_length": 10862,
+      "response": "```json\n{\n  \"psychological_move\": \"Authority-backed contradiction reveal: a credible source (MIT) reports mass failure, then the speaker positions themselves as having decoded the exception. This creates permission for the reader to believe a counterintuitive truth AND positions the speaker as someone who has done the investigative work the reader hasn't. The move is: 'everyone is wrong, I found the pattern.'\",\n  \"narrative_arc\": \"Contradiction reveal → investigative credential → progressive pattern extraction → concrete proof → call to deeper resource. The arc moves from 'here's what's broken' to 'here's what works' to 'I've systematized it.'\",\n  \"hook_mechanic_primary\": \"three_stack_pain\",\n  \"opener_mechanic_description\": \"Authority credential (MIT report) → specific failure number (95%) → reframe to opportunity (5% making money). The stack escalates from 'this is broken' to 'this is a waste' to 'but there's a hidden winner.' The third line inverts the frame from problem to solution.\",\n  \"source_opener_text\": \"BREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wasted. But there's a 5% that is making all the money:\",\n  \"hook_mechanics\": [\n    {\n      \"sentence\": \"BREAKING: MIT Reports 95% of enterprise AI FAIL.\",\n      \"structural_function\": \"authority_credential + specificity_bomb. Establishes credibility (MIT, not the speaker) and lands a concrete number (95%) that signals real data, not opinion.\",\n      \"psychological_effect\": \"Stops scroll because it's a surprising, credible claim. 'BREAKING' signals newsworthiness. MIT is a third-party authority that the reader trusts more than the speaker.\",\n      \"rhythm\": \"short\"\n    },\n    {\n      \"sentence\": \"That's billions of dollars wasted.\",\n      \"structural_function\": \"consequence_escalation. Translates the 95% failure into emotional/financial stakes. Moves from abstract metric to concrete loss.\",\n      \"psychological_effect\": \"Creates urgency and stakes. The reader now feels the weight of the problem — it's not theoretical, it's money leaving the room.\",\n      \"rhythm\": \"short\"\n    },\n    {\n      \"sentence\": \"But there's a 5% that is making all the money:\",\n      \"structural_function\": \"reframe + promise. The 'but' inverts the frame from problem to opportunity. The colon signals that the speaker is about to deliver the solution.\",\n      \"psychological_effect\": \"Hope injection. The reader went from 'this is broken' to 'but I'm about to learn what works.' The colon creates anticipation and permission to keep reading.\",\n      \"rhythm\": \"medium\"\n    }\n  ],\n  \"sentence_count\": 3,\n  \"body_structure\": \"Seven discrete numbered items, each presenting a single behavioral pattern observed in the successful 5%. Each item opens with a gerund or imperative ('They pick,' 'They build,' 'They partner,' etc.) and includes a concrete example (company + specific outcome). The examples are proof, not elaboration.\",\n  \"body_format\": \"numbered_list\",\n  \"body_item_count\": 7,\n  \"ending_type\": \"Call to action with credential. The closer doesn't ask a question or leave tension — it delivers a concrete offer: 'I put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.' This is a soft CTA that positions the speaker as having done the synthesis work.\",\n  \"closer_mechanic\": \"cta\",\n  \"closer_text\": \"I put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.\",\n  \"mirrorable\": true,\n  \"mirrorability_reason\": \"The opener's structure is domain-agnostic: [Authority report] + [failure percentage] + [consequence] + [but there's an exception] + [I decoded it]. This shape works across any domain where there's a common failure pattern and a hidden success pattern. The mechanic is: 'credible source says X% fail, but Y% succeed, and I found what they do differently.' This can be mirrored in sales, hiring, product, fundraising, marketing, operations, etc. The numbered list body (7 behavioral patterns with examples) is also structurally portable. The only content-specific element is the domain (AI), not the mechanical engine.\",\n  \"register_energy\": \"Investigative confidence. The speaker uses 'I dug into each case' and 'I put together' — this is the register of someone who has done homework. The tone is not hype or urgency; it's methodical authority. This energy must be preserved in mirrors: the speaker should sound like they've done the work, not like they're selling.\",\n  \"virality_reason\": \"The opener works universally because it taps into a near-universal professional anxiety: 'everyone is doing this thing and failing, but some people are winning — what do they know that I don't?' This is a pattern-seeking question that transcends industry.\",\n  \"opener_tests\": {\n    \"macro\": {\n      \"pass\": true,\n      \"reason\": \"The opener uses no jargon or domain-specific terminology. 'MIT Reports,' 'enterprise AI FAIL,' 'billions of dollars wasted,' and '5% making all the money' are all comprehensible to someone outside tech or AI. The claim is about failure and success, which are universal professional concepts. A person in healthcare, finance, manufacturing, or any other field would understand the structure of the claim even if they don't work in AI.\"\n    },\n    \"fast\": {\n      \"pass\": true,\n      \"first_payload_word\": 3,\n      \"reason\": \"The payload (95% failure rate) lands at word 3 ('FAIL'). The specific, dramatic number is front-loaded. The reader knows the claim before they finish the first sentence.\"\n    },\n    \"simple\": {\n      \"pass\": true,\n      \"reason\": \"Every word in the opener is conversational. 'BREAKING,' 'Reports,' 'FAIL,' 'billions,' 'wasted,' 'making all the money' — these are words a 16-year-old would use or understand. No corporate jargon ('unveils,' 'redefining,' 'accessible'), no press-release language, no acronyms that require explanation.\"\n    }\n  },\n  \"skip_batch_a\": false,\n  \"named_entities\": [\n    \"MIT\",\n    \"Walmart\",\n    \"CarMax\",\n    \"JPMorgan\",\n    \"BMW\",\n    \"Shell\",\n    \"C3.ai\",\n    \"Microsoft\",\n    \"Sanofi\",\n    \"Exscientia\",\n    \"Atomwise\",\n    \"Owkin\",\n    \"Colgate\"\n  ],\n  \"source_domain\": \"enterprise AI adoption strategy\"\n}\n```\n\n---\n\n## STRUCTURAL SUMMARY FOR BATCH A MIRRORING\n\n**The Machine:**\n1. **Opener**: [Authority source] + [failure percentage] + [consequence] + [but exception exists] + [I decoded it]\n2. **Body**: Numbered list (7 items). Each item: [behavioral pattern] + [concrete company example] + [specific outcome]\n3. **Closer**: Soft CTA positioning the speaker as having synthesized the pattern into a playbook\n\n**What Must Be Preserved in Mirrors:**\n- Three-sentence opener with contradiction reveal (failure → but success)\n- Numbered list format (7 items is the count; preserve this)\n- Each list item must include a real company name + specific outcome (proof, not theory)\n- Closer must be a CTA that positions the speaker as having done synthesis work\n- Register: investigative confidence, methodical authority (not hype)\n\n**What Can Change:**\n- Domain (AI → hiring, sales, product, fundraising, etc.)\n- Company names (use real companies in the new domain)\n- The specific patterns (adapt the 7 behaviors to fit the new domain's success pattern)\n- The authority source (MIT → McKinsey, Gartner, Harvard, etc., or a credible data point)\n\n**Mirrorability Risk: LOW**\nThe opener is structurally portable and passes all three tests. The body format is rigid but adaptable. The closer is a standard CTA. This is a strong Batch A candidate.",
+      "response_length": 7586,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 2000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 21680,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "llm_195cd828",
+      "timestamp": 1779049408.7394385,
+      "type": "llm_call",
+      "stage": "pack_1_transpose_a",
+      "template": "transpose.txt",
+      "prompt": "You are generating 1 LinkedIn posts from a viral source post. Mode: A (mirrored structure).\n\nSame bones. New content. Founder's voice. Each post argues something DIFFERENT.\n\n## SOURCE POST\nBREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wasted. But there's a 5% that is making all the money:\n\nI dug into each case and here are the 7 things the 5% do differently:\n\n1. They pick one expensive problem: Walmart targeted truck logistics. CarMax targeted review summaries. Not 50 random pilots. One problem that moves the P&L.\n\n2. They build cross-functional teams: Engineers sit with lawyers at JPMorgan. Data scientists sit with factory line operators at BMW. AI is integrated into the core, not left to “innovation labs.”\n\n3. They partner smartly: Shell didn’t build from scratch. They teamed up with C3. ai and Microsoft. Sanofi signed billion-dollar deals with Exscientia, Atomwise, and Owkin.\n\n4. They start narrow, then scale: BMW rolled out AI inspection in one plant before standardizing globally.\n\n5. They prove ROI early: Savings, hours cut, yield improved. JPMorgan automated 360,000 hours of contract review. \n\n6. They keep humans in the loop: BMW inspectors, JPM lawyers, Colgate marketers are still involved while they use AI\n\n7. They measure and broadcast wins: Shell reports billions saved. Colgate shows 80% accuracy predicting supply issues. \n\nI put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.\n\n## SOURCE DISSECTION\n{\n  \"psychological_move\": \"Authority-backed contradiction reveal: a credible source (MIT) reports mass failure, then the speaker positions themselves as having decoded the exception. This creates permission for the reader to believe a counterintuitive truth AND positions the speaker as someone who has done the investigative work the reader hasn't. The move is: 'everyone is wrong, I found the pattern.'\",\n  \"narrative_arc\": \"Contradiction reveal → investigative credential → progressive pattern extraction → concrete proof → call to deeper resource. The arc moves from 'here's what's broken' to 'here's what works' to 'I've systematized it.'\",\n  \"hook_mechanic_primary\": \"three_stack_pain\",\n  \"opener_mechanic_description\": \"Authority credential (MIT report) → specific failure number (95%) → reframe to opportunity (5% making money). The stack escalates from 'this is broken' to 'this is a waste' to 'but there's a hidden winner.' The third line inverts the frame from problem to solution.\",\n  \"source_opener_text\": \"BREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wasted. But there's a 5% that is making all the money:\",\n  \"hook_mechanics\": [\n    {\n      \"sentence\": \"BREAKING: MIT Reports 95% of enterprise AI FAIL.\",\n      \"structural_function\": \"authority_credential + specificity_bomb. Establishes credibility (MIT, not the speaker) and lands a concrete number (95%) that signals real data, not opinion.\",\n      \"psychological_effect\": \"Stops scroll because it's a surprising, credible claim. 'BREAKING' signals newsworthiness. MIT is a third-party authority that the reader trusts more than the speaker.\",\n      \"rhythm\": \"short\"\n    },\n    {\n      \"sentence\": \"That's billions of dollars wasted.\",\n      \"structural_function\": \"consequence_escalation. Translates the 95% failure into emotional/financial stakes. Moves from abstract metric to concrete loss.\",\n      \"psychological_effect\": \"Creates urgency and stakes. The reader now feels the weight of the probl\n\n## PLATFORM\nlinkedin\n\n---\n\n## MODE RULES\n## BATCH A (MIRRORED STRUCTURE) — CRITICAL CONSTRAINTS\n\nYour declaration MUST use:\n- mechanic: three_stack_pain\n- body_format: numbered_list\n- closer_mechanic: cta\n\n### OPENER: WORD-FOR-WORD MIRROR — NON-NEGOTIABLE\n\nYour opening line(s) MUST be the source opener with ONLY these substitutions:\n- Replace the audience word (e.g., \"Sales leaders\" → a relevant audience for this founder)\n- Replace specific numbers/metrics with the founder's own numbers from FOUNDER INTERNALIZATION\n- Replace domain nouns (e.g., \"revenue orgs\" → the founder's domain equivalent)\n- Keep EVERYTHING ELSE identical — same sentence structure, same punctuation, same rhythm, same word count (±3 words), same word order\n\nSOURCE OPENER (your template — do NOT deviate from this shape):\nBREAKING: MIT Reports 95% of enterprise AI FAIL.\nThat's billions of dollars wasted.\nBut there's a 5% that is making all the money:\n\nSource mechanic: three_stack_pain\nSource sentence count: 3\n\nWRONG — rewriting the opener:\n\"Most founders don't have a sales problem. They have a trust delegation problem.\"\n(This is a NEW sentence with a DIFFERENT mechanic. Batch A openers must be surgical edits of the source.)\n\nRIGHT — minimal substitution:\nTake the source opener word by word. Replace only domain-specific slots. Keep function words, punctuation, structure.\n\nMECHANIC ENFORCEMENT: Your opener MUST use the SAME mechanic family as the source (three_stack_pain). If the source uses audience-address + credential + count, YOUR opener must address an audience + state a credential + promise a count. If the source uses confession, YOUR opener must confess. Do NOT substitute a different mechanic.\n\nSIMILARITY GATE: If your opener shares less than 60% of its words with the source opener, it is a structural failure. Rewrite.\n\n### SOURCE DOMAIN LOCK\nThe source post argues about: enterprise AI adoption strategy\nALL your posts MUST argue within this same domain. Do NOT drift to adjacent topics. If the source is about sales, argue about sales — not hiring, not product, not fundraising.\n\n### BODY: MUST use `numbered_list` format.\n- If numbered_list: your body MUST be a numbered list with actual numbers (1., 2., 3., …). Match item count exactly: 7 items. Do NOT write flowing prose when the source uses a numbered list.\n- If bullet_list: use bullets for each discrete unit. Match item count ±1.\n- If parallel_paragraphs: write paragraphs that open with the same shape.\n- If three_examples: present three clearly delimited examples.\n- If before_after: structure as before → pivot → after.\n- If progressive_revelation / single_scene / prose_essay: flowing build is allowed.\n\n### CLOSER: MUST use `cta` mechanic.\nSource closer text: I put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.\n- cta → close with a parallel CTA (founder's own breakdown/playbook/DM offer)\n- reframe_question → close with a question that flips the reader's posture\n- terminal_verdict → close with a declarative final line\n- physical_image → close with a concrete physical detail\n- challenge → close with \"Stop X. Start Y.\"\n- callback → call back to a phrase from the opening\n- unresolved_tension / quiet_admission → match accordingly\n\n### FORBIDDEN TOKENS — do NOT copy any of these from source into your opener\n- MIT\n- Walmart\n- CarMax\n- JPMorgan\n- BMW\n- Shell\n- C3.ai\n- Microsoft\n- Sanofi\n- Exscientia\n- Atomwise\n- Owkin\n- Colgate\n\nIf the source says \"$4 billion ARR\" and the founder's documented numbers are different, use the FOUNDER's number. Never reuse the source's specific dollar amount, company name, or person name — substitute with founder-specific anchors from FOUNDER INTERNALIZATION.\n\n---\n\n## PRE-COMMIT DECLARATION (CRITICAL — fill BEFORE writing each post)\n\nBefore writing each post's text, you MUST fill a \"declaration\" object with:\n- **mechanic**: which of the 13 opener mechanics you WILL use\n- **body_format**: which body structure you WILL use (numbered_list | bullet_list | parallel_paragraphs | three_examples | before_after | progressive_revelation | single_scene | prose_essay)\n- **closer_mechanic**: which closer you WILL use (cta | reframe_question | terminal_verdict | physical_image | challenge | callback | unresolved_tension | quiet_admission)\n- **argument_compressed**: the one-sentence thesis of THIS post (MUST differ from ALL prior_arguments below)\n- **authority_anchor**: which specific verified event/story from the FOUNDER INTERNALIZATION you will use as a first-degree anchor\n\nAfter writing, your output text MUST match your declarations. A numbered_list declaration with a prose_essay body = structural failure. Revise before returning.\n\n---\n\n## FOUNDER INTERNALIZATION\nTENSIONS:\n- SE as deal architect vs. SE reduced to demo support: The founder constantly witnesses SEs being introduced as 'technical resource' and losing the room, despite carrying $500K deals. The collision is between what SEs can do and how they're positioned — and how that positioning caps their authority before they speak.\n- Heroic war-room saves vs. systemic failure they expose: War rooms and last-minute scrambles are celebrated as deal-saving heroics, but the founder sees them as evidence that systems, processes, and context delivery have already failed. The tension between admiring the hustle and diagnosing the disease.\n- Vertical depth vs. horizontal scale in AI: The pull of wider markets versus the conviction that only vertical AI with domain context, workflows, integrations, and compliance actually wins enterprise deals. Horizontal demos beautifully but breaks on business-specific questions.\n- Yes-culture to keep deals alive vs. walking away from bad deals early: Sales pressure trains SEs to never push back, keep the deal moving. The founder believes the best SEs are the ones who walk away early and save months of pain — but almost nobody celebrates that.\n- AI as gap-widener vs. AI as democratizer: The prevailing narrative says AI levels the playing field. The founder's conviction is the opposite — AI exposes the absence of excellence and widens the gap between top performers and average reps.\n- Context as ultimate moat vs. context scattered and trapped: The founder believes context is the real currency in sales, but the reality is tribal knowledge locked in heads, scattered across Slack and Notion, buried in old decks. The gap between the belief and the infrastructure is where deals die.\n- Building internal AI tools quickly vs. the compounding cost of maintaining them: Enterprises can spin up internal tools in weeks, but the tax shows up later in integrations, edge cases, model updates. Building is the easy part; maintaining is the real commitment.\n- Celebrating activity metrics vs. demanding actual clarity and outcomes: More tools, more meetings, more decks — everyone is busy but few are actually selling. The collision between visible effort and real impact.\n\nSCENES:\n- Watching an AE introduce the SE as 'our technical resource' on an enterprise call — the buyer's brain instantly filing them under demo support — then watching that same SE carry a $500K deal through procurement, compliance, and competitive landmines the AE didn't know existed.\n- PreSales leaders dinner in London: getting past LinkedIn noise into the real issues — handoffs brittle, follow-ups falling through, ownership gaps nobody wanted to name publicly.\n- War room at a $500M company to close one enterprise deal: personalized decks, RFPs, security docs, SOWs all finalized in the final hours. The win was celebrated. The founder saw it as proof the systems had failed.\n- First meeting with Vijay in 2015 when Paytm invested in the founder's first startup — the beginning of a decade-long relationship that culminated in joining Paytm's board.\n- First Dreamforce visit two years ago, walking the floor trying to figure out what to build. Those days of wandering gave the clarity that became SiftHub.\n- MUFG CIO/CISO Think Tank evening — getting animated mid-argument on build vs. buy, caught on camera by someone in the room. CIOs landing on 'build point use cases, buy deeper workflows.'\n- Off the Record event by SolutionExec in New York — room of 100+ solution leaders, a slide goes up that mirrors SiftHub's belief system. Watching a room full of practitioners nod at something the founder has been saying since day one.\n- Presales leader at dinner saying 'the SEs prepping hardest are losing the most deals' — because buyers are benchmarking with ChatGPT before the call even starts.\n- The CRO who quit a large B2B startup after 8 months — not a bad hire, could see where deals were dying, but couldn't move fast enough because context was scattered across Slack, Notion, and old decks.\n- Welcome reception at One Art Space in New York — noticing nobody is talking about AI tools anymore, conversations have shifted entirely to mandate expansion, org design, and career trajectory.\n\nRHYTHM: The founder follows a consistent Provocation → Concession → Evidence → Diagnosis → Reframe → Implication pattern. Opens with a provocative, often counter-intuitive declarative statement that challenges conventional wisdom ('The moment your SE celebrates the technical win is the moment your deal starts dying'). Immediately softens with a brief concession or acknowledgment ('Sounds harsh. But...' or 'Not because AEs aren't good at their jobs.'). Then grounds the argument in a specific observed scenario, data point, or scene they've personally witnessed ('I've sat through dozens of enterprise sales calls'). Moves to diagnosing the structural root cause beneath the surface symptom ('It's rarely the product. It's security reviews, legal redlines...'). Delivers a reframe that flips the conventional narrative — often in a standalone short sentence for maximum impact ('It was the qualifier.'). Closes with forward-looking implications or a broader insight, never with an explicit call-to-action or engagement bait. The founder also toggles between macro market-level observations (stock prices, S-1 analysis, market cap shifts) and granular operational detail (APIs, MCP tools, CLI commands) within the same post. Uses the 'From a distance... Up close...' zoom-level shift to reveal hidden complexity. Short, punchy fragment sentences are deployed as paragraph-level punctuation marks throughout. SiftHub is woven in organically — never pitched, usually introduced as proof-of-concept for a larger argument or as the context for a team member's work.\n\nKEY MOMENTS:\n- Joined Paytm board as Independent Director — first met Vijay in 2015 when Paytm invested in first startup\n- Reddit stock down 40% despite 70% revenue growth and beaten earnings — lost AI moat to YouTube's more parseable transcripts\n- Salesforce added $8B market cap after Headless 360 announcement — still down 26% YTD, up 4.7% on news\n- HubSpot down 47% in 6 months but AI spend on HubSpot up 63%\n- Box down 27% but AI spend up 60%; Figma down 62% but AI spend up 47%\n- Figma S-1 analysis: $525M ARR, 70% revenue from large accounts, 40+ customers at $1M+ ARR\n- SiftHub revenue concentration: Top 10% = 22% ARR, top 20% = 39%, top 50% = 71%\n- CRM vendor hit 10+ year customer with 35% price hike over two years — 250+ seats — still won't switch due to $1M+ switching cost\n- OpenAI usage study: 67% of ChatGPT work use is editing not original creation\n- Neil joined SiftHub 2 quarters ago with same context as founder — dogfooding as unfair advantage\n- First attended Dreamforce two years ago — those days of clarity became SiftHub\n- 100+ solution leaders at Off the Record by SolutionExec event\n- PreSales leaders dinner in London — real SE team issues surfaced past LinkedIn noise\n- MUFG CIO/CISO Think Tank evening — build vs. buy debate, caught on camera mid-argument\n- War room at $500M company to close one enterprise deal — personalized decks RFPs security docs SOWs in final hours\n\nCAST:\n- Vijay: Paytm founder, relationship since 2015 when Paytm invested in founder's first startup. Decade-long arc culminating in board seat.\n- Neil: GTM hire at SiftHub, joined 2 quarters ago. Same context as founder. Dogfoods SiftHub daily — used as proof that eliminating context-arbitrage works.\n- Marco: From Parloa, webinar collaborator on 'The POC Hangover' topic.\n- Timo A.: From Parloa, webinar collaborator alongside Marco.\n- James: SolutionExec co-organizer, runs Off the Record events in New York.\n- Jeff: SolutionExec co-organizer, partner to James on Off the Record events.\n- Apurva: SiftHub team, part of founder support system.\n- Rohan: SiftHub team, part of founder support system.\n- Priya Rajan: Hosted MUFG CIO/CISO Think Tank evening.\n- Nishit Sahay: Set honest tone at MUFG event.\n\nSTORY BANK (verified events — use these as first-degree authority anchors):\nOld content | Like | Comment | Reposts\nThe moment your SE celebrates the technical win is the moment your deal starts dying.\n\nSounds harsh. But I keep hearing the same story from SE leaders. The product passed POC. The tech team is convinced and everyone moves on. And then the deal ghosts for months before quietly dying.\n\nIt's rarely the product. It's security reviews, legal redlines, and buying committee members who were never in the demo. Most SEs are nowhere to be found by then. They thought the technical win was the finish line.\n\nIt was the qualifier.\n\nThe best SEs I've watched don't disengage after the POC. They treat the post-POC stretch as the real work. They clear security clearances before procurement asks and they give the AE a business case legal can actually defend.\n\nNeil from SiftHub along with Marco and Timo A. from Parloa are going deep on this in The POC Hangover on April 29th, 3 PM BST / 7:30 PM IST. I'm sharing the link to the webinar in comments. | 132 | 4 | 1\nSalesforce added over $8B in market cap after announcing Headless 360 last week.\n\nThey're still down 26% YTD. But the market bumped the shares up by 4.7% since the announcement. A lot of it can be attributed to going headless and exposing their entire platform as APIs, MCP tools, and CLI commands so AI agents can operate it without ever opening a browser.\n\nI've been saying this for 2 years. Intelligence needs to be decoupled from records. And Headless 360 proves it. Once the layer of records gets commoditized, leverage moves to whoever builds the intelligence layer on top of it.\n\nAnd this is just the beginning. Every major system of record will go headless now. Which unlocks hundreds, if not thousands, of vertical AI startups going deep into hospitality, sales, marketing, retail, pharma, banking, and every other domain that's been trapped inside a CRM window for decades.\n\nAs records commoditize, vertical depth and workflows around them become the only thing that matters. Horizontal agents won't win this. The context required to close a pharma deal is fundamentally different from what’s needed in retail.\n\nAnd in that world, Salesforce becomes MORE important, not less. They'll compete with Agentic startups via Agentforce while also enabling every other agentic startup riding on top of their APIs. The records layer gets cheaper while the activity and value on top of it would scale exponentially. | 54 | 9 | 1\nWhat an event! Had a great time with over 100 solution leaders at Off the Record by SolutionExec yesterday.\n\nOne signal cut through everything else in that room.\n\nBuyers want to skip AEs and go straight to solutions teams.\n\nNot because AEs aren't good at their jobs. Because the job itself changed. The hyper-informed buyer walks in having already benchmarked you against three competitors, pulled your G2 reviews, run your pricing through ChatGPT, and built their own battle-card. There's nothing left to warm up. The \"introduce the problem, build rapport, establish pain\" cho\n\n## FOUNDER VOICE MARKERS\n- Opens with provocative declarative statement that challenges conventional wisdom: 'Stop introducing your SE as...', 'The moment your SE celebrates...', 'Reddit's stock is down 40%'\n- Short standalone fragment sentences as paragraph-level punctuation: 'It was the qualifier.' 'That silence is where bad revenue begins.' 'The records layer gets cheaper.'\n- 'I keep hearing/noticing/seeing' — signals sourced from the field, not theory: 'I keep hearing the same story from SE leaders', 'There's a pattern I keep noticing'\n- 'Not because... Because...' negation-then-reframe structure: 'Not because AEs aren't good at their jobs. Because the job itself changed.'\n- 'The real [X] is [Y]' reframing formula: 'The real reason is...', 'The real cost is maintaining not building', 'The real challenge is structural'\n- Data-first hooks with specific numbers in opening lines: 'down 40%', '$8B', '47% in 6 months', '67%', '$500K deals'\n- 'From a distance... Up close...' zoom-level toggle within a single post to reveal hidden complexity\n- 'I've watched / I've sat through' — first-person witness authority, never abstract opinion: 'I've sat through dozens of enterprise sales calls'\n- ALL CAPS for single words of emphasis mid-sentence: 'MORE important', 'THEIR world', 'YOUR business'\n- No explicit call-to-action or engagement bait — closes with implication or forward insight, never 'what do you think?' or 'drop a comment'\n\n## EXPECTED MARKER RATES (per-post averages from founder's published corpus)\n- em_dash: ~0.0 per post\n- smiley: ~0.1 per post\n- hashtag: ~0.1 per post\n\n## FOUNDER PERSONALITY CARD\n\n\n## CALIBRATION PARAGRAPH (this is EXACTLY what the founder sounds like — match this register)\nStop writing job descriptions for titles.\n\nI keep hearing the same story from founders — they hire a 'VP of Sales' or a 'senior engineer,' someone with the perfect pedigree, and then watch them flame out within 90 days. They hired for the resume. Not for the problem the role actually needs to solve.\n\n## FORMATTING HABITS\n{'uses_bullets': True, 'bullet_style': 'Sparse — used for lists of 3-6 items mid-post to break up a diagnostic section. Preceded by a colon or setup line. Never the entire post structure.', 'uses_emojis': False, 'uses_headers': False, 'em_dashes': True, 'em_dash_usage': 'For parenthetical asides and appositional phrases mid-sentence, also for range/contrast within a thought', 'lowercase_style': False, 'paragraph_style': 'Short — typically 1-3 sentences per paragraph, with frequent single-sentence paragraphs standing alone for emphasis', 'line_break_frequency': 'Between every paragraph/thought. Single-sentence declarations get their own line break. Creates a staccato visual rhythm with breathing room.', 'uses_hashtags': False, 'uses_questions': \"Occasionally rhetorical, never as engagement hooks. Questions diagnose rather than invite: 'Is product solving the problem? Is marketing sending qualified leads?'\", 'quotation_marks_for_critique': \"Uses quotation marks to frame specific phrases being critiqued or repositioned: 'technical resource', 'demo support', 'our technical resource'\", 'closing_pattern': \"Ends on an insight or implication. Sometimes subtly connects to SiftHub as proof of the argument. Never asks for engagement or uses 'agree?'\"}\n\n---\n\n## ANTI-CONVERGENCE: PRIOR ARGUMENTS (do NOT repeat these theses)\nNone yet — this is the first batch.\n\n## EVENTS ALREADY USED (do NOT reuse)\nNone yet\n\n## STORIES ALREADY USED (do NOT reuse)\nNone yet\n\n---\n\n## THE 13 PROVEN OPENER MECHANICS\n1. Specific number + context — \"$412K closed last quarter. Target was $350K.\"\n2. Juxtaposition — \"Our competitor raised $40M. We outshipped them with 3 engineers.\"\n3. First-person confession — \"I told 50 buyers we were ready. I was wrong.\"\n4. Quote hook + reaction — \"'We need you to present to the supervisor.' That's when I knew the deal was dead.\"\n5. Scene-entry — \"We walked into their call center. Post-it notes on every monitor.\"\n6. Decision reveal — \"A Fortune 500 asked us to build a CRM. We said no.\"\n7. Contrarian declaration — \"Most founder advice is wrong.\"\n8. Pattern observation — \"Every founder I know who's crossed $20M runs into the same wall.\"\n9. Tension pair — \"The market says automate everything. Customers keep asking for humans.\"\n10. Before/after snapshot — \"Two years ago we couldn't close a single deal. Last month we turned down three.\"\n11. Micro story — \"An investor asked what happens if a competitor copies us. I showed him our NPS scores.\"\n12. Authority redirect — \"McKinsey says 70% of transformations fail. They left out why the 30% succeed.\"\n13. Data inversion — \"95% customer satisfaction. We were measuring the wrong customers.\"\n\n---\n\n## RULES FOR ALL POSTS\n\n1. **MANDATORY EVENT USAGE**: Every post MUST include at least one verified first-degree authority anchor from the FOUNDER INTERNALIZATION (signature scenes, key moments, story bank). A post with zero personal evidence reads as generic advice, not earned authority.\n\n2. **FIRST-DEGREE FABRICATION CHECK**: Never invent scenes, quotes, or interactions the founder hasn't documented. Use signature_scenes from internalization. If you need a scene that doesn't exist, translate to third-degree pattern (\"Every founder I know...\").\n\n3. **ANTI-RECYCLING**: If a sentence could be copy-pasted from the founder's published posts, rewrite it. Treat their existing posts as raw material, not finished material.\n\n4. **VOICE COMPLIANCE (CRITICAL — post will be voice-validated after generation)**: The post MUST pass 5-dimension voice validation on first try. Requirements: use AT LEAST 3 voice markers from the list above, naturally integrated. Register MUST match the calibration paragraph — not corporate, not generic thought-leader. Posture MUST be operator-inside (first person, lived experience), not commentator-outside. Match the formatting habits and marker rates. No AI slop (\"In today's...\", \"Here's the thing\", \"Game-changer\", \"Let that sink in\"). First-pass failure = wasted API call.\n\n5. **WORD COUNT**: Hit the range: 130-300 words\n\n6. **ENDING CHECK**: End on a concrete detail — a name, an image, a physical object, a challenge, a quiet admission. NOT a summary, NOT a moral, NOT a restatement of the thesis. If the ending feels over-explained, cut the second-to-last paragraph.\n\n7. **MODE**: Specify \"wrestling\" (exploring tension, uncertain, the turn IS the point) or \"declaring\" (stating position, confident, defending in a straight line). Vary across posts.\n\n8. **MARKER RATES**: Match the founder's natural formatting — use em-dashes, smileys, hashtags at approximately the rates shown in EXPECTED MARKER RATES. Don't force markers but don't strip them either.\n\n9. **BATCH A REGISTER SWAP (CRITICAL — applies ONLY when MODE RULES say Batch A)**:\n   Beyond opener mirroring, the FULL post must swap the source's URGENCY VOCABULARY for the founder's register.\n\n   REPLACE (must NOT appear in output):\n   - Source's exact urgency idioms (\"you're already behind\", \"this hits hard\", \"let me cook\", \"and it shows\", \"the moment X happens, Y\")\n   - Source's emoji / punctuation tics (!!, ✨, →, all-caps phrases)\n   - Inflammatory adjectives the source uses (\"absurd\", \"wild\", \"insane\", \"crazy\", \"ridiculous\")\n   - Source's audience-callout phrasing (\"hey founders\", \"listen up\", \"if you're a CEO reading this\")\n\n   SUBSTITUTE from founder's register (use CALIBRATION PARAGRAPH + VOICE MARKERS as the source of truth):\n   - Urgency derived from founder's documented closer patterns\n   - Founder's adjective vocabulary, not the source's\n   - Founder's audience phrasing\n\n   PRESERVE EXACTLY (do not touch):\n   - Sentence count in opener\n   - Beat order (e.g., achievement → temporal inversion → urgency)\n   - Mechanic family (audience-address, scale credential, count promise — whatever source used)\n   - Rhythm pattern (short/medium/long sequence)\n\n   Each of the 3 Batch A variants MUST have a DIFFERENT urgency construction. Never let all 3 share the same threat phrase (e.g., all three ending with \"you're already behind\").\n\n   NO CREATIVITY. This is surgical substitution, not rewriting. The structure is locked.\n\n10. **ANCHOR SPECIFICITY (Batch B only — Batch A inherits source's anchor structure)**:\n    Each Batch B post body MUST contain at least ONE of these anchors:\n\n    TIER 1 — Specific operating rule (preferred):\n    Pattern: [named role] + [specific action] + [specific number with emphasis]\n    Example: \"The product team doesn't ship a feature until the CRO has heard the request from three buyers. Not one. Not two. Three.\"\n\n    TIER 2 — Named scene with quoted dialogue + specific time:\n    Pattern: [specific time marker] + [specific setting] + [direct quote with attribution]\n    Example: \"I had coffee with this founder last week and asked her why she hired her CRO at month two. Her answer: 'Because I needed to know if there was a market before I built a product for it.'\"\n\n    NOT ACCEPTABLE alone — generic third-degree pattern observations:\n    \"I've watched war rooms at $500M companies where personalized decks get finalized in the final hours.\"\n    (Plausible. Not specific. Could be said by anyone. Not a publishable anchor.)\n\n11. **CLOSER SHAPE (Batch B only)**:\n    The final 1-2 sentences must have at least TWO of:\n    - Specific time measurement (\"six weeks\", \"thirty minutes\", \"month two\")\n    - Parallel structure with twist on the second clause (\"Demos can be matched in six weeks. The thirty minutes after a demo cannot.\")\n    - Compression (≤30 words total in the closer)\n    - Concrete physical/temporal image (not abstract systems language like \"the upstream sensor\")\n\n\n## P5 — CLOSER REQUIREMENTS (loop tweak)\nThe closing 1-2 sentences must include AT LEAST 2 of:\n1. Specific time measurement (\"six weeks\", \"thirty minutes\", \"two quarters\")\n2. Concrete physical/temporal image (not abstract systems metaphor)\n3. Parallel structure with twist on second clause\n4. ≤30 words total\n\nGood examples:\n- \"Demos can be matched in six weeks. The thirty minutes after a demo cannot.\"\n- \"Six weeks of code can be rewritten. Six months of wrong-ICP pipeline compounds in the other direction.\"\n- \"Feature parity arrives on a calendar. Distribution depth doesn't.\"\n\nBad example (abstract restatement):\n- \"The ones that win treat it as the upstream sensor that tells engineering what to ship.\"\n\nDo not return a post with a weak closer.\n\n---\n\n\n## P1 — OPENER MECHANIC MIRROR (loop tweak)\nThe source uses this opener mechanic: refer to dissection.hook_mechanic_primary.\nYour opener MUST use the same mechanic family.\n\nIf source uses \"audience-address + scale credential + count promise\":\n  Sentence 1: [Audience]: + [scale credential from founder, NOT source].\n  Sentence 2: [Threat or insight] in founder's voice.\n\nSource example (DO NOT COPY — this is the source's specific phrasing):\n\"From zero to $4 billion ARR (!!) - one CRO, one epic run. He figured out...\"\n\nFounder-voice equivalent (pattern to APPLY using THIS founder's verified anchor from FOUNDER INTERNALIZATION):\n\"From zero to [founder's verified credential / scale milestone] — one [role], one [time-marker] arc. [Pronoun] figured out something about [domain]...\"\n\nThe structural beats match (zero→scale, count promise, threat). The phrasing differs. The voice is THIS founder's, drawn from the founder card and internalization — NOT a copied template.\n\n---\n\n\n## P6 — VOICE MARKER REQUIREMENTS (loop tweak)\nEach Batch A post MUST contain AT LEAST 3 of these common B2B operator voice patterns (if they appear in this founder's CALIBRATION PARAGRAPH and VOICE MARKERS sections):\n\n1. \"I've watched\" / \"I've sat through\" / \"I keep hearing\" — witness framing\n2. \"Not because X. Because Y.\" — negation-then-truth pattern\n3. \"And\" sentence-start for rhythmic emphasis\n4. Capitalized emphasis on a single word (e.g., \"the person explaining it IS building it\")\n5. \"The real [X] is [Y]\" — reframe construction\n6. Short declarative provocation (≤8 words) as standalone paragraph\n7. Hyphenated bullet lists (-, not •) when bullets are used\n8. Direct audience address by role (\"CROs:\", \"SEs:\", \"Founders:\")\n\nUse only the patterns this founder actually uses in their published corpus (check FOUNDER INTERNALIZATION). Count markers before returning. If fewer than 3 founder-appropriate patterns are present, rewrite.\n\n---\n\n---\n\n## OUTPUT FORMAT\n\nReturn a single JSON object:\n\n```json\n{\n  \"posts\": [\n    {\n      \"declaration\": {\n        \"mechanic\": \"specific_number\",\n        \"body_format\": \"numbered_list\",\n        \"closer_mechanic\": \"terminal_verdict\",\n        \"argument_compressed\": \"one sentence — what this post argues\",\n        \"authority_anchor\": \"the specific event/story being used\"\n      },\n      \"text\": \"full post text — hook + body + close as one continuous unit\",\n      \"mode\": \"wrestling|declaring\",\n      \"events_used\": [\"event 1 from internalization\"],\n      \"stories_used\": [\"story reference\"]\n    }\n  ]\n}\n```\n\nNo preamble. No meta-commentary. Just 1 finished posts with declarations.\n",
+      "prompt_length": 32410,
+      "response": "```json\n{\n  \"posts\": [\n    {\n      \"declaration\": {\n        \"mechanic\": \"three_stack_pain\",\n        \"body_format\": \"numbered_list\",\n        \"closer_mechanic\": \"cta\",\n        \"argument_compressed\": \"The 95% of enterprise AI that fails does so because it lacks vertical domain context — the 5% that wins embeds AI into the specific workflow where deals actually die.\",\n        \"authority_anchor\": \"MUFG CIO/CISO Think Tank evening — build vs. buy debate where CIOs landed on 'build point use cases, buy deeper workflows'\"\n      },\n      \"text\": \"BREAKING: Industry reports 95% of enterprise AI pilots FAIL.\\nThat's millions of hours wasted.\\nBut there's a 5% that is closing all the deals:\\n\\nI keep hearing the same pattern from CIOs and presales leaders. The ones winning aren't smarter. They're more specific.\\n\\nHere are the 7 things the 5% do differently:\\n\\n1. They pick one workflow where context is scattered. Not 50 AI experiments. One process where tribal knowledge is trapped in Slack threads, old decks, and someone's head. That's where deals die.\\n\\n2. They go vertical, not horizontal. At the MUFG CIO/CISO Think Tank, the room landed on this: build point use cases, buy deeper workflows. Horizontal demos beautifully. Vertical actually closes.\\n\\n3. They kill the context gap before scaling. The CRO who quit a large B2B startup after 8 months could see where deals were dying. But context was scattered across Slack, Notion, and old decks. He couldn't move fast enough. The 5% fix that FIRST.\\n\\n4. They start with one team, not one company. One plant. One sales pod. One SE team running real deals. Then they standardize.\\n\\n5. They prove ROI in hours saved, not dashboards built. Not activity metrics. Actual clarity. Hours cut from deal prep. Security docs assembled before procurement asks.\\n\\n6. They keep humans in the loop. The best SEs I've watched don't hand off to AI. They use it to eliminate the 40 hours of prep that used to separate good from great.\\n\\n7. They measure what the buyer felt, not what the tool tracked. Not \\\"80% accuracy.\\\" Did the deal close faster. Did the SE walk in with context the buyer didn't expect.\\n\\nThe real divide isn't AI adoption vs. no AI. It's vertical depth vs. horizontal theater.\\n\\nI put together the full breakdown of how presales and GTM teams are running this playbook — the workflows, the context layer, and the step-by-step approach that separates the 5% from everyone else. Link in comments.\",\n      \"mode\": \"declaring\",\n      \"events_used\": [\"MUFG CIO/CISO Think Tank evening — build vs. buy debate, caught on camera mid-argument\", \"The CRO who quit a large B2B startup after 8 months — context scattered across Slack, Notion, and old decks\"],\n      \"stories_used\": [\"CRO who quit large B2B startup after 8 months due to scattered context\", \"MUFG CIO/CISO Think Tank build vs. buy consensus\"]\n    }\n  ]\n}\n```",
+      "response_length": 2879,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.75,
+      "max_tokens": 4000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 22743,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "mode": "A",
+        "post_count": 1,
+        "doors": null
+      }
+    },
+    {
+      "id": "llm_9d270caf",
+      "timestamp": 1779049416.8685205,
+      "type": "llm_call",
+      "stage": "word_count_trim_A1",
+      "template": "(inline word-count trim)",
+      "prompt": "This LinkedIn post is 309 words. The target range is 130-300 words.\n\nTrim it to fit by removing the least essential paragraph. Rules:\n- Keep the opening paragraph exactly as-is\n- Keep the closing paragraph exactly as-is\n- Remove or shorten middle paragraphs\n- Preserve the core argument\n\nReturn ONLY the trimmed post text, no JSON wrapping, no explanation.\n\n---\n\nBREAKING: Industry reports 95% of enterprise AI pilots FAIL.\nThat's millions of hours wasted.\nBut there's a 5% that is closing all the deals:\n\nI keep hearing the same pattern from CIOs and presales leaders. The ones winning aren't smarter. They're more specific.\n\nHere are the 7 things the 5% do differently:\n\n1. They pick one workflow where context is scattered. Not 50 AI experiments. One process where tribal knowledge is trapped in Slack threads, old decks, and someone's head. That's where deals die.\n\n2. They go vertical, not horizontal. At the MUFG CIO/CISO Think Tank, the room landed on this: build point use cases, buy deeper workflows. Horizontal demos beautifully. Vertical actually closes.\n\n3. They kill the context gap before scaling. The CRO who quit a large B2B startup after 8 months could see where deals were dying. But context was scattered across Slack, Notion, and old decks. He couldn't move fast enough. The 5% fix that FIRST.\n\n4. They start with one team, not one company. One plant. One sales pod. One SE team running real deals. Then they standardize.\n\n5. They prove ROI in hours saved, not dashboards built. Not activity metrics. Actual clarity. Hours cut from deal prep. Security docs assembled before procurement asks.\n\n6. They keep humans in the loop. The best SEs I've watched don't hand off to AI. They use it to eliminate the 40 hours of prep that used to separate good from great.\n\n7. They measure what the buyer felt, not what the tool tracked. Not \"80% accuracy.\" Did the deal close faster. Did the SE walk in with context the buyer didn't expect.\n\nI put together the full breakdown of how presales and GTM teams are running this playbook — the workflows, the context layer, and the step-by-step approach that separates the 5% from everyone else. Link in comments.",
+      "prompt_length": 2164,
+      "response": "BREAKING: Industry reports 95% of enterprise AI pilots FAIL.\nThat's millions of hours wasted.\nBut there's a 5% that is closing all the deals:\n\nI keep hearing the same pattern from CIOs and presales leaders. The ones winning aren't smarter. They're more specific.\n\nHere are the 7 things the 5% do differently:\n\n1. They pick one workflow where context is scattered. Not 50 AI experiments. One process where tribal knowledge is trapped in Slack threads, old decks, and someone's head. That's where deals die.\n\n2. They go vertical, not horizontal. At the MUFG CIO/CISO Think Tank, the room landed on this: build point use cases, buy deeper workflows. Horizontal demos beautifully. Vertical actually closes.\n\n3. They start with one team, not one company. One plant. One sales pod. One SE team running real deals. Then they standardize.\n\n4. They prove ROI in hours saved, not dashboards built. Not activity metrics. Actual clarity. Hours cut from deal prep. Security docs assembled before procurement asks.\n\n5. They keep humans in the loop. The best SEs I've watched don't hand off to AI. They use it to eliminate the 40 hours of prep that used to separate good from great.\n\n6. They measure what the buyer felt, not what the tool tracked. Not \"80% accuracy.\" Did the deal close faster. Did the SE walk in with context the buyer didn't expect.\n\nI put together the full breakdown of how presales and GTM teams are running this playbook — the workflows, the context layer, and the step-by-step approach that separates the 5% from everyone else. Link in comments.",
+      "response_length": 1553,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 2000,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 8108,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "original_wc": 264,
+        "target": "130-300"
+      }
+    },
+    {
+      "id": "llm_72b8f0e8",
+      "timestamp": 1779049445.856715,
+      "type": "llm_call",
+      "stage": "amplify_batch_A",
+      "template": "amplify_batch.txt",
+      "prompt": "You are an Opening Line Amplifier for B2B founder LinkedIn posts. Process ALL 1 posts below through the 7-gate diagnosis and generate exactly 5 alternative opening lines per post.\n\n## FOUNDER VOICE MARKERS (shared across all posts)\n- Opens with provocative declarative statement that challenges conventional wisdom: 'Stop introducing your SE as...', 'The moment your SE celebrates...', 'Reddit's stock is down 40%'\n- Short standalone fragment sentences as paragraph-level punctuation: 'It was the qualifier.' 'That silence is where bad revenue begins.' 'The records layer gets cheaper.'\n- 'I keep hearing/noticing/seeing' — signals sourced from the field, not theory: 'I keep hearing the same story from SE leaders', 'There's a pattern I keep noticing'\n- 'Not because... Because...' negation-then-reframe structure: 'Not because AEs aren't good at their jobs. Because the job itself changed.'\n- 'The real [X] is [Y]' reframing formula: 'The real reason is...', 'The real cost is maintaining not building', 'The real challenge is structural'\n- Data-first hooks with specific numbers in opening lines: 'down 40%', '$8B', '47% in 6 months', '67%', '$500K deals'\n- 'From a distance... Up close...' zoom-level toggle within a single post to reveal hidden complexity\n- 'I've watched / I've sat through' — first-person witness authority, never abstract opinion: 'I've sat through dozens of enterprise sales calls'\n- ALL CAPS for single words of emphasis mid-sentence: 'MORE important', 'THEIR world', 'YOUR business'\n- No explicit call-to-action or engagement bait — closes with implication or forward insight, never 'what do you think?' or 'drop a comment'\n\n---\n\n## POSTS TO AMPLIFY\n\n### POST: A1\nMode: declaring\n\nBREAKING: Industry reports 95% of enterprise AI pilots FAIL.\nThat's millions of hours wasted.\nBut there's a 5% that is closing all the deals:\n\nI keep hearing the same pattern from CIOs and presales leaders. The ones winning aren't smarter. They're more specific.\n\nHere are the 7 things the 5% do differently:\n\n1. They pick one workflow where context is scattered. Not 50 AI experiments. One process where tribal knowledge is trapped in Slack threads, old decks, and someone's head. That's where deals die.\n\n2. They go vertical, not horizontal. At the MUFG CIO/CISO Think Tank, the room landed on this: build point use cases, buy deeper workflows. Horizontal demos beautifully. Vertical actually closes.\n\n3. They start with one team, not one company. One plant. One sales pod. One SE team running real deals. Then they standardize.\n\n4. They prove ROI in hours saved, not dashboards built. Not activity metrics. Actual clarity. Hours cut from deal prep. Security docs assembled before procurement asks.\n\n5. They keep humans in the loop. The best SEs I've watched don't hand off to AI. They use it to eliminate the 40 hours of prep that used to separate good from great.\n\n6. They measure what the buyer felt, not what the tool tracked. Not \"80% accuracy.\" Did the deal close faster. Did the SE walk in with context the buyer didn't expect.\n\nI put together the full breakdown of how presales and GTM teams are running this playbook — the workflows, the context layer, and the step-by-step approach that separates the 5% from everyone else. Link in comments.\n\n---\n\n## SOURCE DISSECTION (for Gate 7 — Batch A mirror fidelity)\n{\"psychological_move\": \"Authority-backed contradiction reveal: a credible source (MIT) reports mass failure, then the speaker positions themselves as having decoded the exception. This creates permission for the reader to believe a counterintuitive truth AND positions the speaker as someone who has done the investigative work the reader hasn't. The move is: 'everyone is wrong, I found the pattern.'\", \"narrative_arc\": \"Contradiction reveal → investigative credential → progressive pattern extraction → concrete proof → call to deeper resource. The arc moves from 'here's what's broken' to 'here's what works' to 'I've systematized it.'\", \"hook_mechanic_primary\": \"three_stack_pain\", \"opener_mechanic_description\": \"Authority credential (MIT report) → specific failure number (95%) → reframe to opportunity (5% making money). The stack escalates from 'this is broken' to 'this is a waste' to 'but there's a hidden winner.' The third line inverts the frame from problem to solution.\", \"source_opener_text\": \"BREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wasted. But there's a 5% that is making all the money:\", \"hook_mechanics\": [{\"sentence\": \"BREAKING: MIT Reports 95% of enterprise AI FAIL.\", \"structural_function\": \"authority_credential + specificity_bomb. Establishes credibility (MIT, not the speaker) and lands a concrete number (95%) that signals real data, not opinion.\", \"psychological_effect\": \"Stops scroll because it's a surprising, credible claim. 'BREAKING' signals newsworthiness. MIT is a third-party authority that the reader trusts more than the speaker.\", \"rhythm\": \"short\"}, {\"sentence\": \"That's billions of dollars wasted.\", \"structural_function\": \"consequence_escalation. Translates the 95% failure into emotional/financial stakes. Moves from abstract metric to concrete loss.\", \"psychological_effect\": \"Creates urgency and stakes. The reader now feels the weight of the problem — it's not theoretical, it's money leaving the room.\", \"rhythm\": \"sh\n\n---\n\n## 7-GATE DIAGNOSIS (run per post)\n\n### Gate 1: MECHANIC (does the opener stop the scroll?)\nIdentify which of the 13 proven mechanics is being used.\nFAIL: Belief statements, question openers, \"excited to announce,\" hedged setups.\n\n### Gate 2: PLAUSIBILITY (would a real person actually say this?)\nFailure shapes: Strawman quote, Counted-precision tic, Convenient setup, Obvious-question from wrong person, Impossible scenario.\n\n### Gate 3: COHERENCE (does the opener match the post's actual argument?)\nPromise test + compression test. Failure modes: drift, bait-and-switch, two-posts-in-one.\n\n### Gate 4: SPECIFICITY (no invented facts)\nFirst-degree (documented only), Second-degree (plausible at scale), Third-degree (always safe).\n\n### Gate 5: MODE PRESERVATION\nDeclaring = clean assertion. Wrestling = signals movement/tension. Don't strip wrestling to make it punchier.\n\n### Gate 6: VOICE FIT (does this opener sound like THIS founder?)\nRecognition test + marker test. Must reflect at least 1 voice marker.\n\n### Gate 7: SOURCE MIRROR — If source dissection is provided below, check opener mechanic, body format, and closer mechanic match. Otherwise N/A.\n\n---\n\n## BODY SCAN (per post)\n\nRead the body. If any sentence is punchier than line 1 and could work as the opener, mark as buried gold.\n\n---\n\n## THE 13 PROVEN MECHANICS\n\n1. Specific number + context\n2. Juxtaposition\n3. First-person confession\n4. Quote hook + reaction\n5. Scene-entry\n6. Decision reveal\n7. Contrarian declaration\n8. Pattern observation\n9. Tension pair\n10. Before/after snapshot\n11. Micro story\n12. Authority redirect\n13. Data inversion\n\n---\n\n## GENERATE 5 VARIANTS PER POST (A-E)\n\nRules per variant:\n- Must use a DIFFERENT mechanic from the 13 above\n- Must pass all 6 gates\n- Must sound like this specific founder (use voice markers)\n- No AI slop (\"In today's...\", \"Here's the thing\", \"Hot take:\", etc.)\n- Each version must argue from a genuinely different angle\n\n---\n\n## OUTPUT FORMAT\n\nReturn a single JSON object keyed by post label:\n\n```json\n{\n  \"posts\": {\n    \"B1\": {\n      \"diagnosis\": {\n        \"current_mechanic\": \"one of the 13 mechanics or 'none'\",\n        \"all_gates_pass\": true,\n        \"gates\": {\n          \"mechanic\": {\"pass\": true, \"reason\": \"...\"},\n          \"plausibility\": {\"pass\": true, \"reason\": \"...\"},\n          \"coherence\": {\"pass\": true, \"reason\": \"...\"},\n          \"specificity\": {\"pass\": true, \"reason\": \"...\"},\n          \"mode_preservation\": {\"pass\": true, \"reason\": \"...\"},\n          \"voice_fit\": {\"pass\": true, \"reason\": \"...\"}\n        },\n        \"buried_gold\": \"exact sentence or empty string\",\n        \"weakness\": \"one sentence on biggest weakness\"\n      },\n      \"variants\": [\n        {\n          \"variant\": \"A\",\n          \"opening\": \"replacement opening (1-3 sentences)\",\n          \"mechanic\": \"which of the 13\",\n          \"key_change\": \"what this changes vs original\",\n          \"expected_lift\": \"low|medium|high\",\n          \"rating\": 8,\n          \"coherence_with_body\": true,\n          \"plausibility\": true,\n          \"voice_fit\": true,\n          \"mode_preservation\": true\n        },\n        {\"variant\": \"B\", \"...\": \"...\"},\n        {\"variant\": \"C\", \"...\": \"...\"},\n        {\"variant\": \"D\", \"...\": \"...\"},\n        {\"variant\": \"E\", \"...\": \"...\"}\n      ],\n      \"recommended\": \"B\"\n    },\n    \"B2\": {\n      \"...\": \"same structure\"\n    }\n  }\n}\n```\n\nSelection priority per post (tiebreakers in exact sequence):\n1. coherence_with_body (MUST be true)\n2. plausibility (MUST be true)\n3. voice_fit (prefer variants that use founder's signature moves)\n4. rating (mechanic strength — only breaks ties)\n\nNo preamble. No meta-commentary. Process all 1 posts.\n",
+      "prompt_length": 8986,
+      "response": "```json\n{\n  \"posts\": {\n    \"A1\": {\n      \"diagnosis\": {\n        \"current_mechanic\": \"authority_redirect\",\n        \"all_gates_pass\": false,\n        \"gates\": {\n          \"mechanic\": {\"pass\": true, \"reason\": \"Uses authority redirect (industry reports) combined with a specific number (95%) and a reframe to the 5%. Three-stack pain structure that escalates from failure stat to waste to hidden winners.\"},\n          \"plausibility\": {\"pass\": false, \"reason\": \"'BREAKING' framing feels like clickbait news formatting, not how this founder naturally speaks. The founder's voice uses provocative declaratives and data-first hooks, but never news-anchor framing. Also '95% of enterprise AI pilots FAIL' is a commonly circulated stat with questionable sourcing — presenting it as 'BREAKING' strains credibility.\"},\n          \"coherence\": {\"pass\": true, \"reason\": \"The opener promises a breakdown of what the successful 5% do differently, and the body delivers exactly that in a numbered list. Promise matches payload.\"},\n          \"specificity\": {\"pass\": true, \"reason\": \"95% is a widely cited industry figure (second-degree plausible at scale). The 5% is the mathematical inverse. No invented precision.\"},\n          \"mode_preservation\": {\"pass\": true, \"reason\": \"Declaring mode — clean assertion of a pattern the founder has observed. The body is a confident numbered playbook, not wrestling with uncertainty.\"},\n          \"voice_fit\": {\"pass\": false, \"reason\": \"'BREAKING:' is not a voice marker for this founder. The founder uses ALL CAPS for single emphasis words mid-sentence, not news-style labels. The 'I keep hearing' pattern appears in the body but not the opener. The opener reads more like a LinkedIn growth-hack template than this founder's natural cadence.\"}\n        },\n        \"buried_gold\": \"The ones winning aren't smarter. They're more specific.\",\n        \"weakness\": \"'BREAKING:' is engagement-bait formatting that clashes with this founder's voice — they never use news-anchor framing and explicitly avoid engagement bait patterns.\"\n      },\n      \"variants\": [\n        {\n          \"variant\": \"A\",\n          \"opening\": \"I keep hearing the same thing from CIOs running AI pilots: 95% of them fail.\\nNot because the tech is bad. Because the scope is wrong.\",\n          \"mechanic\": \"pattern_observation\",\n          \"key_change\": \"Replaces clickbait 'BREAKING' framing with the founder's signature 'I keep hearing' field-sourced authority and 'Not because... Because...' negation-reframe. Grounds the 95% stat in first-person witness credibility rather than news-anchor delivery.\",\n          \"expected_lift\": \"high\",\n          \"rating\": 9,\n          \"coherence_with_body\": true,\n          \"plausibility\": true,\n          \"voice_fit\": true,\n          \"mode_preservation\": true\n        },\n        {\n          \"variant\": \"B\",\n          \"opening\": \"95% of enterprise AI pilots fail. The 5% that close deals all do the same 7 things.\\nI've watched the pattern repeat across enough CIO conversations to map it.\",\n          \"mechanic\": \"specific_number_context\",\n          \"key_change\": \"Leads with the data point directly (no 'BREAKING' wrapper), then immediately signals the payoff structure (7 things) and uses 'I've watched' first-person witness authority. Removes news framing, keeps the data hook.\",\n          \"expected_lift\": \"high\",\n          \"rating\": 9,\n          \"coherence_with_body\": true,\n          \"plausibility\": true,\n          \"voice_fit\": true,\n          \"mode_preservation\": true\n        },\n        {\n          \"variant\": \"C\",\n          \"opening\": \"The real reason 95% of AI pilots fail isn't the technology.\\nIt's that teams go horizontal when the deals close vertical.\",\n          \"mechanic\": \"contrarian_declaration\",\n          \"key_change\": \"Uses the founder's 'The real [X] is [Y]' reframing formula to challenge the assumption that AI failure is a tech problem. Pulls the vertical-vs-horizontal insight from the body into the hook, creating a stronger contrarian frame.\",\n          \"expected_lift\": \"high\",\n          \"rating\": 8,\n          \"coherence_with_body\": true,\n          \"plausibility\": true,\n          \"voice_fit\": true,\n          \"mode_preservation\": true\n        },\n        {\n          \"variant\": \"D\",\n          \"opening\": \"I've sat through enough enterprise AI reviews to see the split clearly.\\nThe 95% that fail run 50 experiments. The 5% that close pick ONE workflow where context is scattered.\",\n          \"mechanic\": \"juxtaposition\",\n          \"key_change\": \"Opens with 'I've sat through' first-person witness authority, then creates a clean juxtaposition between the 95% and 5% with specific behavioral contrast pulled from the body's first point. ALL CAPS on 'ONE' matches the founder's emphasis pattern.\",\n          \"expected_lift\": \"high\",\n          \"rating\": 9,\n          \"coherence_with_body\": true,\n          \"plausibility\": true,\n          \"voice_fit\": true,\n          \"mode_preservation\": true\n        },\n        {\n          \"variant\": \"E\",\n          \"opening\": \"From a distance, enterprise AI looks like a 95% failure rate.\\nUp close, the 5% winning all share the same playbook — and it starts with one workflow, not fifty.\",\n          \"mechanic\": \"before_after_snapshot\",\n          \"key_change\": \"Uses the founder's 'From a distance... Up close...' zoom-level toggle to reframe the 95% stat from a discouraging headline into an investigative reveal. Creates the sense that the founder has done the close-range work the reader hasn't.\",\n          \"expected_lift\": \"medium\",\n          \"rating\": 8,\n          \"coherence_with_body\": true,\n          \"plausibility\": true,\n          \"voice_fit\": true,\n          \"mode_preservation\": true\n        }\n      ],\n      \"recommended\": \"D\"\n    }\n  }\n}\n```",
+      "response_length": 5745,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.3,
+      "max_tokens": 2500,
+      "model": "claude-opus-4-6",
+      "provider": "anthropic",
+      "duration_ms": 28974,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "post_count": 1,
+        "never_replace": true
+      }
+    },
+    {
+      "id": "dec_b8ed41bb",
+      "timestamp": 1779049445.8702314,
+      "type": "decision",
+      "stage": "pack_1_quality_pass",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "total_regens=0/6",
+      "metadata": {
+        "flagged_posts": []
+      }
+    },
+    {
+      "id": "dec_7506ffba",
+      "timestamp": 1779049445.8702314,
+      "type": "decision",
+      "stage": "pack_1_complete",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "convergence=PASS",
+      "metadata": {
+        "posts": 1,
+        "recommendation": "too few posts to test"
+      }
+    }
+  ],
+  "pipeline_logs": [
+    {
+      "timestamp": 1779049274.5869083,
+      "level": "INFO",
+      "logger": "src.ingestion.founder_reader",
+      "message": "2026-05-18 01:51:14,586 INFO src.ingestion.founder_reader: [founder_reader] manisha: layout=old, 5 ingested, 51 skipped, 13 cache hits"
+    },
+    {
+      "timestamp": 1779049274.5909672,
+      "level": "WARNING",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-18 01:51:14,590 WARNING src.batch.corpus_reader: [batch] Graph last updated 35 days ago"
+    },
+    {
+      "timestamp": 1779049274.6091034,
+      "level": "INFO",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-18 01:51:14,609 INFO src.batch.corpus_reader: [batch] Using cached internalization (hash match)"
+    },
+    {
+      "timestamp": 1779049274.6292143,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-18 01:51:14,629 INFO src.utils.text_utils: [prompt] Loading calibration_check.txt"
+    },
+    {
+      "timestamp": 1779049274.630698,
+      "level": "INFO",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-18 01:51:14,630 INFO src.batch.corpus_reader: [batch] Running calibration check..."
+    },
+    {
+      "timestamp": 1779049277.026578,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 01:51:17,026 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779049364.1113033,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 01:52:44,111 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779049364.3026214,
+      "level": "INFO",
+      "logger": "src.batch.source_selector",
+      "message": "2026-05-18 01:52:44,302 INFO src.batch.source_selector: [batch] Using 1 user-provided source posts (first 80 chars: BREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wast)"
+    },
+    {
+      "timestamp": 1779049364.303778,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 01:52:44,303 INFO src.batch.pack_generator: [batch] Generating pack 1 (1 posts)..."
+    },
+    {
+      "timestamp": 1779049364.303778,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-18 01:52:44,303 INFO src.utils.text_utils: [prompt] Loading source_dissect_hook.txt"
+    },
+    {
+      "timestamp": 1779049365.0072253,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 01:52:45,007 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779049385.9904158,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 01:53:05,990 INFO src.batch.pack_generator: [batch] Pack 1: generating 1 A posts via transpose..."
+    },
+    {
+      "timestamp": 1779049385.9904158,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-18 01:53:05,990 INFO src.utils.text_utils: [prompt] Loading transpose.txt"
+    },
+    {
+      "timestamp": 1779049387.9222357,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 01:53:07,922 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779049408.7394385,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 01:53:28,739 INFO src.batch.pack_generator: [transpose] mode=A produced 1/1 posts"
+    },
+    {
+      "timestamp": 1779049408.7394385,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 01:53:28,739 INFO src.batch.pack_generator: [batch] Trimmed A1 from 324 to 309 words"
+    },
+    {
+      "timestamp": 1779049410.500787,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 01:53:30,500 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779049416.8685205,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 01:53:36,868 INFO src.batch.pack_generator: [batch] LLM-trimmed A1 from 309 to 264 words"
+    },
+    {
+      "timestamp": 1779049416.8685205,
+      "level": "INFO",
+      "logger": "src.batch.session",
+      "message": "2026-05-18 01:53:36,868 INFO src.batch.session: [batch] A1: Batch A — skipping voice validation (mirrored)"
+    },
+    {
+      "timestamp": 1779049416.8799255,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-18 01:53:36,879 INFO src.utils.text_utils: [prompt] Loading amplify_batch.txt"
+    },
+    {
+      "timestamp": 1779049416.8816154,
+      "level": "INFO",
+      "logger": "src.batch.amplifier",
+      "message": "2026-05-18 01:53:36,881 INFO src.batch.amplifier: [amplifier_batch] Processing 1 A posts in single call (max_tokens=2500)..."
+    },
+    {
+      "timestamp": 1779049418.5650647,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 01:53:38,565 INFO httpx: HTTP Request: POST https://api.anthropic.com/v1/messages \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779049445.856715,
+      "level": "INFO",
+      "logger": "src.batch.amplifier",
+      "message": "2026-05-18 01:54:05,856 INFO src.batch.amplifier: [amplifier_pack_summary] preserved=1/1 replaced=0 distribution={'mirrored': 1}"
+    },
+    {
+      "timestamp": 1779049445.856715,
+      "level": "INFO",
+      "logger": "src.batch.amplifier",
+      "message": "2026-05-18 01:54:05,856 INFO src.batch.amplifier: [amplifier_batch] Completed 1 A posts in 29.0s"
+    },
+    {
+      "timestamp": 1779049445.856715,
+      "level": "INFO",
+      "logger": "src.batch.session",
+      "message": "2026-05-18 01:54:05,856 INFO src.batch.session: [batch] A1: Batch A — 5 variants generated (opener kept)"
+    },
+    {
+      "timestamp": 1779049445.8763487,
+      "level": "INFO",
+      "logger": "src.batch.compiler",
+      "message": "2026-05-18 01:54:05,876 INFO src.batch.compiler: [batch] Saved output to D:\\projects\\personal_graph\\digital-dna\\data\\founders\\Manisha\\post-data\\manisha_batch_2026-05-17.json (1 posts)"
+    }
+  ]
+}

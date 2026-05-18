@@ -1,112 +1,118 @@
 {
-  "version": 1,
-  "updated_at": "2026-05-16T10:30:00+00:00",
+  "version": 3,
+  "updated_at": "2026-05-18T19:45:00+00:00",
   "tasks": {
-    "internalize": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
-      "enable_thinking": true,
-      "effort": "high",
-      "max_tokens": 6000,
-      "thinking_budget": 10000,
-      "temperature": 0.3
-    },
-    "calibration": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
+    "anchor_inventory": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
       "enable_thinking": false,
-      "max_tokens": 1500,
-      "temperature": 0.5
+      "effort": "medium",
+      "max_tokens": 8000,
+      "temperature": 0.2
     },
-    "web_search": {
-      "provider": "anthropic",
-      "model": "claude-sonnet-4-6",
+    "compile": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
       "enable_thinking": false,
-      "max_tokens": 2000,
-      "temperature": 0.3
+      "effort": "medium",
+      "max_tokens": 4000,
+      "temperature": 0.2
     },
-    "select_sources": {
-      "provider": "anthropic",
-      "model": "claude-sonnet-4-6",
+    "voice_load": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
       "enable_thinking": false,
-      "max_tokens": 2000,
+      "effort": "medium",
+      "max_tokens": 8000,
       "temperature": 0.3
     },
     "dissect": {
-      "provider": "anthropic",
-      "model": "claude-sonnet-4-6",
+      "provider": "kimi",
+      "model": "kimi-k2.6",
       "enable_thinking": false,
+      "effort": "medium",
       "max_tokens": 3000,
       "temperature": 0.2
     },
-    "generate_a": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
-      "enable_thinking": true,
-      "effort": "high",
-      "max_tokens": 1500,
-      "thinking_budget": 12000,
-      "temperature": 0.5
-    },
-    "generate_b": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
-      "enable_thinking": true,
-      "effort": "high",
-      "max_tokens": 1500,
-      "thinking_budget": 12000,
-      "temperature": 0.5
-    },
-    "word_count_trim": {
-      "provider": "anthropic",
-      "model": "claude-haiku-4-5-20251001",
+    "generate": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
       "enable_thinking": false,
-      "max_tokens": 800,
-      "temperature": 0.2
-    },
-    "voice_validation": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
-      "enable_thinking": true,
-      "effort": "high",
-      "max_tokens": 3000,
-      "thinking_budget": 10000,
-      "temperature": 0.3
-    },
-    "voice_regen": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
-      "enable_thinking": true,
-      "effort": "high",
-      "max_tokens": 2000,
-      "thinking_budget": 12000,
+      "effort": "medium",
+      "max_tokens": 4000,
       "temperature": 0.5
     },
     "amplify": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
-      "enable_thinking": true,
-      "effort": "high",
-      "max_tokens": 6000,
-      "thinking_budget": 10000,
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "medium",
+      "max_tokens": 4000,
       "temperature": 0.3
     },
-    "transpose": {
-      "provider": "anthropic",
-      "model": "claude-opus-4-6",
-      "enable_thinking": true,
-      "effort": "high",
-      "max_tokens": 12000,
-      "thinking_budget": 14000,
+    "validate": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "medium",
+      "max_tokens": 4000,
+      "temperature": 0.2
+    },
+    "internalize": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "medium",
+      "max_tokens": 8000,
+      "temperature": 0.3
+    },
+    "calibration": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 1000,
       "temperature": 0.5
     },
-    "convergence_test": {
-      "provider": "anthropic",
-      "model": "claude-sonnet-4-6",
+    "generate_a": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
       "enable_thinking": false,
+      "effort": "medium",
+      "max_tokens": 4000,
+      "temperature": 0.5
+    },
+    "generate_b": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "medium",
+      "max_tokens": 4000,
+      "temperature": 0.5
+    },
+    "transpose": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "medium",
+      "max_tokens": 4000,
+      "temperature": 0.5
+    },
+    "voice_validation": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "low",
       "max_tokens": 2000,
       "temperature": 0.2
+    },
+    "convergence_test": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "low",
+      "max_tokens": 1000,
+      "temperature": 0.2
     }
-  },
-  "provider_keys": {}
+  }
 }

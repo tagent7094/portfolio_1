@@ -1,9 +1,21 @@
-You are a voice validation quality gate. If this post doesn't sound like the founder, catch it here before it ships.
+# version: v6.1.0
+# schema_version: v6.1.0
+# Pack-level voice validator. Consumes the full pack + voice load + anchor
+# inventory + source dissection. Returns per-post scores AND a pack-level
+# ship-or-regen decision. NEVER "reject" — only ship or regen.
 
-## GENERATED POST
-{post_text}
+You are the voice + quality gate for a pack of 9 generated founder posts. Your job has two parts:
 
-## CALIBRATION PARAGRAPH (what the founder sounds like when done right)
+1. **Score every post** on 7 dimensions (0–9 scale). Compute the 9/7 floor (every dimension ≥ 7 AND at least one dimension ≥ 9) per post.
+2. **Decide pack-level fate**: ship or regen. NEVER reject. If quality is below floor, identify exactly which posts need regen and why, with explicit instructions.
+
+## PACK POSTS
+{posts}
+
+## FOUNDER VOICE LOAD
+{voice_load}
+
+## CALIBRATION PARAGRAPH (what this founder sounds like when done right)
 {calibration_paragraph}
 
 ## FOUNDER VOICE MARKERS
@@ -15,74 +27,189 @@ You are a voice validation quality gate. If this post doesn't sound like the fou
 ## FORMATTING HABITS
 {formatting_habits}
 
-## EXPECTED MARKER RATES (per-post averages from founder's published corpus)
-{marker_rates}
+## FOUNDER FIRST NAME
+{founder_first_name}
+
+## ANCHOR INVENTORY (master list — every Batch A post must ground to one of these)
+{anchor_inventory}
+
+## RECENT PACK HISTORY (cross-pack saturation check)
+{pack_history}
+
+## SOURCE DISSECTION (defines required_sub_mechanic for Batch A)
+{dissection}
 
 ---
 
-## 5-DIMENSION SCORING (0-5 each)
+## PART 1 — PER-POST SCORING (0–9 each)
 
-### 1. VOICE-MARKER COMPLIANCE
-How many of the founder's voice markers appear naturally?
-- 0 = none present
-- 1 = 1 marker, forced or shallow
-- 2 = 1 marker, well-integrated
-- 3 = 2 markers, naturally expressed
-- 4 = 3 markers, naturally expressed
-- 5 = 4+ markers, seamlessly integrated
+For every post, score these 7 dimensions:
 
-### 2. OPENER-RHYTHM MATCH
-Does the opening follow the founder's documented argument rhythm pattern?
-- 0 = completely different rhythm (corporate announcement vs. paradoxical declaration)
-- 3 = partially matches (right shape, wrong register)
-- 5 = matches the documented rhythm exactly
+### 1. voice_marker (0–9)
+How many of the founder's documented voice markers appear naturally?
+- 0–2: none present or forced
+- 3–5: 1–2 markers, partially integrated
+- 6–7: 2–3 markers, well-integrated
+- 8–9: 4+ markers, seamlessly integrated, indistinguishable from founder
 
-### 3. FORMATTING-HABIT MATCH
-Does the post match the founder's formatting habits AND expected marker rates?
-Check: em-dashes, smileys, hashtags, paragraph length, sentence structure, closing moves.
-Compare against the EXPECTED MARKER RATES — posts that strip or force markers score lower.
-- 0 = completely different formatting
-- 3 = some formatting matches, rates partially aligned
-- 5 = formatting indistinguishable from founder's published posts
+### 2. opener_rhythm (0–9)
+Does the opening follow the founder's documented argument rhythm AND match the source's structural beat order (for Batch A) or the chosen entry door (for Batch B)?
+- 0–2: completely different rhythm
+- 3–5: partial match (right shape, wrong register, OR right register, wrong shape)
+- 6–7: matches documented rhythm
+- 8–9: matches documented rhythm AND clears the strip test (universal first line, niche in paragraph 2+)
 
-### 4. REGISTER CHECK
-Does the post read like the FOUNDER wrote it, or like someone else?
-- 0 = reads like corporate copy, press release, or marketing
-- 1 = reads like a generic thought leader
-- 3 = reads like a founder in this space, but not THIS specific founder
-- 5 = reads like the calibration paragraph's register — same voice, same posture
+### 3. formatting (0–9)
+Match against the founder's formatting habits AND marker rates (em-dashes, smileys, hashtags, paragraph length, closing moves).
+- 0–2: completely off, looks like AI output
+- 3–5: partial match
+- 6–7: most habits match
+- 8–9: indistinguishable from a founder-written published post
 
-### 5. POSTURE CHECK (operator inside vs. commentator outside)
-Is the founder positioned as an OPERATOR inside the experience, or a COMMENTATOR watching from outside?
-- 0 = pure commentator — analyzes a category or trend as outsider
-- 2 = mixed — some first-person but mostly third-person market commentary
-- 3 = operator with distance — first-person but generic, not specific to this founder
-- 5 = fully inside — speaks from lived operational experience
+### 4. register (0–9)
+Does this read like THIS founder wrote it?
+- 0–2: corporate, press-release, marketing tone
+- 3–4: generic thought-leader
+- 5–6: founder-in-this-space but not specifically this one
+- 7–8: this founder's register
+- 9: same voice as the calibration paragraph
+**Below 7 = automatic regen flag for this post.**
+
+### 5. posture (0–9)
+Operator inside the experience vs. commentator watching from outside.
+- 0–2: pure commentator
+- 3–5: mostly commentator with first-person veneer
+- 6–7: operator with distance
+- 8–9: fully inside, lived operational specifics
+**Below 7 = automatic regen flag.**
+
+### 6. anchor_grounding (0–9)
+Is the first-person specifics in this post grounded in the founder's anchor inventory?
+- 0–2: fabricated specifics (post claims monthly cost / personal scene / named teammate not present in inventory)
+- 3–5: partially grounded — some specifics exist, some are invented
+- 6–7: grounded with verifiable anchors, no fabrication
+- 8–9: anchor used is a TIER 1 anchor (top of inventory) AND naturally integrated
+**Below 7 on a Batch A post = automatic regen flag. This is the most important dimension for Batch A.**
+
+### 7. first_degree_truth (0–9)
+Per the v4 framework: anything the founder allegedly did themselves, or that names a teammate, must be true (sourceable to an anchor). Second-degree material (people they observed/heard from) has construction room.
+- 0–2: invented first-degree action (e.g. "I fired him", "my CTO said X" with no anchor)
+- 3–5: ambiguous — might be true but no anchor proves it
+- 6–7: first-degree statements all anchor to inventory items
+- 8–9: first-degree is anchored AND second-degree material is appropriately hedged
+
+## PART 2 — PER-POST SUB-MECHANIC CHECK (Batch A only)
+
+For each Batch A post, check whether its `actual_sub_mechanic_used` matches the `required_sub_mechanic` declared in the source dissection.
+
+- `required_sub_mechanic`: from the SOURCE DISSECTION's `hook_sub_mechanic` field.
+- `actual_sub_mechanic_used`: derive from the post's opener — what sub-mechanic does it actually execute?
+- `sub_mechanic_match`: true iff identical OR in the same adjacent-variant set.
+- `parameter_1_hard_veto_triggered`: true iff this post fabricates the source's mandatory Parameter 1 (e.g., source's `monthly_cost_usd` slot filled by a number not in the founder's anchor inventory). Hard veto = automatic regen, no exceptions.
+
+For Batch B posts: set `required_sub_mechanic = ""`, `actual_sub_mechanic_used = ""`, `sub_mechanic_match = true`, `parameter_1_hard_veto_triggered = false`. Sub-mechanic discipline applies only to Batch A.
+
+## PART 3 — PACK-LEVEL CHECKS
+
+### anchor_concentration
+- Count uses of each `anchor_consumed_id` across the pack.
+- If any anchor is used ≥ 3 times: `passes: false`. Pack needs regen for the over-used posts.
+
+### argument_convergence
+- Count distinct `argument_compressed` theses across the pack.
+- If < 7 distinct: `passes: false`. The convergent posts need regen with explicit different-angle instructions.
+
+### mechanic_distribution
+- Count distinct `mechanic` values across Batch B.
+- If < 4 distinct mechanics across B1–B5: `passes: false`. Convergent-mechanic B posts need regen.
+
+### duplicate_paragraph_within_post
+- For each post: split by `\n\n`, check whether any two paragraphs share ≥ 80% word overlap (Jaccard ≥ 0.8).
+- If any post has duplicates: list offending labels. Those posts need regen.
+
+### body_diff_batch_a
+- For every pair of Batch A posts, count shared sentences (5+ consecutive matching words = shared sentence).
+- If any pair has ≥ 6 shared sentences: flag both labels. The later post in the pair needs regen.
+
+## PART 4 — PACK DECISION
+
+Decision matrix:
+
+- `quality_floor_met = true` iff:
+  - ≥ 7 of 9 posts pass the 9/7 floor, AND
+  - No post has `parameter_1_hard_veto_triggered = true`, AND
+  - All pack-level checks pass (anchor_concentration, argument_convergence, mechanic_distribution, duplicate_paragraph_within_post, body_diff_batch_a).
+- `ship_or_regen_or_reject`:
+  - `"ship"` iff `quality_floor_met = true`.
+  - `"regen"` otherwise. **NEVER "reject".**
+- `regen_targets[]`: for every post that fails the floor or triggers a hard veto or appears in pack-level check failures, emit an entry with:
+  - `label`: e.g. "A2"
+  - `failure_reason`: short tag like "fabricated_anchor" / "body_diff_overlap" / "sub_mechanic_mismatch" / "register_too_low" / "duplicate_paragraph"
+  - `explicit_regen_instructions` (dict, not string): {{ "what_to_change": "...", "what_to_preserve": "...", "constraint": "..." }}. Make it actionable for the next transpose pass.
 
 ---
 
-## DECISION RULE
-
-- ANY dimension below 3 → return "FAIL"
-- register_score below 3 → ALWAYS "FAIL" (most important signal)
-- posture_score below 3 → "FAIL" (operator posture is non-negotiable)
-
----
-
-## OUTPUT FORMAT
+## OUTPUT FORMAT (return this exact JSON shape, no commentary)
 
 ```json
 {{
-  "voice_marker_score": 4,
-  "voice_markers_found": ["marker 1", "marker 2"],
-  "opener_rhythm_score": 3,
-  "formatting_score": 4,
-  "register_score": 5,
-  "register_reads_as": "founder|corporate|generic",
-  "posture_score": 4,
-  "posture_reads_as": "operator|commentator|mixed",
-  "overall": "PASS",
-  "violations": [],
-  "suggestion": "one sentence on how to fix if FAIL, empty if PASS"
+  "schema_version": "v6.1.0",
+  "per_post_validation": [
+    {{
+      "label": "A1",
+      "batch": "A",
+      "scores": {{
+        "voice_marker": 8,
+        "opener_rhythm": 9,
+        "formatting": 8,
+        "register": 9,
+        "posture": 9,
+        "anchor_grounding": 8,
+        "first_degree_truth": 9
+      }},
+      "passes_9_7_floor": true,
+      "required_sub_mechanic": "first_person_monthly_cost",
+      "actual_sub_mechanic_used": "first_person_monthly_cost",
+      "sub_mechanic_match": true,
+      "parameter_1_hard_veto_triggered": false,
+      "failure_reason": "",
+      "explicit_regen_instructions": {{}}
+    }}
+  ],
+  "pack_level_checks": {{
+    "anchor_concentration": {{"max_uses_of_any_anchor": 2, "passes": true}},
+    "argument_convergence": {{"distinct_arguments": 9, "passes": true}},
+    "mechanic_distribution": {{"distinct_b_mechanics": 5, "passes": true}},
+    "duplicate_paragraph_within_post": {{"offenders": [], "passes": true}},
+    "body_diff_batch_a": {{"overlapping_pairs": [], "passes": true}}
+  }},
+  "pack_decision": {{
+    "ship_or_regen_or_reject": "ship",
+    "quality_floor_met": true,
+    "regen_targets": []
+  }},
+  "failure_summary": ""
 }}
 ```
+
+When `ship_or_regen_or_reject = "regen"`, populate `regen_targets[]` with one entry per affected post. Example:
+
+```json
+"regen_targets": [
+  {{
+    "label": "A2",
+    "failure_reason": "fabricated_anchor",
+    "explicit_regen_instructions": {{
+      "what_to_change": "Rewrite opener and paragraphs 1-2. The $12K monthly cost is fabricated — Manisha has no such anchor.",
+      "what_to_preserve": "The 'measurement void' argument in paragraphs 3-4 is good.",
+      "constraint": "Use anchor A011 (MUFG CIO/CISO Think Tank) instead. Re-derive the opener from that scene."
+    }}
+  }}
+]
+```
+
+Critical rules:
+- The `ship_or_regen_or_reject` enum is exactly two values: `"ship"` or `"regen"`. NEVER emit `"reject"`.
+- Every regen target's `explicit_regen_instructions` MUST be a dict (object), not a string.
+- Set `failure_summary` to a 1–2 sentence root-cause summary when `ship_or_regen_or_reject = "regen"` (empty string when ship).
+- `parameter_1_hard_veto_triggered = true` on any Batch A post forces `ship_or_regen_or_reject = "regen"` regardless of other scores.

@@ -1,0 +1,107 @@
+Exception in thread Thread-1 (listener):
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\ProgramData\anaconda3\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\projects\personal_graph\digital-dna\scripts\smoke_test_full_batch_manisha.py", line 106, in listener
+    for event in event_bus.stream():
+                 ^^^^^^^^^^^^^^^^^^
+TypeError: 'async_generator' object is not iterable
+[36m[LLM Router][0m built provider='kimi', model='kimi-k2.6', max_tokens=server-default, thinking_budget=12000, source='founder', task='generate_a'
+[36m[LLM Router][0m built provider='kimi', model='kimi-k2.6', max_tokens=server-default, source='founder', task='dissect'
+[batch] internalize: started
+[33m[GraphStore][0m load_graph('D:\\projects\\personal_graph\\digital-dna\\data\\founders\\manisha\\knowledge-graph\\graph.json')
+[33m[GraphStore][0m \u2192 Loaded 219 nodes, 325 edges
+[33m[GraphQuery][0m get_deep_founder_context(platform='linkedin') — delegating to v2
+[33m[GraphQuery][0m get_style_rules_for_platform('linkedin') \u2192 23 rules
+[33m[GraphQuery][0m get_vocabulary_rules() \u2192 0 use, 0 never
+[33m[GraphQuery][0m get_personality_card() \u2192 0 chars
+[33m[GraphQuery][0m get_personality_card() \u2192 0 chars
+[batch] freshness_warning: Graph last updated 36 days ago
+[36m[LLM Router][0m built provider='kimi', model='kimi-k2.6', max_tokens=server-default, source='admin', task='voice_load'
+[batch] internalize: completed {'tensions': 8, 'scenes': 8, 'voice_markers': 0, 'word_count_range': [137, 253]}
+[batch] calibration: started
+[batch] calibration: completed {'confidence': 0.82, 'critique': ''}
+[batch] anchor_inventory: started
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=19404 chars, temp=0.2, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 42.8s[0m \u2502 tokens: 4,448 \u2192 3,708 \u2502 ~$0.0096 \u2502 text: 14,483 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 14483 chars generated[0m \u2502 tokens: 4,448 \u2192 3,708 \u2502 ~$0.0096
+[batch] anchor_inventory: completed {'total_anchors': 15, 'tier_1': 0, 'tier_2': 0, 'depth_rating': 'moderate-high', 'fresh_anchors': 0}
+[batch] web_search: started
+[36m[LLM:kimi/kimi-k2.6][0m generate_with_search() prompt=723 chars, max_searches=5
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=6124 chars, temp=0.2, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 22.4s[0m \u2502 tokens: 1,428 \u2192 882 \u2502 ~$0.0025 \u2502 text: 4,130 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 4130 chars generated[0m \u2502 tokens: 1,428 \u2192 882 \u2502 ~$0.0025
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 41.2s[0m \u2502 tokens: 7,408 \u2192 1,309 \u2502 ~$0.0063 \u2502 4130 chars + 1 web searches
+[batch] web_search: completed {'searches': 1, 'search_queries': ['a86252886a0b68954f50a50001acbee2'], 'trending_topics': ['AI-powered sales automation and RFP response tools', 'Seed funding resilience in 2024-2025 despite venture capital slowdown', 'Vertical AI applications replacing horizontal SaaS', 'India-US cross-border startup expansion', 'Enterprise AI adoption challenges and vendor consolidation'], 'facts_count': 8}
+[batch] select_sources: started
+[36m[LLM Router][0m built provider='kimi', model='kimi-k2.6', max_tokens=server-default, source='founder', task='select_sources'
+[batch] select_sources: completed {'count': 1}
+[batch] pack_1: started {'source_preview': "Our Claude Code API bill just crossed $18,000/month.\n\nThat's headcount territory. For a team of unde"}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=27196 chars, temp=0.2, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 8.4s[0m \u2502 tokens: 6,901 \u2192 818 \u2502 ~$0.0051 \u2502 text: 3,249 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3249 chars generated[0m \u2502 tokens: 6,901 \u2192 818 \u2502 ~$0.0051
+[batch] pack_1: progress {'pack_1_dissected': {'hook_mechanic': 'specific_number', 'mirrorable': True}}
+[36m[LLM Router][0m built provider='kimi', model='kimi-k2.6', max_tokens=server-default, source='admin', task='generate'
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=37867 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 10.3s[0m \u2502 tokens: 8,902 \u2192 860 \u2502 ~$0.0062 \u2502 text: 3,745 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3745 chars generated[0m \u2502 tokens: 8,902 \u2192 860 \u2502 ~$0.0062
+[batch] pack_1: progress {'pack_1_A1': {'word_count': 248, 'argument': 'AI spend in presales creates unmeasured capability risk — activity metrics infla', 'anchor': 'A009', 'closer': 'compounding_advantage', 'entry_door': 'mirrored', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=39415 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 9.5s[0m \u2502 tokens: 9,265 \u2192 849 \u2502 ~$0.0063 \u2502 text: 3,710 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3710 chars generated[0m \u2502 tokens: 9,265 \u2192 849 \u2502 ~$0.0063
+[batch] pack_1: progress {'pack_1_A2': {'word_count': 248, 'argument': 'AI-generated prep in presales creates invisible skill atrophy — velocity metrics', 'anchor': 'A011', 'closer': 'compounding_advantage', 'entry_door': 'mirrored', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=41187 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 9.1s[0m \u2502 tokens: 9,653 \u2192 828 \u2502 ~$0.0065 \u2502 text: 3,656 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3656 chars generated[0m \u2502 tokens: 9,653 \u2192 828 \u2502 ~$0.0065
+[batch] pack_1: progress {'pack_1_A3': {'word_count': 248, 'argument': 'AI-generated prep in presales creates invisible skill atrophy — velocity metrics', 'anchor': 'A011', 'closer': 'compounding_advantage', 'entry_door': 'mirrored', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=42296 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 9.9s[0m \u2502 tokens: 9,888 \u2192 859 \u2502 ~$0.0067 \u2502 text: 3,808 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3808 chars generated[0m \u2502 tokens: 9,888 \u2192 859 \u2502 ~$0.0067
+[batch] pack_1: progress {'pack_1_A4': {'word_count': 248, 'argument': 'AI-generated context in presales creates a judgment measurement crisis — activit', 'anchor': 'A010', 'closer': 'compounding_advantage', 'entry_door': 'mirrored', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=44042 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 9.8s[0m \u2502 tokens: 10,292 \u2192 833 \u2502 ~$0.0068 \u2502 text: 3,643 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3643 chars generated[0m \u2502 tokens: 10,292 \u2192 833 \u2502 ~$0.0068
+[batch] pack_1: progress {'pack_1_B1': {'word_count': 218, 'argument': 'AI-generated sales prep creates invisible judgment decay — activity volume masks', 'anchor': 'A005', 'closer': 'compounding_advantage', 'entry_door': 'pattern_observation', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=46033 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 42.5s[0m \u2502 tokens: 10,728 \u2192 771 \u2502 ~$0.0069 \u2502 text: 3,303 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3303 chars generated[0m \u2502 tokens: 10,728 \u2192 771 \u2502 ~$0.0069
+[batch] pack_1: progress {'pack_1_B2': {'word_count': 198, 'argument': 'AI-generated sales prep creates invisible measurement failure — activity volume ', 'anchor': 'A002', 'closer': 'compounding_advantage', 'entry_door': 'pattern_observation', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=47788 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 9.8s[0m \u2502 tokens: 11,101 \u2192 857 \u2502 ~$0.0073 \u2502 text: 3,707 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3707 chars generated[0m \u2502 tokens: 11,101 \u2192 857 \u2502 ~$0.0073
+[batch] pack_1: progress {'pack_1_B3': {'word_count': 249, 'argument': 'AI-generated sales prep creates invisible measurement failure — activity volume ', 'anchor': 'A002', 'closer': 'compounding_advantage', 'entry_door': 'pattern_observation', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=49122 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 14.0s[0m \u2502 tokens: 11,371 \u2192 783 \u2502 ~$0.0073 \u2502 text: 3,368 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3368 chars generated[0m \u2502 tokens: 11,371 \u2192 783 \u2502 ~$0.0073
+[batch] pack_1: progress {'pack_1_B4': {'word_count': 214, 'argument': 'AI-generated sales prep creates invisible measurement failure — activity volume ', 'anchor': 'A002', 'closer': 'compounding_advantage', 'entry_door': 'pattern_observation', 'self_lowest_param': None}}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=50440 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 10.1s[0m \u2502 tokens: 11,636 \u2192 826 \u2502 ~$0.0075 \u2502 text: 3,552 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 3552 chars generated[0m \u2502 tokens: 11,636 \u2192 826 \u2502 ~$0.0075
+[batch] pack_1: progress {'pack_1_B5': {'word_count': 246, 'argument': 'AI-generated sales intelligence creates invisible measurement failure — decouple', 'anchor': 'A006', 'closer': 'compounding_advantage', 'entry_door': 'contrarian_claim', 'self_lowest_param': None}}
+[batch] pack_1: progress {'voice_validation': 'starting'}
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=5151 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 4.6s[0m \u2502 tokens: 1,106 \u2192 390 \u2502 ~$0.0013 \u2502 text: 1,855 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 1855 chars generated[0m \u2502 tokens: 1,106 \u2192 390 \u2502 ~$0.0013
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=5378 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 19.3s[0m \u2502 tokens: 1,147 \u2192 409 \u2502 ~$0.0014 \u2502 text: 1,937 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 1937 chars generated[0m \u2502 tokens: 1,147 \u2192 409 \u2502 ~$0.0014
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=5209 chars, temp=0.5, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 3.9s[0m \u2502 tokens: 1,118 \u2192 413 \u2502 ~$0.0014 \u2502 text: 1,950 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 1950 chars generated[0m \u2502 tokens: 1,118 \u2192 413 \u2502 ~$0.0014
+[batch] pack_1: post_ready {'label': 'A1', 'batch': 'A', 'mode': 'declaring', 'text': "Our AI tooling bill just crossed $18,000/month.\n\nThat's replacement-level investment. For a presales team of under 8 people. And most of that spend is flowing through our SEs alone — the smallest function in the room.\n\nWe're betting on vertical AI to reshape how deals get built. I've written about the restructure — context layers that persist across handoffs, demo prep that carries the full account narrative, security validation that actually maps to buyer infrastructure (link in comments).\n\nThe workflow is holding. Deals are moving faster.\n\nBUT it's exposing something I didn't expect:\n\nWhen AI generates the discovery notes, the battle cards, the technical validation — how do you know if your SEs are actually getting sharper?\n\nThink about what we currently track. Demos delivered. Slides created. Calls completed. Technical checkpoints passed. Every one of those inflates beautifully with AI assistance. None of them tell you if the buyer's thinking shifted.\n\nThe real fractures are quieter:\n\n\u2192 Context decay. Does the next SE who touches the account rebuild from scratch, or inherit stable narrative?\n\u2192 Attribution blur. Can you separate human judgment from AI-assisted judgment in your forecast call?\n\u2192 Speed traps. Are you cycling faster, or just creating more repair work in legal and procurement?\n\u2192 Belief transfer. Does your point of view actually reframe how the buyer sees their problem?\n\nEvery revenue leader pushing AI into presales will face this. The spend is easy to defend when activity looks full. Proving the investment compounds — that's the harder test.\n\nThe teams that solve for measurement will separate. The rest will keep funding noise.", 'word_count': 248, 'mechanic': 'mirrored', 'final_opening': 'Our AI tooling bill just crossed $18,000/month.', 'entry_door': 'mirrored', 'voice_score': 3, 'source_number': 1, 'opener_variants': [], 'versions_considered': 0, 'amplification_skipped': True}
+[batch] pack_1: post_ready {'label': 'A2', 'batch': 'A', 'mode': 'declaring', 'text': "Our SE enablement hours just crossed 400/month.\n\nThat's two full-time people. For a presales team of six. And most of that time came from our top two performers alone — the ones already carrying the hardest deals.\n\nWe're building vertical AI to collapse that load. I've written about the restructure — context that persists across handoffs, demos that carry the full account narrative, security validation that actually maps to what the buyer runs (link in comments).\n\nThat playbook is working. We're moving faster than we ever have.\n\nBut it's surfacing a harder question:\n\nWhen AI generates most of the prep, how do you know if your SEs are actually getting sharper?\n\nThink about it.\n\nDemos run — who built the narrative? Discovery notes — who shaped the angle? Technical validation — who decided what to test?\n\nThe real risks aren't in the output. They're in the handoffs:\n\n\u2192 Context decay. Does the next SE who touches the account rebuild from scratch, or inherit something they can defend?\n\u2192 Quality fog. Can you trace which deals closed because of human judgment vs AI-generated confidence?\n\u2192 Speed traps. Are you cycling faster, or creating more repair work in procurement?\n\u2192 Buyer skepticism. Does your point of view actually shift their thinking, or just match what they already found on ChatGPT?\n\nEvery revenue leader layering AI into presales will face this. The hours saved are easy to count. The craft being hollowed out is not.\n\nThe teams that build real measurement into the workflow will widen their gap. The rest will keep celebrating velocity and wonder why the technical win stopped converting.", 'word_count': 248, 'mechanic': 'mirrored', 'final_opening': 'Our SE enablement hours just crossed 400/month.', 'entry_door': 'mirrored', 'voice_score': 3, 'source_number': 1, 'opener_variants': [], 'versions_considered': 0, 'amplification_skipped': True}
+[batch] pack_1: post_ready {'label': 'A3', 'batch': 'A', 'mode': 'declaring', 'text': "Our SE enablement hours just crossed 400/month.\n\nThat's headcount territory. For a team of under 8 revenue-facing people. And most of that load came from our solutions team alone — which is even smaller.\n\nWe're building vertical AI to collapse that burden. I've written about the restructure — context that persists across handoffs, demos that carry the full account narrative, security validation that actually maps to what the buyer runs (link in comments).\n\nThat playbook is working. We're closing faster than we ever have.\n\nBUT it's surfacing a much harder question:\n\nWhen AI generates most of the prep, how do you know if your SEs are actually getting better?\n\nSeriously. Think about it.\n\nDemos delivered — meaningless. Slides created — inflated. Discovery calls completed — noise. Even technical validation, the old gold standard, breaks down when AI generates hundreds of passing security checks that don't verify anything meaningful.\n\nMeanwhile the real risks are subtle:\n\n\u2192 Context turnover. Are AI-generated discovery notes stable or constantly rewritten by the next SE who touches the account?\n\u2192 Quality attribution. Can you tell the difference between human-built and AI-assisted deal strategy in the forecast?\n\u2192 False acceleration. Are you cycling faster, or generating more to repair in procurement?\n\u2192 POV integrity. Does your point of view actually change the buyer's thinking, or just inflate confidence scores?\n\nEvery revenue leader adopting AI tools will hit this wall. The spend is easy to justify when activity feels high. It's much harder to prove the investment is actually working.\n\nThe teams that crack measurement will compound their advantage. The rest will generate a lot of pipeline and wonder why nothing closes.", 'word_count': 248, 'mechanic': 'mirrored', 'final_opening': 'Our SE enablement hours just crossed 400/month.', 'entry_door': 'mirrored', 'voice_score': 3, 'source_number': 1, 'opener_variants': [], 'versions_considered': 0, 'amplification_skipped': True}
+[batch] pack_1: post_ready {'label': 'A4', 'batch': 'A', 'mode': 'declaring', 'text': "Our context transfer failures just crossed 40/month.\n\nThat's deal-kill territory. For a pipeline of under 15 active enterprise opportunities. And most of those gaps came from our AE-SE handoffs alone — which is even smaller.\n\nWe're building vertical AI to close that leak. I've written about the restructure — context layers that survive the next touch, demo prep that carries the full account narrative, security validation that actually maps to what the buyer runs (link in comments).\n\nThat playbook is working. We're seeing fewer deals die in procurement.\n\nBut it's surfacing a much harder question:\n\nWhen AI generates most of the context, how do you know if your team is actually building judgment?\n\nSeriously. Think about it.\n\nNotes passed — fragmented. Battle cards updated — invisible. Discovery synthesized — assumed. Even the technical win, the moment your SE celebrates, breaks down when AI-generated validation never reached the actual decision-maker.\n\nMeanwhile the real risks are subtle:\n\n\u2192 Context decay. Does the next person touching the account rebuild from scratch or inherit something stable?\n\u2192 Attribution blur. Can you trace a closed deal to human strategy or AI assembly?\n\u2192 Velocity theater. Are you moving faster, or creating more repair work downstream?\n\u2192 Buyer readiness. Does your point of view actually shift their thinking, or just match what they already told you?\n\nEvery revenue leader adopting AI tools will hit this wall. The activity is easy to justify when dashboards look full. Proving the investment deepens capability — that's the harder test.\n\nThe teams that solve for measurement will separate. The rest will keep funding noise.", 'word_count': 248, 'mechanic': 'mirrored', 'final_opening': 'Our context transfer failures just crossed 40/month.', 'entry_door': 'mirrored', 'voice_score': 3, 'source_number': 1, 'opener_variants': [], 'versions_considered': 0, 'amplification_skipped': True}
+[36m[LLM Router][0m built provider='kimi', model='kimi-k2.6', max_tokens=server-default, source='founder', task='amplify'
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=8969 chars, temp=0.3, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 62.5s[0m \u2502 tokens: 2,138 \u2192 1,619 \u2502 ~$0.0043 \u2502 text: 6,938 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 6938 chars generated[0m \u2502 tokens: 2,138 \u2192 1,619 \u2502 ~$0.0043
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=8775 chars, temp=0.3, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 17.7s[0m \u2502 tokens: 2,102 \u2192 1,484 \u2502 ~$0.0040 \u2502 text: 6,323 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 6323 chars generated[0m \u2502 tokens: 2,102 \u2192 1,484 \u2502 ~$0.0040
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=8945 chars, temp=0.3, max_tokens=server-default, thinking=False
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2713 done in 30.8s[0m \u2502 tokens: 2,136 \u2192 1,587 \u2502 ~$0.0042 \u2502 text: 6,848 chars
+[36m[LLM:kimi/kimi-k2.6][0m [32m\u2192 6848 chars generated[0m \u2502 tokens: 2,136 \u2192 1,587 \u2502 ~$0.0042
+[36m[LLM:kimi/kimi-k2.6][0m generate() prompt=8819 chars, temp=0.3, max_tokens=server-default, thinking=False

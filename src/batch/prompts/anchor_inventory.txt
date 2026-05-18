@@ -1,0 +1,122 @@
+# version: v6.1.0
+# schema_version: v6.1.0
+# v6.1: each anchor now declares `unlocks_sub_mechanics[]` — the specific
+# template sub-mechanics this anchor can ground. Dissect uses this to compute
+# `sub_mechanic_anchor_matches` and decide whether a source can be mirrored.
+
+You are building the master anchor inventory for a founder's batch post generation run. This inventory determines WHICH specific, verified, first-degree events, scenes, cast members, and stories are available for use across all generated posts.
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## FOUNDER VOICE DNA
+{voice_dna}
+
+## FOUNDER STORY BANK
+{story_bank}
+
+## FOUNDER TRANSCRIPTS
+{transcripts_excerpt}
+
+## TOP-PERFORMING POSTS (engagement-ranked)
+{top_posts_engagement}
+
+## FOUNDER RECURRING CAST (from knowledge graph)
+{cast}
+
+## FOUNDER SIGNATURE SCENES (from knowledge graph)
+{scenes}
+
+## FOUNDER MILESTONES (from knowledge graph)
+{milestones}
+
+## RECENT PACK HISTORY (last 30 days — avoid repeating recently used anchors)
+{pack_history}
+
+---
+
+## YOUR TASK
+
+Build the master inventory of all usable first-degree authority anchors. Each anchor must be a VERIFIED event, scene, cast interaction, or milestone from the founder's actual experience.
+
+### INVENTORY RULES
+1. **Tier 1 anchors** — Named people + specific scenes/events with dialogue or measurable outcomes. Highest authority.
+2. **Tier 2 anchors** — Documented events without named individuals. Good authority.
+3. Each anchor gets a unique `anchor_id` for tracking across the pack.
+4. Mark anchors used in recent packs as `recently_used: true` — they should be deprioritized but not excluded.
+5. Assess the founder card's overall depth — how many distinct, verified scenes does this founder have?
+
+### v6.1: SUB-MECHANIC TAGGING (REQUIRED)
+
+Each anchor MUST declare which template sub-mechanics it can ground. This is what dissect uses to decide whether a viral source can be mirrored in Batch A.
+
+For every anchor, populate `unlocks_sub_mechanics[]` with the sub-mechanic IDs the anchor can support. Candidate sub-mechanics from the template repository (pick the ones that apply):
+
+- **specific_number** family: `first_person_monthly_cost`, `deal_size_anchor`, `age_time_anchor`, `repeated_cost_pattern`, `team_count_anchor`
+- **scene_entry** family: `time_anchor_in_room`, `physical_artifact_anchor`, `operator_witness_scene`
+- **quote_hook** family: `second_party_verdict`, `screenplay_conflict`, `quoted_dismantling`
+- **confession** family: `comp_hierarchy_flip`, `operator_admission`, `I_was_wrong`, `cost_confession`
+- **decision_reveal** family: `counterintuitive_no`, `counterintuitive_yes`, `deal_rejection`
+- **pattern_observation** family: `multi_instance_pattern`, `five_hires_same_result`, `recurring_failure_mode`
+- **contrarian** family: `pure_inversion`, `prohibition_imperative`, `blame_redirect`
+- **data_inversion** family: `news_peg_pivot`, `stat_inversion`, `headline_recast`
+- **tension_pair** family: `paradox_hook`, `market_vs_customer`, `speed_vs_quality`
+- **juxtaposition** family: `analogy_anchor`, `scale_inversion`, `competitor_contrast`
+- **authority_redirect** family: `best_i_ever_saw`, `external_authority_pivot`, `almost_missed_signal`
+- **before_after** family: `misdiagnosed_hire`, `before_after_company`, `before_after_role`
+- **micro_story** family: `parody_artifact`, `two_sentence_arc`, `investor_exchange`
+
+Examples:
+- An anchor "MUFG CIO/CISO Think Tank build-vs-buy argument" unlocks: `["operator_witness_scene", "screenplay_conflict", "first_degree_belief_clash", "second_party_verdict"]`
+- An anchor "5 SE leaders hired in 3 years, same exit each time" unlocks: `["multi_instance_pattern", "five_hires_same_result", "before_after_role"]`
+- An anchor "Our Claude Code bill hit $18K/month for a 7-person team" unlocks: `["first_person_monthly_cost", "team_count_anchor", "scale_inversion"]`
+
+If an anchor doesn't clearly unlock a specific sub-mechanic, leave `unlocks_sub_mechanics: []` and instead use `usable_for_b_only: true`.
+
+---
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "anchor_inventory": [
+    {{{{
+      "anchor_id": "A011",
+      "anchor_text": "MUFG CIO/CISO Think Tank build-vs-buy argument",
+      "label": "MUFG build-vs-buy",
+      "description": "Caught mid-argument at MUFG Think Tank — build vs buy debate, photographic evidence of being animated",
+      "tier": 1,
+      "cast_involved": ["MUFG CIO", "MUFG CISO"],
+      "recently_used": false,
+      "unlocks_sub_mechanics": [
+        "operator_witness_scene",
+        "screenplay_conflict",
+        "first_degree_belief_clash",
+        "second_party_verdict"
+      ],
+      "usable_for_b_only": false
+    }}}}
+  ],
+  "voice_marker_budget": [
+    {{{{
+      "marker_id": "vm_1",
+      "marker_text": "the specific voice marker",
+      "marker_type": "phrase|rhythm|closer|punctuation",
+      "common_rare": "common|rare",
+      "max_uses_per_pack": 3
+    }}}}
+  ],
+  "inventory_summary": {{{{
+    "total_anchors": 15,
+    "tier_1_count": 10,
+    "tier_2_count": 5,
+    "depth_rating": "deep|moderate-high|moderate|shallow",
+    "recently_used_count": 3,
+    "fresh_anchors": 12
+  }}}},
+  "founder_card_depth_assessment": {{{{
+    "depth_rating": "deep|moderate-high|moderate|shallow",
+    "explanation": "why this rating"
+  }}}}
+}}}}
+```

@@ -1,0 +1,523 @@
+{
+  "metadata": {
+    "founder": "manisha",
+    "platform": "linkedin",
+    "generated_at": "2026-05-18T17:46:30.667498",
+    "total_posts": 0,
+    "sources_count": 0,
+    "creativity": 0.5,
+    "word_count_range": [
+      137,
+      253
+    ],
+    "median_word_count": 195,
+    "voice_markers": [],
+    "layout": "v6",
+    "prompt_version": "v6.0.0",
+    "quality_floor": 9.7,
+    "rejection_enforcement": true,
+    "founder_data_layout": "old",
+    "files_ingested_count": 5,
+    "files_skipped_count": 52,
+    "files_skipped": [
+      {
+        "file": "config\\models-override.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\final_report.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\final_report.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      }
+    ]
+  },
+  "cost": {
+    "total_usd": 0.0108,
+    "total_input_tokens": 12019,
+    "total_output_tokens": 2406,
+    "by_task": {
+      "dissect": 0.0036,
+      "generate_A1": 0.0072
+    },
+    "by_model": {
+      "kimi-k2.6": 0.0108
+    },
+    "by_pack": {
+      "1": 0.0108
+    },
+    "warning": null
+  },
+  "founder_internalization": {
+    "corpus_filter": {
+      "first_person_count": 12,
+      "third_person_filtered_out": 0,
+      "mixed_filtered_out": 0
+    },
+    "tensions": [
+      "SE as technical person who shows product vs SE as deal architect who steers strategy and qualifies fit",
+      "Deals designed to close at all costs vs Deals scoped for successful deployment",
+      "AI tools serving every industry generically vs Vertical AI agents with deep domain context",
+      "AI that can summarize draft automate generically vs AI that knows your business your deals your landscape",
+      "Features shipped timelines met tools implemented vs Products that land with users and drive adoption",
+      "Last-minute scrambles that close deals vs Processes that deliver context automatically",
+      "Companies obsess over individual AE performance vs The AE-SE pair is the unit that generates deals",
+      "Discovery calls as questions with no narrative vs Walking in with point of view even if 20% wrong"
+    ],
+    "signature_scenes": [
+      "Sitting through dozens of enterprise sales calls, watching SE introductions go wrong in real time",
+      "Room of 100+ solution leaders at Off the Record event nodding at SiftHub belief system on slide",
+      "MUFG CIO/CISO Think Tank, caught mid-argument on build vs buy, photographic evidence",
+      "Post-POC deal ghosting pattern: SE celebrates technical win, deal dies in procurement months later",
+      "Welcome reception at One Art Space, NY — not usual dinner or happy hour",
+      "Paytm board seat — first met Vijay in 2015 when Paytm invested in first startup, decade-long arc",
+      "LinkedIn scroll fatigue — everywhere 'comment playbook' engagement farming",
+      "Buyer walking in with ChatGPT open, G2 reviews pulled, own battle-card built"
+    ],
+    "argument_rhythm": "Opens with a specific observed moment or overheard pattern ('I met a CRO who...', 'I keep hearing the same story'). Immediately pivots to declarative thesis with 'Sounds harsh. But...' or direct command ('Stop introducing your SE as...'). Uses contrasting data points with 'BUT' in all caps as pivot device. Builds through enumerated consequences (Six months later: bullet list). Closes with framework elevation — moves from specific incident to structural diagnosis. Often ends with validation moment ('the kind of validation you can't manufacture') or forward-looking implication ('And this is just the beginning'). Rhythm is: witness → provocation → evidence → system diagnosis → stakes.",
+    "vulnerable_mulnerable_moments": [
+      "Admits getting 'animated' on build vs buy argument at MUFG — caught mid-argument, photographic evidence",
+      "Acknowledges watching SEs carry $500K deals then get introduced as 'technical resource' again — personal frustration visible",
+      "Shares SiftHub belief system on slide at event — validation need, 'you can't manufacture'",
+      "Admits 'I've been saying this for 2 years' — self-aware repetition, risk of sounding like broken record",
+      "Caught in tension between building vertical AI and depending on horizontal platforms going headless — Salesforce becomes MORE important, not less",
+      "Personal decade-long arc with Vijay Shekhar Sharma — 'rare to see that kind of belief play out over a decade'",
+      "Openly underwhelmed by HubSpot + OpenAI integration — risk of criticizing larger player, 'I'm really underwhelmed'"
+    ],
+    "recurring_cast": [],
+    "word_count_range": [
+      137,
+      254
+    ],
+    "median_word_count": 195,
+    "key_moments_inventory": [],
+    "voice_markers_with_budget": [
+      {
+        "marker_id": "VM001",
+        "marker_text": "I keep hearing the same story from [group]",
+        "marker_type": "witness_frame",
+        "common_rare": "common",
+        "max_uses_per_pack": 2,
+        "first_person_check": "passes — uses 'I'"
+      },
+      {
+        "marker_id": "VM002",
+        "marker_text": "I've watched [group/pattern] [number] times",
+        "marker_type": "witness_frame",
+        "common_rare": "common",
+        "max_uses_per_pack": 2,
+        "first_person_check": "passes — uses 'I'"
+      },
+      {
+        "marker_id": "VM003",
+        "marker_text": "Sounds harsh. But",
+        "marker_type": "provocation_pivot",
+        "common_rare": "common",
+        "max_uses_per_pack": 2,
+        "first_person_check": "passes — implied first person observation"
+      },
+      {
+        "marker_id": "VM004",
+        "marker_text": "The [noun] IS the [noun]",
+        "marker_type": "framework_callback",
+        "common_rare": "common",
+        "max_uses_per_pack": 2,
+        "first_person_check": "passes — declarative, no third-person name needed"
+      },
+      {
+        "marker_id": "VM005",
+        "marker_text": "I've been saying this for [timeframe]",
+        "marker_type": "credibility_anchor",
+        "common_rare": "rare",
+        "max_uses_per_pack": 1,
+        "first_person_check": "passes — uses 'I'"
+      },
+      {
+        "marker_id": "VM006",
+        "marker_text": "[Number] months later: [bullet list of consequences]",
+        "marker_type": "consequence_structure",
+        "common_rare": "common",
+        "max_uses_per_pack": 2,
+        "first_person_check": "passes — implied first person diagnosis"
+      },
+      {
+        "marker_id": "VM007",
+        "marker_text": "The kind of validation you can't manufacture",
+        "marker_type": "signature_closer",
+        "common_rare": "rare",
+        "max_uses_per_pack": 1,
+        "first_person_check": "passes — used in first-person event narrative"
+      },
+      {
+        "marker_id": "VM008",
+        "marker_text": "From a distance, [X] looks like [Y]. Up close, [opposite]",
+        "marker_type": "framework_callback",
+        "common_rare": "common",
+        "max_uses_per_pack": 2,
+        "first_person_check": "passes — analytical frame, no third-person name"
+      },
+      {
+        "marker_id": "VM009",
+        "marker_text": "That silence is where [bad outcome] begins",
+        "marker_type": "diagnostic_punch",
+        "common_rare": "rare",
+        "max_uses_per_pack": 1,
+        "first_person_check": "passes — used in first-person observation"
+      },
+      {
+        "marker_id": "VM010",
+        "marker_text": "Not because [group] aren't good at their jobs. Because the job itself changed",
+        "marker_type": "reframe_structure",
+        "common_rare": "rare",
+        "max_uses_per_pack": 1,
+        "first_person_check": "passes — used in first-person event report"
+      }
+    ],
+    "formatting_habits": {
+      "paragraph_density": "Short paragraphs, rarely more than 3 sentences. Frequent single-sentence paragraphs for emphasis.",
+      "bullet_usage": "Uses bullet lists for enumerated consequences or evidence. Often introduced by colon and time marker ('Six months later:').",
+      "capitalization_emphasis": "Strategic ALL CAPS for pivot words: 'BUT', 'AND'. Not overused.",
+      "em_dashes": "Minimal em dash usage. Prefers periods for hard stops.",
+      "numbers": "Leads with specific numbers where possible: percentages, dollar amounts, headcounts. '47%', '$500K', '100 solution leaders'.",
+      "headers": "No formal headers within posts. Uses horizontal rules (---) to separate distinct thoughts or mini-essays within longer posts.",
+      "emojis": "None. Zero emoji usage.",
+      "quotation_marks": "Uses scare quotes for terms being diagnosed or reframed: 'technical resource', 'introduce the problem, build rapport, establish pain' choreography.",
+      "naming_convention": "Full names with company affiliations on first mention: 'Neil from SiftHub', 'James and Jeff'.",
+      "event_signaling": "Specific date/time/location blocks for events: 'April 29th, 3 PM BST / 7:30 PM IST'."
+    },
+    "calibration_paragraph": "I keep hearing the same story from hiring managers. They celebrate the signed offer like it's the finish line. It was the qualifier. The best leaders I've watched don't disengage after the handshake. They treat the first ninety days as the real work — clearing political blockers before the new hire asks, and giving them context they can actually defend in rooms where they weren't invited. Because from a distance, hiring looks like a clean transaction. Up close, the more a company leans into talent, the more it needs structured onboarding, collaboration layers, and systems of context.",
+    "calibration_voice_markers_used": [
+      "VM001",
+      "VM003",
+      "VM002",
+      "VM008"
+    ],
+    "calibration_word_count": 104,
+    "calibration_confidence": 0.82
+  },
+  "packs": [],
+  "global_tracking": {
+    "total_events_used": 0,
+    "total_unique_arguments": 0,
+    "events_list": [],
+    "convergence_flags": [],
+    "convergence_warnings": []
+  },
+  "web_search": {
+    "trending_topics": [
+      "AI-native startups capturing 80% of venture capital ($242B in Q1 2026)",
+      "IPO revitalization and return of mega venture funds in 2026",
+      "WorkTech and AI-driven workforce management solutions",
+      "Sustainable datacenter design and clean energy tech",
+      "Spatial computing and augmented reality integration",
+      "Quantum computing practical applications emerging",
+      "Low-code/no-code platform democratization",
+      "Insider threat security and AI governance",
+      "Fintech, biotech, and climate tech investment growth",
+      "Agentic AI and autonomous AI agents"
+    ],
+    "facts": [
+      {
+        "fact": "AI startups captured 80% of venture capital dollars in Q1 2026, totaling $242 billion, with four of the five largest VC rounds in history closing in that quarter.",
+        "source": "Crunchbase via DBTA (Database Trends and Applications)",
+        "relevance": "Demonstrates the massive capital concentration in AI and the scale of investment flowing to AI-native companies."
+      },
+      {
+        "fact": "Startups fail approximately 80% of the time within the first five years, making product-market fit and disciplined execution critical.",
+        "source": "DBTA - 30 Startups to Watch in 2026",
+        "relevance": "Highlights the survival challenge for founders and why strategic focus matters more than ever."
+      },
+      {
+        "fact": "Startups with co-founders have higher success rates than single-founder companies due to increased accountability and complementary skills.",
+        "source": "DBTA startup analysis",
+        "relevance": "Important consideration for solo founders thinking about team composition."
+      },
+      {
+        "fact": "Gartner identifies 10 key strategic technology trends for 2026 including AI-powered resilience, trust-building technologies, and predictive analytics for supply chains.",
+        "source": "Gartner via WebProNews",
+        "relevance": "Enterprise technology buyers are prioritizing resilience and trust, creating opportunities for B2B startups."
+      },
+      {
+        "fact": "NetBird raised €8.5M for open-source VPN solutions, indicating continued investor interest in infrastructure and developer tools.",
+        "source": "Mean CEO Blog - Startup Trends February 2026",
+        "relevance": "Shows that infrastructure-layer startups can still attract significant funding despite AI dominance."
+      },
+      {
+        "fact": "Semantic caching can reduce LLM costs by up to 73%, representing a major cost optimization opportunity for AI-powered startups.",
+        "source": "Mean CEO Blog",
+        "relevance": "Practical tactic for founders building with LLMs to improve unit economics."
+      },
+      {
+        "fact": "Middle Eastern capital is increasingly acting as a catalyst for major startup deals, requiring geographic diversification strategies.",
+        "source": "Sergey Tereshkin - Startup and Venture Capital News January 2026",
+        "relevance": "Global capital flows are shifting, creating new funding sources beyond traditional US/European VCs."
+      }
+    ],
+    "contrarian_angles": [
+      "Specialized AI products vs. competing with tech giants: The real opportunity is in narrow, domain-specific AI applications rather than foundation models",
+      "The 'liminal space' paradox: Organizations are stuck between current and future states, creating opportunities for bridge technologies",
+      "AI cost optimization over AI capability expansion: Reducing LLM costs by 73% through semantic caching matters more than marginal model improvements",
+      "The co-founder advantage myth challenged: While data shows co-founder teams succeed more, the solo founder movement is gaining traction with AI tools reducing workload",
+      "WorkTech over AI hype: Workplace technology and remote operations tools may deliver more reliable returns than consumer AI",
+      "Sustainability as economic imperative, not just ESG: Energy costs are making sustainable datacenter design a bottom-line issue",
+      "The 80% failure rate opportunity: Most startups fail within 5 years, suggesting the ecosystem overvalues speed to market and undervalues sustainable business models",
+      "Infrastructure-layer resilience: Despite AI capturing headlines, VPN, security, and data infrastructure companies continue raising significant rounds"
+    ],
+    "searches_performed": [
+      {
+        "query": "6b0af54f6a0b501d4f50a50001aca79e",
+        "tool_call_id": "t-web_search-6a0b501d9f50"
+      }
+    ]
+  }
+}

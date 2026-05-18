@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -11,6 +12,29 @@ from .state import BatchState
 from .tracer import BatchTracer
 
 logger = logging.getLogger(__name__)
+
+
+_PROMPTS_DIR = Path(__file__).parent / "prompts"
+_VERSION_RE = re.compile(r"^#\s*version:\s*([vV][\d.]+)\s*$", re.MULTILINE)
+
+
+def _read_prompt_versions() -> dict[str, str]:
+    """Scan prompts/*.txt for `# version: vX.Y.Z` headers and return a dict
+    keyed by prompt name (without extension). Used to emit per-prompt versions
+    into pack metadata so the operator can see exactly which prompts ran."""
+    versions: dict[str, str] = {}
+    if not _PROMPTS_DIR.exists():
+        return versions
+    for path in _PROMPTS_DIR.glob("*.txt"):
+        if "backup" in path.name:
+            continue
+        try:
+            head = path.read_text(encoding="utf-8")[:512]
+            m = _VERSION_RE.search(head)
+            versions[path.stem] = m.group(1) if m else "unstamped"
+        except Exception:
+            versions[path.stem] = "unreadable"
+    return versions
 
 
 def compile_json(state: BatchState) -> dict:
@@ -132,7 +156,11 @@ def compile_json(state: BatchState) -> dict:
             "word_count_range": list(state.word_count_range),
             "median_word_count": state.median_word_count,
             "voice_markers": state.voice_markers,
-            "layout": raw_data.get("layout", "unknown"),
+            "layout": "v6",
+            "prompt_version": _read_prompt_versions(),
+            "quality_floor": 9.7,
+            "rejection_enforcement": True,
+            "founder_data_layout": raw_data.get("layout", "unknown"),
             "files_ingested_count": len(raw_data.get("files_ingested", [])),
             "files_skipped_count": len(raw_data.get("files_skipped", [])),
             "files_skipped": raw_data.get("files_skipped", []),

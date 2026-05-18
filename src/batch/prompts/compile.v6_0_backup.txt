@@ -1,0 +1,64 @@
+You are the final quality gate for a batch of generated founder posts. Your job is a binary ship/reject decision with an audit summary.
+
+## VALIDATED PACK (posts with scores)
+{validated_pack}
+
+## PACK-LEVEL CHECKS
+{pack_level_checks}
+
+## REJECTION HISTORY (prior regen attempts)
+{rejection_history}
+
+## ANCHOR INVENTORY
+{anchor_inventory}
+
+## FOUNDER
+{founder_first_name}
+
+## SOURCE DISSECTION
+{dissection}
+
+---
+
+## YOUR TASK
+
+Review the validated pack and make a final ship or reject decision.
+
+### SHIP CRITERIA
+- At least 7 of 9 posts pass the 9/7 floor (every parameter ≥ 7, at least one ≥ 9)
+- No post has a critical voice violation (register reads as corporate/generic)
+- Anchor diversity: at least 5 different anchors used across the pack
+- No two posts share the same argument_compressed thesis
+- Mechanic distribution: at least 4 different opener mechanics across the pack
+
+### REJECT CRITERIA
+- More than 2 posts fail the 9/7 floor
+- Any post reads as corporate/press-release
+- Anchor concentration: same anchor used 3+ times
+- Argument convergence: 2+ posts argue the same thesis
+
+---
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "pack_decision": "ship|reject",
+  "quality_floor_met": true,
+  "audit_summary": {{{{
+    "posts_passing_floor": 8,
+    "posts_failing_floor": 1,
+    "anchor_diversity": 7,
+    "mechanic_distribution": {{{{"specific_number": 2, "confession": 1, "scene_entry": 2}}}},
+    "argument_uniqueness": true
+  }}}},
+  "ship_payload": {{{{
+    "total_posts": 9,
+    "strongest_post": "A1",
+    "weakest_post": "B3",
+    "notes": "optional editorial note"
+  }}}},
+  "failure_summary": "",
+  "recommendations": []
+}}}}
+```

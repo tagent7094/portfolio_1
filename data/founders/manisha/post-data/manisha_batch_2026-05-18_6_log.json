@@ -1,0 +1,453 @@
+{
+  "summary": {
+    "total_traces": 9,
+    "llm_calls": 3,
+    "web_searches": 1,
+    "decisions": 2,
+    "total_duration_ms": 146118,
+    "total_prompt_chars": 53486,
+    "total_response_chars": 10917,
+    "templates_used": [
+      "02_dissect.txt",
+      "03_generate.txt"
+    ],
+    "model": "kimi-k2.6",
+    "provider": "kimi"
+  },
+  "traces": [
+    {
+      "id": "step_cbf69c53",
+      "timestamp": 1779126296.73495,
+      "type": "step",
+      "stage": "load_founder",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Loaded founder data for manisha",
+      "metadata": {}
+    },
+    {
+      "id": "step_01c3f2f7",
+      "timestamp": 1779126296.73495,
+      "type": "step",
+      "stage": "multi_model",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "gen=kimi-k2.6, prep=kimi-k2.6",
+      "metadata": {}
+    },
+    {
+      "id": "dec_23a79da6",
+      "timestamp": 1779126296.73495,
+      "type": "decision",
+      "stage": "freshness",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Graph last updated 36 days ago",
+      "metadata": {}
+    },
+    {
+      "id": "dec_6a49f3d5",
+      "timestamp": 1779126296.7460465,
+      "type": "decision",
+      "stage": "calibration",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "confidence=0.82",
+      "metadata": {
+        "critique": "",
+        "model": "kimi-k2.6"
+      }
+    },
+    {
+      "id": "ws_85d38472",
+      "timestamp": 1779126348.9928133,
+      "type": "web_search",
+      "stage": "web_search_enrich",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "kimi-k2.6",
+      "provider": "kimi",
+      "duration_ms": 52235,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "search_query": "6b0af54f6a0b501d4f50a50001aca79e",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "step_ee8dc55e",
+      "timestamp": 1779126348.993812,
+      "type": "step",
+      "stage": "web_search_complete",
+      "template": "",
+      "prompt": "",
+      "prompt_length": 0,
+      "response": "",
+      "response_length": 0,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.0,
+      "max_tokens": 0,
+      "model": "",
+      "provider": "",
+      "duration_ms": 52235,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "search_query": "",
+      "search_results": [],
+      "decision": "Found 10 topics, 7 facts",
+      "metadata": {}
+    },
+    {
+      "id": "llm_c40dddd6",
+      "timestamp": 1779126377.4238172,
+      "type": "llm_call",
+      "stage": "pack_1_dissect",
+      "template": "02_dissect.txt",
+      "prompt": "You are a structural analyst specializing in viral content mechanics. Dissect this viral post into its mechanical parts — structure, not content. The move is what carries over. The source author's typography, lowercase, emojis, register — those are their voice, not the hook's engine.\n\n## SOURCE VIRAL POST\nOur Claude Code API bill just crossed $18,000/month.\n\nThat's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\n\nWe're all-in on AI-native development. I wrote about how we restructured our workflow to make this safe — spec-first design, TDD as a hard constraint, multi-model review, security audits on every commit (link in comments).\n\nThat playbook is working. We're shipping faster than we ever have.\n\nBut it's surfacing a much harder question:\n\nWhen AI writes most of the code, how do you know if your team is actually getting better?\n\nSeriously. Think about it.\n\nLines of code — meaningless. PRs merged — inflated. Sprint velocity — noise. Even unit test coverage, the old gold standard, breaks down when AI generates hundreds of passing tests that don't verify anything meaningful.\n\nMeanwhile the real risks are subtle:\n\n→ Code turnover. Are AI-generated modules stable or constantly rewritten?\n→ Quality attribution. Can you tell the difference between human-written and AI-assisted code in production?\n→ False acceleration. Are you shipping faster, or generating more to fix later?\n→ Test integrity. Do your tests actually catch failures, or just inflate coverage numbers?\n\nEvery engineering leader adopting AI tools will hit this wall. The spend is easy to justify when things feel fast. It's much harder to prove the investment is actually working.\n\nWe've been working on a framework for measuring developer productivity in the AI-first era. Not ready to share it yet. But I think this might be the most important unsolved problem in engineering leadership right now.\n\nThe teams that crack measurement will compound their advantage. The rest will ship a lot of code and wonder why nothing changed.\n\n## PLATFORM\nlinkedin\n\n---\n\n## TASK: Dissect the Hook\n\n### 1. THE PSYCHOLOGICAL MOVE\nFigure out what the hook does to the reader — the psychological move. Examples:\n- Three-stack pain escalation (old pain + new pain + meta-trap for objecting)\n- Second-party verdict that reframes the speaker's whole career\n- Contrarian claim that inverts conventional wisdom\n- Specific number or age anchor that signals real memory\n- Authority figure delivering a quote the reader doesn't expect\n- Parallel data points with a third-line reveal\n- Scene drop that puts the reader inside a moment mid-action\n- Diagnostic question that makes the reader self-categorize\n- Confession that costs the speaker credibility\n\nThe move is what carries over to the generated posts. Everything else is surface.\n\n### 2. NARRATIVE ARC\nWhat movement does this post run on? (contradiction reveal, escalation, scene-to-insight, confession-to-principle, diagnostic revelation, progressive build)\n\n### 3. HOOK MECHANICS — SENTENCE-LEVEL BREAKDOWN\nThe \"hook\" / \"opener\" is **AT MOST 2 SENTENCES**. Beat 1 (the anchor) + Beat 2 (the reframe). Anything from sentence 3 onward is BODY, regardless of how the source author paragraphed it.\n\nReturn AT MOST 2 entries in `hook_mechanics[]`. If the source author writes a long lead (e.g. paragraphs 1-5 all feel \"opener-ish\"), pick the first 2 sentences and treat everything else as body.\n\nFor each of the (at most) 2 opening sentences:\n- The exact text\n- What this sentence DOES structurally (permission frame, diagnostic question, consequence statement, reframe, scene drop, specificity bomb, tension gap)\n- Its rhythm (short/punchy, medium/flowing, long/building)\n- The psychological effect: WHY does it stop the scroll?\n\nWORKED EXAMPLE (where to draw the opener/body line):\n\nSource:\n> \"Our Claude Code API bill just crossed $18,000/month.\n>\n> That's headcount territory. For a team of under 20 people.\n>\n> We're all-in on AI-native development. I wrote about how we restructured…\n>\n> That playbook is working. We're shipping faster than ever.\n>\n> But it's surfacing a much harder question: when AI writes most of the code…\"\n\nEven though paragraphs 1-5 all feel \"opener-ish,\" the hook is JUST:\n- Beat 1: \"Our Claude Code API bill just crossed $18,000/month.\"\n- Beat 2: \"That's headcount territory. For a team of under 20 people.\"\n\nEverything from \"We're all-in on AI-native development\" onward is BODY. Batch A mirroring will copy ONLY beats 1-2 + structural moves; the rest must diverge per variant.\n\n### 4. SENTENCE MAP\n`sentence_count` = number of sentences in the 2-sentence opener (1 or 2). This is the mold for Batch A mirroring — Batch A variants share opener sentences 1-2 ONLY; their bodies must be substantively different per variant.\n\n### 5. BODY STRUCTURE\nHow is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)\n\n### 5b. BODY FORMAT (STRICT ENUM)\nPick the ONE body format that best describes the source's body structure. This is the structural mold a Batch A mirror MUST preserve.\n- `numbered_list` — body is a numbered list (1. ..., 2. ..., 3. ...). Every numbered item is its own paragraph or block. The list IS the body.\n- `bullet_list` — body is an unnumbered bulleted list (-, •, *, or similar) where each bullet is a discrete unit\n- `parallel_paragraphs` — body has 2-4 parallel paragraphs with identical or near-identical structure (each opens with the same shape, builds the same way)\n- `three_examples` — body presents three distinct examples building toward a conclusion. Not strictly numbered, but each example is clearly delimited.\n- `before_after` — body presents a before/after pair (X was true; now Y is true) with the pivot as the engine.\n- `progressive_revelation` — body progressively reveals an insight, each paragraph adding a new turn or layer.\n- `single_scene` — body is one continuous scene or moment, explored deeply.\n- `prose_essay` — body is flowing argumentative prose without clear discrete units; one paragraph leads to the next without parallel structure.\n\n### 6. ENDING TYPE\n(concrete image, challenge to reader, quiet admission, unresolved tension, physical detail, callback to opening)\n\n### 6b. CLOSER MECHANIC (STRICT ENUM)\nPick the ONE closer mechanic that best describes how the source ends. This is the mold a Batch A mirror MUST preserve.\n- `cta` — explicit call to action: \"DM me,\" \"link in comments,\" \"I put together the full breakdown,\" \"subscribe,\" \"follow for more\"\n- `reframe_question` — closes with a question that flips the reader's posture: \"Ask yourself whether…\", \"What would you do if…\"\n- `terminal_verdict` — a final declarative line that closes the case: \"That's the only metric that matters.\" \"The market doesn't care about your roadmap.\"\n- `physical_image` — ends on a concrete physical detail or scene image\n- `challenge` — direct challenge to the reader: \"Stop X. Start Y.\"\n- `callback` — calls back to a phrase, name, or image from the opening\n- `unresolved_tension` — ends with the tension still unresolved (wrestling-mode close)\n- `quiet_admission` — a quiet, vulnerable admission as the final line\n\n### 7. MIRRORABILITY ASSESSMENT\nCan this source's opening be mirrored (same shape, new content)?\n- **Mirrorable**: the sentence shape works with different domain content. The hook's engine is structural, not content-dependent.\n- **Not mirrorable**: the hook is too proper-noun-specific, too culturally embedded, or too short to mirror without plagiarism risk. If not mirrorable, flag it and all 9 posts should be Batch B.\n\n### 8. REGISTER NOTE\nIf the source's register is doing mechanical work — rant energy, whispered vulnerability, exasperation — note it. This energy must be translated into the founder's register, not stripped.\n\n### 9. VIRALITY REASON\nOne sentence: what makes the opening work for a general audience?\n\n### 10. OPENER QUALITY TESTS\nRun these three tests on the source's opening line(s). These determine whether the opener is good enough to mirror (Batch A) or whether all posts should use different mechanics (Batch B only).\n\n**MACRO test**: Does the opener land for someone OUTSIDE this niche? Read the opener to a stranger in a different industry. If they'd need domain context to understand what's being said — fail. Jargon, acronyms, category-specific terms (\"AI-powered voice technology,\" \"doctorless AI kiosks,\" \"accessible communication\") → fail. The opener must work universally.\n\nException — audience-address openers: If the opener addresses a broad professional role that exists across multiple industries (e.g., \"Founders:\", \"Sales leaders:\", \"CTOs:\", \"Operators:\", \"Engineers:\", \"Recruiters:\", \"Managers:\"), this is NOT niche jargon. These pass macro because ANY professional recognizes the role even if they don't hold it. Fail only for subcategories that require domain knowledge to parse (e.g., \"RevOps managers:\", \"MLOps engineers:\", \"Series B CFOs:\").\n\n**FAST test**: Does the specific, interesting, or dramatic word land in the FIRST 8 words? Count from word 1. If the payload (the specific number, the surprising claim, the tension) comes after word 8 — fail. Ellipsis that delays the punch (\"The future of X is arriving...\") → fail. \"We lost $2M in three months\" → pass (payload at word 3). \"The future of healthcare is arriving... China unveils...\" → fail (payload at word 11).\n\n**SIMPLE test**: Would a 16-year-old understand every word in the opener? Bold Unicode formatting, corporate jargon (\"unveils,\" \"redefining,\" \"accessible communication\"), press-release language → fail. The opener must use words a person would speak in conversation, not words a company would put in a press release.\n\n**Rule**: If ANY of the three tests fails, set `skip_batch_a` to true. The source's STRUCTURE may be mirrorable, but if its OPENER is a press release, corporate announcement, or jargon-heavy statement, mirroring it produces a press-release post. Route all posts to Batch B instead, where different mechanics will produce better openers.\n\n---\n\n## OUTPUT FORMAT\n\n```json\n{{\n  \"psychological_move\": \"description of the core psychological move the hook makes\",\n  \"narrative_arc\": \"description of movement/arc\",\n  \"hook_mechanic_primary\": \"three_stack_pain|second_party_verdict|contrarian_claim|specific_number|authority_quote|parallel_data_reveal|scene_entry|diagnostic_question|confession|pattern_observation\",\n  \"opener_mechanic_description\": \"concise description of HOW the mechanic operates in this specific opener — structural moves in order, e.g. 'authority + count: audience address → credential from scale → numbered promise' or 'scene entry: mid-action drop → sensory detail → tension gap'\",\n  \"source_opener_text\": \"the full opener text — all hook sentences joined with newlines exactly as written\",\n  \"hook_mechanics\": [\n    {{\n      \"sentence\": \"exact text of opening sentence\",\n      \"structural_function\": \"what this sentence does\",\n      \"psychological_effect\": \"why it stops the scroll\",\n      \"rhythm\": \"short|medium|long\"\n    }}\n  ],\n  \"sentence_count\": 2,\n  \"body_structure\": \"description of body organization\",\n  \"body_format\": \"numbered_list|bullet_list|parallel_paragraphs|three_examples|before_after|progressive_revelation|single_scene|prose_essay\",\n  \"body_item_count\": 7,\n  \"ending_type\": \"description of ending mechanic\",\n  \"closer_mechanic\": \"cta|reframe_question|terminal_verdict|physical_image|challenge|callback|unresolved_tension|quiet_admission\",\n  \"closer_text\": \"the exact text of the closing line(s) — one or two sentences\",\n  \"mirrorable\": true,\n  \"mirrorability_reason\": \"why or why not — be specific\",\n  \"register_energy\": \"the emotional register doing mechanical work, if any\",\n  \"virality_reason\": \"why the opening works for a general audience\",\n  \"opener_tests\": {{\n    \"macro\": {{\"pass\": true, \"reason\": \"why it passes or fails for a general audience\"}},\n    \"fast\": {{\"pass\": true, \"first_payload_word\": 3, \"reason\": \"where the payload lands\"}},\n    \"simple\": {{\"pass\": true, \"reason\": \"whether a 16-year-old would understand every word\"}}\n  }},\n  \"skip_batch_a\": false,\n  \"named_entities\": [\"list of proper names (people) mentioned in the source post\"],\n  \"source_domain\": \"1-3 word topic label for the source post's core domain (e.g., 'sales leadership', 'hiring', 'product strategy', 'fundraising', 'engineering management')\"\n}}\n```\n\nFocus on MECHANICS, not meaning. The content changes; the machine stays the same.\n",
+      "prompt_length": 12578,
+      "response": "```json\n{\n  \"psychological_move\": \"Specific-number cost reveal followed by category reframe that forces re-evaluation of the number's meaning. The $18K is not the payload — 'headcount territory' is. The reader must mentally convert spend into human capital, which creates cognitive friction and demands resolution.\",\n  \"narrative_arc\": \"escalation-with-pivot: apparent brag (we spend a lot) → reframe as problem (that's headcount) → diagnostic revelation (we can't measure if this is working) → unresolved tension (we're working on it, but not ready to share)\",\n  \"hook_mechanic_primary\": \"specific_number\",\n  \"opener_mechanic_description\": \"specific_number: precise cost anchor → category reframe (headcount territory) → team-size compression (under 10) → scope narrowing (backend team alone, even smaller). Each sentence makes the previous number feel bigger.\",\n  \"source_opener_text\": \"Our Claude Code API bill just crossed $18,000/month.\\n\\nThat's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\",\n  \"hook_mechanics\": [\n    {\n      \"sentence\": \"Our Claude Code API bill just crossed $18,000/month.\",\n      \"structural_function\": \"specificity bomb — precise number with proprietary tool name creates authenticity signal\",\n      \"psychological_effect\": \"The $18K is large enough to feel real, specific enough to feel witnessed. Reader thinks 'I know what API bills look like' and leans in. The 'just crossed' implies live tracking, not retrospective — urgency.\",\n      \"rhythm\": \"medium\"\n    },\n    {\n      \"sentence\": \"That's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\",\n      \"structural_function\": \"reframe with progressive compression — converts abstract cost into concrete alternative, then makes team smaller, then makes spend source smaller still (amplifying the ratio)\",\n      \"psychological_effect\": \"Forces reader to do math: $18K = ~0.2-0.4 engineers per month? No — annualized that's $216K, a full engineer. The 'under 10' and 'even smaller' makes the spend feel absurdly concentrated. Reader now needs to know: is this worth it?\",\n      \"rhythm\": \"short, short, long/building\"\n    }\n  ],\n  \"sentence_count\": 2,\n  \"body_structure\": \"progressive revelation with diagnostic pivot: success claim (we're shipping faster) → BUT pivot to harder question → diagnostic question that reader must answer → four parallel risks as bullet list → universal claim (every leader will hit this) → framework tease (not ready to share) → terminal verdict on competitive advantage\",\n  \"body_format\": \"bullet_list\",\n  \"body_item_count\": 4,\n  \"ending_type\": \"terminal verdict with competitive stakes — two futures posed, reader must self-select\",\n  \"closer_mechanic\": \"terminal_verdict\",\n  \"closer_text\": \"The teams that crack measurement will compound their advantage. The rest will ship a lot of code and wonder why nothing changed.\",\n  \"mirrorable\": true,\n  \"mirrorability_reason\": \"The 'specific cost + headcount reframe + team size compression' shape works across any domain with tool spend vs. human capital tradeoffs. Marketing SaaS spend, cloud infrastructure, contractor costs, legal fees, etc. The Claude Code specificity is surface; the engine is number→category reframe→ratio amplification.\",\n  \"register_energy\": \"measured founder anxiety — not panic, not hype. The 'Seriously. Think about it.' moment breaks into direct address, then returns to analytical distance. This oscillation between confessional and diagnostic creates trust.\",\n  \"virality_reason\": \"Every leader right now is spending on AI tools and has no idea if it's working; the opener gives them a number to compare against and a framework to justify their own anxiety.\",\n  \"opener_tests\": {\n    \"macro\": {\n      \"pass\": true,\n      \"reason\": \"API bill + headcount + team size are universally understood business concepts. No niche jargon. Any professional grasps 'we spend a lot on tools, that's people money.'\"\n    },\n    \"fast\": {\n      \"pass\": true,\n      \"first_payload_word\": 7,\n      \"reason\": \"'$18,000/month' lands at words 7-8. 'Claude Code' is proper noun but not payload — the number is. Borderline pass; the '$18,000' starts at word 7, completes at 8. The specificity of the number carries the hook.\"\n    },\n    \"simple\": {\n      \"pass\": true,\n      \"reason\": \"Every word is conversational: 'bill,' 'crossed,' 'headcount,' 'territory,' 'team,' 'engineers,' 'backend,' 'smaller.' No corporate jargon, no press release language.\"\n    }\n  },\n  \"skip_batch_a\": false,\n  \"named_entities\": [],\n  \"source_domain\": \"engineering management\"\n}\n```",
+      "response_length": 4701,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.2,
+      "max_tokens": 3000,
+      "model": "kimi-k2.6",
+      "provider": "kimi",
+      "duration_ms": 28420,
+      "tokens_in": 2903,
+      "tokens_out": 1093,
+      "cost_usd": 0.0036375,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {}
+    },
+    {
+      "id": "llm_dbfe3c49",
+      "timestamp": 1779126384.7042701,
+      "type": "llm_call",
+      "stage": "pack_1_generate_A1",
+      "template": "03_generate.txt",
+      "prompt": "You are adapting a viral source post into 1 LinkedIn posts in the founder's voice. Mode: .\n\nThis is the VIRAL POST ADAPTATION FRAMEWORK v4. Read every rule. Failure on any one is a structural failure of the pack.\n\n## SOURCE POST\nOur Claude Code API bill just crossed $18,000/month.\n\nThat's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\n\nWe're all-in on AI-native development. I wrote about how we restructured our workflow to make this safe — spec-first design, TDD as a hard constraint, multi-model review, security audits on every commit (link in comments).\n\nThat playbook is working. We're shipping faster than we ever have.\n\nBut it's surfacing a much harder question:\n\nWhen AI writes most of the code, how do you know if your team is actually getting better?\n\nSeriously. Think about it.\n\nLines of code — meaningless. PRs merged — inflated. Sprint velocity — noise. Even unit test coverage, the old gold standard, breaks down when AI generates hundreds of passing tests that don't verify anything meaningful.\n\nMeanwhile the real risks are subtle:\n\n→ Code turnover. Are AI-generated modules stable or constantly rewritten?\n→ Quality attribution. Can you tell the difference between human-written and AI-assisted code in production?\n→ False acceleration. Are you shipping faster, or generating more to fix later?\n→ Test integrity. Do your tests actually catch failures, or just inflate coverage numbers?\n\nEvery engineering leader adopting AI tools will hit this wall. The spend is easy to justify when things feel fast. It's much harder to prove the investment is actually working.\n\nWe've been working on a framework for measuring developer productivity in the AI-first era. Not ready to share it yet. But I think this might be the most important unsolved problem in engineering leadership right now.\n\nThe teams that crack measurement will compound their advantage. The rest will ship a lot of code and wonder why nothing changed.\n\n## SOURCE DISSECTION (use this to anchor structure, NOT to clone)\n{\"psychological_move\": \"Specific-number cost reveal followed by category reframe that forces re-evaluation of the number's meaning. The $18K is not the payload — 'headcount territory' is. The reader must mentally convert spend into human capital, which creates cognitive friction and demands resolution.\", \"narrative_arc\": \"escalation-with-pivot: apparent brag (we spend a lot) → reframe as problem (that's headcount) → diagnostic revelation (we can't measure if this is working) → unresolved tension (we're working on it, but not ready to share)\", \"hook_mechanic_primary\": \"specific_number\", \"opener_mechanic_description\": \"specific_number: precise cost anchor → category reframe (headcount territory) → team-size compression (under 10) → scope narrowing (backend team alone, even smaller). Each sentence makes the previous number feel bigger.\", \"source_opener_text\": \"Our Claude Code API bill just crossed $18,000/month.\\n\\nThat's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\", \"hook_mechanics\": [{\"sentence\": \"Our Claude Code API bill just crossed $18,000/month.\", \"structural_function\": \"specificity bomb — precise number with proprietary tool name creates authenticity signal\", \"psychological_effect\": \"The $18K is large enough to feel real, specific enough to feel witnessed. Reader thinks 'I know what API bills look like' and leans in. The 'just crossed' implies live tracking, not retrospective — urgency.\", \"rhythm\": \"medium\"}, {\"sentence\": \"That's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\", \"structural_function\": \"reframe with progressive compression — converts abstract cost into concrete alternative, then makes team smaller, then makes spend source smaller still (amplifying the ratio)\", \"psychological_effect\": \"Forces reader to do math: $18K = ~0.2-0.4 engineers per month? No — annualized that's $216K, a full engineer. The 'under 10' and 'even smaller' makes the spend feel absurdly concentrated. Reader now needs to know: is this worth it?\", \"rhythm\": \"short, short, long/building\"}], \"sentence_count\": 2, \"body_structure\": \"progressive revelation with diagnostic pivot: success claim (we're shipping faster) → BUT pivot to harder question → diagnostic question that reader must answer → four parallel risks as bullet list → universal claim (every leader will hit this) → framework tease (not ready to share) → terminal verdict on competitive advantage\", \"body_format\": \"bullet_list\", \"body_item_count\": 4, \"ending_type\": \"terminal verdict with competitive stakes — two futures posed, reader must self-select\", \"closer_mechanic\": \"terminal_verdict\", \"closer_text\": \"The teams that crack measurement will compound their advantage. The rest will ship a lot of code and wonder why nothing changed.\", \"mirrorable\": true, \"mirrorability_reason\": \"The 'specific cost + headcount reframe + team size compression' shape works across any domain with tool spend vs. human capital tradeoffs. Marketing SaaS spend, cloud infrastructure, contractor costs, legal fees, etc. The Claude Code specificity is surface; the engine is number→category reframe→ratio amplification.\", \"register_energy\": \"measured founder anxiety — not panic, not hype. The 'Seriously. Think about it.' moment breaks into direct address, then returns to analytical distance. This oscillation between confessional and diagnostic creates trust.\", \"virality_reason\": \"Every leader right now is spending on AI tools and has no idea if it's working; the opener gives them a number to compare against and a framework to justify their own anxiety.\", \"opener_tests\": {\"macro\": {\"pass\": true, \"reason\": \"API bill + headcount + team size are universally understood business concepts. No niche jargon. Any professional grasps 'we spend a lot on tools, that's people money.'\"}, \"fast\": {\"pass\": true, \"first_payload_word\": 7, \"reason\": \"'$18,000/month' lands at words 7-8. 'Claude Code' is proper noun but not payload — the number is. Borderline pass; the '$18,000' starts at word 7, completes at 8. The specificity of the number carries the hook.\"}, \"simple\": {\"pass\": true, \"reason\": \"Every word is conversational: 'bill,' 'crossed,' 'headcount,' 'territory,' 'team,' 'engineers,' 'backend,' 'smaller.' No corporate jargon, no press release language.\"}}, \"skip_batch_a\": false, \"named_entities\": [], \"source_domain\": \"engineering management\"}\n\n## PLATFORM\nlinkedin\n\n---\n\n## MODE RULES\n\n\n---\n\n## FOUNDER INTERNALIZATION (your only source of truth for first-degree claims)\n\n\n## FOUNDER VOICE MARKERS (signature phrases, sentence shapes, closing moves)\n\n\n## EXPECTED MARKER RATES (per-post averages from founder's published corpus)\n\n\n## FOUNDER PERSONALITY CARD\n\n\n## CALIBRATION PARAGRAPH (this is EXACTLY what the founder sounds like — match this register)\nI keep hearing the same story from hiring managers. They celebrate the signed offer like it's the finish line. It was the qualifier. The best leaders I've watched don't disengage after the handshake. They treat the first ninety days as the real work — clearing political blockers before the new hire asks, and giving them context they can actually defend in rooms where they weren't invited. Because from a distance, hiring looks like a clean transaction. Up close, the more a company leans into talent, the more it needs structured onboarding, collaboration layers, and systems of context.\n\n## FORMATTING HABITS (match these EXACTLY — biggest AI tell is mismatched formatting)\n\n\n---\n\n## WEB SEARCH — VERIFIED REAL-TIME FACTS (Tier 2 anchor source; use to support second-degree claims)\n\n\n---\n\n## ANTI-CONVERGENCE: PRIOR ARGUMENTS (do NOT repeat these theses)\n\n\n## EVENTS ALREADY USED (do NOT reuse)\n\n\n## STORIES ALREADY USED (do NOT reuse)\n\n\n---\n\n## PRE-COMMIT DECLARATION (CRITICAL — fill BEFORE writing each post)\n\nBefore writing each post, fill a \"declaration\" object with:\n- **mechanic**: the opener mechanic family you WILL use\n- **body_format**: numbered_list | bullet_list | parallel_paragraphs | three_examples | before_after | progressive_revelation | single_scene | prose_essay\n- **closer_mechanic**: cta | reframe_question | terminal_verdict | physical_image | challenge | callback | unresolved_tension | quiet_admission\n- **argument_compressed**: ONE-sentence thesis of THIS post — must differ from every prior_arguments entry above\n- **authority_anchor**: the specific verified event/story from FOUNDER INTERNALIZATION you'll use as first-degree anchor\n- **strip_test_residue**: take your planned opening line, mentally strip every industry-specific noun, and write what remains. If what's left isn't a coherent claim a generalist would nod at, REWRITE the opener before writing the body.\n\nOutput text MUST match these declarations. A numbered_list declaration with prose body = structural failure. Revise before returning.\n\n---\n\n## THE MACRO-OPENING RULE (HIGHEST-PRIORITY RULE — failure here kills the post)\n\nSource hooks go viral because the claim is **universally relatable**. \"Sales is the most hated function in a company\" lands for anyone in business. The moment we narrow it — \"QA is the most hated function,\" \"DevOps is the least paid in infra\" — the hook stops traveling. Niche readers don't have a stake; they scroll.\n\nEvery opening line must clear the bar of \"any business reader nods.\" Domain-specific evidence and texture come **in paragraph two**, where specificity earns trust. **Niche belongs in paragraph 2, not line 1.**\n\n**THE STRIP TEST (mandatory pre-flight)**: take your opening line and remove every industry-specific noun. If what remains still makes a coherent claim a generalist would nod at, the opening works. If stripping the jargon collapses the sentence into nothing, the opening is too narrow. Rewrite until the structural claim survives the strip.\n\nWORKED STRIP TEST:\n- ❌ \"It's time enterprise software CEOs took the integration layer back from their System Integrator partners.\"\n  Strip: \"It's time ___ took ___ back from ___.\" → nothing left. **FAIL.**\n- ✅ \"It's time software companies took the customer relationship back from the consultants they hired to manage it.\"\n  Strip: \"It's time ___ took ___ back from the ___ they hired to manage it.\" → parseable as \"reclaim what was outsourced.\" **PASS.**\n\nA specific company or person name in the hook is fine (e.g. source mentions \"Brian Halligan\" + \"HubSpot\"). The structural claim under the names must still survive the strip.\n\n**The body is allowed to be niche. The hook is NOT.**\n\n---\n\n## OPENER MECHANIC SCOPE (paired with strip test)\n\nThe opener mechanic spans a **MAXIMUM of 2 sentences**. Beat 1 (the anchor) + Beat 2 (the reframe). Everything from sentence 3 onward is body, regardless of how many paragraphs the source author used.\n\nFor Batch A variants: variants share **only** sentences 1-2 (opener mechanic) and the closer mechanic. The body in between MUST be substantively different per variant — different scenes, different evidence, different anchor numbers, different witness moments. Never copy a paragraph across A variants.\n\nFor Batch B: same psychological move as source, fully different surface — different sentence count, different phrasing, different imagery, different delivery vehicle.\n\n---\n\n## THE FIRST-DEGREE TRUTH RULE\n\nAnything the founder allegedly did themselves, or that involves a named teammate, must be TRUE. \"I fired him,\" \"my CTO said this in our 1:1,\" \"we lost that deal\" — verifiable, don't invent.\n\nSecond-degree material — \"a founder I met at a conference,\" \"a friend running a growth-stage company,\" \"an investor I know\" — isn't easily verifiable, so we have construction room there.\n\nIn practice: the founder is often the **witness**, not the protagonist. Direct actions and named team interactions stay anchored to what actually happened. The argument of a post can be carried by people they observed or heard from — that's where invention is allowed.\n\nIf a post needs a specific incident the founder hasn't actually lived, route it through a second-degree source. **Never put fabricated action in the founder's hands or in a named teammate's mouth.**\n\nLadder of preference:\n1. **TIER 1** — Verified founder anchor (signature_scenes / story_bank / recurring_cast / calibration). Name people, cite scenes, quote dialogue ONLY when documented in FOUNDER INTERNALIZATION above.\n2. **TIER 2** — Web-search verified fact (from WEB SEARCH block above). Cite stats / public events / named companies if found there.\n3. **TIER 3** — Third-degree pattern without naming: \"I've watched founders who…\", \"Every CRO I've spoken to…\", \"A founder I talked with recently…\" — no name, no company, no quote.\n\nA post with no fabrication beats a post with a believable-but-invented anchor.\n\n---\n\n## THE ANTI-RECYCLING RULE\n\nThe founder's published posts are evidence of who they are — their collisions, scenes, cast, rhythm. They are **NOT a parts bin.**\n\nIf a sentence in your output could be copy-pasted from one of their published posts, REWRITE it until it can't. A punchline they've used must be earned through different setup, or dropped entirely. Treat their existing posts as raw material, not finished material.\n\nThis is the single most common failure mode when the corpus is in context. Stay alert.\n\n---\n\n## RULES FOR ALL POSTS\n\n1. **MANDATORY EVENT USAGE**: Every post MUST include at least one verified first-degree authority anchor from FOUNDER INTERNALIZATION. A post with zero personal evidence reads as generic advice.\n\n2. **FIRST-DEGREE FABRICATION CHECK**: Apply the three-tier ladder above. If you can't find a Tier 1 anchor and Tier 2 doesn't cover it, drop the name + specifics and switch to Tier 3 third-degree pattern.\n\n3. **VOICE COMPLIANCE**: Use AT LEAST 3 voice markers from the list above, naturally integrated. Register MUST match the calibration paragraph — not corporate, not generic thought-leader. Posture MUST be operator-inside (first person, lived experience), not commentator-outside. Match formatting habits and marker rates. No AI slop (\"In today's…\", \"Here's the thing\", \"Game-changer\", \"Let that sink in\").\n\n4. **WORD COUNT**: Hit the range: 137-253 words. ±30% of founder's median post length. Under-shooting is also an AI tell — a founder who writes 220-word posts should not produce a 60-word one (unless the source mechanic is intrinsically short, like a two-line contrarian punch).\n\n5. **ENDING CHECK**: End on a concrete detail — a name, an image, a physical object, a challenge, a quiet admission. NOT a summary, NOT a moral, NOT a restatement of the thesis. If the ending feels over-explained, cut the second-to-last paragraph. The signal usually ends one paragraph before the AI stops writing.\n\n6. **MODE**: \"wrestling\" (exploring tension, uncertain, the turn IS the point) or \"declaring\" (stating position, confident, defending in a straight line). Vary across posts.\n\n7. **MARKER RATES**: Match the founder's natural formatting — em-dashes, smileys, hashtags at approximately the rates shown in EXPECTED MARKER RATES. Don't force markers but don't strip them either.\n\n8. **ONE POST, ONE ARGUMENT**: The hook sets one specific argument in motion. Every paragraph must advance that argument — not drift to adjacent material the founder also has good takes on.\n\n9. **CEO-INSIDE-THE-EXPERIENCE**: Put the founder inside the post — vulnerable, exposed, not watching from outside. As witness or actor, but truthfully either way.\n\n10. **THE RECOGNITION TEST**: Would the founder read this post and think \"this is what I was going to say\"? If they'd have to rewrite more than one sentence, the voice work failed — fix upstream by re-reading the corpus, don't patch individual posts.\n\n---\n\n## BATCH-SPECIFIC RULES\n\n**Batch A (Mirrored Opening)** — produces 4 posts in this run when post_count=4:\n- Keep the source hook's sentence shape, beat order, compression (sentences 1-2 only)\n- Replace every concrete noun, domain, and specific with the founder's world\n- Same bones, new content, founder's voice\n- Sentences 3+ MUST diverge per A variant (different scenes, different evidence, different anchor numbers)\n- All 4 A variants must argue different theses — argument distinction is most visible here\n\n**Batch B (Mechanics-Only)** — produces 5 posts in this run when post_count=5:\n- Same psychological move as the source, fully different surface\n- Different sentence count, different phrasing, different imagery, different delivery vehicle\n- Each B post uses a DIFFERENT entry door from: scene_drop, diagnostic_question, borrowed_authority_quote, data_contradiction, confession, physical_object, direct_address, mocked_counter_example, contrarian_claim, parallel_structure, age_time_anchor, second_party_verdict\n- No two B posts share a door. If two doors feel functionally similar in execution, treat them as the same door — pick a different one.\n\n---\n\n## THREE WORKED EXAMPLES (mechanic → adaptation pairs)\n\n### Example 1 — Parallel data, third-line reveal\nSource: \"Head of Sales: $300K plus equity. Head of Customer Success: $150K. Guess who owns 80% of the revenue?\"\nMechanic: two parallel data points, identically formatted, flat delivery + third-line rhetorical reveal that inverts expectations.\n\nVersion A (mirrored): \"Head of Sales: $400K plus equity. Head of Product: $200K. Guess who decided the feature that saved our Series B?\"\nVersion B (mechanics-only): \"For three years I paid my top AE twice what I paid my Head of Product. Then I looked at where our expansion revenue was actually coming from.\"\n\nA keeps two-line data setup + rhetorical question (different roles, different reveal). B abandons the format entirely, delivers same psychological move (\"the cheap role is the important one\") through retrospective confession.\n\n### Example 2 — Three-sentence escalation\nSource: \"Google sent me a cease and desist at 13 years old. I had 2.5M users for my previous app. And my parents had no idea.\"\nMechanic: three short sentences, each escalating — external authority → personal scale → hidden context. Condensed movie trailer.\n\nVersion A: \"A major customer threatened to sue us when I was 26. I had 40,000 businesses using the product. And my co-founder had no idea I'd been the one making the promises.\"\nVersion B: \"The first time I got sued, the envelope was handed to me by my own lead engineer. He didn't know we were in breach of contract. I hadn't told anyone on the team.\"\n\nA keeps three-sentence escalation. B uses two beats; hidden-context payload lands as closer, not setup. Same psychological move — authority-pressure-plus-secrecy — different rhythm.\n\n### Example 3 — Analogy with deliberate pause\nSource: \"A 'data strategy' that starts with picking tools… … is like a fitness plan that starts with buying a smartwatch. Sure, the gear is shiny. But you haven't broken a sweat yet.\"\nMechanic: analogy where ellipsis is a pause beat. Four-beat tempo: setup, analogy, concession, real critique. Pacing is part of the mechanic.\n\nVersion A: \"A 'GTM strategy' that starts with hiring a VP of Sales… … is like writing a book by buying a nice pen. Sure, the tool is expensive. But you haven't put a word down yet.\"\nVersion B: \"Every founder I meet wants to talk about their tech stack. Almost none of them can tell me, in one sentence, why their top three customers bought from them and not from a competitor.\"\n\nA preserves ellipsis-as-beat + four-beat tempo. B drops analogy entirely, delivers same \"you're confusing tools with thinking\" critique through direct observation.\n\n---\n\n## OUTPUT FORMAT\n\nReturn a single JSON object:\n\n```json\n{\n  \"posts\": [\n    {\n      \"declaration\": {\n        \"mechanic\": \"specific_number\",\n        \"body_format\": \"numbered_list\",\n        \"closer_mechanic\": \"terminal_verdict\",\n        \"argument_compressed\": \"one sentence — what this post argues\",\n        \"authority_anchor\": \"the specific event/story being used\",\n        \"strip_test_residue\": \"what remains after stripping jargon from the opener\"\n      },\n      \"text\": \"full post text — hook + body + close as one continuous unit\",\n      \"mode\": \"wrestling|declaring\",\n      \"events_used\": [\"event 1 from internalization\"],\n      \"stories_used\": [\"story reference\"]\n    }\n  ]\n}\n```\n\nNo preamble. No meta-commentary. No labels inside the post text. Just 1 finished posts with declarations.\n",
+      "prompt_length": 20454,
+      "response": "```json\n{\n  \"posts\": [\n    {\n      \"declaration\": {\n        \"mechanic\": \"specific_number\",\n        \"body_format\": \"bullet_list\",\n        \"closer_mechanic\": \"terminal_verdict\",\n        \"argument_compressed\": \"The real cost of AI tools isn't the subscription—it's the invisible erosion of judgment when you can no longer tell if your team is actually improving.\",\n        \"authority_anchor\": \"Founder's work with hiring managers on structured onboarding and context systems; the 'first ninety days as real work' philosophy applied to AI tool adoption\",\n        \"strip_test_residue\": \"Our bill just crossed [amount]/month. That's [human resource] territory. For a team of under [number] [roles]. And most of that spend came from [one group] alone — which is even smaller.\"\n      },\n      \"text\": \"Our AI recruiting stack just crossed $14,000/month.\\n\\nThat's a senior hire territory. For a team of under 8 people. And most of that spend came from our talent partners alone — which is even smaller.\\n\\nWe're all-in on AI-native hiring. I wrote about how we rebuilt our interview loops to make this safe — structured rubrics before any screen, calibration sessions as a hard constraint, human review on every AI-generated scorecard, debriefs where we trace every recommendation back to evidence (link in comments).\\n\\nThat playbook is working. We're filling roles faster than we ever have.\\n\\nBut it's surfacing a much harder question:\\n\\nWhen AI writes most of the evaluation, how do you know if your hiring team is actually getting better?\\n\\nSeriously. Think about it.\\n\\nOffers extended — meaningless. Time-to-fill — inflated. Interview throughput — noise. Even calibration scores, the old gold standard, break down when AI generates hundreds of passing assessments that don't predict anything meaningful.\\n\\nMeanwhile the real risks are subtle:\\n\\n→ Candidate turnover. Are AI-sourced hires staying or cycling out in six months?\\n→ Quality attribution. Can you tell the difference between human judgment and AI-assisted calls in your best hires?\\n→ False acceleration. Are you filling faster, or generating more to replace later?\\n→ Assessment integrity. Do your rubrics actually catch bad fits, or just inflate consistency numbers?\\n\\nEvery talent leader adopting AI tools will hit this wall. The spend is easy to justify when requisitions close fast. It's much harder to prove the investment is actually working.\\n\\nWe've been working on a framework for measuring hiring team judgment in the AI-first era. Not ready to share it yet. But I think this might be the most important unsolved problem in people leadership right now.\\n\\nThe teams that crack measurement will compound their advantage. The rest will fill a lot of roles and wonder why nothing changed.\",\n      \"mode\": \"wrestling\",\n      \"events_used\": [\"hiring managers celebrating signed offers as finish line when they're qualifiers\", \"first ninety days as real work philosophy\"],\n      \"stories_used\": [\"structured onboarding and context systems for new hires\"]\n    }\n  ]\n}\n```",
+      "response_length": 3040,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.5,
+      "max_tokens": 6000,
+      "model": "kimi-k2.6",
+      "provider": "kimi",
+      "duration_ms": 7269,
+      "tokens_in": 4558,
+      "tokens_out": 642,
+      "cost_usd": 0.003563,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "label": "A1",
+        "type": "A",
+        "prior_count": 0,
+        "regen_attempt": 0,
+        "anchors_remaining": 23
+      }
+    },
+    {
+      "id": "llm_03435b66",
+      "timestamp": 1779126390.6649878,
+      "type": "llm_call",
+      "stage": "pack_1_generate_A1",
+      "template": "03_generate.txt",
+      "prompt": "You are adapting a viral source post into 1 LinkedIn posts in the founder's voice. Mode: .\n\nThis is the VIRAL POST ADAPTATION FRAMEWORK v4. Read every rule. Failure on any one is a structural failure of the pack.\n\n## SOURCE POST\nOur Claude Code API bill just crossed $18,000/month.\n\nThat's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\n\nWe're all-in on AI-native development. I wrote about how we restructured our workflow to make this safe — spec-first design, TDD as a hard constraint, multi-model review, security audits on every commit (link in comments).\n\nThat playbook is working. We're shipping faster than we ever have.\n\nBut it's surfacing a much harder question:\n\nWhen AI writes most of the code, how do you know if your team is actually getting better?\n\nSeriously. Think about it.\n\nLines of code — meaningless. PRs merged — inflated. Sprint velocity — noise. Even unit test coverage, the old gold standard, breaks down when AI generates hundreds of passing tests that don't verify anything meaningful.\n\nMeanwhile the real risks are subtle:\n\n→ Code turnover. Are AI-generated modules stable or constantly rewritten?\n→ Quality attribution. Can you tell the difference between human-written and AI-assisted code in production?\n→ False acceleration. Are you shipping faster, or generating more to fix later?\n→ Test integrity. Do your tests actually catch failures, or just inflate coverage numbers?\n\nEvery engineering leader adopting AI tools will hit this wall. The spend is easy to justify when things feel fast. It's much harder to prove the investment is actually working.\n\nWe've been working on a framework for measuring developer productivity in the AI-first era. Not ready to share it yet. But I think this might be the most important unsolved problem in engineering leadership right now.\n\nThe teams that crack measurement will compound their advantage. The rest will ship a lot of code and wonder why nothing changed.\n\n## SOURCE DISSECTION (use this to anchor structure, NOT to clone)\n{\"psychological_move\": \"Specific-number cost reveal followed by category reframe that forces re-evaluation of the number's meaning. The $18K is not the payload — 'headcount territory' is. The reader must mentally convert spend into human capital, which creates cognitive friction and demands resolution.\", \"narrative_arc\": \"escalation-with-pivot: apparent brag (we spend a lot) → reframe as problem (that's headcount) → diagnostic revelation (we can't measure if this is working) → unresolved tension (we're working on it, but not ready to share)\", \"hook_mechanic_primary\": \"specific_number\", \"opener_mechanic_description\": \"specific_number: precise cost anchor → category reframe (headcount territory) → team-size compression (under 10) → scope narrowing (backend team alone, even smaller). Each sentence makes the previous number feel bigger.\", \"source_opener_text\": \"Our Claude Code API bill just crossed $18,000/month.\\n\\nThat's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\", \"hook_mechanics\": [{\"sentence\": \"Our Claude Code API bill just crossed $18,000/month.\", \"structural_function\": \"specificity bomb — precise number with proprietary tool name creates authenticity signal\", \"psychological_effect\": \"The $18K is large enough to feel real, specific enough to feel witnessed. Reader thinks 'I know what API bills look like' and leans in. The 'just crossed' implies live tracking, not retrospective — urgency.\", \"rhythm\": \"medium\"}, {\"sentence\": \"That's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\", \"structural_function\": \"reframe with progressive compression — converts abstract cost into concrete alternative, then makes team smaller, then makes spend source smaller still (amplifying the ratio)\", \"psychological_effect\": \"Forces reader to do math: $18K = ~0.2-0.4 engineers per month? No — annualized that's $216K, a full engineer. The 'under 10' and 'even smaller' makes the spend feel absurdly concentrated. Reader now needs to know: is this worth it?\", \"rhythm\": \"short, short, long/building\"}], \"sentence_count\": 2, \"body_structure\": \"progressive revelation with diagnostic pivot: success claim (we're shipping faster) → BUT pivot to harder question → diagnostic question that reader must answer → four parallel risks as bullet list → universal claim (every leader will hit this) → framework tease (not ready to share) → terminal verdict on competitive advantage\", \"body_format\": \"bullet_list\", \"body_item_count\": 4, \"ending_type\": \"terminal verdict with competitive stakes — two futures posed, reader must self-select\", \"closer_mechanic\": \"terminal_verdict\", \"closer_text\": \"The teams that crack measurement will compound their advantage. The rest will ship a lot of code and wonder why nothing changed.\", \"mirrorable\": true, \"mirrorability_reason\": \"The 'specific cost + headcount reframe + team size compression' shape works across any domain with tool spend vs. human capital tradeoffs. Marketing SaaS spend, cloud infrastructure, contractor costs, legal fees, etc. The Claude Code specificity is surface; the engine is number→category reframe→ratio amplification.\", \"register_energy\": \"measured founder anxiety — not panic, not hype. The 'Seriously. Think about it.' moment breaks into direct address, then returns to analytical distance. This oscillation between confessional and diagnostic creates trust.\", \"virality_reason\": \"Every leader right now is spending on AI tools and has no idea if it's working; the opener gives them a number to compare against and a framework to justify their own anxiety.\", \"opener_tests\": {\"macro\": {\"pass\": true, \"reason\": \"API bill + headcount + team size are universally understood business concepts. No niche jargon. Any professional grasps 'we spend a lot on tools, that's people money.'\"}, \"fast\": {\"pass\": true, \"first_payload_word\": 7, \"reason\": \"'$18,000/month' lands at words 7-8. 'Claude Code' is proper noun but not payload — the number is. Borderline pass; the '$18,000' starts at word 7, completes at 8. The specificity of the number carries the hook.\"}, \"simple\": {\"pass\": true, \"reason\": \"Every word is conversational: 'bill,' 'crossed,' 'headcount,' 'territory,' 'team,' 'engineers,' 'backend,' 'smaller.' No corporate jargon, no press release language.\"}}, \"skip_batch_a\": false, \"named_entities\": [], \"source_domain\": \"engineering management\"}\n\n## PLATFORM\nlinkedin\n\n---\n\n## MODE RULES\n\n\n---\n\n## FOUNDER INTERNALIZATION (your only source of truth for first-degree claims)\n\n\n## FOUNDER VOICE MARKERS (signature phrases, sentence shapes, closing moves)\n\n\n## EXPECTED MARKER RATES (per-post averages from founder's published corpus)\n\n\n## FOUNDER PERSONALITY CARD\n\n\n## CALIBRATION PARAGRAPH (this is EXACTLY what the founder sounds like — match this register)\nI keep hearing the same story from hiring managers. They celebrate the signed offer like it's the finish line. It was the qualifier. The best leaders I've watched don't disengage after the handshake. They treat the first ninety days as the real work — clearing political blockers before the new hire asks, and giving them context they can actually defend in rooms where they weren't invited. Because from a distance, hiring looks like a clean transaction. Up close, the more a company leans into talent, the more it needs structured onboarding, collaboration layers, and systems of context.\n\n## FORMATTING HABITS (match these EXACTLY — biggest AI tell is mismatched formatting)\n\n\n---\n\n## WEB SEARCH — VERIFIED REAL-TIME FACTS (Tier 2 anchor source; use to support second-degree claims)\n\n\n---\n\n## ANTI-CONVERGENCE: PRIOR ARGUMENTS (do NOT repeat these theses)\n\n\n## EVENTS ALREADY USED (do NOT reuse)\n\n\n## STORIES ALREADY USED (do NOT reuse)\n\n\n---\n\n## PRE-COMMIT DECLARATION (CRITICAL — fill BEFORE writing each post)\n\nBefore writing each post, fill a \"declaration\" object with:\n- **mechanic**: the opener mechanic family you WILL use\n- **body_format**: numbered_list | bullet_list | parallel_paragraphs | three_examples | before_after | progressive_revelation | single_scene | prose_essay\n- **closer_mechanic**: cta | reframe_question | terminal_verdict | physical_image | challenge | callback | unresolved_tension | quiet_admission\n- **argument_compressed**: ONE-sentence thesis of THIS post — must differ from every prior_arguments entry above\n- **authority_anchor**: the specific verified event/story from FOUNDER INTERNALIZATION you'll use as first-degree anchor\n- **strip_test_residue**: take your planned opening line, mentally strip every industry-specific noun, and write what remains. If what's left isn't a coherent claim a generalist would nod at, REWRITE the opener before writing the body.\n\nOutput text MUST match these declarations. A numbered_list declaration with prose body = structural failure. Revise before returning.\n\n---\n\n## THE MACRO-OPENING RULE (HIGHEST-PRIORITY RULE — failure here kills the post)\n\nSource hooks go viral because the claim is **universally relatable**. \"Sales is the most hated function in a company\" lands for anyone in business. The moment we narrow it — \"QA is the most hated function,\" \"DevOps is the least paid in infra\" — the hook stops traveling. Niche readers don't have a stake; they scroll.\n\nEvery opening line must clear the bar of \"any business reader nods.\" Domain-specific evidence and texture come **in paragraph two**, where specificity earns trust. **Niche belongs in paragraph 2, not line 1.**\n\n**THE STRIP TEST (mandatory pre-flight)**: take your opening line and remove every industry-specific noun. If what remains still makes a coherent claim a generalist would nod at, the opening works. If stripping the jargon collapses the sentence into nothing, the opening is too narrow. Rewrite until the structural claim survives the strip.\n\nWORKED STRIP TEST:\n- ❌ \"It's time enterprise software CEOs took the integration layer back from their System Integrator partners.\"\n  Strip: \"It's time ___ took ___ back from ___.\" → nothing left. **FAIL.**\n- ✅ \"It's time software companies took the customer relationship back from the consultants they hired to manage it.\"\n  Strip: \"It's time ___ took ___ back from the ___ they hired to manage it.\" → parseable as \"reclaim what was outsourced.\" **PASS.**\n\nA specific company or person name in the hook is fine (e.g. source mentions \"Brian Halligan\" + \"HubSpot\"). The structural claim under the names must still survive the strip.\n\n**The body is allowed to be niche. The hook is NOT.**\n\n---\n\n## OPENER MECHANIC SCOPE (paired with strip test)\n\nThe opener mechanic spans a **MAXIMUM of 2 sentences**. Beat 1 (the anchor) + Beat 2 (the reframe). Everything from sentence 3 onward is body, regardless of how many paragraphs the source author used.\n\nFor Batch A variants: variants share **only** sentences 1-2 (opener mechanic) and the closer mechanic. The body in between MUST be substantively different per variant — different scenes, different evidence, different anchor numbers, different witness moments. Never copy a paragraph across A variants.\n\nFor Batch B: same psychological move as source, fully different surface — different sentence count, different phrasing, different imagery, different delivery vehicle.\n\n---\n\n## THE FIRST-DEGREE TRUTH RULE\n\nAnything the founder allegedly did themselves, or that involves a named teammate, must be TRUE. \"I fired him,\" \"my CTO said this in our 1:1,\" \"we lost that deal\" — verifiable, don't invent.\n\nSecond-degree material — \"a founder I met at a conference,\" \"a friend running a growth-stage company,\" \"an investor I know\" — isn't easily verifiable, so we have construction room there.\n\nIn practice: the founder is often the **witness**, not the protagonist. Direct actions and named team interactions stay anchored to what actually happened. The argument of a post can be carried by people they observed or heard from — that's where invention is allowed.\n\nIf a post needs a specific incident the founder hasn't actually lived, route it through a second-degree source. **Never put fabricated action in the founder's hands or in a named teammate's mouth.**\n\nLadder of preference:\n1. **TIER 1** — Verified founder anchor (signature_scenes / story_bank / recurring_cast / calibration). Name people, cite scenes, quote dialogue ONLY when documented in FOUNDER INTERNALIZATION above.\n2. **TIER 2** — Web-search verified fact (from WEB SEARCH block above). Cite stats / public events / named companies if found there.\n3. **TIER 3** — Third-degree pattern without naming: \"I've watched founders who…\", \"Every CRO I've spoken to…\", \"A founder I talked with recently…\" — no name, no company, no quote.\n\nA post with no fabrication beats a post with a believable-but-invented anchor.\n\n---\n\n## THE ANTI-RECYCLING RULE\n\nThe founder's published posts are evidence of who they are — their collisions, scenes, cast, rhythm. They are **NOT a parts bin.**\n\nIf a sentence in your output could be copy-pasted from one of their published posts, REWRITE it until it can't. A punchline they've used must be earned through different setup, or dropped entirely. Treat their existing posts as raw material, not finished material.\n\nThis is the single most common failure mode when the corpus is in context. Stay alert.\n\n---\n\n## RULES FOR ALL POSTS\n\n1. **MANDATORY EVENT USAGE**: Every post MUST include at least one verified first-degree authority anchor from FOUNDER INTERNALIZATION. A post with zero personal evidence reads as generic advice.\n\n2. **FIRST-DEGREE FABRICATION CHECK**: Apply the three-tier ladder above. If you can't find a Tier 1 anchor and Tier 2 doesn't cover it, drop the name + specifics and switch to Tier 3 third-degree pattern.\n\n3. **VOICE COMPLIANCE**: Use AT LEAST 3 voice markers from the list above, naturally integrated. Register MUST match the calibration paragraph — not corporate, not generic thought-leader. Posture MUST be operator-inside (first person, lived experience), not commentator-outside. Match formatting habits and marker rates. No AI slop (\"In today's…\", \"Here's the thing\", \"Game-changer\", \"Let that sink in\").\n\n4. **WORD COUNT**: Hit the range: 137-253 words. ±30% of founder's median post length. Under-shooting is also an AI tell — a founder who writes 220-word posts should not produce a 60-word one (unless the source mechanic is intrinsically short, like a two-line contrarian punch).\n\n5. **ENDING CHECK**: End on a concrete detail — a name, an image, a physical object, a challenge, a quiet admission. NOT a summary, NOT a moral, NOT a restatement of the thesis. If the ending feels over-explained, cut the second-to-last paragraph. The signal usually ends one paragraph before the AI stops writing.\n\n6. **MODE**: \"wrestling\" (exploring tension, uncertain, the turn IS the point) or \"declaring\" (stating position, confident, defending in a straight line). Vary across posts.\n\n7. **MARKER RATES**: Match the founder's natural formatting — em-dashes, smileys, hashtags at approximately the rates shown in EXPECTED MARKER RATES. Don't force markers but don't strip them either.\n\n8. **ONE POST, ONE ARGUMENT**: The hook sets one specific argument in motion. Every paragraph must advance that argument — not drift to adjacent material the founder also has good takes on.\n\n9. **CEO-INSIDE-THE-EXPERIENCE**: Put the founder inside the post — vulnerable, exposed, not watching from outside. As witness or actor, but truthfully either way.\n\n10. **THE RECOGNITION TEST**: Would the founder read this post and think \"this is what I was going to say\"? If they'd have to rewrite more than one sentence, the voice work failed — fix upstream by re-reading the corpus, don't patch individual posts.\n\n---\n\n## BATCH-SPECIFIC RULES\n\n**Batch A (Mirrored Opening)** — produces 4 posts in this run when post_count=4:\n- Keep the source hook's sentence shape, beat order, compression (sentences 1-2 only)\n- Replace every concrete noun, domain, and specific with the founder's world\n- Same bones, new content, founder's voice\n- Sentences 3+ MUST diverge per A variant (different scenes, different evidence, different anchor numbers)\n- All 4 A variants must argue different theses — argument distinction is most visible here\n\n**Batch B (Mechanics-Only)** — produces 5 posts in this run when post_count=5:\n- Same psychological move as the source, fully different surface\n- Different sentence count, different phrasing, different imagery, different delivery vehicle\n- Each B post uses a DIFFERENT entry door from: scene_drop, diagnostic_question, borrowed_authority_quote, data_contradiction, confession, physical_object, direct_address, mocked_counter_example, contrarian_claim, parallel_structure, age_time_anchor, second_party_verdict\n- No two B posts share a door. If two doors feel functionally similar in execution, treat them as the same door — pick a different one.\n\n---\n\n## THREE WORKED EXAMPLES (mechanic → adaptation pairs)\n\n### Example 1 — Parallel data, third-line reveal\nSource: \"Head of Sales: $300K plus equity. Head of Customer Success: $150K. Guess who owns 80% of the revenue?\"\nMechanic: two parallel data points, identically formatted, flat delivery + third-line rhetorical reveal that inverts expectations.\n\nVersion A (mirrored): \"Head of Sales: $400K plus equity. Head of Product: $200K. Guess who decided the feature that saved our Series B?\"\nVersion B (mechanics-only): \"For three years I paid my top AE twice what I paid my Head of Product. Then I looked at where our expansion revenue was actually coming from.\"\n\nA keeps two-line data setup + rhetorical question (different roles, different reveal). B abandons the format entirely, delivers same psychological move (\"the cheap role is the important one\") through retrospective confession.\n\n### Example 2 — Three-sentence escalation\nSource: \"Google sent me a cease and desist at 13 years old. I had 2.5M users for my previous app. And my parents had no idea.\"\nMechanic: three short sentences, each escalating — external authority → personal scale → hidden context. Condensed movie trailer.\n\nVersion A: \"A major customer threatened to sue us when I was 26. I had 40,000 businesses using the product. And my co-founder had no idea I'd been the one making the promises.\"\nVersion B: \"The first time I got sued, the envelope was handed to me by my own lead engineer. He didn't know we were in breach of contract. I hadn't told anyone on the team.\"\n\nA keeps three-sentence escalation. B uses two beats; hidden-context payload lands as closer, not setup. Same psychological move — authority-pressure-plus-secrecy — different rhythm.\n\n### Example 3 — Analogy with deliberate pause\nSource: \"A 'data strategy' that starts with picking tools… … is like a fitness plan that starts with buying a smartwatch. Sure, the gear is shiny. But you haven't broken a sweat yet.\"\nMechanic: analogy where ellipsis is a pause beat. Four-beat tempo: setup, analogy, concession, real critique. Pacing is part of the mechanic.\n\nVersion A: \"A 'GTM strategy' that starts with hiring a VP of Sales… … is like writing a book by buying a nice pen. Sure, the tool is expensive. But you haven't put a word down yet.\"\nVersion B: \"Every founder I meet wants to talk about their tech stack. Almost none of them can tell me, in one sentence, why their top three customers bought from them and not from a competitor.\"\n\nA preserves ellipsis-as-beat + four-beat tempo. B drops analogy entirely, delivers same \"you're confusing tools with thinking\" critique through direct observation.\n\n---\n\n## OUTPUT FORMAT\n\nReturn a single JSON object:\n\n```json\n{\n  \"posts\": [\n    {\n      \"declaration\": {\n        \"mechanic\": \"specific_number\",\n        \"body_format\": \"numbered_list\",\n        \"closer_mechanic\": \"terminal_verdict\",\n        \"argument_compressed\": \"one sentence — what this post argues\",\n        \"authority_anchor\": \"the specific event/story being used\",\n        \"strip_test_residue\": \"what remains after stripping jargon from the opener\"\n      },\n      \"text\": \"full post text — hook + body + close as one continuous unit\",\n      \"mode\": \"wrestling|declaring\",\n      \"events_used\": [\"event 1 from internalization\"],\n      \"stories_used\": [\"story reference\"]\n    }\n  ]\n}\n```\n\nNo preamble. No meta-commentary. No labels inside the post text. Just 1 finished posts with declarations.\n",
+      "prompt_length": 20454,
+      "response": "```json\n{\n  \"posts\": [\n    {\n      \"declaration\": {\n        \"mechanic\": \"specific_number\",\n        \"body_format\": \"bullet_list\",\n        \"closer_mechanic\": \"terminal_verdict\",\n        \"argument_compressed\": \"When AI tools replace headcount-level spend, the old productivity metrics collapse—and the leaders who figure out what replaces them will pull ahead of everyone still celebrating velocity.\",\n        \"authority_anchor\": \"Founder's direct experience restructuring team workflow around AI-native development, spec-first design, TDD as hard constraint, multi-model review, security audits on every commit; current $18K/month Claude Code API spend concentrated in backend team of under 10 engineers\",\n        \"strip_test_residue\": \"Our bill just crossed [amount]/month. That's headcount territory. For a team of under [number]. And most of that spend came from [one part of the team] alone — which is even smaller.\"\n      },\n      \"text\": \"Our Claude Code API bill just crossed $18,000/month.\\n\\nThat's headcount territory. For a team of under 10 engineers. And most of that spend came from our backend team alone — which is even smaller.\\n\\nWe're all-in on AI-native development. I wrote about how we restructured our workflow to make this safe — spec-first design, TDD as a hard constraint, multi-model review, security audits on every commit (link in comments).\\n\\nThat playbook is working. We're shipping faster than we ever have.\\n\\nBut it's surfacing a much harder question:\\n\\nWhen AI writes most of the code, how do you know if your team is actually getting better?\\n\\nSeriously. Think about it.\\n\\nLines of code — meaningless. PRs merged — inflated. Sprint velocity — noise. Even unit test coverage, the old gold standard, breaks down when AI generates hundreds of passing tests that don't verify anything meaningful.\\n\\nMeanwhile the real risks are subtle:\\n\\n→ Code turnover. Are AI-generated modules stable or constantly rewritten?\\n→ Quality attribution. Can you tell the difference between human-written and AI-assisted code in production?\\n→ False acceleration. Are you shipping faster, or generating more to fix later?\\n→ Test integrity. Do your tests actually catch failures, or just inflate coverage numbers?\\n\\nEvery engineering leader adopting AI tools will hit this wall. The spend is easy to justify when things feel fast. It's much harder to prove the investment is actually working.\\n\\nWe've been working on a framework for measuring developer productivity in the AI-first era. Not ready to share it yet. But I think this might be the most important unsolved problem in engineering leadership right now.\\n\\nThe teams that crack measurement will compound their advantage. The rest will ship a lot of code and wonder why nothing changed.\",\n      \"mode\": \"wrestling\",\n      \"events_used\": [\"Claude Code API bill crossing $18,000/month\", \"restructured workflow for AI-native development with spec-first design, TDD hard constraint, multi-model review, security audits on every commit\"],\n      \"stories_used\": [\"backend team concentration of AI tool spend\", \"framework in development for measuring developer productivity in AI-first era\"]\n    }\n  ]\n}\n```",
+      "response_length": 3176,
+      "thinking": "",
+      "thinking_length": 0,
+      "temperature": 0.5,
+      "max_tokens": 6000,
+      "model": "kimi-k2.6",
+      "provider": "kimi",
+      "duration_ms": 5959,
+      "tokens_in": 4558,
+      "tokens_out": 671,
+      "cost_usd": 0.003621,
+      "search_query": "",
+      "search_results": [],
+      "decision": "",
+      "metadata": {
+        "label": "A1",
+        "type": "A",
+        "prior_count": 0,
+        "regen_attempt": 0,
+        "anchors_remaining": 23
+      }
+    }
+  ],
+  "pipeline_logs": [
+    {
+      "timestamp": 1779126296.728868,
+      "level": "INFO",
+      "logger": "src.ingestion.founder_reader",
+      "message": "2026-05-18 23:14:56,728 INFO src.ingestion.founder_reader: [founder_reader] manisha: layout=old, 5 ingested, 52 skipped, 57 cache hits"
+    },
+    {
+      "timestamp": 1779126296.731376,
+      "level": "INFO",
+      "logger": "src.batch.graph_rag",
+      "message": "2026-05-18 23:14:56,731 INFO src.batch.graph_rag: [graph_rag] Synthesized personality_card for manisha: 3545 chars from 8 beliefs, 5 contrasts, 5 models, 5 stories"
+    },
+    {
+      "timestamp": 1779126296.7319458,
+      "level": "INFO",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-18 23:14:56,731 INFO src.batch.corpus_reader: [batch] No personality-card.md found — synthesized one from graph (3545 chars, signal={'beliefs': 63, 'stories': 49, 'cast': 0, 'scenes': 0, 'milestones': 0, 'contrast_pairs': 27, 'thinking_models': 20, 'style_rules': 23, 'vocabulary_use': 0, 'vocabulary_never': 0})"
+    },
+    {
+      "timestamp": 1779126296.733958,
+      "level": "WARNING",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-18 23:14:56,733 WARNING src.batch.corpus_reader: [batch] Graph last updated 36 days ago"
+    },
+    {
+      "timestamp": 1779126296.745041,
+      "level": "INFO",
+      "logger": "src.batch.corpus_reader",
+      "message": "2026-05-18 23:14:56,745 INFO src.batch.corpus_reader: [batch] Using cached voice_load (hash match)"
+    },
+    {
+      "timestamp": 1779126296.745041,
+      "level": "INFO",
+      "logger": "src.batch.session",
+      "message": "2026-05-18 23:14:56,745 INFO src.batch.session: [batch] Tightened word_count_range (137, 254) → (137, 253) (±30% of median 195)"
+    },
+    {
+      "timestamp": 1779126296.755089,
+      "level": "INFO",
+      "logger": "src.batch.anchor_inventory",
+      "message": "2026-05-18 23:14:56,755 INFO src.batch.anchor_inventory: [anchor_inventory] using cached inventory (hash match)"
+    },
+    {
+      "timestamp": 1779126296.7572112,
+      "level": "WARNING",
+      "logger": "src.llm.moonshot_provider",
+      "message": "2026-05-18 23:14:56,757 WARNING src.llm.moonshot_provider: [moonshot] kimi-k2.6 (thinking=off) only accepts temperature=0.6; overriding requested 0.300"
+    },
+    {
+      "timestamp": 1779126301.6703138,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 23:15:01,670 INFO httpx: HTTP Request: POST https://api.moonshot.ai/v1/chat/completions \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779126342.5597055,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 23:15:42,559 INFO httpx: HTTP Request: POST https://api.moonshot.ai/v1/chat/completions \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779126342.5668669,
+      "level": "WARNING",
+      "logger": "src.llm.moonshot_provider",
+      "message": "2026-05-18 23:15:42,566 WARNING src.llm.moonshot_provider: [moonshot] kimi-k2.6 (thinking=off) only accepts temperature=0.6; overriding requested 0.200"
+    },
+    {
+      "timestamp": 1779126343.4887304,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 23:15:43,488 INFO httpx: HTTP Request: POST https://api.moonshot.ai/v1/chat/completions \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779126349.0013838,
+      "level": "INFO",
+      "logger": "src.batch.source_selector",
+      "message": "2026-05-18 23:15:49,001 INFO src.batch.source_selector: [batch] Using 1 user-provided source posts (first 80 chars: Our Claude Code API bill just crossed $18,000/month.\n\nThat's headcount territory)"
+    },
+    {
+      "timestamp": 1779126349.0013838,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:15:49,001 INFO src.batch.pack_generator: [batch] Generating pack 1 (v5 sequential)..."
+    },
+    {
+      "timestamp": 1779126349.002388,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-18 23:15:49,002 INFO src.utils.text_utils: [prompt] Loading source_dissect_hook.txt"
+    },
+    {
+      "timestamp": 1779126350.5415707,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 23:15:50,541 INFO httpx: HTTP Request: POST https://api.moonshot.ai/v1/chat/completions \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779126377.4238172,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:17,423 INFO src.batch.pack_generator: [batch] Pack 1 dissect routing: generate_4_batch_a_5_batch_b (fitness=?, required_sub_mechanic=?, sub_mechanic_matches=?, mirror_feasible=?, usable_anchors=?)"
+    },
+    {
+      "timestamp": 1779126377.4238172,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:17,423 INFO src.batch.pack_generator: [generate] Pack 1: posts_per_source=1 caps routing generate_4_batch_a_5_batch_b from 9 to 1 posts"
+    },
+    {
+      "timestamp": 1779126377.4248152,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:17,424 INFO src.batch.pack_generator: [generate] Pack 1: routing=generate_4_batch_a_5_batch_b → 1 posts (A1)"
+    },
+    {
+      "timestamp": 1779126377.4258149,
+      "level": "INFO",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:17,425 INFO src.batch.pack_generator: [generate] A1 start: post_type=A prior_posts=0 anchors_remaining=23"
+    },
+    {
+      "timestamp": 1779126377.4323375,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-18 23:16:17,432 INFO src.utils.text_utils: [prompt] Loading transpose.txt"
+    },
+    {
+      "timestamp": 1779126377.4333413,
+      "level": "WARNING",
+      "logger": "src.llm.moonshot_provider",
+      "message": "2026-05-18 23:16:17,433 WARNING src.llm.moonshot_provider: [moonshot] kimi-k2.6 (thinking=off) only accepts temperature=0.6; overriding requested 0.500"
+    },
+    {
+      "timestamp": 1779126379.3420966,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 23:16:19,342 INFO httpx: HTTP Request: POST https://api.moonshot.ai/v1/chat/completions \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779126384.7042701,
+      "level": "WARNING",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:24,704 WARNING src.batch.pack_generator: [generate] A1 parse failed or empty text"
+    },
+    {
+      "timestamp": 1779126384.7042701,
+      "level": "WARNING",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:24,704 WARNING src.batch.pack_generator: [generate] A1: retrying once after parse failure"
+    },
+    {
+      "timestamp": 1779126384.7042701,
+      "level": "INFO",
+      "logger": "src.utils.text_utils",
+      "message": "2026-05-18 23:16:24,704 INFO src.utils.text_utils: [prompt] Loading transpose.txt"
+    },
+    {
+      "timestamp": 1779126385.4013581,
+      "level": "INFO",
+      "logger": "httpx",
+      "message": "2026-05-18 23:16:25,401 INFO httpx: HTTP Request: POST https://api.moonshot.ai/v1/chat/completions \"HTTP/1.1 200 OK\""
+    },
+    {
+      "timestamp": 1779126390.6649878,
+      "level": "WARNING",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:30,664 WARNING src.batch.pack_generator: [generate] A1 parse failed or empty text"
+    },
+    {
+      "timestamp": 1779126390.6659877,
+      "level": "ERROR",
+      "logger": "src.batch.pack_generator",
+      "message": "2026-05-18 23:16:30,665 ERROR src.batch.pack_generator: [generate] A1: failed twice — skipping post"
+    },
+    {
+      "timestamp": 1779126390.6664934,
+      "level": "WARNING",
+      "logger": "src.batch.session",
+      "message": "2026-05-18 23:16:30,666 WARNING src.batch.session: [batch] Pack 1: empty (routing=generate_4_batch_a_5_batch_b) — skipping source"
+    },
+    {
+      "timestamp": 1779126390.6694982,
+      "level": "INFO",
+      "logger": "src.batch.compiler",
+      "message": "2026-05-18 23:16:30,669 INFO src.batch.compiler: [batch] Saved output to D:\\projects\\personal_graph\\digital-dna\\data\\founders\\Manisha\\post-data\\manisha_batch_2026-05-18_6.json (0 posts)"
+    },
+    {
+      "timestamp": 1779126390.7163742,
+      "level": "INFO",
+      "logger": "src.batch.compiler",
+      "message": "2026-05-18 23:16:30,716 INFO src.batch.compiler: [batch] Saved Excel to D:\\projects\\personal_graph\\digital-dna\\data\\founders\\Manisha\\post-data\\manisha_batch_2026-05-18_6.xlsx"
+    }
+  ]
+}

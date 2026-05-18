@@ -256,7 +256,8 @@ class MoonshotProvider(LLMProvider):
         effort: str | None = None,
         images: list[str] | None = None,
     ) -> Generator[str, None, None]:
-        self._wait_for_rate_limit()
+        # No client-side rate limiting for Kimi — Moonshot's server-side limits
+        # are the only ceiling. Per user directive: don't gate Kimi calls.
         t0 = time.time()
         text_len = 0
 
@@ -297,13 +298,7 @@ class MoonshotProvider(LLMProvider):
         if extra_body:
             kwargs["extra_body"] = extra_body
 
-        try:
-            stream = self.client.chat.completions.create(**kwargs)
-        except Exception as e:
-            err_str = str(e)
-            if "429" in err_str or "rate" in err_str.lower():
-                self._report_429()
-            raise
+        stream = self.client.chat.completions.create(**kwargs)
 
         usage_input = 0
         usage_output = 0
@@ -333,7 +328,6 @@ class MoonshotProvider(LLMProvider):
             f"~${cost:.4f} │ text: {text_len:,} chars",
             file=sys.stderr, flush=True,
         )
-        self._report_success()
 
     def generate_json(self, prompt: str, system_prompt: str = None) -> dict:
         max_tok = self.max_output_tokens
@@ -405,7 +399,7 @@ class MoonshotProvider(LLMProvider):
         Per Moonshot: `$web_search` is incompatible with thinking on K2.5/K2.6,
         so this path forces `thinking.type=disabled`.
         """
-        self._wait_for_rate_limit()
+        # No client-side rate limiting for Kimi (see generate_stream).
         t0 = time.time()
         print(
             f"\033[36m[LLM:kimi/{self.model}]\033[0m generate_with_search() "
@@ -434,21 +428,16 @@ class MoonshotProvider(LLMProvider):
         safe_temp = _coerce_temperature(self.model, temperature, thinking_on=False)
         while rounds < max_searches + 2:
             rounds += 1
-            try:
-                # No max_tokens — see note in generate_stream(). Let Moonshot
-                # default the response budget so the tool-calling loop has room
-                # to both call $web_search and compose the final answer.
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=messages,
-                    temperature=safe_temp,
-                    tools=tools,
-                    extra_body=self._thinking_extra_body(force_disabled=True),
-                )
-            except Exception as e:
-                if "429" in str(e) or "rate" in str(e).lower():
-                    self._report_429()
-                raise
+            # No max_tokens — see note in generate_stream(). Let Moonshot
+            # default the response budget so the tool-calling loop has room
+            # to both call $web_search and compose the final answer.
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                temperature=safe_temp,
+                tools=tools,
+                extra_body=self._thinking_extra_body(force_disabled=True),
+            )
 
             usage = getattr(response, "usage", None)
             if usage:
@@ -512,7 +501,6 @@ class MoonshotProvider(LLMProvider):
                 f"~${cost:.4f} │ {len(final_text)} chars + {len(searches)} web searches",
                 file=sys.stderr, flush=True,
             )
-            self._report_success()
             return {"text": final_text, "searches": searches}
 
         cost = self._record_usage(cum_input, cum_output)
@@ -524,5 +512,4 @@ class MoonshotProvider(LLMProvider):
             f"{len(searches)} searches, no final answer",
             file=sys.stderr, flush=True,
         )
-        self._report_success()
         return {"text": "", "searches": searches}

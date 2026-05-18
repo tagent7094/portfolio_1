@@ -1,24 +1,63 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+﻿# Environments
+.venv/
+venv/
+ENV/
+env/
+.env
 
-node_modules
-dist
-dist-ssr
-*.local
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Node
+node_modules/
+dist/
+build/
+
+# Secrets (API keys, auth tokens — NEVER commit)
+config/llm-config.yaml
+config/founder-auth.yaml
+
+
+# OS
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+
+# Project-specific temp files
+temp-gsd/
+_xlsx_info.txt
+_gsd/
+
+# VPS-generated databases (must not be overwritten by git reset)
+data/blogs.db
+data/schedules.json
+
+# Migration sandboxes (transient)
+data/founders/*_v2/
+data/founders/*_pre_migration_*/
+
+# Run-history verbose logs (5MB+ per run)
+data/founders/*/run-history/handoffs/
+data/founders/*/run-history/verbose-logs/
+
+# SSH keys (never commit private keys!)
+hostinger_mcp
+hostinger_mcp.pub
+*.pem
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# Local Claude settings
+.claude/settings.local.json
+
+# Screenshots / debug images
+images/
+
+# Quality-loop artifacts and prompt backups
+data/founders/*/quality-loop/
+data/founders/*/quality-loop_*/
+data/founders/*/.internalization_cache.json
+src/batch/prompts/*.preloop_backup

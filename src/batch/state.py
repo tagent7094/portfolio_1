@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .tracer import BatchTracer
+    from .inventory_state import PackInventoryState
 
 
 @dataclass
@@ -31,11 +32,33 @@ class AmplifiedPost:
     validation_result: dict = field(default_factory=dict)
     violations: list[str] = field(default_factory=list)
     events_used: list[str] = field(default_factory=list)
+    stories_used: list[str] = field(default_factory=list)
     argument_compressed: str = ""
     saturation_warning: dict = field(default_factory=dict)
     quality_flags: dict = field(default_factory=dict)
     regen_count: int = 0
     actual_mechanic: str = ""
+    # v5 fields populated by 03_generate.txt
+    closer_mechanic: str = ""        # one of 8 closer enum values
+    authority_anchor: str = ""       # which verified founder anchor was used
+    body_format: str = ""            # body format mold the post uses
+    body_divergence_check: list[str] = field(default_factory=list)
+    strip_test_residue: str = ""
+
+    # v6 fields — 9.7+ floor system
+    pre_commit: dict = field(default_factory=dict)        # the generator's declaration block
+    self_scores: dict = field(default_factory=dict)       # generator's 10-parameter self-rating
+    validator_scores: dict = field(default_factory=dict)  # validator's 10-parameter scoring
+    passes_9_7_floor: bool = False                        # validator's binary verdict
+    regen_history: list[dict] = field(default_factory=list)  # per-attempt failure context
+    anchor_consumed_id: str = ""                          # which anchor_id this post consumed
+    surprise_quotient: dict = field(default_factory=dict)  # description + type + traceability
+
+    # v6.1 sub-mechanic tracking (populated by validator)
+    actual_sub_mechanic_used: str = ""    # what sub-mechanic the post actually used
+    required_sub_mechanic: str = ""       # what sub-mechanic the source required
+    sub_mechanic_match: bool = False      # did they align?
+    parameter_1_hard_veto_triggered: bool = False  # mirror discipline violation
 
 
 @dataclass
@@ -62,6 +85,7 @@ class BatchState:
 
     # Phase 1 outputs
     founder_internalization: dict = field(default_factory=dict)
+    voice_load: dict = field(default_factory=dict)  # full v5 01_voice_load result
     voice_markers: list[str] = field(default_factory=list)
     founder_ctx: dict = field(default_factory=dict)
     raw_data: dict = field(default_factory=dict)
@@ -70,6 +94,7 @@ class BatchState:
     word_count_range: tuple[int, int] = (160, 300)
     formatting_habits: dict = field(default_factory=dict)
     calibration_paragraph: str = ""
+    founder_first_name: str = ""    # derived from founder_slug, used by v5 third-person filter
 
     # Exclusions
     exclusions: list[str] = field(default_factory=list)
@@ -99,6 +124,22 @@ class BatchState:
 
     # Web search enrichment
     web_search_context: dict = field(default_factory=dict)
+
+    # v6 — anchor inventory (from 00_anchor_inventory.txt), voice marker budget
+    # (from 01_voice_load.txt voice_markers_with_budget), pack_history (30-day
+    # rolling), per-pack inventory state (set/reset per source), routing
+    # decision (from 02_dissect.txt source_fitness_check), and regen log.
+    anchor_inventory: dict = field(default_factory=dict)
+    voice_marker_budget: list[dict] = field(default_factory=list)
+    pack_history: list[dict] = field(default_factory=list)
+    inventory: "PackInventoryState | None" = field(default=None, repr=False)
+    routing_decision: str = "generate_4_batch_a_5_batch_b"
+    # True when dissect's routing_decision was overridden to force 4A+5B
+    # despite a sub-mechanic mismatch. Downstream regen loop should skip
+    # the mirror-integrity early-reject branch when this is set — the
+    # mismatch is known and accepted by the user.
+    force_4a_5b_applied: bool = False
+    regen_log: list[dict] = field(default_factory=list)
 
     # Tracer (set by session, not serialized)
     tracer: BatchTracer | None = field(default=None, repr=False)

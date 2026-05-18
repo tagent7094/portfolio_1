@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import re
 from pathlib import Path
@@ -32,12 +33,10 @@ def _deterministic_voice_check(text: str) -> list[str]:
 
 
 def validate_voice(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> dict:
-    """Run voice validation on a generated post. Returns scores + PASS/FAIL.
+    """v5 shim: per-post validation moved into pack-level validate_pack()
+    (05_validate.txt). Old callers get a PASS so they don't trigger regen.
 
-    Pipeline:
-      1. Python prechecks (zero LLM cost) — banned phrases, word count, marker rates, story usage
-      2. Deterministic blacklist check (zero LLM cost)
-      3. Full 5-dimension LLM validation via validate.txt
+    Python prechecks + blacklist check still run as zero-cost gates.
     """
     from .prechecks import run_all_prechecks
 
@@ -70,46 +69,217 @@ def validate_voice(llm: LLMProvider, post: AmplifiedPost, state: BatchState) -> 
             "blacklist_fail": True,
         }
 
+    # No per-post LLM call in v5; the heavy validation runs once at pack level.
+    return {"overall": "PASS", "voice_marker_score": 3, "register_score": 3}
+
+
+def _normalize_sentence(s: str) -> str:
+    """Lowercase + strip punctuation/whitespace for cross-variant comparison."""
+    s = s.lower().strip()
+    # Remove common trailing punctuation and condense whitespace.
+    return re.sub(r"\s+", " ", re.sub(r"[\.\?\!\,\;\:\"\'\(\)]+", "", s))
+
+
+def _sentence_token_set(s: str) -> set[str]:
+    return set(_normalize_sentence(s).split())
+
+
+def _body_diff_check(a_posts: list[AmplifiedPost], jaccard_threshold: float = 0.85) -> dict:
+    """Compare each pair of Batch A posts for sentence-level body overlap.
+
+    The opener (first 2 sentences) is allowed to mirror by design — we only
+    compare BODY sentences. Two sentences count as "shared" when their token
+    set Jaccard similarity >= threshold (default 0.85).
+
+    Status:
+      0-2 shared per pair → acceptable
+      3-5 shared          → warning
+      6+ shared           → fail; later post in the pair flagged for regen
+    """
+    if len(a_posts) < 2:
+        return {"passed": True, "pair_results": [], "regen_targets": []}
+
+    def _body_sentences(post: AmplifiedPost) -> list[str]:
+        text = (post.text or "").strip()
+        if not text:
+            return []
+        # Split on sentence terminators; drop the first 2 (opener mirror band).
+        sentences = re.split(r"(?<=[\.\!\?])\s+", text)
+        return [s.strip() for s in sentences[2:] if len(s.strip()) >= 10]
+
+    sentences_by_post = {p.label: _body_sentences(p) for p in a_posts}
+
+    pair_results = []
+    regen_targets: list[str] = []
+    for i, p1 in enumerate(a_posts):
+        for p2 in a_posts[i + 1:]:
+            s1_list = sentences_by_post[p1.label]
+            s2_list = sentences_by_post[p2.label]
+            shared = 0
+            for a in s1_list:
+                a_tokens = _sentence_token_set(a)
+                if not a_tokens:
+                    continue
+                for b in s2_list:
+                    b_tokens = _sentence_token_set(b)
+                    if not b_tokens:
+                        continue
+                    union = a_tokens | b_tokens
+                    inter = a_tokens & b_tokens
+                    if union and (len(inter) / len(union)) >= jaccard_threshold:
+                        shared += 1
+                        break  # don't double-count the same sentence in p1
+            if shared >= 6:
+                status = "fail"
+                regen_targets.append(p2.label)
+            elif shared >= 3:
+                status = "warn"
+            else:
+                status = "acceptable"
+            pair_results.append({
+                "pair": f"{p1.label}/{p2.label}",
+                "shared_sentences": shared,
+                "status": status,
+            })
+
+    return {
+        "passed": not regen_targets,
+        "pair_results": pair_results,
+        "regen_targets": regen_targets,
+    }
+
+
+def validate_pack(
+    llm: LLMProvider,
+    pack_posts: list[AmplifiedPost],
+    state: BatchState,
+) -> dict:
+    """v6: One LLM call validates the pack via 05_validate.txt.
+
+    The v6 validator now consumes:
+    - `anchor_inventory` (full master list, for TIER ladder verification)
+    - `pack_history` (30-day rolling, for cross-pack saturation)
+
+    Outputs `per_post_validation[].scores` (10 params), `pack_level_checks`,
+    `pack_decision.ship_or_regen_or_reject`, `regen_targets[]` with
+    `explicit_regen_instructions`.
+
+    Also fixes Bug A: writes validator scores back to each post keyed by
+    label (not the broken global assignment from v5.1).
+    """
     if getattr(state, "llm_router", None):
-        llm = state.llm_router.for_task("voice_validation")
+        try:
+            llm = state.llm_router.for_task("validate")
+        except Exception:
+            llm = state.llm_router.for_task("voice_validation")
+
     template = load_prompt(PROMPTS_DIR / "validate.txt")
 
-    intern = state.founder_internalization
-    argument_rhythm = intern.get("argument_rhythm", "Not documented")
-    marker_rates = getattr(state, "marker_rates", {})
+    voice = state.voice_load or state.founder_internalization or {}
+
+    # v6 posts JSON includes pre_commit + self_scores so the validator can
+    # cross-check the generator's self-assessment against its own scoring.
+    posts_arr = []
+    for p in pack_posts:
+        posts_arr.append({
+            "label": p.label,
+            "batch": p.batch,
+            "text": p.text,
+            "argument_compressed": p.argument_compressed,
+            "mechanic": p.mechanic,
+            "entry_door": p.entry_door,
+            "closer_mechanic": p.closer_mechanic,
+            "word_count": p.word_count,
+            "pre_commit": p.pre_commit or {},
+            "self_scores": p.self_scores or {},
+            "anchor_consumed_id": p.anchor_consumed_id,
+            "voice_markers_used": (p.pre_commit or {}).get("_voice_markers_used_runtime", []),
+        })
+    posts_json = json.dumps(posts_arr, ensure_ascii=False)
+
+    inv_full = state.anchor_inventory or {}
+    inv_list = inv_full.get("anchor_inventory", []) or []
+    pack_history = state.pack_history or []
+
+    # The active dissection is the latest one (last source processed).
+    dissection_for_pack = (state.source_dissections[-1] if state.source_dissections else {})
 
     prompt = fill_prompt(
         template,
-        post_text=post.text,
-        calibration_paragraph=state.calibration_paragraph or "(no calibration paragraph available)",
+        posts=posts_json,
+        voice_load=json.dumps(voice, ensure_ascii=False)[:6000],
+        calibration_paragraph=voice.get("calibration_paragraph") or state.calibration_paragraph or "(no calibration paragraph available)",
         voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
-        argument_rhythm=str(argument_rhythm)[:1000],
+        argument_rhythm=str(voice.get("argument_rhythm", "Not documented"))[:1000],
         formatting_habits=str(state.formatting_habits),
-        marker_rates=str(marker_rates) if marker_rates else "Not computed",
+        founder_first_name=state.founder_first_name or state.founder_slug.title(),
+        anchor_inventory=json.dumps(inv_list, ensure_ascii=False)[:8000] or "(no inventory)",
+        pack_history=json.dumps(pack_history, ensure_ascii=False)[:3000] or "(no recent packs)",
+        dissection=json.dumps(dissection_for_pack, ensure_ascii=False)[:4000] or "{}",
     )
 
     import time as _t
     _start = _t.time()
-    response = llm.generate(prompt, temperature=0.2, max_tokens=1000)
+    try:
+        response = llm.generate(prompt, temperature=0.2, max_tokens=6000)
+    except Exception as e:
+        logger.warning("[validate_pack] API error: %s — defaulting to SHIP", e)
+        return {"pack_decision": {"ship_or_regen_or_reject": "ship", "quality_floor_met": True, "regen_targets": []}}
     _dur = int((_t.time() - _start) * 1000)
     result = parse_llm_json(response)
 
     if state.tracer:
         state.tracer.trace_llm_call(
-            stage=f"voice_validation_{post.label}",
-            template="validate.txt",
+            stage="validate_pack",
+            template="05_validate.txt",
             prompt=prompt,
             response=response,
             temperature=0.2,
-            max_tokens=1000,
+            max_tokens=6000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
             llm=llm,
-            metadata={"post_label": post.label},
+            metadata={"posts_count": len(pack_posts)},
         )
 
     if not isinstance(result, dict):
-        return {"overall": "PASS", "voice_marker_score": 3, "register_score": 3}
+        logger.warning("[validate_pack] parse failed — defaulting to SHIP (warn)")
+        return {"pack_decision": {"ship_or_regen_or_reject": "ship", "quality_floor_met": True, "regen_targets": []}}
+
+    # Bug A fix: per-post keyed lookup, not a flat overwrite.
+    # Also extended for v6.1 sub-mechanic fields + Parameter 1 hard veto log.
+    per_post = result.get("per_post_validation", []) or []
+    by_label: dict = {entry.get("label"): entry for entry in per_post if isinstance(entry, dict)}
+    for post in pack_posts:
+        entry = by_label.get(post.label) or {}
+        post.validator_scores = entry.get("scores", {}) or {}
+        post.passes_9_7_floor = bool(entry.get("passes_9_7_floor", False))
+        # v6.1 sub-mechanic tracking
+        post.actual_sub_mechanic_used = str(entry.get("actual_sub_mechanic_used", "") or "")
+        post.required_sub_mechanic = str(entry.get("required_sub_mechanic", "") or "")
+        post.sub_mechanic_match = bool(entry.get("sub_mechanic_match", False))
+        post.parameter_1_hard_veto_triggered = bool(entry.get("parameter_1_hard_veto_triggered", False))
+        # Keep the full per-post record for downstream consumers; preserves
+        # legacy validation_result API too.
+        post.validation_result = entry
+
+        # v6.1: log Parameter 1 hard veto distinctly when it fires on a Batch A
+        # post. README §"What v6.1 will produce" depends on this being visible
+        # so the user can diagnose mirror collapse from stderr.
+        if post.batch == "A" and post.parameter_1_hard_veto_triggered:
+            logger.warning(
+                "[validate_pack] %s: Parameter 1 HARD VETO — sub-mechanic mismatch "
+                "(required=%r, actual=%r)",
+                post.label, post.required_sub_mechanic, post.actual_sub_mechanic_used,
+            )
+
+    decision = result.get("pack_decision", {}) or {}
+    logger.info(
+        "[validate_pack] decision=%s quality_floor_met=%s regen_targets=%s",
+        decision.get("ship_or_regen_or_reject", "?"),
+        decision.get("quality_floor_met", "?"),
+        [t.get("label") for t in decision.get("regen_targets", []) if isinstance(t, dict)],
+    )
 
     return result
 

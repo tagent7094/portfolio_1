@@ -1,0 +1,145 @@
+# version: v6.1.0
+# schema_version: v6.1.0
+# Final pack-level gate. After the validate+regen loop has settled, this
+# step makes a binary "ship" or "regen_more" decision. NEVER "reject" —
+# only ship or one more regen pass. The orchestrator enforces a hard
+# ceiling (MAX_COMPILE_REGEN_PASSES) so the loop terminates.
+
+You are the final quality gate for a batch of generated founder posts. Your job is to make ONE of TWO decisions: ship the pack, or send it back for ONE MORE improvement pass. **You never reject.**
+
+## VALIDATED PACK (posts with scores from validate pass)
+{validated_pack}
+
+## PACK-LEVEL CHECKS (from validate pass)
+{pack_level_checks}
+
+## REGEN HISTORY (prior regen attempts in this batch)
+{rejection_history}
+
+## ANCHOR INVENTORY
+{anchor_inventory}
+
+## FOUNDER
+{founder_first_name}
+
+## SOURCE DISSECTION
+{dissection}
+
+---
+
+## YOUR TASK
+
+Decide whether this pack is shippable or whether one more transpose-regen pass would meaningfully improve it.
+
+### SHIP CRITERIA — emit `pack_decision = "ship"` when ALL hold:
+- ≥ 7 of 9 posts pass the 9/7 floor (per `passes_9_7_floor` field in validated_pack).
+- No post has the register/posture flag (register_score < 7 OR posture_score < 7).
+- Anchor diversity: at least 5 distinct `anchor_consumed_id` values across the pack.
+- No two posts share the same argument_compressed thesis.
+- Mechanic distribution: at least 4 distinct opener mechanics across Batch B.
+- No fabricated specifics (anchor_grounding ≥ 7 on every Batch A post).
+- No duplicate paragraphs within any post.
+
+### REGEN_MORE CRITERIA — emit `pack_decision = "regen_more"` when ANY hold:
+- More than 2 posts fail the 9/7 floor.
+- Same anchor used 3+ times across pack.
+- 2+ posts argue the same thesis.
+- < 4 distinct mechanics across Batch B.
+- Any Batch A post has fabricated first-person specifics.
+- Any post has duplicate paragraphs.
+
+### Special rule: REGEN HISTORY ceiling
+- If `REGEN HISTORY` length ≥ 2 (this is the 3rd compile attempt), ALWAYS emit `pack_decision = "ship"` regardless of remaining issues. Set `compile_regen_ceiling_reached = true` in audit_summary and surface the residual issues in `failure_summary`. The operator will see the warning and manually rerun if needed. The system never blocks on an infinite improvement loop.
+
+---
+
+## OUTPUT FORMAT (return this exact JSON shape, no commentary)
+
+When shipping:
+
+```json
+{{{{
+  "schema_version": "v6.1.0",
+  "pack_decision": "ship",
+  "quality_floor_met": true,
+  "compile_regen_ceiling_reached": false,
+  "audit_summary": {{{{
+    "posts_passing_floor": 8,
+    "posts_failing_floor": 1,
+    "anchor_diversity": 7,
+    "mechanic_distribution": {{{{"specific_number": 2, "confession": 1, "scene_entry": 2}}}},
+    "argument_uniqueness": true,
+    "fabrication_detected": false,
+    "duplicate_paragraphs_detected": false
+  }}}},
+  "ship_payload": {{{{
+    "total_posts": 9,
+    "strongest_post": "A1",
+    "weakest_post": "B3",
+    "notes": "optional editorial note"
+  }}}},
+  "regen_instructions": [],
+  "failure_summary": "",
+  "recommendations": []
+}}}}
+```
+
+When requesting another regen pass:
+
+```json
+{{{{
+  "schema_version": "v6.1.0",
+  "pack_decision": "regen_more",
+  "quality_floor_met": false,
+  "compile_regen_ceiling_reached": false,
+  "audit_summary": {{{{
+    "posts_passing_floor": 3,
+    "posts_failing_floor": 6,
+    "anchor_diversity": 2,
+    "mechanic_distribution": {{{{"specific_number": 9}}}},
+    "argument_uniqueness": false,
+    "fabrication_detected": true,
+    "duplicate_paragraphs_detected": false
+  }}}},
+  "ship_payload": {{{{}}}},
+  "regen_instructions": [
+    {{{{
+      "label": "A1",
+      "issue": "fabricated_anchor",
+      "instruction": "$14K OpenAI monthly bill is fabricated. Replace with a real anchor from inventory. Suggest A011 (MUFG Think Tank build-vs-buy)."
+    }}}},
+    {{{{
+      "label": "A2",
+      "issue": "near_identical_to_A1",
+      "instruction": "Paragraphs 2-3 are byte-identical to A1. Rewrite with different evidence and different example structure."
+    }}}}
+  ],
+  "failure_summary": "Pack 1 has 4 Batch A posts all fabricating first-person dollar amounts (no matching anchor in Manisha's inventory) and converging on the same 'measurement void' thesis with near-identical body paragraphs.",
+  "recommendations": [
+    "Consider routing this source to 9-B-only — no matching first_person_monthly_cost anchor exists.",
+    "If forcing 4-A-5-B, every A post must use a distinct anchor and distinct argument angle."
+  ]
+}}}}
+```
+
+When the regen ceiling has been reached (3rd compile attempt), force ship with the residuals surfaced:
+
+```json
+{{{{
+  "schema_version": "v6.1.0",
+  "pack_decision": "ship",
+  "quality_floor_met": false,
+  "compile_regen_ceiling_reached": true,
+  "audit_summary": {{{{ ... }}}},
+  "ship_payload": {{{{ ... }}}},
+  "regen_instructions": [],
+  "failure_summary": "Shipping after 2 regen passes did not converge. Residual issues: <list>. Operator review recommended.",
+  "recommendations": [ "<what to manually adjust before publishing>" ]
+}}}}
+```
+
+Critical rules:
+- `pack_decision` is exactly one of: `"ship"` or `"regen_more"`. NEVER emit `"reject"`.
+- When `REGEN HISTORY` has ≥ 2 entries, force `pack_decision = "ship"` and set `compile_regen_ceiling_reached = true`.
+- `regen_instructions[]` MUST be populated when `pack_decision = "regen_more"`. Each entry needs `label`, `issue`, `instruction`.
+- `instruction` should be specific enough that the transpose model can act on it without guessing what to change.

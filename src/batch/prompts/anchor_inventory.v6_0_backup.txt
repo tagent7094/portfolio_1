@@ -1,0 +1,81 @@
+You are building the master anchor inventory for a founder's batch post generation run. This inventory determines WHICH specific, verified, first-degree events, scenes, cast members, and stories are available for use across all generated posts.
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## FOUNDER VOICE DNA
+{voice_dna}
+
+## FOUNDER STORY BANK
+{story_bank}
+
+## FOUNDER TRANSCRIPTS
+{transcripts_excerpt}
+
+## TOP-PERFORMING POSTS (engagement-ranked)
+{top_posts_engagement}
+
+## FOUNDER RECURRING CAST (from knowledge graph)
+{cast}
+
+## FOUNDER SIGNATURE SCENES (from knowledge graph)
+{scenes}
+
+## FOUNDER MILESTONES (from knowledge graph)
+{milestones}
+
+## RECENT PACK HISTORY (last 30 days — avoid repeating recently used anchors)
+{pack_history}
+
+---
+
+## YOUR TASK
+
+Build the master inventory of all usable first-degree authority anchors. Each anchor must be a VERIFIED event, scene, cast interaction, or milestone from the founder's actual experience.
+
+### INVENTORY RULES
+1. **Tier 1 anchors** — Named people + specific scenes/events with dialogue or measurable outcomes. Highest authority.
+2. **Tier 2 anchors** — Documented events without named individuals. Good authority.
+3. Each anchor gets a unique `anchor_id` for tracking across the pack.
+4. Mark anchors used in recent packs as `recently_used: true` — they should be deprioritized but not excluded.
+5. Assess the founder card's overall depth — how many distinct, verified scenes does this founder have?
+
+---
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "anchor_inventory": [
+    {{{{
+      "anchor_id": "unique_identifier",
+      "label": "short descriptive label",
+      "description": "the specific event/scene/interaction",
+      "tier": 1,
+      "cast_involved": ["name1"],
+      "recently_used": false
+    }}}}
+  ],
+  "voice_marker_budget": [
+    {{{{
+      "marker_id": "vm_1",
+      "marker_text": "the specific voice marker",
+      "marker_type": "phrase|rhythm|closer|punctuation",
+      "common_rare": "common|rare",
+      "max_uses_per_pack": 3
+    }}}}
+  ],
+  "inventory_summary": {{{{
+    "total_anchors": 15,
+    "tier_1_count": 10,
+    "tier_2_count": 5,
+    "depth_rating": "deep|moderate-high|moderate|shallow",
+    "recently_used_count": 3,
+    "fresh_anchors": 12
+  }}}},
+  "founder_card_depth_assessment": {{{{
+    "depth_rating": "deep|moderate-high|moderate|shallow",
+    "explanation": "why this rating"
+  }}}}
+}}}}
+```

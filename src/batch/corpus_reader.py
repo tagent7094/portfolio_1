@@ -90,18 +90,16 @@ def compute_marker_rates(posts: list[str]) -> dict:
 def _internalization_hash(state: BatchState) -> str:
     """Hash the inputs that determine internalization output.
 
-    Includes the new bundle fields (identity, transcripts, top posts, cast, scenes,
-    milestones) so the cache invalidates correctly when richer data arrives.
+    v5 cache key includes a version prefix so v4 caches don't get reused (v5
+    output schema differs — calibration is merged in, corpus_filter block is
+    new, voice markers are filtered through the third-person rule).
     """
     founder_ctx = state.founder_ctx
     raw = state.raw_data
     identity = raw.get("identity") or {}
     parts = [
+        "v5_voice_load",  # bump on schema changes
         state.personality_card[:3000],
-        str(founder_ctx.get("beliefs", [])[:30]),
-        str(founder_ctx.get("stories", [])[:20]),
-        str(founder_ctx.get("contrast_pairs", [])[:15]),
-        str(founder_ctx.get("thinking_models", [])[:10]),
         str(founder_ctx.get("cast", [])[:10]),
         str(founder_ctx.get("scenes", [])[:5]),
         str(founder_ctx.get("milestones", [])[:10]),
@@ -115,14 +113,46 @@ def _internalization_hash(state: BatchState) -> str:
     return hashlib.sha256("||".join(parts).encode()).hexdigest()
 
 
+def _derive_founder_first_name(state: BatchState) -> str:
+    """Derive a first-name token for the v5 third-person filter.
+
+    Examples:
+      "alok" -> "Alok"
+      "anish_popli" -> "Anish"
+      "manisha" -> "Manisha"
+    """
+    if state.founder_first_name:
+        return state.founder_first_name
+    slug = (state.founder_slug or "").strip()
+    if not slug:
+        return ""
+    first_token = slug.split("_")[0].split("-")[0].split(" ")[0]
+    return first_token.title()
+
+
 def _internalization_cache_path(slug: str) -> Path:
     return Path(__file__).parent.parent.parent / "data" / "founders" / slug / ".internalization_cache.json"
 
 
-def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
-    """Run deep corpus internalization via LLM — extracts voice markers, formatting, scenes, tensions."""
+def voice_load(llm: LLMProvider, state: BatchState) -> dict:
+    """v5: Load founder voice + run calibration in ONE LLM call (01_voice_load.txt).
+
+    Produces voice markers, formatting habits, word_count_range, signature scenes,
+    tensions, key moments inventory, AND the calibration paragraph + critique.
+    The third-person filter is enforced inside the prompt (TASK 1) and by the
+    Python-side scrubber below as belt-and-suspenders.
+    """
+    # Try v5 task ID first; fall back to legacy "internalize" for callers that
+    # haven't migrated their config yet.
     if getattr(state, "llm_router", None):
-        llm = state.llm_router.for_task("internalize")
+        try:
+            llm = state.llm_router.for_task("voice_load")
+        except Exception:
+            llm = state.llm_router.for_task("internalize")
+
+    # Stamp founder_first_name once so all downstream prompts can reuse it.
+    state.founder_first_name = _derive_founder_first_name(state)
+
     # Filter corpus by authorship BEFORE hashing so the cache key reflects the
     # filtered input (re-runs after the filter is added must invalidate stale
     # caches that contained third-person voice markers like "Alok loved …").
@@ -134,120 +164,162 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
         try:
             cached = json.loads(cache_file.read_text(encoding="utf-8"))
             if cached.get("hash") == input_hash:
-                logger.info("[batch] Using cached internalization (hash match)")
-                # Scrub even cached results — corpus filter may have skipped
-                # something the scrubber catches at the marker layer.
+                logger.info("[batch] Using cached voice_load (hash match)")
                 _scrub_voice_markers_in_place(cached["result"], state.founder_slug)
+                state.voice_load = cached["result"]
                 return cached["result"]
         except Exception:
             pass
 
     founder_ctx = state.founder_ctx
     raw = state.raw_data
-    identity = raw.get("identity") or {}
 
-    # Select v2 prompt when identity assets are present (bio OR tensions OR
-    # graph-supplied cast/scenes/milestones). Falls back to v1 for founders
-    # not yet migrated to the new layout.
-    has_identity_assets = bool(
-        identity.get("bio") or identity.get("tensions")
-        or founder_ctx.get("cast") or founder_ctx.get("scenes")
-        or founder_ctx.get("milestones")
-    )
-    template_name = "corpus_internalize_v2.txt" if has_identity_assets else "corpus_internalize.txt"
-    if not (PROMPTS_DIR / template_name).exists():
-        template_name = "corpus_internalize_v2.txt"
-    template = load_prompt(PROMPTS_DIR / template_name)
+    # v5 hard-codes 01_voice_load.txt; no v1/v2 branching.
+    template = load_prompt(PROMPTS_DIR / "corpus_internalize_v2.txt")
 
-    beliefs_text = "\n".join(
-        f"- {b.get('topic', '') or b.get('label', '')}: {b.get('stance', '') or b.get('description', '')}"
-        for b in founder_ctx.get("beliefs", [])[:30]
-    )
-    stories_text = "\n".join(
-        f"- {s.get('title', '') or s.get('label', '')}: {(s.get('content') or s.get('description') or s.get('summary', ''))[:200]}"
-        for s in founder_ctx.get("stories", [])[:20]
-    )
-    contrast_text = "\n".join(
-        f"- {c.get('left', '')} vs {c.get('right', '')}: {c.get('description', '')[:150]}"
-        for c in founder_ctx.get("contrast_pairs", [])[:15]
-    )
-    models_text = "\n".join(
-        f"- {m.get('name', '')}: {m.get('description', '')[:150]}"
-        for m in founder_ctx.get("thinking_models", [])[:10]
-    )
+    cast_text = "\n".join(
+        f"- {c.get('name', '') or c.get('label', '')}: {c.get('description', '')[:150]}"
+        for c in founder_ctx.get("cast", [])[:10]
+    ) or "(none — graph has no cast nodes)"
+    scenes_text = "\n".join(
+        f"- {s.get('name', '') or s.get('label', '')}: {s.get('description', '')[:200]}"
+        for s in founder_ctx.get("scenes", [])[:5]
+    ) or "(none — graph has no scene nodes)"
+    milestones_text = "\n".join(
+        f"- {m.get('label', '') or m.get('title', '')}: {m.get('description', '')[:200]}"
+        for m in founder_ctx.get("milestones", [])[:10]
+    ) or "(none — graph has no milestone nodes)"
 
-    posts_sample = raw.get("founder_posts_sample", "")[:8000]
+    structured_posts = raw.get("founder_posts_structured") or []
+    from ..ingestion.post_parser import top_by_engagement
+    top_posts = top_by_engagement(structured_posts, k=5) if structured_posts else []
+    top_posts_text = "\n\n".join(
+        f"[likes={p.get('likes', 0)} comments={p.get('comments', 0)} reposts={p.get('reposts', 0)}]\n{p.get('text', '')[:1000]}"
+        for p in top_posts
+    ) or "(no engagement-ranked posts available)"
+
+    # Graph-RAG enrichment: when raw_voice_dna or raw_story_bank are thin
+    # (or missing entirely), backfill with graph nodes so the v5 voice_load
+    # prompt sees the rich graph signal (beliefs, style_rules, stories,
+    # thinking_models, contrast_pairs). README-compliant: we don't change
+    # the prompt's placeholders, just fill them with richer content when
+    # the founder has graph data but lean raw files.
+    from .graph_rag import graph_signal_summary
+
+    raw_voice_dna = raw.get("raw_voice_dna", "") or ""
+    raw_story_bank = raw.get("raw_story_bank", "") or ""
+
+    beliefs = founder_ctx.get("beliefs", []) or []
+    style_rules = founder_ctx.get("style_rules", []) or []
+    stories = founder_ctx.get("stories", []) or []
+    contrast_pairs = founder_ctx.get("contrast_pairs", []) or []
+    thinking_models = founder_ctx.get("thinking_models", []) or []
+
+    if len(raw_voice_dna) < 1000 and (beliefs or style_rules or thinking_models or contrast_pairs):
+        synth_voice_lines = ["# Voice DNA (synthesized from graph)\n"]
+        if beliefs:
+            synth_voice_lines.append("## Beliefs (conviction-ranked)\n")
+            for b in beliefs[:20]:
+                lbl = b.get("label", "")
+                st = b.get("stance", "") or b.get("description", "")
+                cv = b.get("conviction", 0)
+                if lbl:
+                    synth_voice_lines.append(f"- {lbl} (conviction {cv:.2f}): {st}")
+        if contrast_pairs:
+            synth_voice_lines.append("\n## Tensions\n")
+            for c in contrast_pairs[:10]:
+                synth_voice_lines.append(f"- {c.get('left', '')} vs {c.get('right', '')}: {c.get('description', '')}")
+        if thinking_models:
+            synth_voice_lines.append("\n## Thinking models\n")
+            for m in thinking_models[:8]:
+                synth_voice_lines.append(f"- {m.get('name') or m.get('label', '')}: {m.get('description', '')}")
+        if style_rules:
+            synth_voice_lines.append("\n## Style rules (documented)\n")
+            for r in style_rules[:15]:
+                rule = r.get("rule") or r.get("label") or r.get("description", "")
+                if rule:
+                    synth_voice_lines.append(f"- {rule}")
+        raw_voice_dna = "\n".join(synth_voice_lines)
+
+    if len(raw_story_bank) < 1000 and stories:
+        synth_story_lines = ["# Story Bank (synthesized from graph, engagement-ranked)\n"]
+        for s in stories[:15]:
+            lbl = s.get("label", "") or s.get("title", "")
+            summ = s.get("summary", "") or s.get("description", "")
+            eng = s.get("engagement", 0)
+            if lbl:
+                synth_story_lines.append(f"## {lbl} (engagement {eng})\n{summ}\n")
+        raw_story_bank = "\n".join(synth_story_lines)
+
+    logger.info(
+        "[batch] voice_load graph signal: %s; voice_dna=%d chars, story_bank=%d chars",
+        graph_signal_summary(founder_ctx), len(raw_voice_dna), len(raw_story_bank),
+    )
 
     fill_kwargs = dict(
         personality_card=state.personality_card[:3000],
-        beliefs=beliefs_text,
-        stories=stories_text,
-        contrast_pairs=contrast_text,
-        thinking_models=models_text,
-        raw_voice_dna=raw.get("raw_voice_dna", "")[:4000],
-        raw_story_bank=raw.get("raw_story_bank", "")[:4000],
-        founder_posts_sample=posts_sample,
+        voice_dna=raw_voice_dna[:6000],
+        story_bank=raw_story_bank[:6000],
+        transcripts_excerpt=raw.get("transcripts", "")[:3000] or "(no transcripts available)",
+        top_posts_engagement=top_posts_text,
+        founder_posts_sample=raw.get("founder_posts_sample", "")[:8000],
+        cast=cast_text,
+        scenes=scenes_text,
+        milestones=milestones_text,
+        founder_first_name=state.founder_first_name or state.founder_slug.title(),
     )
-
-    if template_name == "corpus_internalize_v2.txt":
-        cast_text = "\n".join(
-            f"- {c.get('name', '') or c.get('label', '')}: {c.get('description', '')[:150]}"
-            for c in founder_ctx.get("cast", [])[:10]
-        ) or "(none — graph has no cast nodes)"
-        scenes_text = "\n".join(
-            f"- {s.get('name', '') or s.get('label', '')}: {s.get('description', '')[:200]}"
-            for s in founder_ctx.get("scenes", [])[:5]
-        ) or "(none — graph has no scene nodes)"
-        milestones_text = "\n".join(
-            f"- {m.get('label', '') or m.get('title', '')}: {m.get('description', '')[:200]}"
-            for m in founder_ctx.get("milestones", [])[:10]
-        ) or "(none — graph has no milestone nodes)"
-        structured_posts = raw.get("founder_posts_structured") or []
-        from ..ingestion.post_parser import top_by_engagement
-        top_posts = top_by_engagement(structured_posts, k=5) if structured_posts else []
-        top_posts_text = "\n\n".join(
-            f"[likes={p.get('likes', 0)} comments={p.get('comments', 0)} reposts={p.get('reposts', 0)}]\n{p.get('text', '')[:1000]}"
-            for p in top_posts
-        ) or "(no engagement-ranked posts available)"
-        fill_kwargs.update(
-            bio=identity.get("bio", "") or "(no bio in identity/bio.md)",
-            tensions_text=identity.get("tensions", "") or "(no tensions in identity/tensions.md)",
-            transcripts_excerpt=raw.get("transcripts", "")[:3000] or "(no transcripts available)",
-            top_posts_engagement=top_posts_text,
-            cast=cast_text,
-            scenes=scenes_text,
-            milestones=milestones_text,
-        )
 
     prompt = fill_prompt(template, **fill_kwargs)
 
-    logger.info("[batch] Running deep corpus internalization...")
+    logger.info("[batch] Running v5 voice_load (corpus + calibration combined)...")
     import time as _t
     _start = _t.time()
-    response = llm.generate(prompt, temperature=0.3, max_tokens=16000)
+    response = llm.generate(prompt, temperature=0.3, max_tokens=8000)
     _dur = int((_t.time() - _start) * 1000)
     result = parse_llm_json(response)
 
     if state.tracer:
         state.tracer.trace_llm_call(
-            stage="internalize",
-            template="corpus_internalize.txt",
+            stage="voice_load",
+            template="01_voice_load.txt",
             prompt=prompt,
             response=response,
             temperature=0.3,
-            max_tokens=16000,
+            max_tokens=8000,
             duration_ms=_dur,
             thinking=getattr(llm, 'last_thinking', ''),
             llm=llm,
         )
 
     if not isinstance(result, dict):
-        logger.warning("[batch] Internalization returned non-dict, using defaults")
+        logger.warning("[batch] voice_load returned non-dict, using defaults")
         return {}
 
-    # Scrub third-person founder references from voice_markers + other text fields
-    # before caching. Catches contamination the corpus filter missed.
     _scrub_voice_markers_in_place(result, state.founder_slug)
+
+    # Stash on state so calibration_check() and downstream prompts can read
+    # the full v5/v6 voice_load output (including calibration_paragraph,
+    # signature_scenes, key_moments_inventory).
+    state.voice_load = result
+
+    # v6: parse voice_markers_with_budget (new schema). Each entry has
+    # marker_id, marker_text, marker_type, common_rare, max_uses_per_pack.
+    # Stash on state.voice_marker_budget for PackInventoryState init.
+    markers_with_budget = result.get("voice_markers_with_budget") or []
+    if isinstance(markers_with_budget, list) and markers_with_budget:
+        state.voice_marker_budget = markers_with_budget
+        # Also flatten marker_text into state.voice_markers for v5/legacy
+        # callers that expect a list of strings.
+        state.voice_markers = [
+            m.get("marker_text", "") for m in markers_with_budget
+            if isinstance(m, dict) and m.get("marker_text")
+        ]
+        logger.info(
+            "[batch] v6 voice_marker_budget loaded: %d markers (%d common, %d rare)",
+            len(markers_with_budget),
+            sum(1 for m in markers_with_budget if isinstance(m, dict) and m.get("common_rare") == "common"),
+            sum(1 for m in markers_with_budget if isinstance(m, dict) and m.get("common_rare") == "rare"),
+        )
 
     try:
         from datetime import datetime
@@ -257,48 +329,32 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
             "cached_at": datetime.utcnow().isoformat(),
         }, ensure_ascii=False), encoding="utf-8")
     except Exception as e:
-        logger.warning("[batch] Failed to write internalization cache: %s", e)
+        logger.warning("[batch] Failed to write voice_load cache: %s", e)
 
     return result
 
 
+# Back-compat alias — keeps session.py et al. importing internalize_corpus.
+def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
+    """DEPRECATED alias: v5 calls voice_load() which merges in calibration."""
+    return voice_load(llm, state)
+
+
 def calibration_check(llm: LLMProvider, state: BatchState) -> dict:
-    """Write one test paragraph to verify voice calibration."""
-    if getattr(state, "llm_router", None):
-        llm = state.llm_router.for_task("calibration")
-    template = load_prompt(PROMPTS_DIR / "calibration_check.txt")
+    """v5: calibration is produced INSIDE voice_load — no extra LLM call here.
 
-    internalization = state.founder_internalization
-    prompt = fill_prompt(
-        template,
-        voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
-        word_count_range=f"{state.word_count_range[0]}-{state.word_count_range[1]} words",
-        formatting_habits=str(state.formatting_habits),
-        argument_rhythm=internalization.get("argument_rhythm", "not analyzed"),
-        founder_posts_sample=state.raw_data.get("founder_posts_sample", "")[:3000],
-    )
-
-    logger.info("[batch] Running calibration check...")
-    import time as _t
-    _start = _t.time()
-    response = llm.generate(prompt, temperature=0.5, max_tokens=1000)
-    _dur = int((_t.time() - _start) * 1000)
-    result = parse_llm_json(response)
-
-    if state.tracer:
-        state.tracer.trace_llm_call(
-            stage="calibration",
-            template="calibration_check.txt",
-            prompt=prompt,
-            response=response,
-            temperature=0.5,
-            max_tokens=1000,
-            duration_ms=_dur,
-            thinking=getattr(llm, 'last_thinking', ''),
-            llm=llm,
-        )
-
-    return result if isinstance(result, dict) else {}
+    Returns the calibration sub-block from the cached voice_load result so
+    session.py's existing flow (which calls calibration_check after
+    internalize_corpus) continues to work without a second API call.
+    """
+    src = state.voice_load or state.founder_internalization or {}
+    return {
+        "calibration_paragraph": src.get("calibration_paragraph", ""),
+        "confidence": src.get("calibration_confidence", src.get("confidence", 0.0)),
+        "self_critique": src.get("calibration_self_critique", src.get("self_critique", "")),
+        "voice_markers_used": src.get("calibration_voice_markers_used", []),
+        "word_count": src.get("calibration_word_count", 0),
+    }
 
 
 class FounderIdentityMismatch(Exception):
@@ -402,6 +458,24 @@ def load_founder_state(founder_slug: str, platform: str = "linkedin") -> BatchSt
 
     registry = (config.get("founders") or {}).get("registry") or {}
     display_name = (registry.get(founder_slug) or {}).get("display_name") or founder_slug.replace("_", " ").title()
+
+    # If the founder has no personality_card.md AND no embedded card, synthesize
+    # one from graph nodes (top beliefs, tensions, thinking models, stories,
+    # cast, scenes). Catches founders like manisha who have rich graphs but
+    # missing/empty .md files.
+    if not (personality_card or "").strip():
+        try:
+            from .graph_rag import build_personality_card_from_graph, graph_signal_summary
+            synth = build_personality_card_from_graph(founder_ctx, display_name, founder_slug)
+            if synth.strip():
+                personality_card = synth
+                logger.info(
+                    "[batch] No personality-card.md found — synthesized one from graph (%d chars, signal=%s)",
+                    len(synth), graph_signal_summary(founder_ctx),
+                )
+        except Exception as e:
+            logger.warning("[batch] Failed to synthesize personality_card from graph: %s", e)
+
     _verify_founder_identity(founder_slug, display_name, personality_card, raw_data, registry=registry)
 
     # Word-count stats: prefer the structured post records (accurate per-post word counts)

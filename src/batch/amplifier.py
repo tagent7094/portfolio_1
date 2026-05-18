@@ -174,16 +174,58 @@ def _should_preserve_door(
     )
 
 
+def _paragraph_jaccard(a: str, b: str) -> float:
+    """Word-set Jaccard similarity between two paragraphs.
+
+    Words shorter than 4 chars are ignored to suppress stopword noise. Returns
+    0.0 when either side has fewer than 3 content words (paragraph too short
+    to meaningfully compare).
+    """
+    if not a or not b:
+        return 0.0
+    set_a = {w.lower() for w in a.split() if len(w) >= 4}
+    set_b = {w.lower() for w in b.split() if len(w) >= 4}
+    if len(set_a) < 3 or len(set_b) < 3:
+        return 0.0
+    inter = len(set_a & set_b)
+    union = len(set_a | set_b)
+    return inter / union if union else 0.0
+
+
 def _apply_best_opener(post: AmplifiedPost, best: dict) -> AmplifiedPost:
-    """Replace the post's opening paragraph with the best alternative."""
+    """Replace the post's opening paragraph with the best alternative.
+
+    v6.1: also dedup subsequent paragraphs against the new opener. If the
+    generator already wrote a paragraph that says nearly the same thing as
+    the new opener (the B1 "paragraph 1 = paragraph 2" bug), drop the dup.
+    """
     paragraphs = post.text.strip().split("\n\n")
     if not paragraphs:
         return post
 
+    new_opener = best["opening"]
     post.original_opening = paragraphs[0]
-    paragraphs[0] = best["opening"]
+    paragraphs[0] = new_opener
+
+    # Dedup pass: walk paragraphs 1..N. Drop any with ≥0.6 Jaccard to the new
+    # opener (high overlap = the original body contained the same idea the new
+    # opener replaced). Cap at one drop so we don't strip too aggressively if
+    # the post has legitimate echo structure.
+    drops_remaining = 1
+    deduped = [paragraphs[0]]
+    for para in paragraphs[1:]:
+        if drops_remaining > 0 and _paragraph_jaccard(new_opener, para) >= 0.6:
+            logger.info(
+                "[amplifier_v2] %s: dropped duplicate paragraph after opener replace (jaccard ≥0.6)",
+                post.label,
+            )
+            drops_remaining -= 1
+            continue
+        deduped.append(para)
+    paragraphs = deduped
+
     post.text = "\n\n".join(paragraphs)
-    post.final_opening = best["opening"]
+    post.final_opening = new_opener
     post.mechanic = _normalize_mechanic(best.get("mechanic", ""))
     post.rating = best.get("rating", 0)
     post.word_count = len(post.text.split())
@@ -199,32 +241,40 @@ def amplify_post_v2(
     source_dissection: dict | None = None,
     peers: list | None = None,
 ) -> AmplifiedPost:
-    """Combined amplifier: 7-gate diagnosis + 5 variants in one LLM call.
+    """v5: Opening-line amplifier — Batch B ONLY.
 
-    Uses amplify.txt — unified 13-mechanic list, always includes Gate 7 for Batch A.
+    Uses 04_amplify.txt. The new prompt drops `source_dissection` because v5
+    keeps Batch A's mirror discipline upstream (in 03_generate.txt). Batch A
+    posts pass through unchanged.
     """
+    # Per v5 contract: never amplify Batch A. Caller should already be
+    # filtering, but enforce defensively here too.
+    if post.batch == "A":
+        post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
+        post.final_opening = post.original_opening
+        post.mechanic = post.mechanic or "mirrored"
+        post.rating = 0
+        return post
+
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("amplify")
 
     logger.info("[amplifier_v2] Processing %s...", post.label)
 
     template = load_prompt(PROMPTS_DIR / "amplify.txt")
-    source_dissection_str = "N/A"
-    if source_dissection and post.batch == "A":
-        source_dissection_str = json.dumps(source_dissection, ensure_ascii=False)[:2000]
 
     prompt = fill_prompt(
         template,
         post_text=post.text,
+        post_label=post.label,
         voice_markers="\n".join(f"- {m}" for m in state.voice_markers),
-        mode=post.mode,
-        source_dissection=source_dissection_str,
+        mode=post.mode or "declaring",
     )
 
     import time as _t
     _start = _t.time()
     try:
-        response = llm.generate(prompt, temperature=0.3, max_tokens=6000, thinking_budget=0)
+        response = llm.generate(prompt, temperature=0.3, max_tokens=4000, thinking_budget=0)
     except Exception as e:
         logger.warning("[amplifier_v2] %s: API error (%s), keeping original", post.label, e)
         post.original_opening = post.text.strip().split("\n\n")[0] if post.text else ""
@@ -247,7 +297,7 @@ def amplify_post_v2(
     if state.tracer:
         state.tracer.trace_llm_call(
             stage=f"amplify_v2_{post.label}",
-            template="amplify.txt",
+            template="04_amplify.txt",
             prompt=prompt,
             response=response,
             temperature=0.3,
@@ -424,11 +474,40 @@ def amplify_batch_v2(
     source_dissection: dict | None = None,
     never_replace: bool = False,
 ) -> list[AmplifiedPost]:
-    """Batch amplifier: process posts in a single LLM call.
-
-    When never_replace=True (Batch A): generates variants for display but never
-    replaces the opener. Falls back to sequential amplify_post_v2() if batch call fails.
+    """v5 shim: amplify_batch.txt is gone (merged into 04_amplify.txt which
+    runs per-post, B-only). When called with Batch A (`never_replace=True`),
+    return posts unchanged — Batch A never amplifies in v5.
+    When called with Batch B posts, delegate to per-post amplify_post_v2.
     """
+    if not posts:
+        return posts
+
+    if never_replace:
+        # Batch A path: no amplification in v5.
+        for p in posts:
+            if not p.original_opening and p.text:
+                p.original_opening = p.text.split("\n\n")[0]
+            p.final_opening = p.original_opening
+            p.mechanic = p.mechanic or "mirrored"
+            p.rating = 0
+        return posts
+
+    # Batch B path: per-post amplify with the v5 prompt.
+    results: list[AmplifiedPost] = []
+    for p in posts:
+        results.append(amplify_post_v2(llm, p, state, source_dissection=None, peers=results))
+    return results
+
+
+def _unused_legacy_amplify_batch_v2(
+    llm: LLMProvider,
+    posts: list[AmplifiedPost],
+    state: BatchState,
+    source_dissection: dict | None = None,
+    never_replace: bool = False,
+) -> list[AmplifiedPost]:
+    """v4 implementation kept inert — references amplify_batch.txt which no
+    longer exists in v5. The active function above replaces it."""
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("amplify")
 
@@ -693,47 +772,14 @@ def convergence_test(
     source_summary: str,
     state: BatchState,
 ) -> dict:
-    """Test whether posts in a pack argue too-similar things."""
-    if getattr(state, "llm_router", None):
-        llm = state.llm_router.for_task("convergence_test")
-    if len(pack_posts) < 3:
-        return {"passed": True, "recommendation": "too few posts to test"}
-
-    arguments = "\n".join(
-        f"- {p.label}: {p.argument_compressed}" for p in pack_posts if p.argument_compressed
-    )
-
-    if not arguments.strip():
-        return {"passed": True, "recommendation": "no arguments to compare"}
-
-    template = load_prompt(PROMPTS_DIR / "amplifier_convergence.txt")
-    prompt = fill_prompt(
-        template,
-        arguments=arguments,
-        source_summary=source_summary[:500],
-    )
-
-    import time as _t
-    _start = _t.time()
-    response = llm.generate(prompt, temperature=0.2, max_tokens=1000)
-    _dur = int((_t.time() - _start) * 1000)
-    result = parse_llm_json(response)
-
-    if state.tracer:
-        state.tracer.trace_llm_call(
-            stage="convergence_test",
-            template="amplifier_convergence.txt",
-            prompt=prompt,
-            response=response,
-            temperature=0.2,
-            max_tokens=1000,
-            duration_ms=_dur,
-            thinking=getattr(llm, 'last_thinking', ''),
-            llm=llm,
-            metadata={"posts_count": len(pack_posts)},
-        )
-
-    if not isinstance(result, dict):
-        return {"passed": True, "recommendation": "convergence test parse failed"}
-
-    return result
+    """v5 shim: convergence is now part of validate_pack (05_validate.txt).
+    Returns PASS so legacy callers in session.py don't trigger a regen loop
+    during the transition. The real convergence check lives in
+    voice_validator.validate_pack().
+    """
+    return {
+        "passed": True,
+        "recommendation": "(v5: convergence merged into 05_validate.txt pack-level call)",
+        "overlapping_posts": [],
+        "replacement_angles": [],
+    }

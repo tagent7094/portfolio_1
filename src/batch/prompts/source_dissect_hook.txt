@@ -1,156 +1,172 @@
-You are a structural analyst specializing in viral content mechanics. Dissect this viral post into its mechanical parts — structure, not content. The move is what carries over. The source author's typography, lowercase, emojis, register — those are their voice, not the hook's engine.
+# version: v6.1.0
+# schema_version: v6.1.0
+# Hybrid template extraction:
+#   - Batch A: the source post IS the template (extract its skeleton verbatim)
+#   - Batch B: pick the closest match from template_repository + use the
+#     source's parameter slots as the parameter list for B variants
 
-## SOURCE VIRAL POST
+You are a structural analyst specializing in viral content mechanics. Dissect this viral post into its mechanical parts. Your output drives generation routing AND template extraction for both Batch A (mirrored) and Batch B (mechanics-only) posts.
+
+## INPUTS
+
+### Source viral post
 {source_post}
 
-## PLATFORM
+### Platform
 {platform}
 
----
+### Founder anchor inventory (master list — your routing must verify against this)
+{anchor_inventory}
 
-## TASK: Dissect the Hook
+### Inventory summary (depth + freshness signals)
+{inventory_summary}
 
-### 1. THE PSYCHOLOGICAL MOVE
-Figure out what the hook does to the reader — the psychological move. Examples:
-- Three-stack pain escalation (old pain + new pain + meta-trap for objecting)
-- Second-party verdict that reframes the speaker's whole career
-- Contrarian claim that inverts conventional wisdom
-- Specific number or age anchor that signals real memory
-- Authority figure delivering a quote the reader doesn't expect
-- Parallel data points with a third-line reveal
-- Scene drop that puts the reader inside a moment mid-action
-- Diagnostic question that makes the reader self-categorize
-- Confession that costs the speaker credibility
-
-The move is what carries over to the generated posts. Everything else is surface.
-
-### 2. NARRATIVE ARC
-What movement does this post run on? (contradiction reveal, escalation, scene-to-insight, confession-to-principle, diagnostic revelation, progressive build)
-
-### 3. HOOK MECHANICS — SENTENCE-LEVEL BREAKDOWN
-The "hook" / "opener" is **AT MOST 2 SENTENCES**. Beat 1 (the anchor) + Beat 2 (the reframe). Anything from sentence 3 onward is BODY, regardless of how the source author paragraphed it.
-
-Return AT MOST 2 entries in `hook_mechanics[]`. If the source author writes a long lead (e.g. paragraphs 1-5 all feel "opener-ish"), pick the first 2 sentences and treat everything else as body.
-
-For each of the (at most) 2 opening sentences:
-- The exact text
-- What this sentence DOES structurally (permission frame, diagnostic question, consequence statement, reframe, scene drop, specificity bomb, tension gap)
-- Its rhythm (short/punchy, medium/flowing, long/building)
-- The psychological effect: WHY does it stop the scroll?
-
-WORKED EXAMPLE (where to draw the opener/body line):
-
-Source:
-> "Our Claude Code API bill just crossed $18,000/month.
->
-> That's headcount territory. For a team of under 20 people.
->
-> We're all-in on AI-native development. I wrote about how we restructured…
->
-> That playbook is working. We're shipping faster than ever.
->
-> But it's surfacing a much harder question: when AI writes most of the code…"
-
-Even though paragraphs 1-5 all feel "opener-ish," the hook is JUST:
-- Beat 1: "Our Claude Code API bill just crossed $18,000/month."
-- Beat 2: "That's headcount territory. For a team of under 20 people."
-
-Everything from "We're all-in on AI-native development" onward is BODY. Batch A mirroring will copy ONLY beats 1-2 + structural moves; the rest must diverge per variant.
-
-### 4. SENTENCE MAP
-`sentence_count` = number of sentences in the 2-sentence opener (1 or 2). This is the mold for Batch A mirroring — Batch A variants share opener sentences 1-2 ONLY; their bodies must be substantively different per variant.
-
-### 5. BODY STRUCTURE
-How is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)
-
-### 5b. BODY FORMAT (STRICT ENUM)
-Pick the ONE body format that best describes the source's body structure. This is the structural mold a Batch A mirror MUST preserve.
-- `numbered_list` — body is a numbered list (1. ..., 2. ..., 3. ...). Every numbered item is its own paragraph or block. The list IS the body.
-- `bullet_list` — body is an unnumbered bulleted list (-, •, *, or similar) where each bullet is a discrete unit
-- `parallel_paragraphs` — body has 2-4 parallel paragraphs with identical or near-identical structure (each opens with the same shape, builds the same way)
-- `three_examples` — body presents three distinct examples building toward a conclusion. Not strictly numbered, but each example is clearly delimited.
-- `before_after` — body presents a before/after pair (X was true; now Y is true) with the pivot as the engine.
-- `progressive_revelation` — body progressively reveals an insight, each paragraph adding a new turn or layer.
-- `single_scene` — body is one continuous scene or moment, explored deeply.
-- `prose_essay` — body is flowing argumentative prose without clear discrete units; one paragraph leads to the next without parallel structure.
-
-### 6. ENDING TYPE
-(concrete image, challenge to reader, quiet admission, unresolved tension, physical detail, callback to opening)
-
-### 6b. CLOSER MECHANIC (STRICT ENUM)
-Pick the ONE closer mechanic that best describes how the source ends. This is the mold a Batch A mirror MUST preserve.
-- `cta` — explicit call to action: "DM me," "link in comments," "I put together the full breakdown," "subscribe," "follow for more"
-- `reframe_question` — closes with a question that flips the reader's posture: "Ask yourself whether…", "What would you do if…"
-- `terminal_verdict` — a final declarative line that closes the case: "That's the only metric that matters." "The market doesn't care about your roadmap."
-- `physical_image` — ends on a concrete physical detail or scene image
-- `challenge` — direct challenge to the reader: "Stop X. Start Y."
-- `callback` — calls back to a phrase, name, or image from the opening
-- `unresolved_tension` — ends with the tension still unresolved (wrestling-mode close)
-- `quiet_admission` — a quiet, vulnerable admission as the final line
-
-### 7. MIRRORABILITY ASSESSMENT
-Can this source's opening be mirrored (same shape, new content)?
-- **Mirrorable**: the sentence shape works with different domain content. The hook's engine is structural, not content-dependent.
-- **Not mirrorable**: the hook is too proper-noun-specific, too culturally embedded, or too short to mirror without plagiarism risk. If not mirrorable, flag it and all 9 posts should be Batch B.
-
-### 8. REGISTER NOTE
-If the source's register is doing mechanical work — rant energy, whispered vulnerability, exasperation — note it. This energy must be translated into the founder's register, not stripped.
-
-### 9. VIRALITY REASON
-One sentence: what makes the opening work for a general audience?
-
-### 10. OPENER QUALITY TESTS
-Run these three tests on the source's opening line(s). These determine whether the opener is good enough to mirror (Batch A) or whether all posts should use different mechanics (Batch B only).
-
-**MACRO test**: Does the opener land for someone OUTSIDE this niche? Read the opener to a stranger in a different industry. If they'd need domain context to understand what's being said — fail. Jargon, acronyms, category-specific terms ("AI-powered voice technology," "doctorless AI kiosks," "accessible communication") → fail. The opener must work universally.
-
-Exception — audience-address openers: If the opener addresses a broad professional role that exists across multiple industries (e.g., "Founders:", "Sales leaders:", "CTOs:", "Operators:", "Engineers:", "Recruiters:", "Managers:"), this is NOT niche jargon. These pass macro because ANY professional recognizes the role even if they don't hold it. Fail only for subcategories that require domain knowledge to parse (e.g., "RevOps managers:", "MLOps engineers:", "Series B CFOs:").
-
-**FAST test**: Does the specific, interesting, or dramatic word land in the FIRST 8 words? Count from word 1. If the payload (the specific number, the surprising claim, the tension) comes after word 8 — fail. Ellipsis that delays the punch ("The future of X is arriving...") → fail. "We lost $2M in three months" → pass (payload at word 3). "The future of healthcare is arriving... China unveils..." → fail (payload at word 11).
-
-**SIMPLE test**: Would a 16-year-old understand every word in the opener? Bold Unicode formatting, corporate jargon ("unveils," "redefining," "accessible communication"), press-release language → fail. The opener must use words a person would speak in conversation, not words a company would put in a press release.
-
-**Rule**: If ANY of the three tests fails, set `skip_batch_a` to true. The source's STRUCTURE may be mirrorable, but if its OPENER is a press release, corporate announcement, or jargon-heavy statement, mirroring it produces a press-release post. Route all posts to Batch B instead, where different mechanics will produce better openers.
+### Template repository (13 templates Tier S/A/B/C — your Batch B template options)
+{template_repository}
 
 ---
 
-## OUTPUT FORMAT
+## TASK 1 — PSYCHOLOGICAL MOVE + MECHANIC FAMILY
+
+Figure out what the hook does to the reader — the psychological move that carries over to the generated posts. Map it to:
+
+- `hook_mechanic_primary`: ONE of the 13 IDs in the template repository (e.g. `specific_number`, `contrarian`, `pattern_observation`, `scene_entry`, etc.). Pick the one that best matches the source's opener engine.
+- `hook_sub_mechanic`: the specific sub-mechanic from the chosen family's `sub_mechanics[]` list. Examples: under `specific_number` the sub-mechanics are `first_person_monthly_cost`, `deal_size_anchor`, `age_time_anchor`, `repeated_cost_pattern`, `team_count_anchor`. Pick the most specific match.
+
+The sub-mechanic is what determines whether the founder can mirror this post in Batch A. Sub-mechanic granularity is the difference between v6.0 (fabricated everything) and v6.1 (refuses to fabricate).
+
+## TASK 2 — SOURCE TEMPLATE EXTRACTION (for Batch A)
+
+Extract the source's structural skeleton. Batch A variants will mirror this skeleton with the founder's specifics. Output:
+
+- `opener_skeleton`: the structural template of the source's first 1-3 sentences, with concrete nouns replaced by `___`. Example: `"Our ___ bill just crossed $___/month.\n\nThat's headcount territory."`
+- `beat_order`: the ordered list of structural moves in the source. Examples: `["scale_anchor", "framing_recast", "diagnostic_question", "list_takedown", "stakes_enumeration", "closer"]`
+- `parameter_slots`: the named slots the LLM must fill from the founder's anchors. Examples for a `first_person_monthly_cost` source: `["tool_name", "monthly_cost_usd", "team_size", "discipline_metrics"]`. Each slot must be groundable in the founder's anchor inventory.
+- `narrative_arc`: the movement (e.g. `"operator_owns_spike → reveals_measurement_void"`)
+- `closer_type`: the mechanic of the final paragraph (e.g. `"compounding_advantage"`, `"terminal_verdict"`, `"unresolved_tension"`, `"scene_callback"`, `"aphorism"`)
+
+## TASK 3 — BATCH B TEMPLATE MATCH (hybrid)
+
+For Batch B (mechanics-only — same psychological move, different vehicle), pick the closest match from the template repository AND record which of the source's parameter slots map onto that template's parameter_list. Output:
+
+- `selected_template_id`: ID of the chosen Batch B template (one of the 13)
+- `template_tier`: the tier from the repo (S/A/B/C)
+- `rationale`: why this template is the closest mechanic-only fit (1 sentence)
+- `narrative_engine`: from the template entry
+- `closing_move`: from the template entry
+- `b_parameter_mapping`: map source's parameter_slots onto this template's parameter_list where they correspond
+
+## TASK 4 — SOURCE FITNESS CHECK (routing decision)
+
+This determines whether the orchestrator generates 4 Batch A + 5 Batch B (default), or 9 Batch B only (when the source can't be mirrored without fabrication).
+
+Check the founder's `anchor_inventory` for anchors that match the required sub-mechanic:
+
+- `required_sub_mechanic`: same value as `hook_sub_mechanic` from TASK 1
+- `sub_mechanic_anchor_matches`: list of `anchor_id` slugs from `anchor_inventory` whose `unlocks_sub_mechanics` field contains `required_sub_mechanic`. May be empty.
+- `matching_sub_mechanic_count`: integer length of the above list
+- `mirror_feasible`: boolean. True iff `matching_sub_mechanic_count ≥ 1` AND the source's mandatory parameter slot can be filled by at least one matching anchor.
+- `routing_decision`: one of `"generate_4_batch_a_5_batch_b"` (default) or `"skip_batch_a_route_all_to_b"`. Use the second value ONLY when `mirror_feasible = false`. The orchestrator may override your routing (operator force-mirror) — that's fine, your decision is advisory.
+- `fitness_explanation`: short string explaining the decision
+
+## TASK 5 — ANTI-RECYCLING GUARDRAILS
+
+The founder's existing posts are not a parts bin. Surface the patterns the transpose step must avoid copying:
+
+- `forbidden_phrases`: list of high-signature phrases the source uses that the founder might be tempted to lift wholesale (e.g. specific number + "headcount territory" — keep the structure but force fresh phrasing in the body)
+- `forbidden_templates`: list of structural patterns from the source that, if copied beat-for-beat in a Batch B post, would defeat the mechanics-only rule (e.g. `"[X] — meaningless. [Y] — inflated. [Z] — noise."` from the source's middle paragraph)
+
+## TASK 6 — STRIP TEST CHECK
+
+The source post itself passed the strip test (universal opener, niche body). Confirm:
+
+- `source_strip_test_pass`: boolean
+- `stripped_opener`: what remains after removing all industry-specific nouns from the source's opener
+- `if_fails_reason`: empty string if pass; otherwise explain what made it niche
+
+This signals to transpose that the founder's variants must clear the same bar.
+
+---
+
+## OUTPUT FORMAT (return this exact JSON, no commentary)
 
 ```json
-{{{{
-  "psychological_move": "description of the core psychological move the hook makes",
-  "narrative_arc": "description of movement/arc",
-  "hook_mechanic_primary": "three_stack_pain|second_party_verdict|contrarian_claim|specific_number|authority_quote|parallel_data_reveal|scene_entry|diagnostic_question|confession|pattern_observation",
-  "opener_mechanic_description": "concise description of HOW the mechanic operates in this specific opener — structural moves in order, e.g. 'authority + count: audience address → credential from scale → numbered promise' or 'scene entry: mid-action drop → sensory detail → tension gap'",
-  "source_opener_text": "the full opener text — all hook sentences joined with newlines exactly as written",
-  "hook_mechanics": [
-    {{{{
-      "sentence": "exact text of opening sentence",
-      "structural_function": "what this sentence does",
-      "psychological_effect": "why it stops the scroll",
-      "rhythm": "short|medium|long"
-    }}}}
-  ],
-  "sentence_count": 2,
-  "body_structure": "description of body organization",
-  "body_format": "numbered_list|bullet_list|parallel_paragraphs|three_examples|before_after|progressive_revelation|single_scene|prose_essay",
-  "body_item_count": 7,
-  "ending_type": "description of ending mechanic",
-  "closer_mechanic": "cta|reframe_question|terminal_verdict|physical_image|challenge|callback|unresolved_tension|quiet_admission",
-  "closer_text": "the exact text of the closing line(s) — one or two sentences",
+{{
+  "schema_version": "v6.1.0",
+  "hook_mechanic_primary": "specific_number",
+  "hook_sub_mechanic": "first_person_monthly_cost",
   "mirrorable": true,
-  "mirrorability_reason": "why or why not — be specific",
-  "register_energy": "the emotional register doing mechanical work, if any",
-  "virality_reason": "why the opening works for a general audience",
-  "opener_tests": {{{{
-    "macro": {{{{"pass": true, "reason": "why it passes or fails for a general audience"}}}},
-    "fast": {{{{"pass": true, "first_payload_word": 3, "reason": "where the payload lands"}}}},
-    "simple": {{{{"pass": true, "reason": "whether a 16-year-old would understand every word"}}}}
-  }}}},
-  "skip_batch_a": false,
-  "named_entities": ["list of proper names (people) mentioned in the source post"],
-  "source_domain": "1-3 word topic label for the source post's core domain (e.g., 'sales leadership', 'hiring', 'product strategy', 'fundraising', 'engineering management')"
-}}}}
+  "source_template_extraction": {{
+    "opener_skeleton": "Our ___ bill just crossed $___/month.\n\nThat's headcount territory.",
+    "beat_order": ["scale_anchor", "framing_recast", "diagnostic_question", "list_takedown", "stakes_enumeration", "closer"],
+    "parameter_slots": ["tool_name", "monthly_cost_usd", "team_size", "discipline_metrics"],
+    "narrative_arc": "operator_owns_spike → reveals_measurement_void",
+    "closer_type": "compounding_advantage"
+  }},
+  "batch_b_template_match": {{
+    "selected_template_id": "confession",
+    "template_tier": "A",
+    "rationale": "Same operator-cost-realization psychological move; vulnerability vehicle replaces scale-anchor vehicle.",
+    "narrative_engine": "personal_story_proof",
+    "closing_move": "principle_extraction",
+    "b_parameter_mapping": {{
+      "tool_name": "what_you_did_wrong",
+      "monthly_cost_usd": "cost_of_being_wrong",
+      "discipline_metrics": "what_you_learned"
+    }}
+  }},
+  "source_fitness_check": {{
+    "required_sub_mechanic": "first_person_monthly_cost",
+    "sub_mechanic_anchor_matches": ["A011"],
+    "matching_sub_mechanic_count": 1,
+    "mirror_feasible": true,
+    "routing_decision": "generate_4_batch_a_5_batch_b",
+    "fitness_explanation": "Manisha has anchor A011 (MUFG CIO/CISO Think Tank) which unlocks the first_person_monthly_cost sub-mechanic via her observed AI tooling spend."
+  }},
+  "forbidden_phrases": [
+    "That's headcount territory",
+    "compounding advantage"
+  ],
+  "forbidden_templates": [
+    "[X] — meaningless. [Y] — inflated. [Z] — noise. Even [W], the old gold standard, breaks down..."
+  ],
+  "source_strip_test_pass": true,
+  "stripped_opener": "Our ___ bill just crossed $___/month. That's ___ territory.",
+  "if_fails_reason": ""
+}}
 ```
 
-Focus on MECHANICS, not meaning. The content changes; the machine stays the same.
+### Special case: source unmirrorable
+
+When `source_fitness_check.mirror_feasible = false`, set `routing_decision = "skip_batch_a_route_all_to_b"` AND populate `batch_b_template_match` with the strongest available alternative template for the founder. The orchestrator generates 9 Batch B posts instead of 4+5.
+
+Example:
+
+```json
+{{
+  "hook_mechanic_primary": "specific_number",
+  "hook_sub_mechanic": "first_person_monthly_cost",
+  "source_template_extraction": {{ ... }},
+  "batch_b_template_match": {{
+    "selected_template_id": "pattern_observation",
+    "template_tier": "S",
+    "rationale": "Founder lacks first_person_monthly_cost anchor; pattern_observation is the strongest alternative she can ground",
+    ...
+  }},
+  "source_fitness_check": {{
+    "required_sub_mechanic": "first_person_monthly_cost",
+    "sub_mechanic_anchor_matches": [],
+    "matching_sub_mechanic_count": 0,
+    "mirror_feasible": false,
+    "routing_decision": "skip_batch_a_route_all_to_b",
+    "fitness_explanation": "Founder has no anchor unlocking first_person_monthly_cost. Routing all 9 posts to Batch B using pattern_observation template."
+  }}
+}}
+```
+
+Critical rules:
+- `hook_mechanic_primary` must be one of the 13 IDs in `template_repository`.
+- `hook_sub_mechanic` must appear in the chosen family's `sub_mechanics[]` list.
+- `sub_mechanic_anchor_matches` must contain only `anchor_id` slugs that exist in `anchor_inventory`. Never invent anchor IDs.
+- When `mirror_feasible = false`, always emit `routing_decision = "skip_batch_a_route_all_to_b"`.
+- `forbidden_phrases` and `forbidden_templates` should be derived from the SOURCE POST, not from the founder's corpus (which transpose handles separately).

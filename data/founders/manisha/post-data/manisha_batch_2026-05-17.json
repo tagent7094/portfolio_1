@@ -1,0 +1,891 @@
+{
+  "metadata": {
+    "founder": "manisha",
+    "platform": "linkedin",
+    "generated_at": "2026-05-17T20:24:05.870231",
+    "total_posts": 1,
+    "sources_count": 1,
+    "creativity": 0.5,
+    "word_count_range": [
+      130,
+      300
+    ],
+    "median_word_count": 210,
+    "voice_markers": [
+      "Opens with provocative declarative statement that challenges conventional wisdom: 'Stop introducing your SE as...', 'The moment your SE celebrates...', 'Reddit's stock is down 40%'",
+      "Short standalone fragment sentences as paragraph-level punctuation: 'It was the qualifier.' 'That silence is where bad revenue begins.' 'The records layer gets cheaper.'",
+      "'I keep hearing/noticing/seeing' — signals sourced from the field, not theory: 'I keep hearing the same story from SE leaders', 'There's a pattern I keep noticing'",
+      "'Not because... Because...' negation-then-reframe structure: 'Not because AEs aren't good at their jobs. Because the job itself changed.'",
+      "'The real [X] is [Y]' reframing formula: 'The real reason is...', 'The real cost is maintaining not building', 'The real challenge is structural'",
+      "Data-first hooks with specific numbers in opening lines: 'down 40%', '$8B', '47% in 6 months', '67%', '$500K deals'",
+      "'From a distance... Up close...' zoom-level toggle within a single post to reveal hidden complexity",
+      "'I've watched / I've sat through' — first-person witness authority, never abstract opinion: 'I've sat through dozens of enterprise sales calls'",
+      "ALL CAPS for single words of emphasis mid-sentence: 'MORE important', 'THEIR world', 'YOUR business'",
+      "No explicit call-to-action or engagement bait — closes with implication or forward insight, never 'what do you think?' or 'drop a comment'"
+    ],
+    "layout": "old",
+    "files_ingested_count": 5,
+    "files_skipped_count": 51,
+    "files_skipped": [
+      {
+        "file": "quality-loop\\final_report.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_1\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_2\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_3\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_4\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_5\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop\\iteration_6\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\final_report.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\audit_reasoning.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\cost_and_time.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\posts.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\prompt_diff.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\regen_decision.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\root_cause.md",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      },
+      {
+        "file": "quality-loop_dryrun_archive\\iteration_1\\scores.json",
+        "reason": "unrecognised file",
+        "role": "unknown"
+      }
+    ]
+  },
+  "founder_internalization": {
+    "tensions": [
+      "SE as deal architect vs. SE reduced to demo support: The founder constantly witnesses SEs being introduced as 'technical resource' and losing the room, despite carrying $500K deals. The collision is between what SEs can do and how they're positioned — and how that positioning caps their authority before they speak.",
+      "Heroic war-room saves vs. systemic failure they expose: War rooms and last-minute scrambles are celebrated as deal-saving heroics, but the founder sees them as evidence that systems, processes, and context delivery have already failed. The tension between admiring the hustle and diagnosing the disease.",
+      "Vertical depth vs. horizontal scale in AI: The pull of wider markets versus the conviction that only vertical AI with domain context, workflows, integrations, and compliance actually wins enterprise deals. Horizontal demos beautifully but breaks on business-specific questions.",
+      "Yes-culture to keep deals alive vs. walking away from bad deals early: Sales pressure trains SEs to never push back, keep the deal moving. The founder believes the best SEs are the ones who walk away early and save months of pain — but almost nobody celebrates that.",
+      "AI as gap-widener vs. AI as democratizer: The prevailing narrative says AI levels the playing field. The founder's conviction is the opposite — AI exposes the absence of excellence and widens the gap between top performers and average reps.",
+      "Context as ultimate moat vs. context scattered and trapped: The founder believes context is the real currency in sales, but the reality is tribal knowledge locked in heads, scattered across Slack and Notion, buried in old decks. The gap between the belief and the infrastructure is where deals die.",
+      "Building internal AI tools quickly vs. the compounding cost of maintaining them: Enterprises can spin up internal tools in weeks, but the tax shows up later in integrations, edge cases, model updates. Building is the easy part; maintaining is the real commitment.",
+      "Celebrating activity metrics vs. demanding actual clarity and outcomes: More tools, more meetings, more decks — everyone is busy but few are actually selling. The collision between visible effort and real impact."
+    ],
+    "signature_scenes": [
+      "Watching an AE introduce the SE as 'our technical resource' on an enterprise call — the buyer's brain instantly filing them under demo support — then watching that same SE carry a $500K deal through procurement, compliance, and competitive landmines the AE didn't know existed.",
+      "PreSales leaders dinner in London: getting past LinkedIn noise into the real issues — handoffs brittle, follow-ups falling through, ownership gaps nobody wanted to name publicly.",
+      "War room at a $500M company to close one enterprise deal: personalized decks, RFPs, security docs, SOWs all finalized in the final hours. The win was celebrated. The founder saw it as proof the systems had failed.",
+      "First meeting with Vijay in 2015 when Paytm invested in the founder's first startup — the beginning of a decade-long relationship that culminated in joining Paytm's board.",
+      "First Dreamforce visit two years ago, walking the floor trying to figure out what to build. Those days of wandering gave the clarity that became SiftHub.",
+      "MUFG CIO/CISO Think Tank evening — getting animated mid-argument on build vs. buy, caught on camera by someone in the room. CIOs landing on 'build point use cases, buy deeper workflows.'",
+      "Off the Record event by SolutionExec in New York — room of 100+ solution leaders, a slide goes up that mirrors SiftHub's belief system. Watching a room full of practitioners nod at something the founder has been saying since day one.",
+      "Presales leader at dinner saying 'the SEs prepping hardest are losing the most deals' — because buyers are benchmarking with ChatGPT before the call even starts.",
+      "The CRO who quit a large B2B startup after 8 months — not a bad hire, could see where deals were dying, but couldn't move fast enough because context was scattered across Slack, Notion, and old decks.",
+      "Welcome reception at One Art Space in New York — noticing nobody is talking about AI tools anymore, conversations have shifted entirely to mandate expansion, org design, and career trajectory.",
+      "A customer choosing SiftHub over a horizontal enterprise search player — the prospect explicitly saying horizontal players don't contextualize as much."
+    ],
+    "argument_rhythm": "The founder follows a consistent Provocation → Concession → Evidence → Diagnosis → Reframe → Implication pattern. Opens with a provocative, often counter-intuitive declarative statement that challenges conventional wisdom ('The moment your SE celebrates the technical win is the moment your deal starts dying'). Immediately softens with a brief concession or acknowledgment ('Sounds harsh. But...' or 'Not because AEs aren't good at their jobs.'). Then grounds the argument in a specific observed scenario, data point, or scene they've personally witnessed ('I've sat through dozens of enterprise sales calls'). Moves to diagnosing the structural root cause beneath the surface symptom ('It's rarely the product. It's security reviews, legal redlines...'). Delivers a reframe that flips the conventional narrative — often in a standalone short sentence for maximum impact ('It was the qualifier.'). Closes with forward-looking implications or a broader insight, never with an explicit call-to-action or engagement bait. The founder also toggles between macro market-level observations (stock prices, S-1 analysis, market cap shifts) and granular operational detail (APIs, MCP tools, CLI commands) within the same post. Uses the 'From a distance... Up close...' zoom-level shift to reveal hidden complexity. Short, punchy fragment sentences are deployed as paragraph-level punctuation marks throughout. SiftHub is woven in organically — never pitched, usually introduced as proof-of-concept for a larger argument or as the context for a team member's work.",
+    "vulnerable_moments": [
+      "Sharing SiftHub's own revenue concentration numbers publicly — Top 10% of customers = 22% ARR, top 20% = 39%, top 50% = 71% — using their own startup's concentration risk as a teaching moment, exposing the fragility they're navigating.",
+      "Admitting 'a year ago the next GPT launch scared me' — openly acknowledging founder-level platform risk fear before converting it into conviction about vertical AI through hundreds of CRO conversations.",
+      "First Dreamforce visit two years ago 'figuring out what to build' — the pre-product uncertainty phase, wandering without a clear answer, before those days crystallized into SiftHub.",
+      "Hiring HR as first employee and recently adding a Chief of Staff because 'trying to do everything means not spending time on what only you can do' — admitting founder overwhelm and the cost of not delegating.",
+      "Not a single prospect has asked for SiftHub's ROI — framed as building toward utility with disproportionate returns, but also an admission that the product hasn't yet crossed the threshold where ROI is self-evident.",
+      "Empathizing with the CRO who quit after 8 months — 'not a bad hire' — recognizing that a smart, capable leader can still fail when the infrastructure underneath them is broken, a vulnerability the founder clearly relates to."
+    ],
+    "recurring_cast": [
+      "Vijay: Paytm founder, relationship since 2015 when Paytm invested in founder's first startup. Decade-long arc culminating in board seat.",
+      "Neil: GTM hire at SiftHub, joined 2 quarters ago. Same context as founder. Dogfoods SiftHub daily — used as proof that eliminating context-arbitrage works.",
+      "Marco: From Parloa, webinar collaborator on 'The POC Hangover' topic.",
+      "Timo A.: From Parloa, webinar collaborator alongside Marco.",
+      "James: SolutionExec co-organizer, runs Off the Record events in New York.",
+      "Jeff: SolutionExec co-organizer, partner to James on Off the Record events.",
+      "Apurva: SiftHub team, part of founder support system.",
+      "Rohan: SiftHub team, part of founder support system.",
+      "Priya Rajan: Hosted MUFG CIO/CISO Think Tank evening.",
+      "Nishit Sahay: Set honest tone at MUFG event.",
+      "Paul Milkman: Set honest tone at MUFG event alongside Nishit."
+    ],
+    "word_count_range": [
+      130,
+      300
+    ],
+    "median_word_count": 210,
+    "key_moments_inventory": [
+      "Joined Paytm board as Independent Director — first met Vijay in 2015 when Paytm invested in first startup",
+      "Reddit stock down 40% despite 70% revenue growth and beaten earnings — lost AI moat to YouTube's more parseable transcripts",
+      "Salesforce added $8B market cap after Headless 360 announcement — still down 26% YTD, up 4.7% on news",
+      "HubSpot down 47% in 6 months but AI spend on HubSpot up 63%",
+      "Box down 27% but AI spend up 60%; Figma down 62% but AI spend up 47%",
+      "Figma S-1 analysis: $525M ARR, 70% revenue from large accounts, 40+ customers at $1M+ ARR",
+      "SiftHub revenue concentration: Top 10% = 22% ARR, top 20% = 39%, top 50% = 71%",
+      "CRM vendor hit 10+ year customer with 35% price hike over two years — 250+ seats — still won't switch due to $1M+ switching cost",
+      "OpenAI usage study: 67% of ChatGPT work use is editing not original creation",
+      "Neil joined SiftHub 2 quarters ago with same context as founder — dogfooding as unfair advantage",
+      "First attended Dreamforce two years ago — those days of clarity became SiftHub",
+      "100+ solution leaders at Off the Record by SolutionExec event",
+      "PreSales leaders dinner in London — real SE team issues surfaced past LinkedIn noise",
+      "MUFG CIO/CISO Think Tank evening — build vs. buy debate, caught on camera mid-argument",
+      "War room at $500M company to close one enterprise deal — personalized decks RFPs security docs SOWs in final hours",
+      "CRO quit large B2B startup after 8 months — context scattered across Slack, Notion, old decks",
+      "First hire at SiftHub was HR; recently added Chief of Staff (Apurva and Rohan)",
+      "Customer chose SiftHub over horizontal enterprise search player — 'horizontal players don't contextualize as much'",
+      "Not a single prospect has asked for SiftHub's ROI — building to become utility",
+      "SEs carrying $500K deals then reintroduced as 'technical resource' on the next call"
+    ],
+    "voice_markers": [
+      "Opens with provocative declarative statement that challenges conventional wisdom: 'Stop introducing your SE as...', 'The moment your SE celebrates...', 'Reddit's stock is down 40%'",
+      "Short standalone fragment sentences as paragraph-level punctuation: 'It was the qualifier.' 'That silence is where bad revenue begins.' 'The records layer gets cheaper.'",
+      "'I keep hearing/noticing/seeing' — signals sourced from the field, not theory: 'I keep hearing the same story from SE leaders', 'There's a pattern I keep noticing'",
+      "'Not because... Because...' negation-then-reframe structure: 'Not because AEs aren't good at their jobs. Because the job itself changed.'",
+      "'The real [X] is [Y]' reframing formula: 'The real reason is...', 'The real cost is maintaining not building', 'The real challenge is structural'",
+      "Data-first hooks with specific numbers in opening lines: 'down 40%', '$8B', '47% in 6 months', '67%', '$500K deals'",
+      "'From a distance... Up close...' zoom-level toggle within a single post to reveal hidden complexity",
+      "'I've watched / I've sat through' — first-person witness authority, never abstract opinion: 'I've sat through dozens of enterprise sales calls'",
+      "ALL CAPS for single words of emphasis mid-sentence: 'MORE important', 'THEIR world', 'YOUR business'",
+      "No explicit call-to-action or engagement bait — closes with implication or forward insight, never 'what do you think?' or 'drop a comment'"
+    ],
+    "formatting_habits": {
+      "uses_bullets": true,
+      "bullet_style": "Sparse — used for lists of 3-6 items mid-post to break up a diagnostic section. Preceded by a colon or setup line. Never the entire post structure.",
+      "uses_emojis": false,
+      "uses_headers": false,
+      "em_dashes": true,
+      "em_dash_usage": "For parenthetical asides and appositional phrases mid-sentence, also for range/contrast within a thought",
+      "lowercase_style": false,
+      "paragraph_style": "Short — typically 1-3 sentences per paragraph, with frequent single-sentence paragraphs standing alone for emphasis",
+      "line_break_frequency": "Between every paragraph/thought. Single-sentence declarations get their own line break. Creates a staccato visual rhythm with breathing room.",
+      "uses_hashtags": false,
+      "uses_questions": "Occasionally rhetorical, never as engagement hooks. Questions diagnose rather than invite: 'Is product solving the problem? Is marketing sending qualified leads?'",
+      "quotation_marks_for_critique": "Uses quotation marks to frame specific phrases being critiqued or repositioned: 'technical resource', 'demo support', 'our technical resource'",
+      "closing_pattern": "Ends on an insight or implication. Sometimes subtly connects to SiftHub as proof of the argument. Never asks for engagement or uses 'agree?'"
+    }
+  },
+  "packs": [
+    {
+      "source_number": 1,
+      "source_post": "BREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wasted. But there's a 5% that is making all the money:\n\nI dug into each case and here are the 7 things the 5% do differently:\n\n1. They pick one expensive problem: Walmart targeted truck logistics. CarMax targeted review summaries. Not 50 random pilots. One problem that moves the P&L.\n\n2. They build cross-functional teams: Engineers sit with lawyers at JPMorgan. Data scientists sit with factory line operators at BMW. AI is integrated into the core, not left to “innovation labs.”\n\n3. They partner smartly: Shell didn’t build from scratch. They teamed up with C3. ai and Microsoft. Sanofi signed billion-dollar deals with Exscientia, Atomwise, and Owkin.\n\n4. They start narrow, then scale: BMW rolled out AI inspection in one plant before standardizing globally.\n\n5. They prove ROI early: Savings, hours cut, yield improved. JPMorgan automated 360,000 hours of contract review. \n\n6. They keep humans in the loop: BMW inspectors, JPM lawyers, Colgate marketers are still involved while they use AI\n\n7. They measure and broadcast wins: Shell reports billions saved. Colgate shows 80% accuracy predicting supply issues. \n\nI put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.",
+      "source_dissection": {
+        "psychological_move": "Authority-backed contradiction reveal: a credible source (MIT) reports mass failure, then the speaker positions themselves as having decoded the exception. This creates permission for the reader to believe a counterintuitive truth AND positions the speaker as someone who has done the investigative work the reader hasn't. The move is: 'everyone is wrong, I found the pattern.'",
+        "narrative_arc": "Contradiction reveal → investigative credential → progressive pattern extraction → concrete proof → call to deeper resource. The arc moves from 'here's what's broken' to 'here's what works' to 'I've systematized it.'",
+        "hook_mechanic_primary": "three_stack_pain",
+        "opener_mechanic_description": "Authority credential (MIT report) → specific failure number (95%) → reframe to opportunity (5% making money). The stack escalates from 'this is broken' to 'this is a waste' to 'but there's a hidden winner.' The third line inverts the frame from problem to solution.",
+        "source_opener_text": "BREAKING: MIT Reports 95% of enterprise AI FAIL. That's billions of dollars wasted. But there's a 5% that is making all the money:",
+        "hook_mechanics": [
+          {
+            "sentence": "BREAKING: MIT Reports 95% of enterprise AI FAIL.",
+            "structural_function": "authority_credential + specificity_bomb. Establishes credibility (MIT, not the speaker) and lands a concrete number (95%) that signals real data, not opinion.",
+            "psychological_effect": "Stops scroll because it's a surprising, credible claim. 'BREAKING' signals newsworthiness. MIT is a third-party authority that the reader trusts more than the speaker.",
+            "rhythm": "short"
+          },
+          {
+            "sentence": "That's billions of dollars wasted.",
+            "structural_function": "consequence_escalation. Translates the 95% failure into emotional/financial stakes. Moves from abstract metric to concrete loss.",
+            "psychological_effect": "Creates urgency and stakes. The reader now feels the weight of the problem — it's not theoretical, it's money leaving the room.",
+            "rhythm": "short"
+          },
+          {
+            "sentence": "But there's a 5% that is making all the money:",
+            "structural_function": "reframe + promise. The 'but' inverts the frame from problem to opportunity. The colon signals that the speaker is about to deliver the solution.",
+            "psychological_effect": "Hope injection. The reader went from 'this is broken' to 'but I'm about to learn what works.' The colon creates anticipation and permission to keep reading.",
+            "rhythm": "medium"
+          }
+        ],
+        "sentence_count": 3,
+        "body_structure": "Seven discrete numbered items, each presenting a single behavioral pattern observed in the successful 5%. Each item opens with a gerund or imperative ('They pick,' 'They build,' 'They partner,' etc.) and includes a concrete example (company + specific outcome). The examples are proof, not elaboration.",
+        "body_format": "numbered_list",
+        "body_item_count": 7,
+        "ending_type": "Call to action with credential. The closer doesn't ask a question or leave tension — it delivers a concrete offer: 'I put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.' This is a soft CTA that positions the speaker as having done the synthesis work.",
+        "closer_mechanic": "cta",
+        "closer_text": "I put together the full breakdown of these 7 companies, the startups that powered them, and the exact step-by-step playbook they followed.",
+        "mirrorable": true,
+        "mirrorability_reason": "The opener's structure is domain-agnostic: [Authority report] + [failure percentage] + [consequence] + [but there's an exception] + [I decoded it]. This shape works across any domain where there's a common failure pattern and a hidden success pattern. The mechanic is: 'credible source says X% fail, but Y% succeed, and I found what they do differently.' This can be mirrored in sales, hiring, product, fundraising, marketing, operations, etc. The numbered list body (7 behavioral patterns with examples) is also structurally portable. The only content-specific element is the domain (AI), not the mechanical engine.",
+        "register_energy": "Investigative confidence. The speaker uses 'I dug into each case' and 'I put together' — this is the register of someone who has done homework. The tone is not hype or urgency; it's methodical authority. This energy must be preserved in mirrors: the speaker should sound like they've done the work, not like they're selling.",
+        "virality_reason": "The opener works universally because it taps into a near-universal professional anxiety: 'everyone is doing this thing and failing, but some people are winning — what do they know that I don't?' This is a pattern-seeking question that transcends industry.",
+        "opener_tests": {
+          "macro": {
+            "pass": true,
+            "reason": "The opener uses no jargon or domain-specific terminology. 'MIT Reports,' 'enterprise AI FAIL,' 'billions of dollars wasted,' and '5% making all the money' are all comprehensible to someone outside tech or AI. The claim is about failure and success, which are universal professional concepts. A person in healthcare, finance, manufacturing, or any other field would understand the structure of the claim even if they don't work in AI."
+          },
+          "fast": {
+            "pass": true,
+            "first_payload_word": 3,
+            "reason": "The payload (95% failure rate) lands at word 3 ('FAIL'). The specific, dramatic number is front-loaded. The reader knows the claim before they finish the first sentence."
+          },
+          "simple": {
+            "pass": true,
+            "reason": "Every word in the opener is conversational. 'BREAKING,' 'Reports,' 'FAIL,' 'billions,' 'wasted,' 'making all the money' — these are words a 16-year-old would use or understand. No corporate jargon ('unveils,' 'redefining,' 'accessible'), no press-release language, no acronyms that require explanation."
+          }
+        },
+        "skip_batch_a": false,
+        "named_entities": [
+          "MIT",
+          "Walmart",
+          "CarMax",
+          "JPMorgan",
+          "BMW",
+          "Shell",
+          "C3.ai",
+          "Microsoft",
+          "Sanofi",
+          "Exscientia",
+          "Atomwise",
+          "Owkin",
+          "Colgate"
+        ],
+        "source_domain": "enterprise AI adoption strategy"
+      },
+      "mirrorable": true,
+      "posts": [
+        {
+          "label": "A1",
+          "batch": "A",
+          "entry_door": "mirrored",
+          "mode": "declaring",
+          "text": "BREAKING: Industry reports 95% of enterprise AI pilots FAIL.\nThat's millions of hours wasted.\nBut there's a 5% that is closing all the deals:\n\nI keep hearing the same pattern from CIOs and presales leaders. The ones winning aren't smarter. They're more specific.\n\nHere are the 7 things the 5% do differently:\n\n1. They pick one workflow where context is scattered. Not 50 AI experiments. One process where tribal knowledge is trapped in Slack threads, old decks, and someone's head. That's where deals die.\n\n2. They go vertical, not horizontal. At the MUFG CIO/CISO Think Tank, the room landed on this: build point use cases, buy deeper workflows. Horizontal demos beautifully. Vertical actually closes.\n\n3. They start with one team, not one company. One plant. One sales pod. One SE team running real deals. Then they standardize.\n\n4. They prove ROI in hours saved, not dashboards built. Not activity metrics. Actual clarity. Hours cut from deal prep. Security docs assembled before procurement asks.\n\n5. They keep humans in the loop. The best SEs I've watched don't hand off to AI. They use it to eliminate the 40 hours of prep that used to separate good from great.\n\n6. They measure what the buyer felt, not what the tool tracked. Not \"80% accuracy.\" Did the deal close faster. Did the SE walk in with context the buyer didn't expect.\n\nI put together the full breakdown of how presales and GTM teams are running this playbook — the workflows, the context layer, and the step-by-step approach that separates the 5% from everyone else. Link in comments.",
+          "word_count": 264,
+          "amplifier": {
+            "original_opening": "BREAKING: Industry reports 95% of enterprise AI pilots FAIL.\nThat's millions of hours wasted.\nBut there's a 5% that is closing all the deals:",
+            "final_opening": "BREAKING: Industry reports 95% of enterprise AI pilots FAIL.\nThat's millions of hours wasted.\nBut there's a 5% that is closing all the deals:",
+            "mechanic": "mirrored",
+            "actual_mechanic": "authority_redirect",
+            "gates": {
+              "mechanic": true,
+              "plausibility": false,
+              "coherence": true,
+              "specificity": true,
+              "mode_preservation": true,
+              "voice_fit": false
+            },
+            "rating": 0,
+            "buried_gold": "The ones winning aren't smarter. They're more specific.",
+            "weakness": "'BREAKING:' is engagement-bait formatting that clashes with this founder's voice — they never use news-anchor framing and explicitly avoid engagement bait patterns.",
+            "versions_considered": 5,
+            "recommended_variant": "A",
+            "variants": [
+              {
+                "variant": "A",
+                "opening": "I keep hearing the same thing from CIOs running AI pilots: 95% of them fail.\nNot because the tech is bad. Because the scope is wrong.",
+                "mechanic": "pattern_observation",
+                "key_change": "Replaces clickbait 'BREAKING' framing with the founder's signature 'I keep hearing' field-sourced authority and 'Not because... Because...' negation-reframe. Grounds the 95% stat in first-person witness credibility rather than news-anchor delivery.",
+                "expected_lift": "high",
+                "rating": 9
+              },
+              {
+                "variant": "B",
+                "opening": "95% of enterprise AI pilots fail. The 5% that close deals all do the same 7 things.\nI've watched the pattern repeat across enough CIO conversations to map it.",
+                "mechanic": "specific_number",
+                "key_change": "Leads with the data point directly (no 'BREAKING' wrapper), then immediately signals the payoff structure (7 things) and uses 'I've watched' first-person witness authority. Removes news framing, keeps the data hook.",
+                "expected_lift": "high",
+                "rating": 9
+              },
+              {
+                "variant": "C",
+                "opening": "The real reason 95% of AI pilots fail isn't the technology.\nIt's that teams go horizontal when the deals close vertical.",
+                "mechanic": "contrarian",
+                "key_change": "Uses the founder's 'The real [X] is [Y]' reframing formula to challenge the assumption that AI failure is a tech problem. Pulls the vertical-vs-horizontal insight from the body into the hook, creating a stronger contrarian frame.",
+                "expected_lift": "high",
+                "rating": 8
+              },
+              {
+                "variant": "D",
+                "opening": "I've sat through enough enterprise AI reviews to see the split clearly.\nThe 95% that fail run 50 experiments. The 5% that close pick ONE workflow where context is scattered.",
+                "mechanic": "juxtaposition",
+                "key_change": "Opens with 'I've sat through' first-person witness authority, then creates a clean juxtaposition between the 95% and 5% with specific behavioral contrast pulled from the body's first point. ALL CAPS on 'ONE' matches the founder's emphasis pattern.",
+                "expected_lift": "high",
+                "rating": 9
+              },
+              {
+                "variant": "E",
+                "opening": "From a distance, enterprise AI looks like a 95% failure rate.\nUp close, the 5% winning all share the same playbook — and it starts with one workflow, not fifty.",
+                "mechanic": "before_after",
+                "key_change": "Uses the founder's 'From a distance... Up close...' zoom-level toggle to reframe the 95% stat from a discouraging headline into an investigative reveal. Creates the sense that the founder has done the close-range work the reader hasn't.",
+                "expected_lift": "medium",
+                "rating": 8
+              }
+            ]
+          },
+          "voice_validation": {
+            "voice_score": 3,
+            "voice_marker_score": null,
+            "register_score": null,
+            "posture_score": null,
+            "opener_rhythm_score": null,
+            "formatting_score": null,
+            "overall": "SKIP",
+            "register_reads_as": null,
+            "posture_reads_as": null,
+            "result": {
+              "overall": "SKIP",
+              "reason": "batch_a_mirrored"
+            }
+          },
+          "violations": [],
+          "events_used": [
+            "MUFG CIO/CISO Think Tank evening — build vs. buy debate, caught on camera mid-argument",
+            "The CRO who quit a large B2B startup after 8 months — context scattered across Slack, Notion, and old decks"
+          ],
+          "argument_compressed": "The 95% of enterprise AI that fails does so because it lacks vertical domain context — the 5% that wins embeds AI into the specific workflow where deals actually die.",
+          "saturation_warning": {
+            "shared_ngrams": [
+              "the best ses i've watched don't"
+            ],
+            "count": 1,
+            "warning": false,
+            "worst_match_id": "https://docs.google.com/document/d/1WrXRYlwp4pRuxNEAFol7ACMqpQ9KP4HxF3OpQwf0FAc/edit?usp=sharing",
+            "worst_match_count": 1
+          },
+          "quality_flags": {},
+          "regen_count": 0
+        }
+      ],
+      "batch_a_count": 1,
+      "batch_b_count": 0,
+      "convergence_test": {
+        "passed": true,
+        "recommendation": "too few posts to test"
+      },
+      "convergence_warning": false,
+      "convergence_retry_attempted": false,
+      "total_regens": 0
+    }
+  ],
+  "global_tracking": {
+    "total_events_used": 2,
+    "total_unique_arguments": 1,
+    "events_list": [
+      "MUFG CIO/CISO Think Tank evening — build vs. buy debate, caught on camera mid-argument",
+      "The CRO who quit a large B2B startup after 8 months — context scattered across Slack, Notion, and old decks"
+    ],
+    "convergence_flags": [],
+    "convergence_warnings": []
+  },
+  "web_search": {
+    "trending_topics": [
+      "AI dominance in startup funding (50% of global VC in 2025)",
+      "Capital concentration in mega-rounds and established players",
+      "Agentic AI moving from experimentation to production deployment",
+      "Series A becoming larger and later-stage (median pre-money valuations $48M)",
+      "San Francisco reasserting dominance as AI epicenter",
+      "Fintech resurgence with focus on profitability and unit economics",
+      "Autonomous vehicles and robotics attracting record funding",
+      "Post-quantum security and cryptography becoming critical",
+      "Generative Engine Optimization (GEO) emerging as alternative to traditional SEO",
+      "AI infrastructure and compute bottlenecks (energy crisis for data centers)"
+    ],
+    "facts": [
+      {
+        "fact": "Global startup funding hit $297 billion in Q1 2026, breaking all records",
+        "source": "TechCrunch, April 2026",
+        "relevance": "Demonstrates unprecedented capital availability for startups, particularly AI-focused companies"
+      },
+      {
+        "fact": "AI companies captured $211 billion in venture funding in 2025, a rise of 85% year-over-year and roughly 50% of all global VC",
+        "source": "YouStartups, May 2026",
+        "relevance": "Shows AI's dominance in startup funding landscape"
+      },
+      {
+        "fact": "Seed-stage AI startups command a 42% valuation premium compared to non-AI startups",
+        "source": "Qubit Capital, March 2026",
+        "relevance": "Indicates investor confidence and market demand for AI solutions at early stages"
+      },
+      {
+        "fact": "78% of founders report that AI tools have already reduced their operational costs, and AI-related job postings at startups have risen 89% year-over-year",
+        "source": "YouStartups, May 2026",
+        "relevance": "Shows practical impact of AI on startup operations and hiring"
+      },
+      {
+        "fact": "Series A rounds in 2026 are larger, later, and closer to growth-stage sizing",
+        "source": "Wellows, March 2026",
+        "relevance": "Indicates shift in startup funding dynamics and timeline compression"
+      },
+      {
+        "fact": "40% of enterprise applications will include task-specific AI agents by the end of 2026",
+        "source": "Averi.ai, December 2025",
+        "relevance": "Demonstrates enterprise adoption trajectory for agentic AI"
+      },
+      {
+        "fact": "In February 2026, US startups raised $62.54 billion across 462 deals, the largest monthly total in recorded US venture history",
+        "source": "YouStartups, May 2026",
+        "relevance": "Shows record-breaking funding momentum driven by mega-rounds (Anthropic $30B, Waymo)"
+      },
+      {
+        "fact": "San Francisco has re-emerged as the startup epicenter, driven by the AI boom's demand for dense, in-person collaboration",
+        "source": "Wellows, March 2026",
+        "relevance": "Geographic concentration of startup activity and talent"
+      },
+      {
+        "fact": "Gartner predicts that over 40% of agentic AI projects will be canceled by the end of 2027, due to escalating costs, unclear business value, or inadequate risk controls",
+        "source": "Averi.ai, December 2025",
+        "relevance": "Contrarian warning about AI hype and execution challenges"
+      },
+      {
+        "fact": "Companies leveraging AI technologies effectively are reducing customer acquisition costs by approximately 25-37%",
+        "source": "Averi.ai, December 2025",
+        "relevance": "Quantifies ROI of AI adoption for marketing and sales"
+      }
+    ],
+    "contrarian_angles": [
+      "40% of agentic AI projects will fail by 2027—not because technology doesn't work, but because organizations are automating broken processes instead of redesigning them",
+      "The 'ChatGPT-first' era is quietly ending; no single model is best-in-class anymore, forcing founders to specialize rather than generalize",
+      "AI isn't creating a level playing field—it's concentrating power further; well-funded competitors can deploy 'agent armies' while lean teams struggle",
+      "Founders chasing AI trends get validation and competition; those building 'boring' solutions to unsexy problems gain freedom and potentially fortune",
+      "Series A is no longer an experiment stage; founders now need distribution advantages and proprietary moats, not just traction and strong backgrounds",
+      "The IPO window will thaw not because conditions are ideal, but because the private market is running out of viable alternatives for mega-valuations",
+      "Most startups fail not because of bad ideas but because of bad timing; 29% of failures in post-2023 cohort were driven by timing, hitting climate, food, and blockchain startups hardest",
+      "Founders building for venture scale need proprietary advantages (contrarian insights, unique data access, deep networks) that can't be easily replicated by well-funded competitors",
+      "AI adoption doesn't require all-or-nothing approaches; pragmatic integration of AI agents as force multipliers for lean teams outperforms 'agent washing' and hype-driven implementations",
+      "The real opportunity isn't in labeling everything as 'AI'—it's in understanding where AI meaningfully changes cost structures, speed, or decision-making inside real business workflows"
+    ],
+    "searches_performed": [
+      {
+        "query": "Manisha founder thought leader technology startups",
+        "tool_use_id": "srvtoolu_01Myy8Q3fLZ6VpBWeziJJAbu",
+        "results": [
+          {
+            "url": "https://www.linkedin.com/in/manisha-raisinghani",
+            "title": "Manisha Raisinghani - SiftHub | LinkedIn",
+            "page_age": "June 10, 2021"
+          },
+          {
+            "url": "https://startuptalky.com/manisha-raisinghani-loginext/",
+            "title": "Manisha Raisinghani | Co-founder at LogiNext | Women Entrepreneur",
+            "page_age": "May 3, 2022"
+          },
+          {
+            "url": "https://educationviewmagazine.com/dr-manisha-acharya-bridging-science-business-and-innovation-for-over-two-decades/",
+            "title": "Dr. Manisha Acharya: Bridging Science, Business, and Innovation for Over Two Decades",
+            "page_age": "May 2, 2025"
+          },
+          {
+            "url": "https://www.brilliantread.com/interview-with-dr-manisha-acharya-thought-leader-mentor-ceo-at-indigram-labs-foundation/",
+            "title": "Interview with Dr Manisha Acharya | Thought Leader | Mentor | CEO at Indigram Labs Foundation | BrilliantRead Media",
+            "page_age": "June 1, 2020"
+          },
+          {
+            "url": "https://techlaunch.arizona.edu/news/2021/11/bringing-experience-energy-humility-uarizona-startups-qa-mentor-residence-manisha",
+            "title": "Bringing Experience, Energy and Humility to UArizona Startups: A Q&A with Mentor-in-Residence Manisha Narasimhan | Tech Launch Arizona",
+            "page_age": "November 19, 2021"
+          },
+          {
+            "url": "https://yourstory.com/2015/05/manisha-raisinghani-loginext",
+            "title": "Yourstory",
+            "page_age": "September 5, 2019"
+          },
+          {
+            "url": "https://www.linkedin.com/in/manishagupta/",
+            "title": "Manisha Gupta - AI Strategy, Governance & Adoption",
+            "page_age": "April 20, 2025"
+          },
+          {
+            "url": "http://innompics.com/people/acharya-manisha.html",
+            "title": "Manisha Acharya, India, Startup Advisor & Mentor, CEO-CII Utkal University",
+            "page_age": null
+          },
+          {
+            "url": "https://aiboomi.org/sifthub-gtm-playbook-ai/",
+            "title": "How Manisha Raisinghani’s SiftHub is Rewriting the GTM Playbook for the AI Era - AI Boomi",
+            "page_age": "November 3, 2025"
+          },
+          {
+            "url": "https://rocketreach.co/manisha-raisinghani-email_69791555",
+            "title": "Manisha Raisinghani Email & Phone Number | SiftHub Founder and CEO Contact Information",
+            "page_age": null
+          }
+        ]
+      },
+      {
+        "query": "technology startups news 2026",
+        "tool_use_id": "srvtoolu_015rh3S7FMuC6qdMvGXwwrqs",
+        "results": [
+          {
+            "url": "https://techcrunch.com/",
+            "title": "TechCrunch | Startup and Technology News",
+            "page_age": null
+          },
+          {
+            "url": "https://techcrunch.com/2026/05/13/introducing-the-6-stages-of-techcrunch-disrupt-2026-built-for-todays-tougher-startup-market/",
+            "title": "The 6 stages at Disrupt 2026 — built for today’s tougher startup market | TechCrunch",
+            "page_age": "4 days ago"
+          },
+          {
+            "url": "https://hello-tomorrow.org/hello-tomorrow-unveils-the-top-100-deep-tech-startups-to-watch-in-2026/",
+            "title": "Hello Tomorrow unveils the Top 100 Deep Tech Startups to watch in 2026 - Hello Tomorrow",
+            "page_age": "3 weeks ago"
+          },
+          {
+            "url": "https://wellows.com/blog/tech-startups/",
+            "title": "30 Top Tech Startups in 2026: AI, Robotics, and Others Raising Billions",
+            "page_age": "March 3, 2026"
+          },
+          {
+            "url": "https://techcrunch.com/category/startups/",
+            "title": "Startups | TechCrunch",
+            "page_age": "1 month ago"
+          },
+          {
+            "url": "https://builtin.com/companies",
+            "title": "Top Tech Companies 2026 | Built In",
+            "page_age": "3 weeks ago"
+          },
+          {
+            "url": "https://news.crunchbase.com/venture/2026-tech-startup-trends-ipo-ai-ma/",
+            "title": "6 Trends In Tech And Startups We’re Watching In 2026, From An IPO Boom To More Huge AI Deals",
+            "page_age": "January 30, 2026"
+          },
+          {
+            "url": "https://www.seedtable.com/best-deep-tech-startups",
+            "title": "Explore 69 Best Deep Tech Startups to watch in 2026. Discover innovative companies, funding insights, and industry trends.",
+            "page_age": null
+          },
+          {
+            "url": "https://topstartups.io/",
+            "title": "Top Startups 2026 — Sequoia, Y Combinator, A16Z, Accel",
+            "page_age": "March 9, 2026"
+          },
+          {
+            "url": "https://www.startus-insights.com/innovators-guide/top-tech-startups-to-watch/",
+            "title": "Explore the 30 Top Tech Startups to Watch in 2026 & Beyond",
+            "page_age": "November 29, 2025"
+          }
+        ]
+      },
+      {
+        "query": "startup funding trends 2026",
+        "tool_use_id": "srvtoolu_015NCbquDatR79EY2iJtsNaq",
+        "results": [
+          {
+            "url": "https://about.crunchbase.com/crunchbase-predicts-startup-funding-trends-that-will-shape-2026",
+            "title": "Crunchbase Predicts: 2026 Startup & Funding Trends",
+            "page_age": null
+          },
+          {
+            "url": "https://qubit.capital/blog/ai-startup-fundraising-trends",
+            "title": "AI Startup Funding Trends 2026: Data, Rounds & What's Next",
+            "page_age": "March 31, 2026"
+          },
+          {
+            "url": "https://seedscope.ai/blog/startup-funding-trends-in-2026-venture-capital-s-new-era",
+            "title": "Startup Funding Trends in 2026: Venture Capital’s New Era - SeedScope",
+            "page_age": "November 26, 2025"
+          },
+          {
+            "url": "https://blog.mean.ceo/startup-funding-trends-may-2026/",
+            "title": "Startup Funding Trends | May, 2026 (STARTUP EDITION)",
+            "page_age": "2 weeks ago"
+          },
+          {
+            "url": "https://blog.mean.ceo/startup-funding-trends-April-2026/",
+            "title": "Startup Funding Trends | April, 2026 (STARTUP EDITION)",
+            "page_age": "April 3, 2026"
+          },
+          {
+            "url": "https://qubit.capital/blog/startup-funding-trends",
+            "title": "How Modern Startups Really Get Funded",
+            "page_age": "3 weeks ago"
+          },
+          {
+            "url": "https://techcrunch.com/2026/04/01/startup-funding-shatters-all-records-in-q1/",
+            "title": "Startup funding shatters all records in Q1 | TechCrunch",
+            "page_age": "April 1, 2026"
+          },
+          {
+            "url": "https://youstartups.com/startup-statistics",
+            "title": "50 Startup Statistics for 2026 [Failure, Funding & Growth]",
+            "page_age": "2 days ago"
+          },
+          {
+            "url": "https://blog.mean.ceo/startup-funding-trends-march-2026/",
+            "title": "Startup Funding Trends | March, 2026 (STARTUP EDITION)",
+            "page_age": "March 3, 2026"
+          },
+          {
+            "url": "https://techcrunch.com/2025/12/26/whats-ahead-for-startups-and-vcs-in-2026-investors-weigh-in/",
+            "title": "What's ahead for startups and VCs in 2026? Investors weigh in | TechCrunch",
+            "page_age": "December 27, 2025"
+          }
+        ]
+      },
+      {
+        "query": "contrarian views technology startups emerging trends",
+        "tool_use_id": "srvtoolu_01CmJ4quBd6BGXmRTqfQR1bA",
+        "results": [
+          {
+            "url": "https://www.averi.ai/blog/2026-tech-industry-trends-what-startups-need-to-know",
+            "title": "2026 Tech Industry Trends Startups Can't Ignore",
+            "page_age": "December 29, 2025"
+          },
+          {
+            "url": "https://techstartups.com/2025/10/18/unpopular-ideas-that-became-billion-dollar-businesses/",
+            "title": "Unpopular Ideas That Became Billion-Dollar Businesses - Tech Startups",
+            "page_age": "October 18, 2025"
+          },
+          {
+            "url": "https://techcrunch.com/2025/12/26/whats-ahead-for-startups-and-vcs-in-2026-investors-weigh-in/",
+            "title": "What's ahead for startups and VCs in 2026? Investors weigh in | TechCrunch",
+            "page_age": "December 27, 2025"
+          },
+          {
+            "url": "https://leadmagic.io/funded-startups/founders-fund-backed",
+            "title": "Founders Fund Startups 2026 | Portfolio Companies",
+            "page_age": "March 14, 2026"
+          },
+          {
+            "url": "https://www.quora.com/What-are-some-successful-contrarian-trends-in-software-technology-or-technical-culture",
+            "title": "What are some successful contrarian trends in software technology or technical culture? - Quora",
+            "page_age": null
+          },
+          {
+            "url": "https://www.nfx.com/post/how-contrarians-think-with-keith-rabois",
+            "title": "How Contrarians Think: The Early Days of Square, Yelp & PayPal with Keith Rabois",
+            "page_age": "May 2, 2022"
+          },
+          {
+            "url": "https://www.tractiontechnology.com/blog/top-10-technology-trends-to-watch-in-2026-emerging-startups-innovation-insights",
+            "title": "Top 10 Technology Trends to Watch in 2026 | Emerging Startups & Innovation Insights | Traction Technology",
+            "page_age": null
+          },
+          {
+            "url": "https://www.bluehost.com/blog/contrarian-thinking/",
+            "title": "Think Different: The Power of Contrarian Thinking in Life and Business",
+            "page_age": "October 15, 2025"
+          },
+          {
+            "url": "https://research.contrary.com/",
+            "title": "Contrary Research",
+            "page_age": "2 weeks ago"
+          },
+          {
+            "url": "https://www.deloitte.com/us/en/insights/topics/technology-management/tech-trends.html",
+            "title": "Tech Trends 2026 | Deloitte Insights",
+            "page_age": "March 20, 2026"
+          }
+        ]
+      }
+    ]
+  }
+}

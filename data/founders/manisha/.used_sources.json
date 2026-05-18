@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "source_hash": "f265403ac58abee1",
+      "source_snippet": "Our Claude Code API bill just crossed $18,000/month.  That's headcount territory. For a team of under 10 engineers. And ",
+      "used_in_batch": "manisha_batch_2026-05-18_7.json",
+      "used_at": "2026-05-18T23:25:42.025307+05:30"
+    },
+    {
+      "source_hash": "a482fb4c38e7e86f",
+      "source_snippet": "We had five design leads in three years. Same result every time.  Every time, the assumption is the same - the next hire",
+      "used_in_batch": "manisha_batch_2026-05-18_8.json",
+      "used_at": "2026-05-19T00:00:00.472140+05:30"
+    }
+  ]
+}

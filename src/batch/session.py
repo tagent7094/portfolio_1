@@ -24,7 +24,16 @@ from .voice_validator import (
     run_voice_validation_with_retries,
     check_anchor_specificity,
     check_closer_shape,
+    validate_pack,
+    _body_diff_check,
 )
+from .anchor_inventory import build_anchor_inventory
+from .inventory_state import PackInventoryState
+from .pack_history import load_pack_history, append_pack_to_history
+from .regen_loop import run_validation_regen_loop, ShipDecision
+from .compile_step import compile_pack
+from .rejection_report import write_rejection_report
+from .pack_generator import _generate_one_post, _extract_body_paragraph_2_and_closer as _extract_body_p2_closer
 from .compiler import compile_json, save_output
 from .exclusion_scanner import load_exclusions, scan_for_exclusions
 from .saturation import check_saturation
@@ -286,6 +295,24 @@ def _post_amplification_quality_pass(
     return posts
 
 
+def _jaccard_similarity(a: str, b: str) -> float:
+    """Word-set Jaccard similarity for compile-regen oscillation detection.
+
+    Returns 0.0 when either string is empty. Two passes with the same
+    failure_summary score 1.0; entirely disjoint phrasings score near 0.0.
+    Used to detect when compile_regen is stuck on the same complaint.
+    """
+    if not a or not b:
+        return 0.0
+    set_a = set(w.lower() for w in a.split() if len(w) > 2)
+    set_b = set(w.lower() for w in b.split() if len(w) > 2)
+    if not set_a or not set_b:
+        return 0.0
+    inter = len(set_a & set_b)
+    union = len(set_a | set_b)
+    return inter / union if union else 0.0
+
+
 class BatchSession:
     """Orchestrates the full batch post generation pipeline."""
 
@@ -478,6 +505,29 @@ class BatchSession:
             "critique": cal.get("self_critique", ""),
         }, progress=0.1)
 
+        # v6: load 30-day pack history (read-only at this point).
+        try:
+            state.pack_history = load_pack_history(founder_slug, days=30)
+        except Exception as e:
+            logger.warning("[batch] failed to load pack_history: %s", e)
+            state.pack_history = []
+
+        # v6: build anchor_inventory ONCE per founder per run (cached). Runs
+        # 00_anchor_inventory.txt to produce the master constraint set that
+        # downstream prompts (dissect/generate/validate/compile) consume.
+        self._check_cancel()
+        self._emit("anchor_inventory", "started", progress=0.11)
+        state.anchor_inventory = build_anchor_inventory(state, llm_prep)
+        summary = state.anchor_inventory.get("inventory_summary") or {}
+        depth_assess = state.anchor_inventory.get("founder_card_depth_assessment") or {}
+        self._emit("anchor_inventory", "completed", {
+            "total_anchors": len(state.anchor_inventory.get("anchor_inventory", []) or []),
+            "tier_1": summary.get("total_tier_1_anchors", 0),
+            "tier_2": summary.get("total_tier_2_anchors", 0),
+            "depth_rating": depth_assess.get("depth_rating", "unknown"),
+            "fresh_anchors": summary.get("fresh_anchors_count", 0),
+        }, progress=0.115)
+
         # Phase 2: Web search enrichment (Haiku — data retrieval)
         self._check_cancel()
         self._emit("web_search", "started", progress=0.1)
@@ -521,6 +571,16 @@ class BatchSession:
             def pack_callback(sub_stage, data):
                 self._emit(f"pack_{pack_num}", "progress", {sub_stage: data})
 
+            # v6: init per-pack inventory state. Anchors + voice marker budget
+            # are consumed across the 9 sequential generate calls within this
+            # pack. Pack history is read-only (used by validator + compile).
+            state.inventory = PackInventoryState.from_anchor_inventory(
+                state.anchor_inventory or {},
+                state.voice_marker_budget or [],
+                state.pack_history or [],
+            )
+            state.regen_log = []
+
             if state.lean_mode:
                 pack = _generate_pack_lean(
                     llm_gen, source, pack_num, state,
@@ -535,6 +595,17 @@ class BatchSession:
                     event_callback=pack_callback,
                     llm_prep=llm_prep,
                 )
+
+            # v6 routing: if dissect upstream decided to reject the source,
+            # the generator returned []. Skip this source entirely and write
+            # a rejection note.
+            if not pack.posts:
+                logger.warning("[batch] Pack %d: empty (routing=%s) — skipping source",
+                               pack_num, state.routing_decision)
+                self._emit(f"pack_{pack_num}", "skipped_routing", {
+                    "routing_decision": state.routing_decision,
+                })
+                continue
 
             # Voice validation pass (per-post via validate.txt — full 5 dimensions)
             self._emit(f"pack_{pack_num}", "progress", {"voice_validation": "starting"})
@@ -572,10 +643,9 @@ class BatchSession:
                             metadata={"exclusions": hits},
                         )
 
-            # Amplifier pass — Batch A runs amplifier in DISPLAY-ONLY mode
-            # (never_replace=True + _should_apply_batch_a_variant returns False
-            # unconditionally → variants computed for inspection, opener never
-            # mutated). Batch B uses single batched call with full replacement.
+            # v6.1: Amplifier pass — Batch A is NEVER amplified (mirror discipline
+            # is enforced upstream by 03_generate.txt). Batch B gets per-post
+            # amplification via 04_amplify.txt.
             amplified_posts = []
             published_corpus = (
                 state.raw_data.get("founder_posts_structured")
@@ -592,40 +662,39 @@ class BatchSession:
                 else:
                     b_validated.append(post)
 
-            # Phase A: amplify in display-only mode. Diagnosis + variants
-            # populate but the opener never changes (mirror is preserved).
-            if a_validated:
-                a_amplified = amplify_batch_v2(
-                    llm_gen, a_validated, state,
-                    source_dissection=pack.dissection, never_replace=True,
-                )
-                for post in a_amplified:
-                    # Defensive: amplifier should already have stamped these,
-                    # but ensure mirror invariants hold for Batch A.
-                    paragraphs = post.text.strip().split("\n\n")
-                    if not post.original_opening and paragraphs:
-                        post.original_opening = paragraphs[0]
-                    post.final_opening = post.original_opening
+            # Phase A: NO amplification. v6.1 keeps Batch A's mirror discipline
+            # by NOT running the opening-line amplifier at all. The post's
+            # opener stays as the generator produced it (mirroring the source's
+            # 2-sentence beat structure). No LLM calls here.
+            for post in a_validated:
+                paragraphs = post.text.strip().split("\n\n")
+                if not post.original_opening and paragraphs:
+                    post.original_opening = paragraphs[0]
+                post.final_opening = post.original_opening
+                # Don't overwrite mechanic if the generator declared one
+                # (sub-mechanic match info matters for validator).
+                if not post.mechanic:
                     post.mechanic = "mirrored"
-                    post.rating = 0
-                    logger.info(
-                        "[batch] %s: Batch A — %d variants generated (opener kept, mirror preserved)",
-                        post.label, getattr(post, "versions_considered", 0),
-                    )
-                    self._emit(f"pack_{pack_num}", "post_ready", {
-                        "label": post.label,
-                        "batch": post.batch,
-                        "mode": post.mode,
-                        "text": post.text,
-                        "word_count": post.word_count,
-                        "mechanic": post.mechanic,
-                        "final_opening": post.final_opening,
-                        "entry_door": post.entry_door,
-                        "voice_score": getattr(post, "voice_score", 0),
-                        "source_number": pack_num,
-                        "opener_variants": getattr(post, "opener_variants", []),
-                        "versions_considered": getattr(post, "versions_considered", 0),
-                    })
+                post.rating = 0
+                logger.info(
+                    "[batch] %s: Batch A — opener kept as-is, NO amplification (v6 mirror discipline)",
+                    post.label,
+                )
+                self._emit(f"pack_{pack_num}", "post_ready", {
+                    "label": post.label,
+                    "batch": post.batch,
+                    "mode": post.mode,
+                    "text": post.text,
+                    "word_count": post.word_count,
+                    "mechanic": post.mechanic,
+                    "final_opening": post.final_opening,
+                    "entry_door": post.entry_door,
+                    "voice_score": getattr(post, "voice_score", 0),
+                    "source_number": pack_num,
+                    "opener_variants": [],
+                    "versions_considered": 0,
+                    "amplification_skipped": True,
+                })
 
             # Phase B: batch amplify all B posts in one call
             self._check_cancel()
@@ -765,40 +834,371 @@ class BatchSession:
 
             pack.convergence_test = conv
 
-            # Fixes 3/5/6/7 — post-amplification quality pass: dedup, anchor,
-            # closer, mechanic distribution checks with composed regen.
-            def _quality_emit(payload):
-                self._emit(f"pack_{pack_num}", "post_updated", payload)
-
-            amplified_posts = _post_amplification_quality_pass(
-                amplified_posts, pack, state, llm_gen,
-                source_post=source, dissection=pack.dissection,
-                pack_number=pack_num, emit_callback=_quality_emit,
-            )
-
+            # v6: v5 _post_amplification_quality_pass is DISABLED. v6's
+            # validate_pack + regen_loop + compile_pack chain replaces it
+            # with stricter quality control at the 9.7 floor. The v5 path
+            # had three bugs visible in prod logs:
+            #   - Label collision: every regen reused "B1" instead of the
+            #     actual label (transpose() shim hardcoded i+1)
+            #   - Stale-inventory: legacy regens picked already-consumed
+            #     anchors → "anchor_id not found" warnings
+            #   - Double-regen burn: ~25 min of LLM calls before v6 loop
+            #     even started.
+            # Keep the helper imported so historical analysis scripts can
+            # still call it, but skip it in the live pipeline.
             tracer.trace_decision(
                 f"pack_{pack_num}_quality_pass",
-                f"total_regens={pack.total_regens}/{QUALITY_REGEN_PER_PACK_CAP}",
+                "skipped (v6 active — validate_pack+regen_loop handles quality)",
+                metadata={"v6_replacement": True},
+            )
+
+            # v5: code-side body-diff check across Batch A variants (cheap pre-check).
+            a_only = [p for p in amplified_posts if p.batch == "A"]
+            body_diff = _body_diff_check(a_only) if len(a_only) >= 2 else {"passed": True, "pair_results": [], "regen_targets": []}
+            self._emit(f"pack_{pack_num}", "body_diff_check", body_diff)
+            tracer.trace_decision(
+                f"pack_{pack_num}_body_diff",
+                f"passed={body_diff.get('passed', True)} regen_targets={body_diff.get('regen_targets', [])}",
+                metadata=body_diff,
+            )
+
+            # v6: validate-regen loop. Closes the v5.1 ceiling (validator
+            # caught failures but orchestrator shipped anyway). Regenerates
+            # failing posts up to 3× before rejecting the pack.
+            pack.posts = amplified_posts
+
+            def _validator_fn(_state, _posts):
+                """Run pack-level voice validator AND merge body_diff failures.
+
+                The validator LLM can miss cross-variant body overlaps (it sees
+                each post individually). Re-running the code-side body_diff
+                check on every iteration and merging its failures into the
+                validate output ensures Batch A clones never silently ship.
+                """
+                result = validate_pack(llm_prep, _posts, _state)
+                a_iter = [p for p in _posts if p.batch == "A"]
+                bd = _body_diff_check(a_iter) if len(a_iter) >= 2 else {"passed": True, "regen_targets": []}
+                if not bd.get("passed", True):
+                    pd = result.setdefault("pack_decision", {}) or {}
+                    if not isinstance(pd, dict):
+                        pd = {}
+                    existing = pd.get("regen_targets", []) or []
+                    if not isinstance(existing, list):
+                        existing = []
+                    seen_labels = {
+                        t.get("label") for t in existing
+                        if isinstance(t, dict) and t.get("label")
+                    }
+                    added = 0
+                    for lbl in set(bd.get("regen_targets", []) or []):
+                        if not lbl or lbl in seen_labels:
+                            continue
+                        existing.append({
+                            "label": lbl,
+                            "failure_reason": "body_diff_overlap",
+                            "explicit_regen_instructions": {
+                                "what_to_change": (
+                                    "Body of this Batch A post shares ≥6 sentences "
+                                    "with another Batch A peer. Rewrite all middle "
+                                    "paragraphs with non-overlapping evidence."
+                                ),
+                                "what_to_preserve": (
+                                    "Opener may stay (mirror discipline). Argument "
+                                    "skeleton may stay. Specific examples/scenes/cast "
+                                    "must change."
+                                ),
+                                "constraint": (
+                                    "Pick a different anchor from anchors_remaining. "
+                                    "Use a different scene, different cast member, "
+                                    "different industry specifics from the other A posts."
+                                ),
+                            },
+                        })
+                        added += 1
+                    pd["regen_targets"] = existing
+                    pd["ship_or_regen_or_reject"] = "regen"
+                    pd["quality_floor_met"] = False
+                    result["pack_decision"] = pd
+                    logger.info(
+                        "[validate+body_diff] merged %d body_diff regen target(s): %s",
+                        added, sorted(set(bd.get("regen_targets", []) or [])),
+                    )
+                return result
+
+            def _regenerator_fn(*, state, post_label, regen_attempt,
+                                failed_parameters, explicit_avoid,
+                                prior_attempt_text,
+                                required_sub_mechanic="",
+                                anchor_to_use="",
+                                regenerate_with_mechanic="",
+                                fallback_strategy=""):
+                # Look up the post's batch + index from the existing pack.
+                existing = next((p for p in pack.posts if p.label == post_label), None)
+                if existing is None:
+                    return None
+                post_type = existing.batch
+                # Compute post_index based on label suffix.
+                try:
+                    n = int(post_label[1:])
+                except Exception:
+                    n = 1
+                # Build prior_posts excluding the one we're regenerating.
+                prior_posts_for_regen = []
+                for p in pack.posts:
+                    if p.label == post_label:
+                        continue
+                    body_p2, closer = _extract_body_p2_closer(p.text)
+                    prior_posts_for_regen.append({
+                        "label": p.label,
+                        "argument_compressed": p.argument_compressed,
+                        "opener_text": (p.text.split("\n\n")[0] if p.text else ""),
+                        "body_paragraph_2": body_p2,
+                        "closer_text": closer,
+                        "anchor_used": p.authority_anchor or p.anchor_consumed_id,
+                        "tier": (p.pre_commit or {}).get("anchor_consumed", {}).get("tier", ""),
+                        "closer_mechanic": p.closer_mechanic,
+                        "entry_door": p.entry_door,
+                        "structural_skeleton": (p.pre_commit or {}).get("structural_skeleton") or {},
+                        "surprise_quotient": p.surprise_quotient or {},
+                    })
+
+                voice_load_data = state.voice_load or state.founder_internalization or {}
+                return _generate_one_post(
+                    llm_gen, source, pack.dissection, voice_load_data,
+                    post_index=n, post_label=post_label, post_type=post_type,
+                    post_count=len(pack.posts), prior_posts=prior_posts_for_regen,
+                    state=state, pack_num=pack_num,
+                    regen_attempt=regen_attempt,
+                    failed_parameters=failed_parameters,
+                    explicit_avoid=explicit_avoid,
+                    required_sub_mechanic=required_sub_mechanic,
+                    anchor_to_use=anchor_to_use,
+                    regenerate_with_mechanic=regenerate_with_mechanic,
+                    fallback_strategy=fallback_strategy,
+                    prior_attempt_text=prior_attempt_text,
+                )
+
+            ship_decision = run_validation_regen_loop(
+                state=state, pack=pack,
+                validator_fn=_validator_fn,
+                regenerator_fn=_regenerator_fn,
+            )
+
+            self._emit(f"pack_{pack_num}", "validate", {
+                "ship": ship_decision.ship,
+                "regens_used": ship_decision.total_regens_used,
+                "rejection_reason": ship_decision.rejection_reason,
+            })
+            tracer.trace_decision(
+                f"pack_{pack_num}_validate",
+                f"ship={ship_decision.ship} regens={ship_decision.total_regens_used}",
                 metadata={
-                    "flagged_posts": [
-                        {"label": p.label, "flags": p.quality_flags}
-                        for p in amplified_posts if p.quality_flags
-                    ],
+                    "rejection_reason": ship_decision.rejection_reason,
+                    "recommendations": ship_decision.recommendations,
                 },
             )
 
-            pack.posts = amplified_posts
+            # v6.1: Compile-regen meta-loop. Per user directive "never reject,
+            # only betterment": compile's "regen_more" signal triggers another
+            # targeted regen pass. Bounded by MAX_COMPILE_REGEN_PASSES so we
+            # never block. After the ceiling, ship with quality_floor_warning
+            # flag so the UI can surface residual issues.
+            MAX_COMPILE_REGEN_PASSES = 2
+            compile_decision: dict = {}
+            compile_history: list[dict] = []
+
+            for compile_pass in range(MAX_COMPILE_REGEN_PASSES + 1):
+                try:
+                    compile_decision = compile_pack(
+                        llm_prep, state, pack,
+                        ship_decision.detailed_failures or {},
+                        list(state.regen_log or []) + compile_history,
+                    )
+                except Exception as e:
+                    logger.warning("[batch] compile step failed: %s — defaulting to ship", e)
+                    compile_decision = {"pack_decision": "ship", "quality_floor_met": True}
+                    break
+
+                decision_value = compile_decision.get("pack_decision", "ship")
+                self._emit(f"pack_{pack_num}", "compile_decision", {
+                    "pack_decision": decision_value,
+                    "quality_floor_met": compile_decision.get("quality_floor_met", False),
+                    "compile_pass": compile_pass + 1,
+                })
+
+                # Coerce legacy "reject" output into "regen_more" — user
+                # directive: never reject, only betterment.
+                if decision_value == "reject":
+                    decision_value = "regen_more"
+                    compile_decision["pack_decision"] = "regen_more"
+
+                if decision_value == "ship":
+                    break
+
+                if compile_decision.get("compile_regen_ceiling_reached"):
+                    logger.info(
+                        "[compile_regen] LLM signaled ceiling reached at pass %d — shipping",
+                        compile_pass + 1,
+                    )
+                    compile_decision["pack_decision"] = "ship"
+                    compile_decision["quality_floor_warning"] = True
+                    break
+
+                if compile_pass >= MAX_COMPILE_REGEN_PASSES:
+                    logger.info(
+                        "[compile_regen] MAX_COMPILE_REGEN_PASSES (%d) reached — shipping with quality_floor_warning",
+                        MAX_COMPILE_REGEN_PASSES,
+                    )
+                    compile_decision["pack_decision"] = "ship"
+                    compile_decision["quality_floor_warning"] = True
+                    break
+
+                regen_instructions = compile_decision.get("regen_instructions") or []
+                failure_summary = compile_decision.get("failure_summary", "") or ""
+
+                if not regen_instructions:
+                    logger.warning(
+                        "[compile_regen] regen_more but no actionable instructions — shipping as-is",
+                    )
+                    compile_decision["pack_decision"] = "ship"
+                    compile_decision["quality_floor_warning"] = True
+                    break
+
+                # Oscillation detection: if this pass's failure_summary is ≥70%
+                # similar to the prior one, regens aren't converging. Ship with
+                # warning rather than burning more cost on a stuck loop.
+                if compile_history:
+                    prior_summary = compile_history[-1].get("failure_summary", "") or ""
+                    if prior_summary and _jaccard_similarity(failure_summary, prior_summary) >= 0.7:
+                        logger.info(
+                            "[compile_regen] oscillation detected (failure_summary similarity ≥0.7) — shipping",
+                        )
+                        compile_decision["pack_decision"] = "ship"
+                        compile_decision["quality_floor_warning"] = True
+                        compile_decision["oscillation_detected"] = True
+                        break
+
+                compile_history.append({
+                    "iteration": compile_pass + 1,
+                    "failure_summary": failure_summary,
+                    "regen_instructions": regen_instructions,
+                })
+
+                logger.info(
+                    "[compile_regen] pass %d: applying %d targeted regen(s)",
+                    compile_pass + 1, len(regen_instructions),
+                )
+
+                for instr in regen_instructions:
+                    label = instr.get("label", "")
+                    if not label:
+                        continue
+                    existing_post = next((p for p in pack.posts if p.label == label), None)
+                    if not existing_post:
+                        continue
+                    new_post = _regenerator_fn(
+                        state=state,
+                        post_label=label,
+                        regen_attempt=99,  # compile-driven regen marker
+                        failed_parameters=[instr.get("issue", "compile_regen")],
+                        explicit_avoid=[],
+                        prior_attempt_text=existing_post.text or "",
+                        required_sub_mechanic="",
+                        anchor_to_use="",
+                        regenerate_with_mechanic="",
+                        fallback_strategy=instr.get("instruction", ""),
+                    )
+                    if new_post:
+                        for i, p in enumerate(pack.posts):
+                            if p.label == label:
+                                pack.posts[i] = new_post
+                                break
+
+                # Re-validate the patched pack so the next compile attempt
+                # scores the new state.
+                try:
+                    revalidation = _validator_fn(state, pack.posts)
+                    ship_decision = ShipDecision(
+                        ship=True,
+                        pack=pack,
+                        detailed_failures=revalidation,
+                        total_regens_used=(
+                            ship_decision.total_regens_used + len(regen_instructions)
+                        ),
+                    )
+                except Exception as e:
+                    logger.warning(
+                        "[compile_regen] revalidation failed: %s — shipping current pack", e,
+                    )
+                    compile_decision["pack_decision"] = "ship"
+                    compile_decision["quality_floor_warning"] = True
+                    break
+
+            # Always save the pack — user directive "never reject, only betterment".
+            # Pack metadata carries quality_floor_warning + compile_history so the
+            # UI can surface residual issues for operator review.
+            quality_warn = bool(compile_decision.get("quality_floor_warning", False))
+            pack.convergence_warning = quality_warn
+            pack.convergence_test = {
+                "passed": not quality_warn,
+                "recommendation": compile_decision.get("failure_summary", ""),
+                "quality_floor_met": compile_decision.get("quality_floor_met", True),
+                "ship_decision": "ship_with_warning" if quality_warn else "ship",
+                "compile_history": compile_history,
+                "compile_passes_used": len(compile_history),
+                "oscillation_detected": compile_decision.get("oscillation_detected", False),
+            }
             state.packs.append(pack)
+
+            try:
+                anchors_consumed = state.inventory.anchors_used_in_pack if state.inventory else []
+                markers_consumed = (
+                    state.inventory.voice_markers_consumed_summary()
+                    if state.inventory else []
+                )
+                append_pack_to_history(
+                    founder_slug=state.founder_slug,
+                    pack_id=f"{state.founder_slug}_pack_{pack_num}",
+                    anchors_used=anchors_consumed,
+                    voice_markers_used=markers_consumed,
+                )
+            except Exception as e:
+                logger.warning("[batch] failed to append pack_history: %s", e)
+
+            if quality_warn:
+                # Compile-regen ceiling reached — still ship, but emit a
+                # quality-audit report alongside the main output so the operator
+                # has the full regen trail for review.
+                try:
+                    write_rejection_report(state, pack, ship_decision, compile_decision)
+                except Exception as e:
+                    logger.warning("[batch] failed to write quality_audit report: %s", e)
+                logger.warning(
+                    "[batch] Pack %d shipped with quality_floor_warning after %d compile pass(es): %s",
+                    pack_num, len(compile_history), compile_decision.get("failure_summary", "")[:200],
+                )
+                self._emit(f"pack_{pack_num}", "quality_warning", {
+                    "stage": "compile_regen_ceiling",
+                    "reason": compile_decision.get("failure_summary", ""),
+                    "compile_passes_used": len(compile_history),
+                    "oscillation_detected": compile_decision.get("oscillation_detected", False),
+                    "posts_visible_in_output": True,
+                })
 
             tracer.trace_decision(
                 f"pack_{pack_num}_complete",
-                f"convergence={'PASS' if conv.get('passed', True) else 'FAIL'}",
-                metadata={"posts": len(pack.posts), "recommendation": conv.get("recommendation", "")},
+                f"shipped (compile_passes={len(compile_history)} warning={quality_warn})",
+                metadata={
+                    "posts": len(pack.posts),
+                    "compile_passes_used": len(compile_history),
+                    "quality_floor_warning": quality_warn,
+                },
             )
 
             self._emit(f"pack_{pack_num}", "completed", {
                 "posts": len(pack.posts),
-                "convergence": conv.get("passed", True),
+                "shipped": True,
+                "quality_floor_warning": quality_warn,
             }, progress=pack_progress_base + (0.75 / total))
 
         # Phase 5: Compile output

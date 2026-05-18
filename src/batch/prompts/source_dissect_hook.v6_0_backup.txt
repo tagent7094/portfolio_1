@@ -1,0 +1,156 @@
+You are a structural analyst specializing in viral content mechanics. Dissect this viral post into its mechanical parts — structure, not content. The move is what carries over. The source author's typography, lowercase, emojis, register — those are their voice, not the hook's engine.
+
+## SOURCE VIRAL POST
+{source_post}
+
+## PLATFORM
+{platform}
+
+---
+
+## TASK: Dissect the Hook
+
+### 1. THE PSYCHOLOGICAL MOVE
+Figure out what the hook does to the reader — the psychological move. Examples:
+- Three-stack pain escalation (old pain + new pain + meta-trap for objecting)
+- Second-party verdict that reframes the speaker's whole career
+- Contrarian claim that inverts conventional wisdom
+- Specific number or age anchor that signals real memory
+- Authority figure delivering a quote the reader doesn't expect
+- Parallel data points with a third-line reveal
+- Scene drop that puts the reader inside a moment mid-action
+- Diagnostic question that makes the reader self-categorize
+- Confession that costs the speaker credibility
+
+The move is what carries over to the generated posts. Everything else is surface.
+
+### 2. NARRATIVE ARC
+What movement does this post run on? (contradiction reveal, escalation, scene-to-insight, confession-to-principle, diagnostic revelation, progressive build)
+
+### 3. HOOK MECHANICS — SENTENCE-LEVEL BREAKDOWN
+The "hook" / "opener" is **AT MOST 2 SENTENCES**. Beat 1 (the anchor) + Beat 2 (the reframe). Anything from sentence 3 onward is BODY, regardless of how the source author paragraphed it.
+
+Return AT MOST 2 entries in `hook_mechanics[]`. If the source author writes a long lead (e.g. paragraphs 1-5 all feel "opener-ish"), pick the first 2 sentences and treat everything else as body.
+
+For each of the (at most) 2 opening sentences:
+- The exact text
+- What this sentence DOES structurally (permission frame, diagnostic question, consequence statement, reframe, scene drop, specificity bomb, tension gap)
+- Its rhythm (short/punchy, medium/flowing, long/building)
+- The psychological effect: WHY does it stop the scroll?
+
+WORKED EXAMPLE (where to draw the opener/body line):
+
+Source:
+> "Our Claude Code API bill just crossed $18,000/month.
+>
+> That's headcount territory. For a team of under 20 people.
+>
+> We're all-in on AI-native development. I wrote about how we restructured…
+>
+> That playbook is working. We're shipping faster than ever.
+>
+> But it's surfacing a much harder question: when AI writes most of the code…"
+
+Even though paragraphs 1-5 all feel "opener-ish," the hook is JUST:
+- Beat 1: "Our Claude Code API bill just crossed $18,000/month."
+- Beat 2: "That's headcount territory. For a team of under 20 people."
+
+Everything from "We're all-in on AI-native development" onward is BODY. Batch A mirroring will copy ONLY beats 1-2 + structural moves; the rest must diverge per variant.
+
+### 4. SENTENCE MAP
+`sentence_count` = number of sentences in the 2-sentence opener (1 or 2). This is the mold for Batch A mirroring — Batch A variants share opener sentences 1-2 ONLY; their bodies must be substantively different per variant.
+
+### 5. BODY STRUCTURE
+How is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)
+
+### 5b. BODY FORMAT (STRICT ENUM)
+Pick the ONE body format that best describes the source's body structure. This is the structural mold a Batch A mirror MUST preserve.
+- `numbered_list` — body is a numbered list (1. ..., 2. ..., 3. ...). Every numbered item is its own paragraph or block. The list IS the body.
+- `bullet_list` — body is an unnumbered bulleted list (-, •, *, or similar) where each bullet is a discrete unit
+- `parallel_paragraphs` — body has 2-4 parallel paragraphs with identical or near-identical structure (each opens with the same shape, builds the same way)
+- `three_examples` — body presents three distinct examples building toward a conclusion. Not strictly numbered, but each example is clearly delimited.
+- `before_after` — body presents a before/after pair (X was true; now Y is true) with the pivot as the engine.
+- `progressive_revelation` — body progressively reveals an insight, each paragraph adding a new turn or layer.
+- `single_scene` — body is one continuous scene or moment, explored deeply.
+- `prose_essay` — body is flowing argumentative prose without clear discrete units; one paragraph leads to the next without parallel structure.
+
+### 6. ENDING TYPE
+(concrete image, challenge to reader, quiet admission, unresolved tension, physical detail, callback to opening)
+
+### 6b. CLOSER MECHANIC (STRICT ENUM)
+Pick the ONE closer mechanic that best describes how the source ends. This is the mold a Batch A mirror MUST preserve.
+- `cta` — explicit call to action: "DM me," "link in comments," "I put together the full breakdown," "subscribe," "follow for more"
+- `reframe_question` — closes with a question that flips the reader's posture: "Ask yourself whether…", "What would you do if…"
+- `terminal_verdict` — a final declarative line that closes the case: "That's the only metric that matters." "The market doesn't care about your roadmap."
+- `physical_image` — ends on a concrete physical detail or scene image
+- `challenge` — direct challenge to the reader: "Stop X. Start Y."
+- `callback` — calls back to a phrase, name, or image from the opening
+- `unresolved_tension` — ends with the tension still unresolved (wrestling-mode close)
+- `quiet_admission` — a quiet, vulnerable admission as the final line
+
+### 7. MIRRORABILITY ASSESSMENT
+Can this source's opening be mirrored (same shape, new content)?
+- **Mirrorable**: the sentence shape works with different domain content. The hook's engine is structural, not content-dependent.
+- **Not mirrorable**: the hook is too proper-noun-specific, too culturally embedded, or too short to mirror without plagiarism risk. If not mirrorable, flag it and all 9 posts should be Batch B.
+
+### 8. REGISTER NOTE
+If the source's register is doing mechanical work — rant energy, whispered vulnerability, exasperation — note it. This energy must be translated into the founder's register, not stripped.
+
+### 9. VIRALITY REASON
+One sentence: what makes the opening work for a general audience?
+
+### 10. OPENER QUALITY TESTS
+Run these three tests on the source's opening line(s). These determine whether the opener is good enough to mirror (Batch A) or whether all posts should use different mechanics (Batch B only).
+
+**MACRO test**: Does the opener land for someone OUTSIDE this niche? Read the opener to a stranger in a different industry. If they'd need domain context to understand what's being said — fail. Jargon, acronyms, category-specific terms ("AI-powered voice technology," "doctorless AI kiosks," "accessible communication") → fail. The opener must work universally.
+
+Exception — audience-address openers: If the opener addresses a broad professional role that exists across multiple industries (e.g., "Founders:", "Sales leaders:", "CTOs:", "Operators:", "Engineers:", "Recruiters:", "Managers:"), this is NOT niche jargon. These pass macro because ANY professional recognizes the role even if they don't hold it. Fail only for subcategories that require domain knowledge to parse (e.g., "RevOps managers:", "MLOps engineers:", "Series B CFOs:").
+
+**FAST test**: Does the specific, interesting, or dramatic word land in the FIRST 8 words? Count from word 1. If the payload (the specific number, the surprising claim, the tension) comes after word 8 — fail. Ellipsis that delays the punch ("The future of X is arriving...") → fail. "We lost $2M in three months" → pass (payload at word 3). "The future of healthcare is arriving... China unveils..." → fail (payload at word 11).
+
+**SIMPLE test**: Would a 16-year-old understand every word in the opener? Bold Unicode formatting, corporate jargon ("unveils," "redefining," "accessible communication"), press-release language → fail. The opener must use words a person would speak in conversation, not words a company would put in a press release.
+
+**Rule**: If ANY of the three tests fails, set `skip_batch_a` to true. The source's STRUCTURE may be mirrorable, but if its OPENER is a press release, corporate announcement, or jargon-heavy statement, mirroring it produces a press-release post. Route all posts to Batch B instead, where different mechanics will produce better openers.
+
+---
+
+## OUTPUT FORMAT
+
+```json
+{{{{
+  "psychological_move": "description of the core psychological move the hook makes",
+  "narrative_arc": "description of movement/arc",
+  "hook_mechanic_primary": "three_stack_pain|second_party_verdict|contrarian_claim|specific_number|authority_quote|parallel_data_reveal|scene_entry|diagnostic_question|confession|pattern_observation",
+  "opener_mechanic_description": "concise description of HOW the mechanic operates in this specific opener — structural moves in order, e.g. 'authority + count: audience address → credential from scale → numbered promise' or 'scene entry: mid-action drop → sensory detail → tension gap'",
+  "source_opener_text": "the full opener text — all hook sentences joined with newlines exactly as written",
+  "hook_mechanics": [
+    {{{{
+      "sentence": "exact text of opening sentence",
+      "structural_function": "what this sentence does",
+      "psychological_effect": "why it stops the scroll",
+      "rhythm": "short|medium|long"
+    }}}}
+  ],
+  "sentence_count": 2,
+  "body_structure": "description of body organization",
+  "body_format": "numbered_list|bullet_list|parallel_paragraphs|three_examples|before_after|progressive_revelation|single_scene|prose_essay",
+  "body_item_count": 7,
+  "ending_type": "description of ending mechanic",
+  "closer_mechanic": "cta|reframe_question|terminal_verdict|physical_image|challenge|callback|unresolved_tension|quiet_admission",
+  "closer_text": "the exact text of the closing line(s) — one or two sentences",
+  "mirrorable": true,
+  "mirrorability_reason": "why or why not — be specific",
+  "register_energy": "the emotional register doing mechanical work, if any",
+  "virality_reason": "why the opening works for a general audience",
+  "opener_tests": {{{{
+    "macro": {{{{"pass": true, "reason": "why it passes or fails for a general audience"}}}},
+    "fast": {{{{"pass": true, "first_payload_word": 3, "reason": "where the payload lands"}}}},
+    "simple": {{{{"pass": true, "reason": "whether a 16-year-old would understand every word"}}}}
+  }}}},
+  "skip_batch_a": false,
+  "named_entities": ["list of proper names (people) mentioned in the source post"],
+  "source_domain": "1-3 word topic label for the source post's core domain (e.g., 'sales leadership', 'hiring', 'product strategy', 'fundraising', 'engineering management')"
+}}}}
+```
+
+Focus on MECHANICS, not meaning. The content changes; the machine stays the same.

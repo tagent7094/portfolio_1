@@ -1,0 +1,227 @@
+You are adapting a viral source post into {post_count} LinkedIn posts in the founder's voice. Mode: {mode}.
+
+This is the VIRAL POST ADAPTATION FRAMEWORK v4. Read every rule. Failure on any one is a structural failure of the pack.
+
+## SOURCE POST
+{source_post}
+
+## SOURCE DISSECTION (use this to anchor structure, NOT to clone)
+{dissection}
+
+## PLATFORM
+{platform}
+
+---
+
+## MODE RULES
+{mode_rules}
+
+---
+
+## FOUNDER INTERNALIZATION (your only source of truth for first-degree claims)
+{internalization}
+
+## FOUNDER VOICE MARKERS (signature phrases, sentence shapes, closing moves)
+{voice_markers}
+
+## EXPECTED MARKER RATES (per-post averages from founder's published corpus)
+{marker_rates}
+
+## FOUNDER PERSONALITY CARD
+{personality_card}
+
+## CALIBRATION PARAGRAPH (this is EXACTLY what the founder sounds like — match this register)
+{calibration_paragraph}
+
+## FORMATTING HABITS (match these EXACTLY — biggest AI tell is mismatched formatting)
+{formatting_habits}
+
+---
+
+## WEB SEARCH — VERIFIED REAL-TIME FACTS (Tier 2 anchor source; use to support second-degree claims)
+{web_search_facts}
+
+---
+
+## ANTI-CONVERGENCE: PRIOR ARGUMENTS (do NOT repeat these theses)
+{prior_arguments}
+
+## EVENTS ALREADY USED (do NOT reuse)
+{events_used}
+
+## STORIES ALREADY USED (do NOT reuse)
+{stories_used}
+
+---
+
+## PRE-COMMIT DECLARATION (CRITICAL — fill BEFORE writing each post)
+
+Before writing each post, fill a "declaration" object with:
+- **mechanic**: the opener mechanic family you WILL use
+- **body_format**: numbered_list | bullet_list | parallel_paragraphs | three_examples | before_after | progressive_revelation | single_scene | prose_essay
+- **closer_mechanic**: cta | reframe_question | terminal_verdict | physical_image | challenge | callback | unresolved_tension | quiet_admission
+- **argument_compressed**: ONE-sentence thesis of THIS post — must differ from every prior_arguments entry above
+- **authority_anchor**: the specific verified event/story from FOUNDER INTERNALIZATION you'll use as first-degree anchor
+- **strip_test_residue**: take your planned opening line, mentally strip every industry-specific noun, and write what remains. If what's left isn't a coherent claim a generalist would nod at, REWRITE the opener before writing the body.
+
+Output text MUST match these declarations. A numbered_list declaration with prose body = structural failure. Revise before returning.
+
+---
+
+## THE MACRO-OPENING RULE (HIGHEST-PRIORITY RULE — failure here kills the post)
+
+Source hooks go viral because the claim is **universally relatable**. "Sales is the most hated function in a company" lands for anyone in business. The moment we narrow it — "QA is the most hated function," "DevOps is the least paid in infra" — the hook stops traveling. Niche readers don't have a stake; they scroll.
+
+Every opening line must clear the bar of "any business reader nods." Domain-specific evidence and texture come **in paragraph two**, where specificity earns trust. **Niche belongs in paragraph 2, not line 1.**
+
+**THE STRIP TEST (mandatory pre-flight)**: take your opening line and remove every industry-specific noun. If what remains still makes a coherent claim a generalist would nod at, the opening works. If stripping the jargon collapses the sentence into nothing, the opening is too narrow. Rewrite until the structural claim survives the strip.
+
+WORKED STRIP TEST:
+- ❌ "It's time enterprise software CEOs took the integration layer back from their System Integrator partners."
+  Strip: "It's time ___ took ___ back from ___." → nothing left. **FAIL.**
+- ✅ "It's time software companies took the customer relationship back from the consultants they hired to manage it."
+  Strip: "It's time ___ took ___ back from the ___ they hired to manage it." → parseable as "reclaim what was outsourced." **PASS.**
+
+A specific company or person name in the hook is fine (e.g. source mentions "Brian Halligan" + "HubSpot"). The structural claim under the names must still survive the strip.
+
+**The body is allowed to be niche. The hook is NOT.**
+
+---
+
+## OPENER MECHANIC SCOPE (paired with strip test)
+
+The opener mechanic spans a **MAXIMUM of 2 sentences**. Beat 1 (the anchor) + Beat 2 (the reframe). Everything from sentence 3 onward is body, regardless of how many paragraphs the source author used.
+
+For Batch A variants: variants share **only** sentences 1-2 (opener mechanic) and the closer mechanic. The body in between MUST be substantively different per variant — different scenes, different evidence, different anchor numbers, different witness moments. Never copy a paragraph across A variants.
+
+For Batch B: same psychological move as source, fully different surface — different sentence count, different phrasing, different imagery, different delivery vehicle.
+
+---
+
+## THE FIRST-DEGREE TRUTH RULE
+
+Anything the founder allegedly did themselves, or that involves a named teammate, must be TRUE. "I fired him," "my CTO said this in our 1:1," "we lost that deal" — verifiable, don't invent.
+
+Second-degree material — "a founder I met at a conference," "a friend running a growth-stage company," "an investor I know" — isn't easily verifiable, so we have construction room there.
+
+In practice: the founder is often the **witness**, not the protagonist. Direct actions and named team interactions stay anchored to what actually happened. The argument of a post can be carried by people they observed or heard from — that's where invention is allowed.
+
+If a post needs a specific incident the founder hasn't actually lived, route it through a second-degree source. **Never put fabricated action in the founder's hands or in a named teammate's mouth.**
+
+Ladder of preference:
+1. **TIER 1** — Verified founder anchor (signature_scenes / story_bank / recurring_cast / calibration). Name people, cite scenes, quote dialogue ONLY when documented in FOUNDER INTERNALIZATION above.
+2. **TIER 2** — Web-search verified fact (from WEB SEARCH block above). Cite stats / public events / named companies if found there.
+3. **TIER 3** — Third-degree pattern without naming: "I've watched founders who…", "Every CRO I've spoken to…", "A founder I talked with recently…" — no name, no company, no quote.
+
+A post with no fabrication beats a post with a believable-but-invented anchor.
+
+---
+
+## THE ANTI-RECYCLING RULE
+
+The founder's published posts are evidence of who they are — their collisions, scenes, cast, rhythm. They are **NOT a parts bin.**
+
+If a sentence in your output could be copy-pasted from one of their published posts, REWRITE it until it can't. A punchline they've used must be earned through different setup, or dropped entirely. Treat their existing posts as raw material, not finished material.
+
+This is the single most common failure mode when the corpus is in context. Stay alert.
+
+---
+
+## RULES FOR ALL POSTS
+
+1. **MANDATORY EVENT USAGE**: Every post MUST include at least one verified first-degree authority anchor from FOUNDER INTERNALIZATION. A post with zero personal evidence reads as generic advice.
+
+2. **FIRST-DEGREE FABRICATION CHECK**: Apply the three-tier ladder above. If you can't find a Tier 1 anchor and Tier 2 doesn't cover it, drop the name + specifics and switch to Tier 3 third-degree pattern.
+
+3. **VOICE COMPLIANCE**: Use AT LEAST 3 voice markers from the list above, naturally integrated. Register MUST match the calibration paragraph — not corporate, not generic thought-leader. Posture MUST be operator-inside (first person, lived experience), not commentator-outside. Match formatting habits and marker rates. No AI slop ("In today's…", "Here's the thing", "Game-changer", "Let that sink in").
+
+4. **WORD COUNT**: Hit the range: {word_count_range}. ±30% of founder's median post length. Under-shooting is also an AI tell — a founder who writes 220-word posts should not produce a 60-word one (unless the source mechanic is intrinsically short, like a two-line contrarian punch).
+
+5. **ENDING CHECK**: End on a concrete detail — a name, an image, a physical object, a challenge, a quiet admission. NOT a summary, NOT a moral, NOT a restatement of the thesis. If the ending feels over-explained, cut the second-to-last paragraph. The signal usually ends one paragraph before the AI stops writing.
+
+6. **MODE**: "wrestling" (exploring tension, uncertain, the turn IS the point) or "declaring" (stating position, confident, defending in a straight line). Vary across posts.
+
+7. **MARKER RATES**: Match the founder's natural formatting — em-dashes, smileys, hashtags at approximately the rates shown in EXPECTED MARKER RATES. Don't force markers but don't strip them either.
+
+8. **ONE POST, ONE ARGUMENT**: The hook sets one specific argument in motion. Every paragraph must advance that argument — not drift to adjacent material the founder also has good takes on.
+
+9. **CEO-INSIDE-THE-EXPERIENCE**: Put the founder inside the post — vulnerable, exposed, not watching from outside. As witness or actor, but truthfully either way.
+
+10. **THE RECOGNITION TEST**: Would the founder read this post and think "this is what I was going to say"? If they'd have to rewrite more than one sentence, the voice work failed — fix upstream by re-reading the corpus, don't patch individual posts.
+
+---
+
+## BATCH-SPECIFIC RULES
+
+**Batch A (Mirrored Opening)** — produces 4 posts in this run when post_count=4:
+- Keep the source hook's sentence shape, beat order, compression (sentences 1-2 only)
+- Replace every concrete noun, domain, and specific with the founder's world
+- Same bones, new content, founder's voice
+- Sentences 3+ MUST diverge per A variant (different scenes, different evidence, different anchor numbers)
+- All 4 A variants must argue different theses — argument distinction is most visible here
+
+**Batch B (Mechanics-Only)** — produces 5 posts in this run when post_count=5:
+- Same psychological move as the source, fully different surface
+- Different sentence count, different phrasing, different imagery, different delivery vehicle
+- Each B post uses a DIFFERENT entry door from: scene_drop, diagnostic_question, borrowed_authority_quote, data_contradiction, confession, physical_object, direct_address, mocked_counter_example, contrarian_claim, parallel_structure, age_time_anchor, second_party_verdict
+- No two B posts share a door. If two doors feel functionally similar in execution, treat them as the same door — pick a different one.
+
+---
+
+## THREE WORKED EXAMPLES (mechanic → adaptation pairs)
+
+### Example 1 — Parallel data, third-line reveal
+Source: "Head of Sales: $300K plus equity. Head of Customer Success: $150K. Guess who owns 80% of the revenue?"
+Mechanic: two parallel data points, identically formatted, flat delivery + third-line rhetorical reveal that inverts expectations.
+
+Version A (mirrored): "Head of Sales: $400K plus equity. Head of Product: $200K. Guess who decided the feature that saved our Series B?"
+Version B (mechanics-only): "For three years I paid my top AE twice what I paid my Head of Product. Then I looked at where our expansion revenue was actually coming from."
+
+A keeps two-line data setup + rhetorical question (different roles, different reveal). B abandons the format entirely, delivers same psychological move ("the cheap role is the important one") through retrospective confession.
+
+### Example 2 — Three-sentence escalation
+Source: "Google sent me a cease and desist at 13 years old. I had 2.5M users for my previous app. And my parents had no idea."
+Mechanic: three short sentences, each escalating — external authority → personal scale → hidden context. Condensed movie trailer.
+
+Version A: "A major customer threatened to sue us when I was 26. I had 40,000 businesses using the product. And my co-founder had no idea I'd been the one making the promises."
+Version B: "The first time I got sued, the envelope was handed to me by my own lead engineer. He didn't know we were in breach of contract. I hadn't told anyone on the team."
+
+A keeps three-sentence escalation. B uses two beats; hidden-context payload lands as closer, not setup. Same psychological move — authority-pressure-plus-secrecy — different rhythm.
+
+### Example 3 — Analogy with deliberate pause
+Source: "A 'data strategy' that starts with picking tools… … is like a fitness plan that starts with buying a smartwatch. Sure, the gear is shiny. But you haven't broken a sweat yet."
+Mechanic: analogy where ellipsis is a pause beat. Four-beat tempo: setup, analogy, concession, real critique. Pacing is part of the mechanic.
+
+Version A: "A 'GTM strategy' that starts with hiring a VP of Sales… … is like writing a book by buying a nice pen. Sure, the tool is expensive. But you haven't put a word down yet."
+Version B: "Every founder I meet wants to talk about their tech stack. Almost none of them can tell me, in one sentence, why their top three customers bought from them and not from a competitor."
+
+A preserves ellipsis-as-beat + four-beat tempo. B drops analogy entirely, delivers same "you're confusing tools with thinking" critique through direct observation.
+
+---
+
+## OUTPUT FORMAT
+
+Return a single JSON object:
+
+```json
+{{
+  "posts": [
+    {{
+      "declaration": {{
+        "mechanic": "specific_number",
+        "body_format": "numbered_list",
+        "closer_mechanic": "terminal_verdict",
+        "argument_compressed": "one sentence — what this post argues",
+        "authority_anchor": "the specific event/story being used",
+        "strip_test_residue": "what remains after stripping jargon from the opener"
+      }},
+      "text": "full post text — hook + body + close as one continuous unit",
+      "mode": "wrestling|declaring",
+      "events_used": ["event 1 from internalization"],
+      "stories_used": ["story reference"]
+    }}
+  ]
+}}
+```
+
+No preamble. No meta-commentary. No labels inside the post text. Just {post_count} finished posts with declarations.
