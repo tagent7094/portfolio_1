@@ -272,11 +272,26 @@ class MoonshotProvider(LLMProvider):
         # value depends on it (0.6 when off, 1.0 when on for K2.x).
         thinking_on = bool(extra_body and extra_body.get("thinking", {}).get("type") == "enabled")
         safe_temp = _coerce_temperature(self.model, temperature, thinking_on=thinking_on)
+
+        # Moonshot's OpenAI-compatible API uses `max_tokens` to cover BOTH
+        # thinking + visible output. With thinking on, a small max_tokens
+        # (e.g. 1000 for calibration, 2000 for dissect) gets entirely consumed
+        # by the reasoning trace and the response comes back EMPTY. We have to
+        # add a thinking budget on top of the caller-requested visible budget
+        # so the model has room for both.
+        #
+        # Heuristic: thinking_budget hint from the router config (or 8000
+        # default), but clamped so very-cheap calls don't balloon.
+        effective_max_tokens = max_tokens
+        if thinking_on:
+            thinking_budget_hint = max(int(thinking_budget or 0), 8000)
+            effective_max_tokens = max(max_tokens + thinking_budget_hint, 16000)
+
         kwargs: dict = {
             "model": self.model,
             "messages": messages,
             "temperature": safe_temp,
-            "max_tokens": max_tokens,
+            "max_tokens": effective_max_tokens,
             "stream": True,
             # Asks Moonshot to emit a final chunk carrying token usage stats.
             "stream_options": {"include_usage": True},
@@ -448,12 +463,27 @@ class MoonshotProvider(LLMProvider):
                         args = json.loads(tc.function.arguments) if tc.function.arguments else {}
                     except Exception:
                         args = {}
-                    # Store ONLY the user-readable query, never the raw tool
-                    # arguments blob (which Moonshot sometimes returns as a
-                    # JSON-encoded tool RESULT, not the query the model issued).
+                    # Moonshot's `$web_search` is a builtin tool — the model
+                    # doesn't pass us a `query` field; Moonshot decides what to
+                    # search based on conversation context, and the result
+                    # (search_id + token usage) comes back in `arguments`.
+                    # Best we can do: extract a `query` if present, else fall
+                    # back to the search_id, else the user's prompt text as a
+                    # rough proxy for "what was searched".
                     query_text = ""
                     if isinstance(args, dict):
-                        query_text = args.get("query") or args.get("q") or ""
+                        query_text = (
+                            args.get("query")
+                            or args.get("q")
+                            or args.get("search_query")
+                            or ""
+                        )
+                        if not query_text:
+                            sr = args.get("search_result") or {}
+                            if isinstance(sr, dict):
+                                query_text = sr.get("query") or sr.get("search_id") or ""
+                    if not query_text and prompt:
+                        query_text = f"(builtin $web_search, ctx: {prompt[:80].strip()}…)"
                     searches.append({"query": str(query_text), "tool_call_id": tc.id})
                     messages.append({
                         "role": "tool",
