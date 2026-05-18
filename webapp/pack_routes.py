@@ -249,13 +249,30 @@ def _get_pack_response(slug: str, date: str, filename: str | None = None) -> dic
         if target.exists() and target.suffix == ".json":
             raw = json.loads(target.read_text(encoding="utf-8"))
             return _batch_json_to_tabular(raw)
-    f = _latest_file_for_date(post_dir, date, ".json")
-    if f:
-        raw = json.loads(f.read_text(encoding="utf-8"))
-        return _batch_json_to_tabular(raw)
-    target = _latest_file_for_date(post_dir, date, ".xlsx")
-    if not target:
+        if target.exists() and target.suffix == ".xlsx":
+            target_xlsx = target
+            # fall through to xlsx loader below
+        else:
+            target_xlsx = None
+    else:
+        target_xlsx = None
+
+    # Prefer the most-recently-modified pack file for the date, regardless of
+    # extension. This lets a freshly-uploaded xlsx (e.g. via /upload-pack or
+    # direct scp) override a stale or partial batch JSON for the same date.
+    candidates: list[Path] = []
+    candidates += [f for f in post_dir.glob("*_batch_*.json") if date in f.name and "_log" not in f.name]
+    candidates += [f for f in post_dir.glob("*.xlsx") if date in f.name]
+    if not target_xlsx and not candidates:
         raise HTTPException(status_code=404, detail=f"No pack found for {date}")
+
+    winner = target_xlsx or max(candidates, key=lambda f: f.stat().st_mtime)
+
+    if winner.suffix == ".json":
+        raw = json.loads(winner.read_text(encoding="utf-8"))
+        return _batch_json_to_tabular(raw)
+
+    target = winner  # xlsx path
     try:
         import openpyxl  # type: ignore
     except ImportError:
