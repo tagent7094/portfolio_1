@@ -75,6 +75,37 @@ _VISION_CAPABLE = {
     "kimi-latest",
 }
 
+# Models that REJECT any temperature other than the listed value.
+# Moonshot's K2.x reasoning models lock temperature server-side. If we send
+# anything else we get a 400 "invalid temperature" before any tokens stream.
+# We silently override the temperature and warn once per (model, requested) pair.
+_FIXED_TEMPERATURE: dict[str, float] = {
+    "kimi-k2.6":                0.6,
+    "kimi-k2.5":                0.6,
+    "kimi-k2.5-thinking":       0.6,
+    "kimi-k2.5-thinking-turbo": 0.6,
+    "kimi-latest":              0.6,
+}
+
+
+def _coerce_temperature(model: str, requested: float) -> float:
+    """Return the temperature actually safe to send to `model`. Warn-once on override."""
+    locked = _FIXED_TEMPERATURE.get(model)
+    if locked is None:
+        return requested
+    if abs(float(requested) - locked) < 1e-6:
+        return locked
+    seen_key = (model, round(float(requested), 4))
+    seen = getattr(_coerce_temperature, "_warned", set())
+    if seen_key not in seen:
+        logger.warning(
+            "[moonshot] %s only accepts temperature=%s; overriding requested %.3f",
+            model, locked, requested,
+        )
+        seen.add(seen_key)
+        _coerce_temperature._warned = seen  # type: ignore[attr-defined]
+    return locked
+
 
 def _estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
     prices = KIMI_PRICING.get(model)
@@ -227,10 +258,11 @@ class MoonshotProvider(LLMProvider):
         messages.append({"role": "user", "content": self._build_user_content(prompt, images)})
 
         extra_body = self._thinking_extra_body(thinking_budget=thinking_budget, effort=effort)
+        safe_temp = _coerce_temperature(self.model, temperature)
         kwargs: dict = {
             "model": self.model,
             "messages": messages,
-            "temperature": temperature,
+            "temperature": safe_temp,
             "max_tokens": max_tokens,
             "stream": True,
             # Asks Moonshot to emit a final chunk carrying token usage stats.
@@ -334,13 +366,14 @@ class MoonshotProvider(LLMProvider):
         cum_input = 0
         cum_output = 0
 
+        safe_temp = _coerce_temperature(self.model, temperature)
         while rounds < max_searches + 2:
             rounds += 1
             try:
                 response = self.client.chat.completions.create(
                     model=self.model,
                     messages=messages,
-                    temperature=temperature,
+                    temperature=safe_temp,
                     max_tokens=max_tokens,
                     tools=tools,
                     extra_body=self._thinking_extra_body(force_disabled=True),
