@@ -50,6 +50,18 @@ export default function GeneratePage() {
   const [nSources, setNSources] = useState(3)
   const [postsPerSource, setPostsPerSource] = useState(9)
   const [creativity, setCreativity] = useState(0.5)
+  // Track which model is configured for the generate_a task. Kimi K2.x reasoning
+  // models lock temperature server-side at 0.6 — so the slider value is silently
+  // overridden. Show an info badge so the founder knows.
+  const [creativityLockedModel, setCreativityLockedModel] = useState<string | null>(null)
+  const creativityLocked = creativityLockedModel !== null
+  const KIMI_FIXED_TEMP_MODELS = new Set([
+    'kimi-k2.6',
+    'kimi-k2.5',
+    'kimi-k2.5-thinking',
+    'kimi-k2.5-thinking-turbo',
+    'kimi-latest',
+  ])
   const [enableThinking, setEnableThinking] = useState(true)
   const [effort, setEffort] = useState<'low' | 'medium' | 'high'>('medium')
   const [lean, setLean] = useState(false)
@@ -145,6 +157,29 @@ export default function GeneratePage() {
   }, [active])
 
   useEffect(() => { refreshFounderSchedules() }, [refreshFounderSchedules])
+
+  // Detect whether the founder's generate_a task uses a fixed-temperature
+  // model (Kimi K2.x lock set). If so, the slider is informational only.
+  useEffect(() => {
+    if (!active) { setCreativityLockedModel(null); return }
+    let cancelled = false
+    apiGet<{ tasks?: Record<string, { provider?: string; model?: string }> }>(
+      `/api/founders/${active}/models/config`
+    )
+      .then(cfg => {
+        if (cancelled) return
+        const genA = cfg?.tasks?.generate_a
+        const model = (genA?.model || '').trim()
+        if (model && KIMI_FIXED_TEMP_MODELS.has(model)) {
+          setCreativityLockedModel(model)
+        } else {
+          setCreativityLockedModel(null)
+        }
+      })
+      .catch(() => setCreativityLockedModel(null))
+    return () => { cancelled = true }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active])
 
   const createSchedule = async () => {
     if (!active) return
@@ -752,9 +787,9 @@ export default function GeneratePage() {
                   <span>1</span><span>3</span><span>6</span><span>9</span>
                 </div>
                 <p className="mt-1.5 text-[11px] text-[var(--text-muted)]">
-                  {postsPerSource <= 3
-                    ? `${Math.min(postsPerSource, 3)} mirrored`
-                    : `3 mirrored + ${postsPerSource - 3} mechanics`}
+                  {postsPerSource <= 4
+                    ? `${Math.min(postsPerSource, 4)} mirrored`
+                    : `4 mirrored + ${postsPerSource - 4} mechanics`}
                 </p>
               </div>
 
@@ -765,12 +800,25 @@ export default function GeneratePage() {
                 <input
                   type="range" min={0} max={1} step={0.1} value={creativity}
                   onChange={e => setCreativity(Number(e.target.value))}
-                  disabled={generating}
+                  disabled={generating || creativityLocked}
                   className="w-full accent-[var(--text-primary)]"
                 />
                 <div className="mt-1 flex justify-between text-[10px] text-[var(--text-faint)]">
                   <span>Conservative</span><span>Balanced</span><span>Creative</span>
                 </div>
+                {creativityLocked && (
+                  <div
+                    className="mt-2 rounded-md border px-2 py-1.5 text-[10.5px] leading-snug"
+                    style={{
+                      borderColor: 'color-mix(in oklab, gold 30%, var(--border-1))',
+                      backgroundColor: 'var(--surface-2)',
+                      color: 'var(--text-secondary)',
+                    }}
+                  >
+                    ⓘ <strong>{creativityLockedModel}</strong> locks creativity at 0.6 server-side.
+                    Slider has no effect for this model. Switch model in <em>Admin → Models</em> to use it.
+                  </div>
+                )}
               </div>
 
               {/* Thinking toggle */}

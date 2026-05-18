@@ -123,6 +123,11 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
     """Run deep corpus internalization via LLM — extracts voice markers, formatting, scenes, tensions."""
     if getattr(state, "llm_router", None):
         llm = state.llm_router.for_task("internalize")
+    # Filter corpus by authorship BEFORE hashing so the cache key reflects the
+    # filtered input (re-runs after the filter is added must invalidate stale
+    # caches that contained third-person voice markers like "Alok loved …").
+    _filter_corpus_by_authorship(state)
+
     input_hash = _internalization_hash(state)
     cache_file = _internalization_cache_path(state.founder_slug)
     if cache_file.exists():
@@ -130,6 +135,9 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
             cached = json.loads(cache_file.read_text(encoding="utf-8"))
             if cached.get("hash") == input_hash:
                 logger.info("[batch] Using cached internalization (hash match)")
+                # Scrub even cached results — corpus filter may have skipped
+                # something the scrubber catches at the marker layer.
+                _scrub_voice_markers_in_place(cached["result"], state.founder_slug)
                 return cached["result"]
         except Exception:
             pass
@@ -236,6 +244,10 @@ def internalize_corpus(llm: LLMProvider, state: BatchState) -> dict:
     if not isinstance(result, dict):
         logger.warning("[batch] Internalization returned non-dict, using defaults")
         return {}
+
+    # Scrub third-person founder references from voice_markers + other text fields
+    # before caching. Catches contamination the corpus filter missed.
+    _scrub_voice_markers_in_place(result, state.founder_slug)
 
     try:
         from datetime import datetime
@@ -437,3 +449,175 @@ def load_founder_state(founder_slug: str, platform: str = "linkedin") -> BatchSt
         marker_rates=marker_rates,
     )
     return state
+
+
+# ─── Corpus authorship filter + voice-marker scrub ────────────────────────
+#
+# The founder corpus is built from a mix of sources — Notion exports, LinkedIn
+# scrapes, sometimes interview transcripts or PR coverage. Items written ABOUT
+# the founder in third person leak through if not filtered, and the internalize
+# LLM treats them as evidence of the founder's voice. Result: voice_markers like
+# "Alok loved the question — it reveals an outdated model" make it into the
+# pack, then transpose injects third-person founder references into supposedly
+# first-person posts. The two functions below catch both layers.
+
+_THIRD_PERSON_VERB_PATTERNS = [
+    # past tense
+    "loved", "hated", "said", "told", "asked", "argued", "claimed",
+    "noticed", "realized", "discovered", "decided", "wrote", "explained",
+    "responded", "answered", "wondered", "tweeted", "posted", "shared",
+    "mentioned", "remarked", "observed",
+    # present tense
+    "loves", "hates", "says", "tells", "asks", "argues", "claims",
+    "notices", "realizes", "discovers", "decides", "writes", "explains",
+    "responds", "answers", "wonders", "tweets", "posts", "shares",
+    "mentions", "remarks", "observes",
+    "thinks", "believes", "argues", "knows", "feels",
+]
+
+
+def _founder_first_names(slug: str) -> list[str]:
+    """Best-effort first-name extraction from a slug. 'anish_popli' → ['anish']."""
+    parts = slug.replace("-", "_").split("_")
+    return [p for p in parts if p and len(p) >= 2][:1]
+
+
+def _looks_third_person(text: str, founder_first_names: list[str]) -> bool:
+    """Heuristic: does this text reference the founder in third person?"""
+    if not text or not founder_first_names:
+        return False
+    lower = text.lower()
+    for name in founder_first_names:
+        name_l = name.lower()
+        if name_l not in lower:
+            continue
+        # If the name appears followed (within ~30 chars) by a third-person
+        # verb, flag it.
+        for m in re.finditer(rf"\b{re.escape(name_l)}\b", lower):
+            window = lower[m.end(): m.end() + 60]
+            for verb in _THIRD_PERSON_VERB_PATTERNS:
+                if re.search(rf"\b{verb}\b", window):
+                    return True
+            # Also catch "name's <noun>" patterns ("Alok's playbook")
+            if window.startswith("'s ") or window.startswith("’s "):
+                return True
+    return False
+
+
+def _filter_corpus_by_authorship(state: BatchState) -> None:
+    """Strip third-person posts from `state.raw_data.founder_posts_structured`
+    and rebuild `founder_posts_sample` from the filtered set. Mutates state.
+
+    Uses fast in-process regex heuristics — no LLM call. With Kimi the cost is
+    cheap enough that an LLM classifier would be fine, but the regex catches
+    the common pattern (founder first-name + third-person verb within 60 chars)
+    deterministically and instantly.
+    """
+    raw = state.raw_data or {}
+    structured = raw.get("founder_posts_structured") or []
+    sample = raw.get("founder_posts_sample") or ""
+
+    first_names = _founder_first_names(state.founder_slug)
+    if not first_names:
+        return  # nothing to match against
+
+    kept_structured: list[dict] = []
+    skipped = 0
+    for p in structured:
+        text = (p.get("text") or "")
+        if _looks_third_person(text, first_names):
+            skipped += 1
+            continue
+        kept_structured.append(p)
+
+    # Also filter the flat sample text (split by --- boundaries used by founder_loader)
+    sample_posts = sample.split("\n\n---\n\n") if sample else []
+    kept_sample = [
+        sp for sp in sample_posts if not _looks_third_person(sp, first_names)
+    ]
+    skipped_sample = len(sample_posts) - len(kept_sample)
+
+    if skipped or skipped_sample:
+        logger.info(
+            "[corpus_filter] %s: skipped %d structured + %d sample posts (third-person about founder)",
+            state.founder_slug, skipped, skipped_sample,
+        )
+
+    # Safety: never reduce the corpus below 5 documents. If filtering would
+    # leave us with too little material, log and bail out without mutating.
+    if structured and len(kept_structured) < 5:
+        logger.warning(
+            "[corpus_filter] %s: filter would leave %d/%d posts — too few. Keeping original corpus.",
+            state.founder_slug, len(kept_structured), len(structured),
+        )
+        return
+
+    if structured:
+        raw["founder_posts_structured"] = kept_structured
+    if sample_posts:
+        raw["founder_posts_sample"] = "\n\n---\n\n".join(kept_sample)
+
+
+def _rewrite_marker_no_name(marker: str, founder_first_names: list[str]) -> str:
+    """Strip founder name from a voice marker, preserve the mechanic description.
+
+    "Alok loved the question — it reveals an outdated model"
+       → "The 'loved the question' construction — reframes a challenging
+          prospect question as intellectual gift, signals confidence"
+
+    Conservative — only rewrites the most common patterns; leaves complex
+    cases alone.
+    """
+    if not marker:
+        return marker
+    out = marker
+    for name in founder_first_names:
+        # "Name loved X" → "The 'loved X' construction"
+        for verb in _THIRD_PERSON_VERB_PATTERNS:
+            pattern = rf"\b{re.escape(name)}\s+{verb}\b"
+            if re.search(pattern, out, flags=re.IGNORECASE):
+                out = re.sub(
+                    pattern,
+                    f"The '{verb}' construction",
+                    out,
+                    flags=re.IGNORECASE,
+                )
+        # "Name's <noun>" → "the <noun>"
+        out = re.sub(
+            rf"\b{re.escape(name)}'s\b",
+            "the",
+            out,
+            flags=re.IGNORECASE,
+        )
+        out = re.sub(
+            rf"\b{re.escape(name)}’s\b",
+            "the",
+            out,
+            flags=re.IGNORECASE,
+        )
+    return out
+
+
+def _scrub_voice_markers_in_place(result: dict, founder_slug: str) -> None:
+    """Walk the internalize result and rewrite third-person voice markers
+    in-place. Mutates `result`. Safe to call on cached results too.
+    """
+    first_names = _founder_first_names(founder_slug)
+    if not first_names:
+        return
+
+    rewritten = 0
+    markers = result.get("voice_markers")
+    if isinstance(markers, list):
+        for i, m in enumerate(markers):
+            if isinstance(m, str) and _looks_third_person(m, first_names):
+                new = _rewrite_marker_no_name(m, first_names)
+                if new != m:
+                    markers[i] = new
+                    rewritten += 1
+
+    if rewritten:
+        logger.info(
+            "[voice_marker_scrub] %s: rewrote %d third-person markers",
+            founder_slug, rewritten,
+        )

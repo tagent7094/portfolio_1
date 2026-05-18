@@ -28,14 +28,37 @@ The move is what carries over to the generated posts. Everything else is surface
 What movement does this post run on? (contradiction reveal, escalation, scene-to-insight, confession-to-principle, diagnostic revelation, progressive build)
 
 ### 3. HOOK MECHANICS — SENTENCE-LEVEL BREAKDOWN
-For each opening sentence (typically 1-3 lines before the body begins):
+The "hook" / "opener" is **AT MOST 2 SENTENCES**. Beat 1 (the anchor) + Beat 2 (the reframe). Anything from sentence 3 onward is BODY, regardless of how the source author paragraphed it.
+
+Return AT MOST 2 entries in `hook_mechanics[]`. If the source author writes a long lead (e.g. paragraphs 1-5 all feel "opener-ish"), pick the first 2 sentences and treat everything else as body.
+
+For each of the (at most) 2 opening sentences:
 - The exact text
 - What this sentence DOES structurally (permission frame, diagnostic question, consequence statement, reframe, scene drop, specificity bomb, tension gap)
 - Its rhythm (short/punchy, medium/flowing, long/building)
 - The psychological effect: WHY does it stop the scroll?
 
+WORKED EXAMPLE (where to draw the opener/body line):
+
+Source:
+> "Our Claude Code API bill just crossed $18,000/month.
+>
+> That's headcount territory. For a team of under 20 people.
+>
+> We're all-in on AI-native development. I wrote about how we restructured…
+>
+> That playbook is working. We're shipping faster than ever.
+>
+> But it's surfacing a much harder question: when AI writes most of the code…"
+
+Even though paragraphs 1-5 all feel "opener-ish," the hook is JUST:
+- Beat 1: "Our Claude Code API bill just crossed $18,000/month."
+- Beat 2: "That's headcount territory. For a team of under 20 people."
+
+Everything from "We're all-in on AI-native development" onward is BODY. Batch A mirroring will copy ONLY beats 1-2 + structural moves; the rest must diverge per variant.
+
 ### 4. SENTENCE MAP
-Exact sentence count and structural function of opening lines. This is the mold for Batch A mirroring.
+`sentence_count` = number of sentences in the 2-sentence opener (1 or 2). This is the mold for Batch A mirroring — Batch A variants share opener sentences 1-2 ONLY; their bodies must be substantively different per variant.
 
 ### 5. BODY STRUCTURE
 How is the body organized? (single scene explored deeply, three examples building, before/after transformation, progressive revelation, numbered list with twist)

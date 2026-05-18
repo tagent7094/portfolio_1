@@ -430,14 +430,31 @@ class BatchSession:
         state.voice_markers = internalization.get("voice_markers", [])
         state.formatting_habits = internalization.get("formatting_habits", {})
 
+        if internalization.get("median_word_count"):
+            state.median_word_count = int(internalization["median_word_count"])
+
         if internalization.get("word_count_range"):
             wc = internalization["word_count_range"]
             if isinstance(wc, list) and len(wc) == 2:
                 a, b = int(wc[0]), int(wc[1])
                 state.word_count_range = (min(a, b), max(a, b))
 
-        if internalization.get("median_word_count"):
-            state.median_word_count = int(internalization["median_word_count"])
+        # v4 word-count discipline: hard-cap the range to ±30% of the median,
+        # regardless of what the LLM reported. LinkedIn truncates at ~280
+        # words; a wide range (e.g. [120, 380]) lets posts blow past the
+        # truncation point. ±30% of median = LinkedIn-safe upper bound for
+        # most founders (median 195 → 137..254).
+        if state.median_word_count and state.word_count_range:
+            tight_lo = max(80, int(state.median_word_count * 0.7))
+            tight_hi = int(state.median_word_count * 1.3)
+            cur_lo, cur_hi = state.word_count_range
+            new_range = (max(cur_lo, tight_lo), min(cur_hi, tight_hi))
+            if new_range != state.word_count_range:
+                logger.info(
+                    "[batch] Tightened word_count_range %s → %s (±30%% of median %d)",
+                    state.word_count_range, new_range, state.median_word_count,
+                )
+                state.word_count_range = new_range
 
         self._emit("internalize", "completed", {
             "tensions": len(internalization.get("tensions", [])),

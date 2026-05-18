@@ -597,7 +597,8 @@ def _generate_pack_lean(
 
     # Batch A: 1 transpose call → 3 mirrored posts
     if mirrorable:
-        n_a = min(3, posts_per_source)
+        # v4 composition: 4 mirrored A + 5 mechanics-only B = 9
+        n_a = min(4, posts_per_source)
         a_posts = transpose(llm, source, dissection, mode="A", state=state,
                            prior_arguments=prior_args, post_count=n_a, pack_number=pack_number)
 
@@ -766,7 +767,8 @@ def generate_pack(
     prior_args: list[str] = []
 
     if mirrorable:
-        n_a = min(3, posts_per_source)
+        # v4 composition: 4 mirrored A + 5 mechanics-only B = 9
+        n_a = min(4, posts_per_source)
         logger.info("[batch] Pack %d: generating %d A posts via transpose...", pack_number, n_a)
         a_posts = transpose(llm, source, dissection, mode="A", state=state,
                            prior_arguments=prior_args, post_count=n_a, pack_number=pack_number)

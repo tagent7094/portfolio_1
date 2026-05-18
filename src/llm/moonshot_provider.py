@@ -328,6 +328,43 @@ class MoonshotProvider(LLMProvider):
             logger.warning("[moonshot] JSON parse attempt %d failed, retrying", attempt + 1)
         return {}
 
+    def _reformat_search_prose_as_json(self, prose: str) -> str | None:
+        """Coerce Kimi's web-search prose output into the standard JSON envelope.
+
+        Callers like `_web_search_enrich` expect:
+          {trending_topics: [...], facts: [{fact, source, relevance}], ...}
+
+        Kimi K2.x typically returns prose with markdown bullets. This method
+        does ONE follow-up generate() call asking it to reshape what it just
+        wrote into JSON. Returns the JSON string on success, None on failure
+        (caller falls back to the original prose).
+        """
+        if not prose or len(prose) < 30:
+            return None
+        try:
+            reformat_prompt = (
+                "Reformat the search findings below as a strict JSON object with "
+                "this exact shape — no other commentary, no markdown fences in your output:\n\n"
+                "{\n"
+                '  "trending_topics": ["topic1", "topic2"],\n'
+                '  "facts": [{"fact": "...", "source": "...", "relevance": "..."}],\n'
+                '  "contrarian_angles": ["angle1"],\n'
+                '  "founder_news": [{"headline": "...", "source": "...", "date": "..."}]\n'
+                "}\n\n"
+                "Use empty arrays for sections with nothing to report. Extract from this prose:\n\n"
+                f"---\n{prose[:8000]}\n---"
+            )
+            # Short call, low max_tokens; cheap on Kimi.
+            json_out = self.generate(
+                reformat_prompt,
+                temperature=0.2,
+                max_tokens=2000,
+            )
+            return json_out
+        except Exception as e:
+            logger.warning("[moonshot] web-search prose-to-JSON reformat failed: %s", e)
+            return None
+
     def generate_with_search(
         self,
         prompt: str,
@@ -392,8 +429,17 @@ class MoonshotProvider(LLMProvider):
             if choice.finish_reason == "tool_calls" and choice.message.tool_calls:
                 messages.append(choice.message)
                 for tc in choice.message.tool_calls:
-                    args = json.loads(tc.function.arguments) if tc.function.arguments else {}
-                    searches.append({"query": args.get("query", tc.function.arguments or ""), "tool_call_id": tc.id})
+                    try:
+                        args = json.loads(tc.function.arguments) if tc.function.arguments else {}
+                    except Exception:
+                        args = {}
+                    # Store ONLY the user-readable query, never the raw tool
+                    # arguments blob (which Moonshot sometimes returns as a
+                    # JSON-encoded tool RESULT, not the query the model issued).
+                    query_text = ""
+                    if isinstance(args, dict):
+                        query_text = args.get("query") or args.get("q") or ""
+                    searches.append({"query": str(query_text), "tool_call_id": tc.id})
                     messages.append({
                         "role": "tool",
                         "tool_call_id": tc.id,
@@ -403,16 +449,26 @@ class MoonshotProvider(LLMProvider):
                 continue
 
             text = choice.message.content or ""
+
+            # Kimi K2.x typically returns prose from the tool loop (markdown
+            # bullets, headers) rather than the JSON shape that callers like
+            # _web_search_enrich expect. Do one synchronous reformat pass to
+            # coerce into the standard {trending_topics, facts, contrarian_angles,
+            # founder_news} envelope. Kimi cost is negligible — worth the
+            # ~1-2s extra over shipping unparseable prose.
+            reformatted = self._reformat_search_prose_as_json(text)
+            final_text = reformatted if reformatted else text
+
             cost = self._record_usage(cum_input, cum_output)
             elapsed = time.time() - t0
             print(
                 f"\033[36m[LLM:kimi/{self.model}]\033[0m \033[32m✓ done in {elapsed:.1f}s\033[0m │ "
                 f"tokens: {self.last_input_tokens:,} → {self.last_output_tokens:,} │ "
-                f"~${cost:.4f} │ {len(text)} chars + {len(searches)} web searches",
+                f"~${cost:.4f} │ {len(final_text)} chars + {len(searches)} web searches",
                 file=sys.stderr, flush=True,
             )
             self._report_success()
-            return {"text": text, "searches": searches}
+            return {"text": final_text, "searches": searches}
 
         cost = self._record_usage(cum_input, cum_output)
         elapsed = time.time() - t0
