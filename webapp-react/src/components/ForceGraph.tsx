@@ -79,7 +79,13 @@ export default function ForceGraph({
     return () => ro.disconnect()
   }, [])
 
-  const graphData = useMemo(() => ({ nodes, links }), [nodes, links])
+  // Defensive: nodes/links may be undefined or non-array if a malformed
+  // response from /api/revsure/graph reached this component. The
+  // react-force-graph-2d library would otherwise throw on .length access.
+  const graphData = useMemo(() => ({
+    nodes: Array.isArray(nodes) ? nodes : [],
+    links: Array.isArray(links) ? links : [],
+  }), [nodes, links])
   const highlightSet = useMemo(() => new Set(highlightTypes || []), [highlightTypes])
 
   return (

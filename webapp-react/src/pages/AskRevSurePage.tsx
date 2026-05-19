@@ -62,15 +62,34 @@ export default function AskRevSurePage() {
   const [clientSort, setClientSort] = useState<'name' | 'wins' | 'problems'>('name')
 
   useEffect(() => {
+    // Wrap each fetch so we only commit state when the response is OK AND
+    // has the expected shape. 503 responses (graph/index not built yet)
+    // return {detail: "..."} which would otherwise poison downstream
+    // consumers expecting {nodes, links}.
+    const safeFetch = async (url: string) => {
+      const r = await fetch(url, { credentials: 'include' })
+      if (!r.ok) return { _error: r.status, _detail: (await r.json().catch(() => null))?.detail }
+      return await r.json()
+    }
     Promise.allSettled([
-      fetch('/api/revsure/clients', { credentials: 'include' }).then(r => r.json()),
-      fetch('/api/revsure/graph', { credentials: 'include' }).then(r => r.json()),
-      fetch('/api/revsure/sankey', { credentials: 'include' }).then(r => r.json()),
+      safeFetch('/api/revsure/clients'),
+      safeFetch('/api/revsure/graph'),
+      safeFetch('/api/revsure/sankey'),
     ]).then(([c, g, s]) => {
-      if (c.status === 'fulfilled') setClients(c.value.clients || [])
-      else setLoadError('Clients list not available — run extraction + graph build first.')
-      if (g.status === 'fulfilled') setGraphData(g.value)
-      if (s.status === 'fulfilled') setSankeyData(s.value)
+      const cv = c.status === 'fulfilled' ? c.value : null
+      const gv = g.status === 'fulfilled' ? g.value : null
+      const sv = s.status === 'fulfilled' ? s.value : null
+
+      if (cv && Array.isArray(cv.clients)) {
+        setClients(cv.clients)
+      } else {
+        setLoadError(
+          (cv?._detail || gv?._detail || sv?._detail)
+          || 'Clients list not available — run extraction + graph build first.',
+        )
+      }
+      if (gv && Array.isArray(gv.nodes) && Array.isArray(gv.links)) setGraphData(gv)
+      if (sv && Array.isArray(sv.nodes) && Array.isArray(sv.links)) setSankeyData(sv)
     })
   }, [])
 

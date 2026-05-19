@@ -53,7 +53,12 @@ export default function SankeyFlow({
   }, [])
 
   const layout = useMemo(() => {
-    if (!width || !nodes.length || !links.length) return null
+    // Defensive: nodes/links may be undefined or non-array if a malformed
+    // response from /api/revsure/sankey reached this component despite the
+    // parent's shape check. Don't .length-poke an undefined.
+    const n = Array.isArray(nodes) ? nodes : []
+    const l = Array.isArray(links) ? links : []
+    if (!width || !n.length || !l.length) return null
     try {
       const sankeyGen = d3sankey<RawNode, RawLink>()
         .nodeWidth(14)
@@ -62,8 +67,8 @@ export default function SankeyFlow({
 
       // Deep-copy because d3-sankey mutates the input arrays
       const graph = sankeyGen({
-        nodes: nodes.map(n => ({ ...n })),
-        links: links.map(l => ({ ...l })),
+        nodes: n.map(node => ({ ...node })),
+        links: l.map(link => ({ ...link })),
       })
       return graph
     } catch (e) {
