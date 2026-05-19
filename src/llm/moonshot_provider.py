@@ -156,7 +156,17 @@ class MoonshotProvider(LLMProvider):
         if not api_key:
             logger.warning("[moonshot] no api_key passed — calls will 401 unless MOONSHOT_API_KEY is in env")
 
-        self.client = OpenAI(base_url=base_url, api_key=api_key or "missing")
+        # Default openai SDK behavior is timeout=600s and max_retries=2 — a
+        # hung Kimi call blocks 30 minutes worst case before surfacing the
+        # error. Tighten both: 5-min total timeout, 1 retry. The web_search
+        # path narrows further (see generate_with_search).
+        import httpx
+        self.client = OpenAI(
+            base_url=base_url,
+            api_key=api_key or "missing",
+            timeout=httpx.Timeout(300.0, connect=10.0),
+            max_retries=1,
+        )
 
     # ── Internal helpers ──────────────────────────────────────────────────
 
@@ -431,7 +441,11 @@ class MoonshotProvider(LLMProvider):
             # No max_tokens — see note in generate_stream(). Let Moonshot
             # default the response budget so the tool-calling loop has room
             # to both call $web_search and compose the final answer.
-            response = self.client.chat.completions.create(
+            # Tighter timeout for web_search: 120s per round. Kimi's
+            # $web_search builtin tool occasionally hangs at the body-streaming
+            # phase; we'd rather fail fast and surface a clean error than
+            # block the whole pack on a single dead search.
+            response = self.client.with_options(timeout=120.0).chat.completions.create(
                 model=self.model,
                 messages=messages,
                 temperature=safe_temp,
