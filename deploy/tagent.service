@@ -10,6 +10,13 @@ Environment=TAGENT_AUTH_ENABLED=1
 Environment=TAGENT_COOKIE_SECURE=1
 Environment=TAGENT_JWT_SECRET_FILE=/etc/tagent/jwt-secret
 Environment=TAGENT_ALLOWED_ORIGINS=https://tagent.club,https://sharath.tagent.club,https://anish_popli.tagent.club,https://deepinder.tagent.club,https://manisha.tagent.club
+# sentence-transformers caches model weights under $HF_HOME on first call.
+# Default ~/.cache/huggingface is blocked by ProtectHome=true, so we redirect
+# the cache into /opt/tagent/data (one of the ReadWritePaths below) and let
+# the embedder pull the model once on first /api/revsure/ask or /api/chat call.
+Environment=HF_HOME=/opt/tagent/data/.hf-cache
+Environment=TRANSFORMERS_CACHE=/opt/tagent/data/.hf-cache
+Environment=SENTENCE_TRANSFORMERS_HOME=/opt/tagent/data/.hf-cache/sentence-transformers
 ExecStart=/opt/tagent/venv/bin/uvicorn webapp.server:app --host 127.0.0.1 --port 8000 --log-level info
 # Always restart so the in-process scheduler runs 24/7. Founder-created
 # schedules fire at their configured IST time regardless of user activity.
