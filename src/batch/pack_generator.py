@@ -692,6 +692,22 @@ def _generate_one_post(
     if not isinstance(voice_markers_used, list):
         voice_markers_used = []
 
+    # Derive the post's mechanic from a fallback chain. v6.1 transpose no
+    # longer emits `pre_commit.mechanic` (that was v6.0). Modern outputs
+    # provide `actual_sub_mechanic_used` (e.g. "five_hires_same_result").
+    # For Batch A the post mirrors the source, so fall back to the source
+    # dissection's `hook_mechanic_primary` (family-level, e.g. "pattern_observation").
+    # For Batch B fall back to the entry_door, which describes the mechanic
+    # family. Final fallback is the literal "unknown" so downstream consumers
+    # can spot mismatches without crashing.
+    resolved_mechanic = (
+        pre_commit.get("mechanic")
+        or pre_commit.get("actual_sub_mechanic_used")
+        or (dissection.get("hook_mechanic_primary") if post_type == "A" else "")
+        or pre_commit.get("entry_door")
+        or "unknown"
+    )
+
     post = AmplifiedPost(
         label=post_label,
         batch=post_type,
@@ -701,7 +717,7 @@ def _generate_one_post(
         word_count=int(result.get("word_count") or len(text.split())),
         original_opening=paragraphs[0] if paragraphs else "",
         final_opening=paragraphs[0] if paragraphs else "",
-        mechanic=pre_commit.get("mechanic") or "",
+        mechanic=resolved_mechanic,
         argument_compressed=pre_commit.get("argument_compressed", ""),
         events_used=result.get("events_used", []) or [],
         stories_used=result.get("stories_used", []) or [],
