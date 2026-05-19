@@ -70,6 +70,10 @@ def compile_json(state: BatchState) -> dict:
                 vs = 3
                 p.voice_score = 3
 
+            # v6.1: pull per-post validator scores from the dict the
+            # pack-level validator stamps onto post.validation_result.
+            scores = getattr(p, "validator_scores", None) or vr.get("scores", {}) or {}
+
             posts_out.append({
                 "label": p.label,
                 "batch": p.batch,
@@ -77,6 +81,13 @@ def compile_json(state: BatchState) -> dict:
                 "mode": p.mode,
                 "text": p.text,
                 "word_count": p.word_count,
+                # Top-level transpose-set fields (no longer hidden under amplifier).
+                "mechanic": p.mechanic,
+                "closer_mechanic": p.closer_mechanic,
+                "anchor_consumed_id": p.anchor_consumed_id,
+                "authority_anchor": p.authority_anchor,
+                "body_format": p.body_format,
+                "stories_used": p.stories_used,
                 "amplifier": {
                     "original_opening": p.original_opening,
                     "final_opening": p.final_opening,
@@ -92,16 +103,48 @@ def compile_json(state: BatchState) -> dict:
                 },
                 "voice_validation": {
                     "voice_score": vs,
-                    "voice_marker_score": vr.get("voice_marker_score"),
-                    "register_score": vr.get("register_score"),
-                    "posture_score": vr.get("posture_score"),
-                    "opener_rhythm_score": vr.get("opener_rhythm_score"),
-                    "formatting_score": vr.get("formatting_score"),
+                    "voice_marker_score": (
+                        scores.get("voice_marker")
+                        if scores else vr.get("voice_marker_score")
+                    ),
+                    "register_score": (
+                        scores.get("register")
+                        if scores else vr.get("register_score")
+                    ),
+                    "posture_score": (
+                        scores.get("posture")
+                        if scores else vr.get("posture_score")
+                    ),
+                    "opener_rhythm_score": (
+                        scores.get("opener_rhythm")
+                        if scores else vr.get("opener_rhythm_score")
+                    ),
+                    "formatting_score": (
+                        scores.get("formatting")
+                        if scores else vr.get("formatting_score")
+                    ),
+                    "anchor_grounding_score": scores.get("anchor_grounding"),
+                    "first_degree_truth_score": scores.get("first_degree_truth"),
                     "overall": vr.get("overall"),
                     "register_reads_as": vr.get("register_reads_as"),
                     "posture_reads_as": vr.get("posture_reads_as"),
+                    "passes_9_7_floor": bool(getattr(p, "passes_9_7_floor", False)),
+                    # v6.1 sub-mechanic enforcement
+                    "required_sub_mechanic": getattr(p, "required_sub_mechanic", ""),
+                    "actual_sub_mechanic_used": getattr(p, "actual_sub_mechanic_used", ""),
+                    "sub_mechanic_match": bool(getattr(p, "sub_mechanic_match", False)),
+                    "parameter_1_hard_veto_triggered": bool(
+                        getattr(p, "parameter_1_hard_veto_triggered", False)
+                    ),
                     "result": vr,
                 },
+                # v6.1: full generator self-assessment + validator detail surfaced
+                # for downstream analysis/audit.
+                "pre_commit": p.pre_commit or {},
+                "self_scores": p.self_scores or {},
+                "validator_scores": scores,
+                "regen_history": getattr(p, "regen_history", []) or [],
+                "surprise_quotient": getattr(p, "surprise_quotient", {}) or {},
                 "violations": p.violations,
                 "events_used": p.events_used,
                 "argument_compressed": p.argument_compressed,
