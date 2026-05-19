@@ -336,6 +336,7 @@ def main():
                         help="Comma-separated client name substrings to include (default: all)")
     parser.add_argument("--max-files", type=int, default=0, help="Cap on number of files (smoke test)")
     parser.add_argument("--dry-run", action="store_true", help="List files that would be processed, don't call LLM")
+    parser.add_argument("--force", action="store_true", help="Re-process clients whose .json already exists")
     args = parser.parse_args()
 
     if not TRANSCRIPTS_DIR.exists():
@@ -361,8 +362,36 @@ def main():
         transcript_files = transcript_files[:args.max_files]
 
     logger.info("found %d transcript files", len(transcript_files))
-    for p in transcript_files:
-        logger.info("  %s", p.relative_to(PROJECT_ROOT))
+
+    # Group transcript files by client name BEFORE extracting, so we can
+    # write each client's merged JSON to disk the moment all its files are
+    # done. This gives us incremental save (partial progress survives a
+    # crash) AND resume (next run sees the .json and skips already-done
+    # clients).
+    files_by_client: dict[str, list] = {}
+    for path in transcript_files:
+        client_name, _ = parse_client_name(path.name)
+        files_by_client.setdefault(client_name, []).append(path)
+
+    # Optimization: "All Calls" transcripts are comprehensive (they include
+    # the initial calls). When a client has BOTH an All Calls file AND an
+    # Initial Calls file, skip the Initial one — it's redundant input that
+    # roughly doubles the LLM call count. Multi-part All Calls files
+    # (Part 1 + Part 2) are kept as-is.
+    for client_name, paths in list(files_by_client.items()):
+        has_all = any("all calls" in p.name.lower() for p in paths)
+        has_initial = any("initial" in p.name.lower() for p in paths)
+        if has_all and has_initial:
+            kept = [p for p in paths if "initial" not in p.name.lower()]
+            dropped_names = [p.name for p in paths if "initial" in p.name.lower()]
+            files_by_client[client_name] = kept
+            logger.info("[%s] dedup: dropping %d Initial Calls file(s) (subsumed by All Calls); kept %d file(s): %s",
+                        client_name, len(dropped_names), len(kept), [k.name for k in kept])
+
+    total_files_after_dedup = sum(len(v) for v in files_by_client.values())
+    logger.info("after dedup: %d files across %d clients", total_files_after_dedup, len(files_by_client))
+    for cn, ps in sorted(files_by_client.items()):
+        logger.info("  %s — %d file(s)", cn, len(ps))
 
     if args.dry_run:
         return
@@ -373,34 +402,56 @@ def main():
 
     llm, _router = get_llm()
 
-    # Group by client so one client = one output JSON even if it has both
-    # "Initial Calls" and "All Calls" files.
-    per_client: dict[str, list[dict]] = {}
-    for path in transcript_files:
-        extract = extract_one_file(path, llm, prompt_template)
-        client_name = extract.get("client_name", "unknown")
-        per_client.setdefault(client_name, []).append(extract)
+    total_clients = len(files_by_client)
+    done_clients = 0
+    skipped_clients = 0
 
-    # Write per-client merged output.
-    for client_name, parts in per_client.items():
+    for client_name in sorted(files_by_client.keys()):
+        out_path = EXTRACTS_DIR / f"{slug(client_name)}.json"
+        if out_path.exists() and not getattr(args, "force", False):
+            done_clients += 1
+            skipped_clients += 1
+            logger.info("[%s] %s already exists — skipping (use --force to overwrite)",
+                        client_name, out_path.name)
+            continue
+
+        paths = files_by_client[client_name]
+        logger.info("[%s] (client %d/%d) processing %d file(s)",
+                    client_name, done_clients + 1, total_clients, len(paths))
+        parts: list[dict] = []
+        for path in paths:
+            extract = extract_one_file(path, llm, prompt_template)
+            parts.append(extract)
+
+        if not parts:
+            continue
         merged = merge_findings_across_chunks(parts, client_name, parts[0].get("call_type", "mixed"))
         merged["_meta"] = {
             "source_files": [p.get("_meta", {}).get("source_filename", "") for p in parts],
             "total_chunks": sum(p.get("_meta", {}).get("chunk_count", 0) for p in parts),
             "extracted_chunks": sum(p.get("_meta", {}).get("extracted_chunk_count", 0) for p in parts),
         }
-        # Verify across union of source texts
-        full_source = "\n\n".join(read_transcript(TRANSCRIPTS_DIR / "All Calls" / m) if (TRANSCRIPTS_DIR / "All Calls" / m).exists()
-                                  else read_transcript(TRANSCRIPTS_DIR / "Initial Calls" / m) if (TRANSCRIPTS_DIR / "Initial Calls" / m).exists()
-                                  else "" for m in merged["_meta"]["source_files"])
+        # Verify quotes across union of this client's source files
+        full_source_parts: list[str] = []
+        for fname in merged["_meta"]["source_files"]:
+            for sub in ("All Calls", "Initial Calls"):
+                p = TRANSCRIPTS_DIR / sub / fname
+                if p.exists():
+                    full_source_parts.append(read_transcript(p))
+                    break
+        full_source = "\n\n".join(full_source_parts)
         if full_source:
             merged = verify_quotes_against_source(merged, full_source)
-        out_path = EXTRACTS_DIR / f"{slug(client_name)}.json"
+
         out_path.write_text(json.dumps(merged, ensure_ascii=False, indent=2), encoding="utf-8")
         kept = sum(merged.get("_verification", {}).get("kept_by_category", {}).values())
         dropped = sum(merged.get("_verification", {}).get("dropped_by_category", {}).values())
-        logger.info("[%s] wrote %s (%d findings kept, %d dropped at verification)",
-                    client_name, out_path.name, kept, dropped)
+        done_clients += 1
+        logger.info("[%s] wrote %s (%d findings kept, %d dropped at verification) — %d/%d clients done",
+                    client_name, out_path.name, kept, dropped, done_clients, total_clients)
+
+    logger.info("DONE. %d/%d clients processed (%d skipped because output already existed)",
+                done_clients, total_clients, skipped_clients)
 
 
 if __name__ == "__main__":
