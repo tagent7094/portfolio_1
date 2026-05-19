@@ -31,8 +31,18 @@ _BYPASS_PATHS = {
     "/api/auth/me",
     "/api/health",
 }
-# Prefixes that bypass subdomain auth
-_BYPASS_PREFIXES = ("/api/admin/", "/api/chat/", "/api/founders/", "/api/os/")
+# Prefixes that bypass subdomain auth (the existing founder-scoped one).
+# askrevsure and the per-subdomain password gate manage their own access
+# via webapp.subdomain_auth — they must NOT be gated by the founder-auth
+# middleware too, otherwise public visitors get 401 on the first page load.
+_BYPASS_PREFIXES = (
+    "/api/admin/",
+    "/api/chat/",
+    "/api/founders/",
+    "/api/os/",
+    "/api/revsure/",
+    "/api/subdomain/",
+)
 
 _LOCAL_HOSTS = {"localhost", "127.0.0.1", "0.0.0.0"}
 _APEX_DOMAIN = "tagent.club"
