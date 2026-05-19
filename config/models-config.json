@@ -145,6 +145,22 @@
       "effort": "low",
       "max_tokens": 1000,
       "temperature": 0.2
+    },
+    "revsure_qa_extract": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": true,
+      "effort": "high",
+      "max_tokens": 8000,
+      "temperature": 0.2
+    },
+    "revsure_qa_answer": {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "enable_thinking": false,
+      "effort": "medium",
+      "max_tokens": 4000,
+      "temperature": 0.3
     }
   },
   "provider_keys": {

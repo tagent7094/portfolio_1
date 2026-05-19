@@ -1,0 +1,159 @@
+# version: v1.0.0
+# schema_version: v1.0.0
+# RevSure call-transcript extraction prompt.
+# Takes one transcript chunk (~25K tokens, speaker-tagged with timestamps)
+# and returns structured JSON answering the 7 canonical questions with
+# verbatim direct-quote citations. Used by scripts/extract_revsure_qa.py.
+
+You are extracting structured intelligence from a sales / customer call transcript for RevSure (a revenue intelligence platform). Your output drives a graph + Q&A dashboard, so accuracy of quotes is the single most important property.
+
+## INPUTS
+
+### Client
+{client_name}
+
+### Call type
+{call_type}
+
+### Transcript chunk
+{chunk}
+
+---
+
+## YOUR TASK
+
+Extract findings for SEVEN categories from this transcript chunk. For EVERY finding you record, you MUST cite a verbatim quote from the transcript — the speaker name and timestamp as they appear in the source. **Never paraphrase a quote. Never invent a speaker or timestamp. Never synthesize a quote from multiple lines.** If a category has no findings in this chunk, return an empty array — do NOT fabricate to fill space.
+
+The seven categories:
+
+1. **pains** — Problems this client was facing (operational, organizational, technical) BEFORE adopting RevSure. Pulled from any discussion of what wasn't working.
+2. **tools_switched_from** — Tools / vendors / spreadsheets / homegrown systems they used before RevSure, with the reason for switching when stated.
+3. **political_tussles** — Cross-functional tension between CRO, CFO, Sales, Marketing, RevOps, etc. — disagreements over attribution, budget, lead quality, forecast accuracy, ownership, headcount, etc.
+4. **contrarians** — Claims made on the call that go against conventional wisdom in revenue ops / marketing / sales — opinions that wouldn't be the default position at a typical RevTech vendor meeting. Surprising takes.
+5. **revsure_problems** — Issues the client experienced WITH RevSure itself. Sub-category: `tool` (UI / data / accuracy bugs), `implementation` (onboarding / integration / training), or `understanding` (client misunderstands what RevSure does / how to read its output).
+6. **wins** — Outcomes they want or have secured with RevSure. Split into `immediate` (this quarter / this campaign) and `long_term` (annual planning / strategic).
+7. **best_about_revsure** — Direct positive feedback / praise / "why I love this" moments. Strongest when in the client's own words.
+
+## VERBATIM QUOTE PROTOCOL
+
+For each finding, copy the SOURCE line(s) into the `quote` field exactly as they appear in the transcript — including any typos, punctuation, casing. If you need a multi-line context, copy each line on its own and join with `\n`. Always include the SPEAKER NAME and TIMESTAMP exactly as the transcript shows them.
+
+**A finding with a paraphrased quote is worse than no finding.** The orchestrator runs a verbatim-grep verification step on every quote you emit — fabrications get dropped and logged.
+
+## STATE EXTRACTION
+
+In addition to the 7 categories, extract two state snapshots if discernible from this chunk:
+
+- **before_state** — what life looked like before RevSure for this client. Stack (tools used), pain_summary (one-line), kpis_unhealthy (which metrics weren't working).
+- **after_state** — what life looks like with RevSure. with_revsure (one-line), wins_realized (concrete outcomes shipped), open_issues (gaps remaining).
+
+If this chunk doesn't reveal before/after content, return empty objects — don't extrapolate.
+
+---
+
+## OUTPUT FORMAT (return this exact JSON shape, no commentary, no markdown fences)
+
+```json
+{{
+  "schema_version": "v1.0.0",
+  "client_name": "{client_name}",
+  "call_type": "{call_type}",
+  "findings": {{
+    "pains": [
+      {{
+        "summary": "one-line description of the pain",
+        "quote": "verbatim transcript line(s)",
+        "speaker": "Speaker Name",
+        "timestamp": "00:14:22"
+      }}
+    ],
+    "tools_switched_from": [
+      {{
+        "tool": "Marketo",
+        "vendor": "Adobe",
+        "reason": "one-line reason for switching",
+        "quote": "verbatim transcript line",
+        "speaker": "Speaker Name",
+        "timestamp": "00:14:22"
+      }}
+    ],
+    "political_tussles": [
+      {{
+        "actors": ["CRO", "CFO"],
+        "tension_label": "attribution disagreement",
+        "summary": "one-line description",
+        "quote": "verbatim transcript line",
+        "speaker": "Speaker Name",
+        "timestamp": "00:14:22"
+      }}
+    ],
+    "contrarians": [
+      {{
+        "claim": "what they said",
+        "why_unusual": "why this is contrarian in this space",
+        "quote": "verbatim transcript line",
+        "speaker": "Speaker Name",
+        "timestamp": "00:14:22"
+      }}
+    ],
+    "revsure_problems": [
+      {{
+        "category": "tool",
+        "problem": "what specifically went wrong",
+        "quote": "verbatim transcript line",
+        "speaker": "Speaker Name",
+        "timestamp": "00:14:22"
+      }}
+    ],
+    "wins": {{
+      "immediate": [
+        {{
+          "win": "specific outcome already realized or about to be",
+          "quote": "verbatim transcript line",
+          "speaker": "Speaker Name",
+          "timestamp": "00:14:22"
+        }}
+      ],
+      "long_term": [
+        {{
+          "win": "strategic outcome they want",
+          "quote": "verbatim transcript line",
+          "speaker": "Speaker Name",
+          "timestamp": "00:14:22"
+        }}
+      ]
+    }},
+    "best_about_revsure": [
+      {{
+        "summary": "what they liked",
+        "quote": "verbatim transcript line",
+        "speaker": "Speaker Name",
+        "timestamp": "00:14:22"
+      }}
+    ]
+  }},
+  "before_state": {{
+    "stack": ["list", "of", "tools"],
+    "pain_summary": "one-line description of what life looked like before",
+    "kpis_unhealthy": ["pipeline forecast accuracy", "campaign attribution"]
+  }},
+  "after_state": {{
+    "with_revsure": "one-line description of life with RevSure",
+    "wins_realized": ["concrete outcome 1", "concrete outcome 2"],
+    "open_issues": ["thing still not working"]
+  }}
+}}
+```
+
+## CRITICAL RULES
+
+1. Every `quote` field MUST appear verbatim in the input transcript chunk. Findings that don't grep-match will be dropped at verification time.
+2. `speaker` and `timestamp` must match the speaker header line that introduced the quote (format: `Speaker Name | HH:MM:SS PM/AM -->`).
+3. If you can't identify a finding's speaker (e.g. the line is ambient narration), set `speaker` to `"unknown"`.
+4. If a category has zero findings in this chunk, return `[]`. Do NOT pad with weak findings to feel complete.
+5. Distinguish `tools_switched_from` (vendor they LEFT) from `revsure_problems` (issues WITH RevSure). These often appear adjacent in conversation but are different categories.
+6. `political_tussles` requires explicit cross-functional disagreement — not just a complaint about one team. If only one team is mentioned, it's a `pain`, not a tussle.
+7. `contrarians` should surprise an experienced RevTech listener. "Attribution is hard" is NOT contrarian. "We threw out our MQL model entirely and replaced it with a single binary signal" IS contrarian.
+8. `revsure_problems.category` must be one of: `"tool"`, `"implementation"`, `"understanding"`.
+9. `wins.immediate` are things shipped or shippable this quarter. `wins.long_term` are 6+ month aspirations. If unclear, classify as `immediate` only if the speaker uses present-tense or near-term language.
+10. `before_state` and `after_state` summarize what the chunk reveals about the client's trajectory. If this chunk is a first-touch call, after_state will be sparse; if it's a QBR, before_state may be sparse. That's fine — return empty fields.

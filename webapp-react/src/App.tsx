@@ -15,9 +15,12 @@ import GeneratePage from './pages/GeneratePage'
 import LandingPage from './pages/LandingPage'
 import FounderPackPage from './pages/FounderPackPage'
 import AskSharathPage from './pages/AskSharathPage'
+import AskRevSurePage from './pages/AskRevSurePage'
 import ChatPage from './pages/ChatPage'
 import ContentStudioPage from './pages/ContentStudioPage'
 import AskSharathAdminPage from './pages/AskSharathAdminPage'
+import SubdomainAuthAdminPage from './pages/SubdomainAuthAdminPage'
+import SubdomainGate from './components/SubdomainGate'
 import { isApexDomain, getSubdomainSlug } from './utils/subdomain'
 import { Loader2 } from 'lucide-react'
 
@@ -43,17 +46,19 @@ export default function App() {
     return <LandingPage />
   }
 
-  // AskSharath — public chatbot ONLY on asksharath.tagent.club
+  // AskSharath — public chatbot ONLY on asksharath.tagent.club (now gated)
   if (slug === 'asksharath') {
     return (
       <Routes>
-        {/* Public — no auth required */}
-        <Route index element={<AskSharathPage />} />
-        <Route path="chat" element={<ChatPage />} />
+        {/* Public — wrapped in SubdomainGate so the backend's password gate
+            shows in the UI when enabled. */}
+        <Route index element={<SubdomainGate brandLabel="Ask Sharath"><AskSharathPage /></SubdomainGate>} />
+        <Route path="chat" element={<SubdomainGate brandLabel="Ask Sharath"><ChatPage /></SubdomainGate>} />
         <Route path="login" element={<LoginPage />} />
         <Route path="admin/login" element={<AdminLoginPage />} />
         <Route path="admin" element={<AdminPage />} />
         <Route path="admin/asksharath" element={<AskSharathAdminPage />} />
+        <Route path="admin/subdomain-auth" element={<SubdomainAuthAdminPage />} />
         <Route path="admin/founders/:slug" element={<FounderPackPage />} />
         {/* Auth-protected founder tools */}
         <Route element={<RequireAuth />}>
@@ -72,6 +77,21 @@ export default function App() {
     )
   }
 
+  // AskRevSure — public Q&A + journey dashboard at askrevsure.tagent.club
+  if (slug === 'askrevsure') {
+    return (
+      <Routes>
+        <Route index element={<SubdomainGate brandLabel="Ask RevSure"><AskRevSurePage /></SubdomainGate>} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="admin/login" element={<AdminLoginPage />} />
+        <Route path="admin" element={<AdminPage />} />
+        <Route path="admin/subdomain-auth" element={<SubdomainAuthAdminPage />} />
+        <Route path="admin/asksharath" element={<AskSharathAdminPage />} />
+        <Route path="admin/founders/:slug" element={<FounderPackPage />} />
+      </Routes>
+    )
+  }
+
   // All other subdomains + localhost — standard founder app
   return (
     <Routes>
@@ -80,6 +100,7 @@ export default function App() {
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/asksharath" element={<AskSharathAdminPage />} />
+      <Route path="/admin/subdomain-auth" element={<SubdomainAuthAdminPage />} />
       <Route path="/admin/founders/:slug" element={<FounderPackPage />} />
 
       {/* Protected founder routes */}

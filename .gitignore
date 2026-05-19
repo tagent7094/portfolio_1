@@ -18,6 +18,7 @@ build/
 # Secrets (API keys, auth tokens — NEVER commit)
 config/llm-config.yaml
 config/founder-auth.yaml
+config/subdomain-passwords.yaml
 
 
 # OS

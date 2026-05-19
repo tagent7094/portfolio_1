@@ -4,11 +4,15 @@ from __future__ import annotations
 
 
 class VectorStore:
-    def __init__(self, persist_dir: str = "data/knowledge-graph/chroma"):
+    def __init__(
+        self,
+        persist_dir: str = "data/knowledge-graph/chroma",
+        collection_name: str = "founder_content",
+    ):
         import chromadb
 
         self.client = chromadb.PersistentClient(path=persist_dir)
-        self.collection = self.client.get_or_create_collection("founder_content")
+        self.collection = self.client.get_or_create_collection(collection_name)
 
     def add(
         self,

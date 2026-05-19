@@ -69,6 +69,20 @@ from webapp.chat_routes import router as chat_router, admin_chat_router
 app.include_router(chat_router)
 app.include_router(admin_chat_router)
 
+# askrevsure.tagent.club — Q&A + graph over RevSure call transcripts
+from webapp.revsure_routes import router as revsure_router
+app.include_router(revsure_router)
+
+# Per-subdomain password gating (asksharath, askrevsure, ...)
+from webapp.subdomain_auth import (
+    router as subdomain_auth_router,
+    admin_router as subdomain_admin_router,
+    gate_middleware,
+)
+app.include_router(subdomain_auth_router)
+app.include_router(subdomain_admin_router)
+app.middleware("http")(gate_middleware)
+
 # Post customizer routes (blend opener + body, chat edits)
 from webapp.customize_routes import customize_router
 app.include_router(customize_router)

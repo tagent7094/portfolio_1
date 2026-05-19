@@ -395,6 +395,30 @@ _RAW_TASKS: list[TaskSpec] = [
         default_temperature=0.2,
         default_max_tokens=16000,
     ),
+    # ── askrevsure.tagent.club: extraction + Q&A over call transcripts ──
+    TaskSpec(
+        task_id="revsure_qa_extract",
+        display_name="RevSure transcript → 7-category extract",
+        description="Extracts pains, tools_switched_from, political_tussles, contrarians, revsure_problems, wins, best_about_revsure from a call transcript chunk with verbatim quote citations. Used by scripts/extract_revsure_qa.py over all 51 RevSure call transcripts.",
+        call_site="scripts/extract_revsure_qa.py",
+        default_purpose="prep",
+        quality_tier="heavy",
+        frequency="per_batch",
+        default_temperature=0.2,
+        default_max_tokens=8000,
+        default_thinking_budget=12000,
+    ),
+    TaskSpec(
+        task_id="revsure_qa_answer",
+        display_name="RevSure ask endpoint answer composer",
+        description="Composes a quote-grounded answer for /api/revsure/ask using retrieved transcript chunks as context. Never fabricates; refuses if retrieved evidence is insufficient.",
+        call_site="webapp/revsure_routes.py:ask",
+        default_purpose="generation",
+        quality_tier="medium",
+        frequency="per_request",
+        default_temperature=0.3,
+        default_max_tokens=4000,
+    ),
 ]
 
 
