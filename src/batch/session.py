@@ -893,6 +893,12 @@ class BatchSession:
                     if p.label == post_label:
                         continue
                     body_p2, closer = _extract_body_p2_closer(p.text)
+                    # Defensive: pre_commit may be None, missing fields, OR
+                    # fields explicitly set to None — `.get(k, {})` only handles
+                    # the missing-key case, not an explicit None. Chain through
+                    # `or {}` after every .get() to be safe.
+                    pc = p.pre_commit or {}
+                    anchor_consumed_dict = pc.get("anchor_consumed") or {}
                     prior_posts_for_regen.append({
                         "label": p.label,
                         "argument_compressed": p.argument_compressed,
@@ -900,10 +906,10 @@ class BatchSession:
                         "body_paragraph_2": body_p2,
                         "closer_text": closer,
                         "anchor_used": p.authority_anchor or p.anchor_consumed_id,
-                        "tier": (p.pre_commit or {}).get("anchor_consumed", {}).get("tier", ""),
+                        "tier": anchor_consumed_dict.get("tier", ""),
                         "closer_mechanic": p.closer_mechanic,
                         "entry_door": p.entry_door,
-                        "structural_skeleton": (p.pre_commit or {}).get("structural_skeleton") or {},
+                        "structural_skeleton": pc.get("structural_skeleton") or {},
                         "surprise_quotient": p.surprise_quotient or {},
                     })
 
