@@ -867,8 +867,59 @@ class BatchSession:
                 pack_level_checks including its own body_diff_batch_a. Its
                 pack_decision.ship_or_regen_or_reject + regen_targets[] drive
                 the regen loop directly.
+
+                Post-hoc dedup: the validator sometimes lists the same label
+                twice in regen_targets (once per failure mode — e.g. A2 for
+                both register_too_low AND body_diff_overlap). Without dedup
+                the regen loop processes A2 twice in one pass, doubling
+                wasted work and creating weird state (second regen sees
+                first's output in prior_posts). Merge dupes by label, keep
+                the first occurrence's failure_reason but combine
+                explicit_regen_instructions.
                 """
-                return validate_pack(llm_prep, _posts, _state)
+                result = validate_pack(llm_prep, _posts, _state)
+                pd = (result or {}).get("pack_decision") or {}
+                if not isinstance(pd, dict):
+                    return result
+                targets = pd.get("regen_targets") or []
+                if not isinstance(targets, list) or len(targets) <= 1:
+                    return result
+                merged: dict[str, dict] = {}
+                order: list[str] = []
+                for t in targets:
+                    if not isinstance(t, dict):
+                        continue
+                    label = t.get("label")
+                    if not label:
+                        continue
+                    if label not in merged:
+                        merged[label] = dict(t)
+                        order.append(label)
+                    else:
+                        # Merge: keep first failure_reason, append second's
+                        # instructions so the regen sees both constraints.
+                        prior = merged[label]
+                        prior_reason = prior.get("failure_reason", "")
+                        new_reason = t.get("failure_reason", "")
+                        if new_reason and new_reason not in prior_reason:
+                            prior["failure_reason"] = f"{prior_reason}+{new_reason}".strip("+")
+                        prior_instr = prior.get("explicit_regen_instructions") or {}
+                        new_instr = t.get("explicit_regen_instructions") or {}
+                        if isinstance(prior_instr, dict) and isinstance(new_instr, dict):
+                            for k, v in new_instr.items():
+                                if k in prior_instr and prior_instr[k] != v:
+                                    prior_instr[k] = f"{prior_instr[k]} ALSO: {v}"
+                                else:
+                                    prior_instr[k] = v
+                            prior["explicit_regen_instructions"] = prior_instr
+                if len(order) < len(targets):
+                    logger.info(
+                        "[validator_dedup] collapsed %d regen_targets down to %d (deduped duplicate labels)",
+                        len(targets), len(order),
+                    )
+                    pd["regen_targets"] = [merged[lbl] for lbl in order]
+                    result["pack_decision"] = pd
+                return result
 
             def _regenerator_fn(*, state, post_label, regen_attempt,
                                 failed_parameters, explicit_avoid,

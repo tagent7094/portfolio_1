@@ -132,7 +132,7 @@ The `forbidden_phrases` and `forbidden_templates` lists above are derived from t
 ## Every post must
 
 - Pass the strip test at the hook line
-- Hit the word-count band: {word_count_range} (no exceptions; this is enforced)
+- **Hit the word-count band: {word_count_range}.** This is NON-NEGOTIABLE.
 - Match the founder's formatting habits (em-dashes, paragraph length, closing moves — check `marker_rates`)
 - Open universally relatable, narrow into the founder's world by paragraph 2
 - Keep first-degree claims TRUE (anchor-grounded); route invention through second-degree only
@@ -144,6 +144,21 @@ The `forbidden_phrases` and `forbidden_templates` lists above are derived from t
 - Use 2+ voice markers from the budget (without forcing them)
 
 If your ending feels over-explained, cut the second-to-last paragraph. The signal usually ends one paragraph before AI stops writing.
+
+## Word-count self-check protocol (MANDATORY before returning)
+
+The word-count band {word_count_range} is the SINGLE HARDEST CONSTRAINT. Posts that ship 50-80% over band (300-450 words on a 137-253 band) are rejected. They cannot recover via regen alone — by then the LLM has already chosen a too-long structure.
+
+Do this BEFORE writing the JSON:
+
+1. **Plan the paragraph count first.** A 200-word post is ~6 short paragraphs OR ~4 medium paragraphs OR ~3 long paragraphs. Founder's `marker_rates` tells you which style is theirs.
+2. **Write the draft.**
+3. **Count the words in your draft.** Don't estimate — count.
+4. **If your draft is OVER {word_count_range}**: cut paragraphs whole (entire body paragraphs, never trim sentences inside surviving paragraphs — that breaks rhythm). Aim for ~75% of the band ceiling, leaving headroom.
+5. **If your draft is UNDER {word_count_range}**: add ONE more scene-anchored paragraph or ONE more diagnostic question. Don't pad existing paragraphs.
+6. **Recount.** Output the count in `word_count` field. The orchestrator will reject and regen if `word_count` lies about the actual text.
+
+A 400-word post on a 137-253 band is a STRUCTURAL FAILURE — you tried to fit too much. Cut an entire argument. Cut an entire anchor. Cut an entire setup beat. Leave the post breathing.
 
 ## Regen guidance (if `regen_attempt > 0`)
 
