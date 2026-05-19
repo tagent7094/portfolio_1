@@ -37,10 +37,17 @@ logger = logging.getLogger("extract_revsure")
 TRANSCRIPTS_DIR = PROJECT_ROOT / "data" / "founders" / "deepinder" / "RevSure Call Transcripts"
 EXTRACTS_DIR = PROJECT_ROOT / "data" / "founders" / "deepinder" / "revsure-extracts"
 
-# Per-chunk target. Kimi K2.6 has 128K context; we leave ample room for
-# thinking + system prompt + output (~8K). 25K input tokens ≈ 100K chars.
-TARGET_CHUNK_CHARS = 100_000
+# Per-chunk target. Kimi K2.6 has 128K context. Thinking is OFF for speed,
+# so we can pack ~70K tokens of input + leave room for output. 70K tokens
+# ≈ 280K chars. Bumping target from 100K → 280K chars cuts the average
+# client from ~5 chunks to ~2 chunks (3x speedup).
+TARGET_CHUNK_CHARS = 280_000
 OVERLAP_SPEAKER_TURNS = 4
+
+# Concurrent client extraction. Kimi allows ~60 RPM; we limit to 6 concurrent
+# clients (each client serial within itself due to chunk dependency on
+# anchor state). 6×60s/chunk = 1 chunk per 10s rolling average.
+DEFAULT_PARALLEL_CLIENTS = 6
 
 
 CATEGORY_KEYS = (
@@ -289,9 +296,16 @@ def get_llm():
     return router.for_task("revsure_qa_extract"), router
 
 
-def extract_one_file(transcript_path: Path, llm, prompt_template: str) -> dict:
+def extract_one_file(transcript_path: Path, llm, prompt_template: str,
+                     chunk_parallelism: int = 6) -> dict:
+    """Extract one transcript file's findings. Chunks within the file are
+    processed concurrently (up to `chunk_parallelism`) to dramatically cut
+    wall time on long transcripts — a 10-chunk file goes from ~12 min
+    serial to ~90s parallel.
+    """
     from src.utils.text_utils import fill_prompt
     from src.utils.json_parser import parse_llm_json
+    from concurrent.futures import ThreadPoolExecutor
 
     client_name, call_type = parse_client_name(transcript_path.name)
     logger.info("[%s] reading %s", client_name, transcript_path.name)
@@ -301,23 +315,34 @@ def extract_one_file(transcript_path: Path, llm, prompt_template: str) -> dict:
         return _empty_extract(client_name, call_type)
 
     chunks = chunk_by_speakers(text)
-    logger.info("[%s] split into %d chunk(s) (%.1f K chars total)",
-                client_name, len(chunks), len(text) / 1000)
+    logger.info("[%s] split into %d chunk(s) (%.1f K chars total) — running %d in parallel",
+                client_name, len(chunks), len(text) / 1000, min(chunk_parallelism, len(chunks)))
 
-    per_chunk: list[dict] = []
-    for i, chunk in enumerate(chunks):
+    def _extract_one_chunk(idx_and_chunk):
+        i, chunk = idx_and_chunk
         logger.info("[%s] extracting chunk %d/%d (%.1f K chars)", client_name, i + 1, len(chunks), len(chunk) / 1000)
         prompt = fill_prompt(prompt_template, chunk=chunk, client_name=client_name, call_type=call_type)
         try:
             response = llm.generate(prompt, temperature=0.2, max_tokens=8000)
         except Exception as e:
             logger.warning("[%s] chunk %d LLM error: %s — skipping", client_name, i + 1, e)
-            continue
+            return None
         parsed = parse_llm_json(response)
-        if isinstance(parsed, dict):
-            per_chunk.append(parsed)
-        else:
+        if not isinstance(parsed, dict):
             logger.warning("[%s] chunk %d returned non-dict: %r", client_name, i + 1, type(parsed).__name__)
+            return None
+        return parsed
+
+    per_chunk: list[dict] = []
+    if len(chunks) == 1:
+        result = _extract_one_chunk((0, chunks[0]))
+        if result:
+            per_chunk.append(result)
+    else:
+        with ThreadPoolExecutor(max_workers=max(1, chunk_parallelism)) as pool:
+            for result in pool.map(_extract_one_chunk, enumerate(chunks)):
+                if result:
+                    per_chunk.append(result)
 
     merged = merge_findings_across_chunks(per_chunk, client_name, call_type)
     merged = verify_quotes_against_source(merged, text)
@@ -337,6 +362,10 @@ def main():
     parser.add_argument("--max-files", type=int, default=0, help="Cap on number of files (smoke test)")
     parser.add_argument("--dry-run", action="store_true", help="List files that would be processed, don't call LLM")
     parser.add_argument("--force", action="store_true", help="Re-process clients whose .json already exists")
+    parser.add_argument("--parallel", type=int, default=DEFAULT_PARALLEL_CLIENTS,
+                        help=f"Concurrent clients (default {DEFAULT_PARALLEL_CLIENTS})")
+    parser.add_argument("--chunk-parallel", type=int, default=4,
+                        help="Concurrent chunks per client (default 4). Total in-flight LLM calls ≈ --parallel × --chunk-parallel.")
     args = parser.parse_args()
 
     if not TRANSCRIPTS_DIR.exists():
@@ -403,55 +432,72 @@ def main():
     llm, _router = get_llm()
 
     total_clients = len(files_by_client)
-    done_clients = 0
     skipped_clients = 0
+    pending: list[tuple[str, list]] = []
 
     for client_name in sorted(files_by_client.keys()):
         out_path = EXTRACTS_DIR / f"{slug(client_name)}.json"
-        if out_path.exists() and not getattr(args, "force", False):
-            done_clients += 1
+        if out_path.exists() and not args.force:
             skipped_clients += 1
             logger.info("[%s] %s already exists — skipping (use --force to overwrite)",
                         client_name, out_path.name)
             continue
+        pending.append((client_name, files_by_client[client_name]))
 
-        paths = files_by_client[client_name]
-        logger.info("[%s] (client %d/%d) processing %d file(s)",
-                    client_name, done_clients + 1, total_clients, len(paths))
-        parts: list[dict] = []
-        for path in paths:
-            extract = extract_one_file(path, llm, prompt_template)
-            parts.append(extract)
+    logger.info("processing %d client(s) with parallelism=%d (%d skipped)",
+                len(pending), args.parallel, skipped_clients)
 
-        if not parts:
-            continue
-        merged = merge_findings_across_chunks(parts, client_name, parts[0].get("call_type", "mixed"))
-        merged["_meta"] = {
-            "source_files": [p.get("_meta", {}).get("source_filename", "") for p in parts],
-            "total_chunks": sum(p.get("_meta", {}).get("chunk_count", 0) for p in parts),
-            "extracted_chunks": sum(p.get("_meta", {}).get("extracted_chunk_count", 0) for p in parts),
-        }
-        # Verify quotes across union of this client's source files
-        full_source_parts: list[str] = []
-        for fname in merged["_meta"]["source_files"]:
-            for sub in ("All Calls", "Initial Calls"):
-                p = TRANSCRIPTS_DIR / sub / fname
-                if p.exists():
-                    full_source_parts.append(read_transcript(p))
-                    break
-        full_source = "\n\n".join(full_source_parts)
-        if full_source:
-            merged = verify_quotes_against_source(merged, full_source)
+    def process_client(client_name: str, paths: list) -> tuple[str, bool]:
+        """Extract one client end-to-end, write its JSON. Returns (client_name, ok)."""
+        try:
+            logger.info("[%s] processing %d file(s)", client_name, len(paths))
+            parts: list[dict] = []
+            for path in paths:
+                extract = extract_one_file(path, llm, prompt_template,
+                                           chunk_parallelism=args.chunk_parallel)
+                parts.append(extract)
+            if not parts:
+                return (client_name, False)
+            merged = merge_findings_across_chunks(parts, client_name, parts[0].get("call_type", "mixed"))
+            merged["_meta"] = {
+                "source_files": [p.get("_meta", {}).get("source_filename", "") for p in parts],
+                "total_chunks": sum(p.get("_meta", {}).get("chunk_count", 0) for p in parts),
+                "extracted_chunks": sum(p.get("_meta", {}).get("extracted_chunk_count", 0) for p in parts),
+            }
+            full_source_parts: list[str] = []
+            for fname in merged["_meta"]["source_files"]:
+                for sub in ("All Calls", "Initial Calls"):
+                    p = TRANSCRIPTS_DIR / sub / fname
+                    if p.exists():
+                        full_source_parts.append(read_transcript(p))
+                        break
+            full_source = "\n\n".join(full_source_parts)
+            if full_source:
+                merged = verify_quotes_against_source(merged, full_source)
+            out_path = EXTRACTS_DIR / f"{slug(client_name)}.json"
+            out_path.write_text(json.dumps(merged, ensure_ascii=False, indent=2), encoding="utf-8")
+            kept = sum(merged.get("_verification", {}).get("kept_by_category", {}).values())
+            dropped = sum(merged.get("_verification", {}).get("dropped_by_category", {}).values())
+            logger.info("[%s] wrote %s (%d findings kept, %d dropped)", client_name, out_path.name, kept, dropped)
+            return (client_name, True)
+        except Exception as e:
+            logger.exception("[%s] failed: %s", client_name, e)
+            return (client_name, False)
 
-        out_path.write_text(json.dumps(merged, ensure_ascii=False, indent=2), encoding="utf-8")
-        kept = sum(merged.get("_verification", {}).get("kept_by_category", {}).values())
-        dropped = sum(merged.get("_verification", {}).get("dropped_by_category", {}).values())
-        done_clients += 1
-        logger.info("[%s] wrote %s (%d findings kept, %d dropped at verification) — %d/%d clients done",
-                    client_name, out_path.name, kept, dropped, done_clients, total_clients)
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    done_clients = 0
+    failed_clients: list[str] = []
+    with ThreadPoolExecutor(max_workers=max(1, args.parallel)) as pool:
+        futures = {pool.submit(process_client, cn, paths): cn for cn, paths in pending}
+        for fut in as_completed(futures):
+            client_name, ok = fut.result()
+            done_clients += 1
+            if not ok:
+                failed_clients.append(client_name)
+            logger.info("[progress] %d/%d clients done (%d failed)", done_clients, len(pending), len(failed_clients))
 
-    logger.info("DONE. %d/%d clients processed (%d skipped because output already existed)",
-                done_clients, total_clients, skipped_clients)
+    logger.info("DONE. %d/%d clients processed (%d skipped because output already existed, %d failed: %s)",
+                done_clients, total_clients, skipped_clients, len(failed_clients), failed_clients)
 
 
 if __name__ == "__main__":

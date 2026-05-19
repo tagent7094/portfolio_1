@@ -1,0 +1,205 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Nasuni",
+  "call_type": "initial_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Leadership believes opportunities come from only one source, making multi-touch attribution difficult to implement",
+        "quote": "They're, they have a very old school mindset. So the idea of opportunities coming from more than one place is kind of mind boggling to them. Like they are, leadership is very of the mindset that there is one place that an opportunity comes from and we can identify that one place we can invest in that one spot and we can get a return on that investment and we can invest in that one place and continue to bring more money into the business that way.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:03:16 PM"
+      },
+      {
+        "summary": "Opportunity source attribution has caused internal competition and destroyed collaboration between teams",
+        "quote": "We've had a really bad year in sales and I personally think that it's a direct result of this sourcing competition that's been going on. It has taken us away from the collaboration that we used to have. People are spending more time trying to figure out who owns the opportunity and how we even got the opportunity versus how we all work together.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:04:30 PM"
+      },
+      {
+        "summary": "Multiple teams (partner, sales, marketing, SDR) compete for single attribution on opportunities",
+        "quote": "So there's the four sources that are competing for that one opportunity. Where it used to be that nice fluid, everybody's involved and now they're trying to attribute it just to one person.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:04:55 PM"
+      },
+      {
+        "summary": "Hockey Stack platform is extremely slow, taking over 3 minutes to filter data by account",
+        "quote": "I find the platform in and of itself to be very slow. So like trying to get, if I'm trying to filter on an acc, like a specific account, for example, I got a little nasty yesterday and started timing. I tried to filter information by an account and it took over three minutes just for the data to populate. So that's another thing that's not gonna be scalable for me.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:06:35 PM"
+      },
+      {
+        "summary": "Hockey Stack only allows filtering on one dimension at a time, cannot stack filters",
+        "quote": "One thing that's pretty disappointing is the like things that you wouldn't even think to ask during a call. Like you can only filter on one thing at a time. You can't stack filters. You can't say, I wanna see information by a campaign owner and a region. You have to pick one.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:06:17 PM"
+      },
+      {
+        "summary": "Lack of visibility into where to invest marketing budget for ROI",
+        "quote": "So where does, like, that is our biggest pain point is like we just don't know confidently where we can say where we should invest that money to see that ROI. So that's where we're struggling right now.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:12:27 PM"
+      },
+      {
+        "summary": "Marketing ops as a function is new and there is still much to learn in attribution space",
+        "quote": "But like these tools are relatively new. Like there is still a lot to learn in the space of attribution and like marketing ops as a function is fairly new.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:12:27 PM"
+      },
+      {
+        "summary": "Hockey Stack CSM unable to answer basic questions about platform capabilities",
+        "quote": "So we meet every for 30 minutes every week. And I come with questions and she just never seems to be able to answer them. And they don't seem like, I don't feel like they're really that difficult of questions to answer. Like the filter question. That seems like something that a customer success manager should be able to answer of. No, we, you can only apply one filter at a time.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:10:16 PM"
+      },
+      {
+        "summary": "Web optimization analyst not using Hockey Stack to create reports, tool may not serve her needs",
+        "quote": "Elizabeth who is our web person, has really not been going in and creating reports. So I'm not sure if the tool is serving her needs.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:29:47 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Hockey Stack",
+        "vendor": "Hockey Stack",
+        "reason": "Platform is slow, cannot stack filters, CSM unable to answer questions, feels like 'sold a dud' — implementation not matching demo promises",
+        "quote": "I kind of feel like I was sold a dud. As we're kind of going through the setup and implementation, there's a lot of things that don't seem to be translating like they were on like during all the discovery calls.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:05:54 PM"
+      },
+      {
+        "tool": "Dream Data",
+        "vendor": "Dream Data",
+        "reason": "Not customizable enough; Nasuni chose Hockey Stack instead to also serve web analytics needs",
+        "quote": "And so she needed a web analytics platform. And so Dream data that our problem with Dream Data, and I guess this is a question for you, is how customizable are you? Like, do I get to go in and build my own reports and dashboards or are you gonna do that for me?",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:28:23 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "CMO",
+          "VP of marketing",
+          "Becca Wilson"
+        ],
+        "tension_label": "tool satisfaction disagreement",
+        "summary": "Becca expressed disappointment with Hockey Stack to leadership but they were not super concerned, though open to switch if needed",
+        "quote": "I did tell them that I'm disappointed that hockey stack, I feel like I've been sold a dud. I'm not super happy with it. They were understandable, they weren't super concerned about it. They said if we need to make a switch, if I need something different, that's fine. We can make it work.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:31:07 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Marketing is becoming more powerful in terms of pipeline contribution, directly stating this shift",
+        "why_unusual": "In a call with revenue intelligence vendor, explicitly asserting marketing's growing power over pipeline rather than deferring to sales-led narrative",
+        "quote": "I think marketing is becoming more powerful in terms of pipeline contribution.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:14:18 PM"
+      },
+      {
+        "claim": "Marketers should fight for attribution and 'pick at everything' — this is how it should be",
+        "why_unusual": "Embraces marketer territoriality as positive behavior rather than trying to eliminate it through process or tooling",
+        "quote": "And that it, my marketers are, they're hounds. They are, they're insane. And they're gonna pick, they're, they pick at everything. And if you say that this is not, this opportunity doesn't pertain to them, they're gonna fight you every step of the way. And it and it, that's how it should be.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:13:08 PM"
+      }
+    ],
+    "revsure_problems": [],
+    "best_about_revsure": [
+      {
+        "summary": "Becca impressed by RevSure's data model transparency and ability to see data fidelity",
+        "quote": "So we make our model public so you're able to see the data and the fidelity of the data. Okay. So I click on campaign, you could see all of the resources, all of the sources pouring into it.",
+        "speaker": "Dee Acosta",
+        "timestamp": "10:17:35 PM"
+      },
+      {
+        "summary": "Becca reacts positively to generative AI copilot for non-technical marketers",
+        "quote": "This can be kind of handed out to, you know, the non-technical marketing team, those marketing managers.",
+        "speaker": "Dee Acosta",
+        "timestamp": "10:26:25 PM"
+      },
+      {
+        "summary": "Becca calls RevSure's analytics capabilities 'the dream of analytics'",
+        "quote": "This is the dream of analytics.",
+        "speaker": "Becca Wilson",
+        "timestamp": "10:26:58 PM"
+      },
+      {
+        "summary": "Becca impressed by RevSure's customizable reporting with drag-and-drop",
+        "quote": "We use a drag and drop function so that you're able to create that.",
+        "speaker": "Dee Acosta",
+        "timestamp": "10:28:33 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [],
+      "long_term": [
+        {
+          "win": "Want unified pipeline view for CRO and CMO with confidence in projections",
+          "quote": "So imagine you're able to work with the team. You're able to say this is showing the first of the month, but you're able to say, Hey, this is our projection, this is our potential, this is how much of our potential we've reached.",
+          "speaker": "Dee Acosta",
+          "timestamp": "10:24:00 PM"
+        },
+        {
+          "win": "Want to confidently tell board where to invest money for ROI",
+          "quote": "So if we're going and asking the board for more money, if we're asking for larger investments next year, like we need to have a plan and say like, this is how we're gonna spend it and this is where we feel confident that we're actually gonna see a return.",
+          "speaker": "Becca Wilson",
+          "timestamp": "10:12:27 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Hockey Stack",
+      "Dream Data",
+      "Salesforce",
+      "HubSpot",
+      "Six Sense"
+    ],
+    "pain_summary": "Nasuni is struggling with Hockey Stack implementation that feels like a 'dud' — slow performance, no filter stacking, unhelpful CSM — while leadership mandates single-touch attribution causing destructive competition between marketing, sales, SDR, and partner teams",
+    "kpis_unhealthy": [
+      "opportunity source attribution accuracy",
+      "marketing ROI visibility",
+      "team collaboration",
+      "platform adoption by web analyst"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "",
+    "wins_realized": [],
+    "open_issues": []
+  },
+  "_meta": {
+    "source_files": [
+      "Nasuni Initial Calls.md"
+    ],
+    "total_chunks": 1,
+    "extracted_chunks": 1
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 9,
+      "tools_switched_from": 2,
+      "political_tussles": 1,
+      "contrarians": 2,
+      "revsure_problems": 0,
+      "best_about_revsure": 4,
+      "wins_immediate": 0,
+      "wins_long_term": 2
+    }
+  }
+}

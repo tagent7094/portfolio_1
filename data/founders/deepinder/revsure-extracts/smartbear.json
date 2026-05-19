@@ -1,0 +1,667 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Smartbear",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Manual reporting with Excel spreadsheets, lack of scalability across 15+ products",
+        "quote": "a lot of times you working within Excel spreadsheets, it's like, oh it's, I don't know, I feel like the business leaders don't always understand the issues going down. They get the nice presentation at the end, but the actual accuracy and the ability to scale, I feel like it's something that's missing",
+        "speaker": "Adam Kinsley",
+        "timestamp": "4:04:26 AM"
+      },
+      {
+        "summary": "No visibility into what happens between MQLs to opportunities and outreach touchpoints",
+        "quote": "two areas that we specifically need to focus on is what's occurring between QLS to opportunities between outreach. Is there any additional campaign touch points? We don't have great visibility within our reporting right now.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "11:42:28 PM"
+      },
+      {
+        "summary": "Ad spend not connected to actual opportunities and billings",
+        "quote": "And then the second pillar would be connecting our ad spend to actual opportunities and billings.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "11:43:17 PM"
+      },
+      {
+        "summary": "Manual reports with heavy uplift and assumptions",
+        "quote": "right now we're doing a ton of manual reports, it's a ton of uplift and it's a lot of assumptions on our part.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "10:05:31 PM"
+      },
+      {
+        "summary": "Cannot track cross-page interactions and blank UTMs",
+        "quote": "we're tracking just TMS and they would come in through a page referral so we could see that they come to our website, but it's only really a last touch. There's probably many other things that they're interacting with online and we don't get those touches right now.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "10:15:01 PM"
+      },
+      {
+        "summary": "Data silos between product lines and inability to report at line item level",
+        "quote": "when we're reporting out on opportunities, we're not reporting at the aggregate opportunity, we're reporting at the line item level. So that's where I need to go in, be able to filter down the opportunities at the line item level and then from those opportunities that I've filtered down, I need to see the entire Funnel.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "12:21:29 AM"
+      },
+      {
+        "summary": "SmartBear has had a lot of turnover and changes, making it challenging to engage consistently",
+        "quote": "they have they've had a lot of turnover they have a lot of changes so it's been a little challenging to engage with them right",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:02:13 AM"
+      },
+      {
+        "summary": "Nina is new and unfamiliar with RevSure, more familiar with DreamData",
+        "quote": "nina she's familiar more familiar with dream data right which is which gets to what we're going to",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:05:35 AM"
+      },
+      {
+        "summary": "Nina and Pratheep are being pulled into many things, making it hard to focus on RevSure",
+        "quote": "she poor thing is getting pulled into like pretty much every single thing",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:32:21 AM"
+      },
+      {
+        "summary": "Campaign names in Salesforce are completely different and inconsistent",
+        "quote": "that's another thing which drives me crazy that the campaign names are completely different",
+        "speaker": "Pratheep Sankar",
+        "timestamp": "9:45:27 PM"
+      },
+      {
+        "summary": "ROI tanked starting in September and client doesn't know why",
+        "quote": "some of our ROAs tanking starting in September",
+        "speaker": "Salim Dib",
+        "timestamp": "12:58:51 AM"
+      },
+      {
+        "summary": "Pipeline stages changed in Salesforce but weren't communicated to RevSure, causing data mapping issues",
+        "quote": "stage one is discovery so these have changed so i think that we need a side-by-side mapping of the old ones and then aligned to the new ones because it looks like they're still pulling data on the old ones",
+        "speaker": "Nina Khalil",
+        "timestamp": "3:41:30 AM"
+      },
+      {
+        "summary": "Client has to do significant manual research to provide upper bound constraints for optimization",
+        "quote": "we would have to do research on, for example, Google, like what is the search volume for every single product and work with like the external agency to provide that number",
+        "speaker": "Salim Dib",
+        "timestamp": "12:46:30 AM"
+      },
+      {
+        "summary": "Client feels they are doing most of the work to make optimization scenarios useful",
+        "quote": "it seems like we are doing... most of the work like you're giving us what the optimal spend is but we have to go calculate what's the max we want to spend in these channels we'd have to look at that by product all that would be on our side",
+        "speaker": "Salim Dib",
+        "timestamp": "12:49:54 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Previous attribution tool (unnamed)",
+        "vendor": "unknown",
+        "reason": "Never used, product sucked, team turned over",
+        "quote": "we've had a tool in place before it just was never used or whether that was just the team that was in place or the product itself sucked it, it was probably a mixture of both.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "4:16:10 AM"
+      },
+      {
+        "tool": "Excel spreadsheets",
+        "vendor": "Microsoft",
+        "reason": "Lack of accuracy and scalability, manual process",
+        "quote": "a lot of times you working within Excel spreadsheets, it's like, oh it's, I don't know, I feel like the business leaders don't always understand the issues going down. They get the nice presentation at the end, but the actual accuracy and the ability to scale, I feel like it's something that's missing",
+        "speaker": "Adam Kinsley",
+        "timestamp": "4:04:26 AM"
+      },
+      {
+        "tool": "Marketo (partial - for web analytics/UTM tracking)",
+        "vendor": "Adobe",
+        "reason": "Only last touch attribution, missing cross-page interactions",
+        "quote": "we're tracking just TMS and they would come in through a page referral so we could see that they come to our website, but it's only really a last touch. There's probably many other things that they're interacting with online and we don't get those touches right now.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "10:15:01 PM"
+      },
+      {
+        "tool": "DreamData",
+        "vendor": "DreamData",
+        "reason": "Nina is familiar with DreamData and wants RevSure to replicate similar views; Pratheep used it at previous company",
+        "quote": "nina has used dream data before so there's that aspect of wanting to see yeah the same thing",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:44:04 PM"
+      },
+      {
+        "tool": "Marketo",
+        "vendor": "Adobe",
+        "reason": "SmartBear is migrating away from Marketo after a data breach with Drift",
+        "quote": "no we are migrating immigrating the adobe\nUh, out of each app. So the market will chat now.",
+        "speaker": "Pratheep Sankar",
+        "timestamp": "9:49:40 PM"
+      },
+      {
+        "tool": "Visible",
+        "vendor": "Adobe",
+        "reason": "Wanted to buy Visible for multi-touch attribution but data breach killed the deal",
+        "quote": "they wanted to buy the visible and exactly we were in the negotiation stages and that's when there was a leak there was a data breach happened with visible and then asana said like off wow that is stupid",
+        "speaker": "Pratheep Sankar",
+        "timestamp": "9:50:39 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "Leadership",
+          "Ops team"
+        ],
+        "tension_label": "Budget approval and tool adoption resistance",
+        "summary": "Adam struggling to push RevSure through due to past failed tool experience and leadership skepticism",
+        "quote": "Everyone that was there when we had the product is now not here on the ops team. So it, it is tough for me at least to go and push this through 'cause I know the value that it's gonna bring out. It's just changing opinions up top that it is gonna be different now than it was before.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "4:16:47 AM"
+      },
+      {
+        "actors": [
+          "Growth Marketing",
+          "Business Operations",
+          "CMO"
+        ],
+        "tension_label": "Decision authority and investment approval",
+        "summary": "Need CMO buy-in, SVP Growth must be convinced, multiple approval layers",
+        "quote": "It's either gonna get pushed to the end of the year if, if our SBP growth doesn't really buy into it, if it goes really well on Friday, there's gonna be another follow up conversation back with the CMO and then out of that meeting will be the ultimate decider.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "4:15:25 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales/SDR"
+        ],
+        "tension_label": "Campaign source tracking ownership",
+        "summary": "Need change management on sales and SDR side to use primary campaign source instead of lead source",
+        "quote": "And so we could pull in primary campaign source and it would be change management on the sales and the SDR side. But we would have SDR source campaign, sales source, campaign marketing, inbound marketing, outbound indirect A BX.",
+        "speaker": "Kristine.Hunt@Smartbear.Com",
+        "timestamp": "12:01:24 AM"
+      },
+      {
+        "actors": [
+          "Channel team",
+          "Enterprise team",
+          "Marketing leadership"
+        ],
+        "tension_label": "Event spend ROI validation",
+        "summary": "Channel and enterprise want more event spend but unclear if marketing gets ROI",
+        "quote": "the channel team, enterprise team want to spend more on events. Like that's super clear to me, but it's not clear to me is whether or not you feel like you get ROI on that.",
+        "speaker": "Carolyn.Loudenslager@Smartbear.Com",
+        "timestamp": "10:23:22 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Prefer to start with smaller base package and prove value before expanding, rather than buying full suite upfront",
+        "why_unusual": "Most vendors push for full platform deals; SmartBear explicitly wants to start small and expand",
+        "quote": "I completely agree. I want the full suite as well. But I also think just getting a tool foot in the door and proving its value is in the long term. That's what we're trying to",
+        "speaker": "Adam Kinsley",
+        "timestamp": "11:28:26 PM"
+      },
+      {
+        "claim": "Events should be measured for baseline brand lift, not just pipeline attribution",
+        "why_unusual": "Challenges pure ROI-driven event measurement, argues for incrementality and baseline effects",
+        "quote": "Because at the end of the day, if we didn't spend anything on marketing, there's a baseline of where business would still be performing and ideally those events are increasing that baseline. They're going and driving something that we can't really push with incrementality, but something that we can build off.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "10:26:04 PM"
+      },
+      {
+        "claim": "Contacts (not visitors) are the unit of value for pricing",
+        "why_unusual": "Goes against common SaaS pricing based on unique visitors or MAU",
+        "quote": "The reason we don't do the visitors is that visitors is, is not a unit of value. I think contacts, leads an accounts are units of value. So that's how we, you know, it's just a different philosophy on that.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:18:10 PM"
+      },
+      {
+        "claim": "Marketing form fills should be eliminated from attribution and attributed to previous touchpoint",
+        "why_unusual": "Most platforms treat form fills as high-intent touchpoints; RevSure argues they are conversion activities, not channel attribution",
+        "quote": "It's just attributing Eliminate form fills engine attributing into the previous touch point right and we look at the Session window either 30 minutes or 60 minutes and whatever touch point that occurred prior to that form fill the lead will be associated to that Touch point and then we'll exclude the form fill as a campaign touch",
+        "speaker": "Jayaram",
+        "timestamp": "11:43:11 PM"
+      },
+      {
+        "claim": "Combine marketing mix modeling AND multi-touch attribution together, using signals from MTA into MMM",
+        "why_unusual": "Most vendors offer one or the other; harmonizing both is unconventional",
+        "quote": "We also combine the, the reason that we do both marketing mix and a multi-touch attribution together is we use the signals from the multi-touch attribution into the marketing mix model, right? So marketing mix is great at channel level and looking at okay impressions and you know, looking at spend data, et cetera. But it's not great at, you know, it's like even if I saw an impression, doesn't mean it is, doesn't, might not necessarily mean that it is effective, right?",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:15:25 PM"
+      },
+      {
+        "claim": "Budget field in ad platforms is 'not the most maintained field' and customers don't really use it",
+        "why_unusual": "Most marketing analytics platforms treat budget as a core input; Francisco acknowledges it's often garbage data",
+        "quote": "I don't see a lot of customers use budget because it's not the most maintained field.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:17:40 AM"
+      },
+      {
+        "claim": "Outreach/SDR activity should be excluded from marketing attribution entirely, not just separated",
+        "why_unusual": "Many attribution platforms include SDR activity as a touchpoint to show sales-marketing alignment; SmartBear wants it removed completely",
+        "quote": "all i was asking for is to remove it from the attribution that's it",
+        "speaker": "Pratheep Sankar",
+        "timestamp": "9:41:33 PM"
+      },
+      {
+        "claim": "Trial is top of funnel but moving toward broader 'top of funnel leads' including demo requests and contact us forms",
+        "why_unusual": "Dev tools companies often over-index on product-led/trial metrics; SmartBear is explicitly moving toward a more traditional demand gen model",
+        "quote": "what we're going to in 2026 is we're probably moving closer towards like instead of the top of funnel is trials. We're going to call it top of funnel leads and it could be trials, demo requests, contact us forms.",
+        "speaker": "Salim Dib",
+        "timestamp": "11:00:42 PM"
+      },
+      {
+        "claim": "Client wants RevSure to provide more strategic guidance rather than just visibility",
+        "why_unusual": "RevTech vendors typically position as enabling self-service decision-making; client is pushing for more vendor-led strategy",
+        "quote": "calls essentially to move to more of like you guys providing insights to us on the data you're seeing within the dashboards",
+        "speaker": "Salim Dib",
+        "timestamp": "12:56:11 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "implementation",
+        "problem": "Marketo sync taking weeks due to large database size (1.1M contacts, about 1/3 done)",
+        "quote": "I see that there's 20 records that have been extracted is, and it, you know, it started to sync three hours ago, but the last successful one is four days ago, zero contact in record. I'm, I'm confused about that line item in general.",
+        "speaker": "Will Thomas",
+        "timestamp": "11:35:50 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Google Ads initially connected to manager account instead of individual ad accounts",
+        "quote": "we've connected a manager account as opposed to the individual ads accounts that we connect to the individual ads account. So we'll just have to switch the integration from the manager manager account to integration accounts.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:33:26 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Bing/Microsoft Ads connection blocked for non-admin users, fix being deployed",
+        "quote": "when you try to connect it, you get that popup that says like, admin authorization required. And I submitted that and I got an email last week that said approved. So then I went into Rev Sure.",
+        "speaker": "Jason Roe",
+        "timestamp": "11:35:03 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Drift sync failing with access token refresh issues",
+        "quote": "the Drift sync just failed says failed refre failed to refresh Access Token.",
+        "speaker": "Will Thomas",
+        "timestamp": "11:38:56 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cannot filter line item fields across full funnel - lead/contact metrics disappear when using opportunity line item filters",
+        "quote": "If you're specifically using a filter for line item, then the other option is, I mean you can use the product groups thing that we are basically using in this view currently. So that way it works across both lead and ship. But if it is like a specific line item related attribute, then we don't have any information for line items for leads, right?",
+        "speaker": "Shantanu",
+        "timestamp": "12:17:08 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about decimal values in trial volume due to linear attribution model",
+        "quote": "The generally trial volume, why is there decimal values in the trials?",
+        "speaker": "Adam Kinsley",
+        "timestamp": "9:26:31 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "SEO/SEM Rush side script concern - compressed file format causing investigation delays",
+        "quote": "we, we investigated, we looked through it. We don't see anything on, on our end per se, right? Because it's compressed and how the file is formatted. We reached out to SEM Rush, but since we aren't a paying customer, we haven't gone that far.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:02:17 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about how organic search and direct traffic are attributed and classified",
+        "quote": "I think we're just trying to like, like we're, we're digging into this one specifically is just like an example but we're just trying to make sure that. our channels are being properly routed, especially organic and direct. So Jason's point, when you just spot check it, it just seemed off. Maybe we're wrong. I don't think we are. We've been in this data for three years.",
+        "speaker": "Salim Dib",
+        "timestamp": "12:06:46 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Channel classification requires multiple iterative passes, still finding misclassified campaigns",
+        "quote": "I noticed like soapui.org Was showing up under other referrers and I think in the logic I provided it should be going under like internal referrers",
+        "speaker": "Jason Roe",
+        "timestamp": "11:36:45 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cannot make secondary axis a line chart instead of bar in the UI",
+        "quote": "if we wanted to make like the secondary access a line and not a bar is that possible in this ui or no",
+        "speaker": "Salim Dib",
+        "timestamp": "10:33:48 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Time period filters top out at 9 bars, limiting longer time period views",
+        "quote": "the other there it is to have more than nine bars like when we were looking at the month of August it kind of like topped out",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "10:35:05 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about whether pipeline is cohorted vs associated to same-period spend",
+        "quote": "that's also, like, that's what Nina asked, too, like, about cohorted and associated to spend. I think that's the big thing, like, if we are spending in a certain month where the opportunity opens, that spend, though... the spend that drove a lead to become an opportunity occurred months prior to the opportunity opening",
+        "speaker": "Salim Dib",
+        "timestamp": "10:44:19 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about how cost per pipeline is calculated - whether it uses pipeline date or lead creation date spend",
+        "quote": "how are you guys calculating the cost spur pipeline is it just using the spend of the month that the pipeline opened",
+        "speaker": "Salim Dib",
+        "timestamp": "10:45:22 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Funnel stage names don't match SmartBear's internal terminology",
+        "quote": "are we able to are you guys able to change some of the names um to fit like what our internal move over",
+        "speaker": "Salim Dib",
+        "timestamp": "10:54:13 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign reallocation module doesn't specify exact amounts to move, just historical performance comparison",
+        "quote": "it doesn't tell you like is it saying essentially take all of the daily budget and move it over or is it saying a specific amount like you still want to keep those live but move some of the daily budget over",
+        "speaker": "Salim Dib",
+        "timestamp": "10:45:50 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Keyword data not available from Google for paid search analysis",
+        "quote": "Keywords so keywords we don't get them google doesn't give us that data back",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "10:53:48 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client unclear how to use dashboards to diagnose specific ROI decline",
+        "quote": "i want to know like because you said you are going to try to work on this analysis a little too with us but obviously i want obviously this is like our dashboard too like let's use this a real life example you see september on what are the next steps we would do",
+        "speaker": "Salim Dib",
+        "timestamp": "10:56:21 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Ability to answer every question immediately with live proof, not promises",
+        "quote": "Every single question we asked you guys had an answer for right away. Like the custom ability, the ability to drill down, that was always, we would ask maybe some of the other companies during the demos and they'd be like, oh, like that's possibility. But they couldn't show it in real time. Every question we had with you guys, you were able to prove it out on video in five seconds.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "4:17:25 AM"
+      },
+      {
+        "summary": "Predictive capabilities and forward-looking insights beyond just attribution",
+        "quote": "I do love the views and I love that there's that predictability aspect. I feel like a, a lot of other tools in the market right now, they've kind of gotten away from that and your product seems to have doubled down on the capabilities to go and continue to predict.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "11:07:35 PM"
+      },
+      {
+        "summary": "Customization and filtering by all dimensions is huge value",
+        "quote": "definitely the customization by all the filters coming in, that's a, that's a huge value for us.",
+        "speaker": "Adam Kinsley",
+        "timestamp": "11:07:35 PM"
+      },
+      {
+        "summary": "Time savings quantifiable like analyst headcount",
+        "quote": "oh Zane saved 40 hours a quarter, right? It's like where where would that go? Right? It would go to like an analyst cost or something like that outsourced or something and it's like just multiply your hour cost, right?",
+        "speaker": "Alex Cox",
+        "timestamp": "4:05:44 AM"
+      },
+      {
+        "summary": "Timeline journey view showing all touchpoints is brilliant and loved",
+        "quote": "man this is brilliant I like this one",
+        "speaker": "Pratheep Sankar",
+        "timestamp": "10:04:33 PM"
+      },
+      {
+        "summary": "Journey tracker with dynamic calendar view and engagement grouping is excellent",
+        "quote": "Oh, man, this is brilliant. I like this view. OK, good.",
+        "speaker": "Pratheep Sankar",
+        "timestamp": "10:13:35 PM"
+      },
+      {
+        "summary": "Ability to toggle between attributed and non-attributed touchpoints is loved",
+        "quote": "Love that.",
+        "speaker": "Pratheep Sankar",
+        "timestamp": "10:05:49 PM"
+      },
+      {
+        "summary": "RevSure's flexibility in creating different attribution model views in one dashboard",
+        "quote": "in one dashboard you can have insight into the influence and insight into this like the sourcing or acceleration",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:20:57 AM"
+      },
+      {
+        "summary": "Rhythm customer was 'blown away' by RevSure's ability to defend thought leadership ads",
+        "quote": "she was like blown away.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:25:46 AM"
+      },
+      {
+        "summary": "Campaign reallocation module is helpful for informing campaign strategy",
+        "quote": "no this is helpful historically",
+        "speaker": "Salim Dib",
+        "timestamp": "10:47:24 PM"
+      },
+      {
+        "summary": "Lift analysis feature ready to use and valuable",
+        "quote": "and this is ready to use now yes",
+        "speaker": "Salim Dib",
+        "timestamp": "10:51:35 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "LinkedIn data successfully flowing into platform",
+          "quote": "The biggest piece of good news I have is LinkedIn data is flowing in and we can show that today.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "9:01:19 PM"
+        },
+        {
+          "win": "Directional views created for funnel snapshot and cohort analysis",
+          "quote": "This is your overall marketing attribution performance view tells you, okay, how much you've spent, what's your generated lead volume, pipeline volume, booking volume, what's your ROI?",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "10:06:15 PM"
+        },
+        {
+          "win": "Custom views for paid search performance created and saved",
+          "quote": "Can you save this as just a new report just so that I have, so I can play around with it?",
+          "speaker": "Salim Dib",
+          "timestamp": "12:12:33 PM"
+        },
+        {
+          "win": "Paid media performance dashboard created showing key metrics from spend to booking",
+          "quote": "we've primarily worked on the return on ad spend dashboard by a view that provides insights into performance and trends across paid channels",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:05:30 AM"
+        },
+        {
+          "win": "Product-specific pipeline view created for Selena showing pipeline by product",
+          "quote": "i had also worked on a view for selena products so it's filtered on just how much pipeline is being added by the different products",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:05:45 AM"
+        },
+        {
+          "win": "Six Cents campaign performance can now be tied to pipeline and revenue, not just clicks/impressions",
+          "quote": "in the way that rapture um in just six cents campaigns were able to tie not only you know the traditional clicks and expressions clicks, impressions, spend, you know, CTR, but we're able to see how that is impacting pipeline and impacting revenue",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:06:05 AM"
+        },
+        {
+          "win": "Campaign product group, product name, region, and keyword type dimensions created for slicing data",
+          "quote": "celine wanted to confirm with you both with everybody here that we created the dimensions for a campaign product group campaign product name the region and then the keyword type",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:07:00 AM"
+        },
+        {
+          "win": "Fatter bar charts implemented based on Nina's feedback",
+          "quote": "you'll see that the bar charts are now a lot fatter. So it's removed a lot of that white space that was before.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:32:44 PM"
+        },
+        {
+          "win": "Total columns added when hovering over bar charts",
+          "quote": "having a total column at the bottom so as you hover before we'll just say like this is pipeline ori and this is the gross cost everyone tell you the total on the bottom",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:33:09 PM"
+        },
+        {
+          "win": "ROAS dashboard is now in a better place",
+          "quote": "especially you know as like the team has kind of switched since we started to now so a lot of the calls are around projects and making sure the ROAS dashboard is up to speed now that we have that in a better place",
+          "speaker": "Salim Dib",
+          "timestamp": "12:55:53 AM"
+        },
+        {
+          "win": "Can now rename metrics in demand generation effectiveness",
+          "quote": "now you can fully rename the metrics in demand generation effectiveness so now we can rename the metrics as you need",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:34:33 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Full funnel visibility combining all touchpoints across inbound and outbound",
+          "quote": "this full Funnel visibility is obviously the, just combining all of our touch points.",
+          "speaker": "Adam Kinsley",
+          "timestamp": "11:42:28 PM"
+        },
+        {
+          "win": "Real-time campaign optimization and reallocation recommendations",
+          "quote": "This tool is gonna allow us to take out some of those assumptions and have the statistical model behind the actual data that's gonna allow us to go and say, okay, these are the funnels, this is how it's tracking real time, and then what's next? How do we optimize off of that and where do we spend within those funnels?",
+          "speaker": "Adam Kinsley",
+          "timestamp": "10:06:14 PM"
+        },
+        {
+          "win": "Predictive pipeline visibility and AI-driven forecasting",
+          "quote": "we give you predictive visibility into your overall pipeline generation and pipeline covering. So are you gonna meet your pipeline generation targets this quarter or next quarter or action next quarter?",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "10:05:22 PM"
+        },
+        {
+          "win": "Automated weekly snapshot reports for growth marketers",
+          "quote": "if you create a view, right, and you want to send like snapshots, right? We can create like view only users so that they can be sent this snapshot, they'll get like a PDF of it. But you can have like control as to Right, that filters aren't changing.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "9:20:34 PM"
+        },
+        {
+          "win": "Pipeline projections to forecast pipeline generation and close rates at quarter start",
+          "quote": "one of the most exciting features is the pipeline projections. So RepShare can help you forecast how much pipeline you're going to generate, how much you're going to close one so that Any executive leader yourselves can go in and see two weeks into the quarter, am I going to have enough pipeline to reach the targets that I have?",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:06:23 AM"
+        },
+        {
+          "win": "Marketing Mix Modeling (MMX) to optimize $300K monthly spend across channels",
+          "quote": "this is also marketing mixed modeling. We see about 300K marketing spent every month. That shows that there's an opportunity to optimize for efficiency and growth.",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "12:18:47 AM"
+        },
+        {
+          "win": "RevSure to become the single source of truth for ROAS and attribution",
+          "quote": "I'd like to see RevSure become like a go-to tool that says okay no you know that's this is the source of truth for ROAS right this is the source of truth for attribution",
+          "speaker": "Nina Khalil",
+          "timestamp": "12:30:57 AM"
+        },
+        {
+          "win": "Trial conversion rate optimization using RevSure for diagnostics",
+          "quote": "can we look at what is driving high quality trials and how can we break that down looking at like performance tracking historical performance measurement identifying lead indicators for trial conversions",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "12:20:14 AM"
+        },
+        {
+          "win": "Want to get to campaign-level reallocation guidance across products",
+          "quote": "we are saying on our end you should spend call it 200 000 in ready api north america like you guys would tell us actually you should optimal level is a hundred in uh ready api move the other hundred to test complete where we can spend more there like that type of information would be helpful",
+          "speaker": "Salim Dib",
+          "timestamp": "12:53:56 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Excel spreadsheets",
+      "Marketo (last-touch only)",
+      "Tableau (manual pulls)",
+      "Previous unused attribution tool",
+      "Snowflake (data warehouse)",
+      "Salesforce",
+      "UTM parameters only",
+      "Manual reports",
+      "DreamData",
+      "Marketo",
+      "Drift",
+      "Google Analytics"
+    ],
+    "pain_summary": "Manual Excel-based reporting with heavy uplift, disconnected ad spend from outcomes, no visibility between MQL-opportunity-outreach, limited to last-touch attribution, previous attribution tool failed and created organizational skepticism",
+    "kpis_unhealthy": [
+      "campaign attribution accuracy",
+      "cross-product scalability",
+      "pipeline-to-revenue connection",
+      "real-time optimization capability",
+      "sales-marketing alignment on source tracking",
+      "attribution model alignment",
+      "campaign cost per pipeline accuracy",
+      "funnel stage definitions",
+      "cross-team data consistency",
+      "ROAS starting September",
+      "opportunity count accuracy",
+      "pipeline ROI"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Implementing full-funnel attribution with predictive AI, connecting all touchpoints from anonymous visitor to closed-won, with real-time optimization and cross-product filtering capability",
+    "wins_realized": [
+      "LinkedIn data integration live",
+      "Google/Bing paid search performance tracking established",
+      "Directional funnel and cohort views created",
+      "Custom views for product-level filtering",
+      "Pipeline-opportunity alignment fixes deployed",
+      "Paid media performance dashboard with fatter bar charts and total columns",
+      "Product-specific pipeline views",
+      "Six Cents campaign-to-revenue tracking",
+      "Custom dimensions for product/region/keyword",
+      "ROAS dashboard in better place",
+      "ability to rename metrics in DGE"
+    ],
+    "open_issues": [
+      "Marketo sync still in progress (~1/3 complete)",
+      "Snowflake custom integration for change data capture needed",
+      "Bing Ads connection pending fix",
+      "Channel classification requires 2-3 more iterative passes",
+      "Line item-level funnel filtering not yet supported",
+      "Marketing form fill attribution rules need finalization",
+      "Organic/direct attribution accuracy under review",
+      "Primary campaign source change management with sales/SDR pending",
+      "Funnel definition still not finalized by SmartBear",
+      "Attribution model names need to match internal terminology",
+      "Cohort vs same-period spend logic needs clarification",
+      "Secondary axis line chart not available",
+      "MMX not yet built for SmartBear",
+      "funnel configuration outdated since August 2025",
+      "missing keyword data from Google",
+      "need campaign-level reallocation guidance",
+      "data discrepancies with Salesforce"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Smartbear (All Calls).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 14,
+      "tools_switched_from": 6,
+      "political_tussles": 4,
+      "contrarians": 9,
+      "revsure_problems": 17,
+      "best_about_revsure": 11,
+      "wins_immediate": 11,
+      "wins_long_term": 9
+    }
+  }
+}

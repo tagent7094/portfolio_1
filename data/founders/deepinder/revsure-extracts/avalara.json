@@ -1,0 +1,557 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Avalara",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Last-touch attribution fails to show true value of non-converting channels like LinkedIn and events",
+        "quote": "LinkedIn is super tough to assign that value to, right? Because it's a touch, right? And so oftentimes, CFOs in particular cut investment into LinkedIn because it's an influencer, not necessarily a converting channel.",
+        "speaker": "Adrianna Burrows",
+        "timestamp": "4:40:18 AM"
+      },
+      {
+        "summary": "No ability to predict campaign performance or make in-flight adjustments",
+        "quote": "I cannot answer at the highest level, not only combining the first and the last, if I had a dollar, what's performing, you know, and it, the quarter. It always has to be a post-mortem view when it's too late to impact it.",
+        "speaker": "Adrianna Burrows",
+        "timestamp": "4:25:50 AM"
+      },
+      {
+        "summary": "Orphaned opportunities with no campaign attribution due to contact role changes",
+        "quote": "So I handed over to Shahan and Shahan becomes the primary contact on the opportunity. Shahan has absolutely no campaigns associated with him whatsoever, ever. I'm now removed from the opportunity. The campaign was associated with me.",
+        "speaker": "Jonathan Parramore",
+        "timestamp": "4:43:25 AM"
+      },
+      {
+        "summary": "Heuristic pipeline coverage multipliers are inadequate for different segments",
+        "quote": "we throw out pipeline coverage model on numbers, multipliers that I think are just heuristics, you know, nothing more. So I think there's some very interesting things there as we go to segments.",
+        "speaker": "Kael Kelly",
+        "timestamp": "4:25:40 AM"
+      },
+      {
+        "summary": "No unified view of customer journey across marketing, SDR, and sales touches",
+        "quote": "we're a little bit blind to outreach to you know, exactly how many are in sequence that we're also distributed by this campaign, whatever. It's like putting all that together gets quite difficult.",
+        "speaker": "Jonathan Parramore",
+        "timestamp": "1:14:12 AM"
+      },
+      {
+        "summary": "Manual, code-heavy reporting in Snowflake with no visualization or drag-and-drop capability",
+        "quote": "we are doing a lot of that in Snowflake today. It's very complex for us. So, you know, we don't have the capability to like visualize all of this or drag and drop or report out on it easily. It's like hundreds and hundreds of lines of code.",
+        "speaker": "Theo Stewart",
+        "timestamp": "2:51:31 AM"
+      },
+      {
+        "summary": "Inability to track net new vs existing customer activity in marketing channels",
+        "quote": "because we have a lot of existing customers and partners using our website and touching our different marketing channels, sometimes it's hard to get a clear signal around like what is actually net new and how that's progressing through our Funnel.",
+        "speaker": "Theo Stewart",
+        "timestamp": "2:52:23 AM"
+      },
+      {
+        "summary": "Inquiries in Salesforce don't connect straight through to opportunity - one person on account acquired but another ends up being the point",
+        "quote": "sometimes our inquiries in salesforce don't connect straight through to the opportunity one person on an account acquired but another one ends up being the point",
+        "speaker": "Anthony Sharot",
+        "timestamp": "7:37:28 PM"
+      },
+      {
+        "summary": "No organizational understanding of what RevSure does - people hoping it does everything on the planet",
+        "quote": "most people in Avalara don't know what is and isn't in scope of its ability they're probably just hoping it does everything on the planet",
+        "speaker": "Anthony Sharot",
+        "timestamp": "7:41:31 PM"
+      },
+      {
+        "summary": "Broken guidance and fragmented ownership led to inability to make streamlined decisions",
+        "quote": "he reaches out to GAI or Martech, all of these guys were looped in to provide guidance. So guidance was a little broken, to be very honest with you, for us to be able to make streamlined decisions.",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "4:11:30 AM"
+      },
+      {
+        "summary": "Salesforce data going through Snowflake creates multiple validation layers and complexity",
+        "quote": "All of this is coming from Snowflake, so there is a couple of layers for us to make sure the Salesforce data is reflected correctly in Snowflake, and in return, reflected correctly",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "4:46:02 AM"
+      },
+      {
+        "summary": "Attribution model lacks sales touchpoints, creating incomplete customer journey story",
+        "quote": "To me, that's a very incomplete journey right now. That's a very incomplete story that we're going to tell to the leaders. We're literally regarding the sales",
+        "speaker": "Ramin Amin",
+        "timestamp": "4:19:29 AM"
+      },
+      {
+        "summary": "Manual process required to update funnel logic when definitions change",
+        "quote": "if there are changes to logic then we'll have to like recreate the final definitions and I think I want to make",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "1:30:26 AM"
+      },
+      {
+        "summary": "Marketing spend data definition unclear and scattered across spreadsheets",
+        "quote": "Finance track in Excel has to reach out to certain marketing channel owners and event owners and things like that. So it's everywhere in Excel.",
+        "speaker": "Juyeon Yun",
+        "timestamp": "1:40:35 AM"
+      },
+      {
+        "summary": "Opportunity history gets overwritten in Salesforce, making attribution validation difficult",
+        "quote": "Salesforce is just like a snapshot and it just overwrites the history that I'm not really even sure if Avalara, like, has that information.",
+        "speaker": "Theo Stewart",
+        "timestamp": "2:18:12 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Marketo Measure",
+        "vendor": "Adobe",
+        "reason": "Vista recommended RevSure as better AI-first solution across portfolio companies; Marketo Measure was erroneously contracted",
+        "quote": "Previously bringing on Marketo measure tool, which already been paid for. And so, you know, if we end up not implementing a system like Rapture, then we go back to implementing a system like Marketo",
+        "speaker": "John Philip McCoy",
+        "timestamp": "4:48:09 AM"
+      },
+      {
+        "tool": "Custom-built attribution / reporting",
+        "vendor": "Avalara (homegrown)",
+        "reason": "Too manual, requires hundreds of lines of code, lacks predictive capability",
+        "quote": "we are doing a lot of that in Snowflake today. It's very complex for us. So, you know, we don't have the capability to like visualize all of this or drag and drop or report out on it easily. It's like hundreds and hundreds of lines of code.",
+        "speaker": "Theo Stewart",
+        "timestamp": "2:51:31 AM"
+      },
+      {
+        "tool": "Adobe Analytics",
+        "vendor": "Adobe",
+        "reason": "Already have insight in Adobe Analytics and 6sense, trying to determine if RevSure adds value beyond these existing tools",
+        "quote": "we have that insight already in Adobe Analytics, I believe, as well as Native and Sixth Sense. So I'm trying to work out, is this a big win or not really worth paying for?",
+        "speaker": "Anthony Sharot",
+        "timestamp": "7:17:19 PM"
+      },
+      {
+        "tool": "Regatta dashboard",
+        "vendor": "internal/GAI",
+        "reason": "Limited to last-touch attribution, no multi-touch visibility into customer journey",
+        "quote": "in our current views in our funnel and regatta dashboard and everything funnel metrics emails that contribution is like so little so um and then journey",
+        "speaker": "Juyeon Yun",
+        "timestamp": "5:38:13 AM"
+      },
+      {
+        "tool": "Power BI",
+        "vendor": "Microsoft",
+        "reason": "Cannot build comprehensive MTA dashboard, too much work to replicate RevSure capabilities",
+        "quote": "it doesn't make sense for us to build an entire dashboard in Power BI. It's just too much work.",
+        "speaker": "Juyeon Yun",
+        "timestamp": "5:34:35 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "CFO",
+          "Marketing"
+        ],
+        "tension_label": "budget cuts on influencer channels",
+        "summary": "CFOs cut LinkedIn spend because last-touch attribution makes it look non-converting",
+        "quote": "oftentimes, CFOs in particular cut investment into LinkedIn because it's an influencer, not necessarily a converting channel.",
+        "speaker": "Adrianna Burrows",
+        "timestamp": "4:40:18 AM"
+      },
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "lead distribution and action accountability",
+        "summary": "Marketing cannot see if SDRs are actioning leads or where distribution breaks down",
+        "quote": "once it's an outreach, we're a little bit blind to outreach to you know, exactly how many are in sequence that we're also distributed by this campaign, whatever. It's like putting all that together gets quite difficult.",
+        "speaker": "Jonathan Parramore",
+        "timestamp": "1:14:12 AM"
+      },
+      {
+        "actors": [
+          "IT/Engineering",
+          "Marketing"
+        ],
+        "tension_label": "resource allocation for implementation",
+        "summary": "Marketing wants tool but Jonathan insists IT must dedicate sprints; fears under-resourcing will cause failure like past tools",
+        "quote": "I will call Scott right now and tell him to buy this if everybody commits, like, here's my two head count, and Shathan says, here's my six to 12 sprints that you have over the next quarter with fully resourced engineering teams to make this work.",
+        "speaker": "Jonathan Parramore",
+        "timestamp": "4:51:26 AM"
+      },
+      {
+        "actors": [
+          "Central Analytics",
+          "Marketing"
+        ],
+        "tension_label": "ownership of data transformation",
+        "summary": "Marketing questions if RevSure's data transformation conflicts with centralized Snowflake analytics team",
+        "quote": "when I hear transformation, I'm, I just sort of wonder does this become at odds with what this, the analytic, it's not, this is not a team that lives in marketing, it's a, it's a centralized service. How, how does that, how do, how do those two sort of play together and mesh and so forth?",
+        "speaker": "SEA-5FLR-Puyallup",
+        "timestamp": "1:18:54 AM"
+      },
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "attribution credit dispute",
+        "summary": "Sales concerned that marketing gets undue credit for opportunities that sales worked through calls and emails",
+        "quote": "i made five calls 10 email they responded back blah then eventually you're giving all the credits to marketing why because salesforce and page views are the ones that you're capturing",
+        "speaker": "Ramin Amin",
+        "timestamp": "4:07:36 AM"
+      },
+      {
+        "actors": [
+          "Marketing leadership",
+          "RevSure team"
+        ],
+        "tension_label": "rollout scope disagreement",
+        "summary": "Disagreement over whether to do limited pilot or full marketing rollout with limited validated use cases",
+        "quote": "i have a feeling that kale was like oh is that really necessary i think we should roll it out to entire marketing i have a gut feeling that kale might say this one",
+        "speaker": "Juyeon Yun",
+        "timestamp": "5:16:25 AM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Don't need AI for basic campaign member tracking; need AI for gaps in data capture",
+        "why_unusual": "Typically vendors pitch AI for sophisticated attribution; Avalara inverts this saying basic tracking is solvable, the hard problem is data infrastructure",
+        "quote": "You might say well we can just use the campaign members well we can do that today like that's not a super difficult thing we don't need AI for that.",
+        "speaker": "Jonathan Parramore",
+        "timestamp": "4:17:31 AM"
+      },
+      {
+        "claim": "Every tool at Avalara fails because of under-resourcing, not tool quality",
+        "why_unusual": "Blunt institutional self-criticism rare in vendor evaluations; usually buyers blame vendors",
+        "quote": "Uh, Gainsight is a great tool. We under-resourced it and at Avalare it sucks. Outreach is a great tool. At Avalara, we under-resourced it, and it sucks. I mean, I could just name off every market-leading technology that's ever existed. We have bought, and at Avalara, we under-resourced it, and it sucks.",
+        "speaker": "Jonathan Parramore",
+        "timestamp": "4:49:52 AM"
+      },
+      {
+        "claim": "Willing to pay for 6sense de-anonymization credits even though they already have similar insight in Adobe Analytics and 6sense",
+        "why_unusual": "Most companies would not pay for duplicate account identification capabilities across three platforms; shows unusual willingness to invest in redundant data sources",
+        "quote": "we have that insight already in Adobe Analytics, I believe, as well as Native and Sixth Sense. So I'm trying to work out, is this a big win or not really worth paying for?",
+        "speaker": "Anthony Sharot",
+        "timestamp": "7:17:19 PM"
+      },
+      {
+        "claim": "All activities should NOT be automatically considered attribution touchpoints - need filters",
+        "why_unusual": "Most MTA vendors advocate for capturing all touchpoints; Avalara pushes back on blanket inclusion of sales activities",
+        "quote": "we cannot just blanket say that all activities are touch points uh can you send the link to this journey as well",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "4:08:39 AM"
+      },
+      {
+        "claim": "Hidden Markov Model (not standard attribution) chosen specifically because it's 'easy to interpret' with built-in time decay",
+        "why_unusual": "Most sophisticated marketing teams avoid rule-based models; choosing HMM for interpretability over accuracy is counter to typical vendor recommendations",
+        "quote": "my current boat is definitely using hidden markup chain mainly because two reasons one is easy to interpret and then two is it does have time decay already built into it",
+        "speaker": "Juyeon Yun",
+        "timestamp": "1:34:22 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "implementation",
+        "problem": "No Adobe Analytics integration yet (on roadmap); requires workaround via Snowflake",
+        "quote": "You're right, we don't have an Adobe Analytics integration as of now, but that is definitely on our roadmap, number one. And in the time being, like you mentioned, we can always import data, you know, if you're already sending it somewhere, whether into a data lake environment or into like a Salesforce or your marketing automation system, et cetera.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "2:36:47 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "No Allocadia integration yet; would need to build",
+        "quote": "We currently, but we are happy to, if you have that budget, I think we are, you know, we are happy to kind of build that integration. That should not be a problem for us.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "3:22:28 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Daily sync only, not real-time; misses rapid Salesforce field changes",
+        "quote": "do you snapshot at extremely quick intervals changes that happen in our system? And we were told, no, it's daily. So we are beholden to our own snapshotting and tracking capabilities.",
+        "speaker": "Jonathan Parramore",
+        "timestamp": "4:15:46 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "No pilot/POC possible without full contract and implementation",
+        "quote": "unfortunately we can't do that. I know it kind of seems a bit abrupt to respond like that, but we take a lot of pride in our platform. We are highly configurable.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "4:58:31 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "No multi-account picker for bulk ad account selection - 'it's a shame this can't be done in bulk'",
+        "quote": "it's a shame this can't be done in bulk where we could just select you know all of the us all of the gbp accounts from google",
+        "speaker": "Anthony Sharot",
+        "timestamp": "7:09:53 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about whether RevSure is full media mix modeling or lower funnel focused - 'not really full media mix modeling at all'",
+        "quote": "so it's not really full um media mix modeling at all. It's more focused on the lower funnel, essentially.",
+        "speaker": "Anthony Sharot",
+        "timestamp": "7:40:16 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Data validation issues - campaign names only align about half the time between RevSure and internal systems",
+        "quote": "the campaign names only align, like, about half of the time. So it's like the RevSure platform is, you know, it's using logic to pick a name that we have that we've provided you. but it's a different logic and a different name than what we're using internally",
+        "speaker": "Theo Stewart",
+        "timestamp": "1:10:36 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Partner referral attribution not matching Avalara's campaign-based last touch model",
+        "quote": "there seems to be the biggest issue with this is around partner referrals because rapture is seeing other campaign or other touches at the you know person level whereas avalara is do some work to see if they can't mirror that campaign-based logic",
+        "speaker": "Theo Stewart",
+        "timestamp": "2:33:54 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Stage zero pipeline data not available in widget, requires engineering work",
+        "quote": "we couldn't bring the stage zero here uh in this widget so this is a widget um and uh we",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "5:06:31 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about whether campaign member status update time equals engagement time",
+        "quote": "why do I see this as a member status updated is the time that normally engage with the campaign. Is that correct?",
+        "speaker": "Ramin Amin",
+        "timestamp": "4:04:27 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Too many filter options in dashboard confusing for executive stakeholders",
+        "quote": "i'm sure leaders are too lazy if they click on that filter they will send the slack message right away to us what is this which one do we need to even if we like tell them okay this is the instruction when you click on filter you will see like 20 different options",
+        "speaker": "Ramin Amin",
+        "timestamp": "4:09:24 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Seeing everything in one place instead of fragmented tools",
+        "quote": "I love seeing everything in one place. Like this tool is, I mean, you know, we're trying to do bits and pieces of this ourselves with, you know, a lot of heavy lifting and so it's really nice to see everything in one clear, you know, easily understandable view. So that a huge amount of value there.",
+        "speaker": "Theo Stewart",
+        "timestamp": "3:33:29 AM"
+      },
+      {
+        "summary": "Journey visualization showing true multi-touch influence of channels like LinkedIn",
+        "quote": "This is exactly the view I was looking for. it is a key influencer in a in a multi-touch model but always tough to you and you even quantify the number okay.",
+        "speaker": "Adrianna Burrows",
+        "timestamp": "4:41:37 AM"
+      },
+      {
+        "summary": "Out-of-box views that would take weeks for analytics teams to build",
+        "quote": "the kudos we get from analytics teams is, you know, you guys spend weeks building some of our views and even ongoing maintenance. We just present it out of the box to your team",
+        "speaker": "E.T. Mac",
+        "timestamp": "3:33:29 AM"
+      },
+      {
+        "summary": "Exactly what was looking to find out of the tools - marketing effectiveness and multi-touch attribution",
+        "quote": "I love this. This is great. This is exactly like what I was looking to find out of the tools",
+        "speaker": "Inna Malishkevich",
+        "timestamp": "5:27:54 AM"
+      },
+      {
+        "summary": "Platform provides extreme customizable capabilities for attribution timeframe and lookback windows",
+        "quote": "This also provides extreme customizable capabilities, right? So you can toggle between when the lead or off was created, what is the timeframe that you are looking for a campaign to have an engagement with, what is the timeframe that you want to look at spend impression numbers, touch my selection by engagement date, and you can also tweak your look back window for attribution.",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "4:44:40 AM"
+      },
+      {
+        "summary": "Customer journey timeline visualization shows granular touchpoint detail",
+        "quote": "you can go into the individual customer journey and look at like um you know what channels are in the path like for example in this case um you can look at like a timeline what are all the",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "4:39:33 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Multi-touch attribution replacing last-touch to show true channel value",
+          "quote": "the attribution piece is definitely something I'm like really keen on. You know, there's also the spend reallocation, I think those are like two things that are kind of like really near and obvious to me.",
+          "speaker": "Theo Stewart",
+          "timestamp": "5:02:11 AM"
+        },
+        {
+          "win": "Real-time campaign performance recommendations (increase/stop/wait)",
+          "quote": "what Rev sure brings in that's really special about us is we actually tell you if you should stop, wait and watch or increase, right? So this is our predictive AI and our machine learning being able to actually tell you like you should actually increase or you should stop.",
+          "speaker": "Alex Cox",
+          "timestamp": "4:38:13 AM"
+        },
+        {
+          "win": "Funnel health visibility with stage-to-stage conversion tracking",
+          "quote": "I think Funnel Health is another one. Like it's that visibility into, you know, where things are along there in stages. Like we have, we have so much gaps and be able to see certain things easily around our Funnel",
+          "speaker": "Joanne Kernie",
+          "timestamp": "5:03:11 AM"
+        },
+        {
+          "win": "MQL, pipeline, SQL, closed one, and deals all matching within less than 1% in validation",
+          "quote": "I was able to use those to validate MQL, pipeline, SQL, closed one, and deals. So that's all matching within like less than 1% now",
+          "speaker": "Theo Stewart",
+          "timestamp": "1:03:46 AM"
+        },
+        {
+          "win": "Paid media spend automatically captured and connected for ROI analysis",
+          "quote": "how rev shore collects those spend from paid media but everything else is it's everyone's spreadsheet",
+          "speaker": "Juyeon Yun",
+          "timestamp": "1:40:51 AM"
+        },
+        {
+          "win": "Smart folder structure created to organize 76 views into manageable groups",
+          "quote": "these are folders. We can add new folders to this, I believe. Correct me if I'm wrong, Francisco. That makes it easier for you to group views based on use cases and people.",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "5:36:08 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Predictive pipeline coverage by segment replacing heuristic multipliers",
+          "quote": "we throw out pipeline coverage model on numbers, multipliers that I think are just heuristics, you know, nothing more. So I think there's some very interesting things there as we go to segments.",
+          "speaker": "Kael Kelly",
+          "timestamp": "4:25:40 AM"
+        },
+        {
+          "win": "Cross-sell pipeline visibility for existing customers",
+          "quote": "I'd love to see, so there's all the points to slice that. I'd love to see this built for cross sale, you know, pipeline. Do we have enough, you know, based on a target, do we have enough pipeline to hit our targets? What stage are these cross-sale opportunities in?",
+          "speaker": "Joanne Kernie",
+          "timestamp": "4:47:21 AM"
+        },
+        {
+          "win": "Shift digital spend smarter based on multi-touch attribution - optimize paid search vs social vs display allocation",
+          "quote": "the really the multi-touch attribution is like to be able to say hey like at the end of the day we're investing i'm making this up ten dollars in paid search five dollars in social and four dollars in display like should we shift up that digital spend in a smarter way",
+          "speaker": "Inna Malishkevich",
+          "timestamp": "5:25:08 AM"
+        },
+        {
+          "win": "Pipeline and booking predictions using ML models trained exclusively on Avalara data",
+          "quote": "we can do SQL, how many SQLs are going to convert, how many dollar value will it generate, and how many, let's say, deals will move into closed ones",
+          "speaker": "Shantanu",
+          "timestamp": "8:37:33 PM"
+        },
+        {
+          "win": "Replace Excel-based marketing spend tracking with unified platform ROI",
+          "quote": "Finance track in Excel has to reach out to certain marketing channel owners and event owners and things like that. So it's everywhere in Excel.",
+          "speaker": "Juyeon Yun",
+          "timestamp": "1:40:35 AM"
+        },
+        {
+          "win": "Pipeline predictability to inform marketing budget allocation decisions",
+          "quote": "marketing wants to know should we need to put more money into top of funnel or not based on pipeline predictability",
+          "speaker": "Juyeon Yun",
+          "timestamp": "5:32:33 AM"
+        },
+        {
+          "win": "Write-back of marketing influence metrics to Snowflake for executive dashboards",
+          "quote": "marketing influence dollar amount marketing influence volume and those there will be new that refs are creating that we should be able to capture in our system",
+          "speaker": "Juyeon Yun",
+          "timestamp": "1:54:43 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "Snowflake",
+      "Adobe Analytics",
+      "Eloqua",
+      "Allocadia",
+      "Marketo Measure",
+      "Outreach",
+      "homegrown SQL reporting",
+      "6sense",
+      "Marketo",
+      "Power BI",
+      "Manual spreadsheets",
+      "Regatta dashboard",
+      "Excel"
+    ],
+    "pain_summary": "Last-touch attribution in Salesforce misses full buyer journey; manual Snowflake reporting requires hundreds of lines of code; no predictive capability; cannot track net new vs existing customers; orphaned opportunities when contacts change; CFOs cut influencer channels due to attribution blind spots",
+    "kpis_unhealthy": [
+      "campaign ROI accuracy",
+      "pipeline coverage heuristic accuracy",
+      "lead-to-opportunity conversion visibility",
+      "SDR actionability tracking",
+      "cross-sell pipeline visibility",
+      "marketing attribution accuracy",
+      "campaign ROI visibility",
+      "pipeline source tracking",
+      "cross-channel spend optimization",
+      "marketing attribution credit",
+      "spend-to-campaign mapping",
+      "funnel stage definitions",
+      "opportunity influence visibility",
+      "campaign attribution accuracy",
+      "marketing ROI visibility",
+      "pipeline predictability",
+      "sales-marketing alignment on touchpoint credit"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "AI-powered full-funnel attribution with multi-touch models, predictive pipeline generation/coverage by segment, real-time campaign reallocation recommendations, and unified journey visualization across marketing/SDR/sales touches",
+    "wins_realized": [
+      "multi-touch attribution replacing last-touch",
+      "predictive campaign increase/stop/wait recommendations",
+      "funnel stage health visibility",
+      "cross-channel journey stitching",
+      "$700K campaign waste identified",
+      "MQL/pipeline/SQL/closed one validation within 1%",
+      "Unified funnel report matching Power BI",
+      "85% of prospect journeys have marketing touchpoints",
+      "spend validation within 1-3%",
+      "$700K campaign savings identified",
+      "Q2 pipeline projections before internal systems",
+      "paid media spend auto-captured",
+      "four dashboard templates ready",
+      "smart folder structure for view organization"
+    ],
+    "open_issues": [
+      "Adobe Analytics integration pending",
+      "Allocadia integration not yet built",
+      "requires dedicated headcount (Theo full-time + data modeling support)",
+      "Salesforce field history gaps need 6-12 sprints of IT work",
+      "daily sync limitation vs real-time for rapid field changes",
+      "no pilot/POC without full contract",
+      "Partner referral attribution logic mismatch with internal model",
+      "Campaign name matching only ~50% accurate",
+      "Contact/campaign/lead/account counts not yet validated",
+      "Write-back to Snowflake not yet enabled",
+      "Custom attribution model development deferred",
+      "Data validation standard too strict (3-4% variance)",
+      "Custom SQL dependency for funnel metrics",
+      "Attribution channel business rules vs MTA model independence",
+      "UI too complex for broad rollout",
+      "International and customer data not fully ingested",
+      "BigQuery access not available for deep analysis",
+      "sales activity attribution rules pending",
+      "funnel configuration blocked by missing target columns",
+      "stage zero pipeline widget incomplete",
+      "customer data definitions deferred to Q1",
+      "account name sync issue between SFDC and Snowflake"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Avalara (All Calls) (1).md"
+    ],
+    "total_chunks": 4,
+    "extracted_chunks": 4
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 15,
+      "tools_switched_from": 5,
+      "political_tussles": 6,
+      "contrarians": 5,
+      "revsure_problems": 11,
+      "best_about_revsure": 6,
+      "wins_immediate": 6,
+      "wins_long_term": 7
+    }
+  }
+}

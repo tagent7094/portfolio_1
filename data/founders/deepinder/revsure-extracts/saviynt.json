@@ -1,0 +1,579 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Saviynt",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "AEs and SDRs don't attribute things correctly, creating data gaps",
+        "quote": "my AEs and SDRs don't attribute things correctly. So there's gaps I'm missing",
+        "speaker": "Dan Edson",
+        "timestamp": "10:05:51 PM"
+      },
+      {
+        "summary": "Account matching breaks campaign attribution due to duplicates and data quality issues",
+        "quote": "The hard path is when it doesn't match. So that breaks this whole, you know, campaign attribution. And it's, it doesn't, it happens a lot more than most people will admit that you can't match this, and therefore it's a, it's a duplicate, it's a fat finger, whatever it is",
+        "speaker": "Dan Edson",
+        "timestamp": "10:10:45 PM"
+      },
+      {
+        "summary": "New demand gen people over-inflate MQL numbers, worsening conversion metrics",
+        "quote": "they're, they're wanting to over count just because they're trying to hit the MQL number. And I, I'm, no, don't do that. You know, it's, the more you inflate the MQL number, the, the worse the conversion metrics is gonna be because you have people in there, it shouldn't be in there",
+        "speaker": "Dan Edson",
+        "timestamp": "10:14:25 PM"
+      },
+      {
+        "summary": "Finance team owns RevOps but doesn't understand operations, creating organizational friction",
+        "quote": "we have our Financ team that owns Rev ops, but they don't understand operations. So that's a separate problem",
+        "speaker": "Dan Edson",
+        "timestamp": "10:34:51 PM"
+      },
+      {
+        "summary": "Piecemealing attribution together with partial Tableau license",
+        "quote": "I'm piece mailing it together with a partial license of Tableau",
+        "speaker": "Dan Edson",
+        "timestamp": "10:35:24 PM"
+      },
+      {
+        "summary": "Need to prove marketing engagement before partner deal reg to show shared value",
+        "quote": "We have to prove that we engage with the account or the individual so that there's some type of shared value and that both marketing touch",
+        "speaker": "Dan Edson",
+        "timestamp": "10:08:29 PM"
+      },
+      {
+        "summary": "Previous tool Demand Ramp required heavy lift with codes in Salesforce and Marketo",
+        "quote": "the biggest problem was, is the, what was required from the system. So what's required from your system to be inside my systems at, at Salesforce and Marketo, HubSpot, all that, in order to connect all these dots. Is it, it was, it was a heavy lift",
+        "speaker": "Dan Edson",
+        "timestamp": "10:26:27 PM"
+      },
+      {
+        "summary": "Channel classification was messy with offline sources and form submissions getting misclassified",
+        "quote": "So there are two forms or two campaigns here that operate like a form, but I'm one, I'm worried we're gonna have like more of these that come up. Right. And just to just use campaign name logic wouldn't be scalable for us.",
+        "speaker": "Zach Matek",
+        "timestamp": "1:37:13 AM"
+      },
+      {
+        "summary": "Email marketing attribution was inflated because deliveries and opens were counted as touchpoints",
+        "quote": "So obviously email marketing, we do a lot from across outreach and HubSpot. And I'm guessing, you know, that's probably the reason, just pure volume of emails that we send that's maybe getting so much attribution.",
+        "speaker": "Zach Matek",
+        "timestamp": "1:33:11 AM"
+      },
+      {
+        "summary": "Data quality concerns prevented adoption of predictive AI models",
+        "quote": "I think folks want a little bit more of like, let's keep it simple approach for now and not introduce anything that complex that, you know, executive show the executives they want to understand. more of the nuances behind machine learning model they want to know metric science effectiveness you know how real is it right",
+        "speaker": "Zach Matek",
+        "timestamp": "7:13:08 PM"
+      },
+      {
+        "summary": "Product was overwhelming for marketers to adopt without heavy guidance",
+        "quote": "there was almost so much that it was overwhelming for a lot of folks they had so many questions or they didn't really know where to go to access things and it took me time to you know learn it from harry and francisco to get to know where i was comfortable and you know if i'm the main person in here if i'm the only one in here then it becomes you know less valuable",
+        "speaker": "Zach Matek",
+        "timestamp": "7:04:16 PM"
+      },
+      {
+        "summary": "Custom dimension building was time-consuming with no clone feature",
+        "quote": "from like an administrative standpoint it was time consuming to build kind of dimensions and um you know it was there was no clone feature to easily you know configure those so if you have a lot of logic it was con time it was time consuming",
+        "speaker": "Zach Matek",
+        "timestamp": "7:05:32 PM"
+      },
+      {
+        "summary": "Event attribution timing was backwards due to lead creation before campaign member addition",
+        "quote": "the way they like to think about lead is, for example, these leads are often are created, they're gonna have to be created before they're added to the campaign because we like get them at the event, right? And then we'd load them into Salesforce and then they're tied to the campaign. So they're like always gonna be created before the campaign is tied to it, right?",
+        "speaker": "Zach Matek",
+        "timestamp": "1:34:41 AM"
+      },
+      {
+        "summary": "RevSure's propensity scores didn't live in Salesforce or Outreach, making operationalization difficult",
+        "quote": "I think the issue is it doesn't live in a place and operationalizing, it was difficult. You know, it needs to be inside of Salesforce or outreach.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:18:29 PM"
+      },
+      {
+        "summary": "RevSure lacked intent data from sources like Calais, relying only on basic firmographics",
+        "quote": "It's not just about the basic thermographics that are on the lead itself. Like we need more information coming from other locations and Redshirt doesn't have that data.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:19:46 PM"
+      },
+      {
+        "summary": "RevSure's UI had too many bells and whistles that became a distraction for users",
+        "quote": "some of the other kind of bells and whistles in Revsure you know became sort of I'll say a distraction where it's like you know where should we focus our time on like getting value from a tool like this",
+        "speaker": "Zach Matek",
+        "timestamp": "7:26:54 PM"
+      },
+      {
+        "summary": "Dashboards sit unrefreshed; users need proactive insights delivered to them",
+        "quote": "getting away from dashboards that sit unrefreshed and into the world where agents are running analysis and just giving it into your inbox or in Slack or something so you don't have to go find that dashboard and refresh it. You're just getting answers fed to you, basically.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:30:55 PM"
+      },
+      {
+        "summary": "Building dimensions in RevSure was time-consuming with no cloning feature",
+        "quote": "there wasn't you know a cloning feature for example like it's very time consuming to build a dimension you know for another aspect is like cohort intelligence we wanted to use heavily but you kind of want to adjust with complex and or filter logic from that module itself but every time you wanted complex and or logic you have to go build a dimension which was very time consuming and there was no way to clone existing dimensions to save time",
+        "speaker": "Zach Matek",
+        "timestamp": "7:32:41 PM"
+      },
+      {
+        "summary": "RevSure's modular template approach restricted dashboard flexibility compared to report-based building",
+        "quote": "redshirt was very modular it was very much like here's the templates that you can use inside to create a dashboard",
+        "speaker": "Zach Matek",
+        "timestamp": "7:29:06 PM"
+      },
+      {
+        "summary": "Old school marketers resistant to modern attribution approaches, only understand first-touch or last-touch",
+        "quote": "some of the old school marketers just aren't used to this kind of new approach of like, let's classify every touch point and then, you know, give that you know put it inside of a platform that consolidates all the touch points across your map and crm and then do an attribution model i think this is just kind of new for a lot of folks so they are still like first touch or last touch",
+        "speaker": "Zach Matek",
+        "timestamp": "7:39:27 PM"
+      },
+      {
+        "summary": "Organization not ready to adopt sophisticated attribution; needs simpler starting point",
+        "quote": "we can't even get people to get on board with the basics, then we can't get them on board with adopting this level of sophistication.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:38:34 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Tableau",
+        "vendor": "Salesforce",
+        "reason": "Partial license, insufficient for joining objects needed for attribution",
+        "quote": "I'm piece mailing it together with a partial license of Tableau. So I see the value in this",
+        "speaker": "Dan Edson",
+        "timestamp": "10:35:24 PM"
+      },
+      {
+        "tool": "LeanData",
+        "vendor": "LeanData",
+        "reason": "Used for account matching but still has hard path matching problems",
+        "quote": "we have lean data where we're doing, you know, we lean heavily upon that, where it's, this account is known and it's in our account object, and leads come in and we have to do a matching",
+        "speaker": "Dan Edson",
+        "timestamp": "10:09:49 PM"
+      },
+      {
+        "tool": "RevSure",
+        "vendor": "RevSure",
+        "reason": "Switching to HockeyStack for simplicity, agent-driven insights, and easier configuration; RevSure too complex and modular for current organizational maturity",
+        "quote": "We're going with a hockey stack as well.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:25:36 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Finance/FP&A",
+          "Marketing Ops"
+        ],
+        "tension_label": "RevOps ownership and attribution philosophy",
+        "summary": "Finance team owns RevOps but doesn't understand operations; marketing trying to gain control; finance dismisses marketing attribution",
+        "quote": "there's actually a coup trying to happen here where we're trying to get control of the rev ops team under marketing ops because the finance guys can just, so they're building everything towards their skew, which is opportunities and you know, data modeling up there. But they don't really care or understand our top of the Funnel and how we're getting things there and the campaign attribution",
+        "speaker": "Dan Edson",
+        "timestamp": "10:39:38 PM"
+      },
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "Budget priority for tools",
+        "summary": "Sales tools (SDR team names, Orum call platform) are 'in front of the line' ahead of marketing attribution tools due to IPO readiness",
+        "quote": "Right now sales teams like we need SDR team names, we need Orum, we need a call platform. So that's like in front of the line",
+        "speaker": "Dan Edson",
+        "timestamp": "10:37:59 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "RevSure doesn't need primary contact on opportunity for attribution - looks at all account contacts",
+        "why_unusual": "Goes against standard CRM attribution requiring contact roles on opportunities",
+        "quote": "We don't care if you have a primary contact, you know, that's associated with an opportunity, right? We're gonna look at all the marketing touches that occurred within that account, right?",
+        "speaker": "Jonathan Hill",
+        "timestamp": "10:06:34 PM"
+      },
+      {
+        "claim": "Don't need Salesforce campaigns to track attribution - need clean UTM parameters instead",
+        "why_unusual": "Challenges conventional Marketo/Salesforce campaign-based attribution model",
+        "quote": "No, you don't. 'cause a lot of this is like LinkedIn ads campaigns, Google ads, you know, et cetera. Sometimes there is a Salesforce campaign to match. I mean, for us, what we really need is like clean UTM parameters around your digital campaigns",
+        "speaker": "Jonathan Hill",
+        "timestamp": "10:29:21 PM"
+      },
+      {
+        "claim": "Email marketing should NOT get attribution for deliveries or opens, only clicks",
+        "why_unusual": "Most attribution platforms count email opens as meaningful engagement; client pushed back hard on this",
+        "quote": "I mean, is there a way to like filter, but that kind of gets complex with the dimensions. I mean maybe, so right now it's including NHS send like a deliver a delivered email, basically.",
+        "speaker": "Zach Matek",
+        "timestamp": "1:35:03 AM"
+      },
+      {
+        "claim": "Direct traffic may be overstated due to ad blockers, and should be redistributed",
+        "why_unusual": "Client proactively questioned whether direct attribution was inflated and wanted to disperse it to actual channels",
+        "quote": "Remember that because of the la you know, limits to what you can do with ad tracking and people running ad blockers and all that sort of stuff. That direct may be overstated, right? But it certainly includes, you know, people who, who are searching for you",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:36:21 AM"
+      },
+      {
+        "claim": "MQL scoring should be rebuilt based on demographic factors rather than source/op-source",
+        "why_unusual": "Client wanted to move away from traditional lead source-based scoring to firmographic/behavioral propensity",
+        "quote": "we're trying to do MQL rescoring, right, and think about what actually helps or contributes to a more positive, or what should our MQL score be so that we are prioritizing the right leads, right? So it's like looking more demographically than like what was the source of the op, right?",
+        "speaker": "Zach Matek",
+        "timestamp": "1:45:26 AM"
+      },
+      {
+        "claim": "Intent signals are not forward predictive; freezing intent today and checking conversion 6 months later shows very low correlation",
+        "why_unusual": "Goes against the common RevTech vendor narrative that intent data is highly predictive of conversion; argues most intent is backward-looking or contemporaneous, not forward-looking",
+        "quote": "most intent signals don't, in my experience, and I've shown it to customers, are not forward predictive. Like you freeze the intent signal today and see what happens six months later, usually the correlation is very low.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:20:24 PM"
+      },
+      {
+        "claim": "Intent is great for targeting, not for focus and prioritization; macro GTM motion factors override intent signals",
+        "why_unusual": "Contradicts the typical 'intent-based prioritization' playbook; argues firmographic and activity data within GTM motion dynamics matter more than intent for prioritization",
+        "quote": "intent is great for targeting, not necessarily for focus and prioritization. So for example, when it's in your GTM motion, the macro factors of your GTM motion take over more significantly. That's what this propensity model is really telling you.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:20:24 PM"
+      },
+      {
+        "claim": "Propensity model with basic firmographics and activity data can outperform intent-enriched models because GTM motion dynamics dominate",
+        "why_unusual": "Pushes back against the 'more data sources = better model' orthodoxy; argues simpler model with right temporal framing beats complex intent-enriched models",
+        "quote": "even with the formographic, and this is not just a formographic, there's a lot of activity information and touch information, et cetera, within this, the dynamics of your GTM motion I actually take over a lot of the intent signals",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:20:24 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "understanding",
+        "problem": "Client confused about difference between stage-by-stage velocity and stage duration metrics",
+        "quote": "So, you know, you see like 1 14 1 looking at current and previous month and if I go to duration and stage, you know, much higher. So I wanted to understand what the difference is there",
+        "speaker": "Zach Matek",
+        "timestamp": "11:20:46 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Form submissions incorrectly showing up in 'other campaigns' instead of being attributed to previous touchpoint",
+        "quote": "I would essentially would there'd be like the marketing form fill website, demorest, right. Just attribute to the touchpoint previous",
+        "speaker": "Zach Matek",
+        "timestamp": "2:32:20 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Lift test showing campaign names rather than channels in dropdown",
+        "quote": "the values here look like they're more campaign names rather than web, web paid webinar",
+        "speaker": "Zach Matek",
+        "timestamp": "2:39:34 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Need median calculation option instead of averages due to outlier sensitivity",
+        "quote": "We are very easily skewed by outliers. So I know these are averages. Is there any way to like create like a calculated version of that that's like a median",
+        "speaker": "Zach Matek",
+        "timestamp": "2:47:19 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Timeline journey shows 'lead' twice (lead creation and contact conversion) without clear labeling",
+        "quote": "when I'm in the timeline journey, I notice it will go like lead, push meeting and then hit lead again. And I, I think this is because this is the, I mean this corresponds with the, the date of the conversion from a lead to contact",
+        "speaker": "Zach Matek",
+        "timestamp": "2:48:29 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Service account read-only access to Salesforce still pending due to license availability",
+        "quote": "I think the only thing that was holding it back was making sure we had licenses available",
+        "speaker": "Zach Matek",
+        "timestamp": "11:41:15 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Funnel conversion attribution percentages appeared anomalously low and sorting was broken",
+        "quote": "I mean, ultimately, just these numbers seem very low than what they used to be. a month or two ago, so trying to understand what happened. For optimal, for example, and you can see across the board, these numbers are just very low. I tried playing around with different time frames.",
+        "speaker": "Zach Matek",
+        "timestamp": "1:34:17 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Account region filter not populating correctly in account prioritization",
+        "quote": "why the account region filter is not populating, but yeah, so",
+        "speaker": "Zach Matek",
+        "timestamp": "1:44:36 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client struggled to explain FCA percentages to stakeholders without clear documentation",
+        "quote": "For this to be usable, you need to, you know, can't show a number of percent without having a good explanation for how it's being derived or what it means.",
+        "speaker": "Zach Matek",
+        "timestamp": "1:37:09 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Propensity scores not natively integrated into Salesforce/Outreach; write-back felt like extra cost",
+        "quote": "That's an extra cost for us, right? Like that's if this is the best thing to offer, that should be table stakes and that should be included, you know, base contract.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:18:55 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Lack of intent data enrichment from external sources like Calais",
+        "quote": "we're able to get more like intent data from Calais and other places, more signals that I think are important that weren't included in the platform, right? It's not just about the basic thermographics that are on the lead itself. Like we need more information coming from other locations and Redshirt doesn't have that data.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:19:46 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "UI too complex with bells and whistles that distract from core value; not simple enough for agents",
+        "quote": "some of the other kind of bells and whistles in Revsure you know became sort of I'll say a distraction where it's like you know where should we focus our time on like getting value from a tool like this",
+        "speaker": "Zach Matek",
+        "timestamp": "7:26:54 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "No cloning feature for dimensions; building dimensions very time-consuming",
+        "quote": "there wasn't you know a cloning feature for example like it's very time consuming to build a dimension",
+        "speaker": "Zach Matek",
+        "timestamp": "7:32:41 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cohort intelligence module required building separate dimensions for complex AND/OR logic instead of inline filtering",
+        "quote": "cohort intelligence we wanted to use heavily but you kind of want to adjust with complex and or filter logic from that module itself but every time you wanted complex and or logic you have to go build a dimension which was very time consuming",
+        "speaker": "Zach Matek",
+        "timestamp": "7:32:41 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Modular template-based dashboard building too restrictive; can't pull report as baseline for dashboard",
+        "quote": "redshirt was very modular it was very much like here's the templates that you can use inside to create a dashboard",
+        "speaker": "Zach Matek",
+        "timestamp": "7:29:06 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Every change required vendor turnaround; customer couldn't self-serve configuration",
+        "quote": "every time we wanted to make a change, you know, you guys were very good at turnaround times, but it just felt like there was, you know, not a lot we could own as the customer to make those changes.",
+        "speaker": "Zach Matek",
+        "timestamp": "7:28:16 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Automated report generation and scheduling not prominent/usable enough at time of initial use",
+        "quote": "probably was at the time we started using really just wasn't the same functionality",
+        "speaker": "Zach Matek",
+        "timestamp": "7:32:14 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Lightweight implementation compared to previous heavy-lift tools",
+        "quote": "we can have data blowing and integrated from your map, your CRM, your sales engagement tool, your A BM tool and the various different third party ads counts that you have in about 20 minutes normally. So it's, I mean super, super, super lightweight",
+        "speaker": "Jonathan Hill",
+        "timestamp": "10:26:58 PM"
+      },
+      {
+        "summary": "Pipeline projections and AI capabilities superior to competitors in bake-off",
+        "quote": "Rev sure by far has I think the best, you know, AI capabilities and I'd really like to add as much machine learning and AI capabilities as we can to be more predictive",
+        "speaker": "Zach Matek",
+        "timestamp": "2:32:56 AM"
+      },
+      {
+        "summary": "Client praised Francisco, Alex, and Harry specifically as wonderful to work with",
+        "quote": "working with this team was wonderful you know have only good things to say about francisco alex and harry",
+        "speaker": "Zach Matek",
+        "timestamp": "7:04:16 PM"
+      },
+      {
+        "summary": "Pipeline projection accuracy was strong with ~5% margin of error in normal quarters",
+        "quote": "when we had a more conventional quarter i think there was like a five percent margin of error which is pretty good",
+        "speaker": "Zach Matek",
+        "timestamp": "7:05:32 PM"
+      },
+      {
+        "summary": "Forward validation of propensity model showed 5x conversion difference between high and low buckets",
+        "quote": "high propensity leads are converting like you know here you could just say 5x compared to the low propensity leads",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:16:47 PM"
+      },
+      {
+        "summary": "Machine learning capabilities were the best part of RevSure platform",
+        "quote": "i don't doubt the machine learning capabilities of the platform i think that was probably the best uh But of the tool and the reason to work with you guys",
+        "speaker": "Zach Matek",
+        "timestamp": "7:22:45 PM"
+      },
+      {
+        "summary": "Deep respect for Zach as user and champion who provided valuable feedback",
+        "quote": "we really respect you as a user, Zach, and you've kind of, you know, given us so much help, feedback. I know you've been a champion of the overall platform.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:23:18 PM"
+      },
+      {
+        "summary": "RevSure's analytics stronger and more sophisticated than competitors",
+        "quote": "all our other customers say that our analytics is stronger",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:33:21 PM"
+      },
+      {
+        "summary": "RevSure's data platform configurability (entity resolution, web tracking, custom attribution) unmatched in market",
+        "quote": "I don't think any other company, I don't know, maybe CalibreMine, I'm not sure, has this level of configurability on the underlying data platform and the underlying data",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:37:13 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Funnel views already getting positive reception from stakeholders",
+          "quote": "I think we've already got some relative positive reception from, you know, stakeholders we've created slides for and whatnot",
+          "speaker": "Zach Matek",
+          "timestamp": "2:34:31 AM"
+        },
+        {
+          "win": "Lift test excited VP of integrated marketing for monthly reporting",
+          "quote": "we showed the lift test to our VP of integrated marketing. She was very excited about it, so great timing with, with that, 'cause we're doing some monthly reporting this weekend",
+          "speaker": "Zach Matek",
+          "timestamp": "2:33:12 AM"
+        },
+        {
+          "win": "Pipeline projections module ready to show CMO",
+          "quote": "Our CMO is gonna love this. So, and then what was the differe between pipeline units again and booking?",
+          "speaker": "Zach Matek",
+          "timestamp": "3:11:40 AM"
+        },
+        {
+          "win": "Channel classification moving in right direction with early start",
+          "quote": "definitely, you know, glad we're starting it early and I think it's going the right direction",
+          "speaker": "Zach Matek",
+          "timestamp": "2:40:05 AM"
+        },
+        {
+          "win": "Channel classification rules now visible in UI for self-service editing",
+          "quote": "here's where you'll see the rules that you yourself can edit um at any moment in time right so you kind of see this is a rule criteria and this is what will kind of like um spit out when you based on the logic that you set",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:33:40 AM"
+        },
+        {
+          "win": "Email click-only attribution rule implemented to reduce inflated email channel",
+          "quote": "J put in the like the rule for emails, right? So when the sync completes today, that'll be like just email clicks.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:33:40 AM"
+        },
+        {
+          "win": "Pipeline projection tracking enabled to validate model accuracy over time",
+          "quote": "you can see the total projection, your actual generated pipeline, the projection from the fund on the projection versus the you're generated. Yeah, this is exactly what I wrote up for.",
+          "speaker": "Zach Matek",
+          "timestamp": "1:41:55 AM"
+        },
+        {
+          "win": "Journey timeline now supports stage-to-stage analysis with period filters",
+          "quote": "now you can do analyses, right? from one journey stage to another, right? From like discovery to that stage or discovery to like four stages down.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:38:48 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Pipeline predictability to enable confident forecasting for board/CMO",
+          "quote": "the third piece is the pipeline predictability. And I think if we cover each of those three buckets it'll be a very easy story to tell and show value of this tool",
+          "speaker": "Zach Matek",
+          "timestamp": "2:43:01 AM"
+        },
+        {
+          "win": "Visual storytelling for late March progress report to leadership",
+          "quote": "in late March we need to show kind of a progress report. So we'll be very transparent with you guys that visual storytelling is really gonna help us here",
+          "speaker": "Dan Edson",
+          "timestamp": "2:46:33 AM"
+        },
+        {
+          "win": "AI attribution model configuration matching DGE views for Markov chain attribution",
+          "quote": "what we can do right, is you can create a config here with there's certain inclusions exclusions that you want. And then from that I can go on the backend and create an AI attribution model so that then you can use AI attribution using markoff chains",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:46:09 AM"
+        },
+        {
+          "win": "MQL rescoring based on propensity factors rather than source fields",
+          "quote": "we're trying to do MQL rescoring, right, and think about what actually helps or contributes to a more positive, or what should our MQL score be so that we are prioritizing the right leads",
+          "speaker": "Zach Matek",
+          "timestamp": "1:45:26 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Marketo",
+      "HubSpot (incoming)",
+      "Tableau (partial license)",
+      "Salesforce",
+      "Outreach",
+      "LeanData",
+      "Demand Ramp (previous company)",
+      "RevSure"
+    ],
+    "pain_summary": "Marketing attribution broken by poor AE/SDR data entry, account matching failures, finance-owned RevOps that dismisses marketing's value, and piecemealed Tableau reports",
+    "kpis_unhealthy": [
+      "campaign attribution accuracy",
+      "MQL conversion rates (inflated)",
+      "pipeline source credibility",
+      "partner deal reg shared value proof",
+      "user adoption",
+      "time to insight",
+      "dashboard utilization"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Early implementation with funnel views operational, channel classification in progress, pipeline projections being trained, and stakeholder views being built for CMO presentation",
+    "wins_realized": [
+      "funnel views generating positive stakeholder feedback",
+      "lift test exciting integrated marketing VP",
+      "custom dimensions enabling complex segmentation",
+      "lightweight 20-min integrations vs previous heavy-lift tools",
+      "Self-service channel classification rules in UI",
+      "Email click-only attribution to reduce channel inflation",
+      "Pipeline projection tracker validating model accuracy",
+      "CEO dashboard with pipeline health and waterfall views",
+      "Journey timeline stage-to-stage analysis"
+    ],
+    "open_issues": [
+      "service account access pending",
+      "channel classification iteration ongoing",
+      "pipeline model needs retraining after stage changes",
+      "median calculations in development",
+      "form submission attribution bug being investigated",
+      "FCA percentage explanation and credibility with stakeholders",
+      "APAC account bias in propensity model",
+      "Event attribution timing for list-upload campaigns",
+      "Broad marketer adoption beyond single power user",
+      "Executive/board readiness for ML-based predictions",
+      "simplicity vs sophistication balance",
+      "self-service configuration",
+      "proactive insight delivery",
+      "intent data integration"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Saviynt (All Calls) (1).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 21,
+      "tools_switched_from": 3,
+      "political_tussles": 2,
+      "contrarians": 8,
+      "revsure_problems": 17,
+      "best_about_revsure": 9,
+      "wins_immediate": 8,
+      "wins_long_term": 4
+    }
+  }
+}

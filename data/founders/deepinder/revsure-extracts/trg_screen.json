@@ -1,0 +1,265 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "TRG Screen",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Sales leadership doesn't know where to find marketing information or what actions marketing is taking",
+        "quote": "they don't know where to go. Or if we have this information on, you know, their leads, prospects, what actions they're taking.",
+        "speaker": "Kimberly Chen",
+        "timestamp": "10:06:44 PM"
+      },
+      {
+        "summary": "Terrence (CRO) already looks at middle-to-bottom funnel metrics in Looker and Gong, so RevSure needs to fill the marketing gap",
+        "quote": "he is already looking at those kinds of numbers in our looker dashboards in gong right for forecasting so i think where we really want rupture to fill in the gap is more on the marketing side of things",
+        "speaker": "Kimberly Chen",
+        "timestamp": "10:04:12 PM"
+      },
+      {
+        "summary": "Difficulty tracking event ROI - can't easily answer what they got out of events last year",
+        "quote": "sometimes it's not as easy to say like, well, this was the lead source for this opportunity, right? We already had this opportunity underway and it's still going strong and this was just a touch point.",
+        "speaker": "Emily Worth",
+        "timestamp": "10:09:54 PM"
+      },
+      {
+        "summary": "Redwood customer not engaging with product - skill gap plus lack of effort to use the product",
+        "quote": "And we also haven't seen the effort for them to try and use the product.",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "11:11:22 PM"
+      },
+      {
+        "summary": "No good automated way to set segment when deals are put into Salesforce",
+        "quote": "As those deals are getting put into Salesforce and whatever, we don't really have a good automated way to set that segment yet",
+        "speaker": "Cory Perry",
+        "timestamp": "11:23:42 PM"
+      },
+      {
+        "summary": "Data sync issues causing inaccurate campaign member email percentages",
+        "quote": "there was a sync that was happening that had not like fully completed by the time later For from Budwood right so that day they have made the change to the campaign member emails but that wasn't reflected by the time we presented to brian",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:14:09 PM"
+      },
+      {
+        "summary": "Discrepancy between RevSure and sales leader's closed won numbers - January looked inflated",
+        "quote": "it looks like the number in January was quite high, so it was around 400k, but it didn't happen and that maybe happened in December, but RevSure sees it as in January.",
+        "speaker": "Marco",
+        "timestamp": "5:02:28 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Looker",
+        "vendor": "Google",
+        "reason": "Already using for forecasting and middle-to-bottom funnel metrics, but missing marketing attribution and top-of-funnel visibility",
+        "quote": "he is already looking at those kinds of numbers in our looker dashboards in gong right for forecasting so i think where we really want rupture to fill in the gap is more on the marketing side of things",
+        "speaker": "Kimberly Chen",
+        "timestamp": "10:04:12 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "Sales doesn't have visibility into marketing actions",
+        "summary": "Sales team lacks access to RevSure and can't see what marketing is doing, creating friction",
+        "quote": "i don't think they have access right to rupture Can find it difficult if we don't have like the information syncing over to Salesforce to understand like what marketing actions are being taken",
+        "speaker": "Kimberly Chen",
+        "timestamp": "10:05:13 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Adding a Stage Zero that is explicitly excluded from all pipeline metrics - a pre-pipeline holding stage",
+        "why_unusual": "Most RevOps teams fight to include MORE in pipeline, not create explicit non-pipeline stages. Stage Zero with 0% probability and omitted from forecast is counter to typical 'pipeline coverage' mentality.",
+        "quote": "we're essentially going to add a new stage, but that stage is going to be stage zero. And this will be a stage that will be at the beginning of the cycle omitted from any pipeline or anything like that. So it won't be included as It won't be included as part of any pipeline or anything.",
+        "speaker": "Cory Perry",
+        "timestamp": "10:08:05 PM"
+      },
+      {
+        "claim": "Using custom 'year one ARR' field instead of standard Amount field because Amount includes one-time fees",
+        "why_unusual": "Most companies just use standard Amount field; deliberately excluding implementation/professional services revenue from pipeline metrics is a sophisticated (and unusual) approach to ARR purity.",
+        "quote": "it's a field called year one ARR. And so that's kind of our, that's kind of our like revenue field, I guess, if you want to say that's like our recurring revenue field is the year one ARR, whereas the amount field typically can be a combination of both whatever the recurring revenue is, and then also if there are any like one-time fees or implementation fees or anything like that they all get rolled up into that amount like that standard amount field",
+        "speaker": "Cory Perry",
+        "timestamp": "10:12:54 PM"
+      },
+      {
+        "claim": "Terrence (CRO) cares more about product breakdown than source/channel breakdown of pipeline",
+        "why_unusual": "CROs typically obsess over 'where is pipeline coming from' (marketing vs sales); asking 'what products is it' first is unusual product-centric revenue leadership.",
+        "quote": "Terrence is typically asking about like cool. What products is that? Like what is the product breakdown or product makeup of that? versus you know, like Where it's coming from and you know things like that.",
+        "speaker": "Cory Perry",
+        "timestamp": "11:29:32 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Data sync delay caused campaign member email percentage to show 20% when it should have been 10%",
+        "quote": "there was a sync that was happening that had not like fully completed by the time later For from Budwood right so that day they have made the change to the campaign member emails but that wasn't reflected by the time we presented to brian right because when i looked at it this morning like i didn't change like the filters or anything and it showed um 10 now instead of 20 for email marketing as a whole as a channel",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:14:09 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Close date discrepancy - RevSure showing January close when it may have been December",
+        "quote": "it looks like the number in January was quite high, so it was around 400k, but it didn't happen and that maybe happened in December, but RevSure sees it as in January.",
+        "speaker": "Marco",
+        "timestamp": "5:02:28 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about whether 'interrupted' status means in progress or failed",
+        "quote": "depending it'll say interrupted but sometimes interrupted will mean it's in progress but that terminology is very Right, because even I like I'll look at it and I'll say interrupt him, but I say it's building but like that doesn't Clearly tell me if it is or if it you know",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:05:01 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Cory thinks the dashboard is exactly what Terrence is looking for - quick value with segmentation",
+        "quote": "this is pretty much, I think, on point to kind of what I think Terrence is looking for in terms of just quickly being able to come in, look for a particular value or whatever, but also being able to kind of segment this by different. by different things the way you're doing it here i think is definitely what he's looking for",
+        "speaker": "Cory Perry",
+        "timestamp": "10:18:43 PM"
+      },
+      {
+        "summary": "Marco thinks the dashboard looks really good and can use for board reporting",
+        "quote": "this is what i can use for uh our reporting to the board Great.",
+        "speaker": "Marco",
+        "timestamp": "5:20:17 PM"
+      },
+      {
+        "summary": "Cory likes that they can see total touch points and drill into account activity",
+        "quote": "80 total touch points in the last 30 days if i'm looking at this right yep",
+        "speaker": "Cory Perry",
+        "timestamp": "10:29:37 PM"
+      },
+      {
+        "summary": "Marco impressed by day-over-day cumulative pipeline comparison across quarters",
+        "quote": "that's cool it's set to um new business",
+        "speaker": "Marco",
+        "timestamp": "5:14:03 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Can now see event campaign influence on pipeline - who attended, what opportunities touched",
+          "quote": "here we're seeing the current fiscal quarter performance, right, for all contacts on the account, which the lot looking at the last touch filtered specifically to show you all the campaigns that have been logged right as a campaign type of event.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:10:49 PM"
+        },
+        {
+          "win": "Can write last touch campaign back to Salesforce so sales reps know what was fresh in prospect's mind",
+          "quote": "we can tell you oh to the sales rep right write it back to salesforce this was their last touch campaign right so they have that insight as to seeing like oh the last thing this person saw was this so that conversation for them that's what's fresh for them in their mind",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:27:24 PM"
+        },
+        {
+          "win": "Email marketing percentage corrected from 20% to 10% after sync completed",
+          "quote": "when i looked at it this morning like i didn't change like the filters or anything and it showed um 10 now instead of 20 for email marketing as a whole as a channel",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:14:09 PM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Full funnel insights connecting marketing to sales to customer success for holistic account planning",
+          "quote": "we're trying to like shift gears i think going into q2 into more like holistic account planning on both like the marketing sales and cs side of things",
+          "speaker": "Kimberly Chen",
+          "timestamp": "10:03:20 PM"
+        },
+        {
+          "win": "Re-engage conversations about additional RevSure tools (data enrichment, intent) now that they're evaluating new data vendor",
+          "quote": "we kind of have a list of different data vendors and stuff that we're sort of, I think, evaluating through at this point. But I say that to say, I think this could potentially maybe open the conversation back up around some of these other tools that I know you guys are coming, you know, kind of coming to the table with.",
+          "speaker": "Cory Perry",
+          "timestamp": "10:23:17 PM"
+        },
+        {
+          "win": "Sales team adoption of RevSure through Salesforce sync and better visibility",
+          "quote": "we can export the data in Rapture so that it can be visualized in the manner that is most actionable for you know for our customers.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:06:44 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "HubSpot",
+      "Salesforce",
+      "Looker",
+      "Manual Excel/Sheets",
+      "BigQuery",
+      "Gong"
+    ],
+    "pain_summary": "No proper marketing attribution; UTM tracking broken since 2021; manual parsing of URLs to extract campaign data; no way to map inbounds until August; duplicated HubSpot forms; sales team not logging leads properly; only new business opportunities tracked, excluding renewals/cross-sell",
+    "kpis_unhealthy": [
+      "campaign attribution accuracy",
+      "lead-to-opportunity conversion tracking",
+      "funnel stage progression metrics",
+      "inbound lead source mapping",
+      "white space penetration reporting",
+      "event ROI measurement",
+      "marketing-to-sales handoff visibility",
+      "campaign influence on existing opportunities",
+      "product breakdown of pipeline"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Building toward unified attribution with campaign channel classification, white space account dashboards with marketing touch correlation, event influence tracking, and cohort-based funnel views",
+    "wins_realized": [
+      "Event dashboard with last-touch and influence attribution",
+      "White space priority account filtering",
+      "Post-opportunity creation influence tracking",
+      "Ability to filter by customer health score and sentiment",
+      "Cohort funnel views available",
+      "Terrence dashboard created with 6 core views",
+      "Event campaign attribution showing prospect/customer/lost client breakdown",
+      "Lead prioritization by account tier and activity recency",
+      "Last touch campaign write-back to Salesforce enabled"
+    ],
+    "open_issues": [
+      "Campaign channel classification still in progress",
+      "Daily sync lag vs real-time",
+      "Custom fields require manual backend ingestion",
+      "Sales team adoption for lead logging",
+      "Need to add product count/penetration fields",
+      "Gong integration not yet built",
+      "Campaign member status not yet synced (registered vs attended)",
+      "Custom year one ARR field prevents tracking amount changes",
+      "Redwood account still has adoption challenges",
+      "Some data sync delays causing temporary metric inaccuracies"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - TRG Screen (All Calls).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 2
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 7,
+      "tools_switched_from": 1,
+      "political_tussles": 1,
+      "contrarians": 3,
+      "revsure_problems": 3,
+      "best_about_revsure": 4,
+      "wins_immediate": 3,
+      "wins_long_term": 3
+    }
+  }
+}

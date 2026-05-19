@@ -1,0 +1,768 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Bloomerang",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Attribution problems with no visibility into predictability",
+        "quote": "we definitely have problems with attribution since I've gotten here",
+        "speaker": "James Gilbert",
+        "timestamp": "12:07:01 AM"
+      },
+      {
+        "summary": "Revenue operations team built poor Salesforce architecture and infrastructure",
+        "quote": "That infrastructure has been not great. And so like those are where a lot of our challenges are at the current moment.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:08:53 AM"
+      },
+      {
+        "summary": "No ability to predict where paid media dollars will yield pipeline and revenue",
+        "quote": "can you tell me if I give you $5 where it's gonna yield, what channel it's gonna yield in? How it's gonna yield into pipeline and revenue when the timing of all that? And the answer is no, they can't. And, and none of us can. Right.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:09:05 AM"
+      },
+      {
+        "summary": "Messy data architecture and operations at $100M company",
+        "quote": "I've never seen a company that's been at that stage and has their operations and their architecture of their data so messed up.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:11:53 AM"
+      },
+      {
+        "summary": "Foundational marketing missing - no omnichannel, no campaign creative, no conversion focus",
+        "quote": "They didn't have like creative elements to their campaign. They weren't creating a good experience for people in the buying process. They weren't looking at like conversion. It's just like really foundational stuff.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:12:26 AM"
+      },
+      {
+        "summary": "Paid media attribution lost between web forms, chat, and product tours",
+        "quote": "the conversion point of a paid media initiative could be, it could be like, it could be a web form, it could be a a, a chat happening. It could be like a to a product tour that they're taking. And so oftentimes our touch points that get the attribution are those web forms and chat and everything like that. And so you lose the insight of what actually drove the conversion altogether.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:21:42 AM"
+      },
+      {
+        "summary": "No faith in Marketo Measure as tool of the future",
+        "quote": "our vp of demand gen has basically outright said that he doesn't believe measures are tool of the future",
+        "speaker": "Chris Rushton",
+        "timestamp": "4:49:17 AM"
+      },
+      {
+        "summary": "Manual reporting with 15 different Salesforce reports",
+        "quote": "Yeah. But it's a lot of manual. And about 15 different Salesforce reports.",
+        "speaker": "Chris Rushton",
+        "timestamp": "4:48:37 AM"
+      },
+      {
+        "summary": "High volume, high velocity business with messy consumer-like data (Gmail addresses, duplicates)",
+        "quote": "we behave more like a consumer. company where our buyers have a lot of times have gmail addresses right so we have to live in this world of leads and contacts until we can truly figure out where somebody lives",
+        "speaker": "AnnFellman",
+        "timestamp": "11:14:41 PM"
+      },
+      {
+        "summary": "Many failed attribution/BI projects due to data complexity",
+        "quote": "We've had many failed projects on this to date, many failed. And so my confidence level is low. that anything will work.",
+        "speaker": "AnnFellman",
+        "timestamp": "11:56:56 PM"
+      },
+      {
+        "summary": "Custom objects and weird data mapping making integrations difficult",
+        "quote": "some of the things from a data structure perspective are unconventional. meaning custom objects. And so we've made it really hard on our business to plug into systems like this in the past.",
+        "speaker": "AnnFellman",
+        "timestamp": "11:39:53 PM"
+      },
+      {
+        "summary": "Tableau not built for marketers' needs - requires too much engineering",
+        "quote": "consistently working with data platforms that are not 100% aware of how marketing works or are not focused in the way that marketers need to slice and dice and view their data",
+        "speaker": "MonicaGreye",
+        "timestamp": "1:10:43 AM"
+      },
+      {
+        "summary": "Marketo Measure not the right path - AI world changed requirements",
+        "quote": "We did make the decision to lean in on measure. This decision was made about a year ago that we're going to lean in on that. We leaned in on it. Now that we're in it, it's not the tool. It's not the path we need to go down. The overall environment's changed just with AI. in the last few months",
+        "speaker": "Jess Goedken",
+        "timestamp": "1:11:04 AM"
+      },
+      {
+        "summary": "Bloomerang had a messy Salesforce instance with dirty data that needed cleanup before proper attribution could work",
+        "quote": "i sit on the revops team and i'm probably the closest to salesforce and it needs some tlc i'm not going to lie on that one um dirty data and dirty data out we all know that",
+        "speaker": "Jess Goedken",
+        "timestamp": "1:54:21 AM"
+      },
+      {
+        "summary": "Bloomerang's nonprofit customers use Gmail/Hotmail addresses, making traditional B2B lead tracking difficult",
+        "quote": "we're not your traditional B2B because we sell to nonprofits. A lot of them haven't gotten to the point of maturity where they have their dedicated website and they have a dedicated, you know, Bloomerang.com email address. They are working where their website is, their Facebook page, and they are operating off Gmail addresses.",
+        "speaker": "Jess Goedken",
+        "timestamp": "1:51:48 AM"
+      },
+      {
+        "summary": "Marketing team had to manually pull data from multiple spreadsheets and systems to answer basic performance questions",
+        "quote": "if we were to narrow it down to really one thing, it'd be for us to never have to go to our spreadsheet again. That's what it is. If marketing, none of the channel owners, if JJ never had to go to one, if Ryan never had to go to one, if none of us had to go to our spreadsheet again and we had it in RevSure, that's a win.",
+        "speaker": "JamesGilbert",
+        "timestamp": "4:49:01 AM"
+      },
+      {
+        "summary": "Lack of visibility into web activity and journeys to pipeline",
+        "quote": "being able to track web activity that we uh and journeys uh to pipeline would be good too it was something that i saw in some other tools that i haven't seen here in rupture yet",
+        "speaker": "RyanEllis",
+        "timestamp": "4:49:38 AM"
+      },
+      {
+        "summary": "Current channel classification is messy and doesn't match how they want to report",
+        "quote": "our channels Currently today are Not what I would like them to be",
+        "speaker": "JamesGilbert",
+        "timestamp": "4:41:38 AM"
+      },
+      {
+        "summary": "Marketing team was using a manual Google Sheet pipeline tracking system that required extensive scrolling and was hard to get quick insights from",
+        "quote": "we don't want it to be the spreadsheet we want it to be more visual and get a snapshot that we can go to that page and see red yellow green on our core metrics versus scrolling for pages and pages like we do in this in the spreadsheet",
+        "speaker": "Monica Greye",
+        "timestamp": "2:52:45 AM"
+      },
+      {
+        "summary": "Sales team also had access to the marketing pipeline sheet, creating confusion about who should use what",
+        "quote": "there is a handful of folks in sales that have access to the pipeline sheet that we're not sure kind of how to address",
+        "speaker": "Tyler Halverson",
+        "timestamp": "11:10:04 PM"
+      },
+      {
+        "summary": "Difficult to validate whether channel attribution rules were working correctly",
+        "quote": "if we could, if there was a way to pull out, like, what the UTM values were for these so that we can maybe identify, like, what channel they need to go in",
+        "speaker": "Krista Stapleton",
+        "timestamp": "10:37:44 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Marketo Measure (Bizible)",
+        "vendor": "Adobe",
+        "reason": "Cannot do pipeline projection and predictability; no path to solving core need",
+        "quote": "I don't think Marketo measure can do that. Like I don't think it can at all.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:10:05 AM"
+      },
+      {
+        "tool": "Marketo Measure",
+        "vendor": "Adobe",
+        "reason": "VP of Demand Gen doesn't believe it's tool of the future; team not married to it",
+        "quote": "our vp of demand gen has basically outright said that he doesn't believe measures are tool of the future so um i think if everybody had you know like you said a cfo's dream uh i would definitely echo that right here seeing this one in particular",
+        "speaker": "Chris Rushton",
+        "timestamp": "4:49:17 AM"
+      },
+      {
+        "tool": "Tableau",
+        "vendor": "Salesforce",
+        "reason": "Not dynamic, requires one person to build everything, not quick, not marketer-focused",
+        "quote": "we run that through Tableau, which is not. dynamic that's not the word i want it's not we have one person to build everything um and it's not a quick thing",
+        "speaker": "Chris Rushton",
+        "timestamp": "4:10:17 AM"
+      },
+      {
+        "tool": "Tableau",
+        "vendor": "Salesforce",
+        "reason": "Requires engineering-level effort to build dashboards marketers need",
+        "quote": "if we have to engineer it to the level of a tableau dashboard then it's not going to work for us kind of thing",
+        "speaker": "MonicaGreye",
+        "timestamp": "1:10:43 AM"
+      },
+      {
+        "tool": "Multiple failed BI platforms",
+        "vendor": "Various",
+        "reason": "Data complexity and custom systems caused failures; RevSure's team helps build and maintain",
+        "quote": "Every single one that we talked to actually came from a different BI platform that failed. all of them talked about the specific ones that they came from",
+        "speaker": "JamesGilbert",
+        "timestamp": "11:57:29 PM"
+      },
+      {
+        "tool": "Marketo Measure (Bizible)",
+        "vendor": "Adobe",
+        "reason": "Lack of understanding how touchpoints were identified, data inconsistency, and inability to see full journey",
+        "quote": "I think for the team, there was just a lack of understanding how touchpoints were being identified in the first place. Especially since, because we were using, we were stamping campaigns to MQAs to make that attribution beforehand, there were, it was not always there was some data inconsistency",
+        "speaker": "Krista Stapleton",
+        "timestamp": "5:20:32 AM"
+      },
+      {
+        "tool": "Tableau",
+        "vendor": "Salesforce",
+        "reason": "Manual process, not integrated with attribution and journey data",
+        "quote": "we're not having to go through, you know, dozens, if not hundreds of spreadsheets to get there",
+        "speaker": "JamesGilbert",
+        "timestamp": "4:35:23 AM"
+      },
+      {
+        "tool": "Google Sheet pipeline tracking spreadsheet",
+        "vendor": "homegrown",
+        "reason": "Too manual, required scrolling through pages, not visual enough for quick executive insights",
+        "quote": "we don't want it to be the spreadsheet we want it to be more visual and get a snapshot that we can go to that page and see red yellow green on our core metrics versus scrolling for pages and pages like we do in this in the spreadsheet",
+        "speaker": "Monica Greye",
+        "timestamp": "2:52:45 AM"
+      },
+      {
+        "tool": "Google Analytics",
+        "vendor": "Google",
+        "reason": "Required manual magic to get data, channel owners had to dig into specific tools",
+        "quote": "whatever Ryan has to make magic happen with Google Analytics",
+        "speaker": "Monica Greye",
+        "timestamp": "3:25:44 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "RevOps"
+        ],
+        "tension_label": "attribution tool ownership and evaluation",
+        "summary": "RevOps owns attribution tool evaluation but marketing can only influence; tension over Marketo Measure implementation",
+        "quote": "The Rev ops team also kind of owns a little bit more of this. Like we get, I can influence the decision, I can obviously like bring this to the table and be like, I think we need to explore this. But ultimately it goes through those passes of the rev ops team making sure that they're evaluating it too.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:08:56 AM"
+      },
+      {
+        "actors": [
+          "CMO",
+          "VP Demand Gen",
+          "RevOps"
+        ],
+        "tension_label": "Marketo Measure skepticism vs implementation",
+        "summary": "Marketing leadership unhappy with Marketo Measure but RevOps team is building it out, creating hesitation to take RevSure call",
+        "quote": "probably the next step would be like having a conversation with some folks in our marketing operations and showing them this. I know that they'll be like very hesitant to take the call just simply because they're trying to build out Marketo measure. But you know, me and the CM have, we're, we're pretty close when it comes to the numbers and we understand the numbers probably better than most anybody at the company. And both her and I are just not happy with how, we just don't have a line of sight into what's predictable",
+        "speaker": "James Gilbert",
+        "timestamp": "12:31:16 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Finance"
+        ],
+        "tension_label": "ROI definition disagreement",
+        "summary": "Marketing and finance calculate event ROI differently - marketing excludes costs, finance includes all costs",
+        "quote": "marketing will say like we spent 10 grand on this event and got 500k back 50 to 1 baby and then finances like did you count every flight meal hotel etc",
+        "speaker": "E.T. Mac",
+        "timestamp": "4:05:57 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales",
+          "RevOps"
+        ],
+        "tension_label": "Data ownership and Salesforce cleanup responsibility",
+        "summary": "Jess from RevOps acknowledges Salesforce is messy but can't wave a magic wand to fix it, creating tension about who owns data quality",
+        "quote": "i sit on the revops team and i'm probably the closest to salesforce and it needs some tlc i'm not going to lie on that one um dirty data and dirty data out we all know that um i can't make wave my magic wand and clean up everything in salesforce right now",
+        "speaker": "Jess Goedken",
+        "timestamp": "1:54:21 AM"
+      },
+      {
+        "actors": [
+          "CMO",
+          "Marketing team"
+        ],
+        "tension_label": "Board-ready reporting pressure",
+        "summary": "CMO needs quick wins to show CEO, and marketing needs to be more predictable for board meetings",
+        "quote": "if your cmo comes to you and be like or your ceo goes show me some of the wins right this you can easily show them some of the wins really quickly",
+        "speaker": "Alex Cox",
+        "timestamp": "1:39:46 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "Tool access and ownership",
+        "summary": "Sales team had access to marketing's pipeline tracking sheet, creating confusion about transition to RevSure",
+        "quote": "there is a handful of folks in sales that have access to the pipeline sheet that we're not sure kind of how to address. Because, yeah, ideally, all the marketing would move off of the pipeline sheet and in here",
+        "speaker": "Tyler Halverson",
+        "timestamp": "11:10:04 PM"
+      },
+      {
+        "actors": [
+          "Demand Gen team",
+          "RevSure team"
+        ],
+        "tension_label": "Naming conventions and terminology",
+        "summary": "Confusion over whether to use 'upsell' vs 'expand' vs 'partners' vs 'customer' terminology",
+        "quote": "they're also like some things they upsell some say expand and we're like well some of that's sales",
+        "speaker": "HeatherCerny",
+        "timestamp": "11:12:38 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "90% of revenue at $100M company comes from demand gen team",
+        "why_unusual": "Extremely high revenue contribution from marketing is rare; typically sales gets more credit",
+        "quote": "90% of the revenue comes directly from my team's efforts at a hundred million dollar company. 90%.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:13:36 AM"
+      },
+      {
+        "claim": "Company grew 45% despite huge sales reorganization and new CSO cleaning house",
+        "why_unusual": "Marketing carried company through massive sales disruption, opposite of typical pattern",
+        "quote": "we went through this huge sales reorganization this year, got a new CSO, she cleaned house with all of her managers and we were asked in demand gen to, to keep it going. And we did, we, we grew by 45% this year as a company.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:13:59 AM"
+      },
+      {
+        "claim": "Nonprofit buyers behave like consumers with Gmail addresses and messy account data",
+        "why_unusual": "B2B attribution vendors typically assume clean B2B data; nonprofit 'B2C-like' motion breaks standard models",
+        "quote": "we behave more like a consumer. company where our buyers have a lot of times have gmail addresses right so we have to live in this world of leads and contacts until we can truly figure out where somebody lives",
+        "speaker": "AnnFellman",
+        "timestamp": "11:14:41 PM"
+      },
+      {
+        "claim": "VP of Demand Gen openly says Marketo Measure is not tool of the future while team is implementing it",
+        "why_unusual": "Unusual candor about current tool failure during active implementation; most teams hide this",
+        "quote": "our vp of demand gen has basically outright said that he doesn't believe measures are tool of the future",
+        "speaker": "Chris Rushton",
+        "timestamp": "4:49:17 AM"
+      },
+      {
+        "claim": "CMO has 'crazy memory for certain data points' but wants to keep things simple",
+        "why_unusual": "Contradiction between extreme detail orientation and simplicity preference; rare self-awareness",
+        "quote": "I have a crazy memory for certain data points in detail. um and super detailed like and super detail oriented in that way um too so this is um but i also want to keep it simple you know like complicated means you know if it's hard for someone to understand",
+        "speaker": "AnnFellman",
+        "timestamp": "11:07:12 PM"
+      },
+      {
+        "claim": "Gmail and Hotmail addresses are valid leads in their B2B-adjacent nonprofit market, not junk to be filtered out",
+        "why_unusual": "Most B2B marketing ops would automatically discard consumer email domains as low-quality; Bloomerang explicitly accepts and values them",
+        "quote": "we almost sit close to the B2C concept where Gmail addresses are acceptable. We do not put any, if a form is filled out with a Gmail, a Hotmail, it's scary. I have a lot of Hotmail addresses in my system and they are valid leads.",
+        "speaker": "Jess Goedken",
+        "timestamp": "1:51:12 AM"
+      },
+      {
+        "claim": "Email sends should NOT get attribution credit unless clicked or opened - explicit exclusion of standard email engagement",
+        "why_unusual": "Most attribution platforms count email sends as touchpoints; Bloomerang wants to explicitly exclude sends from getting credit, which is stricter than typical",
+        "quote": "if the campaign type is email send, I think that's hard coded on the back. So it only give attribution if there was a click on it",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:16:32 AM"
+      },
+      {
+        "claim": "Negative percentage change shown in green is good because it means pipeline age decreased",
+        "why_unusual": "Typically green = positive growth, but James Gilbert explicitly wants negative percentage for pipeline age decrease to show green, which is counter-intuitive",
+        "quote": "negative is a good thing if we actually uh our last stays um but that's how it will work right if it's not a good thing it will show red i'm assuming correct",
+        "speaker": "JamesGilbert",
+        "timestamp": "11:26:08 PM"
+      },
+      {
+        "claim": "They want to actively edit and customize AI prompt templates rather than use out-of-box outputs",
+        "why_unusual": "Most customers want polished AI outputs without needing to understand prompts; Bloomerang specifically wants raw prompt access to customize",
+        "quote": "this is the exact same prompt which goes into the model in order to generate that outreach messages so if you feel this is off you know you are very free to come here you can you know change whatever you want",
+        "speaker": "Babilu Chummar Joshy",
+        "timestamp": "11:45:59 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "implementation",
+        "problem": "SSO/Okta IDP-initiated flow not working, causing user corruption",
+        "quote": "if somebody tries out the other way like basically you go into the octa you have the revsha tile there and you try to log in Because that setup was not complete, so the users get corrupted in a way, like the username is removed from our system.",
+        "speaker": "Sahil Gupta - RevSure",
+        "timestamp": "12:32:56 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Site script form tracking not capturing form submissions due to race condition with Marketo",
+        "quote": "page events are flowing in. So that is working as expected. But first thing we want to check if the form scripts are there on your GTM or not. And second thing is like something is if the script is there, something is blocking it.",
+        "speaker": "Sahil Gupta - RevSure",
+        "timestamp": "11:02:15 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Team confusion about why pipeline projections drop dramatically when filtering by opportunity type",
+        "quote": "See how it goes way down reason why it goes way down is because it's only referencing opportunities. So the projection only has Visibility into the opportunities so it's taking away from the projection any lead level stages",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:40:52 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Data validation reports missing required IDs and formatted versions",
+        "quote": "the reports were missing the op ID and the lead ID. And they don't see formatted reports because a formatted reports would give us like, the filters you've used for engage leading age contact and lead creation.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:32:42 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Daily pacing tracker showing zeros for actual numbers despite targets appearing correct",
+        "quote": "I am seeing the targets in there. They look good. I'm just, maybe it's my view. I'm not seeing my, the actual numbers and percentages are zeros for me.",
+        "speaker": "Tyler Halverson",
+        "timestamp": "11:03:50 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "UTM content dimension not working properly for filtering campaigns",
+        "quote": "were you able to connect with francisco and resolve whatever weird thing was happening with the utm content",
+        "speaker": "Monica Greye",
+        "timestamp": "3:24:12 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Channel targets didn't align between daily pacing and channel pacing because they weren't set up as sub-categories",
+        "quote": "because they didn't align the that's how it's structured today right like their targets apply like universally right like you just have like one set of targets so like you look at the attainment for like the daily pacing and you'll be okay this is this And then you would look the attainment against like the channel and you'd be like, this, this doesn't quite align",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:09:03 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about difference between engagement type and campaign type in attribution rules",
+        "quote": "engagement type because i know that's like a whole different reporting table is engagement type the same as campaign type or could those be different",
+        "speaker": "Krista Stapleton",
+        "timestamp": "11:12:53 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cannot yet show both volume and value simultaneously in channel pacing tracker",
+        "quote": "an open request. I believe it may have been you, Monica, or just the team in general to kind of show in this board both the volume and the value so you don't have to toggle between volume and value. So that's in our product roadmap",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "3:52:20 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Need to manually create synthetic campaigns from page visits to get landing page attribution performance",
+        "quote": "unless there's a specific... campaign right like an sftc campaign a page visit is considered a an activity it's not considered a campaign touch",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "10:57:03 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client cannot distinguish in the journey chart whether a contact is marked as primary because they're the decision maker or just because they've had the most interactions",
+        "quote": "just because that's who's had the most interaction or is it because that's the decision maker? Because that's the one",
+        "speaker": "AlysiaPage",
+        "timestamp": "12:52:39 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Predictability is the number one draw - exactly what they're trying to solve",
+        "quote": "I like how you can look at things from a predictable standpoint. That's like the one thing that I am drawn to right now. That's like the number one thing I'm trying to solve for with our team.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:29:40 AM"
+      },
+      {
+        "summary": "Modular Lego-like building approach is appealing",
+        "quote": "I also like how you guys have an option to like kind of build this like a Lego set, you know, like build on the modules and, and on what is most useful.",
+        "speaker": "James Gilbert",
+        "timestamp": "12:31:16 AM"
+      },
+      {
+        "summary": "Highest quality AI roadmap seen, with live AI baked in",
+        "quote": "highest quality ai roadmap that we've seen uh and live ai baked into their product which we really like they have a whole slew like i'm talking about a google sheet of a hundred different agents",
+        "speaker": "JamesGilbert",
+        "timestamp": "11:28:10 PM"
+      },
+      {
+        "summary": "No charge per integration is a big deal for deep tech stack",
+        "quote": "RevSure doesn't charge per integration, where the other vendors have a cost per integration, which is actually a pretty big deal for our company.",
+        "speaker": "JamesGilbert",
+        "timestamp": "11:13:13 PM"
+      },
+      {
+        "summary": "Customer success team helps build and maintain, not just hand over software",
+        "quote": "every single one of them mentioned how if they needed something new built they just reached out and it was really fast turnaround where they actually did some of the build for us so i think that that's another value add is we get an extension of a team here",
+        "speaker": "JamesGilbert",
+        "timestamp": "10:58:07 PM"
+      },
+      {
+        "summary": "Exactly what marketing needs - understands how marketers need to slice and dice data",
+        "quote": "exactly what we need",
+        "speaker": "Jess Goedken",
+        "timestamp": "1:18:18 AM"
+      },
+      {
+        "summary": "Heather extremely excited about metric renaming capability",
+        "quote": "i'm so excited how many everything all of this is amazing the team is going to be like literally thrilled like this is",
+        "speaker": "HeatherCerny",
+        "timestamp": "11:33:10 PM"
+      },
+      {
+        "summary": "Heather praises Francisco's work and RevSure's platform capabilities",
+        "quote": "this is incredible oh they're gonna be like literally so thrilled because yeah then everything can match like what we how we talk about it and this",
+        "speaker": "HeatherCerny",
+        "timestamp": "11:34:13 PM"
+      },
+      {
+        "summary": "Ashley Wilson praises Francisco's deck as exceeding expectations",
+        "quote": "This is over my expectations, so I really, really appreciate it.",
+        "speaker": "Ashley Wilson",
+        "timestamp": "4:44:07 AM"
+      },
+      {
+        "summary": "James Gilbert finds pipeline projections view powerful and closer to reality with proper filtering",
+        "quote": "this, this can be really powerful for us to be looking at. Yeah, this looks a little bit closer.",
+        "speaker": "JamesGilbert",
+        "timestamp": "11:08:39 PM"
+      },
+      {
+        "summary": "Monica expresses strong enthusiasm for UTM content tracking capability",
+        "quote": "Oh my god, this is going to be the world just like changed. Because normally, we're scraping this data channel by channel",
+        "speaker": "Monica Greye",
+        "timestamp": "3:25:44 AM"
+      },
+      {
+        "summary": "JJ offers rare praise and hug offer for the demand gen dashboard design",
+        "quote": "wish I could hug you love it",
+        "speaker": "Justin Cook",
+        "timestamp": "3:47:50 AM"
+      },
+      {
+        "summary": "Monica explicitly states the dashboard is exactly what they were looking for",
+        "quote": "this is exactly what we were looking for um i absolutely love it",
+        "speaker": "Monica Greye",
+        "timestamp": "3:44:58 AM"
+      },
+      {
+        "summary": "Justin Cook loves the simplicity of the conversion view for reading data",
+        "quote": "simple the view is, because reading data, this is what we need. We can drill in otherwise, but this is, I love it",
+        "speaker": "Justin Cook",
+        "timestamp": "3:38:14 AM"
+      },
+      {
+        "summary": "James Gilbert sees himself and Ann using RevSure frequently, similar to a reference CMO",
+        "quote": "like i could see me and ann in here a lot uh for sure",
+        "speaker": "JamesGilbert",
+        "timestamp": "11:19:13 PM"
+      },
+      {
+        "summary": "Krista appreciates the journey timeline for validating attribution assignments",
+        "quote": "this is a great place to sort of validate how channels being assigned to something",
+        "speaker": "Krista Stapleton",
+        "timestamp": "3:19:28 AM"
+      },
+      {
+        "summary": "The influence view shows how engagement leads up to hitting discovery and pipeline stages with hockey stick visualization",
+        "quote": "One, it's the influence view. Because you can see how engagement is leading up to hitting discovery in stage two. And so you're seeing all of... all of that engagement and kind of how it's hockey sticking to hitting pipeline, right?",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:49:43 AM"
+      },
+      {
+        "summary": "Journey Tracker's title view helps verify if campaigns are reaching ICP titles in buying committees",
+        "quote": "but what i really like about this is you can do right so we're looking at contact name but you can look at title and where i see customers use this is are we hitting our icp right are we is the people that are interacting most with this campaign are they the folks that have the titles that would be able to action on right that they would be in those buying committees and so on",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:49:43 AM"
+      },
+      {
+        "summary": "The engagement summary provides comprehensive rollup of activities, campaign touches, funnel movements, and channels across all contacts in an account",
+        "quote": "And then the engagement summary kind of puts everything together in that it tells you how many activities, right? 1,222, 41 different campaign touches across all contexts in the account, three different funnel movements for this opportunity. And then what were the different campaign types? What source systems did they interact with? Who exactly was interacted with and the channels that, right? Like the roll up, what was the roll up? the go-to-market motion that the campaigns that these folks interacted with lie under.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:49:43 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Want predictable paid media - know where $5 will yield pipeline and revenue",
+          "quote": "can you tell me if I give you $5 where it's gonna yield, what channel it's gonna yield in? How it's gonna yield into pipeline and revenue when the timing of all that?",
+          "speaker": "James Gilbert",
+          "timestamp": "12:09:05 AM"
+        },
+        {
+          "win": "Want to see best performing channel and ROI on spend",
+          "quote": "just being able to see like best performing channel, the ROI on the spend of those channels I think is, is gonna be good too.",
+          "speaker": "James Gilbert",
+          "timestamp": "12:31:16 AM"
+        },
+        {
+          "win": "Want modular approach to build like Lego set",
+          "quote": "I also like how you guys have an option to like kind of build this like a Lego set, you know, like build on the modules and, and on what is most useful. That, that might be something that we would wanna explore potentially.",
+          "speaker": "James Gilbert",
+          "timestamp": "12:31:16 AM"
+        },
+        {
+          "win": "CFO would love reallocation view for spending budget more efficiently",
+          "quote": "just spending the budget you have more efficiently the CFO's dream",
+          "speaker": "Jason Douglas",
+          "timestamp": "4:32:47 AM"
+        },
+        {
+          "win": "Want to get teams back to doing their jobs instead of Excel",
+          "quote": "you can just get everyone to shut up and leave every single person alone so they can actually do their job because you don't understand how much time of my job isn't spent on marketing, but on Excel.",
+          "speaker": "E.T. Mac",
+          "timestamp": "4:50:24 AM"
+        },
+        {
+          "win": "Want monthly forecasting instead of quarterly for tighter windows",
+          "quote": "we run our business on a monthly basis in terms of what we need our teams to drive and close every single month.",
+          "speaker": "AnnFellman",
+          "timestamp": "11:52:05 PM"
+        },
+        {
+          "win": "Pipeline projections dashboard showing daily accumulation and quarter-over-quarter comparison",
+          "quote": "you can see up to this point in the quarter right so it's like a daily right so it's like how is pipeline accumulating daily and you can see how you were at this point of the quarter indifference to other quarters.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:11:36 PM"
+        },
+        {
+          "win": "Daily pacing sheet fully built out in RevSure with final QA in progress",
+          "quote": "the daily pacing. So remember that daily pacing sheet that you provided. So we've fully built out built it out in rapture i spoke to a team this morning they're doing some final qa on it",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:58:17 PM"
+        },
+        {
+          "win": "Ability to rename metrics to match Bloomerang's internal terminology",
+          "quote": "you can rename so what you see in demand generation effectiveness so let's say that um you know instead of saying close one volume close one value you wanted to say something different",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:32:42 PM"
+        },
+        {
+          "win": "Demand Gen V2 dashboard with visual summaries instead of tables, addressing core feedback",
+          "quote": "this trends tab alone answers so many questions that we are constantly asked and we don't have to even like filter or sort to get to it",
+          "speaker": "Monica Greye",
+          "timestamp": "3:44:58 AM"
+        },
+        {
+          "win": "Ability to mass-apply filters across all widgets and tabs instead of changing each individually",
+          "quote": "you go here and then you click all widgets in all tabs. And then this gets mass applied to every single widget on every tab",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:06:35 AM"
+        },
+        {
+          "win": "Channel pacing tracker showing target attainment by MQA first touch and last touch channels",
+          "quote": "we created the MQA anchors at the first and last touch. And then upon hover, you can see how you're doing to that target by the MQA first touch channel",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:48:09 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Scale from $100M to $500M with proper data foundation",
+          "quote": "I saw an opportunity to do a new scale that I haven't had a chance to do yet. Basically it's like the a hundred million to 500 million scale that I'm, that I'm now needing to notch my belt on",
+          "speaker": "James Gilbert",
+          "timestamp": "12:06:57 AM"
+        },
+        {
+          "win": "Build repeatable playbook for what's working across campaigns",
+          "quote": "we really like uh some of this stuff because it allows us to uh build a repeatable place right so we could see what's working across uh certain areas sometimes a combination might surprise us",
+          "speaker": "JamesGilbert",
+          "timestamp": "11:44:47 PM"
+        },
+        {
+          "win": "Set up for scale with AI-native platform that keeps up with trends",
+          "quote": "how do we also set ourselves up for scale um with a company that's going to keep up with the trends",
+          "speaker": "Jess Goedken",
+          "timestamp": "1:11:48 AM"
+        },
+        {
+          "win": "Single source of truth for marketing data eliminating spreadsheet dependency",
+          "quote": "one of the major things that um i know the boomerang team is working on is creating a single source of truth right so that's what we want to allow you to do is to have a single source of truth whether it be conversion funnel campaigns quality analysis is all here",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:01:12 AM"
+        },
+        {
+          "win": "Marketing mix modeling for budget reallocation across channels",
+          "quote": "we have marketing mix modeling that allows you to actually go do that um and i know that like a hockey stack doesn't do marketing mix modeling right",
+          "speaker": "Alex Cox",
+          "timestamp": "1:49:40 AM"
+        },
+        {
+          "win": "Board-ready reporting that CMO can bring to executive meetings",
+          "quote": "a lot of CMOs that use RevSure, they literally bring this into board meetings like they have the PDF screenshots of this within their board decks",
+          "speaker": "Alex Cox",
+          "timestamp": "1:45:43 AM"
+        },
+        {
+          "win": "Move entire marketing team off spreadsheet and fully into RevSure for reporting",
+          "quote": "when we can start telling people to move off the sheet and get into refsure and start looking at it",
+          "speaker": "Tyler Halverson",
+          "timestamp": "11:02:27 PM"
+        },
+        {
+          "win": "Marketing mix modeling to understand brand contribution and optimal spend allocation",
+          "quote": "marketing mix modeling is like it's it goes beyond just um multi-touch attribution right because it considers like the lag effects it's not just centered on a click",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:49:41 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Marketo Measure (Bizible)",
+      "Tableau",
+      "Salesforce",
+      "Marketo",
+      "Six Sense",
+      "Google Ads",
+      "LinkedIn",
+      "Reddit",
+      "Snowflake",
+      "Spreadsheets",
+      "Google Sheets pipeline tracker",
+      "Google Analytics"
+    ],
+    "pain_summary": "Attribution broken across messy Salesforce architecture, manual Tableau reporting, and failing Marketo Measure implementation; no predictability into where marketing spend yields pipeline and revenue; nonprofit buyer data behaves like B2C with Gmail addresses and duplicates",
+    "kpis_unhealthy": [
+      "pipeline predictability",
+      "paid media attribution",
+      "campaign ROI visibility",
+      "funnel conversion tracking",
+      "revenue attribution accuracy",
+      "campaign attribution accuracy",
+      "daily pacing visibility",
+      "web journey tracking",
+      "email-to-lead quality tracking",
+      "pipeline pacing visibility",
+      "channel attribution accuracy",
+      "campaign performance comparison",
+      "MQA tracking"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Full-funnel AI attribution with predictive pipeline projections, modular deployment, no per-integration fees, and embedded customer success team that helps build and maintain custom dashboards and data models",
+    "wins_realized": [
+      "Pipeline projections module configured",
+      "Daily pacing sheet replicated in platform",
+      "Metric renaming capability enabled",
+      "Site script page tracking working",
+      "Form tracking fixed by moving to footer",
+      "Demand Gen V2 dashboard with visual summaries",
+      "UTM content filtering for message comparison",
+      "Mass filter application across widgets",
+      "MQA first/last touch channel pacing"
+    ],
+    "open_issues": [
+      "Need to validate custom object support for MQA model",
+      "Monthly forecasting model needs configuration",
+      "Data integrity initiatives may require coordination with RevSure team",
+      "Need to convince RevOps team to move off active Marketo Measure implementation",
+      "SSO/Okta IDP flow still being debugged",
+      "Google Ads campaign integration pending",
+      "Channel classification rules incomplete (many campaigns in 'other')",
+      "Email send attribution rules need clarification",
+      "Data validation for spend data pending",
+      "MQA internal pass exclusion needs implementation",
+      "Daily pacing tracker actuals showing zero",
+      "MQA discrepancy resolution",
+      "Brand dashboard overview page",
+      "Volume and value simultaneous display",
+      "Landing page campaign touch conversion"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Bloomerang (All Calls).md"
+    ],
+    "total_chunks": 4,
+    "extracted_chunks": 4
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 21,
+      "tools_switched_from": 9,
+      "political_tussles": 7,
+      "contrarians": 9,
+      "revsure_problems": 11,
+      "best_about_revsure": 19,
+      "wins_immediate": 12,
+      "wins_long_term": 8
+    }
+  }
+}

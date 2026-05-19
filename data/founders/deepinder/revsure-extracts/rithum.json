@@ -1,0 +1,231 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Rithum",
+  "call_type": "initial_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Marketing analytics and attribution is a black box for the team",
+        "quote": "reporting, analytics, funnel conversion metrics, all of that is top of mind for us and a black box currently for the team",
+        "speaker": "Jen Leaver",
+        "timestamp": "8:34:16 PM"
+      },
+      {
+        "summary": "IT team is pushing back on building reporting/analytics in-house, creating urgency to buy vs build",
+        "quote": "we are getting pushback that they will not be able to prioritize that in Q1. And so that helped kind of expedite the need for us to buy versus build",
+        "speaker": "Jen Leaver",
+        "timestamp": "9:33:38 PM"
+      },
+      {
+        "summary": "Data hygiene issues with multiple contacts and poor data maintenance",
+        "quote": "We have like some really pretty, pretty sad data hygiene issues and, and part of it was, I guess built to compliment the product",
+        "speaker": "Matthew Schultz",
+        "timestamp": "8:05:59 PM"
+      },
+      {
+        "summary": "No dedicated marketing operations or funnel analytics capability existed before",
+        "quote": "There's been just kind of this autopilot for a year and a half, two years",
+        "speaker": "Jimbo",
+        "timestamp": "7:52:21 PM"
+      },
+      {
+        "summary": "Contacts database in Marketo is bloated and needs cleanup",
+        "quote": "we have a whole nother side thread going on about getting contacts cleaned up in Marketo because that's just been not maintained well",
+        "speaker": "Jimbo",
+        "timestamp": "7:52:21 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Homegrown / IT-built reporting",
+        "vendor": "Internal",
+        "reason": "IT cannot prioritize building reporting in Q1, creating urgency to buy vs build",
+        "quote": "we are getting pushback that they will not be able to prioritize that in Q1. And so that helped kind of expedite the need for us to buy versus build",
+        "speaker": "Jen Leaver",
+        "timestamp": "9:33:38 PM"
+      },
+      {
+        "tool": "Six Sense",
+        "vendor": "Six Sense",
+        "reason": "Has account prioritization but lacks full funnel attribution and pipeline predictability; being upgraded not replaced",
+        "quote": "we can understand, again, like accounts that we need to prioritize based on buying stages. We can also layer in contact fit and profile scores for helping to prioritize leads. So that piece I'm, I'm less concerned about",
+        "speaker": "Jen Leaver",
+        "timestamp": "9:41:41 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "IT",
+          "Marketing"
+        ],
+        "tension_label": "Buy vs build tension",
+        "summary": "IT is pushing back on prioritizing internal build, forcing marketing to seek vendor solution",
+        "quote": "we are getting pushback that they will not be able to prioritize that in Q1. And so that helped kind of expedite the need for us to buy versus build",
+        "speaker": "Jen Leaver",
+        "timestamp": "9:33:38 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "Budget allocation across departments",
+        "summary": "Jen exploring whether to pull budget from sales to fund RevSure if it serves sales use cases too",
+        "quote": "if this is something again that we could use beyond just the marketing team, it might be something where I could pull some budget from sales to help support as well",
+        "speaker": "Jen Leaver",
+        "timestamp": "9:58:33 PM"
+      },
+      {
+        "actors": [
+          "IT",
+          "Marketing"
+        ],
+        "tension_label": "Implementation readiness disagreement",
+        "summary": "IT concerned marketing team isn't ready for implementation while marketing wants to move fast",
+        "quote": "I'm super concerned that because they're new, they're not fully versed in all of the underlying things it's gonna take to get us to this point where Rev share's gonna deliver that value",
+        "speaker": "Jimbo",
+        "timestamp": "7:52:21 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "CRM as single source of truth is a myth",
+        "why_unusual": "Most RevTech vendors position CRM as the central hub; RevSure argues against needing all data in CRM",
+        "quote": "CRM or any system as a single source of truth is kind of a myth because everything is evolving and things are changing",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "8:03:48 PM"
+      },
+      {
+        "claim": "Don't need to change lead statuses or source system data for attribution",
+        "why_unusual": "Most attribution tools require standardized funnel stages and clean source data",
+        "quote": "our requirements on the source systems is actually is very little. Like we are not like interested in having you change lead statuses or any things",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "7:58:04 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "implementation",
+        "problem": "Client IT concerned that 4-week onboarding is unrealistic given their data quality and team readiness",
+        "quote": "I worry that we're gonna start this revshare implementation while we're still trying to get everything else kinda cleaned up",
+        "speaker": "Jimbo",
+        "timestamp": "7:52:21 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Pipeline predictability is what Karen (CMO reference) uses 2-3 times daily",
+        "quote": "pipeline predictability is like what Karen uses two times a day, two to three times a day from like a CMOs perspective",
+        "speaker": "Alex Cox",
+        "timestamp": "9:42:44 PM"
+      },
+      {
+        "summary": "Product is robust enough to be a 3-hour demo",
+        "quote": "this could have been a three hour demo, like easily three hour demo. So it's really robust technology",
+        "speaker": "Suzin Wold",
+        "timestamp": "9:19:06 PM"
+      },
+      {
+        "summary": "Tactical channel views are unique and above what competitors offer",
+        "quote": "these tactical or channel-based views are on top of what I, I can get from trending. So that's why I'm intrigued by these views. 'cause these are kind of like definitely over and above what I can do with trending",
+        "speaker": "Simon Byrne",
+        "timestamp": "8:57:52 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Get pipeline predictability for CMO Susan's use case",
+          "quote": "for Susan's use case here, it's having the, the pipeline predictability that yeah, that's gonna be something that I know she's gonna wanna, that's gonna be very important to her",
+          "speaker": "Jen Leaver",
+          "timestamp": "9:41:41 PM"
+        },
+        {
+          "win": "Avoid retroactive contract negotiations by including forecasting upfront",
+          "quote": "I would rather have a conversation about including that with whatever. Okay. Contracting putting in place versus having to go back and retroactively add that in later in the year",
+          "speaker": "Jen Leaver",
+          "timestamp": "9:37:56 PM"
+        },
+        {
+          "win": "Get free onboarding month to delay contract start",
+          "quote": "what I can offer you is like a month or so for free too, so it doesn't eat away your contract",
+          "speaker": "Alex Cox",
+          "timestamp": "9:49:55 PM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Full go-to-market visibility across marketing, sales, CS, not just marketing",
+          "quote": "every single touch point from sales, marketing, cs, upsell, cross sell, all product lines, right? Global, right. So like yeah, we, we definitely do",
+          "speaker": "Alex Cox",
+          "timestamp": "9:45:37 PM"
+        },
+        {
+          "win": "Replace black box with white box analytics for strategic planning",
+          "quote": "making the black box in a white box, you need to have a very strong foundation, right, of data",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "8:47:39 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "Marketo",
+      "Six Sense",
+      "SalesLoft",
+      "Trend Demon (planned)"
+    ],
+    "pain_summary": "Marketing analytics and funnel metrics are a black box; no dedicated marketing ops team until recently; data hygiene issues in Marketo; IT pushing back on building reporting in-house",
+    "kpis_unhealthy": [
+      "funnel conversion metrics",
+      "marketing ROI visibility",
+      "pipeline predictability",
+      "campaign attribution accuracy"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Full funnel attribution with predictive pipeline visibility across GTM teams, though Gen AI features must be disabled due to PII policy",
+    "wins_realized": [
+      "Identified pipeline predictability as key CMO need",
+      "Negotiating creative pricing with advisory committee and case study options"
+    ],
+    "open_issues": [
+      "Final budget approval pending",
+      "AI council approval needed for machine learning use",
+      "Data cleanup in Marketo ongoing",
+      "Need to confirm multi-year vs single-year contract structure"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "Rithum Initial Calls.md"
+    ],
+    "total_chunks": 1,
+    "extracted_chunks": 1
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 5,
+      "tools_switched_from": 2,
+      "political_tussles": 3,
+      "contrarians": 2,
+      "revsure_problems": 1,
+      "best_about_revsure": 3,
+      "wins_immediate": 3,
+      "wins_long_term": 2
+    }
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Sonatype",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Sonatype's COO is a finance guy who doesn't understand ABM complexity, requiring dumbed-down explanations",
+        "quote": "I'm really struggling with how to dumb down the complex ABM stuff",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:32:18 AM"
+      },
+      {
+        "summary": "Data overload in MMX model making it hard to draw conclusions",
+        "quote": "These like it is hard to draw any conclusions because there's so much data here. So like we almost need the ability Like I almost need like a pie chart for just a quarter or just a year like Or I just need to look at one year and aggregate.",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:38:06 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "HubSpot",
+        "vendor": "HubSpot",
+        "reason": "Moved to Marketo for better multi-domain handling and web measurement",
+        "quote": "pages used to flow into HubSpot before and they've off-boarded HubSpot",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "3:58:32 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "COO/Finance"
+        ],
+        "tension_label": "ABM complexity vs. executive comprehension",
+        "summary": "Marketing leader struggling to explain ABM value to finance-focused COO",
+        "quote": "our chief operating officer is a finance guy. I'm really struggling with how to dumb down the complex ABM stuff",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:32:18 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "RevSure"
+        ],
+        "tension_label": "pricing value justification",
+        "summary": "Client questioning whether RevSure subscription pricing is justified given marginal optimization gains",
+        "quote": "i think the reason why we backed off of the subscription is that pricing is upside down because this is basically saying if i spend a little more and then tweak it i'm going to basically get the same or a little more",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:35:25 AM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Google spend should be cut from $370K to ~$90K per quarter despite being a major channel",
+        "why_unusual": "Typically vendors recommend increasing spend on largest channels; suggesting 75% cut on Google is radical",
+        "quote": "my Google spend should be $90,000 a quarter. Okay, something like that.",
+        "speaker": "Sara Pilling",
+        "timestamp": "4:00:00 AM"
+      },
+      {
+        "claim": "ROI going down while spend goes up can be acceptable if optimizing for pipeline volume",
+        "why_unusual": "Most finance executives would reject ROI degradation; RevSure team frames this as acceptable trade-off",
+        "quote": "coming down because, you know, the spend has gone up by 18 percent. The pipeline has gone up only by 10 percent.",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "3:46:18 AM"
+      },
+      {
+        "claim": "Display/ABM attribution gets 'so big' at account level that it tells a story by itself",
+        "why_unusual": "Usually display is criticized for weak attribution; Sara sees inflated account-level attribution as validating targeting strategy",
+        "quote": "if you look at display performance at the account level, those, that attribution gets so big. I think that sort of tells that story too. Like by targeting the accounts, we are finding the right ones.",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:35:10 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "UI lag and slow performance causing user frustration and session abandonment",
+        "quote": "Like am I the only one that has these like lagging issues or is it like a yeah?",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:45:02 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Response curves showing incorrect current spend values for Reddit and other channels",
+        "quote": "when I go into reddit, the current spent number disappears. Okay, so that is one problem. I don't know if this is like a UI issue",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "1:35:09 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Response curves showing free-falling curves that theoretically shouldn't happen",
+        "quote": "It cannot Theoretically, it cannot be like this free-falling curve, right? I mean, this is happening for all the channels here in Sonotype.",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "1:35:21 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Scenario planner showing zero pipeline for high-spend channels like Events and Google",
+        "quote": "event and Google are the two highest spending channels I get zero here",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "1:47:54 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "ABM and Reddit spend not showing correctly in UI despite being in model",
+        "quote": "ABM should show up, mind it, ask them to check it, haven't seen it",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "3:43:23 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Data science team not checking if outputs make sense before showing to customers",
+        "quote": "you guys Just stop at some data science work and don't really pay attention to what is really being shown to the customer",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "1:37:49 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client needs hover-over explanations to understand different attribution methodologies",
+        "quote": "That's helpful, but I need to be able to hover over something and know that. Break down your pipeline and maybe it's there.",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:53:06 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Mass filter application is helpful for reducing repetitive filter setting",
+        "quote": "that's great",
+        "speaker": "Sara Pilling",
+        "timestamp": "3:55:04 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Mass filter application feature rolled out for top-level filters",
+          "quote": "we rolled out the ability to mass apply filters. So if you, you see where it says here, apply. So if you click on the laptop, just apply it here. But if you click on, yeah, click on the arrow, you can apply it to just the widget, all widgets across all tabs",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:54:19 AM"
+        },
+        {
+          "win": "Channel classification fixes showing correct channels and dollar numbers",
+          "quote": "we are able to see like the correct channels that are showing up here and the dollar numbers associated with it. For example, Reddit is broken out",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "3:35:55 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Campaign reallocation capability to optimize spend across all channels",
+          "quote": "we could do a campaign reallocation um which we have not I have not waited it in the team um but uh you know I could potentially show that to you also",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "3:37:04 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "HubSpot",
+      "Marketo",
+      "Salesforce",
+      "internal apps"
+    ],
+    "pain_summary": "Marketing struggling to prove ABM value to finance-focused leadership, with unclear channel attribution and no systematic way to optimize spend allocation",
+    "kpis_unhealthy": [
+      "ABM ROI clarity",
+      "Google spend efficiency",
+      "cross-channel attribution",
+      "pipeline forecast accuracy"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Using MMX model to identify overspending on Google and reallocate to LinkedIn/Reddit, but frustrated by UI bugs and questioning subscription value",
+    "wins_realized": [
+      "Channel classification corrected",
+      "Mass filter feature deployed",
+      "Identified Google as oversaturated channel"
+    ],
+    "open_issues": [
+      "Response curve accuracy for all channels",
+      "Scenario planner showing zeros for high-spend channels",
+      "UI lag/performance",
+      "Attribution methodology clarity",
+      "Campaign-level reallocation not yet implemented"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_ Sonatype Transcript - (All Calls).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 1
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 2,
+      "tools_switched_from": 1,
+      "political_tussles": 2,
+      "contrarians": 3,
+      "revsure_problems": 7,
+      "best_about_revsure": 1,
+      "wins_immediate": 2,
+      "wins_long_term": 1
+    }
+  }
+}

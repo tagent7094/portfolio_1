@@ -1,0 +1,151 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Zscaler",
+  "call_type": "initial_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Current attribution model only uses first-touch based on Salesforce campaign events and doesn't include online digital touches",
+        "quote": "we have currently, we have an attribution model where we do like a look back and it's based on first touch. Okay. That's basically just all based on Salesforce campaign events. It doesn't include like the online digital touches just yet.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:37:14 PM"
+      },
+      {
+        "summary": "Cannot stitch together digital activity with later sales conversations to understand full customer journey",
+        "quote": "if there is activity on our web through our content properties, and then they have a conversation with sales like six months later, I want to be able to stitch that experience together.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:37:49 PM"
+      },
+      {
+        "summary": "Need to de-anonymize website visitors based on cookies/tags to capture pre-sales signals",
+        "quote": "whatever we can de anonymize based on like a munchkin cookie or some kind of tag. Yeah. I wanna be able to capture that.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:38:50 PM"
+      },
+      {
+        "summary": "Digital spend attribution is difficult with manual data stitching required between Salesforce and BigQuery",
+        "quote": "We have to ingest the Salesforce data into BigQuery and then do all the stitching. We do all of that.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:55:57 PM"
+      },
+      {
+        "summary": "Campaign hierarchy and structure housekeeping needed in Salesforce and Google",
+        "quote": "there's some housekeeping we have to do like campaign hierarchy, campaign structure on our sales force, like Google. We spend a million dollars on Google and here's the parent campaign, children campaigns.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:55:26 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Improvado/Datarama",
+        "vendor": null,
+        "reason": "Currently using for digital spend attribution but requires manual data stitching and BigQuery integration",
+        "quote": "we use tools like, or I, in, historically we've used tools like Imprivado, Datarama, where it actually calls APIs to like, you know, our ad exchange vendors like Google, LinkedIn, SEM Meta. Yeah. And it brings it into like, like a big query database, and then we connect it to our Salesforce campaigns to measure like ROII",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:53:08 PM"
+      },
+      {
+        "tool": "GA4 (Google Analytics 4)",
+        "vendor": "Google",
+        "reason": "Using for web analytics but cannot stitch with CRM data for full customer journey",
+        "quote": "we use GA four, you know, so for example, if there's a Google click parameter that we can ident as a unique identifier for, for me, like if I'm looking at the website",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:38:50 PM"
+      }
+    ],
+    "political_tussles": [],
+    "contrarians": [
+      {
+        "claim": "Click and impression metrics are 'false positives' for measuring digital spend performance",
+        "why_unusual": "Most digital marketers still rely heavily on clicks and impressions as primary metrics; explicitly rejecting them as misleading is contrarian",
+        "quote": "Click and impressions and clicks are too, it doesn't, it's, yeah, it's very, it's a false positive.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:56:55 PM"
+      }
+    ],
+    "revsure_problems": [],
+    "best_about_revsure": [
+      {
+        "summary": "RevSure's propensity engine and stitching ability are valuable for Zscaler's use cases",
+        "quote": "I think there's some value add here based on the propensity engine that you have that's powering this data. And the stitch stitching ability.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "11:00:29 PM"
+      },
+      {
+        "summary": "RevSure's flexibility in defining conversion metrics and ROI measurement",
+        "quote": "Very, very flexible there.",
+        "speaker": "Chethan Chandra",
+        "timestamp": "10:58:43 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [],
+      "long_term": [
+        {
+          "win": "End-to-end customer journey visualization with ability to apply scoring on touches",
+          "quote": "that gives me like basically as close to, we can get like an end to end customer journey. And then I want to be able to apply scoring on that, on those touches.",
+          "speaker": "Chethan Chandra",
+          "timestamp": "10:39:27 PM"
+        },
+        {
+          "win": "Data science work for predictive scoring",
+          "quote": "there's some data science work there that we need to do as well.",
+          "speaker": "Chethan Chandra",
+          "timestamp": "10:40:34 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "GA4",
+      "Improvado/Datarama",
+      "BigQuery",
+      "Google Ads",
+      "LinkedIn Ads",
+      "Meta"
+    ],
+    "pain_summary": "First-touch attribution based only on Salesforce campaign events, with digital and offline activities siloed; manual stitching required for spend ROI analysis",
+    "kpis_unhealthy": [
+      "attribution accuracy",
+      "digital spend ROI",
+      "customer journey visibility",
+      "lead-to-pipeline connection"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "",
+    "wins_realized": [],
+    "open_issues": []
+  },
+  "_meta": {
+    "source_files": [
+      "Zscaler Initial Calls.md"
+    ],
+    "total_chunks": 1,
+    "extracted_chunks": 1
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 5,
+      "tools_switched_from": 2,
+      "political_tussles": 0,
+      "contrarians": 1,
+      "revsure_problems": 0,
+      "best_about_revsure": 2,
+      "wins_immediate": 0,
+      "wins_long_term": 2
+    }
+  }
+}

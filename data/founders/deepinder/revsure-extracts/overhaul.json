@@ -1,0 +1,739 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Overhaul",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Sales team not dispositioning meetings properly, leaving fields empty",
+        "quote": "They have been filling that out more, but for the most part it's been sitting empty.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "9:55:33 PM"
+      },
+      {
+        "summary": "Third party agency naming conventions don't tie back to Salesforce, making stitching difficult at scale",
+        "quote": "Like they'll use a naming convention that doesn't tie back to Salesforce or doesn't tie back to Yeah. LinkedIn or whatever the case is. And then at that point, if you do it at scale, it becomes very, very difficult to stitch together.",
+        "speaker": "Jonathan Hill",
+        "timestamp": "2:31:31 AM"
+      },
+      {
+        "summary": "Event ROI tracking is manual and time-consuming, not every event gets analyzed",
+        "quote": "Ashley's doing a lot of manual stitching together right now, which is, which is time consuming and sometimes therefore not every event gets prioritized to get that same level of analysis.",
+        "speaker": "Karin Stevens",
+        "timestamp": "1:33:18 AM"
+      },
+      {
+        "summary": "Demandbase API integration delayed, blocking upper funnel visibility",
+        "quote": "Demandbase has taken their very, very, very, very, I'm gonna say very about 10 more times sweet time on building out their APIs. So their APIs are still in alpha. We already have the integration built.",
+        "speaker": "Jonathan Hill",
+        "timestamp": "1:14:25 AM"
+      },
+      {
+        "summary": "Website used as research tool not conversion tool, poor at driving form fills",
+        "quote": "people are are using the website to kind of learn more about us before they get too far into the Funnel. But it's not, we're not doing a great job of getting in that that first 1.4 does not surprise me. And even the 0.59. Yeah, that's my thing to fix for 2024 is build that, build the website as a brand awareness tool and not so much as a research point.",
+        "speaker": "Kathleen Trestrail",
+        "timestamp": "9:25:37 PM"
+      },
+      {
+        "summary": "Data scattered across 10 different places making it hard to get clean insights",
+        "quote": "Mostly because we have data in 10 different places on our end. So it's not a RSU issue, but just trying to figure out what's the best way for 2025 data to be as clean as possible.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "1:04:38 AM"
+      },
+      {
+        "summary": "Sales team not consistently capturing opportunity stages, causing pipeline visibility gaps",
+        "quote": "We haven't done a great job at capturing their stage move between kind of these middle funnel stages and we're working on some additional process with, with the sales team to correct that.",
+        "speaker": "Karin Stevens",
+        "timestamp": "12:15:32 AM"
+      },
+      {
+        "summary": "Large NA bucket in lead source data indicating poor data hygiene",
+        "quote": "I was looking at the different a BM tiers on in the like, what's it called? The marketing return on investment and attribution. So it's kind of just seeing which we're like generating most leads and look, getting the pipeline value.",
+        "speaker": "Sam Keating",
+        "timestamp": "8:06:14 PM"
+      },
+      {
+        "summary": "Poor opportunity stage hygiene with contacts not properly associated with opportunities",
+        "quote": "Think that's another issue that we have is that when we do it on a, we just have to have better hygiene and opportunities having a CA contact associated with the opportunity. Generally they put the sales, put one contact, if I'm correct, Steph, they, yeah, they have to contact, they're required to put a primary but nobody else.",
+        "speaker": "Karin Stevens",
+        "timestamp": "12:25:13 AM"
+      },
+      {
+        "summary": "Inability to self-serve reports without extensive manual Excel work",
+        "quote": "I can probably get to it in Salesforce, but it's a lot of like exporting excels and running pivots and all that stuff that I don't have time for.",
+        "speaker": "Karin Stevens",
+        "timestamp": "1:38:36 AM"
+      },
+      {
+        "summary": "Marketing team lacked data analysts and Salesforce admin for 6 months, preventing proper use of RevSure",
+        "quote": "I am struggling with broader team adoption within the company in order and, and those that are adopting are struggling with how to really get the most use out of the system. And I think that's a part partly because we don't have data analysts on our team and we've been down our Salesforce admin for the last, let's call it six months.",
+        "speaker": "Karin Stevens",
+        "timestamp": "10:34:24 PM"
+      },
+      {
+        "summary": "Data inconsistency across systems - RevSure, Demandbase, HubSpot, and Salesforce show different numbers",
+        "quote": "right now we don't trust the data that's in outside of my pipeline. I can't trust the data because it looks different from what we're seeing told in demand base from what we're seeing in HubSpot from what we're seeing in Salesforce.",
+        "speaker": "Karin Stevens",
+        "timestamp": "10:39:16 PM"
+      },
+      {
+        "summary": "Channel classification spreadsheet is overwhelming and Stephanie lacks capacity to complete it",
+        "quote": "the guys have pulled me like a big spreadsheet of kind of all campaigns for us to kind of basically simplify sources and, and all of that. But it's, it, it's just a, I just need to go heads down in it at some point.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "2:24:39 AM"
+      },
+      {
+        "summary": "Pipeline stuck in previous quarters loses visibility in current quarter views",
+        "quote": "there's things that are still lingering in prior quarter. And we hope to have this adjusted because of hygiene and process changes. But we lose visibility to the things that are still stuck in previous queue.",
+        "speaker": "Karin Stevens",
+        "timestamp": "12:16:06 AM"
+      },
+      {
+        "summary": "Event ROI reporting was manual and painful - had to extract data from Sales Loft into spreadsheets",
+        "quote": "there are people who don't have access to sales loft, then they're asking me to extract it out of here and put it in a spreadsheet and send it to them, which is really painful.",
+        "speaker": "Ted Strawn",
+        "timestamp": "12:36:29 AM"
+      },
+      {
+        "summary": "HubSpot and Salesforce campaign duplication creates confusion in reporting",
+        "quote": "we do have some duplication in the campaign names in HubSpot versus Salesforce.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "2:29:13 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "SalesLoft",
+        "vendor": "SalesLoft",
+        "reason": "Migrating to Salesforce Sales Engagement Platform",
+        "quote": "Having said that we are moving to bigger program with Salesforce, leveraging their sales engagement platform, migrating away from SalesLoft.",
+        "speaker": "Karin Stevens",
+        "timestamp": "8:07:36 PM"
+      },
+      {
+        "tool": "Marketo",
+        "vendor": "Adobe",
+        "reason": "Too technical to build out, HubSpot catching up",
+        "quote": "I've used Marketo in the past. It's a lot more technical I think, in terms of bill build out. So we're not, we're not anywhere close to being ready for that. Nor do I think, I think HubSpot's catching up too.",
+        "speaker": "Karin Stevens",
+        "timestamp": "8:11:17 PM"
+      },
+      {
+        "tool": "HubSpot attribution",
+        "vendor": "HubSpot",
+        "reason": "Couldn't make it work for their needs, doing duplicate work trying to make it function",
+        "quote": "historically it was because we thought we could make HubSpot attribution work for us. Now that we can't, I'm wondering do we need to even worry about HubSpot campaigns other than UTMs?",
+        "speaker": "Stephanie Varty",
+        "timestamp": "9:40:20 PM"
+      },
+      {
+        "tool": "Demandbase reporting",
+        "vendor": "Demandbase",
+        "reason": "Reporting was tough, lacked elegance, ability to toggle, and was Frankenstein from acquisitions",
+        "quote": "trying to do some of the reporting out of there was tough. It's just tough. It doesn't, it doesn't have that elegance. It doesn't have the ability to toggle and, you know, I think yours is probably built, you know, in a way where if we say something, you can say, okay, in a couple days we can have that for you. Whereas there's, I think is, is, you know, Frankenstein on from, from acquisitions and all that stuff.",
+        "speaker": "Stephen Mullen",
+        "timestamp": "1:15:28 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "Lead quality and feedback loop breakdown",
+        "summary": "Marketing surfaces stale leads regularly but sales doesn't move them; verbal feedback instead of systematized",
+        "quote": "One of the biggest kind of blind spots we have on the marketing side is when something is getting assigned to sales and agreed upon as a sales accepted account, it just sits there. And so we never get feedback on like whether or not it was rejected, accepted, it's just, well it was accepted, but whether it's moving forward unless an opportunity opens, you know, months down the line, we don't get that feedback of like, what's happening with those. So they just sit in that bucket.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "9:52:08 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "MQL to SQA handoff process requires manual forcing function",
+        "summary": "Weekly Friday call required to manually push MQA through to SQA because sales won't do it without meeting",
+        "quote": "A lot of that will happen manually. So we'll go through mqa and then, and, and they won't, so it won't be like a, like we'll go through demo requests, but taking a step before that we'll go through Mqa and have them kind of determine, Hmm, we want that to sit with marketing a little bit longer, let's continue to nurture, or hey, this is ready, let's, let's assign it out. And so Bart will go in live and assign it and then from there it gets pushed to SAA.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "9:58:02 PM"
+      },
+      {
+        "actors": [
+          "Finance",
+          "Sales/Revenue Ops"
+        ],
+        "tension_label": "Pipeline reporting methodology disagreement",
+        "summary": "Finance pulls pipeline as point-in-time versus understanding what will be added and closed in quarter",
+        "quote": "when finance pulls the Pipeline, they just do it as a point in time based on what's already there versus what is to be added and closed in quarter or added this quarter.",
+        "speaker": "Karin Stevens",
+        "timestamp": "8:29:32 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "Sales claims credit for leads marketing generated",
+        "summary": "Marketing frustrated that sales claims credit for leads, undermining true go-to-market understanding",
+        "quote": "I, I don't care if sales generates elite, I just need to know what's working and what's not. The end.",
+        "speaker": "Karin Stevens",
+        "timestamp": "2:17:24 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Finance"
+        ],
+        "tension_label": "budget scrutiny for RevSure renewal",
+        "summary": "Karin expects finance pushback on RevSure pricing increase without clear understanding of contact count value",
+        "quote": "it will be a hard pill to swallow a bill for. I'm gonna get a lot of scrutiny from finance on the number that you presented without understanding, 'cause it side by side to some of our other systems are what the business themes as business critical, like Salesforce and the single source of truth for accounts.",
+        "speaker": "Karin Stevens",
+        "timestamp": "10:36:25 PM"
+      },
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "event attribution and follow-up ownership",
+        "summary": "Discussion of who should act on event attendees not moving through funnel - marketing or sales/BDR team",
+        "quote": "if people are still sitting in in-market or wherever they are, like that's a good list to surface to sales team or BDR team to say, like, can we try and get these moving, et cetera.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "12:22:28 AM"
+      },
+      {
+        "actors": [
+          "Sales",
+          "RevOps"
+        ],
+        "tension_label": "opportunity record type usage inconsistency",
+        "summary": "CAMs not always using correct opportunity record type, breaking revenue reporting by team",
+        "quote": "The problem with that though is that what I have seen is CAMs, for example, not always using the CAM opportunity record type. cam revenue that way, right? If you don't, if you don't have that set, right?",
+        "speaker": "Ted Strawn",
+        "timestamp": "12:08:57 AM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "They want to track brand awareness spend even though it's not measured by conversion, just to ensure it's counted in the tool",
+        "why_unusual": "Most demand gen tools focus on conversion-trackable spend; explicitly wanting to include non-conversion brand spend is atypical",
+        "quote": "some of that's not necessarily measured in terms of conversion because it's brand awareness, but at the same time just something to consider and some recommendations on how we capture that and the tool would be good.",
+        "speaker": "Karin Stevens",
+        "timestamp": "2:29:48 AM"
+      },
+      {
+        "claim": "They want ABM but think the 'M' in ABM is wrong and it should be ABX or ABMS for better sales coordination",
+        "why_unusual": "Explicitly rejecting the marketing-centric framing of ABM while still pursuing the strategy",
+        "quote": "It's very much been marketing led. I actually don't like that they have the m in the name. It should be a BX or AB ms. So there's better coordination across the go to market team.",
+        "speaker": "Karin Stevens",
+        "timestamp": "8:15:06 PM"
+      },
+      {
+        "claim": "They'd prefer lower but consistent conversion rates over higher unpredictable ones",
+        "why_unusual": "Most orgs want to maximize conversion; Overhaul values predictability for planning even at lower rates",
+        "quote": "I don't care if it's 30%, if I know that I'm gonna convert 30% 'cause that tells me what I need to go and get after to make sure that I don't miss my mo miss my goal.",
+        "speaker": "Karin Stevens",
+        "timestamp": "1:24:53 AM"
+      },
+      {
+        "claim": "More pipeline is not necessarily better - want to see dips and valleys as deals convert",
+        "why_unusual": "Revenue ops typically celebrates growing pipeline numbers; Overhaul wants to show pipeline decreasing as it converts to bookings, emphasizing sales velocity over volume",
+        "quote": "I want to get the team away from like thinking that the more pipeline to have, the better we are, because actually you want to see it convert and then replenish and all that stuff, right?",
+        "speaker": "Karin Stevens",
+        "timestamp": "12:25:14 AM"
+      },
+      {
+        "claim": "Don't want to put event spend data in Salesforce - prefer it live only in RevSure",
+        "why_unusual": "Most companies use Salesforce as source of truth for campaign spend; Overhaul intentionally wants to keep this data out of Salesforce to avoid information overload for other teams",
+        "quote": "I don't know that I want these to live in Salesforce. I feel like that's a little bit too much information for, for other teams. So I think I'd prefer for all of it to live in Rev.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "2:12:39 AM"
+      },
+      {
+        "claim": "Statistically insignificant results are still valuable for validating marketer hunches",
+        "why_unusual": "Most attribution vendors dismiss non-significant results; RevSure frames 'close to significant' p-values as useful for boardroom conversations when combined with marketer intuition",
+        "quote": "we work with smart marketers. Smart marketers in our opinion generally know what's going on. But the question is just 'cause you have a hunch doesn't mean you can take that to the boardroom. Right.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:27:19 AM"
+      },
+      {
+        "claim": "Negative correlations in attribution are not bad, just informational",
+        "why_unusual": "Vendors typically hide or downplay negative attribution results; RevSure presents them neutrally as behavior-change signals",
+        "quote": "You know, and it's not, yeah, it's not a good or bad thing. It's just this is what it is and if we want it to be different, we have to behave differently or you know, yeah.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:28:32 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Pipeline analytics page loading very slowly, impacting monthly reporting workflow",
+        "quote": "I noticed it was like, you know, I know there's a, on the Pipeline analytics page, I know there's a lot of data and because there's so many sort of, I'll just call 'em like mini reports, you know, all the way down the page that when I go to do something, it, it does take a while. Now I've been known to not have the fastest internet in my house in conjunction with all of this, but this did seem really, really slow. Like it really slowed down.",
+        "speaker": "Stephen Mullen",
+        "timestamp": "12:07:42 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Journey visualization not useful due to campaign type inputs being wrong",
+        "quote": "this doesn't, I I just think we have the inputs wrong in order to give us any Yeah. Email is a very successful, but email only works if we're doing other things. So kind of, so yeah, the the, they they stay in an email journey, but it's not, it's not what's the, you know, what kind of collection of things is helping support. So yeah. And there's, there's a few things that we're doing for our marketing or nurture automations currently in in HubSpot that are really helping us improve conversion from, from email. But yeah, like as you see that this is very not clear what, what, so I I think our inputs are, are honestly wrong.",
+        "speaker": "Karin Stevens",
+        "timestamp": "8:31:11 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "HubSpot campaigns require manual monthly export due to lack of campaign API, tedious process",
+        "quote": "the challenge with HubSpot is that there is no campaign API that HubSpot has. So for us to look at all the HubSpot campaigns, we would need to either, we need like a UI access to the HubSpot instance so that we can manually, you know, export out campaigns from HubSpot and then push them into our, you know, application on a monthly basis",
+        "speaker": "Vishwajit Vyas",
+        "timestamp": "2:13:38 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Facebook sync keeps failing, needs repeated revalidation",
+        "quote": "I noticed that Facebook isn't syncing, so it looks like it needs to be revalidated.",
+        "speaker": "Harry Hawk",
+        "timestamp": "12:16:47 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Team unclear on how recommended coverage numbers are calculated, why they fluctuate quarter to quarter",
+        "quote": "maybe you could help us understand why it fluctuates, but my, my my understanding was it fluctuated based on like historical trend data on like percent close one in, you know, I, I don't know. It, it may be based on the Probability of deals that are in the curve pipe. So it would be good to understand that.",
+        "speaker": "Karin Stevens",
+        "timestamp": "10:46:40 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Kathleen unsure if HubSpot web analytics capturing all pages or only those with HubSpot tags",
+        "quote": "I just wanna make sure we've got visuals on all the pages and not just those that you know, may have a HubSpot form or some sort of HubSpot tag involved. 'cause we don't use HubSpot for like, we don't use HubSpot landing pages or anything like that. We do it all through WordPress.",
+        "speaker": "Kathleen Trestrail",
+        "timestamp": "9:07:15 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Totals not populating in ABM dashboard view, UI fix in progress",
+        "quote": "Last time we talked about, and some of the totals weren't coming up, which is kind of a, a UI thing, but as we see now, they're now starting to populate, so as a UI fix from our team, so the totals are now starting to populate.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:10:21 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Q1 booking readiness accuracy was only ~60% due to abnormal push-outs not predicted by model",
+        "quote": "we were closer to 60% accurate for booking read and readiness. So, and that was largely because there's things that you can't predict. Like the amount that we pushed out was outside of Norm, I would say.",
+        "speaker": "Karin Stevens",
+        "timestamp": "8:12:17 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Pipeline coverage recommendation jumped to 10x historically unprecedented level, eroding trust",
+        "quote": "I mean I'll be left at the building if I tell people that I need 10 x for the pipeline but I understand that if it is just knee jerking from the previous quarter, but you know, historically if you look at our historical kind of conversions we have been able to convert at like one and a half to two x.",
+        "speaker": "Karin Stevens",
+        "timestamp": "12:31:33 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "AI-generated engagement timelines include outdated campaign touches from years ago",
+        "quote": "Yes, because yeah, what I noticed on like this one specifically is that they're engaging with things from 2022 is highlighted. Yep. Like I wouldn't, that's not necessarily one that I like that's relevant right now. Is that engagement, is there ways to select specific engagement that they've had for that or would it always use all of their, their entire journey to compute that?",
+        "speaker": "Sarah Pesch",
+        "timestamp": "12:11:51 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Addition view in unified funnel went dark/stopped showing data after configuration changes",
+        "quote": "So the addition view under the unified funnel, so you can see that there, basically everything's gone dark.",
+        "speaker": "Karin Stevens",
+        "timestamp": "10:12:03 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Difficulty filtering to actual sales reps vs all Salesforce users in reports",
+        "quote": "However, I would like to be able to add one, one thing that's not as ideal is there's so many reps, these people aren't all reps. This is like everybody that has or has had Salesforce. So I don't know how, like, I know in Salesforce there's a way for me to kind of show only the reps, but it, it doesn't seem to be the case here.",
+        "speaker": "Karin Stevens",
+        "timestamp": "1:37:09 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about why pipeline value numbers seem low given MQA volumes",
+        "quote": "I'm just, I'm not sure why the pipeline value sets low here and it, it could be based on historical conversions.",
+        "speaker": "Karin Stevens",
+        "timestamp": "9:45:27 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Limited to 10 product pillars in widgets, preventing complete view",
+        "quote": "I know we're working on being able to show more than 10 products.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:50:35 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Filtering by Salesforce campaign source system not working properly - filter not applying",
+        "quote": "Seems like that filter is not applying. Yeah, that's weird.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "2:18:43 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Dashboard copy/save failing with 'couldn't save' error",
+        "quote": "I'm getting this couldn't save. Okay. That's interesting. All right.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "12:31:49 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Drill-down hyperlinks in funnel view appear clickable but don't work",
+        "quote": "It looks like it is, but then nothing happens when you click. Kind of makes out there for a second.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "12:14:30 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Event cohort funnel widget missing standard funnel stage labels (MQA, SAA, etc.)",
+        "quote": "these all look. Different than the event cohort funnel, like, I'm not seeing the kind of like MQA, like the. I don't know if that's a good idea. I mean, that would be really good to see and like number of opportunities and all of that.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "12:20:48 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about whether snapshot report shows created date or point-in-time pipeline",
+        "quote": "So this monthly, is this a created date monthly, or is this a closed date? Or I don't understand what the date value is here.",
+        "speaker": "Ted Strawn",
+        "timestamp": "12:10:39 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about difference between influenced account volume and generated engaged volume",
+        "quote": "Why this, this may or may not be a stupid question, but why, when you say like generated engaged volume and influence account volume, what is the difference between the two?",
+        "speaker": "Hollie Mhlanga",
+        "timestamp": "1:19:23 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Historical opportunity values may not match between systems when opportunity type changes",
+        "quote": "Another change is the type value in the opportunity. It can change from existing to new or vice versa. right? And so that'll take it from one bucket and move it into the other.",
+        "speaker": "Ted Strawn",
+        "timestamp": "12:27:59 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "RevSure is built to be configurable quickly versus Demandbase's Frankenstein architecture",
+        "quote": "I think yours is probably built, you know, in a way where if we say something, you can say, okay, in a couple days we can have that for you. Whereas there's, I think is, is, you know, Frankenstein on from, from acquisitions and all that stuff.",
+        "speaker": "Stephen Mullen",
+        "timestamp": "1:15:28 AM"
+      },
+      {
+        "summary": "Color-coded automated reports with red flags and TLDRs provide immediate actionable intelligence",
+        "quote": "all red is something which is not something which they want, which is not ideal for them. So when it went down by 53% week on week, we, we have a red bullet point for that, like that we have done it like integration user use, what you, what you just called out is something which they wanna reduce going, you know, on a week on week basis. So it is better 2%, now it's 6%. So that's something they wanna look at. So like that these red flags that they have, the potential red flags that the client has, we also incorporate that into the T LDRs so that they can look at it on the first page itself.",
+        "speaker": "Vishwajit Vyas",
+        "timestamp": "2:21:07 AM"
+      },
+      {
+        "summary": "Team is responsive and quick to turn around requests",
+        "quote": "you guys are awesome. You guys have, you know, how quickly you turn all this stuff around.",
+        "speaker": "Stephen Mullen",
+        "timestamp": "8:25:30 PM"
+      },
+      {
+        "summary": "Flexibility to pivot data capture approach based on client needs",
+        "quote": "we have complete flexibility when it comes to that pivot if we need to make it so",
+        "speaker": "Jonathan Hill",
+        "timestamp": "9:08:48 PM"
+      },
+      {
+        "summary": "Client appreciates RevSure's AI-powered predictions and confidence scoring",
+        "quote": "I think just for this is less so for use case across executive team, but more like, I like that we went through the exercise of doing a competence score on pipeline gen, pipeline gen value, booking volume, booking value. 'cause it helps us identify where we have to work together for areas of improvement.",
+        "speaker": "Karin Stevens",
+        "timestamp": "9:41:01 PM"
+      },
+      {
+        "summary": "Client values having predictive pipeline values beyond just ACV",
+        "quote": "I think there's a lot of value in doing it based on more factors than the A, CB because our A CB is actually not consistent, honestly.",
+        "speaker": "Karin Stevens",
+        "timestamp": "12:12:34 AM"
+      },
+      {
+        "summary": "Client finds drill-down hyperlinks and export functionality very helpful",
+        "quote": "Super helpful.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "1:22:08 AM"
+      },
+      {
+        "summary": "Client appreciates Francisco's enablement videos for self-service learning",
+        "quote": "I've been loving Francisco's videos just to keep me honest on how to get to places in the system I do do go back to them Francisco's. So trust me it's helpful even if I don't immediately reply. We're looking at them.",
+        "speaker": "Karin Stevens",
+        "timestamp": "12:44:06 AM"
+      },
+      {
+        "summary": "Pipeline predictions are the primary daily-use view that provides value",
+        "quote": "the golden ticket for me right now is obviously the, the projections. I use that on almost a daily basis, this view.",
+        "speaker": "Karin Stevens",
+        "timestamp": "11:02:19 PM"
+      },
+      {
+        "summary": "Speed of ABM dashboard customization based on client-provided view",
+        "quote": "the speed to which you all got that up and then customizing it based on a view we sent over all of that I think is all, would all be kind of great for a case study.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "12:04:11 AM"
+      },
+      {
+        "summary": "RevSure team responsiveness and willingness to invest time in enablement",
+        "quote": "We're happy to spend more time with you to try to, you know, we'll, we'll schedule a separate call for channel classification and, but we're, you know, our time is yours as, as you need it.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:29:48 AM"
+      },
+      {
+        "summary": "Event effectiveness dashboard easy enough for team to use independently",
+        "quote": "That seems easy enough to me and Holly, there is this budget verse spend. If we felt, if we felt pretty comfortable with the budget, you know, going in, we could upload all of them and then we can always make changes.",
+        "speaker": "Stephanie Varty",
+        "timestamp": "2:19:39 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Steve saved significant hours on monthly reporting by taking screenshots from RevSure instead of manual builds",
+          "quote": "that is something that saved Steve, who kind of managed a lot of our reporting significant hours in his day. Just needs to take a screenshot.",
+          "speaker": "Karin Stevens",
+          "timestamp": "8:07:36 PM"
+        },
+        {
+          "win": "Automated weekly report template created with color coding and TLDR sections",
+          "quote": "this report is completely automated by the way. And we, we have A-T-L-D-S section that gives you all the, in, you know, nuggets of information around M qls, you know, like speed by speed to lead Pipeline generation, Pipeline readiness and booking readiness.",
+          "speaker": "Vishwajit Vyas",
+          "timestamp": "2:19:55 AM"
+        },
+        {
+          "win": "Event cost input capability released in December for Ashley to drive better ROI data",
+          "quote": "we created a capability in RSU where she can actually just go into the UI and input the cost for that specific event so we can drive better ROI data around those investments",
+          "speaker": "Jonathan Hill",
+          "timestamp": "9:46:10 PM"
+        },
+        {
+          "win": "HubSpot campaigns manually ingested (336 campaigns), model training in progress",
+          "quote": "for the hotspot only campaigns we have ingested all the 336 odd campaigns that are there, I think in the system. We'll be running with one, one round of just a model training thing just so that the attribution for those campaigns is perfect.",
+          "speaker": "Vishwajit Vyas",
+          "timestamp": "9:50:32 PM"
+        },
+        {
+          "win": "ABM dashboard with tier filtering created for Karen's team",
+          "quote": "from this view is just like a dashboarding view, but what we did is I went to Unified funnel and Pipeline and I recreated the, you know, tier one, tier two created. And what you're able to do is if you go here and you click on one, you're able to see those seven opportunities that are pulling up there.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:06:27 AM"
+        },
+        {
+          "win": "ABM tier dashboard created for tier one, two, three account tracking",
+          "quote": "So today we are, could be an an a new view for, for you Sarah. So this is called the unified funnel and pipeline. And just to kind of show you how I navigated two here. So we go to unified funnel and pipeline, right? And kind of built it out and similar to the dashboard, right? So account existing customers know looking at a BM tier one, two, and three.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:05:54 AM"
+        },
+        {
+          "win": "Pipeline analytics dashboard with push/pull/close quarter metrics",
+          "quote": "So with this first widget, right, I just call them widgets because you can kind of add them, right? Like the different modules and ture you can add them as widgets here. So what this specifically looks at is pipeline created in quarter and pipeline closed in this quarter.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:21:14 AM"
+        },
+        {
+          "win": "Incrementality testing (lift test) implemented for digital paid channels",
+          "quote": "So incrementality testing, you need to create a Boolean dimension, true or false. And then it's looking at the cohort. That's true. Compared to the cohort. That's false.",
+          "speaker": "Harry Hawk",
+          "timestamp": "1:23:02 AM"
+        },
+        {
+          "win": "Custom opportunity category dimension built (new vs expansion vs renewal)",
+          "quote": "So, so then if you look right, so we did a logic of opportunity, name contains value expansion opportunity name contains value expansion. Right? Okay. So if you scroll down and then I tried to do one for renewal and then as well as new.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:40:25 AM"
+        },
+        {
+          "win": "Event effectiveness dashboard created with filtering by campaign member engagement status and ABM tier",
+          "quote": "here we see campaign name, the campaign member engagement status, if they were part of an A BM tier, and how many of those accounts have been influenced, right?",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:10:03 AM"
+        },
+        {
+          "win": "Salesforce campaign spend filtering fixed so Holly can now find and upload event budgets",
+          "quote": "we've fixed the filtering, Holly. So now when you go to upload the spend and you filter for Salesforce, it should come up none, none of the, remember last time we were trying to get it to specific filters. Now if you click Salesforce and look for manifest, it should just pull that out.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:06:57 AM"
+        },
+        {
+          "win": "Opportunity trends report replicated in RevSure matching Salesforce historical pipeline snapshots",
+          "quote": "this is basically telling the as of each of these months, how much pipeline was present in each of these stages, right?",
+          "speaker": "Shantanu",
+          "timestamp": "9:35:27 PM"
+        },
+        {
+          "win": "Custom dimension for owner role bucketing (EAE vs KAM) implemented in RevSure",
+          "quote": "So what we're working through here, Ted, is I'm showing you how in RevSure, right, we created the buckets, right? So we're looking at the opportunity owner role, and then based on it fitting in those, right, bucketing it to EAE, and then if it fit in the other buckets, KAM.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:06:46 AM"
+        },
+        {
+          "win": "Snapshot opportunity trend view created showing gross open pipeline monthly",
+          "quote": "what snapshot opportunity value is, is it looks at the active opportunities in the funnel at the end of a particular period.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:15:14 AM"
+        },
+        {
+          "win": "Target setting functionality demonstrated with monthly/quarterly pipeline goals",
+          "quote": "the prediction, right, like how the models run or anything like that, is just to visually show you, right, how you are looking towards your goal, and you can add any stage in your funnel, right?",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:04:24 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Full organizational adoption with each stakeholder having customized enablement",
+          "quote": "every stakeholder has different needs and we're more than happy to accommodate each and every one of you from enablement perspective, you know, in a different way.",
+          "speaker": "Jonathan Hill",
+          "timestamp": "2:36:24 AM"
+        },
+        {
+          "win": "Deep funnel optimization sending conversion signals back to Google/Meta to reduce CAC by ~30%",
+          "quote": "Once, once that's built out and we can do that. I've, I've built, I've done this three times without Rev. Sure. Just having it manually built, we've been able to cut a CAC by about 30%.",
+          "speaker": "Harry Hawk",
+          "timestamp": "8:13:16 PM"
+        },
+        {
+          "win": "Eliminate Steve's manual Excel reporting entirely by making RevSure the single source",
+          "quote": "I'm trying to get out of the Excel bit as much as I possibly can. So I've already started putting a bunch of charts, but as I meet these limitations, I go back to, you know, my data.",
+          "speaker": "Stephen Mullen",
+          "timestamp": "8:23:39 PM"
+        },
+        {
+          "win": "Make RevSure the single source of truth for all marketing data and ROI",
+          "quote": "Yeah, it's like, I'm, I'm just trying to figure out how we make Rev. Sure. Kind of our one, which is Karen's mission too, but like our one source of everything. So making sure that we are entering our campaigns in a way that, that makes it like a seamless process from Salesforce to Rev. Sure. So that we can just go into Rev. Sure. And, and that be our true kind of sourcing data, ROI data, all of that.",
+          "speaker": "Stephanie Varty",
+          "timestamp": "1:02:48 AM"
+        },
+        {
+          "win": "Self-serve reporting without manual Excel exports and pivot tables",
+          "quote": "I can probably get to it in Salesforce, but it's a lot of like exporting excels and running pivots and all that stuff that I don't have time for. So ar bookings, bookings by rep, by quarter, by product type.",
+          "speaker": "Karin Stevens",
+          "timestamp": "1:38:36 AM"
+        },
+        {
+          "win": "ABM dashboard to be used for case study once finalized with feedback",
+          "quote": "I think from my standpoint, probably the, the A BM dashboard is, could be like a good, good place to start with me. I don't think it's quite there yet. And I think that's mostly because we owe some feedback and there's some tweaking that needs to be done. But I do think just kind of like the, the speed to which you all got that up and then customizing it based on a view we sent over all of that I think is all, would all be kind of great for a case study.",
+          "speaker": "Stephanie Varty",
+          "timestamp": "12:03:16 AM"
+        },
+        {
+          "win": "Customer engagement monitoring for expansion revenue storytelling",
+          "quote": "there's some insight that can be gleaned from like when their customers are more highly engaged versus not. I'm all about the storytelling. So whatever we can kind of pull from there that would help us give the camp management team a story.",
+          "speaker": "Karin Stevens",
+          "timestamp": "12:17:22 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "HubSpot",
+      "SalesLoft",
+      "Demandbase",
+      "Manual Excel/Spreadsheets",
+      "PowerPoint",
+      "Google Ads",
+      "LinkedIn Ads",
+      "Goldcast",
+      "ZoomInfo",
+      "Spreadsheets/Excel",
+      "Sales Loft",
+      "Spreadsheets"
+    ],
+    "pain_summary": "Highly manual reporting with Steve spending hours building reports in Excel/PowerPoint; no real-time Pipeline visibility; duplicate campaign creation across HubSpot and Salesforce; sales feedback loop broken requiring weekly forcing-function calls; event ROI tracked manually via spreadsheets; no confidence in quarterly forecasting due to moving-target win rate calculations",
+    "kpis_unhealthy": [
+      "pipeline forecast accuracy",
+      "quarterly booking predictability",
+      "campaign attribution",
+      "event ROI measurement",
+      "sales velocity from MQA to SQA",
+      "lead-to-opportunity conversion",
+      "demand gen potential confidence",
+      "booking predictability",
+      "lead source data quality",
+      "opportunity stage tracking",
+      "campaign attribution accuracy",
+      "event ROI visibility",
+      "pipeline forecasting confidence",
+      "cross-system data consistency",
+      "team platform adoption"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Real-time Pipeline movements and automated weekly reports with color-coded TLDRs saving hours monthly; manual HubSpot campaign ingestion in progress; ABM dashboard with tier filtering launched; still working toward full self-service reporting and deep funnel optimization",
+    "wins_realized": [
+      "Automated weekly report template operational",
+      "Pipeline movements view replaces quarterly manual builds",
+      "Event cost input capability live",
+      "336 HubSpot campaigns ingested",
+      "ABM tier-based dashboard created",
+      "ABM tier dashboard for tier 1/2/3 accounts",
+      "Pipeline analytics with push/pull metrics",
+      "Incrementality testing for digital paid",
+      "Custom opportunity category dimension",
+      "Export functionality added across modules",
+      "Pipeline predictions dashboard used daily by CRO",
+      "Event effectiveness dashboard with ABM tier filtering",
+      "Historical pipeline snapshot reports matching Salesforce",
+      "Sales Loft integration connected",
+      "Custom owner role bucketing for team reporting"
+    ],
+    "open_issues": [
+      "Demandbase API integration blocked (alpha stage)",
+      "Facebook sync repeatedly failing",
+      "Booking readiness accuracy only ~60% in Q1",
+      "Journey visualization inputs need reorganization",
+      "Team needs enablement to become self-sufficient",
+      "Custom dimensions for verified events/demos needed",
+      "Mexico account record type filtering incomplete",
+      "Q3 prediction accuracy was severely off",
+      "10x pipeline coverage recommendation not credible vs historical 1.5-2x",
+      "Unified funnel numbers don't match Demandbase",
+      "AI engagement timelines include outdated touches",
+      "Addition view stopped working",
+      "Limited to 10 product pillars in widgets",
+      "Cannot filter to actual sales reps vs all Salesforce users",
+      "Large NA bucket in lead source data",
+      "Need campaign/channel classification cleanup",
+      "Event tracking and spend integration incomplete",
+      "Channel classification spreadsheet completion",
+      "Salesforce campaign hygiene and naming conventions",
+      "Drill-down functionality in dashboard widgets",
+      "Team training and adoption beyond CRO",
+      "Closed opportunity edit governance",
+      "Prior quarter pipeline visibility in current views"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Overhaul (All Calls).md"
+    ],
+    "total_chunks": 4,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 16,
+      "tools_switched_from": 4,
+      "political_tussles": 7,
+      "contrarians": 7,
+      "revsure_problems": 21,
+      "best_about_revsure": 12,
+      "wins_immediate": 15,
+      "wins_long_term": 7
+    }
+  }
+}

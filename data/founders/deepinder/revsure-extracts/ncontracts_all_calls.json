@@ -1,0 +1,380 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Ncontracts All Calls",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Legacy Vennminder acquisition data distorts pipeline analytics and win rates because imported closed-won deals appear as 100% win rate",
+        "quote": "They're all crazy long age. They're outliers of our entire pipeline because it's such a unique situation.",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "11:46:25 AM"
+      },
+      {
+        "summary": "Activity tracking is broken with half of emails going to Einstein, making it hard to get accurate activity reports",
+        "quote": "Kristen, you've gone down the rabbit hole of our activity tracking and how broken it is with half the emails going to Einstein.",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "11:56:41 AM"
+      },
+      {
+        "summary": "Demo requests don't get stamped on campaigns, breaking attribution for a major lead source",
+        "quote": "when demo requests come through, we don't stamp them on a campaign for demo requests.",
+        "speaker": "Kristen Watkins",
+        "timestamp": "10:16:48 PM"
+      },
+      {
+        "summary": "Sales reps mismanage close dates, parking pipeline in generic future quarters",
+        "quote": "we do see a significant amount of movement from closed date month to month we call them pushes and pulls and uh historically at least year to date we push about just under three million in pipeline a month we'll push from end month to future month um and we'll see maybe half a million pull from future month to end month as well",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:40:52 PM"
+      },
+      {
+        "summary": "Cannot view projections on monthly basis which is how sales org operates",
+        "quote": "the concern about not being able to view this on a monthly basis, because we focus pretty heavily month to month on the sales org",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:38:03 PM"
+      },
+      {
+        "summary": "Gong forecast accuracy is unknown and unbenchmarked; predecessor left with no documentation",
+        "quote": "the guy that was, his last day was Thursday So we have a shortage for answers on those kinds of questions",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:47:44 PM"
+      },
+      {
+        "summary": "Campaign dashboard frequently fails to fetch data and shows outdated information",
+        "quote": "most of the time when i pull this dashboard up both sections say failed to fetch data",
+        "speaker": "Jasonbeddall",
+        "timestamp": "12:03:40 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Power BI",
+        "vendor": "Microsoft",
+        "reason": "Could see full conversion funnel but lacked flexibility to filter by dimensions like owner team; moved to RevSure for better segmentation",
+        "quote": "when we were using Power BI, probably like end of last year, early this year, uh, we could see like the full conversion funnel, right. But then we could hit the dropdown and say, I want to see the conversion by.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "10:49:08 PM"
+      },
+      {
+        "tool": "Gong forecasting",
+        "vendor": "Gong",
+        "reason": "Tends to under-forecast; lacks confidence because it historically predicts below actual results",
+        "quote": "I know our numbers, a percentage to plan a percentage to goal, but. I need to go look, see if I can look back in time to see what the forecast was. For Q1 versus where we ended up, because I think historically with gone, we've ended up over our forecast amount. and that's part of why there's not a lot of confidence in its capabilities because it tends to under forecast",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "1:10:10 AM"
+      },
+      {
+        "tool": "HubSpot/Salesforce campaign attribution",
+        "vendor": "HubSpot/Salesforce",
+        "reason": "Campaigns not built correctly in Salesforce; demo requests not tracked to campaigns; needed better paid attribution",
+        "quote": "our campaigns in Salesforce, I don't think we're, Kristen, correct me if I'm wrong, not used correctly or built correctly.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "10:16:25 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "Sales Leadership"
+        ],
+        "tension_label": "forecast accuracy and pipeline pull timing",
+        "summary": "Sales pulls deals from future quarters to hit current numbers, setting up next quarter to fail; leadership expects Q4 numbers that may not be realistic",
+        "quote": "We pulled a bunch of stuff from January and February to hit a number in 2023 which then sets you up to fail in Q1 of 2024, right? So it's just an interesting cycle.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "10:48:02 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "Data access and control concerns",
+        "summary": "Marketing wary of giving salespeople access to data and telling them how to do their jobs",
+        "quote": "I'm always a little wary of giving salespeople access to our data and telling us how to do it.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:06:17 PM"
+      },
+      {
+        "actors": [
+          "CRO",
+          "Marketing"
+        ],
+        "tension_label": "Monthly vs quarterly reporting expectations",
+        "summary": "CRO needs monthly granularity to take action and gets anxious if 60% of target not met by month two, but tools only show quarterly",
+        "quote": "my cro he needs to see more granular specific data to look to be able to take action more quickly more specifically he does not like being short for a month even if we're ahead for a quarter",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:35:16 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Email marketing generating $5M in pipeline is suspiciously high and probably wrong because it costs $0",
+        "why_unusual": "Most marketers would happily claim zero-cost channels generate massive pipeline; Jason is skeptical of free attribution",
+        "quote": "The email marketing, I would love it if our email marketing channel actually produced 5 million in pipeline cause it costs us $0. So I just don't think that's, you know, I don't know if that's accurate.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "10:52:30 PM"
+      },
+      {
+        "claim": "Would prefer conservative forecast that under-predicts rather than one that over-promises",
+        "why_unusual": "Most revenue leaders want optimistic forecasts; Kristopher prefers conservative numbers to manage expectations",
+        "quote": "if it were me, I'd almost prefer a conservative number than forecasting over what actually happens.",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "1:10:10 AM"
+      },
+      {
+        "claim": "They don't use LinkedIn lead gen forms in-platform; all traffic goes to their website",
+        "why_unusual": "Most B2B marketers use LinkedIn native lead gen forms for better conversion; Ncontracts deliberately avoids them",
+        "quote": "No in platform no we don't use there. Okay so it's always on your website? Correct.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "10:28:11 PM"
+      },
+      {
+        "claim": "Highest performing closing teams (FI Black and FI Gold) are negative detractors for conversion, which goes against intuitive understanding",
+        "why_unusual": "Conventionally, best-performing sales teams should positively correlate with conversion; here they negatively influence time-based conversion because their deals take longer and push more",
+        "quote": "showing FI black and FI gold as negative detractors to the conversion, I'm worried that if he saw that, he would immediately write this off because he's like, no, that's not the case. Those are the highest performing teams. you know this how can i trust any of this data if the first thing i see it goes completely against everything we know",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "10:18:47 PM"
+      },
+      {
+        "claim": "Win rate should mean won vs lost, not conversion within a time period — and the industry uses it wrong everywhere",
+        "why_unusual": "Most RevTech vendors define win rate as time-bound conversion probability; this client insists on classical won/lost ratio and warns that CRO will reject 58% 'win rate' as bogus",
+        "quote": "if I were to take a screenshot of this to Matt Peace, he'd be like, why is that win rate? you know our win rate's not 58 where they come up with this whole thing's bogus so we need to make sure we're in front of the uh terminology when we get to that stage",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:10:10 PM"
+      },
+      {
+        "claim": "Cold call as lead source is meaningless for attribution because 95.5% of deals have it as default entry method",
+        "why_unusual": "Most attribution models treat lead source as primary dimension; this client wants it removed entirely because it's not a real differentiator in their system",
+        "quote": "there's a reason 95.5% of our deals have a lead source of cold call. It's just not a thing we use. So if we can remove that as a factor.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "9:58:40 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "implementation",
+        "problem": "Campaign classification rules from initial setup are bucketing paid search pipeline incorrectly to paid ABM/paid social",
+        "quote": "the bulk of our pipeline, MQLs, all of that stuff is going to come from paid search, where we spend most of the money. But I added columns, ROI stuff, and obviously it skews it because it looks like the way it's bucketed, a lot of it gets attributed to paid AVN or paid social. because of that last source before MQL, a lot of, most of that lives in the paid search.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "1:06:21 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Legacy Vennminder opportunities imported from acquisition distorting all historical trends and win rates",
+        "quote": "Man, I almost feel like we should just remove anything legacy Vennminder from all of our prediction models because it breaks everything.",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "11:46:25 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign dashboard fails to fetch data and missing campaigns from list",
+        "quote": "most of the time when i pull this dashboard up both sections say failed to fetch data",
+        "speaker": "Jasonbeddall",
+        "timestamp": "12:03:40 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Projection tracking widget has known issue with total projection not properly reconciling",
+        "quote": "there's a known issue with the total projection in this tracker uh which the team is getting sorted",
+        "speaker": "Jayaram",
+        "timestamp": "12:15:52 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Pipeline projections overinflated for high-volume, low-converting channels (webinar, nurture, conference)",
+        "quote": "like their individual channels sources That are over inflated. And I think Jay, you said, because. You're looking at lead volume and the lead volume is so high. Like that's skewing the prediction model.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "10:32:39 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about what 'win rate' means in RevSure vs standard definition — conversion probability vs won/lost ratio",
+        "quote": "we are using it differently than they do in these projections. So like that final 57.8%, that's not a win-loss comparison. That is a conversion to ARR percentage.",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:09:25 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about whether FI Black/Gold negative factors apply to MQL-to-pipe vs pipe-to-close conversion",
+        "quote": "I'm wondering if those. those were applied to mql the pipeline conversion percentages and if those teams are negative detractors for that conversion from pre-pipe into pipe which could make sense because those teams you know they're the best at closing deals they're not the best at converting leads to pipe",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:14:37 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Monthly projections require framework redesign, considerable changes, multiple weeks to implement",
+        "quote": "it's going to take us a couple of weeks to get done and has impacts across the application and existing tenants as well. So that's a work in progress.",
+        "speaker": "Jayaram",
+        "timestamp": "11:04:26 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Ability to stack and weight different elements of an opportunity for high-accuracy forecast percentage is impressive",
+        "quote": "I think one of the things I was most impressed with when I saw the back end of this was your ability to stack and weight different elements of an opportunity to combine into a high accuracy forecast percentage.",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "1:16:30 AM"
+      },
+      {
+        "summary": "Page visit journeys feature provides valuable insight into what prospects consume before becoming pipeline",
+        "quote": "If for your team, right, they want to see what are people consuming on your site, this is one way, right? So of that 510 opportunities, of those 436 different journeys, average steps is activity touches, right?",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:08:17 PM"
+      },
+      {
+        "summary": "Funnel conversion attribution with Markov chains helps identify next best action at each stage",
+        "quote": "Essentially what this is trying to help you triangulate is what is that next best action, right? From this point to that point, what is that next best action to get them to the following stage?",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "10:58:54 PM"
+      },
+      {
+        "summary": "Projections exploration and top factors influencing win rate provides transparency into model drivers",
+        "quote": "here is a widget, right? And it jots out the top factors influencing the win rate. Coin quarter shows you the opportunity value. from this factor, the mix, the relative win rate, the influence on the win rate, and the win rate percentage.",
+        "speaker": "Jayaram",
+        "timestamp": "9:57:43 PM"
+      },
+      {
+        "summary": "Model recognizes push/pull behavior patterns that match intuition about Q3 activity",
+        "quote": "it's interesting seeing the model recognize what we're trying to do",
+        "speaker": "Kristopher Elliott",
+        "timestamp": "9:33:43 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Opportunity count validation now closely matches between RevSure and Salesforce",
+          "quote": "Like from an opportunity sourced pipeline count standpoint, like this is really, really close. And I can live with ultimately, like we want to get it as right as possible",
+          "speaker": "Jasonbeddall",
+          "timestamp": "10:46:03 PM"
+        },
+        {
+          "win": "Can now filter and analyze pipeline by opportunity owner team for better segmentation",
+          "quote": "So what we're going to look at in the table below. So say like, of this conference event, and this owner team, what is the attributed impact",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:47:14 PM"
+        },
+        {
+          "win": "Removed funnel lead source from model factors as requested",
+          "quote": "the funnel lead source that you wanted to remove that change has been made so there's the sync that is running currently post which it will be removed",
+          "speaker": "Jayaram",
+          "timestamp": "9:12:29 PM"
+        },
+        {
+          "win": "Enabled historical projection tracking widget to go back in time and see previous projections",
+          "quote": "there's a widget uh in pipeline analytics that let you do that uh we'll enable it requires a reconciliation of historical data uh but yeah we do support that",
+          "speaker": "Jayaram",
+          "timestamp": "10:58:36 PM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Want content team to see how blogs, white papers, and assets contribute to conversions and MQLs",
+          "quote": "I know our content team, right, is super interested in seeing how content, how our blogs and white papers and things like that, like how those are contributing to conversions and MQLs and things like that.",
+          "speaker": "Jasonbeddall",
+          "timestamp": "11:00:16 PM"
+        },
+        {
+          "win": "Replace manual forecasting report process entirely with automated RevSure projections",
+          "quote": "how could I replace that manual forecasting report process and look at it in a similar matter that breaks out by team, that breaks out by movement, and breaks out by current time in month that is more digestible",
+          "speaker": "Kristopher Elliott",
+          "timestamp": "10:16:16 PM"
+        },
+        {
+          "win": "Identify red flag months ahead of time to pull marketing levers and backfill pipeline shortages",
+          "quote": "the ability to look into the future and identify red flag months when we know we're going to be short for February. Let's turn up the whatever levers we need to on the marketing side to try to backfill a known shortage coming soon.",
+          "speaker": "Kristopher Elliott",
+          "timestamp": "10:18:22 PM"
+        },
+        {
+          "win": "Monthly projections to match how CRO thinks and operates",
+          "quote": "that would be the other piece of this is being able to see these you know piece by piece projections and elements from quarterly perspective so i could look to him and say hey you know q3 is what it is but let's look at november are we going to be in an okay spot for november how's our october starting to shape up",
+          "speaker": "Kristopher Elliott",
+          "timestamp": "9:35:16 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Power BI",
+      "Gong forecasting",
+      "HubSpot",
+      "Salesforce campaigns",
+      "Manual spreadsheets for event spend",
+      "Manual spreadsheet forecast scorecard",
+      "Salesforce"
+    ],
+    "pain_summary": "Could not accurately attribute paid search to pipeline; used Frankenstein last-source-before-MQL system; conference/event ROI tracking broken; sales reps manipulated stages; forecasts unreliable",
+    "kpis_unhealthy": [
+      "paid search pipeline attribution",
+      "campaign ROI accuracy",
+      "forecast accuracy",
+      "opportunity stage hygiene",
+      "activity tracking",
+      "pipeline forecast accuracy (unbenchmarked)",
+      "month-to-month predictability",
+      "marketing attribution beyond last-touch",
+      "time spent on manual forecasting"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Building confidence in pipeline projections with validated opportunity counts; exploring funnel conversion attribution and journey analytics; still resolving spend double-counting and sync reliability",
+    "wins_realized": [
+      "Opportunity count validation matching Salesforce",
+      "Pipeline generation date logic fixed",
+      "Qualified AI BDR $500K pipeline tracked",
+      "Owner team segmentation enabled",
+      "Removed misleading funnel lead source factor",
+      "Enabled historical projection tracking",
+      "Q3 projection accuracy 96% volume / 93% value",
+      "Created combined event views with targets",
+      "Identified that high-volume low-converting channels were overinflating projections"
+    ],
+    "open_issues": [
+      "Google spend double-counting",
+      "Salesforce sync timing/reliability",
+      "Legacy Vennminder data distortion",
+      "Monthly projections view not yet available",
+      "Campaign classification refinement ongoing",
+      "Paid attribution model still being validated",
+      "Monthly projections still in development (2-3 weeks)",
+      "Campaign dashboard data fetch failures",
+      "Analysis date defaulting incorrectly on refresh",
+      "Need to filter out renewals and one-time fees from model",
+      "Opportunity size estimation skewed for certain channels",
+      "Need to add sales activity as campaign touches for full influence picture"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Ncontracts All Calls (2).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 2
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 7,
+      "tools_switched_from": 3,
+      "political_tussles": 3,
+      "contrarians": 6,
+      "revsure_problems": 8,
+      "best_about_revsure": 5,
+      "wins_immediate": 4,
+      "wins_long_term": 4
+    }
+  }
+}

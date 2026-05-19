@@ -1,0 +1,178 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Ncontracts",
+  "call_type": "initial_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Cannot draw clear line from ad spend to pipeline to bookings",
+        "quote": "we're investing so much money and paid, how are we drawing that line from a dollar in ad spend to a dollar in pipeline and a dollar in bookings. Yeah. We've had a really tough time doing that.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:03:11 PM"
+      },
+      {
+        "summary": "Last-touch attribution creates misleading direct traffic attribution",
+        "quote": "it leads to what I think most would expect is a is an unusually large amount of direct traffic attribution. Which makes sense in a cookie list world and all sorts of things.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:04:42 PM"
+      },
+      {
+        "summary": "Cannot see journey before last touch to understand influence",
+        "quote": "what did they do right before that? What's the journey to get there? Did paid ads influence it, you know, a week ago or two weeks ago or whatever And be able to, to draw a little more clear kind of direct influence instead of maybe last touch influence.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:04:42 PM"
+      },
+      {
+        "summary": "Salesforce campaigns only capture one touch per day, missing multi-touch influence",
+        "quote": "if there's two campaigns that affected a contact or three within the same day, it's only capturing one of those in Salesforce. So we're, we're only looking at one of the things in the overall attribution just within one day.",
+        "speaker": "Mary Bellows",
+        "timestamp": "11:15:44 PM"
+      },
+      {
+        "summary": "Data scattered across platforms requiring manual jumping between systems",
+        "quote": "we're just trying to draw the line from, from start to finish and we keep, we have to jump platforms I think to get it instead of being able to aggregate that data in one place and see the",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:14:53 PM"
+      },
+      {
+        "summary": "Homegrown attribution solution only achieves decent approximation, not trusted",
+        "quote": "I would say like a, like a decent approximation of data by channel. I don't, I don't trust it fully. Like I don't think it's a hundred percent right? I don't think it's 90% right. I think it's it's as close, it's as close as we're probably gonna get.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:11:37 PM"
+      },
+      {
+        "summary": "Salesforce setup with reversed lead-to-contact flow creates data challenges",
+        "quote": "our Salesforce is set up a little bit differently. It's been a challenge for us where we have multiple leads associated with contacts where it's typically they'll start as a contact, become a lead. We do things reversed.",
+        "speaker": "Mary Bellows",
+        "timestamp": "11:09:15 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Homegrown attribution (custom fields in HubSpot and Salesforce)",
+        "vendor": "Internal",
+        "reason": "Could only achieve decent approximation, not trusted for accuracy",
+        "quote": "Essentially we've tried to build it on our own capture fields and HubSpots and the sales force. And it's gotten us, I would say like a, like a decent approximation of data by channel. I don't, I don't trust it fully.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:11:37 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "Finance/PE firm",
+          "Leadership"
+        ],
+        "tension_label": "attribution methodology disagreement",
+        "summary": "PE firm wants clean last-touch ROI; marketing believes buyers don't work linearly",
+        "quote": "I think finance people love last touch attribution 'cause it's very clean and sort of linear and I don't think that's how buyers work. So there's a, there's a little bit of a sell job on our end too. You know, when I told my boss we were having this conversation and why he was like, you know, it sounds, and he marketing it sounds s murky. So it's like, you know, well it sounds, it sounds kind of nebulous and like, you know, PE firms are like, we don't care about influence. We just wanna know about, you know, so there's a little bit of, it sounds there's a little bit of that too.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:17:01 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Last touch attribution may be a losing battle, not just suboptimal",
+        "why_unusual": "Most vendors pitch multi-touch as better; client suggests last-touch may be fundamentally futile in modern environment",
+        "quote": "Also maybe think last touch attribution is maybe a losing battle.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:04:42 PM"
+      },
+      {
+        "claim": "Finance loves last-touch because it's clean, even though it's wrong about how buyers behave",
+        "why_unusual": "Explicitly acknowledges the political appeal of bad data to finance stakeholders; most buyers hide this tension",
+        "quote": "I think finance people love last touch attribution 'cause it's very clean and sort of linear and I don't think that's how buyers work.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:17:01 PM"
+      },
+      {
+        "claim": "PE firms explicitly don't care about influence, only direct attribution",
+        "why_unusual": "Blunt statement that PE firms reject influence-based measurement entirely; most vendors pretend PE cares about full-funnel",
+        "quote": "PE firms are like, we don't care about influence. We just wanna know about, you know, so there's a little bit of, it sounds there's a little bit of that too.",
+        "speaker": "Jasonbeddall",
+        "timestamp": "11:17:01 PM"
+      }
+    ],
+    "revsure_problems": [],
+    "best_about_revsure": [
+      {
+        "summary": "Platform makes complex information easy to digest even for non-go-to-market stakeholders",
+        "quote": "the kudos we get from our teams is kind of how easy the information is to digest. It's a lot of information, don't get me wrong. But even to non go-to market voices and, and stakeholders, they can understand like, oh, okay, it's not quite a Venn diagram, but I understand who is what and getting where.",
+        "speaker": "E.T. Mac",
+        "timestamp": "11:17:47 PM"
+      },
+      {
+        "summary": "Ability to track anonymous visitors back to first interactions before becoming known",
+        "quote": "those first interactions three weeks ago from that, from that gcl, from that Google display ad, we can go back and track that.",
+        "speaker": "Alex Cox",
+        "timestamp": "11:06:58 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [],
+      "long_term": [
+        {
+          "win": "Prove compelling use case to secure budget from finance",
+          "quote": "I think we'll have to prove a pretty compelling use case before we can get the, you know, before we have finance go find money somewhere.",
+          "speaker": "Jasonbeddall",
+          "timestamp": "11:13:22 PM"
+        },
+        {
+          "win": "Understand channel ROI for new PE firm ownership",
+          "quote": "this is new for us and this is one of the things they're, they're really big on is understanding channel ROI.",
+          "speaker": "Jasonbeddall",
+          "timestamp": "11:11:37 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "HubSpot",
+      "Salesforce",
+      "Homegrown custom fields"
+    ],
+    "pain_summary": "Cannot trust attribution data; last-touch creates misleading direct traffic; multi-platform data fragmentation; reversed lead-contact Salesforce setup",
+    "kpis_unhealthy": [
+      "channel ROI measurement",
+      "campaign attribution accuracy",
+      "paid media to pipeline connection",
+      "multi-touch journey visibility"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "",
+    "wins_realized": [],
+    "open_issues": []
+  },
+  "_meta": {
+    "source_files": [
+      "Ncontracts Initial Calls.md"
+    ],
+    "total_chunks": 1,
+    "extracted_chunks": 1
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 7,
+      "tools_switched_from": 1,
+      "political_tussles": 1,
+      "contrarians": 3,
+      "revsure_problems": 0,
+      "best_about_revsure": 2,
+      "wins_immediate": 0,
+      "wins_long_term": 2
+    }
+  }
+}

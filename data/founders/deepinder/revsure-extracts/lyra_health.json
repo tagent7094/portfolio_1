@@ -1,0 +1,842 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Lyra Health",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Bizible caused division between teams due to lack of understanding about attribution",
+        "quote": "I think it's just a lack of understanding about what we're trying to do with attribution, right? So sometimes we have sales calls, so we have a sales ops team and they've been trying to create goals for attribution saying that the sales team is gonna, you know, be driving X percent, you know, of pipeline using whatever attribution model and market marketing's gonna be driving another percentage. And I think there's a confusion sometimes because, you know, obviously you're sales or you're maybe a partnership, you're a strategic alliances team and you're not hitting the goal, but you don't understand what goes into what, what 30% attribution actually means, right? Because it's really activity based. So I think that's where it's been a little problematic",
+        "speaker": "Bobby Mehta",
+        "timestamp": "10:35:27 PM"
+      },
+      {
+        "summary": "Attribution used to divide rather than unify teams",
+        "quote": "the way we leverage attribution, even at, at a company has been more to divide, rather to unify or make optimization decisions",
+        "speaker": "Harjot (Harr-Joe-T) (He/Him)",
+        "timestamp": "10:36:28 PM"
+      },
+      {
+        "summary": "Manual custom Tableau reporting for campaign and channel attribution was time-consuming",
+        "quote": "we've basically been able to leverage visible touch points and stitch together semblance of channel and campaign attribution using Tableau to visualize and, and get those standard reporting out. But it's pretty manual and custom",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "10:34:03 PM"
+      },
+      {
+        "summary": "Difficulty forecasting pipeline based on marketing activities",
+        "quote": "what is hard for us right now is the predictability, pre predictability of forecasting a pipeline based on our marketing activities and other activities that are ha are happening at an account level",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "11:38:34 PM"
+      },
+      {
+        "summary": "Running two systems in parallel is costly",
+        "quote": "running two systems in parallel is costly for us",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "11:37:54 PM"
+      },
+      {
+        "summary": "Security and legal reviews take significant time for new vendor onboarding",
+        "quote": "security is gonna take its time",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "11:44:22 PM"
+      },
+      {
+        "summary": "Need raw data outside platform for custom analytics and ad hoc requests",
+        "quote": "we still want that ability to reference the touchpoint data in Salesforce, because we do leverage just direct Salesforce reports quite often",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:55:21 PM"
+      },
+      {
+        "summary": "Event and webinar spend not consistently tracked in Salesforce, hurting ROI analysis",
+        "quote": "I think what I did, I had to do an analysis last year and so I asked them to go back in 2024 and populate the spend in a lot of those. So a lot of the 2024 events have it but they're not doing it in a live kind of as we go basis",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "12:18:20 AM"
+      },
+      {
+        "summary": "Difficulty getting structured answers and building the system has taken a toll on the team with excessive back-and-forth",
+        "quote": "I've just been hearing feedback from the team and I just want to convey that is that just getting to the end results just involves a lot of back and forth and it's personally has taken a lot of toll on the team to build the system and to build the process. We haven't been able to get structured answers yet.",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "12:08:36 AM"
+      },
+      {
+        "summary": "Still in setup mode more than halfway through contract, which is too long for a SaaS product",
+        "quote": "we are almost more than halfway through our contract for the year and we're still in setup mode, I would say. And having this much time in setup is way too much from a SaaS point of view.",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "12:09:27 AM"
+      },
+      {
+        "summary": "Difficulty understanding campaign type vs channel taxonomy and how data is categorized",
+        "quote": "Just, just on that for instance, but since there are so many nuances and you're learning the system. Is there contextual help as we look at, like, as you were describing what's the difference between campaign type and channel is a contextual help right there itself, or, or we have to go search somewhere else.",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "11:46:34 PM"
+      },
+      {
+        "summary": "Challenges with duplicate data from Marketo requiring them to turn off Marketo data feeds",
+        "quote": "I think what we did, correct me if I'm wrong, but I think we turned off sending any Marketo data over because it was creating duplicates. We used Salesforce email using SFDC campaigns to track emails.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "12:14:16 AM"
+      },
+      {
+        "summary": "Need to audit and validate large numbers that seem unexpectedly high, like 654 opportunities progressing to qualification",
+        "quote": "Yeah, that seems high. Is there a way for us to audit this? We don't have to do it live on this call, but, like, if we wanted to check that these 654 were legitimate or if we needed to tweak anything.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "12:07:49 AM"
+      },
+      {
+        "summary": "Difficulty getting to answers without guided help - wouldn't have been able to navigate to quarterly comparison view alone",
+        "quote": "And so I like this is another like how do I get back to I just click the grid. No, see, it's great. Great data and like I just, it's hard to get to it, you know, we like I don't know that I would have been able to get there on my own without us going through those questions and answers",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:59:46 PM"
+      },
+      {
+        "summary": "Operational challenge of getting spend data into Salesforce for non-ad channels like events and webinars",
+        "quote": "completing our spend picture, right? Because we don't currently operationally, we're not putting in spend like we should be in Salesforce. So like that's gonna be an operational project we take on.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "12:20:41 AM"
+      },
+      {
+        "summary": "Pipeline projection showed 50% increase with only 7 days left in quarter, which seemed unrealistic",
+        "quote": "i think the projection like had a 50 increase based on what we have right now and there was only seven days left in the quarter so that seemed a little high to us",
+        "speaker": "Bobby Mehta",
+        "timestamp": "11:34:13 PM"
+      },
+      {
+        "summary": "Difficulty packaging RevSure data into a story that makes sense for leadership QBRs",
+        "quote": "I do feel like there's a lot of good data in RevSure for us, how do we package it in a story that makes sense to deliver to our leaders? You know, that's what we run into.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "8:40:28 PM"
+      },
+      {
+        "summary": "Salesforce permissions still missing after multiple sync attempts, blocking pipeline projections",
+        "quote": "I know we've been going back and forth on Salesforce. The team mentioned to me they tried a full sync again today, but it seems like the permissions are still missing.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "8:04:10 PM"
+      },
+      {
+        "summary": "Pipeline projections were severely inaccurate, showing 126M vs actual 46M in Q4 2025",
+        "quote": "our projections showed somewhere around 126 million for last quarter, and the actual pipeline was around 46 million, so that was way off",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "12:36:07 AM"
+      },
+      {
+        "summary": "Pipeline generation declining significantly year over year, especially from SDR/BDR team",
+        "quote": "if you look at February in particular they generated 100 million and this year only nine oh",
+        "speaker": "Bobby Mehta",
+        "timestamp": "10:42:24 PM"
+      },
+      {
+        "summary": "Opportunity values in Salesforce are unreliable due to automatic calculation based on employee count",
+        "quote": "the way they actually have the initial opportunity value is a number of employees times a fixed price per employee",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "11:22:34 AM"
+      },
+      {
+        "summary": "BDR/SDR team underperforming with low activity levels on calls and emails",
+        "quote": "we have an SDR team that we believe is underperforming. and you know we've taken corrective action to kind of you know get them to a certain threshold of activity every day in terms of calls and emails",
+        "speaker": "Bobby Mehta",
+        "timestamp": "11:41:16 PM"
+      },
+      {
+        "summary": "Marketing engagement down 30% year over year",
+        "quote": "they are down for marketing, they're down by marketing for about 30%",
+        "speaker": "Bobby Mehta",
+        "timestamp": "11:44:34 PM"
+      },
+      {
+        "summary": "Difficulty getting accurate spend data into Salesforce for ROI calculations",
+        "quote": "that's the lift right is getting our spend consistently in salesforce for a lot of days",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:50:24 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Bizible (Visible)",
+        "vendor": "Microsoft",
+        "reason": "Limited flexibility, no recommendation engine, caused team division, stopped innovating",
+        "quote": "I think it's, I think it's fine. I think that it does seem quite limited, you know, when you're talking about attribution, it's not that flexible. Yeah. But there are some attributes that we do like, you know, if you're just thinking about touchpoint it do, it does a great job. Just being able to surface the touchpoints that all our prospects are, you know, engaging with us, being able to report on that's really useful, but it doesn't really have a recommendation engine, which your product does",
+        "speaker": "Bobby Mehta",
+        "timestamp": "10:33:17 PM"
+      },
+      {
+        "tool": "Bizible (Visible)",
+        "vendor": "Microsoft",
+        "reason": "Caused division between teams rather than unifying them",
+        "quote": "the way we leverage attribution, even at, at a company has been more to divide, rather to unify or make optimization decisions. So it was, it's more around that education piece too, is that people start to create division based on attribution",
+        "speaker": "Harjot (Harr-Joe-T) (He/Him)",
+        "timestamp": "10:36:28 PM"
+      },
+      {
+        "tool": "Bizible (Visible)",
+        "vendor": "Microsoft",
+        "reason": "Stopped innovating for three years",
+        "quote": "they've really stopped innovating on biz and not done anything at all for the last three years",
+        "speaker": "Harjot (Harr-Joe-T) (He/Him)",
+        "timestamp": "11:27:12 PM"
+      },
+      {
+        "tool": "Tableau",
+        "vendor": "Salesforce",
+        "reason": "Used for custom visualization but required extensive manual work to build reports that RevSure offers out of the box",
+        "quote": "with those are things that we would spend, you know, hours on, you know, trying to build in Tableau. So to see it out of the box, it makes sense",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:11:03 PM"
+      },
+      {
+        "tool": "Visible",
+        "vendor": "Visible",
+        "reason": "Limited to contact role attribution only, cannot switch between attribution models",
+        "quote": "we're limited and visible we can't really just switch between attribution models right it is contact role and that's what we're stuck with",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "8:25:23 PM"
+      },
+      {
+        "tool": "Tableau",
+        "vendor": "Salesforce",
+        "reason": "Using for reporting but wanted integrated solution; still using Tableau with Salesforce data",
+        "quote": "Bobby and Josh, they do reporting in Tableau using Salesforce tables.",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "11:49:57 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Sales",
+          "Marketing",
+          "Partnerships",
+          "Strategic Alliances"
+        ],
+        "tension_label": "Attribution goal confusion and finger-pointing",
+        "summary": "Sales ops created attribution goals that teams didn't understand, leading to finger-pointing when goals were missed",
+        "quote": "sometimes we have sales calls, so we have a sales ops team and they've been trying to create goals for attribution saying that the sales team is gonna, you know, be driving X percent, you know, of pipeline using whatever attribution model and market marketing's gonna be driving another percentage. And I think there's a confusion sometimes because, you know, obviously you're sales or you're maybe a partnership, you're a strategic alliances team and you're not hitting the goal, but you don't understand what goes into what, what 30% attribution actually means",
+        "speaker": "Bobby Mehta",
+        "timestamp": "10:35:27 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales",
+          "SDR/BDR",
+          "Partners"
+        ],
+        "tension_label": "Attribution used to divide teams rather than optimize",
+        "summary": "Harjot notes attribution was weaponized to create division rather than drive optimization decisions",
+        "quote": "the way we leverage attribution, even at, at a company has been more to divide, rather to unify or make optimization decisions. So it was, it's more around that education piece too, is that people start to create division based on attribution",
+        "speaker": "Harjot (Harr-Joe-T) (He/Him)",
+        "timestamp": "10:36:28 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "CRO"
+        ],
+        "tension_label": "Pipeline accountability and forecasting pressure",
+        "summary": "Marketing leader reports to CRO and faces pressure to show what marketing is doing to generate pipeline next quarter",
+        "quote": "our growth leader reports directly to the CRO. The past has been reporting to the head of sales is the question always will come is what is marketing doing that will generate pipeline in the next quarter or the two quarters? What does that projection looks like based on active campaigns? I think giving that answer sometimes is hard",
+        "speaker": "Harjot (Harr-Joe-T) (He/Him)",
+        "timestamp": "11:15:58 PM"
+      },
+      {
+        "actors": [
+          "Growth Marketing",
+          "Sales"
+        ],
+        "tension_label": "pipeline ownership and quarterly vs annual planning",
+        "summary": "Discussion about whether sales reps change ACV year vs. quarterly pipeline targets, indicating misalignment between marketing's quarterly focus and sales' annual operating model",
+        "quote": "Yeah, I don't gosh I don't think that really applies to us right because we're on an annual system right so we have pipeline for Well, we will for for this year, so obviously twenty twenty five. And then if if if a rep is talking to an account and they're like, hey, we can't make a decision this year, we're going to kick it to next year. All the PD, the rep is going to just change that. What we call ACV year from twenty twenty five to twenty twenty six.",
+        "speaker": "Bobby Mehta",
+        "timestamp": "11:56:18 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "attribution scope - where marketing responsibility ends",
+        "summary": "Josh clarifies that growth marketing's responsibility ends at pipeline creation, not closed-won, suggesting tension about what marketing should be measured on",
+        "quote": "it's basically taking linear model but only applying the linear model to all the touch points before the account reaches pipeline stage like that pipeline is our cutoff like that's kind of where our responsibility ends right",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:50:28 PM"
+      },
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "pipeline ownership and attribution",
+        "summary": "Debate over whether current quarter pipeline is driven by sales activity vs marketing activity",
+        "quote": "the current pipeline is more driven by pipeline in the current quarter is driven by more of the sales activity than more of marketing activity. Right? Because the BDR team and our BD, AEs are the ones who are creating pipeline in the current quarter.",
+        "speaker": "Harjot Singh",
+        "timestamp": "11:54:04 PM"
+      },
+      {
+        "actors": [
+          "RevOps",
+          "Leadership"
+        ],
+        "tension_label": "forecast credibility with executives",
+        "summary": "Leadership presented with 240M projection that later dropped 100M, damaging trust",
+        "quote": "we and I think we actually did share this with senior leadership, you know, if we say, hey, you know, we have this platform and, you know, it's showing, you know, we're going to get to 240 or 250, whatever it was at that time. And then, you know, it actually ends up being like 100 million less. you know that that's a big miss",
+        "speaker": "Bobby Mehta",
+        "timestamp": "11:37:07 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "They want to deliberately NOT position RevSure as an AI tool to avoid triggering additional security scrutiny",
+        "why_unusual": "Most vendors lead with AI messaging; this client wants to downplay AI to speed procurement",
+        "quote": "I am not gonna put this as a AI tool. I'll be very clear. Unless you put something in, in, in from a documentation point of view, I am putting this as a marketing analytics tool",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "11:48:10 PM"
+      },
+      {
+        "claim": "They prefer modular purchase starting with non-attribution modules (predictability) rather than core attribution",
+        "why_unusual": "Most buyers lead with attribution; they lead with pipeline predictability as entry point",
+        "quote": "what we really want as a key thing is the predictability to what is hard for us right now is the predictability, pre predictability of forecasting a pipeline based on our marketing activities",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "11:38:34 PM"
+      },
+      {
+        "claim": "They explicitly do NOT want to use Marketo for email tracking, preferring Salesforce campaigns instead, and turned off Marketo data entirely due to duplicates",
+        "why_unusual": "Most marketing ops teams default to Marketo as source of truth for email engagement; deliberately choosing Salesforce campaign member statuses over native Marketo integration is contrarian",
+        "quote": "I think what we did, correct me if I'm wrong, but I think we turned off sending any Marketo data over because it was creating duplicates. We used Salesforce email using SFDC campaigns to track emails.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "12:14:16 AM"
+      },
+      {
+        "claim": "They don't use forecast category in Salesforce and forecasting is done top-down rather than bottom-up",
+        "why_unusual": "Most mature SaaS companies use Salesforce forecast categories and bottom-up forecasting; Lyra's manual top-down approach with rep-adjusted 'at risk'/'commit' fields is less common",
+        "quote": "So we do have something called manual forecast category where the rep is basically saying, for example, like if they feel like they're not gonna win it, they do at risk, right? If they do feel like they're gonna win it, they would do something like commit. And that's a manual thing that the rep is changing.",
+        "speaker": "Bobby Mehta",
+        "timestamp": "12:16:38 AM"
+      },
+      {
+        "claim": "They don't want to use out-of-box probability percentage; instead use projected win rate as just a projection/expectation",
+        "why_unusual": "Most Salesforce orgs use standard probability fields; explicitly rejecting OOB probability for a custom 'expectation' field is atypical",
+        "quote": "just like the comment says, like we don't use the out of box probability percentage, but that's more about an expectation. There's another field called projected win rate, which is just that, it's just a projection.",
+        "speaker": "Bobby Mehta",
+        "timestamp": "12:18:42 AM"
+      },
+      {
+        "claim": "They want contact roles PLUS buyer persona criteria, not all contacts on account",
+        "why_unusual": "Standard attribution is either contact-role-only or all-contacts-on-account; wanting a hybrid 'contact roles plus specified personas' is unusual",
+        "quote": "better solution, I think Harjit suggested this too, is take contact roles, but then in addition to that, say buyer persona, like if it's a benefits leader, and that's the field we would use, there's a field called buyer persona, it would say if that equals benefits leader, HR leader, benefits specialist, then they are also eligible for attribution, but it's only those folks. It's not someone who's like an analytics manager. We don't really care about his engagement.",
+        "speaker": "Bobby Mehta",
+        "timestamp": "8:26:33 PM"
+      },
+      {
+        "claim": "They don't look at pipeline quarterly because health plans renew annually, making quarterly pipeline metrics misleading",
+        "why_unusual": "Most B2B SaaS companies obsess over quarterly pipeline; Lyra's annual healthcare enrollment cycle makes quarterly views less relevant",
+        "quote": "they don't look at pipeline in a quarterly sense because pipeline for them doesn't necessarily close quarterly, right? Because health plans run like very yearly. So it's like towards the end of the year where they're like building a pipeline, building a pipeline. and then there's like the jumps right because some plans they like renew in october or they renew in like this it's like october november december january",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:40:10 PM"
+      },
+      {
+        "claim": "MMX (marketing mix modeling) is better for budget reallocation than campaign-level attribution when budgets are flat",
+        "why_unusual": "Most vendors push incremental budget scenarios; Lyra's reality is zero incremental budget, making reallocation the only use case",
+        "quote": "we're at an organization where budgets are kind of locked, right? So it's rare that we find ourselves, actually it doesn't happen, where we have incremental budget to spend. So it would just be in a reallocation exercise, right?",
+        "speaker": "Bobby Mehta",
+        "timestamp": "1:28:40 AM"
+      },
+      {
+        "claim": "Content syndication should potentially be excluded from pipeline modeling despite what data might show",
+        "why_unusual": "Revenue teams usually want all data included; explicitly wanting to exclude a channel based on business judgment is unusual",
+        "quote": "we don't want to take into account content syndication activity as an example do we want to filter that out in our pipeline modeling as an example",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "1:23:15 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Cannot easily create custom calculated metrics on the fly for combined funnel stage analysis",
+        "quote": "if me or Josh wanted to do like target plus awareness, plus consideration, plus MQA, you know like that come that number combined and then just do cost divided by that number. Yeah, I mean it's kind of an ROI, you know, kind of something like that",
+        "speaker": "Bobby Mehta",
+        "timestamp": "12:21:35 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Custom Salesforce object writeback not yet available as turnkey managed package",
+        "quote": "this is a newer avenue that we're exploring as far as like the development to get it outside of like what we've historically had",
+        "speaker": "Jerry Henry",
+        "timestamp": "11:47:29 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "BigQuery export costs additional $15K/year, not included in base pricing",
+        "quote": "it would potentially be around 15k a year to get everything from RevSure into Tableau for you",
+        "speaker": "Jerry Henry",
+        "timestamp": "11:32:51 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "FCA (Funnel Conversion Attribution) configuration requires backend trigger and takes 1-2 hours to run",
+        "quote": "the configurations in FCA take an hour or two to run, and then they're available",
+        "speaker": "Harry Hawk",
+        "timestamp": "12:20:13 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cannot do double split in cohort progression view (e.g., topic + territory market)",
+        "quote": "here there isn't that double split. There's just the split of what we're seeing attribution by right",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:00:36 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Custom engagement type filters not working together with opportunity pipeline date filter",
+        "quote": "it could be some I'll I'll I'll check with the team again, because I had checked with them this morning. But I'll check again about those filters working together and how we can make them work together",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:43:05 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about snapshot view vs. cohort view for quarterly reporting",
+        "quote": "I was kind of expecting it to be, so like if we change the date filter to previous fiscal quarter, for example, that would show the snapshot of the previous fiscal quarter, but that's not the case",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:37:55 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about what 'entered final stage' means vs. maximum stage reached in a quarter",
+        "quote": "I would kind of expect that this, I get that it's a snapshot now. this is rendered less useful for us, these two filters, right? Because I mean, ultimately what we're looking at is where's their stage now, right? In the snapshot, what stage are they in right now? And that's always gonna be the case, right?",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:37:55 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "UI icons are misleading - table view icon looks like it should show a line chart, causing confusion",
+        "quote": "See this to me, like it makes me think I'm going to click on see a line chart when I see that. Exactly. Same, same with this, just their minor, it's minor UI things, but it's good to know that's how it's supposed to be read. I would have intuitively thought that.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "12:00:47 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "The 'snapshot' feature is misnamed - it's actually a scheduled PDF report, not a data snapshot for comparison",
+        "quote": "I think the industry term is very different from snapshots. I got confused. So that's probably a piece of feedback to that. I thought snapshot is a data snapshot you take that you can use for comparison. So this is very different.",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "12:17:16 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Still in setup mode after more than half the contract period",
+        "quote": "we are almost more than halfway through our contract for the year and we're still in setup mode, I would say. And having this much time in setup is way too much from a SaaS point of view.",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "12:09:27 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Difficulty distinguishing campaign type vs channel vs source system and how they hierarchically relate",
+        "quote": "Quick question. What's the difference between campaign type and channel? They seem to be similar.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:45:31 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Pipeline projection showed impossible 50% increase with 7 days left in quarter",
+        "quote": "i think the projection like had a 50 increase based on what we have right now and there was only seven days left in the quarter so that seemed a little high to us",
+        "speaker": "Bobby Mehta",
+        "timestamp": "11:34:13 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Model includes factors like product type and territory that don't make sense for pipeline prediction before opportunity creation",
+        "quote": "if you look at factors, it's taking into account factors like product, which are not defined at opportunity level, like opportunities not even created, how do you even take product into consideration at that point?",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "12:45:04 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Salesforce permissions still missing after multiple full sync attempts, blocking data flow",
+        "quote": "The team mentioned to me they tried a full sync again today, but it seems like the permissions are still missing.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "8:04:10 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client struggling to package RevSure data into leadership-ready QBR stories",
+        "quote": "I do feel like there's a lot of good data in RevSure for us, how do we package it in a story that makes sense to deliver to our leaders?",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "8:40:28 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Pipeline projection wildly inaccurate (126M vs 46M actual) due to outlier quarter not being detected",
+        "quote": "our projections showed somewhere around 126 million for last quarter, and the actual pipeline was around 46 million, so that was way off",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "12:36:07 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Model too slow to correct downward when velocity slows mid-quarter",
+        "quote": "it corrected but it took a long time for it to correct",
+        "speaker": "Bobby Mehta",
+        "timestamp": "11:37:42 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Amazon deal value showed as $142M in RevSure when actual was $11.6M due to using initial opportunity value not latest",
+        "quote": "when i look at in salesforce it's 11.6 million and you guys have like a hundred if you go back to that view we were just looking at it yeah uh",
+        "speaker": "Bobby Mehta",
+        "timestamp": "12:48:39 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Data sync delays causing stale opportunity values in RevSure",
+        "quote": "How often is that supposed to happen? We are having some issues",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "11:12:40 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confused about difference between campaign reallocation (within channel) and MMX (across channels)",
+        "quote": "yeah but that then that in that case like would you not rely on campaign reallocation rather than looking at an mmx model",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "1:33:47 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Feature toggle for using latest opportunity value vs initial value not properly configured initially",
+        "quote": "there is a feature toggle that controls which value you see whether you see the first one at the time of pipeline creation or we use the latest value",
+        "speaker": "Jayaram Thiyagarajan",
+        "timestamp": "11:13:05 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Out-of-box functionality saves hours of Tableau custom reporting",
+        "quote": "with those are things that we would spend, you know, hours on, you know, trying to build in Tableau. So to see it out of the box, it makes sense",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:11:03 PM"
+      },
+      {
+        "summary": "Complete traceability to opportunity/account level for validation",
+        "quote": "Our perspective is you should be able to, traceability is very important to the most grand level. So if I say that this campaign generated this much pipeline or from an attribution perspective, you should be able to look at that pipeline, right? And validate at that opportunity level or at that account level what the, what opportunities and where that, where that particular campaign touched a particular opportunity or not",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:08:05 PM"
+      },
+      {
+        "summary": "Flexibility to switch between lead-based and account-based funnels",
+        "quote": "very easily we are able to switch between perspectives, have an account based funnel, lead based funnel account, you might have a lead based funnel, but you might might want to have an account perspective",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "10:44:27 PM"
+      },
+      {
+        "summary": "Transparency of data foundation vs. black-box approach",
+        "quote": "The reason being that, you know, you need to have trust on the data itself, right? What data and what coverage we are taking care of, right? So for example, here I've harmonized all of the data. This is the SHO data model, leads, accounts, activities, campaigns, campaign members, et cetera. But it's a fusion data model",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "10:50:45 PM"
+      },
+      {
+        "summary": "Team impressed with RevSure's intelligence and capabilities",
+        "quote": "You guys are in the top 5% of the smartest marketing team we have run into. And that's exactly who we wanna work with because the only people that are gonna know how to really leverage rev share to the peak is gonna be, well your team is definitely in our top",
+        "speaker": "E.T Mac",
+        "timestamp": "11:42:15 PM"
+      },
+      {
+        "summary": "Pipeline predictability answers CRO's key question about future pipeline",
+        "quote": "it does actually, and it's, it's too good to please for sure that you can get all that out of box and give those answers. So yeah. But this is really helpful and, and exactly what we are looking for",
+        "speaker": "Harjot (Harr-Joe-T) (He/Him)",
+        "timestamp": "11:17:36 PM"
+      },
+      {
+        "summary": "Appreciation for Francisco's patience and guidance through repeated questions",
+        "quote": "Thank you for all the explanations and answering questions we probably asked more than once. You've been very patient and I appreciate both of your guidance.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:52:46 PM"
+      },
+      {
+        "summary": "Excitement about Google ad group level data for digital team optimization",
+        "quote": "That's awesome Our digital team will love this",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "12:23:39 AM"
+      },
+      {
+        "summary": "Praise for journey visualization power for win analysis",
+        "quote": "This is powerful, right? Because you could do a win analysis, right? You could look at all the opportunities we've won and try to see if there's any commonalities for journeys. So yeah, this is cool.",
+        "speaker": "Bobby Mehta",
+        "timestamp": "12:02:28 AM"
+      },
+      {
+        "summary": "Appreciation for video enablement materials being super clear",
+        "quote": "Yeah, it was very helpful and super clear. Thank you for that.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:40:34 PM"
+      },
+      {
+        "summary": "Recognition that account progression reporting is in good shape to answer business questions",
+        "quote": "So I feel like we're in a pretty good place where we can answer a lot of those account progression questions we wanted to.",
+        "speaker": "Josh Holzhaeuser",
+        "timestamp": "11:51:47 PM"
+      },
+      {
+        "summary": "Appreciation for Francisco's quick work adding fields and API names to shared document",
+        "quote": "Great, look at that, super fast.",
+        "speaker": "Bobby Mehta",
+        "timestamp": "12:21:02 AM"
+      },
+      {
+        "summary": "Praise for Bobby's well-documented statistics and field definitions",
+        "quote": "There's a lot of great statistics very very Well written out Bobby great job.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:21:10 AM"
+      },
+      {
+        "summary": "Appreciation for RevSure team's transparency and willingness to explain methodology",
+        "quote": "thank you all for sharing this. This is very helpful",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "1:19:05 AM"
+      },
+      {
+        "summary": "Historical comparison view (FY24, FY25, FY26 side by side) is very valuable for executive communication",
+        "quote": "that view was very helpful if you can make with additional projection on top of it",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "12:48:03 AM"
+      },
+      {
+        "summary": "RevSure team responsive to feedback and quick to implement changes",
+        "quote": "we really appreciate the time that was spent today and it was very helpful",
+        "speaker": "Harjot (Harr-Joe-T)",
+        "timestamp": "1:35:40 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Pipeline predictability module showing day-by-day quarter projections",
+          "quote": "you are in day 39 of the quarter, and what we are predicting is by the end of this quarter marketing, and you could kind of filter right to various aspects by region, channel, industry, opportunity source, et cetera, how much pipeline you'll end up generating by the end of the quarter",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "11:15:58 PM"
+        },
+        {
+          "win": "Campaign reallocation recommendations identifying unproductive spend",
+          "quote": "this reallocation module automatically identifies the campaigns and about $200,000 of on productive spend, right? That went into events that really didn't generate any pipeline value and reallocating that to the top performing events",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "11:20:54 PM"
+        },
+        {
+          "win": "Account-level journey stitching and touchpoint aggregation",
+          "quote": "for each of these accounts, right? I also have, let's say, some of the more active accounts here, you know, I have also the journey for this account, right? All of the touches that are happening, and you could select, okay, which contact name, you know, all of these contacts within the account, so I've aggregated at the account level",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "10:53:49 PM"
+        },
+        {
+          "win": "LinkedIn organic post performance tracking (impressions, clicks, reactions, comments)",
+          "quote": "with RepShirt, we're also able to to pull in like your LinkedIn posts, like your organic LinkedIn posts, and show you like the click scenes, impressions, suspense, and the comments",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:25:35 AM"
+        },
+        {
+          "win": "UTM-level funnel stage impact tracking",
+          "quote": "we've developed these dimensions, so we're able to see the funnel stage impact of a UTM term, a UTM campaign, a UTM source, a UTM content, and the UTM medium",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:59:04 PM"
+        },
+        {
+          "win": "Marketo email data now included in account engagement trends alongside LinkedIn",
+          "quote": "One of the things that we just rolled out and this is something I've been advocating for is here We get the account engagement trend. So right we just pulled this directly from LinkedIn, right like the account engagements, but The exciting thing now is, is that now we're populating Marketo data. So you'll see the Marketo emails open, Marketo emails open rate, and Marketo emails set.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:13:00 AM"
+        },
+        {
+          "win": "Custom tofu attribution filter working for pipeline creation analysis",
+          "quote": "click on yeah so we're looking at all the engagements before right so we're looking at all the engagements leading up to opportunity pipeline date before opportunity pipeline date that",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:51:08 PM"
+        },
+        {
+          "win": "Set up pipeline projection views with custom filters for Lyra's business",
+          "quote": "I actually set up some views with some filters that are most applicable to our business. You'll see those in our instance, Francisco and Jerry, just so you know, like in parentheses, it has J H and some of the saved views.",
+          "speaker": "Josh Holzhaeuser",
+          "timestamp": "12:34:16 AM"
+        },
+        {
+          "win": "Velocity-based adjustment mechanism implemented to catch slowing pipeline generation mid-quarter",
+          "quote": "we've incorporated now a velocity based adjustment mechanism that detects when pipeline generation is slowing and adjust projections in real time rather than staying flat",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:35:36 AM"
+        },
+        {
+          "win": "Updated filters and funnel changes per Bobby's request now live in platform",
+          "quote": "all the filters and the funnel changes that Bobby had proposed are in the platform",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "10:35:12 PM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Full platform adoption with all modules after proving value",
+          "quote": "Next year could be a different conversation when we have sort of vetted out things and, and really figured everything out. And then, then it's sort of a replace strategy and it's a different conversation",
+          "speaker": "Harjot (Harr-Joe-T)",
+          "timestamp": "11:37:54 PM"
+        },
+        {
+          "win": "Salesforce managed package for touchpoint data writeback",
+          "quote": "Our team was just all off yesterday as well. So I can follow up on that possibility on what we could write back, which then to your point, then you could have Salesforce into any of those",
+          "speaker": "Jerry Henry",
+          "timestamp": "11:33:51 PM"
+        },
+        {
+          "win": "Custom attribution models (top of funnel, bottom of funnel, full path)",
+          "quote": "it'd be really great, and I don't know if it's feasible. I'd love to hear from you and team to get our custom models in. We have a top of funnel and a bottom of funnel. Top of funnel helps us answer what's contributing to pipeline generation. Bottom of funnel is telling us what's contributing to pipeline acceleration",
+          "speaker": "Josh Holzhaeuser",
+          "timestamp": "12:16:27 AM"
+        },
+        {
+          "win": "Pipeline projections with quarterly and annual views to improve forecasting process",
+          "quote": "So we can view projections yearly. I'm seeing one of our other customers and the yearly projections as an example. Of course, this is a code, so I can't show it right. But like I was saying, like created year 2025, closing anytime, it'll show you the generated pipeline and the total projection for that. So we can give you the ability to look at projections both from a quarterly and a yearly level. So that's 100% possible with Rapture.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:08:47 AM"
+        },
+        {
+          "win": "AI-powered natural language querying for non-technical stakeholders",
+          "quote": "So yeah, so we have really that's part of our AI component that I can send more info over on that. You can ask certain questions we can maybe if we have time after this to give you like a demo on it, but that's one way where a lot of our customers leverage. It will last. Hey, if we wanted to look into XYZ or what is the influence here? and digest everything in a rupture and then start answering all those for you.",
+          "speaker": "Jerry Henry",
+          "timestamp": "11:41:14 PM"
+        },
+        {
+          "win": "Enable team-wide adoption with restricted module access and view-only dashboards",
+          "quote": "we might want to do is share a specific view with preset filters so that the team doesn't get too lost or confused and have a specific use case that view, you know, solves for our different stakeholders.",
+          "speaker": "Josh Holzhaeuser",
+          "timestamp": "1:24:13 AM"
+        },
+        {
+          "win": "Get to a state where pipeline projections are trusted enough to present to C-level leadership",
+          "quote": "we want to get to a stage and need your help to get to a stage where you can start using these things",
+          "speaker": "Harjot (Harr-Joe-T)",
+          "timestamp": "1:19:05 AM"
+        },
+        {
+          "win": "Incorporate SDR/BDR leading indicators (calls, emails, responses) into projection model",
+          "quote": "some of these inputs can be taken into consideration while doing velocity, we can add that into the model",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "11:44:08 PM"
+        },
+        {
+          "win": "Build weighted pipeline projections based on pre-opportunity account stages (consideration, awareness, etc.)",
+          "quote": "can we build sort of weightage based on pre opportunity uh stages like if it's consideration can we consider what weightage it would have in the pipeline creation",
+          "speaker": "Harjot Singh",
+          "timestamp": "11:52:22 PM"
+        },
+        {
+          "win": "Implement ROI analysis with proper spend attribution across marketing channels",
+          "quote": "Josh primarily is working on a ROI project. So just kind of wondering what, obviously, you know, we were planning on using",
+          "speaker": "Bobby Mehta",
+          "timestamp": "11:46:15 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Bizible/Visible",
+      "Tableau",
+      "Salesforce",
+      "Marketo",
+      "Six Sense",
+      "Salesforce campaigns",
+      "Marketo (turned off due to duplicates)",
+      "Spreadsheets for spend tracking",
+      "Manual forecasting",
+      "Visible",
+      "Sixth Sense",
+      "Excel/Spreadsheets",
+      "Power BI"
+    ],
+    "pain_summary": "Manual Tableau reporting stitched from Bizible touchpoints, attribution causing team division rather than optimization, inability to predict pipeline from marketing activities, and no recommendation engine for campaign optimization",
+    "kpis_unhealthy": [
+      "pipeline forecast accuracy",
+      "campaign ROI attribution",
+      "cross-functional alignment on attribution",
+      "time spent on custom Tableau reporting",
+      "campaign attribution accuracy",
+      "pipeline forecasting",
+      "channel ROI visibility",
+      "quarterly progression metrics",
+      "attribution model consensus",
+      "MQA quality",
+      "marketing influence visibility",
+      "Q4 2025 actual 46M vs projected 126M",
+      "SDR/BDR pipeline generation down 90% YoY",
+      "marketing engagement down 30%",
+      "opportunity value data quality"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Modular adoption starting with pipeline predictability and demand gen effectiveness, running parallel to Bizible with intent to replace, building custom dashboards for account progression and campaign optimization",
+    "wins_realized": [
+      "pipeline predictability with daily quarter projections",
+      "campaign reallocation recommendations",
+      "account-level journey stitching",
+      "custom waterfall attribution model",
+      "LinkedIn organic performance tracking",
+      "UTM-level funnel impact analysis",
+      "Google ad group level data available",
+      "Marketo email engagement trends added",
+      "Custom tofu attribution filter operational",
+      "Account progression volume metrics by stage functional",
+      "Funnel health targets with % attainment visible",
+      "Marketing channel impact dashboard across funnel stages",
+      "Pipeline projection views with custom filters",
+      "Ability to compare attribution models",
+      "velocity-based adjustment mechanism deployed",
+      "historical quarterly comparison views built",
+      "filter/funnel configuration updated per client request",
+      "booking projection accuracy acceptable"
+    ],
+    "open_issues": [
+      "Salesforce managed package writeback not yet available",
+      "BigQuery export costs extra $15K/year",
+      "channel classification still ongoing",
+      "custom calculated metrics not yet available",
+      "FCA configuration requires backend trigger",
+      "double split in cohort views not supported",
+      "goal-setting/planning module on roadmap but not available",
+      "Need to clean up Salesforce campaign data and UTM tracking",
+      "Campaign reallocation spend picture incomplete for non-ad channels",
+      "Need validation that custom filters apply to attribution model not just display",
+      "UI navigation still difficult without guided help",
+      "Data taxonomy rules not yet visible in platform",
+      "Salesforce permissions blocking full sync",
+      "Model factors need refinement (remove product type, territory)",
+      "Daily projection tracking not aligned to long sales cycles",
+      "Need to build leadership-ready QBR narratives from raw data",
+      "pipeline projection still correcting too slowly for outlier quarters",
+      "Q1 2026 projection dropped from 240M to 135M late in quarter",
+      "need SDR leading indicators in model",
+      "need pre-opportunity stage probability weighting",
+      "spend data integration for ROI incomplete",
+      "naming conventions don't match Lyra's internal terminology"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Lyra Health (All Calls).md"
+    ],
+    "total_chunks": 4,
+    "extracted_chunks": 4
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 24,
+      "tools_switched_from": 6,
+      "political_tussles": 7,
+      "contrarians": 9,
+      "revsure_problems": 22,
+      "best_about_revsure": 16,
+      "wins_immediate": 10,
+      "wins_long_term": 10
+    }
+  }
+}

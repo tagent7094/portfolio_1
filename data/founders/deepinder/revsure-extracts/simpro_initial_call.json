@@ -1,0 +1,231 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "SimPro Initial Call",
+  "call_type": "initial_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Marketing and finance have mismatched views on actual marketing spend due to incomplete cost accounting",
+        "quote": "marketing spent 10 grand on this event and we generated 500k in pipeline and then so we have 50 X ROI and finance is like, you didn't count the hotel rooms, flights and meals. It's a lot more.",
+        "speaker": "E.T. Mac",
+        "timestamp": "10:06:28 PM"
+      },
+      {
+        "summary": "Current planning process is entirely linear with no stochastic modeling or Monte Carlo simulation for variance",
+        "quote": "It's all linear right now. But now I want to run stochastic variations. And if I'm going over your head, let me know. But basically using the statistics and the standard deviations and a bunch of other things, like a model approach on each one of those variables and they run a thousand Monte Carlo simulations.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:45:03 PM"
+      },
+      {
+        "summary": "Internal weighted pipeline forecasts are not scientific enough; CRO wants more rigor",
+        "quote": "our CRO is very, attuned to and likes to see a weighted pipeline forecast. We've been playing around with internal weightings and things of that nature, and wanted to get more scientific with it.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:37:48 PM"
+      },
+      {
+        "summary": "High volume sales motion with random lead flow makes rep-level performance analysis difficult without statistical data",
+        "quote": "every rep's closing enough business, I can actually get enough statistical data to determine, like, especially in that one business where everybody's closing 30 deals a month, and it's a random lead flow. There's no picking of territories or anything.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:54:52 PM"
+      },
+      {
+        "summary": "Data cleanup and consolidation challenges across acquired brands with separate databases",
+        "quote": "We're working on taking four businesses and smushing them into one tech stack. I get like, there's also that complexity if you're just using database sizes to like gauge what API calls might be or something like that, you know, like there is, it's a subset of Salesforce contacts who are relevant to Simpro, which is probably where we want to start with Rupture, right?",
+        "speaker": "Louisa.Smythe_simpro",
+        "timestamp": "10:17:19 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Clari",
+        "vendor": "Clari",
+        "reason": "Clari is on bookings, they need pipeline-level forecasting; also comfortable having multiple tools and taking weighted average",
+        "quote": "Clary is like bookings, we are on the pipeline.",
+        "speaker": "E.T. Mac",
+        "timestamp": "11:37:43 PM"
+      },
+      {
+        "tool": "Internal homegrown build",
+        "vendor": "SimPro",
+        "reason": "Would take 90 days+ to build, never achieve same UI or keep up with vendor roadmap; buy vs build decision",
+        "quote": "I could build this. It'd take me like 90 days and a bunch of engineers. So you could just buy it right now. And it's going to keep getting iterated. Like, this is already built out.",
+        "speaker": "E.T. Mac",
+        "timestamp": "10:21:26 PM"
+      },
+      {
+        "tool": "Internal weighted pipeline / heuristics",
+        "vendor": "SimPro",
+        "reason": "Not scientific enough, want algorithmic approach with real statistical method",
+        "quote": "We've been playing around with internal weightings and things of that nature, and wanted to get more scientific with it.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:37:48 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "Finance"
+        ],
+        "tension_label": "Marketing spend reconciliation",
+        "summary": "Marketing reports one spend number while finance claims actual costs are higher due to uncounted expenses like travel",
+        "quote": "Lisa, but you'll have like marketing spent 10 grand on this event and we generated 500k in pipeline and then so we have 50 X ROI and finance is like, you didn't count the hotel rooms, flights and meals. It's a lot more.",
+        "speaker": "E.T. Mac",
+        "timestamp": "10:06:28 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Comfortable having three different versions of forecasting tools and taking weighted average or ensemble approach rather than single source of truth",
+        "why_unusual": "Most vendors push to be the single source of truth; prospect explicitly rejects this and wants multiple redundant systems",
+        "quote": "I'm also comfortable in a world where I have three different versions of the same thing, and I take a weighted average of everything or an average of everything and an ensemble approach. It's all good. So nothing to worry about.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:38:11 PM"
+      },
+      {
+        "claim": "Build vs buy calculus includes 'I can't keep up with your roadmap' as pro-buy argument",
+        "why_unusual": "Typically buyers focus on cost/time to build; explicitly acknowledging vendor's ongoing R&D velocity as a factor is unusual",
+        "quote": "And it would never achieve what you guys can do. And I couldn't be able to keep up with your roadmap. So that's the logic behind it.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "12:00:36 AM"
+      },
+      {
+        "claim": "Prefers algorithmic AI-determined attribution weights but acknowledges human override introduces bias that defeats the purpose",
+        "why_unusual": "Deep understanding that 'Wizard of Oz' AI (human-in-the-loop weighting) is worse than transparent human decision-making; wants true algorithmic approach",
+        "quote": "I don't want to put the weights in because now I'm not in the position to do that. You're doing what I'm introducing human bias into the model and it makes everybody think you've got a multi-touch attribution What you really got is is marketing bias or sales bias or whoever put the value in bias, you know, okay",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:44:15 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "understanding",
+        "problem": "ET Mac unsure whether full quarter projection includes not-yet-created pipeline; needs to validate",
+        "quote": "Yeah, it should. We could toggle in the rest of the quarter projection, it looks like.",
+        "speaker": "E.T. Mac",
+        "timestamp": "11:55:44 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "No proof of concept offered; only sandbox with dummy data or full commitment, which creates friction for budget-constrained buyers",
+        "quote": "We don't do pilots or proof of concepts, just because the amount of effort to kind of ingest all that data through our AI models across all your code and market tech stack would probably make us a startup you heard about than a startup you know, sooner than later, that kind of situation across the board.",
+        "speaker": "E.T. Mac",
+        "timestamp": "10:05:07 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Data model and unification approach connects dots across systems that most platforms miss",
+        "quote": "So basically, your system, let me back up to the visual for a second. So, is your system saying, and I appreciate you letting me guide the, I really do. Is this telling me that the system, before it does any analysis, is connecting the dots amongst various data points across systems where it can?",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:42:06 PM"
+      },
+      {
+        "summary": "Pipeline predictability module directly addresses CRO's weighted pipeline forecast needs",
+        "quote": "So we're trying to, you know, we've been, our CRO is very, attuned to and likes to see a weighted pipeline forecast. We've been playing around with internal weightings and things of that nature, and wanted to get more scientific with it. So that's going to land well.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:37:48 PM"
+      },
+      {
+        "summary": "Marketing mix modeling productized in SaaS vs requiring economists to tune, huge differentiation",
+        "quote": "If you've actually done that, that's another huge differentiation. I've not found anybody else that can do that, including, we just talked to Deloitte, who sells this. And they're the same thing. They're like, we'll build this for you, cost you a million bucks, and you need a data science on the back end to tune the model.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:49:20 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Scenario planning for CMO: if extra $100K-$1M, where to spend and expected return",
+          "quote": "like an extra 100k, an extra million, and you know, how would you want to spend it and where would you see return? And that's the kind of thing that we're doing on a monthly basis, you know, or anytime the board has questions.",
+          "speaker": "Louisa.Smythe_simpro",
+          "timestamp": "10:09:22 PM"
+        },
+        {
+          "win": "Multi-touch attribution to replace current high-level dashboards",
+          "quote": "having multi-touch attribution. um you know definitely been something that's been uh talked about",
+          "speaker": "Mike",
+          "timestamp": "4:39:39 AM"
+        },
+        {
+          "win": "Incremental spend modeling to forecast pipeline impact of budget changes in 30-60 days",
+          "quote": "having this sort of incremental spend modeling where we can like forecast out like you know hey if we bump up this lever by you know 200k like what's that going to do to the pipeline in the next 30 days or two months or whatever",
+          "speaker": "Mike",
+          "timestamp": "4:40:39 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Cross-business-unit scenario planning: finding $500K pipeline gap across four brands",
+          "quote": "But we all, in addition to Simpro, we have Clockshark, Aeroflow, and Big Change. You know, there's a, there's a 500 K pipeline gap for the business. Maybe it's a SIM pro gap, but maybe I can go find that 500 K somewhere in a different funnel, right.",
+          "speaker": "Louisa.Smythe_simpro",
+          "timestamp": "10:33:10 PM"
+        },
+        {
+          "win": "Forward-looking ARR forecasting model with Monte Carlo simulation for planning and replanning",
+          "quote": "I'm going to build a forecasting model for our ARR, because I think we have a challenge with our install base and ARR and there's a bunch of other blah, blah, blah. So it's the same approach, but different. In that project, I will probably embed a similar sort of approach to forecast business outcomes for planning purposes.",
+          "speaker": "George.Sadler_simpro",
+          "timestamp": "11:45:03 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Clari",
+      "Salesforce",
+      "HubSpot",
+      "Internal weighted pipeline/heuristics",
+      "Looker",
+      "BigQuery data warehouse"
+    ],
+    "pain_summary": "Four business units with fragmented data; linear planning with no stochastic modeling; marketing and finance disagree on actual spend; 70% of pipeline created and closed in 30 days making forecasting nearly impossible; internal builds would take 90+ days",
+    "kpis_unhealthy": [
+      "weighted pipeline forecast accuracy",
+      "campaign attribution",
+      "marketing spend reconciliation with finance",
+      "seller monthly forecasting",
+      "cross-business-unit pipeline visibility"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Full-funnel AI with algorithmic attribution, pipeline predictability, scenario planning for budget allocation, and cross-business-unit visibility; unified data model connecting all GTM systems with write-back to Salesforce and data warehouse",
+    "wins_realized": [],
+    "open_issues": [
+      "Need to validate predictive modeling technology details",
+      "Need to confirm rep-level calibration in forecasting",
+      "Need to determine exact data integration approach for 540K contact database",
+      "Budget timing: likely 2026 start due to FY26 planning deadlines missed",
+      "Need buy-in from marketing leadership (Tim, brand lead) and data engineers"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "SimPro Initial Call.md"
+    ],
+    "total_chunks": 1,
+    "extracted_chunks": 1
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 5,
+      "tools_switched_from": 3,
+      "political_tussles": 1,
+      "contrarians": 3,
+      "revsure_problems": 2,
+      "best_about_revsure": 3,
+      "wins_immediate": 3,
+      "wins_long_term": 2
+    }
+  }
+}

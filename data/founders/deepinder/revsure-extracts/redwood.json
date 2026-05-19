@@ -1,0 +1,391 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Redwood",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Redwood was operating blind with basic last-touch attribution and couldn't make informed decisions about pipeline",
+        "quote": "a year and a half ago i could go to vista and we're also we're split owned by warburg as well so i have the luxury of two boards uh to talk to uh a year and a half ago telling them that we're operating off of uh basic last touch um was okay because we said hey there's all this opportunity and we were mostly inbound before it is not flying anymore and we're heavy inbound as well and now we have kind of some channel you know we're we really are a little bit blind and making some of the decisions that we uh that we need to",
+        "speaker": "Bryan Urioste",
+        "timestamp": "1:39:25 AM"
+      },
+      {
+        "summary": "Data complexity at Redwood made implementation a grind compared to other customers",
+        "quote": "I think one difference between some of our other customers and our engagement here, um is that uh i think data itself is a little complicated um uh when it comes to like the number of emails that redwood sends the number of uh how content is viewed you know like going through these use cases that we have gone through in this last week or so um has opened our eyes on like how data is being ingested and you know what complexities we need to take into consideration so these are this is the kind of involvement you know it was needed for us to like get to a place where we are able to make sense of you know what we're seeing in the platform it was a grind for a week",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "1:34:32 AM"
+      },
+      {
+        "summary": "Email marketing getting 50%+ attribution credit seems surprisingly high and may indicate loose definition of engagement",
+        "quote": "I mean am I the only one that surprised that 50% of our attribution is coming from",
+        "speaker": "Bryan Urioste",
+        "timestamp": "1:58:34 AM"
+      },
+      {
+        "summary": "Historical data issues from acquisitions and multiple Salesforce systems creating dirty data problems",
+        "quote": "i think a lot of the root cause of some of the problems that we're having is because of dirty data smashed together salesforce systems acquisitions that kind of thing",
+        "speaker": "Frank",
+        "timestamp": "1:30:42 AM"
+      },
+      {
+        "summary": "HubSpot page visits not fully captured, creating gaps in first-touch attribution",
+        "quote": "some cases we are seeing like um submitting the form as like the first touch this may be because we are not getting all of the HubSpot page visits uh historically",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "2:09:01 AM"
+      },
+      {
+        "summary": "Lead statuses not properly stamped historically, breaking funnel tracking",
+        "quote": "We did not have lead statuses before. So first touch and statuses were not a thing. So statuses were not getting stamped at the first touch level.",
+        "speaker": "Mani Sandhu",
+        "timestamp": "2:11:04 AM"
+      },
+      {
+        "summary": "Form submit data did not migrate during initial implementation, causing incorrect journey attribution",
+        "quote": "ta  just  did  not  make  it  over  during  the  initial  implementation  um  so  that's  why  form  submit  is  showing  up  for  so  many  versus  what  potentially  happened  right  before  it",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:32:49 AM"
+      },
+      {
+        "summary": "Salesforce hiccups prevented leads from being moved back to 'new' status, causing data integrity issues",
+        "quote": "moved  to  the  new  statuses  people  didn't  necessarily  start  at  new  they  could  have  been  attempting  contact  they  could  have  been  at  sql  there's  like  other  values  that  are  further  down  the  funnel  that  we  didn't  necessarily  make  them  go  back  to  new  just  because  they're  a  bunch  of  hiccups  on  the  salesforce  side  to  do  that  but  um  we  might  lose  out  on  people  that  actually  made  it  into  those  opportunities  this  is  just  one  of  the  pains",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:34:06 AM"
+      },
+      {
+        "summary": "Campaigns on new business side not always including Mops team, causing operational gaps",
+        "quote": "there's  probably  also  opportunity  there  because  I  know  there's  been  a  lot  of  campaigns  that  haven't  always  included  the  Mops  team  on  the  new  business  side",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:32:52 AM"
+      },
+      {
+        "summary": "Zoom meetings being incorrectly counted as page visits in attribution data",
+        "quote": "page  visits  because  they're  attending  meetings",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:38:28 AM"
+      },
+      {
+        "summary": "Salesforce campaigns not properly built out, requiring ad hoc programs to track lead sources",
+        "quote": "a  lot  of  things  that  they're  doing  they're  not  necessarily  building  out  with  us  um  so  i've  been  building  out  ad  hoc  programs  in  order  to  determine  where  they're  coming  from",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:38:44 AM"
+      },
+      {
+        "summary": "Previous year was messy for data/operations",
+        "quote": "last  year  was  kind  of  a  mess  anyway",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:35:59 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "HubSpot",
+        "vendor": "HubSpot",
+        "reason": "Moving to Marketo for better campaign tracking and data cleanliness",
+        "quote": "we're moving over to Marketo, so we've already have limited access into the HubSpot instances",
+        "speaker": "Andres Vega",
+        "timestamp": "9:04:48 PM"
+      },
+      {
+        "tool": "Basic last-touch attribution",
+        "vendor": "Internal/homegrown",
+        "reason": "Not sufficient for current outbound + channel mix, leaving leadership 'blind'",
+        "quote": "a year and a half ago telling them that we're operating off of uh basic last touch um was okay because we said hey there's all this opportunity and we were mostly inbound before it is not flying anymore",
+        "speaker": "Bryan Urioste",
+        "timestamp": "1:39:25 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "Sales/SDR",
+          "RevOps"
+        ],
+        "tension_label": "Attribution credit disputes and campaign classification",
+        "summary": "Debate over whether form submissions should get attribution credit vs. the channel that drove to the form",
+        "quote": "if something drove to the demo that gets credit, not the demo. Is that would that just show up in the journey?",
+        "speaker": "Mani Sandhu",
+        "timestamp": "2:02:20 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "BDR/SDR sequence attribution vs. marketing touchpoints",
+        "summary": "Discussion about whether BDR sequences are getting too much credit because they're the last touch before discovery",
+        "quote": "because they go into outreach sequences almost immediately within like 10 minutes of entering our system. So I would expect there to be more than just two.",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:56:24 AM"
+      },
+      {
+        "actors": [
+          "RevOps",
+          "Marketing"
+        ],
+        "tension_label": "Data cleanup prioritization and system fixes",
+        "summary": "RevOps hasn't fixed lead status transitions that break funnel tracking, and campaign type additions are at bottom of their list",
+        "quote": "the team hasn't really been giving us period costs aside from events but even then we don't always get a number",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:17:51 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Mops team",
+          "new business side"
+        ],
+        "tension_label": "campaign ownership and inclusion",
+        "summary": "New business campaigns not always including Mops team, creating operational friction",
+        "quote": "there's  probably  also  opportunity  there  because  I  know  there's  been  a  lot  of  campaigns  that  haven't  always  included  the  Mops  team  on  the  new  business  side",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:32:52 AM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Being comfortable with 'a grind' and MVP-first agile approach to attribution implementation",
+        "why_unusual": "Most vendors pitch quick time-to-value; Redwood explicitly accepts a slower, iterative path",
+        "quote": "We're very comfortable operating in, you know, kind of an agile mindset. Let's get to MVP first, knowing that there's much bigger gains to be had later, that's fine. And I know we've kind of cut the use case list down significantly, and then significantly again, and again, but just wanted to get your take on that.",
+        "speaker": "Bryan Urioste",
+        "timestamp": "1:34:23 AM"
+      },
+      {
+        "claim": "Email marketing getting 50%+ attribution credit might actually be correct due to late Marketo launch",
+        "why_unusual": "Typically high email attribution would trigger alarm bells, but context makes it plausible",
+        "quote": "hope i'm surprised still that it's 50 since we only launched marchetto in november um i'm",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:58:44 AM"
+      },
+      {
+        "claim": "Form submissions should NOT get attribution credit - only what drove to the form",
+        "why_unusual": "Many platforms credit the conversion point; Redwood wants to strip form-submit credit entirely",
+        "quote": "they should not be a campaign touch if that's going to get all of the credit.",
+        "speaker": "Mani Sandhu",
+        "timestamp": "9:59:26 PM"
+      },
+      {
+        "claim": "Direct traffic as first touch is acceptable noise that can't be fully solved",
+        "why_unusual": "Most vendors promise to solve direct traffic attribution; Redwood team accepts it as unsolvable nuance",
+        "quote": "you know, there's going to be nuances that we can't solve for. Like in this case, technically it should be Google just because we know that's how they found us. Chances are they're never directly coming to us.",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:05:51 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Mutiny experience showing as first touch when it should require prior website visit",
+        "quote": "How can a first touch point be a mutiny experience when to get the mutiny experience, you had to have visited the website first?",
+        "speaker": "Frank",
+        "timestamp": "1:26:10 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about what 'progressed to new' means vs. lead creation - whether it's becoming known or behavioral score change",
+        "quote": "to new, is that just because that's our current progress stage? So in this case, if it's progressing to new, does that just mean people, the journeys that were taken in order to become known in our system?",
+        "speaker": "Mani Sandhu",
+        "timestamp": "9:45:19 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "GA client ID and UTM parameters not properly stitching to show pre-form submission journey",
+        "quote": "those UTM parameters are not, this is from September, those would have been programmatically put into Salesforce. That wouldn't have been put in manually by an SDR.",
+        "speaker": "Frank",
+        "timestamp": "2:19:46 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Form submit data did not migrate during initial implementation",
+        "quote": "ta  just  did  not  make  it  over  during  the  initial  implementation  um  so  that's  why  form  submit  is  showing  up  for  so  many  versus  what  potentially  happened  right  before  it",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:32:49 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Zoom meetings incorrectly appearing as page visits in attribution",
+        "quote": "page  visits  because  they're  attending  meetings",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:38:28 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Organic search traffic being bucketed as synthetic campaign without UTM clarity",
+        "quote": "is  it  that  it  was  organic  search  and  then  it  came  through  google  And  then  that's  the  article.  Is  that  a  Revsure  thing  that  just  knows  that  it  came  through  Google  but  didn't  have  a  UTM  and  therefore  it  should  bucket  it  as  a  synthetic",
+        "speaker": "Mani Sandhu",
+        "timestamp": "1:37:16 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Platform's strength as both data science tool and reporting platform for proving/disproving hypotheses",
+        "quote": "it is both a data science um you know tool measurement platform and also like a reporting platform where you know it serves the purpose of here are the numbers um of uh you know opportunities that are",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "1:36:18 AM"
+      },
+      {
+        "summary": "Commitment and responsiveness of RevSure team, including recent staffing adjustment",
+        "quote": "we're committed to get you to that point uh brian and team and that's why ram recently joined us and that's why he's And I've been watching the Slack channel very closely, so forth and so on. So that's kind of why we made that even adjustment even a month ago leading into this to kind of help us, you know, moving forward here.",
+        "speaker": "Alex Cox",
+        "timestamp": "1:36:27 AM"
+      },
+      {
+        "summary": "Quick turnaround on new views based on other Vista portfolio company requirements",
+        "quote": "we just rolled out like a set of dashboards for example from one vista account that answers a lot of other questions black and white right that are even new things that came in the past like month or so right so it's an evolving thing",
+        "speaker": "Alex Cox",
+        "timestamp": "1:40:22 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Top 5 pipeline-producing campaigns view now functional for RMJ new logo",
+          "quote": "what we're looking at on the top right here is we're looking at the top five pipeline producing campaigns. So highest five. campaign names based on generated pipeline volume. So this widget automatically sorts it for you.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:36:38 AM"
+        },
+        {
+          "win": "Channel classification improvements rolling out weekly with Andres/Mani",
+          "quote": "i meet with andre simani like every monday right and we just have continued working continue through the channel classification just making uh improvements every week",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:31:30 AM"
+        },
+        {
+          "win": "Mass filter application feature rolled out to simplify dashboard management",
+          "quote": "one thing we rolled out, Frank, is now you can mass apply filters. like the top level filters you can mass apply.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:49:50 AM"
+        },
+        {
+          "win": "Direct channel and chat campaign touch creation implemented",
+          "quote": "we've created the direct channel so when we don't see touch points we have the direct channel and then we've also done um chat right so chat has been created from like the logic that you gave me",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:56:36 AM"
+        },
+        {
+          "win": "Working to clean up Zoom and content syndication data to tell better story",
+          "quote": "that'll  just  tell  a  better  story",
+          "speaker": "Mani Sandhu",
+          "timestamp": "1:39:15 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Get to 'pretty happy' status like other Vista portfolio companies (Gainsight, Maples)",
+          "quote": "i think here we're almost at the point of breaking into that being pretty happy situation",
+          "speaker": "Alex Cox",
+          "timestamp": "1:36:27 AM"
+        },
+        {
+          "win": "Use RevSure in Q2 pipeline review calls as meaningful input",
+          "quote": "for the first pipeline calls in Q2, I'd love to include at least one RevSure view within the first call. So that's the goal that we are driving toward, something meaningful that we can include in our pipeline calls beginning in Q2.",
+          "speaker": "Frank",
+          "timestamp": "12:33:14 AM"
+        },
+        {
+          "win": "Prove marketing's value to Vista and Warburg boards with data-driven attribution",
+          "quote": "vista likes to grow and they like to grow profitably so um you know that's just uh that's where things are",
+          "speaker": "Bryan Urioste",
+          "timestamp": "1:40:22 AM"
+        },
+        {
+          "win": "Portfolio company user group to share best practices and accelerate value",
+          "quote": "one idea that we're thinking of is like a user group within the Portcos where we're all comfortable with each other. The business is going to be slightly different, but you'll be able to learn from the game sites who are really happy.",
+          "speaker": "Alex Cox",
+          "timestamp": "1:36:27 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Qlik",
+      "Tableau",
+      "Google Analytics",
+      "HubSpot",
+      "Marketo",
+      "Salesforce",
+      "Marketo (launched Nov 2024)",
+      "Outreach",
+      "Basic last-touch attribution",
+      "Manual spreadsheets/board reports"
+    ],
+    "pain_summary": "Limited to single-touch lead source attribution, unable to see full customer journey or properly attribute multi-channel influence on pipeline and revenue",
+    "kpis_unhealthy": [
+      "campaign ROI accuracy",
+      "pipeline source attribution",
+      "content influence measurement",
+      "BDR sequence effectiveness",
+      "Attribution accuracy",
+      "Pipeline source visibility",
+      "Campaign ROI measurement",
+      "Lead-to-opportunity journey tracking",
+      "Board-ready marketing metrics",
+      "journey attribution accuracy",
+      "lead source tracking",
+      "campaign-to-pipeline visibility"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Multi-touch attribution with full journey visibility, but still refining filters and channel classification to match business logic",
+    "wins_realized": [
+      "new business filtering across all dashboards",
+      "lead-account association bug fixed",
+      "custom product source dimension created",
+      "next best action AI live",
+      "Top 5 pipeline campaign view operational",
+      "Mass filter application deployed",
+      "Direct and chat channel touch creation",
+      "Weekly optimization rhythm with RevSure team",
+      "Started building Salesforce campaign attribution structure",
+      "Identified specific data quality issues to fix"
+    ],
+    "open_issues": [
+      "opportunity type filter still being fixed",
+      "email marketing attribution over-crediting",
+      "Google ad click misclassification",
+      "content asset categorization from GA not yet implemented",
+      "client team still learning how to interpret and action insights",
+      "Historical data cleanup (pre-Nov 2024)",
+      "Outreach/SDR sequence classification",
+      "Form submission attribution philosophy",
+      "Mutiny and content syndication bucketing",
+      "GA/HubSpot page visit stitching for pre-form journey",
+      "AI projection accuracy",
+      "Form submit migration gap from initial implementation",
+      "Zoom incorrectly counted as page visits",
+      "Organic/synthetic campaign bucketing unclear",
+      "Salesforce campaigns not fully built out with RevSure"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Redwood (All Calls) (1).md"
+    ],
+    "total_chunks": 4,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 12,
+      "tools_switched_from": 2,
+      "political_tussles": 4,
+      "contrarians": 4,
+      "revsure_problems": 6,
+      "best_about_revsure": 3,
+      "wins_immediate": 5,
+      "wins_long_term": 4
+    }
+  }
+}

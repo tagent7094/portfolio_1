@@ -1,0 +1,379 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Consero Global",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "CRO lacks visibility to answer board questions about marketing spend vs pipeline results",
+        "quote": "our chief revenue officer, she doesn't have that visibility. She can't, she doesn't have the data because I'm not able to serve it to her in, in that full holistic view",
+        "speaker": "Bridget Howard - VP Marketing",
+        "timestamp": "2:06:40 AM"
+      },
+      {
+        "summary": "Manual campaign cost entry in Salesforce is inconsistent and gets behind",
+        "quote": "Allison has to manually go in and, and say what each campaign, what the cost was. So it's just, you know, all of a sudden the the month and the quarter gets away from you. And then we're, we're trying to go into the dashboard and realizing, oh, we don't have any numbers in there",
+        "speaker": "Bridget Howard - VP Marketing",
+        "timestamp": "2:26:33 AM"
+      },
+      {
+        "summary": "Spreadsheet-based campaign tracking is clunky and manual",
+        "quote": "this is my clunky marketing spreadsheet, right? So here's all of our campaigns and then by month where we're booking meetings",
+        "speaker": "Speaker0",
+        "timestamp": "12:02:35 AM"
+      },
+      {
+        "summary": "No visibility into post-meeting engagement (website visits, ad clicks, nurture emails)",
+        "quote": "could I, could I look at those accounts it with a software to see, did they come to our website? Did they, you know, have they clicked on an A BM ad or a nurture email? What type of engagement is going on that I just don't have visibility into?",
+        "speaker": "Speaker0",
+        "timestamp": "12:04:13 AM"
+      },
+      {
+        "summary": "Marketing influence not visible in Salesforce reports or Friday sales calls",
+        "quote": "our, our, the reports that we have in pipeline and the, the Friday sales call that we have, for example, there's no, there is no attribution to marketing",
+        "speaker": "Bridget Howard - VP Marketing",
+        "timestamp": "2:21:14 AM"
+      },
+      {
+        "summary": "Cannot weight different marketing touchpoints - only binary campaign association exists",
+        "quote": "we're saying it's marketing influenced and we can say which campaigns, but I can say we're like, okay, it's tied to these two campaigns. We know they went to the, but yeah, we can't tell how much of that influenced their Yeah. So I think, yeah, so I could see where this gives you that next level of detail",
+        "speaker": "Tanya Romero (Sr. Manager, Business Insights)",
+        "timestamp": "2:21:14 AM"
+      },
+      {
+        "summary": "Could not answer basic questions about marketing impact on pipeline before RevSure",
+        "quote": "We want to be viewed as a thought leader. We want to be viewed as, you know, bringing content that's relevant to our potential buyers and helping them in their role. Being that trusted advisor is what we're striving to become. And this is showing that we have a high level of engagement with accounts and contacts that end up in our pipeline.",
+        "speaker": "Bridget.H",
+        "timestamp": "5:12:23 AM"
+      },
+      {
+        "summary": "No ability to track ROI of sponsored events and meetings booked from marketing investments",
+        "quote": "She's just wanting to know how many meetings are we getting from these? Yeah, Kelly said, She's responsible for tracking that and she's developing a system to track that. I was just curious if that's something that we could collect through RevSure to report on in that tool.",
+        "speaker": "Bridget.H",
+        "timestamp": "4:39:14 AM"
+      },
+      {
+        "summary": "Tanya felt overwhelmed trying to self-serve in RevSure platform without proper training materials",
+        "quote": "Yeah it feels a bit overwhelming. Like when we're reviewing it together it all makes sense but I know like if I go to try to drive myself, I'm like, I don't remember where I go look at this. So any kind of, if there's good documentation or videos I should review to kind of help me like, because I think I need to drive myself to kind of like start looking.",
+        "speaker": "Tanya",
+        "timestamp": "4:51:45 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Six Sense",
+        "vendor": "Six Sense",
+        "reason": "Moving to RollWorks as ABM tool",
+        "quote": "We're moving away from Six Sense as an a BM tool, and we're moving over to Role Works",
+        "speaker": "Speaker0",
+        "timestamp": "11:45:21 PM"
+      },
+      {
+        "tool": "Dream Data",
+        "vendor": "Dream Data",
+        "reason": "Tested but didn't fully implement - using Salesforce campaigns instead",
+        "quote": "we, we had some, some integration with Dream Data. We kind of tested that platform",
+        "speaker": "Bridget Howard - VP Marketing",
+        "timestamp": "2:42:34 AM"
+      },
+      {
+        "tool": "Spreadsheet-based campaign tracking",
+        "vendor": "Internal / Homegrown",
+        "reason": "Clunky, manual, insufficient for attribution needs",
+        "quote": "this is my clunky marketing spreadsheet, right? So here's all of our campaigns and then by month where we're booking meetings",
+        "speaker": "Speaker0",
+        "timestamp": "12:02:35 AM"
+      },
+      {
+        "tool": "Salesforce campaigns (native)",
+        "vendor": "Salesforce",
+        "reason": "Only last-touch attribution, no journey visibility, no cost consistency",
+        "quote": "We've, you know, just like everyone, we, we start with Salesforce to say, okay, how can we build some dashboards and reports in Salesforce? And we've done what we can, we've done enough to get by and to satisfy our board. But it doesn't show the whole picture, it just shows the last campaign",
+        "speaker": "Speaker0",
+        "timestamp": "11:43:45 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "emily and corey",
+          "the guy who would sign"
+        ],
+        "tension_label": "happiness gap between users and decision maker",
+        "summary": "Emily and Corey are happy with RevSure but the person who signs is not happy, creating a political risk for renewal",
+        "quote": "because like emily and corey like they're happy but the guy who would sign is not happy right and how do we make it that in so they're all happy i'll",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:55:12 AM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "They want to keep nonprofit data completely separate from commercial data, almost to the point of isolation",
+        "why_unusual": "Most companies want unified dashboards; Consero specifically wanted nonprofit isolated to avoid commingling with commercial metrics",
+        "quote": "Yeah, I, yeah, I believe so. 'cause as as an example, so we've done this for, I know, I know from the LinkedIn side, I have to confirm on the HubSpot side, but for, as, as an example, right? Like customers will connect multiple LinkedIn accounts, multiple Google ads accounts. So we'll create filtering. So you can say like, oh, like I want to see the campaigns that come from the North America LinkedIn account. Right? So I believe that's doable. Okay. But I just wanna check with the team.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "7:40:23 PM"
+      },
+      {
+        "claim": "Marketing form fills should NOT get credit as a channel - instead credit the channel that brought them to the form",
+        "why_unusual": "Many attribution systems give credit to the form itself as a conversion point; Consero wanted to strip that out and credit upstream channels",
+        "quote": "Because the, we could, but right now the form is getting, giving credit to the channel that brought them to the form. But we, you know, we, we could do something different print. Let, let's, let's not get bogged down here. Let's just, why don't you talk to, when we talk on Monday with Jay, let's just review this. Let's look at what rules are there and we'll come back to you. But, but I think you don't, you don't want the form fill in that the form fill isn't a channel as you know, like what the thing that paid search may have got them to the form fill.",
+        "speaker": "Harry Hawk",
+        "timestamp": "2:24:48 AM"
+      },
+      {
+        "claim": "Avoided direct conversation with a connected executive, instead introduced competitors (Gainsight and Sonatype) to maintain relationship",
+        "why_unusual": "Rather than directly engaging a difficult but well-connected decision maker, Alex deliberately routed around him by introducing competing vendors to other stakeholders — a counterintuitive account management strategy that prioritizes network preservation over direct confrontation",
+        "quote": "the reason why I want to keep him happy is because he is like connected with all the other CROs and CMOs in the Vista portfolio and that's and I like I did I actually avoided as a set having a conversation with him a direct conversation with him because their CRO was connected with him and that's why I actually introduced gainsight and sonotype instead",
+        "speaker": "Alex Cox",
+        "timestamp": "5:55:42 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "implementation",
+        "problem": "Campaign channel classification rules not processing correctly - trigger funding rules added but not showing up in platform",
+        "quote": "So I think what I'm confused about, so, okay, so this rule, it says then change campaign channel to trigger funding email workflow. But then when I look in here, I don't, or this one's campaign channel, like I don't see trigger funding anywhere.",
+        "speaker": "Alison Komas",
+        "timestamp": "4:33:23 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Multiple HubSpot instances causing data separation challenges - nonprofit HubSpot not fully integrated with commercial tracking",
+        "quote": "So if I'm recalling correctly and, and I'll, and I'll double check into I at one point I think we may have mentioned that if it was a form filled to attribute to the channel that brought them there. So I think this is what could be happening, right? So we may have to bring back the forms, I'll double check with the data team but bring back the forms, right? And then maybe rebuck them in in a different manner.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "2:55:50 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about why influenced account volume could be less than booked deals - metrics not intuitive",
+        "quote": "One that doesn't make sense to me is, but I might not be thinking about it right, is the influenced account volume. I would think that wouldn't be less than the booked. Or is that a separate thing? It's a separate metric. So what does that mean then compared to the booked?",
+        "speaker": "Natalie.T",
+        "timestamp": "4:38:16 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Unknown/uncategorized data showing up in pipeline composition - 'unknown' first touch channel and misclassified advertising campaigns",
+        "quote": "And then, like, the unknowns, we probably just need to, like, categorize it differently.",
+        "speaker": "Natalie.T",
+        "timestamp": "4:55:25 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "RevSure captures the full prospect journey that Salesforce misses",
+        "quote": "We wanna capture as many as touch points and as much of the journey that's happening with every lead contact opportunity as possible",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "2:11:07 AM"
+      },
+      {
+        "summary": "Client feels much more confident and oriented after dashboard walkthrough",
+        "quote": "This was a lot, this was a lot. I feel a lot better now than I did 10 minutes before this call. 'cause yeah, I was wondering am I gonna struggle with what I'm supposed to be looking at or what I'm supposed to be getting out of this and, and now I'm seeing that. Now I'm understanding where to go and what the information that I'm looking at is supposed to mean to me",
+        "speaker": "Bridget",
+        "timestamp": "7:31:25 PM"
+      },
+      {
+        "summary": "RevSure team provides ongoing strategic support not just tool access",
+        "quote": "we don't just give you the platform, get you on, throw you at it, leave you Yeah, we, we were with you the whole time",
+        "speaker": "Alex Cox",
+        "timestamp": "2:31:35 AM"
+      },
+      {
+        "summary": "The journey visualization with touchpoint overlay is powerful and unexpected",
+        "quote": "what I didn't realize before is like how much you can see the overlay of the different components. So anything that, just a few examples of some of that reporting that we could pull, that would be great",
+        "speaker": "Tanya Romero (Sr. Manager, Business Insights)",
+        "timestamp": "2:32:33 AM"
+      },
+      {
+        "summary": "RevSure finally gives marketing proof of webinar impact that was invisible in Salesforce",
+        "quote": "This was kind of all a nice surprise to to Allison and Tanya and I, you know, in Salesforce, we just track the the conversion so the primary campaign sources where they converted and so we You know if you're looking at pipeline and you're seeing what the lead source is and the primary campaign source You don't see webinar show up very often if ever But this is showing the impact that webinar is having on on pipeline and conversions",
+        "speaker": "Bridget.H",
+        "timestamp": "5:11:45 AM"
+      },
+      {
+        "summary": "Platform enables drill-down from high-level views to individual account journeys",
+        "quote": "And then, anywhere you see like there's like a hyperlink, you can drill down into right like by drill down meaning like, see what opportunities are constituted in that.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "4:51:13 AM"
+      },
+      {
+        "summary": "RevSure team provides responsive hands-on support that feels like a partnership",
+        "quote": "And Francisco and team, Jerry, they're available to us. And so if I go into the dashboard with a question and I can't pull it together. We have a team to lean on so that we're not spinning our wheels and churning, you know, fuming time.",
+        "speaker": "Bridget.H",
+        "timestamp": "5:19:17 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "UTM tracking solved going forward via first-party pixel on website",
+          "quote": "because we have our site script right on the ERO website from the URLs, we're able to derive where it came from. So going forward, right. Since we in implemented the script, we've solved for, for that",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:05:07 AM"
+        },
+        {
+          "win": "Bridget successfully used RevSure data for monthly operational review slide deck",
+          "quote": "I looked at it. I, I'm, I'm, I'm not sure if it's the one that I looked at last week, but No, it was, it was, yeah, it was Thursday or Friday of last week that I looked at it and I actually pulled data for our, what we call a monthly operational review. And so I was able to leverage the Rev Sure. Data Tanya. Perfect timing. I was able to leverage the rev Sure. Dashboards to pull together some data for the, the MOR slide.",
+          "speaker": "Bridget.H",
+          "timestamp": "4:33:34 AM"
+        },
+        {
+          "win": "Webinar channel now measurable with 50% lead-to-MQL conversion rate - statistically significant lift identified",
+          "quote": "of this cohort of new contract that is not non-profit, if they had a touch with the webinar campaign channel, they converted 50 percent of the time. The conversion rate was 50 percent. We're able to see a sample size of the 18 that had a touch with webinar, nine converted from lead to MQL versus those that right at 0.33, but they didn't convert right at that same rate. And with here, we're able to see that this is statistically significant.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "5:08:17 AM"
+        },
+        {
+          "win": "ABM impact now provable - paid ABM showed statistically significant lift in qualified-to-pipeline conversion",
+          "quote": "And here, what we're saying is, in the journey from LeadCharmQL, did they have any touch point with webinar email? Did they have any touch with webinar? Did they have any touch with trigger funding email, paid ABM offline event, right? And so what we see here as an example, right? of this cohort of new contract that is not non-profit, if they had a touch with the webinar campaign channel, they converted 50 percent of the time.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "5:06:42 AM"
+        },
+        {
+          "win": "CRO dashboard built and presented to Natalie with ability to answer strategic questions",
+          "quote": "So here in this 1st view, right, we're seeing the outreach events and strategies influencing pipeline, right? So, to kind of give you a high level, right? We're looking at the current fiscal year. We're looking at the campaign channel, so right so that umbrella, right? Like, kind of like. kind of like what is that type, right? So what is that type of activity, right? It's the, so could be a forum, could be ABM, could be a webinar virtual event.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "4:35:45 AM"
+        },
+        {
+          "win": "Customer success group now handling reference calls, with CJ doing reference call with Sapiens",
+          "quote": "i have cj doing a reference call with sapiens that's another company that's bringing us in",
+          "speaker": "Alex Cox",
+          "timestamp": "5:53:01 AM"
+        },
+        {
+          "win": "TRG renewed automatically in August and paying ~$20K, keeping them moving",
+          "quote": "trg is like paying what 20k something like that yeah",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "5:54:43 AM"
+        },
+        {
+          "win": "Annualized revenue at about $2 million with customer count back up to 24 from low of 22",
+          "quote": "About 2 million, I think.",
+          "speaker": "Alex Cox",
+          "timestamp": "5:57:34 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Board-ready dashboard views that can be screenshotted for presentations",
+          "quote": "what I'm looking for is to be able to have a dashboard view that I can open up and share with our CRO and potentially even pull board slides directly from a screenshot view",
+          "speaker": "Bridget Howard - VP Marketing",
+          "timestamp": "2:33:05 AM"
+        },
+        {
+          "win": "Board-level credibility for marketing through data-driven attribution proof points",
+          "quote": "I think it would be interesting, Francisco, as we prepared for the second half board meeting for you to kind of go into RevSure, and we can do it as a working session, but let's go into the dashboards and, you know, what interesting data or what interesting data Put into a bullet in the in the board deck, you know a bullet for a bullet for events a bullet for ABM a bullet for email campaign",
+          "speaker": "Bridget.H",
+          "timestamp": "4:42:32 AM"
+        },
+        {
+          "win": "Ability to answer 'if a prospect interacts with a webinar, they're X times more likely to come into pipeline' for strategic decision-making",
+          "quote": "I want to answer this question. If a prospect interacts with a webinar, they're X times more likely to come into pipeline. Like, that would be a great bullet point, I think, for a board slide, Tanya, to show the impact of webinars.",
+          "speaker": "Bridget.H",
+          "timestamp": "4:56:02 AM"
+        },
+        {
+          "win": "Multi-customer event/dinner in San Francisco with Clean, Zscaler, Abnormal and other Bay Area customers when CEO visits",
+          "quote": "You could even post out on the channel, the Slack channel. might be fun for you guys to do something cool when you're out there like a multi-customer event like a dinner",
+          "speaker": "Alex Cox",
+          "timestamp": "5:53:47 AM"
+        },
+        {
+          "win": "Leverage TRG/Vista relationship to access broader Vista portfolio of CROs and CMOs",
+          "quote": "the reason why I want to keep him happy is because he is like connected with all the other CROs and CMOs in the Vista portfolio",
+          "speaker": "Alex Cox",
+          "timestamp": "5:55:42 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "HubSpot",
+      "Six Sense (being replaced by RollWorks)",
+      "Apollo",
+      "PitchBook",
+      "Spreadsheets for campaign tracking",
+      "Dream Data (tested)",
+      "Rollworks",
+      "Google Ads",
+      "spreadsheets/manual tracking"
+    ],
+    "pain_summary": "Marketing attribution invisible to CRO/board; Salesforce only shows last-touch campaign; ABM ads, email nurture, webinars not credited; manual cost entry fails; warm leads go dark post-meeting with no visibility; nonprofit vertical completely siloed",
+    "kpis_unhealthy": [
+      "marketing influence on pipeline",
+      "campaign ROI/attribution",
+      "cost data completeness",
+      "post-meeting lead engagement visibility",
+      "board reporting on marketing effectiveness",
+      "campaign attribution accuracy",
+      "webinar influence on pipeline",
+      "ABM ROI proof",
+      "event sponsorship tracking",
+      "marketing credibility with board/CRO"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Building unified funnel views with multi-touch attribution, journey visualization, and CRO dashboards; solving UTM tracking; beginning channel classification; lift tests showing email's 80% pipeline-to-close lift",
+    "wins_realized": [
+      "First-party pixel capturing web journey",
+      "CRO monthly snapshot dashboard operational",
+      "Last-URL-before-close visibility",
+      "Email lift test validated at 80% pipeline-to-close",
+      "RoleWorks campaign integration in progress",
+      "Monthly operational review data pulled from RevSure",
+      "Webinar channel identified with 50% lead-to-MQL conversion",
+      "ABM influence proven despite not being lead source",
+      "CRO Natalie presented with marketing impact dashboard",
+      "Customer success team operational with reference calls",
+      "TRG auto-renewal retained",
+      "Customer count recovered from 22 to 24"
+    ],
+    "open_issues": [
+      "RoleWorks playbook/campaign name mapping incomplete",
+      "Google Ads GCLID/UTM flow to Salesforce not working",
+      "Nonprofit vertical still siloed (separate HubSpot/website)",
+      "Channel classification requires ongoing manual rules refinement",
+      "Team still learning UI/filter logic for self-service reporting",
+      "Nonprofit HubSpot integration gaps",
+      "Campaign classification rules still being refined (trigger funding, advertising exclusions)",
+      "Meeting tracking from events not yet integrated",
+      "Tanya needs more self-service enablement",
+      "AI companion trial pending",
+      "Contact database overage pricing to resolve",
+      "Need to close happiness gap with TRG signatory for Vista portfolio access",
+      "Multiple deals (JFrog, Nova 4, Sapiens, Delinea, Harvey) still in pipeline"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Consero Global (All Calls).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 9,
+      "tools_switched_from": 4,
+      "political_tussles": 1,
+      "contrarians": 3,
+      "revsure_problems": 4,
+      "best_about_revsure": 7,
+      "wins_immediate": 8,
+      "wins_long_term": 5
+    }
+  }
+}

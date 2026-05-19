@@ -1,0 +1,641 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Accuris",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Missing on forecast, no reliable mechanism to predict revenue",
+        "quote": "There's been like a lot of frustration, I think both at like the KKR level and the ELT level on like, you know, missing on forecast, right. And like just not having like a really reliable mechanism to like say, Hey, here's what we're going to do.",
+        "speaker": "Michael Seymour",
+        "timestamp": "1:14:03 AM"
+      },
+      {
+        "summary": "Sales reps piping opportunities as renewals when they're actually new business",
+        "quote": "I have sales reps that for some reason, when they pipe opportunities, they're all coming up as renewals. And how do we reclassify it when it's actually new biz?",
+        "speaker": "E.T. Mac",
+        "timestamp": "1:36:40 AM"
+      },
+      {
+        "summary": "Lack of process attaching right contacts to opportunities causing lost attribution",
+        "quote": "we lack process on the sales side, Attaching the right contacts to opportunities. That's a big source of lost attribution for us",
+        "speaker": "Dana Silverman",
+        "timestamp": "1:36:56 AM"
+      },
+      {
+        "summary": "Messy data with duplicate leads, duplicate accounts, general data hygiene issues",
+        "quote": "we have a lot of data complexity and a lot of messy data, like specifically duplicate leads, duplicate accounts, just a lot of like just general data hygiene issues that are not gonna be cleaned up in the near term.",
+        "speaker": "Dana Silverman",
+        "timestamp": "1:55:49 AM"
+      },
+      {
+        "summary": "Salesforce integration blocked by internal IT/security delays",
+        "quote": "the project is delayed until we get Snowflake and Salesforce integrated.",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "1:01:13 AM"
+      },
+      {
+        "summary": "Previous CMO let go, new CMO Brian Wallace just started, creating planning flux",
+        "quote": "We have a new CMO that started a month and a half ago. We're right in the midst, I would say, of like second half of the year planning, which I know we're late to the game there, but related to, you know, new marketing leadership in place.",
+        "speaker": "Dana Silverman",
+        "timestamp": "1:58:11 AM"
+      },
+      {
+        "summary": "No tool to measure marketing effectiveness, leading to skepticism about marketing investment",
+        "quote": "up until recently, there's been a high degree of skepticism around marketing investment, because we haven't had a tool like this",
+        "speaker": "Brian Wallace",
+        "timestamp": "12:41:02 AM"
+      },
+      {
+        "summary": "Sales team doesn't attach contacts to opportunities properly, making attribution difficult",
+        "quote": "20 or 30 percent of our opportunities don't even have a contact associated. We should probably figure out what we need to do in terms of reporting to account for that because we're lucky if we get one, maybe two contacts on a given opportunity",
+        "speaker": "Dana Silverman",
+        "timestamp": "12:52:07 AM"
+      },
+      {
+        "summary": "Legacy brand traffic being misattributed, hiding true marketing value",
+        "quote": "this is going to show that like what four million dollars and some change almost 4.5 million dollars of pipeline in this period came from people looking for ihs by name",
+        "speaker": "Michael Seymour",
+        "timestamp": "1:43:40 AM"
+      },
+      {
+        "summary": "Third-party cookie issues causing UTM stripping and attribution gaps for paid media",
+        "quote": "our utms have been getting stripped out by the cookie solution",
+        "speaker": "Michael Seymour",
+        "timestamp": "6:44:44 PM"
+      },
+      {
+        "summary": "No consistent naming conventions for campaigns making channel classification impossible",
+        "quote": "there's no consistency, right? Because automated emails marketing tagged emails that are cx in nature and then there's like things that kind of follow that same structure that like our marketing in nature and so like realistically i think to do what you're trying to do which is the right thing to do we need kind of like a broader conversation with the organization and like some parameters for naming conventions in the very least right",
+        "speaker": "Michael Seymour",
+        "timestamp": "1:48:21 AM"
+      },
+      {
+        "summary": "Leads not being converted to contacts, losing data and creating duplicates",
+        "quote": "the leads aren't being converted to contact which aren't being attached to opportunities but like in some cases right like if a duplicate contact is created along that way we then lose utm in that instance as well",
+        "speaker": "Michael Seymour",
+        "timestamp": "3:52:03 AM"
+      },
+      {
+        "summary": "Zero dollar opportunities making pipeline/revenue reporting unreliable",
+        "quote": "you'll see like this big deficit in the bookings that doesn't line up to like the volume numbers on like the opportunity and the leads, like the revenue is not where you would expect it to be. Right. But then you double click into these things and you'll just see it's just because there's a ton of $0 opportunities.",
+        "speaker": "Michael Seymour",
+        "timestamp": "4:12:52 AM"
+      },
+      {
+        "summary": "No sales accepted lead stage exists, creating confusion in funnel definitions",
+        "quote": "i see stage called sales accepted lead but i don't think this actually exists like in salesforce or any of our other systems",
+        "speaker": "Dana Silverman",
+        "timestamp": "3:45:52 AM"
+      },
+      {
+        "summary": "Email marketing inflated by CX and retail emails, not true marketing",
+        "quote": "email marketing showing $31 million, which seems like a lot compared to like the level of focus, I guess it is for marketing as a channel. So that's where I want to really like dive into some of these bigger categories. Cause I'm, my assumption is that there's probably a bunch of like CX emails.",
+        "speaker": "Dana Silverman",
+        "timestamp": "1:47:59 AM"
+      },
+      {
+        "summary": "HubSpot shared with CX and retail teams, causing data commingling",
+        "quote": "that email marketing, the top row here gets, there's a lot of revenue and pipeline tied up there, but it's ultimately like, you know, going back to the whole HubSpot conversation being shared with CX and retail, like all of that is kind of lumped together as email marketing",
+        "speaker": "Dana Silverman",
+        "timestamp": "4:00:19 AM"
+      },
+      {
+        "summary": "Opportunity naming conventions unreliable for new logo vs expansion classification",
+        "quote": "we are supposed to be able to rely on if new logo or new business is in an opportunity name, then we know that's a new logo. That is not the case, right? There is not any kind of uniformity on the opportunity naming convention",
+        "speaker": "Michael Seymour",
+        "timestamp": "3:49:27 AM"
+      },
+      {
+        "summary": "Bing integration blocked by IT resource constraints",
+        "quote": "we are spending money on Bing and we are relying on Nirav in IT to integrate Bing. We have had a lot of difficulty getting him to do that.",
+        "speaker": "Michael Seymour",
+        "timestamp": "3:43:56 AM"
+      },
+      {
+        "summary": "Paid media agency limited to lead-level data, inaccurate for optimization",
+        "quote": "the paid media agency right now is limited because of the UTM situation to only looking at like leads and even the leads aren't really. accurate.",
+        "speaker": "Michael Seymour",
+        "timestamp": "10:09:28 PM"
+      },
+      {
+        "summary": "Channel classifications in RevSure showing wrong business line attributions",
+        "quote": "i would see a lot of like engineering intelligence spend and then like i was on with our product manager showing her and she was like that's not that's way over budget it's showing the ei campaigns here too so those are actually are not hitting the cost center",
+        "speaker": "Nick Davis",
+        "timestamp": "1:44:49 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "OneTrust",
+        "vendor": "OneTrust",
+        "reason": "Cookie banner causing massive attribution blind spots by stripping UTMs",
+        "quote": "there's a new landscape, want to see additional efficiencies. And then one you kind of threw out there at the last second to us was, I have sales reps that for some reason, when they pipe opportunities, they're all coming up as renewals.",
+        "speaker": "E.T. Mac",
+        "timestamp": "1:36:40 AM"
+      },
+      {
+        "tool": "Power BI",
+        "vendor": "Microsoft",
+        "reason": "CFO using Power BI for forecasting but it's difficult and not reliable; seeking better source of truth",
+        "quote": "Pending thing right now that we're trying to refinance into this is like, I don't know what systems. They use, I know they're using power BI, right. For like the end all sorts of truth, which is difficult.",
+        "speaker": "Michael Seymour",
+        "timestamp": "1:10:29 AM"
+      },
+      {
+        "tool": "CaliberMind",
+        "vendor": "CaliberMind",
+        "reason": "Eliminated because they don't do cookieless tracking",
+        "quote": "we talked to caliber mind but they said they don't do cookie list ranking so they're out.",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "2:17:30 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "CFO",
+          "CMO",
+          "Marketing"
+        ],
+        "tension_label": "Attribution credit dispute between marketing and sales",
+        "summary": "CMO Brian Wallace does not want marketing to take 100% credit for any opportunity; wants sales touchpoints included to show sales impact",
+        "quote": "our CMO doesn't want marketing, whatever funnel we choose. um or a model we choose he doesn't want marketing to take 100 credit of any like opportunity so um we need to make sure that however we're building our model that we're adding in those sales touch points as well because he wants to show uh sales um impact on an opportunity as well",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "8:36:43 PM"
+      },
+      {
+        "actors": [
+          "CFO",
+          "CMO",
+          "CEO"
+        ],
+        "tension_label": "Executive pressure on marketing spend scrutiny after CMO change",
+        "summary": "New CMO under pressure from CEO/CFO to justify marketing dollars, especially after previous leader was let go",
+        "quote": "the marketing team is being scrutinized on our dollars that we're spending, especially since they let go of our previous leader.",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "2:29:28 AM"
+      },
+      {
+        "actors": [
+          "CX team",
+          "Marketing"
+        ],
+        "tension_label": "Contact consolidation conflict - CX trying to bring contacts into HubSpot unrelated to marketing's attribution needs",
+        "summary": "CX team trying to bring contacts into HubSpot for administrative/renewal purposes, creating confusion about marketable contacts vs. non-marketable contacts and potential cost increases",
+        "quote": "CX is trying to bring contacts into HubSpot, not really related to what we're doing, but like they're trying to consolidate platforms in the same vein.",
+        "speaker": "Michael Seymour",
+        "timestamp": "1:00:39 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "attribution ownership and credit for deals",
+        "summary": "Michael argues sales and marketing side by side shows 80% of new logo deals originated from marketing, pushing back on MSR-only view",
+        "quote": "when you look at sales and marketing side by side it is like Abundantly clear that 80% of the new logo deals if not more originated from marketing",
+        "speaker": "Michael Seymour",
+        "timestamp": "1:46:44 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "CX/Retail"
+        ],
+        "tension_label": "who owns HubSpot and email sends",
+        "summary": "Dana wants to exclude CX and sales emails to get pure marketing view, but system commingling makes this difficult",
+        "quote": "yeah if we're going to do that we might want to pull out like sales and admin cx like if we're if the goal here is just trying to get like a marketing view by chance",
+        "speaker": "Dana Silverman",
+        "timestamp": "1:46:21 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "CX/Retail"
+        ],
+        "tension_label": "HubSpot ownership and data swim lanes",
+        "summary": "Nick suggests drawing swim lanes around marketing-controlled data vs non-marketing data to manage uncertainty",
+        "quote": "I don't know if we need to draw at some point some swim lanes and say we're confident in the marketing data, but we don't have a point of contact and there's a level of uncertainty around non-marketing data.",
+        "speaker": "Nick Davis",
+        "timestamp": "4:03:08 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales/SDRs"
+        ],
+        "tension_label": "lead routing and qualification thresholds",
+        "summary": "Nick wants to set different MQL thresholds for inbound vs outbound leads based on conversion rate differences",
+        "quote": "an inbound lead that's doing their own research coming filling out a demo form might actually convert to the bottom of the funnel at a higher clip than these outbound raw leads and so we might actually need less mqls if they're inbound than outbound",
+        "speaker": "Nick Davis",
+        "timestamp": "3:39:43 AM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Willing to share that RevSure will become infrastructural and impossible to remove - not in client's best interest as negotiating tactic",
+        "why_unusual": "Clients typically hide their lock-in vulnerability; explicitly stating the vendor will become sticky is unusual transparency that could weaken negotiating position",
+        "quote": "I hate to even share this because it's not in our best interest as the client, it's not going to be able to go away. There's going to be persistence. And what that means on a midterm renewal or renewal or whatever, I think it's perfect.",
+        "speaker": "Michael Seymour",
+        "timestamp": "1:08:34 AM"
+      },
+      {
+        "claim": "Linear attribution with equal credit is best practice for B2B with hundreds/thousands of touchpoints",
+        "why_unusual": "Most vendors push position-based (W/U-shaped) or data-driven models; advocating linear as default for complex B2B journeys is contrarian",
+        "quote": "linear with equal credit. What we typically see, Brian, is that customers, when you look at a journey from, you know, new logo journey in particular, you know, from the first touch to a closed one deal, it could be hundreds, maybe even thousands of touch points. Giving all the credit to one or two or three or five touch points just seems like you're losing all of the influence and all of the work",
+        "speaker": "Harry Hawk",
+        "timestamp": "12:36:39 AM"
+      },
+      {
+        "claim": "MQLs are 'stupid' and CMO hates them",
+        "why_unusual": "Despite MQL being standard B2B metric, CMO openly dismisses them; team considers dropping MQL-focused reporting entirely",
+        "quote": "our CMO talks a lot like he thinks that he hates mqls he thinks they're like stupid I don't know so at this point I don't know if he's actually going to truly care about that",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "9:16:24 PM"
+      },
+      {
+        "claim": "RevSure may not be the best place for funnel conversion rate reporting - Salesforce might be better",
+        "why_unusual": "Typically MTA vendors position themselves as the single source of truth for all funnel metrics; client pushes back that stage progression belongs in CRM",
+        "quote": "I just wonder if, like, Rebshare is the best place to do that. Like, if it should be done in Salesforce or something. Because I think we've got it, like, in other places where there's, like, maybe less chance where the data gets, like, construed.",
+        "speaker": "Dana Silverman",
+        "timestamp": "1:58:22 AM"
+      },
+      {
+        "claim": "Want to exclude email marketing entirely from channel reporting because CX contamination makes it unusable",
+        "why_unusual": "Email is typically a core channel; client would rather have no email data than wrong email data",
+        "quote": "i can't use email because over inflate our number so i'd rather just take it out",
+        "speaker": "Nick Davis",
+        "timestamp": "1:43:28 AM"
+      },
+      {
+        "claim": "Stage zero opportunities with no dollar amounts may become more common, not less",
+        "why_unusual": "Contradicts typical push to always have opportunity values; client considering zero-dollar stage as valid process step",
+        "quote": "there's conversations around zero dollar opportunities right now as maybe like a thing we actually might be using more as opposed to less as sort of like a stage zero",
+        "speaker": "Dana Silverman",
+        "timestamp": "4:17:05 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "implementation",
+        "problem": "Salesforce integration blocked/delayed by client's internal IT, but causing project delay",
+        "quote": "the project is delayed until we get Snowflake and Salesforce integrated.",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "1:01:13 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client unclear on how attribution models work in practice - whether last touch is static or dynamic as opportunity progresses",
+        "quote": "if it's in if it's open in open pipeline is the last touch always moving? Like, is it always going to change until it closes or is it static?",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "1:05:42 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cannot currently customize W model to restrict primary touches to specific touch types (e.g., only sales for last touch) - requires backend customization",
+        "quote": "in terms of customization of the model it's something that we can do but it's not something that you can play around in the ui",
+        "speaker": "Shantanu",
+        "timestamp": "8:41:57 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cannot currently do view-through attribution for LinkedIn ad impressions at account level without engagement",
+        "quote": "Currently, no, because it's one by one. But when we do the enhancement to allow you to customize the model, I don't know that that specifically is in the roadmap",
+        "speaker": "Harry Hawk",
+        "timestamp": "12:59:37 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Custom W-shaped model not yet live, causing zeroed-out reports and blocking executive presentation",
+        "quote": "your custom model is still being tested out. Right now it's being reflected in the UI. but its full implementation has not occurred yet so just wanted to give you that um that's why we're showing zero",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "7:59:17 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "LinkedIn ads showing inflated $25M due to form bucketing issues; needs investigation",
+        "quote": "linkedin ads one is uh that's we got to roll that other category out it's 25 million from linkedin ads is uh definitely not going to be here",
+        "speaker": "Michael Seymour",
+        "timestamp": "8:20:36 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "OneTrust cookie scanning not picking up all cookies, requiring manual addition",
+        "quote": "only one of the cookie got accepted, which is our test cookie. But there are multiple other cookies which should be scanned and used by the website",
+        "speaker": "Sahil Gupta - RevSure",
+        "timestamp": "10:00:35 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confused by difference between 'visitors' and 'visits from known contacts' metrics",
+        "quote": "what's the difference uh what's the difference between number of visitors and visits from known contacts",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "1:26:30 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Channel classification showing marketing emails from Salesforce as email marketing channel",
+        "quote": "i'm even seeing emails going out from salesforce and i'm like well marketing doesn't send emails from salesforce so we should exclude kind of like two marketing channels or two channels sorry you know one sales one marketing",
+        "speaker": "Nick Davis",
+        "timestamp": "1:42:53 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign attribution incorrectly assigning engineering intelligence campaigns to supply chain cost center",
+        "quote": "i would see a lot of like engineering intelligence spend and then like i was on with our product manager showing her and she was like that's not that's way over budget it's showing the ei campaigns here too so those are actually are not hitting the cost center",
+        "speaker": "Nick Davis",
+        "timestamp": "1:44:49 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Channel classification rules not visible in platform, locked on backend",
+        "quote": "where are these like channel classifications and how can we review them quickly to get them to a place like where we all feel comfortable that's what i'm checking",
+        "speaker": "Nick Davis",
+        "timestamp": "10:46:49 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Custom dimension for business unit segmentation broken, cannot save edits",
+        "quote": "request failed all right i may have to rebuild this for you",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "10:59:47 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client unsure if default view shows all contacts or just primary contact on account",
+        "quote": "that's probably like that i'm only getting one contact if i don't set that",
+        "speaker": "Michael Seymour",
+        "timestamp": "10:23:19 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "RevSure's cookieless tracking was decisive factor in selection over competitors",
+        "quote": "Those were, you guys are the only contenders because you guys could do the cookieless tracking and obviously we have that major cookie problem",
+        "speaker": "Kristina Eisenhart",
+        "timestamp": "1:11:00 AM"
+      },
+      {
+        "summary": "Brian Wallace extremely excited about solution capabilities, getting 'butterflies'",
+        "quote": "I could not be more excited, just even what you're doing right now. I'm literally like I'm getting butterflies in my stomach, but this is so good. We need this so bad",
+        "speaker": "Brian Wallace",
+        "timestamp": "1:10:55 AM"
+      },
+      {
+        "summary": "Timing of RevSure arrival perfectly aligned with new private-equity growth mandate",
+        "quote": "you guys coming in at this time could be more perfect because you guys are giving us insights into new logo opportunities we did not have before",
+        "speaker": "Brian Wallace",
+        "timestamp": "12:33:00 AM"
+      },
+      {
+        "summary": "RevSure captures touchpoints that other platforms miss due to OneTrust",
+        "quote": "rev tries to solve for the lack of utms by using fingerprinting i'm sure you're familiar with this concept it's like the same thing as like a hockey stack right it's like a um not using a cookie but using characteristics of someone to identify them that's compliant through a gdpr lens",
+        "speaker": "Michael Seymour",
+        "timestamp": "3:52:03 AM"
+      },
+      {
+        "summary": "Platform much more sophisticated and cleaner than previous tools",
+        "quote": "the platform is leaps and bounds better than what i've get the best, excuse me, get the best out of it",
+        "speaker": "Isaac Archer",
+        "timestamp": "1:33:27 AM"
+      },
+      {
+        "summary": "Ability to look at all contacts on account changes attribution story dramatically",
+        "quote": "with rep share you can look at all contacts on the account when you open up that world the influence and the impact of linkedin grows exponentially right",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "1:34:48 AM"
+      },
+      {
+        "summary": "Journey timeline view helps resolve deal contention between teams",
+        "quote": "if for whatever reason there's any kind of contention over a deal right so you can actually see like at the channel level where the influence happened that like led to this being called",
+        "speaker": "Michael Seymour",
+        "timestamp": "4:19:03 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "RevSure selected as front runner over HockeyStack for ELT team",
+          "quote": "it seems like the ELT team is like very interested in RevShare. It seems like you're a front runner over HockeyStack.",
+          "speaker": "Michael Seymour",
+          "timestamp": "1:00:39 AM"
+        },
+        {
+          "win": "Pricing negotiated down from ~$125K to target low $80s for 700K contacts with forecasting",
+          "quote": "BlizzPrice right now, for you guys, is definitely looking close to $125k. I'm going to really try to work to get this closer to $80k",
+          "speaker": "E.T. Mac",
+          "timestamp": "1:12:37 AM"
+        },
+        {
+          "win": "Pipeline and booking attribution now visible by channel with ability to compare models",
+          "quote": "we're looking at all the different campaign channels, have led to pipeline and booking with visibility into the funnel and of what was generated, where are they currently open in the pipeline, right? In which stage are they in right now? Looking at a linear model",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:34:58 AM"
+        },
+        {
+          "win": "Historical data import capability confirmed for 2+ years of data for planning",
+          "quote": "assuming we get all of our data into Rebshure in the next 30 days or so, will we have the ability to use, say, the last couple of years worth of our own data to do things like go forward projections by channel",
+          "speaker": "Dana Silverman",
+          "timestamp": "1:30:11 AM"
+        },
+        {
+          "win": "Cookieless tracking script deployed to address OneTrust UTM stripping",
+          "quote": "we deployed the official cookie list tracking side script for Acris, so everything after that",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:31:19 AM"
+        },
+        {
+          "win": "Custom W-shape attribution model built with Acris team",
+          "quote": "with the actress team we created a custom w-shaped model so how the credit is distributed is depending on different milestones",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:48:27 AM"
+        },
+        {
+          "win": "Marketing influence pipeline dashboard showing filtered marketing-only channels",
+          "quote": "i looked at your qc msv and i just like selected those channels so now it's truly um what is showing you is marketing influence",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:13:15 AM"
+        },
+        {
+          "win": "Opportunity prioritization view created for closed-won deal inspection",
+          "quote": "you can use this module which is a widget prioritization opportunity prioritization",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "3:11:16 AM"
+        },
+        {
+          "win": "New logo filtering logic implemented to exclude expansion/add-on op types",
+          "quote": "I made the filter so that it's you have full visibility and it excluded like the add-on the standard and all those op types",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "4:09:28 AM"
+        },
+        {
+          "win": "Lead stages updated in HubSpot",
+          "quote": "lead stages have been implemented",
+          "speaker": "Nick Davis",
+          "timestamp": "10:33:11 PM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Channel-level ROI understanding for CFO investment decisions",
+          "quote": "they just want channel level understanding of if I got $50,000 to invest somewhere and I need the max return, where do I put it? Right at the CFO level.",
+          "speaker": "Michael Seymour",
+          "timestamp": "1:14:03 AM"
+        },
+        {
+          "win": "Replace unreliable Power BI forecasting with RevSure's predictive capabilities",
+          "quote": "he obviously will eventually use this as probably a more reliable source of truth than the Power BI dashboard he's using once he looks at both the estimates and realizes you guys are so much closer to right.",
+          "speaker": "Michael Seymour",
+          "timestamp": "1:03:02 AM"
+        },
+        {
+          "win": "Massive expansion with target accounts and contact growth planned",
+          "quote": "knowing that we'll be like a massive expansion and like target account effectively, like with all these contacts we're adding in like the next month",
+          "speaker": "Michael Seymour",
+          "timestamp": "1:00:39 AM"
+        },
+        {
+          "win": "Board-level credibility for marketing investment with science-based measurement",
+          "quote": "you're going to have CEO, CFO, and board level attention on this really, really quickly in a good way",
+          "speaker": "Brian Wallace",
+          "timestamp": "1:16:14 AM"
+        },
+        {
+          "win": "2026 planning confidence with channel-level ROI projections",
+          "quote": "we're just gonna be starting to kick off 2026 planning. And this is going to be another level of confidence building to say, Every dollar you give us, we'll be able to tell you how effective it was going forward. No more guesswork",
+          "speaker": "Brian Wallace",
+          "timestamp": "1:01:38 AM"
+        },
+        {
+          "win": "Unified sales + marketing narrative replacing 'sales vs marketing' framing",
+          "quote": "we wanna show that it's not sales versus marketing, it's here's how the symbiotic relationship works",
+          "speaker": "Brian Wallace",
+          "timestamp": "12:57:35 AM"
+        },
+        {
+          "win": "Push RevSure data to Power BI for broader organizational reporting",
+          "quote": "probably like the longer term end state which i believe is ultimately like pushing this into power bi and like including with the rev ops reporting more",
+          "speaker": "Dana Silverman",
+          "timestamp": "4:20:46 AM"
+        },
+        {
+          "win": "Separate inbound and outbound funnel tracking with different conversion expectations",
+          "quote": "I'm almost thinking of two funnels in parallel and inbound marketing funnel with stages and then an outbound motion marketing funnel of with stages",
+          "speaker": "Nick Davis",
+          "timestamp": "3:39:43 AM"
+        },
+        {
+          "win": "Agentic AI for lead scoring and rep prioritization alerts",
+          "quote": "you can have agents in rapture right like look at all the signals and then like fire prioritization like if an account has reached this scoring right like if based on all the factors has reached this score this lead or has reached this score then like fire like an email or send the alert to the rep to reach out to them",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:14:25 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "HubSpot",
+      "Power BI",
+      "OneTrust",
+      "HockeyStack (evaluated)",
+      "Sixth Sense",
+      "GA4",
+      "Microsoft Ads",
+      "Google Ads",
+      "LinkedIn Ads",
+      "Google Analytics",
+      "Snowflake",
+      "LeanData",
+      "SendGrid (historical)",
+      "LinkedIn",
+      "Bing (unintegrated)"
+    ],
+    "pain_summary": "Antiquated operations with no reliable forecasting, massive attribution blind spots from OneTrust cookie banner stripping 60-70% of UTMs, messy Salesforce data with duplicates and misclassified opportunities, no multi-touch attribution, and marketing under scrutiny after CMO was let go",
+    "kpis_unhealthy": [
+      "forecast accuracy",
+      "channel-level attribution",
+      "marketing ROI visibility",
+      "contact-to-opportunity attachment rate",
+      "lead quality measurement",
+      "marketing ROI credibility",
+      "channel attribution accuracy",
+      "sales-marketing alignment on funnel definitions",
+      "target account conversion rates",
+      "campaign attribution accuracy",
+      "MQL-to-pipeline conversion tracking",
+      "new logo vs expansion classification",
+      "email marketing channel purity",
+      "paid media optimization signals"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "In early implementation - Salesforce integration pending, channel classification in progress, custom attribution models being designed with W-shaped as initial preference, targeting CMO/CFO presentation with visual dashboards focused on channel-level pipeline and bookings",
+    "wins_realized": [
+      "Selected as vendor over HockeyStack",
+      "Negotiated pricing structure",
+      "Built demo environment for executive presentation",
+      "Established CS relationship with weekly live support model",
+      "Channel-level pipeline/booking visibility",
+      "Historical data import confirmed for planning",
+      "Journey storytelling for leadership",
+      "CX email exclusion rules identified",
+      "Cookieless tracking script deployed",
+      "Custom attribution model built",
+      "Marketing influence filtering implemented",
+      "New logo exclusion logic created",
+      "Opportunity prioritization view for closed-won deals"
+    ],
+    "open_issues": [
+      "Salesforce integration blocked by internal IT",
+      "Snowflake integration pending",
+      "Custom attribution model requirements still being defined",
+      "LinkedIn impression-level attribution not yet available",
+      "Funnel stage definitions being revised by new CMO",
+      "Custom W-model not fully implemented",
+      "LinkedIn ads bucketing showing inflated $25M",
+      "OneTrust cookie scanning incomplete",
+      "Target account field/filter logic broken on leads",
+      "SQL definition needs sales/RevOps alignment",
+      "CMO may reject MQL-focused reporting entirely",
+      "MQL count discrepancy (~140 vs Salesforce)",
+      "Email marketing channel contaminated by CX/sales emails",
+      "Business unit segmentation breaking custom dimensions",
+      "Channel classification locked on backend not visible to client",
+      "Bing integration blocked by IT",
+      "Funnel stage definitions still being finalized",
+      "Zero-dollar opportunity process unclear"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Accuris (All Calls).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 20,
+      "tools_switched_from": 3,
+      "political_tussles": 7,
+      "contrarians": 6,
+      "revsure_problems": 13,
+      "best_about_revsure": 7,
+      "wins_immediate": 10,
+      "wins_long_term": 9
+    }
+  }
+}

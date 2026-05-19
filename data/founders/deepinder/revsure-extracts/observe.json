@@ -1,0 +1,521 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Observe",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Building entire funnel tracking, attribution, and reporting from scratch in-house",
+        "quote": "right now one of the things that I am actually looking to do, I'm actually, I you know, recently joined observe and so one of the things for me is to build their or revamp their entire funnel and then reporting and restructuring everything. So I was actually working on all of it and planning to build everything in-house",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "3:36:23 AM"
+      },
+      {
+        "summary": "Difficulty tracking genuine sales responses vs automated responses in outreach",
+        "quote": "I want to see all the responses that I receive on the sales activities, how much of those were like kind of maybe automated or not so valuable, but versus how many of them are like actual manual responses. Same thing for all activities. How many of them they get hold of voicemail versus how many of people, like they actually picked up the call and talked to them.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "3:51:34 AM"
+      },
+      {
+        "summary": "Email attribution undercounted because click activities not tracked as campaign responses",
+        "quote": "emails because email activities are not tracked in campaigns. Email activities are not showing any responses. Like for example, if somebody clicks on the email, it is not getting currently tracked as member responded, it is only being tracked for the nurture emails maybe but not for the regular emails.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "2:36:52 AM"
+      },
+      {
+        "summary": "Data sync stuck with Salesforce for financial segment and meeting interest fields",
+        "quote": "In terms of meeting interest and the financial segment, I spoke to a team this morning. There's a sync stuck with SFDC, but I've escalated that internally to get that looked at as quickly as possible.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "6:08:26 AM"
+      },
+      {
+        "summary": "Campaign-level tracking exists but asset-level tracking is missing, preventing performance analysis of individual content assets across multiple campaigns",
+        "quote": "we are not tracking currently in our data for every campaign don't stamp what asset that campaign is promoting. So right now there is no way for us to say on the asset level, how is that asset performing? Because that asset could have been, you know, we could have used that in maybe 10 different campaigns.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "3:25:54 AM"
+      },
+      {
+        "summary": "LinkedIn ads seen as awareness play with poor direct conversion, struggling to prove funnel impact beyond impressions",
+        "quote": "We see LinkedIn as more of like an awareness and engagement play compared to like gating content. That's where I'm trying to hopefully use Revsure value of impressions and just add clicks on the journey.",
+        "speaker": "Joe Berenz",
+        "timestamp": "1:17:39 AM"
+      },
+      {
+        "summary": "Difficulty understanding why SAL volume appears lower than SQL volume due to attribution model differences",
+        "quote": "the SAL versus SQL versus why is this the low and I think you addressed it but I wasn't sure how to answer or how to get around that per se",
+        "speaker": "Nathaniel Yip",
+        "timestamp": "9:35:16 PM"
+      },
+      {
+        "summary": "Email sends being counted for attribution when they shouldn't be, causing inflated email attribution",
+        "quote": "we'll send email, let's say to kind of everyone in our database, anyone that we can send email to, right. But that doesn't attribute it like that doesn't make it kind of a valid activity to be considered toward attribution. I would say, unless they open or click on it, they take some action, right? yeah they just send should not be uh counted toward attribution I would say okay",
+        "speaker": "Maneek Tayal",
+        "timestamp": "7:13:47 PM"
+      },
+      {
+        "summary": "Cannot see email send/open/click metrics in flat table format, only in separate rows",
+        "quote": "what we are looking at is that we are like all the different kind of activities we are seeing them in different rows right is there a way for us to see it like in a flat table kind of format where we just have how many people the email was sent to delivered then opened and clicked out of that is that possible",
+        "speaker": "Maneek Tayal",
+        "timestamp": "9:37:45 PM"
+      },
+      {
+        "summary": "Team lacks bandwidth to properly use RevSure due to layoffs and reduced headcount",
+        "quote": "we all like absolutely see the value of Repture. Like it brings all of our data in one spot. There's so many good views. It's so much easier to use reporting. It's just none of us have the bandwidth to actually invest time to like use it as we should be.",
+        "speaker": "Joe Berenz",
+        "timestamp": "11:42:52 PM"
+      },
+      {
+        "summary": "Trade shows buried under field event channel instead of being separate",
+        "quote": "trade show rolls up to field event which is something we would want to separate out to its own",
+        "speaker": "Joe Berenz",
+        "timestamp": "12:02:42 AM"
+      },
+      {
+        "summary": "Cannot track specific email nurture performance and which personas respond most",
+        "quote": "we have an email nurture to email nurtures uh to see if you people are responding um it's not possible in rev sure um to specific email nurtures",
+        "speaker": "Nathaniel Yip",
+        "timestamp": "10:57:23 PM"
+      },
+      {
+        "summary": "Sixth Sense data not properly flowing into RevSure due to license/access issues",
+        "quote": "part of why we're maybe seeing zero now is because we haven't been able to like um do um like the weekly uploads",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:19:11 AM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Homegrown funnel tracking and attribution",
+        "vendor": "Self-built",
+        "reason": "Wanted to avoid building from scratch, looking for available solution to utilize",
+        "quote": "I would love to see what's out there available and if there is something that I can utilize.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "3:36:23 AM"
+      },
+      {
+        "tool": "Spreadsheets / manual reporting",
+        "vendor": "Internal",
+        "reason": "CEO and executives need reliable data for board meetings and pipeline calls",
+        "quote": "this data will be looked up by everyone in the company, including our CEO",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "1:35:32 AM"
+      },
+      {
+        "tool": "Salesforce native reporting",
+        "vendor": "Salesforce",
+        "reason": "Limited to primary contact attribution, missing multi-touch account-level journey visibility",
+        "quote": "Every Salesforce is different, right? But like what I see a lot is, it's just looking at the primary contact, right? So if it's only looking at the primary contact, then the credit, right? Because there's so much more, especially nowadays with software, it isn't just one person, it's not.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "4:33:15 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "Attribution methodology disagreement",
+        "summary": "Colette questions whether email should be killed based on influence data, Sudhir pushes back that the story is wrong",
+        "quote": "Because I mean to me, and maybe I'm wrong but this is telling me we're wasting way too much time on email and we should kill email, which I don't think is the story, but that's what it looks like based on this data.",
+        "speaker": "Colette Wladyka",
+        "timestamp": "2:35:16 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales Operations"
+        ],
+        "tension_label": "Data accuracy and manual processes in Salesforce",
+        "summary": "Sales ops manually associating contacts with opportunities causes primary campaign source stamping to fail",
+        "quote": "maybe there are times when people miss to associate contacts with the opportunity, or they associate them after the opportunity is created, and then the primary campaign source stamping doesn't work. So there is some manual pieces that might be missing here.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "1:36:32 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Finance/CMO"
+        ],
+        "tension_label": "budget reallocation justification",
+        "summary": "Need to defend campaign spend and prove ROI to CMO, with concern that current attribution numbers appear too low to justify marketing investments",
+        "quote": "she's like, yeah, this seems super low. Generated lead, or maybe it should be influenced. I don't know. And what did we, I'm sorry, what I forgot, what we want generated versus influence generated is when we directly contributed to that, right? To the, for example, the inquiry.",
+        "speaker": "Nathaniel Yip",
+        "timestamp": "9:59:00 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Email click activities should count as campaign response for attribution, not just member responded date",
+        "why_unusual": "Most attribution platforms rely on campaign member status; Sudhir insists on using email click activities specifically for email campaigns, breaking from standard Salesforce campaign attribution",
+        "quote": "in case of email campaigns, we should not look at campaign member responded equals true. We should do it for rest every other channel. But for email channel we should look at email click activities for example, not the sent and delivered activities, but if there is the email click, we count it as towards the attribution.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "2:38:51 AM"
+      },
+      {
+        "claim": "AI attribution should be trained on client's own data with transparent factors, not black box",
+        "why_unusual": "Many AI attribution vendors hide their models; Sudhir explicitly demands to understand how AI weights are determined and how it's trained",
+        "quote": "So, so how does AI like decide how much weight is to give? What kind of activity? Like what's the, how, how is AI getting trained on it?",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "5:51:46 AM"
+      },
+      {
+        "claim": "Email nurture performance may be overstated because it's the primary mechanism for forcing inquiry-to-MQL conversion, not necessarily because it's the best channel",
+        "why_unusual": "Marketers typically celebrate email nurture as top-performing without acknowledging structural bias in their funnel design; Nate explicitly questions this",
+        "quote": "my concern is, because I could poke holes in this, because we already do this already. And this is the reason why emails are top performing for inquiries to MQLs is because, hey, that's the really the only channel that we force inquiries to become MQLs is through the email, right?",
+        "speaker": "Nathaniel Yip",
+        "timestamp": "1:51:24 AM"
+      },
+      {
+        "claim": "Email sends should NOT count toward attribution - only opens and clicks",
+        "why_unusual": "Most marketing automation platforms and attribution tools count email delivery as a touchpoint; Observe explicitly rejects this",
+        "quote": "we'll send email, let's say to kind of everyone in our database, anyone that we can send email to, right. But that doesn't attribute it like that doesn't make it kind of a valid activity to be considered toward attribution. I would say, unless they open or click on it, they take some action, right? yeah they just send should not be uh counted toward attribution I would say okay",
+        "speaker": "Maneek Tayal",
+        "timestamp": "7:13:47 PM"
+      },
+      {
+        "claim": "They use 'sourced' to mean last-touch attribution, not first-touch",
+        "why_unusual": "Industry standard typically defines 'sourced' as first-touch/origin; Observe uses it as last-touch before stage conversion",
+        "quote": "if it was sourced, right, then yes, it's attributed to Last Touch",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "1:13:01 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Data sync stuck with Salesforce preventing financial segment and meeting interest fields from appearing",
+        "quote": "There's a sync stuck with SFDC, but I've escalated that internally to get that looked at as quickly as possible.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "6:08:26 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaigns missing from RevSure despite existing in Salesforce, possibly due to sync timing or planned status",
+        "quote": "there were a couple that were missing that I couldn't find, and they are in Salesforce, by the way. I double checked, they were there in the Salesforce, but I couldn't find them here.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "1:40:59 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Email channel attribution requires custom rule changes not available out of box",
+        "quote": "in case of email campaigns, we should not look at campaign member responded equals true. We should do it for rest every other channel. But for email channel we should look at email click activities",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "2:38:51 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about difference between generated vs influenced metrics and how they're calculated",
+        "quote": "How do we calculate generated? How are we calculating? Because in my case I was calculating generated based on the last touch point.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "1:58:40 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion about projection from funnel vs demand gen potential and where demand gen potential comes from if not already in funnel",
+        "quote": "Because all of that is anyways going to the funnel right all of that Everything that demand gen does is getting added into funnel already. So inquiries it is going into inquiries and MQLs and SALs",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "6:29:29 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign program name filter not appearing in top-level filter, requiring workaround through campaign filters section",
+        "quote": "did it add it so hold on so if you click on the plus type program name okay program name oh it didn't add it so click here and then you have to add yeah if you don't",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "2:44:01 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Difficulty understanding how to configure filters so summary bar matches drill-down data",
+        "quote": "So what we have to do is the filters that you have below, we have to add to that top level one. And this top level will serve as a summary of the below, right? So you can have the summary and below that, the drill down.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "2:38:14 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Sales initiative field from Salesforce not yet ingested into RevSure, requiring manual account name filtering",
+        "quote": "So I don't believe that Sudhir had requested that to be brought in. Yeah, so I know the name, but if you tell me the API name and the object it relates to, I'll have it brought in and it takes like a sync. So like 24 to 48 hours to be reflected in Rapture.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "4:23:34 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Attribution model configuration changes take 30 minutes to 1 hour to generate",
+        "quote": "And then that takes like half an hour to an hour to generate, attribution, like this funnel conversion attribution model",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "1:53:24 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Email metrics showing in separate rows instead of flat table format with send/delivered/open/click columns",
+        "quote": "what we are looking at is that we are like all the different kind of activities we are seeing them in different rows right is there a way for us to see it like in a flat table kind of format where we just have how many people the email was sent to delivered then opened and clicked out of that is that possible",
+        "speaker": "Maneek Tayal",
+        "timestamp": "9:37:45 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Sixth Sense integration broken due to expired/invalid credentials, preventing weekly data uploads",
+        "quote": "part of why we're maybe seeing zero now is because we haven't been able to like um do um like the weekly uploads",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "12:19:11 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cannot see campaign member 'responded' status in filters - needs to be added in config",
+        "quote": "this is first responded i think we'll have to add that in the config page",
+        "speaker": "Shantanu",
+        "timestamp": "7:16:47 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Sudhir praises RevSure team as one of the best onboarding experiences",
+        "quote": "they have been wonderful so far. Like this is probably one of the best teams that I have worked with after onboarding experience. So like kudos to them. I keep praising them. Francisco, Harry, Jerry, like they've been marvelous.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "3:03:35 AM"
+      },
+      {
+        "summary": "Colette excited about finally having data capabilities after gaps",
+        "quote": "I am looking forward to it. Data is, has been a gap for us.",
+        "speaker": "Colette Wladyka",
+        "timestamp": "2:06:38 AM"
+      },
+      {
+        "summary": "Sudhir finds journey mapping and touchpoint visualization 'beautiful'",
+        "quote": "It is actually really, really great. So maybe we'll need just more time to, you know, show you the full, full tool.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "3:01:32 AM"
+      },
+      {
+        "summary": "Sudhir praises RevSure onboarding team as best he's worked with in 20+ year career",
+        "quote": "Honestly, like this is one of the best test ever customer onboarding team that I have ever worked with and I've been working for 20, 20, 20, very cool, very cool.",
+        "speaker": "Sudhir Rawat",
+        "timestamp": "3:54:07 AM"
+      },
+      {
+        "summary": "Nathaniel expresses strong enthusiasm for platform's flexibility and rich functionality",
+        "quote": "Oh, fantastic, fantastic. Oops. All right, so, CIO. Oh, Gen AI, that's what I need to do.",
+        "speaker": "Nathaniel Yip",
+        "timestamp": "2:44:35 AM"
+      },
+      {
+        "summary": "Nate explicitly wants to promote RevSure internally as strategic vendor partner",
+        "quote": "And we got to really make a show. Like, I really want to promote RevSure. as the vendor that really gives us stuff. So you have to use me as a conduit. So what's good for me is good for you.",
+        "speaker": "Nathaniel Yip",
+        "timestamp": "1:56:01 AM"
+      },
+      {
+        "summary": "Farrah finds platform highly customizable and helpful for ABM campaign effectiveness",
+        "quote": "Awesome. This is super helpful.",
+        "speaker": "Farra Canada",
+        "timestamp": "4:33:01 AM"
+      },
+      {
+        "summary": "Joe sees value in connecting ad impressions to account journeys for awareness impact proof",
+        "quote": "That helps me. Cause like we do like a lot of video ads on LinkedIn, which won't go like to, probably a lot of clicks. It's like, you know, they consume the content that thought leadership, but didn't click on it.",
+        "speaker": "Joe Berenz",
+        "timestamp": "1:30:52 AM"
+      },
+      {
+        "summary": "Consolidated view eliminates need to log into Marketo separately",
+        "quote": "is nice to have it all in one place you know where we could not have to go to marketa to do this so that yeah from that perspective that is it's a success in that way of like now we can see this here compared to also having to log into marketa",
+        "speaker": "Joe Berenz",
+        "timestamp": "2:09:19 AM"
+      },
+      {
+        "summary": "Cohort analysis showing direct conversions is very helpful",
+        "quote": "this cohort stuff is helpful very much helpful yeah for sure",
+        "speaker": "Nathaniel Yip",
+        "timestamp": "10:37:42 PM"
+      },
+      {
+        "summary": "Pipeline waterfall view would make leadership's lives easier",
+        "quote": "this is really interesting um trying to be the right people to show this off to because I'm sure this would make some people's lives really easier compared to how they do it is today",
+        "speaker": "Joe Berenz",
+        "timestamp": "2:16:12 AM"
+      },
+      {
+        "summary": "Ability to see LinkedIn engagement at account level with new API",
+        "quote": "This is a great level of new data that we have.",
+        "speaker": "Joe Berenz",
+        "timestamp": "2:09:27 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "CCW Las Vegas campaign performance tracking set up in RevSure",
+          "quote": "So now I'm seeing the generated inquiries, okay. I'm seeing generated MQL volume, great. Generated SAL volume. SQL, SQL. By booking volume, okay.",
+          "speaker": "Sudhir Rawat",
+          "timestamp": "1:48:12 AM"
+        },
+        {
+          "win": "Nathaniel created and presented campaign insights deck using RevSure data for CMO",
+          "quote": "I came up with insights and recommendations based on the data. go through it, see if everything is consistent with what we see in the dashboard.",
+          "speaker": "Nathaniel Yip",
+          "timestamp": "9:31:31 PM"
+        },
+        {
+          "win": "Maddie/ABM team can now prioritize MQL re-engagement using AI propensity scores",
+          "quote": "So if I go, I'm going to scroll a little bit. And this will kind of also give insight into Farrah's question earlier in the week. So here, what we're saying is, based on all the historical data that we're seeing from Rupture, what is the likelihood that this lead tied to this account will convert to Pipeline in this quarter?",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:08:34 AM"
+        },
+        {
+          "win": "Can track post-opportunity creation influence of channels like LinkedIn",
+          "quote": "post-opportunity creation influence. What this means is you can look at what, this is like a different metric. And what it essentially says is who had interactions with LinkedIn as a channel post that opportunity being created.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "2:07:09 AM"
+        },
+        {
+          "win": "Can filter and analyze strategic account pipeline with custom dimensions",
+          "quote": "so now you have full visibility into the funnel for strategic",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "2:28:03 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Build standardized KPI frameworks for C-level, mid-management, and operations",
+          "quote": "basically rolling out the whole text like the, the the whole KPIs that actually matters to C-level people, to mid-management and to people who are doing the day-to-day operations. And you have the entire text ready, like the entire portfolios of all the KPIs for all three groups",
+          "speaker": "Sudhir Rawat",
+          "timestamp": "5:57:55 AM"
+        },
+        {
+          "win": "Establish content strategy based on asset-level performance data once asset mapping is complete",
+          "quote": "what content would be the best generator for inquiries, right? For example, this quarter, we do that. And then the next quarter, I would say, or maybe even within this quarter, okay, as I'm planning, what kind of content is good to pull in NQLs or the conversion of it, right?",
+          "speaker": "Nathaniel Yip",
+          "timestamp": "3:52:09 AM"
+        },
+        {
+          "win": "Create unified view of ad impact across LinkedIn, Google, 6Sense showing warming patterns before website visits",
+          "quote": "I would love to have some report or view of like the impact specifically on our ads. LinkedIn, Google, Sixth Sense, like on the journeys, how it's impacting accounts and how showing like, oh, we showed them ads, warmed them up, and then they came to the website, you know, two weeks later type of thing.",
+          "speaker": "Joe Berenz",
+          "timestamp": "1:20:06 AM"
+        },
+        {
+          "win": "Build ICP persona tracking to measure marketing and sales activity effectiveness by segment",
+          "quote": "how they have done and we want to see the performance of it like through the funnel, right, like how many inquiries we have got from that specific segment, how many MQLs, how many, how are we engaging with that segment. So for example, if I create that okay, this is my persona for VAI, right. Now I want to track for this persona. How am I doing in terms of not just only from the funnel perspective, but also from the But also from the activities perspective, am I doing enough marketing activities, am I doing enough sales activities with this persona.",
+          "speaker": "Sudhir Rawat",
+          "timestamp": "3:42:39 AM"
+        },
+        {
+          "win": "Want account-based dashboard showing 2,000-3,000 target accounts and their funnel position",
+          "quote": "here's our 2000 accounts where they all kind of lay right now how much we're engaging that would be really great.",
+          "speaker": "Joe Berenz",
+          "timestamp": "2:11:17 AM"
+        },
+        {
+          "win": "Want marketing ops hire to own RevSure and derive actionable insights",
+          "quote": "we want the new marketing operations, obviously, to have those skill sets, but like to be more on the marketing analytics side who are like, who's really used to like building dashboards, creating insights, you know, sharing these stories",
+          "speaker": "Joe Berenz",
+          "timestamp": "11:43:56 PM"
+        },
+        {
+          "win": "Want pipeline projections to track quarterly performance against targets",
+          "quote": "two weeks into the quarter. As a CMO, as a VP of marketing, you understand is, am I generating enough pipeline to reach my pipeline target and to reach my booking targets?",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:44:16 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Marketo",
+      "Salesforce",
+      "Six Sense",
+      "ZoomInfo",
+      "Outreach",
+      "Spreadsheets/manual reporting",
+      "LinkedIn Ads",
+      "Google Ads",
+      "6Sense",
+      "PathFactory",
+      "Sixth Sense",
+      "LinkedIn"
+    ],
+    "pain_summary": "Building entire funnel tracking, attribution modeling, and reporting from scratch in-house with no unified view of customer journey across lead, contact, campaign, opportunity objects",
+    "kpis_unhealthy": [
+      "funnel conversion rates by segment",
+      "campaign attribution accuracy",
+      "sales activity effectiveness",
+      "voice AI vs CI product tracking",
+      "week-over-week pipeline trends",
+      "pipeline forecast visibility",
+      "content asset performance",
+      "LinkedIn ad funnel impact",
+      "SAL-to-SQL conversion understanding",
+      "email attribution accuracy",
+      "channel classification clarity",
+      "target account funnel visibility",
+      "LinkedIn attribution completeness"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Unified funnel visibility with AI-powered projections, custom dashboards for new business pipeline, journey mapping across touchpoints, and emerging multi-product tracking capabilities",
+    "wins_realized": [
+      "Google Ads and LinkedIn integrated",
+      "New business dashboard with segment splits",
+      "CIO-level engagement tracking",
+      "CCW campaign performance tracking",
+      "Custom dimension logic for full-funnel visibility",
+      "Deal progression analysis dashboard",
+      "Target attainment visualization",
+      "Campaign reallocation module showing 440% pipe value potential",
+      "ABM MQL prioritization with propensity scores",
+      "Cross-channel journey visibility for LinkedIn/Google/6Sense",
+      "email subject-level attribution across funnel",
+      "LinkedIn company intelligence integration",
+      "strategic account filtering",
+      "post-opportunity influence tracking",
+      "pipeline waterfall views"
+    ],
+    "open_issues": [
+      "Salesforce sync stuck for financial segment/meeting interest fields",
+      "Email attribution rules need customization",
+      "Voice AI vs CI tracking not available before SAL stage",
+      "Some Salesforce campaigns missing from RevSure",
+      "Open pipeline exceeding generated pipeline logic needs validation",
+      "Asset-level tracking pending MOPS data mapping",
+      "Sales initiative field not yet ingested",
+      "Attribution model education needed for leadership presentations",
+      "Statistical significance concerns on newer channels like gifting",
+      "UTM tracking for email nurtures not yet configured",
+      "marketing ops headcount gap",
+      "Sixth Sense integration broken",
+      "email metrics flat table format needed",
+      "batch campaign attribution rules",
+      "ABM dashboard for 2-3K target accounts"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - Observe (All Calls).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 13,
+      "tools_switched_from": 3,
+      "political_tussles": 3,
+      "contrarians": 5,
+      "revsure_problems": 12,
+      "best_about_revsure": 12,
+      "wins_immediate": 5,
+      "wins_long_term": 7
+    }
+  }
+}

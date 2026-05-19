@@ -1,0 +1,327 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Agent.AI",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "No visibility into which campaigns are actually driving conversions vs. just active in system",
+        "quote": "there are a bunch of campaigns that have never been marked inactive that is being captured in every single quarter",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "02:04:12 PM"
+      },
+      {
+        "summary": "Channel classification confusion causing paid social to appear with zero spend",
+        "quote": "paid social is zero, Facebook is zero, paid social has nine campaigns, and LinkedIn has nine campaigns. So is that like the duplication?",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "01:53:54 PM"
+      },
+      {
+        "summary": "Facebook spend data showing contributions after spend was turned off, indicating attribution decay issues",
+        "quote": "well we you know I realize you know with ad stock and all that there's that decay but it's it I'd have to check but my guess is it stopped uh somewhere around April we turned off Facebook that's probably a couple only a couple weeks of spend there all of for most of q2 all of q3 and all but the last couple of weeks of q4 there was no facebook spent",
+        "speaker": "Harry Hawk",
+        "timestamp": "4:47:15 AM"
+      },
+      {
+        "summary": "Sales efficiency metric appearing when nothing is for sale yet",
+        "quote": "Which like there's no price. There's nothing for sale yet. Next week, there'll be something for sale. again sales efficiency like shouldn't be there in my mind",
+        "speaker": "Harry Hawk",
+        "timestamp": "4:49:45 AM"
+      },
+      {
+        "summary": "Campaigns with zero dollars spent still appearing in reports, causing confusion about where spend is being allocated",
+        "quote": "in q4 i'm looking at like a table uh where you have four campaigns in facebook uh seven campaigns in linkedin and four campaigns in paid social with zero dollars spent so we just need to dive into what those four campaigns are and maybe rename",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "4:50:06 AM"
+      },
+      {
+        "summary": "Dashboard filters failing to load with 'all time' timeframe, causing data fetch failures",
+        "quote": "Every time I put all time, this like freaks out and does not complete.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:18:30 AM"
+      },
+      {
+        "summary": "Conversion values incorrectly set too high ($5 instead of 50 cents) due to hardcoded values",
+        "quote": "It should be 50 cents. And it's doing like $5. And we're sending it at 50 cents on our side and I hardcoded it here.",
+        "speaker": "Harry Hawk",
+        "timestamp": "5:20:51 AM"
+      },
+      {
+        "summary": "Purchase event firing on every agent run instead of actual purchases, causing inflated conversion numbers",
+        "quote": "35,000 purchases in the last seven days. We're doing great. Oh, it looks like a lot of these are. Okay, these might be runs then. Yeah. These are all individual runs.",
+        "speaker": "Adam Jordan",
+        "timestamp": "2:42:43 AM"
+      },
+      {
+        "summary": "Mixpanel used as primary analytics but not connected to ad optimization, creating signal gap",
+        "quote": "We've always just used mixed panel as the, you know, we're driving down the road, but we're looking at mixed panel. The conversions here really just, you know, the revsure ones really just get the signal to Google, you know, wouldn't optimize for it.",
+        "speaker": "Harry Hawk",
+        "timestamp": "2:25:12 AM"
+      },
+      {
+        "summary": "Need to clean up custom events and remove conversion actions in Google",
+        "quote": "Adam Jordan | 3:00:10 AM -->\n they  completed  the  run  actions,  yeah,  if  they  completed  the  run  action  three  times  on  that  one  page  then  okay,  it's  that  one  but  Yeah,  okay,  I  do  have  to  hop  for  another  meeting  this  was  very  helpful.  Thank  you  so  much  I'll  clean  up  those  custom  events  and  remove  the  conversion  actions  that  we  talked  about  in  Google.",
+        "speaker": "Adam Jordan",
+        "timestamp": "3:00:10 AM"
+      }
+    ],
+    "tools_switched_from": [],
+    "political_tussles": [],
+    "contrarians": [
+      {
+        "claim": "Agent marketplace should be Switzerland - neutral platform that doesn't compete with partners",
+        "why_unusual": "Most platforms compete with their ecosystem; Agent.AI explicitly avoids this",
+        "quote": "as opposed to sort of, you know, you know, being competitive, we're really trying to be Switzerland here and, and try to be a partnership opportunity for everybody",
+        "speaker": "Dave Rouse",
+        "timestamp": "10:02:38 PM"
+      },
+      {
+        "claim": "Each individual will hire agents on their own behalf, not just companies buying for teams",
+        "why_unusual": "Contradicts typical B2B SaaS seat-based model; predicts consumer-like individual agent adoption",
+        "quote": "each individual hiring agents on their own work workload behalf",
+        "speaker": "Dave Rouse",
+        "timestamp": "10:04:10 PM"
+      },
+      {
+        "claim": "LinkedIn scraping is 'pretty normal thing right now everyone scrapes LinkedIn'",
+        "why_unusual": "Openly acknowledges controversial practice that vendors typically deny or obfuscate",
+        "quote": "I think it's a pretty like normal thing right now everyone scrapes LinkedIn for yeah",
+        "speaker": "Tejas",
+        "timestamp": "12:30:36 PM"
+      },
+      {
+        "claim": "Sending MAWAU signals every single day for active users rather than just once, creating overlapping daily conversion signals",
+        "why_unusual": "Standard practice sends conversion events once per user journey; daily restatement of the same user as 'new conversion' intentionally pollutes attribution with repeated signals",
+        "quote": "the middle one, the Mauau, is sent every day. If you're Mauau today, tomorrow, every day that you are, it gets sent. The new is only during the time that you're new. And if it has a drop, it never starts again. And then the retained can start and stop.",
+        "speaker": "Harry Hawk",
+        "timestamp": "2:31:13 AM"
+      },
+      {
+        "claim": "Treating YouTube subscriber acquisition (60 cents each) as comparable metric to B2B SaaS conversion optimization",
+        "why_unusual": "Consumer social subscriber growth metrics rarely inform B2B SaaS paid acquisition strategy; conflating these suggests unconventional full-funnel thinking",
+        "quote": "The most successful campaign in my opinion recently we did a speed run to a hundred thousand subscribers on YouTube Mm-hmm, and it was getting like 60 cents a subscription or something like that originally even cheaper than that",
+        "speaker": "Harry Hawk",
+        "timestamp": "2:24:40 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Channel classification showing campaigns with zero spend as 'paid social'",
+        "quote": "paid social is zero, Facebook is zero, paid social has nine campaigns, and LinkedIn has nine campaigns. So is that like the duplication?",
+        "speaker": "Ram Arunachalam",
+        "timestamp": "01:53:54 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Backend events (agent run completed) not capturing in RevSure",
+        "quote": "back-end events initialized and completed are not getting captured",
+        "speaker": "Sai Raju",
+        "timestamp": "04:23:29 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Saved view filters don't persist - lead member and customer filters turn back on",
+        "quote": "I turn off lead member and customer and apply and save and at some future point I come back and they're all turned on again",
+        "speaker": "Harry Hawk",
+        "timestamp": "02:20:04 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about difference between 'paid search' and 'Google' channels in MMX",
+        "quote": "we're seeing what are clearly hubspot um types so we should do the same filtering and just confirm and then those should get part of be part of email newsletter",
+        "speaker": "Harry Hawk",
+        "timestamp": "02:17:48 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Dashboard overview not loading, requiring page refresh",
+        "quote": "weird that the overview is not loading",
+        "speaker": "Harry Hawk",
+        "timestamp": "4:54:46 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Filter 'all time' timeframe causes data fetch failures and incomplete loading",
+        "quote": "Every time I put all time, this like freaks out and does not complete.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:18:30 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Smart filters failing to fetch data with 'fail to fetch' error message",
+        "quote": "see the horrible message that says fail to fetch data. Yeah,",
+        "speaker": "Harry Hawk",
+        "timestamp": "5:25:30 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign name dimension not available as default, requiring custom configuration",
+        "quote": "some of these aren't even defaults on the dimensions. There's like two or three that are.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "5:01:23 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Facebook CAPI implementation has problems being fixed, blocking offline conversion setup",
+        "quote": "we're not doing anything for meta, where there was a problem with the CAPI implementation, and we're in the process of fixing that.",
+        "speaker": "Harry Hawk",
+        "timestamp": "2:41:30 AM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "RevSure's data model and semantic layer praised by Agent.AI product leader",
+        "quote": "great product agent.ai, so congratulations. It's very inspirational what you guys are doing. So, and we take a lot of inspiration from how you guys have thought through the framework of agent building",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "09:04:33 PM"
+      },
+      {
+        "summary": "John's deployment tracking visualization praised as 'brilliant' and 'beautiful'",
+        "quote": "this he created this bottom part here so it's showing the key pieces that they purchased and the color as you go left to right is showing how much of that has been deployed very beautiful",
+        "speaker": "Harry Hawk",
+        "timestamp": "11:50:48 AM"
+      },
+      {
+        "summary": "RevSure enables complex multi-step flow tracking for premium agent conversions",
+        "quote": "If it has flow in it, it's a multi-step piece. and I'll, I'll walk you through each of these.",
+        "speaker": "Harry Hawk",
+        "timestamp": "2:13:45 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Organic vs paid traffic report built to understand what's driving agent runs",
+          "quote": "the goal of the report for Harry was to understand what's driving people to our site to do the agent runs, right? Is it from organic channels or is it from a paid channel",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "04:35:18 AM"
+        },
+        {
+          "win": "LinkedIn enrichment added to contact enrichment flow for personalized emails",
+          "quote": "in the contact enrichment flow, we're adding LinkedIn as a source as an enrichment source",
+          "speaker": "Tejas",
+          "timestamp": "12:30:20 PM"
+        },
+        {
+          "win": "Deep funnel optimization setup for agent run completed events",
+          "quote": "we should create um a dfo um for agent run completed",
+          "speaker": "Harry Hawk",
+          "timestamp": "12:46:25 PM"
+        },
+        {
+          "win": "Identified and fixed domain allowlist issue blocking landing page pixel tracking",
+          "quote": "So yes, pro dot agent AI So if you should see on your end that I've added agent AI and pro dot agent AI",
+          "speaker": "Harry Hawk",
+          "timestamp": "2:49:19 AM"
+        },
+        {
+          "win": "Identified agent ran completed as best signal for free user engagement on Meta",
+          "quote": "AgentRan. Because that's equivalent of becoming a member and at least running one agent",
+          "speaker": "Harry Hawk",
+          "timestamp": "2:55:24 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Build agent on Agent.AI platform using RevSure data for account intelligence",
+          "quote": "what could be a shore agent on top of agent.ai that we could offer. Yeah. That could be connected to the underlying HubSpot platform and HubSpot data",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "10:08:25 PM"
+        },
+        {
+          "win": "Use RevSure as central data lake with Snowflake for product analytics",
+          "quote": "the intent is basically that we can stop set trying to sink everything, you know, in a bunch of like messy sinks and actually like push more directly and clean it up there",
+          "speaker": "Max Freiert",
+          "timestamp": "09:05:52 PM"
+        },
+        {
+          "win": "Prove MMX value to prevent churn and secure renewal beyond current contract",
+          "quote": "we need to for lack of a better word seduce these folks into using revsure right because they could just say oh you know we're gonna do these other things",
+          "speaker": "Harry Hawk",
+          "timestamp": "04:35:48 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "HubSpot",
+      "Mixpanel",
+      "Google Ads",
+      "LinkedIn Ads",
+      "Meta Ads",
+      "RudderStack",
+      "Facebook/Meta",
+      "LinkedIn"
+    ],
+    "pain_summary": "Data scattered across multiple systems with no unified view; discrepancies between Mixpanel, HubSpot, and ad platforms impossible to debug; no clear attribution for agent runs vs marketing site visits",
+    "kpis_unhealthy": [
+      "campaign attribution accuracy",
+      "cross-platform data consistency",
+      "conversion event tracking completeness",
+      "paid vs organic source identification",
+      "Facebook spend tracking",
+      "LinkedIn CAPI implementation",
+      "conversion value accuracy",
+      "landing page pixel tracking",
+      "premium user behavior tracking"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Centralizing GTM data in RevSure with semantic data model, building attribution reports for organic vs paid, configuring WAMU metrics, and attempting deep funnel optimization - but facing UI bugs, writeback misconfigurations, and political resistance from marketing leadership",
+    "wins_realized": [
+      "organic vs paid traffic comparison report",
+      "first party pixel implementation",
+      "channel classification framework (partial)",
+      "contact enrichment with LinkedIn data",
+      "Facebook attribution validated",
+      "MAWAU conversions reclassified to secondary",
+      "domain allowlist fixed for landing page tracking",
+      "agent ran completed identified as key Meta signal"
+    ],
+    "open_issues": [
+      "backend event capture reliability",
+      "Google Ads writeback to correct account",
+      "channel classification deduplication",
+      "Meredith's perception of complexity",
+      "saved view filter persistence",
+      "custom dimension visibility in filters",
+      "Meta CAPI implementation still broken",
+      "LinkedIn events not fully configured",
+      "dynamic scoring not yet built",
+      "premium user HubSpot proxy not created",
+      "all-time filter causing fetch failures",
+      "paid social/LinkedIn categorization overlap unresolved"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_ Agent.AI Transcript - (All Calls).docx"
+    ],
+    "total_chunks": 6,
+    "extracted_chunks": 6
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 10,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 5,
+      "revsure_problems": 9,
+      "best_about_revsure": 3,
+      "wins_immediate": 5,
+      "wins_long_term": 3
+    }
+  }
+}
