@@ -45,9 +45,9 @@ You are generating ONE LinkedIn post in the founder's voice, derived from a vira
 {prior_posts}
 - Prior arguments to avoid:
 {prior_arguments}
-- Anchors already used in this pack (DO NOT reuse — pick a different one):
+- **Anchors already CONSUMED in this pack — FORBIDDEN (using any of these = post is rejected and regenerated):**
 {anchors_used_in_pack}
-- Anchors AVAILABLE (your only legal first-person ground — pick exactly one slug):
+- **Anchors AVAILABLE — pick EXACTLY ONE `anchor_id` slug from this list. Slugs NOT in this list will be rejected at parse time:**
 {anchors_remaining}
 - Voice markers already used in pack:
 {voice_markers_used_in_pack}
@@ -214,7 +214,7 @@ Return this exact JSON shape (no commentary, no markdown fences around the JSON)
 ### Critical output rules
 
 - `text` field: the full post body as one string with `\n\n` between paragraphs. Do NOT wrap in markdown fences.
-- `anchor_consumed_id`: MUST be a slug from `anchors_remaining` (e.g. "A011"), NOT the full anchor text. The orchestrator validates against the inventory.
+- `anchor_consumed_id`: MUST be a slug from `anchors_remaining` (e.g. "A011"), NOT the full anchor text. Picking an anchor_id from `anchors_used_in_pack` or any ID not in `anchors_remaining` = automatic post rejection + forced regen. The orchestrator validates against the inventory at parse time.
 - `fabrication_refused`: set `true` ONLY if no anchor matches the source's required parameter AND the slot can't be salvaged. Setting this to true with `text: ""` tells the orchestrator to route this slot to Batch B or skip.
 - `word_count`: count actual words in `text`. Must land in the band — if your draft is over, cut paragraphs whole rather than thinning. The orchestrator will reject and regen if you ship over-band text.
 - `pre_commit.strip_test_result`: prove your opener passes the strip test by showing the noun-stripped version.

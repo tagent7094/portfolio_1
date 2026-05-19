@@ -1005,6 +1005,13 @@ class BatchSession:
             # targeted regen pass. Bounded by MAX_COMPILE_REGEN_PASSES so we
             # never block. After the ceiling, ship with quality_floor_warning
             # flag so the UI can surface residual issues.
+            #
+            # v6.1 surfacing: if the validate-regen loop bailed before
+            # converging (ship_decision.ship == False), we still proceed to
+            # compile per "never reject" — but the pack ships with a warning
+            # flag visible in the UI/Excel so the operator knows quality
+            # wasn't fully reached.
+            validate_failed_unresolved = not ship_decision.ship
             MAX_COMPILE_REGEN_PASSES = 2
             compile_decision: dict = {}
             compile_history: list[dict] = []
@@ -1139,7 +1146,16 @@ class BatchSession:
             # Always save the pack — user directive "never reject, only betterment".
             # Pack metadata carries quality_floor_warning + compile_history so the
             # UI can surface residual issues for operator review.
-            quality_warn = bool(compile_decision.get("quality_floor_warning", False))
+            # quality_floor_warning fires when:
+            #   1. compile-regen ceiling was reached without converging, OR
+            #   2. the validate-regen loop bailed before resolving its
+            #      regen_targets (so posts shipped with unresolved validator
+            #      complaints — operator should see this in the UI).
+            quality_warn = (
+                bool(compile_decision.get("quality_floor_warning", False))
+                or validate_failed_unresolved
+                or not bool(compile_decision.get("quality_floor_met", True))
+            )
             pack.convergence_warning = quality_warn
             pack.convergence_test = {
                 "passed": not quality_warn,

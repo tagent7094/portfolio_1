@@ -737,9 +737,40 @@ def _generate_one_post(
     # (re-purposed; the regen loop reads this back via post.pre_commit too).
     post.pre_commit["_voice_markers_used_runtime"] = voice_markers_used
 
+    # v6.1: validate anchor selection BEFORE consuming. The LLM repeatedly
+    # picks already-consumed anchors (A010 was picked 4 times in one pack
+    # despite only one available). Detect, flag, and let the regen loop
+    # force a retry rather than ship a post with a phantom anchor.
+    if inv is not None and anchor_consumed_id:
+        available_ids = {a.get("anchor_id") for a in inv.anchors_available}
+        used_ids = {a.get("anchor_id") for a in inv.anchors_used_in_pack}
+        if anchor_consumed_id not in available_ids:
+            if anchor_consumed_id in used_ids:
+                logger.warning(
+                    "[generate] %s: LLM picked already-consumed anchor %s "
+                    "(used by an earlier post). Flagging for regen.",
+                    post_label, anchor_consumed_id,
+                )
+                post.violations.append(f"reused_consumed_anchor:{anchor_consumed_id}")
+            else:
+                logger.warning(
+                    "[generate] %s: LLM picked unknown anchor %s "
+                    "(not in available, not in used). Possible hallucination.",
+                    post_label, anchor_consumed_id,
+                )
+                post.violations.append(f"unknown_anchor:{anchor_consumed_id}")
+            # Clear the bogus anchor_consumed_id so the validator sees the
+            # post lacks anchor grounding and can flag for regen via the
+            # anchor_grounding score path.
+            post.anchor_consumed_id = ""
+            post.authority_anchor = ""
+
     # Consume inventory.
     if inv is not None:
-        if anchor_consumed_id:
+        if anchor_consumed_id and not any(
+            v.startswith("reused_consumed_anchor:") or v.startswith("unknown_anchor:")
+            for v in post.violations
+        ):
             inv.consume_anchor(anchor_consumed_id)
         for marker_id in voice_markers_used:
             if isinstance(marker_id, str):
@@ -1191,6 +1222,53 @@ def _enforce_word_count(post: AmplifiedPost, state: BatchState, llm: LLMProvider
             post.word_count = len(post.text.split())
             logger.info("[batch] %s: mechanical-trimmed (drop weakest middle paragraph) %d → %d words",
                         post.label, wc, post.word_count)
+
+    # v6.1: when a post is BLATANTLY over band (>120% of ceiling, e.g.
+    # >303 words on a 253 cap), one targeted LLM trim call. This isn't a
+    # general gate that fires on every minor miss — it's a guardrail for
+    # the LLM-completely-ignored-the-constraint case observed in production
+    # (300-450 word posts on a 137-253 band). Under-band stays under-band.
+    if llm and post.word_count > int(hi * 1.20):
+        original_wc = post.word_count
+        target = (lo + hi) // 2
+        prompt = (
+            f"This LinkedIn post is {original_wc} words. The hard ceiling is {hi} words. "
+            f"You MUST rewrite it to between {lo} and {hi} words — target {target}.\n\n"
+            "RULES:\n"
+            f"- Cut entire paragraphs whole. Do NOT trim sentences inside surviving paragraphs.\n"
+            f"- Keep the opening paragraph (first 1-2 sentences) exactly as written.\n"
+            f"- Keep the closing line (last paragraph) exactly as written.\n"
+            f"- Drop middle paragraphs until you land in the band.\n"
+            f"- Do NOT add new content. Removal only.\n\n"
+            f"Return ONLY the rewritten post text — no JSON, no commentary, no markdown fences.\n\n"
+            f"---\n\n{post.text}"
+        )
+        try:
+            trim_llm = state.llm_router.for_task("word_count_trim") if getattr(state, "llm_router", None) else llm
+            response = trim_llm.generate(prompt, temperature=0.2, max_tokens=trim_llm.max_output_tokens)
+            trimmed = (response or "").strip()
+            trimmed_wc = len(trimmed.split())
+            if lo <= trimmed_wc <= hi:
+                logger.info(
+                    "[batch] %s: blatant-over-band guardrail trimmed %d → %d words",
+                    post.label, original_wc, trimmed_wc,
+                )
+                post.text = trimmed
+                post.word_count = trimmed_wc
+            elif trimmed_wc < original_wc:
+                logger.info(
+                    "[batch] %s: guardrail partial-trim %d → %d words (still outside band, passing to validator)",
+                    post.label, original_wc, trimmed_wc,
+                )
+                post.text = trimmed
+                post.word_count = trimmed_wc
+            else:
+                logger.warning(
+                    "[batch] %s: guardrail trim produced %d words (worse than original %d), keeping prior",
+                    post.label, trimmed_wc, original_wc,
+                )
+        except Exception as e:
+            logger.warning("[batch] %s: word-count guardrail LLM call failed: %s", post.label, e)
 
     # Record current state for the validator to read. No further trimming,
     # no truncation. The validator's per_post_validation will surface

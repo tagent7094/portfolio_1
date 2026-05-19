@@ -29,10 +29,32 @@ import json
 import logging
 import sys
 import time
+import warnings
 from typing import Generator
 
 from .base import LLMProvider
 from ..utils.json_parser import parse_llm_json
+
+# Silence noisy Pydantic UserWarnings that the openai SDK emits when it
+# tries to deserialize Kimi's `$web_search` tool envelope. Kimi returns
+# type='builtin_function' but the openai SDK's Pydantic models expect
+# type='function'. The actual data passes through fine — these warnings
+# are pure noise that fills the terminal during every web_search round.
+warnings.filterwarnings(
+    "ignore",
+    message=r".*PydanticSerializationUnexpectedValue.*",
+    category=UserWarning,
+)
+warnings.filterwarnings(
+    "ignore",
+    message=r".*literal\['function'\].*",
+    category=UserWarning,
+)
+warnings.filterwarnings(
+    "ignore",
+    message=r".*ChatCompletionMessageCustomToolCall.*",
+    category=UserWarning,
+)
 
 logger = logging.getLogger(__name__)
 
