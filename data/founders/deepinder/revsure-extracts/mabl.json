@@ -1,0 +1,1392 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "Mabl",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Cannot track stage-to-stage conversions in Salesforce",
+        "quote": "we don't have a very clear way in salesforce of measuring stage to stage conversions so how many stage zeros convert to stage ones how many stage ones convert to stage two blah so i know the team on the sales side is wanting more clear views of those numbers",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "1:36:47 AM"
+      },
+      {
+        "summary": "Cookie consent enforcement reduced Sixth Sense visibility to 23% of prior web visitor tracking",
+        "quote": "what I'm seeing on Sixth Sense is that Sixth Sense is only able to show me like 23%. of the web visitors that they used to be able to show me so it's a huge",
+        "speaker": "Leah Itzkovich",
+        "timestamp": "1:41:26 AM"
+      },
+      {
+        "summary": "Need to justify brand awareness spend with impact data on future pipeline",
+        "quote": "i'd love for us to be you know collaborate to figure out how i can show maybe a lift in brain awareness impact on future pipeline in a quarter or two from the companies that we hit with this you know the spend",
+        "speaker": "Leah Itzkovich",
+        "timestamp": "1:35:02 AM"
+      },
+      {
+        "summary": "Difficult to get accurate picture of web traffic due to strict cookie enforcement",
+        "quote": "we're gonna need to solve for that pretty quickly in Q1 because we still, I don't think have an accurate picture of our web traffic.",
+        "speaker": "Leah Itzkovich",
+        "timestamp": "12:08:05 AM"
+      },
+      {
+        "summary": "Salesforce reporting unreliable - fields change, drop, values move between currencies",
+        "quote": "we have zero confidence uh zero trust in salesforce uh reporting analytics fields change fields drop uh without any caution values move between currencies",
+        "speaker": "Craig",
+        "timestamp": "2:01:15 AM"
+      },
+      {
+        "summary": "Lead scoring was not implemented, creating noise for sales team",
+        "quote": "when I got here, they weren't doing lead scoring. And so we instituted lead scoring to reduce the noise on the sales team",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:07:27 PM"
+      },
+      {
+        "summary": "Digital campaign ROI was invisible - couldn't show board digital performance",
+        "quote": "what I haven't been able to do is that that last portion of our budget, which is probably about half of our program spend, is in digital. And we just know back to what's being most effective",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:18:18 AM"
+      },
+      {
+        "summary": "Google Analytics is hated and untrusted for web data",
+        "quote": "everybody I talk to hates Google Analytics for Yeah. And, and, and can't navigate it. Doesn't trust it. And there's all these issues with it",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:22:02 PM"
+      },
+      {
+        "summary": "Previous attempts with Tableau and Visible failed",
+        "quote": "after trying to make visible work, after trying to make Tableau work and the pain and the effort that went into that",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:31:13 PM"
+      },
+      {
+        "summary": "Manual process to update trial funnel spreadsheet every Monday",
+        "quote": "today we have an Excel spreadsheet or Google sheet that he goes every Monday morning and he goes and updates the sheet",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:24:02 PM"
+      },
+      {
+        "summary": "Marketing team had to manually build ROI reports in spreadsheets, taking significant time",
+        "quote": "I remember that was something that Ryan and I spent a lot of time trying to figure out last quarter",
+        "speaker": "Zane Halstead",
+        "timestamp": "12:38:32 AM"
+      },
+      {
+        "summary": "Sales team not updating Salesforce properly, causing data quality issues for attribution",
+        "quote": "They know they're working that deal to close and they're not going in there and adding actions in Salesforce",
+        "speaker": "Ryan Shopp",
+        "timestamp": "11:08:24 PM"
+      },
+      {
+        "summary": "Difficulty tracking campaign performance with LinkedIn conversation ads after metric change",
+        "quote": "LinkedIn ads pivoted from using impressions and clicks to only using sends and opens as the metrics",
+        "speaker": "Zane Halstead",
+        "timestamp": "1:37:23 AM"
+      },
+      {
+        "summary": "Manual Excel-based pipeline tracking was painful and time-consuming",
+        "quote": "I do this in a Excel sheet every week where I pull the number of pipeline ops that have been generated in the previous week where we're at to the quarter. It's just a big Excel, Excel sheet that's been, we've been using for years. Yeah. Which is kind of a pain.",
+        "speaker": "Zane Halstead",
+        "timestamp": "11:42:22 PM"
+      },
+      {
+        "summary": "Manual weekly dashboard updates take 1.5 hours every Monday evening",
+        "quote": "I have to right now manually update this every Monday evening 'cause Zane's not here. And it takes me about an hour and a half until my wife pulls me out for dinner to do it.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:27:43 AM"
+      },
+      {
+        "summary": "Spreadsheet-based forecasting is not scalable",
+        "quote": "I'm like, we do all of our forecasting right now of a spreadsheet which is not scalable in the long run.",
+        "speaker": "Zane Halstead",
+        "timestamp": "1:50:13 AM"
+      },
+      {
+        "summary": "Demo environment is outdated (5+ years old) and hurting conversion rates",
+        "quote": "Our previous demo was from circa five plus years ago. So it was a major undertaking.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:48:09 AM"
+      },
+      {
+        "summary": "Sales reps skip stages in Salesforce, causing data integrity issues",
+        "quote": "We are, we do have people that don't unfortunately follow the process as I I I it's probably the 10%.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:50:34 AM"
+      },
+      {
+        "summary": "Zane's departure left critical knowledge gaps and forced Ryan to do Salesforce admin work",
+        "quote": "I've probably been, unfortunately spending in my extra hours, probably five to seven hours a week of admin time creating Salesforce accounts, changing permissions, updating workflows, configuring new fields and adding new dropdowns. Like I never thought I would ever have to learn that shit.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:03:43 AM"
+      },
+      {
+        "summary": "Inability to track and replicate monthly reports with consistent attribution model for month-over-month analysis",
+        "quote": "Really the objective of this is to just have a system in place that we're recording month over month. Like let's say I put this screenshot in here this month, I wanna be able to replicate the same screenshot the next month and kind of tie a correlation as to assuming that we go with a certain attribution model, we would continue with the same attribution model each month.",
+        "speaker": "Mihika Kelkar",
+        "timestamp": "2:47:25 AM"
+      },
+      {
+        "summary": "Attribution model confusion affecting understanding of campaign performance numbers",
+        "quote": "I do agree that the attribution would kind of change the kind of numbers that we're seeing for these. So completely aligned on that.",
+        "speaker": "Mihika Kelkar",
+        "timestamp": "2:47:25 AM"
+      },
+      {
+        "summary": "Difficulty understanding which campaigns to double down on or cut based on ROI/MQL performance",
+        "quote": "which campaigns kind of contributed for those changes. And what are the areas that, you know, as a paid performance team where we need to really focus on or maybe double down on, or let's say this campaign isn't doing so well for looking at it from an ROI perspective or MQL perspective.",
+        "speaker": "Mihika Kelkar",
+        "timestamp": "2:47:25 AM"
+      },
+      {
+        "summary": "Japan campaigns polluting DC campaign reports due to lack of proper filtering",
+        "quote": "Mable like their Google account and LinkedIn account, both of them have like Japan campaigns, which was like led by another agency and we're like DC so we only wanted a report on DC campaigns.",
+        "speaker": "Mihika Kelkar",
+        "timestamp": "2:59:28 AM"
+      },
+      {
+        "summary": "Discrepancy between Salesforce reports and RevSure numbers causing trust issues",
+        "quote": "I ran some reports in Salesforce. I was getting different numbers, so that would be a really good use case to specifically dive into one metric and compare and contrast how we're getting some numbers.",
+        "speaker": "Jacob",
+        "timestamp": "9:02:03 PM"
+      },
+      {
+        "summary": "Inability to understand how RevSure calculates stage progression when stages are skipped",
+        "quote": "if it is anything past proving fit, but it skipped proving fit, does that count as it was in proving fit because it's past that stage? Or does it go based on, it must have went into that stage. Like those are the nuances. I, I wanna really understand for how you're calculating numbers.",
+        "speaker": "Jacob",
+        "timestamp": "9:10:33 PM"
+      },
+      {
+        "summary": "Difficulty replicating RevSure's 185 proving fit number in Salesforce after multiple attempts",
+        "quote": "Because what I did to attempt, I tried three or four different things honestly, and I couldn't come up with that number. So I said, okay, let's look at anything that has probably passed proving fit, right? Any of these would have sort of hid it for sure at some point. I mean, I'm making some assumptions, but it's at least past that number and I get a boatload of them, you know. So I was like, well, that can't be it.",
+        "speaker": "Jacob",
+        "timestamp": "9:26:28 PM"
+      },
+      {
+        "summary": "Campaign categorization making trial attribution meaningless by bucketing everything as 'digital'",
+        "quote": "trial signup is like the biggest culprit there. You know, like look at 34,000 everything. The next nearest one is 2000. So that's being put into digital. So that's completely inflating digital.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:49:21 AM"
+      },
+      {
+        "summary": "Inability to see true first touch before trial signup page - dark web attribution gap",
+        "quote": "34,000 people just didn't as their first touch go to our trial page without some other instigator to get there. So that's what I'm trying to solve for.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:50:45 AM"
+      },
+      {
+        "summary": "Missing website traffic data above MCL level in RevSure",
+        "quote": "I still not seeing the website traffic we had talked about there was a way to enable website traffic. It starts at MCL and one level above MCL would be the website traffic. And I'm not still not seeing that.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:05:16 AM"
+      },
+      {
+        "summary": "Predictive pipeline numbers don't match Salesforce reality, undermining trust in AI projections",
+        "quote": "the base is wrong, you know what I'm saying? Like this is saying 4 million was generated, my sales force says it's at 5.1. And then on top of that then it's like, wow, there's $2 billion, 50% of what was MQL in? I mean that, that just seems really, really high that things 50% of 50% more pipeline is going to be built from things that are sitting in the fall right now.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:16:34 AM"
+      },
+      {
+        "summary": "Individual deal propensity scores inconsistent with actual outcomes, damaging credibility",
+        "quote": "I would not put my reputation on the line for that statistical data to look and say, Hey Rodney, I don't think that's gonna close for this reason. And if I would've done that, I would've been wrong because it did end up closing.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:27:25 AM"
+      },
+      {
+        "summary": "Complexity of RevSure filters and definitions making self-service reporting difficult",
+        "quote": "I think the biggest problem I have here is knowing the definitions of things and keeping them straight in my mind. And I'm usually very good at this kind of thing. Like I feel like there are so many filters and the filters are according to your definitions, which can change and it'll be like split by date. And I'm like, well which date? Like, you know, what, what date is it? That's very confusing to me.",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "1:00:10 AM"
+      },
+      {
+        "summary": "Churn pressure making net new acquisition targets harder to hit",
+        "quote": "our churn Forecast for this quarter is above what we've forecasted the board back in January. And so we're trying to get better intelligence there.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:44:25 AM"
+      },
+      {
+        "summary": "Attribution numbers were broken due to net new ARR formula change zeroing out renewals, causing ROI calculations to deflate",
+        "quote": "I made a change to get the month-end reconciliation done, and it also screwed up this basically. And so we just need to reclass how ROI is calculated.",
+        "speaker": "Jacob",
+        "timestamp": "12:52:33 AM"
+      },
+      {
+        "summary": "W-model attribution arbitrarily assigns middle touchpoint regardless of actual timeline, making it confusing and unreliable",
+        "quote": "The problem is it's not based on the timeline. You could have three touches and the last two are day, yesterday and today. And the midpoint is going to be yesterday. It's not based on the actual timeline of time. It's based on the number of touch points.",
+        "speaker": "Jacob",
+        "timestamp": "1:18:16 AM"
+      },
+      {
+        "summary": "Salesforce campaign hygiene is poor with reps not adding contacts to opportunities, making opportunity-level attribution unreliable",
+        "quote": "The other challenge you run into is bad hygiene from a sales rep. They're lazy. the contacts on opportunity levels or if they have to, even if many companies, even if you're required to put one on there, they only put one on there.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:52:56 AM"
+      },
+      {
+        "summary": "Digital touchpoints were overwhelming event touchpoints when combined in unified attribution model, making events look terrible",
+        "quote": "when we put them all together before in one attribution model, the digital touchpoints took too much away from the event touchpoints, if I remember right. Like I had a digital dashboard and I had this dashboard and they And then when we tried to do them together, because there were so many touch points that were digital and the W model, it was just like all of a sudden all the events got squashed down and they were like negative ROI and all the digital stuff rose to the top.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:44:47 AM"
+      },
+      {
+        "summary": "Trial volumes have dropped and team cannot diagnose why - combination of factors with no clear single cause",
+        "quote": "We have had a dip in our trials, and we're having a hard time figuring out why. it's probably one of those things that there's no easy answer and it's a combination of like four different things that all play a little bit of a part and it's that's not a very satisfying answer it's like yeah it's actually not one big thing even though it's a big difference there's like these four little things that all play into this drop in trials",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "12:37:19 AM"
+      },
+      {
+        "summary": "Channel classification was incomplete with campaigns mis-bucketed, causing incorrect attribution allocation",
+        "quote": "There's a big bucket called other campaigns that a lot of stuff gets pushed into. And a big part of channel classification is going through those and say, oh, this goes to paid. This goes to organic search.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:07:11 AM"
+      },
+      {
+        "summary": "Documentation is scattered across multiple books/manuals with no clear navigation, requiring users to read everything to find what they need",
+        "quote": "Harry Hawk | 10:59:06 PM -->\n\n you  know,  thin  manuals  and  like,  well,  how  do  you,  how  do  you  configure  this?  Well,  it's  in  one  of  the  books.  How  do  you  do  this?  It's  in  one  of  the  books.  And  we  had  to  create  a  map,  a  visual,  it's  literally  a  visual  map,  like  you're  here.",
+        "speaker": "Harry Hawk",
+        "timestamp": "10:59:06 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "HubSpot forms",
+        "vendor": "HubSpot",
+        "reason": "Switched to Marketo for forms",
+        "quote": "i know you used to use hubs hubspot right i think at some point at mabel's history and then it switched to marketo",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "8:16:48 PM"
+      },
+      {
+        "tool": "Visible",
+        "vendor": "unknown",
+        "reason": "Failed to make it work despite effort",
+        "quote": "after trying to make visible work",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:31:13 PM"
+      },
+      {
+        "tool": "Tableau",
+        "vendor": "Salesforce",
+        "reason": "Pain and effort required was too high",
+        "quote": "after trying to make Tableau work and the pain and the effort that went into that",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:31:13 PM"
+      },
+      {
+        "tool": "Salesforce reports",
+        "vendor": "Salesforce",
+        "reason": "Manual brute force for reports, hours of work",
+        "quote": "right now we're brute forcing some of those reports that you were showing in the other modules, like Right, right. With Leo over the last two weeks created a Funnel and a Cohorted Funnel and it took him hours of work",
+        "speaker": "Ryan Shopp",
+        "timestamp": "9:34:04 PM"
+      },
+      {
+        "tool": "Google Analytics",
+        "vendor": "Google",
+        "reason": "Hated, can't navigate, don't trust it",
+        "quote": "everybody I talk to hates Google Analytics for Yeah. And, and, and can't navigate it. Doesn't trust it. And there's all these issues with it",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:22:02 PM"
+      },
+      {
+        "tool": "Manual Excel/Google Sheets",
+        "vendor": "homegrown",
+        "reason": "Weekly manual updates consuming hours",
+        "quote": "today we have an Excel spreadsheet or Google sheet that he goes every Monday morning and he goes and updates the sheet",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:24:02 PM"
+      },
+      {
+        "tool": "Spreadsheets/Excel",
+        "vendor": "homegrown",
+        "reason": "Manual, time-consuming, not systematic or scientific for pipeline prediction",
+        "quote": "one, one of the CMOs I was talking to, he said the pillar today have spreadsheets, but I don't have a systematic scientific way of Yeah. Predicting whether I'm gonna make my pipeline generation target or not",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:43:39 PM"
+      },
+      {
+        "tool": "Marketo",
+        "vendor": "Adobe",
+        "reason": "Already using Marketo but explored HubSpot; too much PLG motion wired into Marketo to switch",
+        "quote": "I would prefer to be, I've already explored moving from here, from Marketo to HubSpot. The problem is we have so much of our PLG motion wired into Marketo that we would, there's no cost savings for us to do that for the, the, the, the r and d time for us to move it.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:34:18 AM"
+      },
+      {
+        "tool": "Visible / HockeyStack",
+        "vendor": "Visible / HockeyStack",
+        "reason": "Wanted a true partnership, not just technology; previous vendors didn't treat them the same way",
+        "quote": "Do you wanna go back and work with a visible, do you wanna go back and work with a hockey hockey stack or somebody like that that aren't gonna treat you this way? Maybe they have a couple things that are maybe a little bit more baked or further ahead. Maybe they don't, maybe they've already prewired something that's the wrong way, the way you're thinking at it.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:42:48 AM"
+      },
+      {
+        "tool": "Bizible",
+        "vendor": "Microsoft",
+        "reason": "Previous attribution tool that tracked anonymous web activity before identity resolution, which Ryan expects RevSure to replicate",
+        "quote": "when I used Bizible, how Bizible worked was they would basically, when a user would come to the site, they, they would track that user as anonymous until that user did something that gave them an identity. Like they filled out a form that went into Marketo. And that's usually once they did that they could then go back and say, oh, but before that person did that form fill, they did these 10 other actions, they did these 20 other actions, they came from this source.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:59:56 AM"
+      },
+      {
+        "tool": "Spreadsheets / manual QBR decks",
+        "vendor": "Homegrown",
+        "reason": "Manual process of conjoining multiple reports to create slides, wanted unified view",
+        "quote": "That one unified view, instead of me having to conjoin two or three different reports to create my slide, now I can just show it",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:45:49 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Sales",
+          "Marketing"
+        ],
+        "tension_label": "Sales accepted leads and funnel execution ownership",
+        "summary": "New sales leaders may redefine how SAL tracking works, creating potential conflict with marketing definitions",
+        "quote": "we're probably going to work with the sales team to um we're going to talk about at the metrics council leah it was a topic i wanted to bring up there but like we might redefine how some things work if sales feels they're outdated because we have new sales leaders",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "1:37:25 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales/RevOps"
+        ],
+        "tension_label": "Pipeline forecast trust and ownership",
+        "summary": "CFO burned by RevSure pipeline forecast, now questioning tool value vs Cluster which sales leadership standardized on",
+        "quote": "my fingers are a little burned from leaning into revsure for pipeline forecasting um and you know i think you know my conversation with brian was you know we need to assess whether this is there something about our business that your model doesn't work",
+        "speaker": "Craig",
+        "timestamp": "1:48:34 AM"
+      },
+      {
+        "actors": [
+          "CFO/CEO",
+          "RevSure"
+        ],
+        "tension_label": "Forecast accuracy accountability",
+        "summary": "CEO given wrong forecast number for board meeting, creating credibility crisis",
+        "quote": "I gave a number to my CEO and now we all look like idiots.",
+        "speaker": "Craig",
+        "timestamp": "2:10:48 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "lead quality and MQL noise",
+        "summary": "Marketing was flooding sales with unqualified leads before lead scoring implemented",
+        "quote": "when I got here, they weren't doing lead scoring. And so we instituted lead scoring to reduce the noise on the sales team",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:07:27 PM"
+      },
+      {
+        "actors": [
+          "CMO",
+          "CEO",
+          "Board"
+        ],
+        "tension_label": "budget efficiency accountability",
+        "summary": "CMO driving fiscal responsibility narrative with sales at events",
+        "quote": "I went to a trade show just two weeks ago here in San Francisco. Yeah. And there two reps were there representing us and I go, this event's costing us $20,000 each of you, that's $10,000, you're, you're here representing the company for 10,000 each. We wanna drive up 15 to one RY",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:17:21 AM"
+      },
+      {
+        "actors": [
+          "Ryan Shopp",
+          "Zane Halstead"
+        ],
+        "tension_label": "dashboard modification control",
+        "summary": "Ryan sometimes changes filters in Zane's dashboards, requiring Zane to fix them",
+        "quote": "even Ryan sometimes, like between you and me, I know he was going to change some of my filters and I'm like, all right Ryan, I have to go fix some of these dashboards",
+        "speaker": "Zane Halstead",
+        "timestamp": "1:53:33 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales",
+          "Product"
+        ],
+        "tension_label": "Pipeline conversion gap ownership",
+        "summary": "Marketing says they need help from product and sales to close 10% conversion gap; not just a marketing problem",
+        "quote": "I go at my boss, I go, you're not gonna gimme enough money to build five or six times cover in pipeline. I wouldn't give myself enough money to do that, nor do I think I could do that. Because sometimes your, your digital tactics, eventually they, they, they don't, they don't scale literally as we all know Alex, they eventually, they tap out like plateau. So I kind of said like, look, you're gonna give us money and we're gonna be fiscally responsible with it, but I need help with product sales and marketing. It might be new messaging we have to do, it might be better process enforcement and enablement we have to do, it might be new product features we need to implement.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:53:51 AM"
+      },
+      {
+        "actors": [
+          "CMO (Keith)",
+          "Head of Demand Gen/Mops (Colin)",
+          "Brian"
+        ],
+        "tension_label": "New CMO joining delays deal approval",
+        "summary": "New CMO Keith joined between Thanksgiving and Christmas, causing delays; Brian needed help selling up to his boss",
+        "quote": "Keith is their CMO and he, it was interesting because he joined like in between Thanksgiving and Christmas time, right? And like we were kind of supposed to be wrapped up by then, but of course, you know, things delayed a little bit with him joining on. He wanted to see from you specifically, I think it was another Vista company, another CMO, you know, someone with your background he loved, right? And he was, he was like raving about the experience.",
+        "speaker": "Alex Cox",
+        "timestamp": "1:37:36 AM"
+      },
+      {
+        "actors": [
+          "Ryan Shopp",
+          "VP of Sales"
+        ],
+        "tension_label": "AI prediction credibility gap",
+        "summary": "Ryan needs VP of Sales buy-in before trusting AI predictions enough to use them in forecast calls",
+        "quote": "I haven't sat down using the AI module and validated it with our VP of sales and said, Hey, this is telling me that those five deals you should probably go double click on 'em. There's a, there's a likelihood they won't close. Like that's a level of value that if I can now have that conversation on a peer-to-peer level, then once I'm there and he looks at and goes, damn, that is really great, look at the, the level of detail that justify it, the backup, then I'll be like, alright now let's add in the AI kit.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:43:13 AM"
+      },
+      {
+        "actors": [
+          "Ryan Shopp",
+          "Sales Team"
+        ],
+        "tension_label": "attribution model credibility with sales",
+        "summary": "Ryan feels dishonest presenting W-model data to sales team who don't understand its flaws",
+        "quote": "They don't understand the different models underneath it. So that's why I've kept the w because they don't, they never know to challenge me on the W but me, every time I show that data, I feel like I'm lying to them by 20%.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:46:02 AM"
+      },
+      {
+        "actors": [
+          "Ryan Shopp",
+          "Directive (agency)"
+        ],
+        "tension_label": "agency accountability for performance optimization",
+        "summary": "Ryan confronting agency for failing to proactively optimize Google Ads, requiring Mabl to identify keyword opportunities themselves",
+        "quote": "why are we the ones giving you the ideas? Y'all are supposed to be the performance expert. That's what we pay you a retainer every single month to do. And we sat here for a year. So I basically took your two slides and I put 'em in a deck to their managing director and basically said, I said, I looked him straight in the eye to go, why did it take us a year to find this? Like that's your job.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:53:36 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "Accountability for spend and ROI",
+        "summary": "Ryan uses attribution data to preemptively counter sales claims that marketing isn't performing, building credibility through preparedness",
+        "quote": "It just shows what we're doing. the level of diligence we're doing with the numbers that builds credibility with the sales team and it actually any AE has to think twice about calling us out and say marketing's not doing what they're doing because we got our shit together",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:42:52 AM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Brand awareness campaigns intentionally not designed to drive clicks or direct conversions",
+        "why_unusual": "Most demand gen is optimized for clicks and conversions; this client explicitly rejects that for brand campaigns",
+        "quote": "our focus with these campaigns are really hitting the right user and building that awareness, not necessarily driving clicks, which would be a different kind of an optimization strategy.",
+        "speaker": "Grant Kramme",
+        "timestamp": "9:24:47 PM"
+      },
+      {
+        "claim": "Software product purchase from a banner ad is 'a stretch' - rejecting direct response for B2B software",
+        "why_unusual": "Most B2B marketing still optimizes for direct response; this agency explicitly says that's wrong for this category",
+        "quote": "Mable's a software product. So for somebody to click a banner and say, oh, I'm going to go ahead and buy this software product is a stretch, right? That's not the purpose of the campaign necessarily.",
+        "speaker": "Grant Kramme",
+        "timestamp": "9:08:57 PM"
+      },
+      {
+        "claim": "Google spend is completely saturated - flat response curve means no incremental value from more spend",
+        "why_unusual": "Most advertisers keep increasing Google spend; this analysis says it's literally waste",
+        "quote": "this is showing essentially the diminishing return. This is the spend level for Q2. And so, there is still some room here to increase spend, where again, you saw with Google, it's flat. You're just not going to get incremental value.",
+        "speaker": "Harry Hawk",
+        "timestamp": "9:32:23 PM"
+      },
+      {
+        "claim": "CFO prefers Excel forecasting over AI model after being burned, says attribution is harder than forecasting",
+        "why_unusual": "Most CFOs want to move FROM Excel TO AI; this one wants to move back",
+        "quote": "I can, I can fork out 27 years. I've gotten reasonably good at forecasting what our pipeline is going to be in Microsoft Excel. But I can't do attribution as easily. So, you know, the bigger win would be to get the attribution and the marketing mix modeling, I think.",
+        "speaker": "Craig",
+        "timestamp": "2:15:46 AM"
+      },
+      {
+        "claim": "They seek out fast-release-velocity companies because they sell QA solutions to QA departments - bugs in the UI are actually a positive signal",
+        "why_unusual": "Most buyers want polished products; Mabl actively looks for companies with release velocity and UI bugs because it validates their ICP",
+        "quote": "being the nature of our business, we actually seek companies like y'all that are releasing it fast velocity. Because there's more QA challenges. Yeah. So we, we sell primarily to the QA department",
+        "speaker": "Ryan Shopp",
+        "timestamp": "9:32:04 PM"
+      },
+      {
+        "claim": "Boards always want to see a funnel even if the CMO doesn't believe in funnels",
+        "why_unusual": "Revenue ops thought leaders often dismiss funnel visualization as outdated; Ryan acknowledges this but says boards demand it regardless",
+        "quote": "every board I've ever gone to, if you don't show a Funnel, you, you know right or wrong, you're, you're, you're at a loss. You're coming at it from a defensive standpoint",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:11:40 PM"
+      },
+      {
+        "claim": "Email marketing should be considered 'free' when evaluating program ROI",
+        "why_unusual": "Most marketing ops would fully cost email marketing including platform and labor; Leah explicitly excludes it from 'paid' program calculations",
+        "quote": "I count like email marketing as like free, I know it's not free, right? But we were paying for our automation system and means they time to actually like set those up and send them. But if we were to kind of like take those out and say yeah, the, just the, you know, the, the programs or like the Salesforce campaigns I guess is, is how I might think about it",
+        "speaker": "Leah Itzkovich",
+        "timestamp": "12:48:34 AM"
+      },
+      {
+        "claim": "They want to use RevSure as a performance management tool for individual AEs",
+        "why_unusual": "RevSure is marketed as marketing attribution; Ryan wants to use it to identify underperforming sales reps vs leading indicators",
+        "quote": "I not only wanna see it at this level, I wanna see it down to each individual ae to know which AEs are doing well against the, the overall and which AEs are behind the overall. So he can actually have data that says you're underperforming against your leading indicators",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:25:18 PM"
+      },
+      {
+        "claim": "Marketing generates 75% of new pipeline and 65% of all pipeline, making them choose to start attribution with marketing only rather than holistic GTM view",
+        "why_unusual": "Most companies would default to full-funnel attribution; Mabl deliberately excludes sales touches because marketing is so dominant",
+        "quote": "Mable delivers to our sales team, 75% of new demand and 65% of total, I'm sorry, 75% of, of, of new pipeline, 65% of all pipeline comes from marketing. So if I can solve that gets me three quarters of the way there",
+        "speaker": "Ryan Shopp",
+        "timestamp": "11:52:45 PM"
+      },
+      {
+        "claim": "Stage zero pipeline (meeting set) should be marketing's metric, not stage one, even though sales uses stage one",
+        "why_unusual": "Conventional wisdom aligns marketing and sales on same stage definitions; Ryan deliberately wants bifurcated definitions for different audiences",
+        "quote": "when I set the goal that said for every fif every dollar we spent, we wanna get $15 a pipeline and $5 a close one business. That in my head was on a stage zero conversion, not a stage one conversion",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:03:57 AM"
+      },
+      {
+        "claim": "Would prefer team to default to RevSure first, then go to Salesforce only if needed - reverse of typical behavior",
+        "why_unusual": "Most companies treat CRM as source of truth and use attribution tools secondarily; Ryan wants to invert this workflow",
+        "quote": "I want my default posture of my team, Zane, Leah or whatever, go to register first, find the information there, then if you need to go click from here into, into Salesforce to get the next level of detail",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:27:23 AM"
+      },
+      {
+        "claim": "Renewals should NOT be included in marketing ROI calculations because they distort true demand generation performance",
+        "why_unusual": "Most attribution platforms default to including all revenue; Ryan explicitly wants renewals out to measure true marketing-driven demand",
+        "quote": "I don't necessarily know if I want to include renewals, if that kind of like jades this because a renewal is very different than expansion across sell or net new business. And so that's another thing, I haven't had time to do it, but go run the same report but take renewals out. How does it change it? How significantly does it change it because I, I still probably want an influence report but I, when it comes to this driving net new demand that converts, I probably wanna look at, I probably have both views with renewals in there as influence or some version of influence. But when it comes to true demand, I want to know what are the main things AI delivering to help new cross sell upsell type of stuff.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "2:01:09 AM"
+      },
+      {
+        "claim": "Linear attribution is better than W-model because 'everything is working, we want to give it credit'",
+        "why_unusual": "Most marketers fight for their preferred model (usually first-touch or last-touch); Harry advocates for equal credit to all touchpoints",
+        "quote": "I also think you should be looking at linear attribution. 'cause that's honestly as a marketer, right, I want everything to get some credit. I don't, I don't buy into first or last, you know, it's like you're doing the work e everything is working, we want to give it credit, right? Equal credit, you know, we, we want to give everything some credit and that's linear.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:59:21 AM"
+      },
+      {
+        "claim": "Three times cover pipeline should yield 33% conversion, but industry is actually running 20% due to macro economy; marketing should build 4-5x cover to compensate",
+        "why_unusual": "Conventional wisdom says fix the conversion rate; Ryan accepts lower conversion as macro-driven and argues marketing should over-build pipeline instead",
+        "quote": "Now when you talk to consulting groups like the Bridge Consulting group, they'll tell me that for the last 18 months the economy's been really, really hard. So people that usually run a 33% conversion rate from stage one to close one, they've been running more like 20% across the industry when they talk to all their 100, 150 accounts. So because the market's just been tougher in a macro economy. So what that means is we, we as marketing, we're supposed to try to be building more pipeline a four times cover instead of three times cover to make up for the, that macroeconomic gap and stuff like that. But we all know that we probably weren't getting the marketing funding due to all the cutbacks to be able to deliver on that.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "2:03:11 AM"
+      },
+      {
+        "claim": "AI predictions need to be 'friend-zoned' — build trust over time like any relationship before relying on them",
+        "why_unusual": "Most vendors pitch AI as immediately actionable; Harry explicitly says you need to watch it for multiple quarters before trusting it",
+        "quote": "Ryan, if I can, 'cause I, I do a lot of work with AI and prediction and tools. It, it's like any other friend, you know, you go on a first date, it sounds great, you know, but it's only after you, it's only after you've known someone a while that it, you know, you, you start to have some confidence. I think where you need to get the confidence first is when we're looking at the overall quarterly pipeline generation that predicts agree and I, and I think if you do that for, we have a quarter, we have the back quarter's worth of data from when it was turned on",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:54:14 AM"
+      },
+      {
+        "claim": "Sub-100 employee deals should go to ISRs, not field reps — bifurcated sales model based on data",
+        "why_unusual": "Most SaaS companies use one sales motion; Ryan used RevSure data to justify hiring ISRs only for small deals while keeping field reps on enterprise",
+        "quote": "And there's exactly why. You could see right there, this is why we hired the ISRs this year because a majority of them always are below 100 employees. So this year we're hiring ISRs that are only gonna do inbound. They would be the ones that would ca capture these, these two deals would stay with our current regional reps. This is great. I love it.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:55:52 AM"
+      },
+      {
+        "claim": "Email should never get 30% middle touch credit in W-model because its influence doesn't warrant it",
+        "why_unusual": "Most marketers accept algorithmic attribution outputs; Ryan argues for subjective human judgment about channel influence weighting",
+        "quote": "An email probably should never be the middle of a w you know, there's probably a certain set of pairs that should never actually get tagged with that much of a percentage because they didn't have that big of an influence, but an event or something else could have.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:44:13 AM"
+      },
+      {
+        "claim": "Consistency in flawed model (W-model) is preferable to switching to more accurate model because sales team won't challenge it",
+        "why_unusual": "Revenue leaders typically advocate for most accurate data; Ryan explicitly chooses consistency over accuracy to avoid explaining changes",
+        "quote": "because of consistency, 'cause I've been shown 'em the exact same like model that I, you know, I don't wanna like go change it and then have to explain why all of a sudden everything's changed.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:46:45 AM"
+      },
+      {
+        "claim": "Cost per lead going up is acceptable and even desirable if quality improves",
+        "why_unusual": "Most performance marketing orgs optimize for CPL reduction; Harry argues higher CPL with better conversion is the correct optimization",
+        "quote": "The only negative is it will increase the cost per lead. I've seen the cost per lead go up a couple times. If you're in an organization that believes every month you should be making the leads cheaper and that somehow that leads to better quality. It's not the right approach there because, but the reality is you want to pay for better leads and if they do convert better, you should be happy about that.",
+        "speaker": "Harry Hawk",
+        "timestamp": "12:38:24 AM"
+      },
+      {
+        "claim": "AI attribution model should only be applied to views with identical filters, not universally",
+        "why_unusual": "Most platforms promote universal AI model application; Harry describes needing to build separate AI models per filtered view to avoid mismatch",
+        "quote": "the AI model has to be built on apple's, pears and bananas. And if you, and we can make as many AI models as you have dge e views. But if you made, you know, an AI model that had carrots, peas, celery, apple's, bananas, and no pears, and then applied that to an apples of bananas and pears DG view, it might look really good. It might look bad, but it isn't, it isn't accurate",
+        "speaker": "Harry Hawk",
+        "timestamp": "12:41:51 AM"
+      },
+      {
+        "claim": "Worse explainable model preferred over better unexplainable model for executive communication",
+        "why_unusual": "Data science orthodoxy prioritizes predictive accuracy; Jacob explicitly chooses interpretability for stakeholder communication",
+        "quote": "I would rather have a worse model that I can actually explain to people if they ask. Right. Like that was the whole problem with the W thing. It was just like, Ryan's asking you a bunch of questions and it's almost the data changes all the time. And you're like, well, it's right. And it was right, but it just changes all the time. It's impossible to explain.",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "1:07:43 AM"
+      },
+      {
+        "claim": "Pipeline ROI targets should be 15:1 but booking ROI only 5:1, deliberately setting lower bar for closed revenue to account for sales execution risk",
+        "why_unusual": "Most orgs set same ratio or higher for bookings; they explicitly expect massive drop-off from pipeline to close and bake that into targets",
+        "quote": "I set the goal for the team as 15 to 1 and 5 to 1 Ideally, I would love to just set it as five to one and not worry about the 15 to one, but the reality is it could take six months or nine months to get to the five to one, but then the 15 to one, usually stage zero to stage one happens within the first 45 days of an activity.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:46:43 AM"
+      },
+      {
+        "claim": "W-model should be abandoned because adding one more touchpoint arbitrarily shifts the midpoint and explodes/changes ROI numbers",
+        "why_unusual": "W-model is industry standard; client explicitly rejects it due to instability from touchpoint count changes",
+        "quote": "I would get rid of W-shape too, because another thing, right, is you have one more touch point, and then your center, your midpoint, is no longer the midpoint. And then that can make it go down. So even if we had the model 100% accurate, that would make numbers go down. If you have a whale, like Western, Southern, or whatever that big one is. it no longer is the midpoint it shifts by one and all of a sudden your ROI numbers explode and change and go down",
+        "speaker": "Jacob",
+        "timestamp": "1:11:37 AM"
+      },
+      {
+        "claim": "Exclude renewals from ROI model but include them in influence model - opposite of typical practice",
+        "why_unusual": "Most attribution includes renewals in ROI; they explicitly want new-business-only for ROI to avoid inflating event performance with easy renewals",
+        "quote": "probably don't want in the ROI model with the marketing spend the Renewals, but if you guys create something that is an influence model Then you would want to leave renewals in because you want to see of the marketing activities We're doing if we're going to be able to it's touching all business, not just new business from an ROI standpoint. But the ones I wanted the ROI model would, I would say they should be predominantly the new ARR type of motions",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:59:13 AM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Model switched prediction from $36.7M to $29M on last day of quarter after claiming stability",
+        "quote": "on the last day of the fiscal quarter oh sorry we think it's going to be 26.69 i'm like well no i could have told you it was 26.69 on the last day of the fiscal quarter as well right",
+        "speaker": "Craig",
+        "timestamp": "2:10:48 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Performance issues and misspellings/bugs in UI during demo",
+        "quote": "we were releasing a lot of those enhancements into product on a Friday afternoon when we were doing the demo for you guys, which is why you saw some bogs and why you saw some performance issues",
+        "speaker": "Jonathan Hill",
+        "timestamp": "9:28:30 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "GCL ID stitching failing for ~2000 leads, mostly from Japan/Wasabi campaigns",
+        "quote": "we found about 1500 leads where we had the G-C-L-I-D but we hadn't stitched it together properly. So we've added those, we have about 500 more to go",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:16:17 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Japan lead filters not available, custom dimension needed",
+        "quote": "I wanna look at the funnels for our specific things, and I realized earlier that the way that I was doing this was by grouping it by the internal username of like who it was assigned to in our specific platform, like in Salesforce. But then I realized when we changed to lead scoring, we're still creating Japanese leads in the MCL stage that are not assigned to these reps yet until they become an MQL",
+        "speaker": "Zane Halstead",
+        "timestamp": "9:35:17 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "LinkedIn campaigns not matching to Salesforce campaigns via UTM parameters",
+        "quote": "we are not able to match the same UTM source parameters to map those LinkedIn campaigns to any of the leads as such. And that's why we're not seeing any attribution to any LinkedIn campaign like we see for Google ads",
+        "speaker": "Vishwajit Vyas",
+        "timestamp": "11:57:01 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Google Ads spend showing in separate Google campaigns vs Salesforce campaigns - no unified view",
+        "quote": "we're seeing the spend and the ROI and the campaigns from Google, but it's not associated with my Salesforce campaigns",
+        "speaker": "Leah Itzkovich",
+        "timestamp": "12:02:09 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Custom date dimension for trial tracking not available as filter in Cohort intelligence",
+        "quote": "I couldn't, I couldn't see that in my, in my view, that I only had created at, I didn't have that specific one. So maybe that's why my trial report wasn't correct",
+        "speaker": "Zane Halstead",
+        "timestamp": "11:52:03 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Journey view only showing 137 people to pipeline when client knows hundreds exist",
+        "quote": "I know Ryan like to quote Ryan, he said he doesn't feel like that's gonna pass the sniff test because we create hundreds and hundreds of ops that make it to pipeline. So like only being the top 50 of that",
+        "speaker": "Zane Halstead",
+        "timestamp": "1:15:33 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Pipeline projection showing $4M generated when quarter is only 2/3 over, which Ryan immediately distrusts",
+        "quote": "it says we've already generated 4.011 million in pipeline this quarter and the quarter's only two outta three months over. I'm like, alright, that data doesn't sound right to me",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:45:13 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Missing filter for trial create date causing potential misattribution of old trials to current campaigns",
+        "quote": "we don't have a filter based on the, when the trial was created. We right now how this is going, like this is based on when the op or lead is created that this based on the filter, this trial could have been five years ago",
+        "speaker": "Zane Halstead",
+        "timestamp": "11:58:34 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "LinkedIn conversation ads not properly ingesting sends/opens metrics after LinkedIn API change",
+        "quote": "LinkedIn ads pivoted from using impressions and clicks to only using sends and opens as the metrics. And then he was wondering if we can get those pulled in. He's like, that's probably why we're not seeing the, the actual engagement with those and he thinks we might be under reporting that because of that change",
+        "speaker": "Zane Halstead",
+        "timestamp": "1:37:23 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Smart filter causing unexpected behavior in campaign searches",
+        "quote": "The smart filter gets me",
+        "speaker": "Zane Halstead",
+        "timestamp": "1:15:37 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Cohort numbers don't match Zane's historical reports; discrepancy between 28 created vs 14 created",
+        "quote": "My concern would be why is it saying 14 were created when Zane told me there was, I'm sorry, 28 created when Zane has in my report, 14 created.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:46:02 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Current bookings showing zero when Salesforce shows closed deals; sync timing issue",
+        "quote": "So current booking, I'm curious if I remove this 'cause we have, we have two, I'm looking at my Salesforce right now. We have two closed one up so far this quarter. A a commercial I i about roughly about 18 KA little over 18 K. And I'm like, okay, it says current bookings are zero. I'm assuming it's 'cause these aren't enterprise. This happened on the seventh so it happened yesterday. Yeah. So it should be in today's sync. Yeah. And so it's a new business OP 17 K closed one yesterday. Why don't you send us the, you know, Salesforce ID or whatever. Okay. And we will look it up. But my guess is it somehow it hasn't, it hasn't synced.",
+        "speaker": "Zane Halstead",
+        "timestamp": "1:53:26 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Zane's departure left knowledge gap; Jacob needs extensive re-training and validation of data logic",
+        "quote": "I just have to know how these numbers are getting made. 'cause ultimately my ass is gonna be on the line for providing correct numbers, and I'm not, two is not the same, right. Two is not equal to three. So it has to be, I have to know, like the definitions can be different, but I've got to know Yeah. What's, what it's coming from.",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "10:12:26 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Directive (agency) using wrong filters in RevSure causing inflated ROI numbers",
+        "quote": "They were reporting what, hundreds of millions and stuff like that. It was like, it was, it was crazy off the charts. Yeah. So it was a filtering.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:58:06 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign channel classification defaulting too much to 'digital' bucket, making attribution meaningless",
+        "quote": "everything right now is showing website, which is not very helpful. You know, it's like okay, what part of the website or, and then what was unclear about it as well is what is in the search bucket versus what's in the page search bucket.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:42:13 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "New campaign contribution widget confusing to use, lacks clear documentation",
+        "quote": "You guys have changed this now this is like, I gotta figure out how to use this new ca, this campaign contribution section. Like I, I don't understand even how this all works. Like there's all this stuff in here now.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:54:35 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Projection from Funnel showing zero in tracking widget despite showing $1.89M in other view",
+        "quote": "This is zeroed out and that previous view, remember that was where the $2 million was that there, it was saying that I was gonna get $2 million from Funnel and so this has been thorough the entire time.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:22:38 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Generated pipeline number in RevSure (5.5M) doesn't match Salesforce (5.1M)",
+        "quote": "when I had screen scraped it at, at April 1st it was 5.1. That's what's back in the comments. So this for some reason saying 5.5, not 5.1 for some reason.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:22:38 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Website traffic data above MCL level not enabled despite commitment",
+        "quote": "I still not seeing the website traffic we had talked about there was a way to enable website traffic. It starts at MCL and one level above MCL would be the website traffic. And I'm not still not seeing that.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:05:16 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about how demand gen potential metric is calculated and what it represents",
+        "quote": "this demand gen potential, I just really still don't understand that. So it's like I can't, I, I guess my point I'm trying to say is I can't trust this number.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:16:34 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about how to properly filter and configure reports without hand-holding",
+        "quote": "this has just been a beast to try to remember like what's what, there's a ton of options and it's powerful, but it's difficult for me to do it without you guys holding my hand.",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "1:00:10 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign channel SDR mislabeling inbound web trials as outbound sales activity",
+        "quote": "this campaign type says outbound and campaign channels. SDRI don't, that doesn't feel right for this guy. Like, like it wasn't outbound, it was inbound, right? Yep. Was a page visit. Yep. And then we created the lead because he filled out a, like a pricing page and eventually he filled out a trial or something.",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "12:49:24 AM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client struggled to understand how campaign engagement date, campaign metric date, and lookback window interact - found it 'weird' and potentially illogical",
+        "quote": "I really, really, really need to understand those time periods because they're weird, right? Like, you know, when something goes into pipe and making sure the metrics line up with that you know, like, dead stop. We'll be comparing numbers from one period to stuff that came in six months in a different period.",
+        "speaker": "Jacob",
+        "timestamp": "1:27:53 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Opportunity-level attribution missed paid touches not tied to contacts, forcing use of account-level which has its own problems",
+        "quote": "I did some playing with one of those and there was a problem that some of the touches weren't tied to contacts that were important like paid touches and since it wasn't tied to a contact it wasn't counting but it was still like at the right time frame under the account or something. I don't remember exactly what kind of touch it was but I would just remember thinking it was odd and that's why I toggled it actually back to the account.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:53:00 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Intercom integration exists but no documentation visible to client, zero visibility into Intercom data currently",
+        "quote": "I'm on your help page and I typed intercom and nothing came up, but maybe I n t e r c o m I typed that up on your little Ask any AI the documentation nothing came up for some reason",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:28:34 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "Predictive/propensity scoring was inaccurate - twice tested and numbers deviated too far from actuals to justify module",
+        "quote": "each time that we've done the predictive stuff, it's just, it's not netting out. You know, I've tried twice now to kind of like, a month before, snapshot the predictive, what it's saying, these certain accounts, what it's saying that we should land at, and the numbers just aren't coming close.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:07:17 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Ability to easily manipulate timeframes for different segments",
+        "quote": "to be able to just easily manipulate when the lead or op was created date and then manipulate that look back window, I think four quarters is better for mid-market enterprise.",
+        "speaker": "Leah Itzkovich",
+        "timestamp": "11:45:28 PM"
+      },
+      {
+        "summary": "Dynamic calendar view and ICP engagement visibility",
+        "quote": "We've developed this dynamic calendar view so you can see where exactly is engagement happening, but where we see a lot of success with this is understanding, am I hitting my ICP?",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:53:58 PM"
+      },
+      {
+        "summary": "RevSure delivers best marketing attribution view, no other tool solves this",
+        "quote": "to say, you know, that RevShare adds values in the marketing attribution, I don't think we have any other tool that solves for that problem.",
+        "speaker": "Craig",
+        "timestamp": "1:56:07 AM"
+      },
+      {
+        "summary": "RevSure is the scalable solution after Visible and Tableau failures",
+        "quote": "finally have a solution, you know, with a, a rightful company that is tackling this away that I think it's scalable. You know, that's, that's kind of the critical thing here",
+        "speaker": "Ryan Shopp",
+        "timestamp": "10:31:39 PM"
+      },
+      {
+        "summary": "Modular approach allows consuming pieces vs all-or-nothing",
+        "quote": "other platforms we've been looking at, they don't kind of differentiate the different modules. It's kind of like an all in, you buy it, you don't, you know, kind of a thing, but it looks like you guys modularize things",
+        "speaker": "Ryan Shopp",
+        "timestamp": "9:20:34 PM"
+      },
+      {
+        "summary": "Customer success responsiveness and team approach",
+        "quote": "I'm extremely responsive via email. Like that doesn't go away. That's just, that's how we are, right? Like we're small company but we're very nimble and very much focused on customer success",
+        "speaker": "Jonathan Hill",
+        "timestamp": "9:08:11 PM"
+      },
+      {
+        "summary": "RevSure's level of innovation exceeds Six Sense",
+        "quote": "I'm frustrated with the level of innovation at Six Sense, but I'm not frustrated with the level of innovation at Rev",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:32:35 AM"
+      },
+      {
+        "summary": "Funnel conversion attribution view reveals digital is best converter from MQL to SAL",
+        "quote": "digital is clearly the best converter",
+        "speaker": "Harry Hawk",
+        "timestamp": "2:09:55 AM"
+      },
+      {
+        "summary": "RevSure acts as a mirror that reveals customer-side data glitches, adding unexpected value",
+        "quote": "And I've said one of the things we do is we hold up a little mirror to, to your data structure. 'cause you know, different departments may look at data sanitation and different system interconnections and obviously integrations differently. And so when we hold up that mirror sometimes we do find that there's little glitches on, on, on the customer side and taking a look at it through the lens of Rev helps them refine things. And it's not a great value. It's not what we go to market with as our, you know, why you should buy us. But it is part of the value that we give.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:43:31 AM"
+      },
+      {
+        "summary": "RevSure enables true partnership where customer feedback shapes product",
+        "quote": "And I was like, look, Zane can tell you multiple examples of things that we noticed that, that were bugs on our side that y'all helped us identify and fix. And there were things that we saw either bugs or features. And even Zane during the demo was like, this right here came out of a conversation where they said, Hey, let's add that.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "1:42:48 AM"
+      },
+      {
+        "summary": "RevSure team responsiveness — ideas from calls appear in product within two weeks",
+        "quote": "I even gave 'em examples of, hey, an idea it comes up on one of these calls and two weeks later it's in the product and stuff like that.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:35:04 AM"
+      },
+      {
+        "summary": "RevSure support 'crushes' competitors like ZoomInfo",
+        "quote": "I've read the riot act to my CSM there. So you guys are on the good side of me, I'm on the bad side of them right now. I'm like, we're paying way too much money for way too shitty of data from y'all. So you guys fix this or it's not if, but it's a guarantee we'll be leaving y'all in December. So I've said that the almost word for word to our, our another brand new AE and another brand new CSM, their support sucks over there. You guys like crush them. I mean you guys run circles around them",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:52:48 AM"
+      },
+      {
+        "summary": "RevSure's funnel journey visualization is slick and helpful for understanding conversion paths",
+        "quote": "it's really slick how they have this Funnel view and how the Funnel view actually can show what was the first touch that went into that Funnel. Which is very, very helpful, you know, for us to understand, you know, for a tactic standpoint.",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:43:14 AM"
+      },
+      {
+        "summary": "RevSure acts as mirror exposing data quality issues that need fixing",
+        "quote": "our opinion is one of the soft values you get out of RSU is this little mirror that, you know, sometimes doesn't show you what you wanna see. And, and sometimes we're wrong, right? We, you've seen where, you know, we've made an adjustment, but I just wanna acknowledge what you said about the complexity of the product.",
+        "speaker": "Harry Hawk",
+        "timestamp": "1:05:44 AM"
+      },
+      {
+        "summary": "RevSure enables territory model improvement with weighted scoring capabilities",
+        "quote": "I've been working on our territory mapping our territory models, and I've been Improving them and I have like a multiplier So like India they have high lead volume, but very very low trial volume",
+        "speaker": "Jacob Vandenbark",
+        "timestamp": "12:51:08 AM"
+      },
+      {
+        "summary": "Sandbox comparison dashboard gives feeling of control and understanding of model differences",
+        "quote": "I think this to me is helps understand the differences between the models. I think this makes people feel like they're more in control of their destiny. Now you can mix and match and really understand the nuances between different options. I like this a lot. Thank you, guys.",
+        "speaker": "Jacob",
+        "timestamp": "12:49:40 AM"
+      },
+      {
+        "summary": "RevSure enables culture of accountability where AEs think twice before challenging marketing",
+        "quote": "It just shows what we're doing. the level of diligence we're doing with the numbers that builds credibility with the sales team and it actually any AE has to think twice about calling us out and say marketing's not doing what they're doing because we got our shit together you know what I'm saying and we're kind of like really thoughtful and we're looking and we're prepared",
+        "speaker": "Ryan Shopp",
+        "timestamp": "12:42:52 AM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Custom channel classification and tagging implemented across campaign sources",
+          "quote": "we did some work with that to kind of uh re reclassify them so as the team goes in and sees oh what's the overarching strategy what's the overarching channel then it's like clear what exactly other campaigns housed under that channel",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:37:03 PM"
+        },
+        {
+          "win": "LinkedIn organic and paid tracking with ad-level granularity",
+          "quote": "with LinkedIn, as you may know, we have, and I think I shared a video like a couple of weeks back. So you can see it by campaign name, right? That's always been like kind of out of box, but you can also now add the ad name.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:55:53 PM"
+        },
+        {
+          "win": "Pipeline health and waterfall views implemented for Gainsight",
+          "quote": "how within Rapture, not only do we see attribution, right? Not only can we do marketing mix response curves. not only all events right but you can have these different cuts of your data to understand the health of the pipeline",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:47:04 AM"
+        },
+        {
+          "win": "J-shaped attribution model showing true event impact after filtering noise touchpoints",
+          "quote": "it was the j-shaped model really just looking to see you know from a multi-touch standpoint what are we getting attributed to these field events um and that's where we really made some headway i feel like in filtering out certain touch point types uh that were watering down pipeline to a degree",
+          "speaker": "Brian Schmelzer",
+          "timestamp": "1:46:17 AM"
+        },
+        {
+          "win": "Saved ~100 man-hours per quarter on board reporting - automated what took 5 hours manually",
+          "quote": "Zane and I, I I, I scheduled a meeting with him the day after the board meeting and we did a back of the napkin calculation of how much time Rev sure saved us and we calculated to be about a hundred, a hundred man hours of time to be able to deliver what we delivered",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:10:50 PM"
+        },
+        {
+          "win": "Board presentation with RevSure screenshots drove VC interest and portfolio introductions",
+          "quote": "one of our board members and she, she introduced me to two portfolio operators at their firm saying, Hey, Ryan showed these impressive numbers. I was talking to you two about it earlier today. Yeah. I highly recommend you get on the phone with Ryan and learn what he's doing",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:14:16 PM"
+        },
+        {
+          "win": "Real-time funnel visibility replacing manual Excel work",
+          "quote": "for me to run this analysis before would take about five hours of manual effort between me and my ops guy. This is a matter of seconds if not minutes, once you get your filters right",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:07:27 PM"
+        },
+        {
+          "win": "Trial funnel email automation to CEO starting next week",
+          "quote": "starting next week, I plan to have the, one of our funnels, the trial Funnel I have emailed to me every single morning",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:24:02 PM"
+        },
+        {
+          "win": "High-value campaign funnel view built - replaced manual email domain matching",
+          "quote": "the high value one that you showed us where I'm actually able to use the demand gen effectiveness page and pull in those campaign member reports into a, a specific funnel for our high value campaigns. We weren't getting this visibility before and now that I'm able to actually basically see a funnel of how this looks",
+          "speaker": "Zane Halstead",
+          "timestamp": "12:35:17 AM"
+        },
+        {
+          "win": "Campaign reallocation module identifying underperforming events for budget diversion",
+          "quote": "Here are certain events that don't seem to be having the Pipeline impact. We wanna divert those budget to other high performing investments",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:07:27 PM"
+        },
+        {
+          "win": "Ryan successfully presented paid ROI and program ROI at QBR using RevSure reports",
+          "quote": "Ryan did a little 30 minute intro of like how marketing's been doing and he was able to use the reports that we built that show our ROI of our programs and paid and was able to present on that and like be able to have like good conversations about it",
+          "speaker": "Zane Halstead",
+          "timestamp": "11:03:43 PM"
+        },
+        {
+          "win": "Zane able to quickly identify top 20 campaigns for board deck using insights feature",
+          "quote": "I'm literally gonna export this and then put this into this sheet right here. So that's exactly, I just wanna make sure that I was doing that correctly",
+          "speaker": "Zane Halstead",
+          "timestamp": "12:36:28 AM"
+        },
+        {
+          "win": "GCID leads missing campaigns reduced from higher number to 67",
+          "quote": "GCID leads missing campaigns is down to 67. Yay. Woo.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:51:45 PM"
+        },
+        {
+          "win": "Ryan used RevSure to validate February trial-to-pipeline conversion (3.5% vs January 1.7%) to justify continued Google spend",
+          "quote": "I was able to quickly show, hey Izzy, is it 3.5% for the month of February for all that increase so that, hey, that that money was well spent, that it's in the pipeline now.",
+          "speaker": "Ryan Shopp",
+          "timestamp": "12:52:08 AM"
+        },
+        {
+          "win": "Cohort conversion reports elevated to C-level monthly review",
+          "quote": "So that now has caught so much attention within the CEO Down is going, if we're gonna pour more salespeople and more money into this, a leading indicator that we've gotta watch maniacally is how is that cohort progressing?",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:48:33 AM"
+        },
+        {
+          "win": "Ryan built board meeting deck using RevSure cohort data",
+          "quote": "I might try to throw some of this information in there just kind of as a high level look and be like, hey, this is what we're projected to do based on this stuff in rev share. And then we'll compare it at the end of the quarter and see how we do.",
+          "speaker": "Zane Halstead",
+          "timestamp": "2:00:53 AM"
+        },
+        {
+          "win": "Established monthly reporting system with consistent attribution model for paid performance team",
+          "quote": "This is great. That's all we need. And what I'm gonna do is I'm gonna start pulling these month over month and then once we reach our quarter, I'll have enough insights to basically compare all the periods like previous months and I can put together some findings",
+          "speaker": "Mihika Kelkar",
+          "timestamp": "2:56:09 AM"
+        },
+        {
+          "win": "Identified and planned exclusion filter for Japan campaigns to clean up DC reporting",
+          "quote": "I think we can pick this up on Monday and see if y'all can support with, essentially we just wanna e exclude JP campaigns, anything in there.",
+          "speaker": "Mihika Kelkar",
+          "timestamp": "3:00:47 AM"
+        },
+        {
+          "win": "Data validation process established to reconcile Salesforce vs RevSure discrepancies",
+          "quote": "I'm gonna, I'm gonna hold on that for right now. I think, I think some of that's messiness on our side and I don't know how to advise you to clean it up.",
+          "speaker": "Ryan Shopp",
+          "timestamp": "12:40:06 AM"
+        },
+        {
+          "win": "Created saved view for Japan campaign ROI analysis",
+          "quote": "before we go is click here on the top and then maybe click on save as new. And then you can save like add like a name, like save as a new view for you.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:59:56 AM"
+        },
+        {
+          "win": "Created sandbox dashboard with multiple attribution models (W, U, Linear, AnyTouch) for side-by-side comparison",
+          "quote": "This is the kind of structure I was wanting to play with, because then it makes it easier to compare and contrast, and then we can tab across and look at different cuts of the data.",
+          "speaker": "Jacob",
+          "timestamp": "12:48:21 AM"
+        },
+        {
+          "win": "Identified root cause of deflated ROI numbers - net new ARR formula change zeroing renewals",
+          "quote": "So ARR will include everything and renewals still have ARR. And so I would say, I don't think it's inappropriate to make that change right now. Just swap out how ROI is calculated from net new ARR to ARR. Because that should work just fine.",
+          "speaker": "Jacob",
+          "timestamp": "12:50:51 AM"
+        },
+        {
+          "win": "Built custom dimension to show lead stages (MCL, MQL, SAL, Qualified) alongside opportunity stages",
+          "quote": "I just added the context of lead through a custom dimension. So now you're seeing, so you'll still see the same like opportunity level data, but you'll see leading up to generating those opportunity types.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:38:25 AM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Prove brand awareness campaign impact on future pipeline to justify continued investment",
+          "quote": "i'd love for us to be you know collaborate to figure out how i can show maybe a lift in brain awareness impact on future pipeline in a quarter or two from the companies that we hit with this you know the spend",
+          "speaker": "Leah Itzkovich",
+          "timestamp": "1:35:02 AM"
+        },
+        {
+          "win": "2026 planning with historical program ROI analysis and customer journey dissection",
+          "quote": "looking at, you know, what we've done over the past year or two, and what's really had an impact on pipeline, maybe dissecting some customer journeys would be interesting and helpful as we think about our 2026 plans too.",
+          "speaker": "Leah Itzkovich",
+          "timestamp": "1:36:47 AM"
+        },
+        {
+          "win": "Marketing mix modeling with response curves for budget optimization",
+          "quote": "with marketing mix, we can see like the lag effects. Right. So a contribution to pipeline, the contribution to revenue, but also with your teams. Right. And this is a discussion that we can further have is like seeing. the response curves, right? What is the marginal ROI? What are the different optimization scenarios?",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "1:44:23 AM"
+        },
+        {
+          "win": "Snowflake/Sigma integration for broader team adoption",
+          "quote": "would help us a great deal in this uh kind of challenge is bringing revsure into our snowflake instance and surfacing this yeah through our bi tool uh because there's numerous dashboards there that our campaign team is using it's our source of truth",
+          "speaker": "Brian Schmelzer",
+          "timestamp": "1:58:14 AM"
+        },
+        {
+          "win": "Rebuild trust in pipeline predictions through collaborative model review",
+          "quote": "What we want to do is like have an opportunity to gain that trust back. um to be able to have pipeline projections as uh an option for you to go back to",
+          "speaker": "Ram Arunachalam",
+          "timestamp": "2:07:40 AM"
+        },
+        {
+          "win": "CMO advisory board position for Ryan - strategic partnership with RevSure",
+          "quote": "we would love to have you a part of, a part of our group, part of the advisory group. It's a small select group so it's not everyone and their brother",
+          "speaker": "Alex Cox",
+          "timestamp": "10:26:59 PM"
+        },
+        {
+          "win": "Systematic executive staff reporting via automated email snapshots",
+          "quote": "I wanna send that email to him every Monday morning for the trial Funnel for the current quarter. And I wanna get his feedback and make sure he feels comfortable with it, answering his questions. And then I wanna expand it to the executive staff, all of these staff",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:24:02 PM"
+        },
+        {
+          "win": "Replace Google Analytics entirely with RevSure web data",
+          "quote": "I would love to not even have to go into that product ever and come into just Rev Sure. And have that same website data there",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:22:02 PM"
+        },
+        {
+          "win": "Unified budget allocation across digital and events with 15:1 pipeline ROI target",
+          "quote": "the goal of the team is every dollar spent turns into $15 a pipeline. That's what we aspire to do",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:18:18 AM"
+        },
+        {
+          "win": "Journey pattern recognition - 'playbook' for PLG motion like college football plays",
+          "quote": "what I'm trying to challenge the team with the journey stuff is I want to know it, it's almost like a playbook for college football or something like that. Yeah, yeah, yeah. Play a, play B, play C. How are we getting trials or high intent leads play a, like what are the top three plays?",
+          "speaker": "Ryan Shopp",
+          "timestamp": "10:19:54 PM"
+        },
+        {
+          "win": "Potential replacement of Six Sense with RevSure for account intelligence, consolidating martech stack",
+          "quote": "I would probably negotiate a one year renewal with Six Sense do this together with y'all over the next year. And then once that year comes up, get off Six Sense, bring that budget over and be able to put it here instead of there",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:31:29 AM"
+        },
+        {
+          "win": "Using AI-powered pipeline predictions and recommendations for quarterly reallocation decisions",
+          "quote": "this I think is exactly what Ryan would be looking for to be like, Hey, if he could check this every month of the quarter, be like, Hey, we're in month, we're starting month two. Yeah, we need to increase pipeline. I could come in here and be like, okay, well based on this AI model, I can see these are the ones we need to increase",
+          "speaker": "Zane Halstead",
+          "timestamp": "11:58:37 PM"
+        },
+        {
+          "win": "Establishing RevSure as default source of truth before Salesforce for marketing team",
+          "quote": "I want my default posture of my team, Zane, Leah or whatever, go to register first, find the information there, then if you need to go click from here into, into Salesforce to get the next level of detail",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:27:23 AM"
+        },
+        {
+          "win": "Replace all manual spreadsheets with unified RevSure dashboard",
+          "quote": "I want a Unified dashboard somewhere, you know, pulling from Rev. Or pulling into Rev. Sure. Or whatever it is. Sure. 'cause I want to be dynamic and not have to, anybody have to manually do it. I think Zane just has been doing it for four and a half years. So we never even thought about can I replace that dashboard?",
+          "speaker": "Ryan Shopp",
+          "timestamp": "12:29:12 AM"
+        },
+        {
+          "win": "Use AI predictions to have seat at sales forecast table with data-driven ammunition",
+          "quote": "I would love my primary tool to be Rev. Sure. Where I go there, I could type in the name of a deal and I can look at some details and say, Hey, the pipeline predictability is saying that this thing has a 75% chance of closing this quarter or next quarter like that. If I, if I believe it, the data then that is powerful. Like you just now given me the the right type of ammunition to have a seat at that table and have, it's, it's a data-driven, not a judgment driven conversation.",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:53:51 AM"
+        },
+        {
+          "win": "Expand RevSure adoption beyond marketing to product and go-to-market teams",
+          "quote": "I wanna get this beyond this, the marketing team using it, I want the go to market team to use it. I want the product team to use it. Love. Makes it much easier to do expansions and add new modules and you know, it's just like the more people that are using it beyond just the marketing team playing with their toys and they see the value out of the data analytics and stuff like that and they can then do scenario planning with it. Love scenario planning.",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:31:26 AM"
+        },
+        {
+          "win": "Baseline and measure new demo environment impact on stage zero to stage three conversion",
+          "quote": "So the expectation is we can now say let's track this and then baseline this 60, 90 days from now, once we roll out the new demo and it, does the baseline go from 14% up to 20%? Does it stay at 14% to validate the effort that we put into it?",
+          "speaker": "Ryan Shopp",
+          "timestamp": "12:48:09 AM"
+        },
+        {
+          "win": "Build board-ready narrative connecting Q1 Google Ads optimization to trial spike using deep funnel analytics",
+          "quote": "The narrative I'm trying to show is like here we're gonna show like this Q2 spike that's big. I mean Q1 spike compared to the previous quarters. And then, you know, here here's the example Funnel, I'm, you know, kind of like drew up on the board like I'm trying to create is like traffic through MQL down to closed one.",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:04:49 AM"
+        },
+        {
+          "win": "Establish AI-driven prediction models for quarterly board reporting on pipeline and bookings",
+          "quote": "we committed to the board that starting next quarter we will actually give you a prediction. So we, we we're, we're using register and we have our own models. We think we're gonna be in the one six to two seven range from a closed one business this quarter.",
+          "speaker": "Ryan Shopp",
+          "timestamp": "12:36:51 AM"
+        },
+        {
+          "win": "Integrate Gainsight and Skill Jar data for expansion/upsell and churn prediction analytics",
+          "quote": "I really would love to get Skill Jar and Gainsight in because that would help me better understand the patterns for expansion or upsell, which isn't our primary motion. But I could then use that data and now imagine I can go have a conversation with our CS team and they could use some of these reports that better understand is this account red, yellow, green from a renewal standpoint or for an expansion standpoint.",
+          "speaker": "Ryan Shopp",
+          "timestamp": "12:42:01 AM"
+        },
+        {
+          "win": "Develop custom weighted scoring model combining pipeline ROI, booking ROI, and volume metrics",
+          "quote": "I'm almost wondering could I? You know combine a couple things and write some logic to almost make my own little mini model inside of here. That's like That gives it a score right that sort of can help rank it where we can still see hey look This one had high pipeline ROI. So if someone has high pipeline ROI and high pipe volume",
+          "speaker": "Jacob Vandenbark",
+          "timestamp": "12:49:05 AM"
+        },
+        {
+          "win": "Establish unified attribution model for all demand gen spend (digital + events) with clear benchmarks",
+          "quote": "I want us to come up with one unified view. Using the category classification, get stuff out of there that we don't want to quote-unquote attribute. Make sure it has the things that we do want to attribute. That one unified view, instead of me having to conjoin two or three different reports to create my slide, now I can just show it",
+          "speaker": "Ryan Shopp",
+          "timestamp": "12:45:49 AM"
+        },
+        {
+          "win": "Implement lookback windows (90-180 days) to prevent old events from attributing to new deals",
+          "quote": "we probably should exclude any events that have happened in like the last 60 days or 45 days or something like that, because there's not enough time for that lead to have been prosecuted and converted into an opportunity",
+          "speaker": "Ryan Shopp",
+          "timestamp": "1:25:27 AM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "Google Analytics",
+      "HubSpot forms",
+      "Marketo",
+      "Sixth Sense",
+      "CookieYes",
+      "Visible",
+      "Tableau",
+      "Salesforce reports",
+      "Manual Excel/Google Sheets",
+      "Six Sense",
+      "Excel/Spreadsheets",
+      "SalesLoft",
+      "Excel spreadsheets (manual weekly dashboards)",
+      "Salesforce (native reporting)",
+      "Looker",
+      "6sense",
+      "ZoomInfo",
+      "Visible/HockeyStack (previous attribution vendors)",
+      "HubSpot",
+      "Bizible",
+      "LeanData",
+      "Google Ads",
+      "LinkedIn Ads",
+      "Intercom",
+      "Visible (Adobe)",
+      "Spreadsheets/manual reports"
+    ],
+    "pain_summary": "Could not track stage-to-stage conversions, brand awareness impact unmeasurable, web tracking degraded by cookie consent, Salesforce reporting unreliable, campaign managers distrustful of data",
+    "kpis_unhealthy": [
+      "stage-to-stage conversion rates",
+      "web visitor tracking",
+      "brand awareness ROI",
+      "pipeline forecast accuracy",
+      "campaign attribution completeness",
+      "campaign attribution accuracy",
+      "digital ROI visibility",
+      "funnel reporting speed",
+      "lead quality/MQL noise",
+      "board-ready reporting",
+      "pipeline prediction accuracy",
+      "campaign attribution speed",
+      "quarterly reporting time",
+      "marketing-sourced pipeline visibility",
+      "pipeline conversion rate (20-24% vs 33% target)",
+      "trial-to-pipeline conversion",
+      "marketing ROI measurement with renewals polluting data",
+      "sales forecast accuracy (judgment-driven, not data-driven)",
+      "weekly manual reporting time",
+      "campaign ROI accuracy",
+      "pipeline forecast predictability",
+      "trial-to-close attribution",
+      "sales-marketing alignment on sourced pipeline",
+      "churn prediction",
+      "Event ROI accuracy",
+      "Unified attribution across digital and events",
+      "Sales contact hygiene on opportunities",
+      "Net new ARR calculation breaking renewal attribution"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Demand gen dashboard with evergreen views, custom channel classification, LinkedIn/Google granular tracking, pipeline health views, but struggling with form script conflicts, UTM parsing, and major pipeline forecast miss damaging executive trust",
+    "wins_realized": [
+      "demand gen dashboard with evergreen views",
+      "custom channel taxonomy",
+      "ad-level and keyword-level paid tracking",
+      "J-shaped event attribution model",
+      "pipeline health waterfall views",
+      "Board presentation with RevSure data drove VC portfolio introductions",
+      "Automated trial funnel reporting replacing weekly manual updates",
+      "High-value campaign funnel view eliminating manual email domain matching",
+      "Campaign reallocation identifying underperforming events",
+      "QBR presentation with paid ROI reports",
+      "Reduced GCID leads missing campaigns to 67",
+      "Enabled Gainsight customer reference leading to closed deal",
+      "Self-service top campaign identification for board decks",
+      "Cohort conversion reports elevated to CEO-level monthly review",
+      "Validated February trial-to-pipeline lift (3.5% vs 1.7%) to justify digital spend",
+      "Built board meeting deck with RevSure projections",
+      "Identified ISR hiring opportunity from sub-100 employee deal data",
+      "Established 14% baseline for stage zero-to-stage three conversion to measure new demo impact",
+      "Monthly repeatable attribution reporting system established",
+      "W-model attribution enabling consistent QBR presentation to sales",
+      "Data validation process identifying Salesforce-RevSure gaps",
+      "Pre-post analysis capability for spend impact measurement",
+      "Custom dimension creation for marketing-sourced classification",
+      "Events now showing in attribution after fixing classification",
+      "Sandbox dashboard for model comparison",
+      "Custom lead-stage dimension built",
+      "Root cause identified for deflated ROI (net new ARR formula)"
+    ],
+    "open_issues": [
+      "form script conflict with old/new GTM implementation",
+      "Trade Desk and DV360 integration pending",
+      "Facebook attribution not showing",
+      "pipeline forecast accuracy severely damaged",
+      "campaign manager adoption gap",
+      "Snowflake/Sigma integration needed for broader adoption",
+      "Digital campaign attribution not tying out to expected volumes",
+      "GCL-ID stitching incomplete for ~500 leads",
+      "Japan lead tracking requires custom dimensions",
+      "Journey view not capturing full pipeline population",
+      "Google Ads vs Salesforce campaign hierarchy unresolved",
+      "Website analytics replacement still in development",
+      "Sales team Salesforce hygiene affecting propensity accuracy",
+      "LinkedIn conversation ads metric ingestion",
+      "Duplicate touchpoint clustering in journeys",
+      "Six Sense replacement timeline and feature parity",
+      "Standardizing filter taxonomy across views",
+      "AI prediction trust gap — needs VP of Sales validation before expansion",
+      "Manual spreadsheet dashboard still not fully replaced",
+      "Data sync timing issues (closed deals not appearing)",
+      "Custom date range filter bugs",
+      "Jacob onboarding and data validation gap after Zane's departure",
+      "Renewal vs new business attribution logic still being refined",
+      "AI predictive model accuracy not yet trusted for board reporting",
+      "Campaign channel classification requiring ongoing manual rule refinement",
+      "Website traffic above MCL not yet enabled",
+      "True first-touch before trial signup still unclear (dark web gap)",
+      "Integration with Gainsight/Skill Jar for expansion analytics pending",
+      "Intercom chat data not yet integrated for complete touchpoint visibility",
+      "Final attribution model not yet selected",
+      "Lookback window duration not decided",
+      "Channel classification still incomplete",
+      "Intercom integration not activated",
+      "Predictive/propensity module accuracy concerns",
+      "Need to exclude recent events from ROI evaluation",
+      "Need better visual documentation with Venn diagram style navigation on first page so users don't have to read entire documents"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_ Mabl Transcript - Part 2 (All Calls).md",
+      "RevSure_Mabl Transcript - Part 1 (All Calls).docx"
+    ],
+    "total_chunks": 11,
+    "extracted_chunks": 10
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 40,
+      "tools_switched_from": 11,
+      "political_tussles": 12,
+      "contrarians": 24,
+      "revsure_problems": 28,
+      "best_about_revsure": 17,
+      "wins_immediate": 23,
+      "wins_long_term": 23
+    }
+  }
+}

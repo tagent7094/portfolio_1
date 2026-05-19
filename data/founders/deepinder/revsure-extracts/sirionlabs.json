@@ -1,0 +1,700 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "SirionLabs",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "No visibility into which channels drive website traffic and conversions",
+        "quote": "Right now we're couching all of that traffic or people coming to the website and then requesting a demo in a onsite demo request form, right? So, so we're seeing that they are engaging with this form, but we don't know from where they came. Right? So are they coming through organic search? Are they coming through direct traffic directly to Sirion website? Are they coming through social media? We don't, we don't know.",
+        "speaker": "Jesse Boland",
+        "timestamp": "10:37:47 PM"
+      },
+      {
+        "summary": "Email marketing attribution is hidden because MQL-first-touch only credits the final form fill, not the email that drove the visit",
+        "quote": "So, and the reason why email marketing is so low, but it should be higher in reality, but it's so low, is because, you know, we're sending out an email that prospect is picking up that email, but then goes to the, you know, asset and then eventually gets to the contact us form. But then only the really, the contact us form is getting, getting credit because it's MQL first touch.",
+        "speaker": "Nho Lam",
+        "timestamp": "10:50:40 PM"
+      },
+      {
+        "summary": "Salesforce hygiene is poor, especially around opportunity stage updates and close dates",
+        "quote": "It's also our, you know, it's Salesforce hygiene and we, we don't have great, we, we don't have great Salesforce hygiene in terms of this update waiting like that",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "10:23:55 PM"
+      },
+      {
+        "summary": "Sales reps move opportunities out at quarter-end or close multiple opportunities suddenly when leadership mandates cleanup",
+        "quote": "With the sales team, they will move out opportunities in the very last week. They'll move it to the next quarter or if there is some mandate from the leadership to clean up the Pipeline, they'll suddenly close multiple opportunities.",
+        "speaker": "Devinder Jeet Singh",
+        "timestamp": "9:12:10 PM"
+      },
+      {
+        "summary": "MQL reports in Salesforce only show latest cycle, so historical numbers change every time",
+        "quote": "In fact, in in Salesforce we have a limitation that we can only report on the latest MQL cycle. So if an MQL has been in three cycles in our report, it'll only show up in the latest cycle. So our numbers from the past actually change every time we pull AMQL report from Salesforce.",
+        "speaker": "Devindersingh",
+        "timestamp": "11:49:31 PM"
+      },
+      {
+        "summary": "Last-touch attribution in Salesforce skewed ROI story and made it difficult to answer questions about true campaign contribution",
+        "quote": "when we just look at the last touch, then the ROI story gets skewed and we get difficult questions",
+        "speaker": "Devindersingh",
+        "timestamp": "1:05:53 AM"
+      },
+      {
+        "summary": "Multiple scoring approaches created confusion - Six Sense predictive scoring, HubSpot lead scoring, and RevSure's scoring all gave different signals",
+        "quote": "We are using Six Senses predictive scoring, both at the account level and lead level. And we are trying to build something of our own, because the six sense model is not perfect. The hubs lead scoring is not perfect. You've got your own scoring, which is based on very different signals.",
+        "speaker": "Devindersingh",
+        "timestamp": "1:21:25 AM"
+      },
+      {
+        "summary": "RevSure's overwhelming number of modules made it difficult to get started and caused paralysis",
+        "quote": "when we just got onboarded and you opened the system to us, we were significantly overwhelmed with the level of detail. So many modules and yeah, it puts very difficult to get our heads wrapped around the system for the first several weeks. Even now, there are so many areas where I am, despite my passion for this kind of stuff, even I am scared to get into",
+        "speaker": "Devindersingh",
+        "timestamp": "1:23:55 AM"
+      },
+      {
+        "summary": "Manual, complicated process to forecast future quarters requiring Cohort analysis and weighted Pipeline calculations",
+        "quote": "I actually did, I've previously done some Cohort analysis on our top of Funnel opportunities that get created and how many of those close in a certain number of months. And I use that to sort of calculate, you know, looking at existing Pipeline is fairly easy 'cause I can see what do we have in the Pipeline today that has Forecast to close for those quarters and then do weighted Pipeline and analysis and do some assumptions. But I did some sort of complicated way of figuring out the Pipeline we expect to add between now and then",
+        "speaker": "Andrew De Geofroy",
+        "timestamp": "8:36:34 PM"
+      },
+      {
+        "summary": "Clari only forecasts next quarter and lacks visibility into pre-Pipeline Funnel stages",
+        "quote": "in clarity for example, they, they have some predictive analysis, but it really only goes to the next quarter. Yeah. And so, you know, I actually did, I've previously done some Cohort analysis",
+        "speaker": "Andrew De Geofroy",
+        "timestamp": "8:36:34 PM"
+      },
+      {
+        "summary": "Website tracking repeatedly broke after site migration, with no proactive alerts from RevSure",
+        "quote": "we transitioned to a new website back in April, between April and when I raised that issue a couple of months back, there should have been some way of, you know, for the direct show team to see in the product that there's an issue because on the front end we will not get any alert or anything to, to tell us that the data is not being captured",
+        "speaker": "Devindersingh",
+        "timestamp": "10:43:09 PM"
+      },
+      {
+        "summary": "Duplicate campaign data from HubSpot and Salesforce creating noise in journey timelines",
+        "quote": "we see the same thing showing up, you know, two, three times because of the way the data is getting pulled in from HubSpot, which is also replicated in Salesforce also in outreach. And that just creates a lot of noise",
+        "speaker": "Devindersingh",
+        "timestamp": "10:46:55 PM"
+      },
+      {
+        "summary": "Timestamping issues between HubSpot and Salesforce causing events to appear out of sequence",
+        "quote": "we see things that actually happened first in HubSpot, but when we look at the picture in Rev Shore, that shows up as the fifth or the sixth thing because of the, the timestamping issues between systems",
+        "speaker": "Devindersingh",
+        "timestamp": "10:37:41 PM"
+      },
+      {
+        "summary": "Unable to get simple sequential view of lead journey due to data clutter",
+        "quote": "by now I was expecting that it'll be very simple for me to go into Rev sho and just see that, you know, just see that this was the path taken by a lead and then roll it up into, to a group of leads and then see it, see that at the account level that's even today, we are not at a point where we can get that kind of information from Rev sho",
+        "speaker": "Devindersingh",
+        "timestamp": "10:46:55 PM"
+      },
+      {
+        "summary": "Journey analysis showing mostly single-step journeys with no insight into pre-form digital touchpoints",
+        "quote": "I see a huge number of HubSpot forms, but I don't see what happened before that. Normally we would expect that there was a visit to a webpage and that's how they filled out the HubSpot form. But for the majority of this, we just see that HubSpot form was the starting point",
+        "speaker": "Devindersingh",
+        "timestamp": "8:06:27 PM"
+      },
+      {
+        "summary": "No structured mechanism to compare initial projections against actual outcomes for board confidence",
+        "quote": "if in the tool there is a structured mechanism for us to look back and see how close the initial projection was to where we ended up, that will give us more confidence and we'll start using these numbers in more serious scenarios",
+        "speaker": "Devindersingh",
+        "timestamp": "9:20:34 PM"
+      },
+      {
+        "summary": "Drift chatbot form submissions not being captured by RevSure tracking snippet",
+        "quote": "I'm suspecting what is happening is that it, it probably came through the Drift interface somehow and I, I believe that part is not getting captured in the snippet",
+        "speaker": "Shantanu Shrivastava",
+        "timestamp": "4:45:08 PM"
+      },
+      {
+        "summary": "Cycle time in RevSure showing shorter than actual Salesforce data",
+        "quote": "our usual assumption was that it is about six to seven months, but now what we are seeing is it's stretching to about nine months, which is close to two 70 days. So it's longer than what we are seeing in sho",
+        "speaker": "Devindersingh",
+        "timestamp": "9:28:36 PM"
+      },
+      {
+        "summary": "Conversion rate discrepancy between internal calculation (10%) and RevSure (6.7%)",
+        "quote": "the conversion rate or the win rate that we've been calculating is about 10%. So I would like to understand what that 6.7% is that we just saw in Rev Shore",
+        "speaker": "Devindersingh",
+        "timestamp": "9:29:04 PM"
+      },
+      {
+        "summary": "No way to track projection accuracy over time, only option is screenshots",
+        "quote": "This point the only option we have is to take screenshots and just record it",
+        "speaker": "Devindersingh",
+        "timestamp": "9:22:44 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "HubSpot lead scoring",
+        "vendor": "HubSpot",
+        "reason": "Not yet implemented; considering as fallback if Six Sense doesn't work out",
+        "quote": "then maybe we'll use a HubSpot lead score or look at Rev Shore if Shore as a way of telling us, you know, which leads or a way of scoring these leads.",
+        "speaker": "Devinder Jeet Singh",
+        "timestamp": "8:43:28 PM"
+      },
+      {
+        "tool": "Salesforce last-touch attribution",
+        "vendor": "Salesforce",
+        "reason": "Single-touch attribution skewed ROI story and couldn't show multi-touch campaign contribution",
+        "quote": "we were tracking in Salesforce the last touch attribution. We are still doing that, but we wanted to understand what else is actually contributing to the Pipeline because when we look at our spend, obviously we are spending on each touch point for an opportunity, but when we just look at the last touch, then the ROI story gets skewed and we get difficult questions",
+        "speaker": "Devindersingh",
+        "timestamp": "1:05:53 AM"
+      },
+      {
+        "tool": "Clari",
+        "vendor": "Clari",
+        "reason": "Only forecasts next quarter, lacks visibility into pre-Pipeline Funnel stages and demand gen potential",
+        "quote": "We've got a tool called Clari, which is very strong in Pipeline forecasting, but it does not have access to anything which is not currently in Pipeline. So all the Prefun stuff SHO has access to",
+        "speaker": "Devindersingh",
+        "timestamp": "8:34:56 PM"
+      },
+      {
+        "tool": "Discern",
+        "vendor": "unknown",
+        "reason": "Used at previous company for daily email tracking; comparing to RevSure's alerting capabilities",
+        "quote": "I used a tool called Discern, I'm not sure if you've used heard of it before, but you know, I use it at my last company and they would give us a daily email. Okay. That would tell us basically how, how are we tracking, you know, and also what are key changes or things that have happened in the, in the, you know, in the last 24 hours or last week or whatever",
+        "speaker": "Andrew De Geofroy",
+        "timestamp": "9:21:21 PM"
+      },
+      {
+        "tool": "older players in attribution/marketing analytics",
+        "vendor": "various",
+        "reason": "Did not have the right tool to give the insight they were looking for",
+        "quote": "I met all the, I think the older players who did not really have the right tool to give us the insight that we were looking for",
+        "speaker": "Devindersingh",
+        "timestamp": "10:35:20 PM"
+      },
+      {
+        "tool": "Dream Data",
+        "vendor": "Dream Data",
+        "reason": "Evaluated but chose RevSure instead",
+        "quote": "we started looking at some new names, including Rev Shore Dream Data hockey stacks, some others I got, basically I got recommendations, you know, from some new members of the team",
+        "speaker": "Devindersingh",
+        "timestamp": "10:35:20 PM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Finance",
+          "Marketing"
+        ],
+        "tension_label": "budget accountability and ROMI measurement",
+        "summary": "Finance wants campaign-level ROI but marketing can't provide it due to lack of spend tracking at campaign level; current budget process is manual and quarterly",
+        "quote": "I'm jumping forward to January to then be able to talk, talk differently with the rest of the organizations, specifically finance about how we are looking at ROMI measures. So I'm trying to figure out, okay, then what attribution model are we gonna use? What are we gonna use as our default? Both for looking at data and then starting to have a different conversation with, you know, again, whether it's finance, sales, et cetera.",
+        "speaker": "Russ Cobb",
+        "timestamp": "10:35:11 PM"
+      },
+      {
+        "actors": [
+          "Sales leadership",
+          "RevOps"
+        ],
+        "tension_label": "forecast accuracy vs sandbagging",
+        "summary": "Sales systematically underweights mid-quarter forecasts; Russ notes AI model undershoots because it learns from historical sandbagging pattern",
+        "quote": "We are still systematically underweighting we're, we're sandbagging in the middle of the quarter, we're underweight, we've historically underweighted. So if you're looking at all of our historical data and you're using a model and applying it to the seventh week of the quarter, it's gonna undershoot where sales actually thinks they're gonna",
+        "speaker": "Russ Cobb",
+        "timestamp": "10:23:12 PM"
+      },
+      {
+        "actors": [
+          "marketing",
+          "sales"
+        ],
+        "tension_label": "attribution ownership and confidence",
+        "summary": "Marketing needs confidence in attribution data to get support from rest of marketing org and sales",
+        "quote": "unless that happens, I will not get a lot of support from other parts of the marketing organization",
+        "speaker": "Devindersingh",
+        "timestamp": "1:07:28 AM"
+      },
+      {
+        "actors": [
+          "CMO",
+          "Devindersingh"
+        ],
+        "tension_label": "budget justification for RevSure renewal",
+        "summary": "CMO questioning why invest in RevSure when data never used in board meetings",
+        "quote": "when I have a discussion with my cmo, I'm gonna get this question that I've never seen sho data being used in any of our board meetings or any internal meetings. Then why, why are you asking me to invest in this tool for another year? And that I honestly don't have an answer to that",
+        "speaker": "Devindersingh",
+        "timestamp": "10:49:13 PM"
+      },
+      {
+        "actors": [
+          "Growth team",
+          "Devindersingh"
+        ],
+        "tension_label": "pressure to evaluate competing tools",
+        "summary": "Growth team questioning if other tools would provide better analytics",
+        "quote": "my other stakeholders from the growth team, they also keep seeing that. So I'm getting questions, should we be looking at that? You know, will we get better analytics, better views if we use some other tool? So I've been holding off that decision, but now at this point of renewal, I think, you know, it, that becomes a very relevant discussion to be had internally",
+        "speaker": "Devindersingh",
+        "timestamp": "10:40:46 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "W-shaped attribution is too complex to explain to non-attribution-experts; better to push simpler data back to Salesforce for organizational alignment",
+        "why_unusual": "Most vendors push multi-touch as the sophisticated default; Jesse argues for dumbing down for organizational adoption",
+        "quote": "I I, I worry about WS shaped as anything other than internally to people who understand attribution and being able to build strategy off of it. What shows up in Salesforce is ultimately the way that, that the go-to-market org is gonna have to probably align, right? Because we're not gonna be able to get people into Rev Shore.",
+        "speaker": "Jesse Boland",
+        "timestamp": "10:49:28 PM"
+      },
+      {
+        "claim": "Website traffic should not be a campaign type—it should be decomposed into source/medium with campaigns nested within",
+        "why_unusual": "Most platforms treat website as a channel; Jesse insists it's a traffic container, not a campaign",
+        "quote": "So, so in my, in my mind, right, the, the website itself, a website traffic can't be a, can't be a, a campaign. There will be campaigns within that website traffic.",
+        "speaker": "Jesse Boland",
+        "timestamp": "10:39:32 PM"
+      },
+      {
+        "claim": "MQL-first-touch model (not true first-touch) is preferred because it matches existing Salesforce reporting philosophy",
+        "why_unusual": "Vendors typically push multi-touch; client explicitly asks to replicate their flawed single-touch CRM logic for consistency",
+        "quote": "And Jesse, the reason for that is this model MQ first touch is not out of the box. This is a custom model that we created so that we can see the same data that we see in Salesforce. So this is operating based on the same philosophy. That's why these numbers align with that.",
+        "speaker": "Devindersingh",
+        "timestamp": "10:49:23 PM"
+      },
+      {
+        "claim": "P-Q-O is not a real opportunity—it's just a sales accepted lead made visible in CRM",
+        "why_unusual": "Most companies treat any opportunity stage as Pipeline; Sirion explicitly excludes P-Q-O from formal sales Pipeline",
+        "quote": "P Q O is sitting outside of the sales Pipeline and it's just a handoff from the SS d R team to the sales team. And most companies do this as a lead or contact, but in our company, we made the decision that we'll do it as an opportunity so that, you know, it becomes more visible in the system. But effectively this is just a, you can call it a sales accepted lead or a sales qualified lead.",
+        "speaker": "Devinder Jeet Singh",
+        "timestamp": "8:39:46 PM"
+      },
+      {
+        "claim": "Management wants to see conversion percentage calculated as current period PQOs divided by current period MQLs, not true Cohort conversion",
+        "why_unusual": "This is statistically wrong - it ignores time lags and includes PQs from prior period MQLs - but management insists on this view",
+        "quote": "That is absolutely not accurate. Even I don't have the background of this, but yeah, that is what they're looking for, that conversion percentage.",
+        "speaker": "Banyani Rana",
+        "timestamp": "6:16:14 PM"
+      },
+      {
+        "claim": "Wants to stop sending data to RevSure when users opt out of cookies, rather than just not sending going forward",
+        "why_unusual": "Most vendors just stop future tracking; Sirion wants retroactive exclusion which is technically harder",
+        "quote": "when someone opt out, the events are not sent, sent to them",
+        "speaker": "Rahul",
+        "timestamp": "5:06:25 PM"
+      },
+      {
+        "claim": "Volume predictions are more accurate than value predictions because opportunity value estimation is unscientific",
+        "why_unusual": "Typically vendors claim to predict revenue value accurately; client explicitly says their own opportunity sizing is flawed making value predictions unreliable",
+        "quote": "Historically we've been more accurate on a volume perspective than the value perspective because we need to estimate the ops size as well sometimes that that can be slightly off, but the volume perspective is slightly more accurate usually, especially initially the pipe gen side of things is what we've seen",
+        "speaker": "Vishwajit Vyas",
+        "timestamp": "9:23:31 PM"
+      },
+      {
+        "claim": "Don't call projections 'forecasts' because they're directional, not pinpoint",
+        "why_unusual": "Revenue intelligence vendors typically sell 'forecasting'; this client/vendor pair deliberately avoids the term to set proper expectations",
+        "quote": "that's why we don't call our projections, we call them projections, but for directional nature, Forecast slightly more pinpoint",
+        "speaker": "Vishwajit Vyas",
+        "timestamp": "9:23:43 PM"
+      },
+      {
+        "claim": "Google Analytics-level detail should be connected to mid-funnel and pipeline data",
+        "why_unusual": "Most attribution vendors focus on campaign-level or touchpoint-level; this client wants raw traffic source detail (referrers, organic vs paid distribution) connected to full funnel",
+        "quote": "they're hoping that Rev Shore will basically connect that kind of detail with what's happening in the middle of the funnel and what's happening in the pipeline. That was the original vision with SHO for us",
+        "speaker": "Devindersingh",
+        "timestamp": "8:54:19 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "NA category shows 3,260 MQLs and $40M in Pipeline with no channel attribution—major data gap",
+        "quote": "And defender, if you scroll up, right? And to DJ's earlier point, we have NA is 3,260 m QLS driven and 40, $40 million in pipe, right? That we don't have fidelity on.",
+        "speaker": "Jesse Boland",
+        "timestamp": "10:35:38 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Conversion path visualization is unreadable and unusable due to too many unique paths",
+        "quote": "I think conceptually it's a great, it's a great concept, but as far as usability of that particular chart is concerned, that's a bit challenged because you cannot really read what's on the chart. So if you can do something to improve that",
+        "speaker": "Devindersingh",
+        "timestamp": "11:14:06 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Universal search feature missing; team struggled to find specific leads",
+        "quote": "And were you able to figure out the universal search feature by when? Yesterday we really struggled in finding leads, so it'll be very useful. Can we get that?",
+        "speaker": "Devindersingh",
+        "timestamp": "12:17:26 AM"
+      },
+      {
+        "category": "tool",
+        "problem": "UI bug showing inflated projection numbers due to date/data sync issues",
+        "quote": "actually this, this two 12 looks to be a UI issue and not the actual projection because I think around that time, what we had actually projected was two, not five or something. But when this we, we, we started making the fix for this, according for the last sink and everything, only from, I believe, what was the 16th or 17th of the month after which we started putting on the, the thing sometime in last week.",
+        "speaker": "Vishwajit Vyas",
+        "timestamp": "10:38:45 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Pipeline readiness 'Pipeline processed to date' definition confusing - unclear if it includes only movement or also close outcomes",
+        "quote": "what is Pipeline process still date?",
+        "speaker": "Devindersingh",
+        "timestamp": "9:01:35 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Too much time spent on data configuration instead of using the platform day-to-day",
+        "quote": "we got too focused on configuring the system correctly, but we are not really able to use the system in our day-to-day right now",
+        "speaker": "Devindersingh",
+        "timestamp": "1:07:28 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Newsletter and nurture campaign data not properly set up with correct campaign types and dates for attribution",
+        "quote": "But to not see even MQ LS is, yeah, I, I don't think the data has been updated for newsletters.",
+        "speaker": "Devindersingh",
+        "timestamp": "9:35:44 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client struggles to interpret Markoff model attribution percentages and how they differ from multi-touch distributed scores",
+        "quote": "And that day you had clarified that this is not based on any multitouch model. This is based on the Markoff model.",
+        "speaker": "Devindersingh",
+        "timestamp": "11:18:01 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Confusion between conversion probability path-based view and channel contribution percentage view",
+        "quote": "So is this a different concept from what we saw on the earlier screen?",
+        "speaker": "Devindersingh",
+        "timestamp": "11:21:39 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Website tracking broke multiple times after site migration with no proactive detection",
+        "quote": "we transitioned to a new website back in April, between April and when I raised that issue a couple of months back, there should have been some way of, you know, for the direct show team to see in the product that there's an issue because on the front end we will not get any alert or anything to, to tell us that the data is not being captured",
+        "speaker": "Devindersingh",
+        "timestamp": "10:43:09 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Historical web analytics data not pulled initially, then manually replicated later creating data quality concerns",
+        "quote": "website data was not flowing in. That was the other issue. And I guess then Hanau replicated the data from the HubSpot only. So that was one thing, which I was also worried whether the data is correct or not because it was not directly pulling it from the HubSpot. It was something which was done manually",
+        "speaker": "Banyani Rana",
+        "timestamp": "10:41:50 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Journey timelines showing duplicate touches from same campaign due to data from multiple systems",
+        "quote": "we see so much of duplicity that we just get lost in that. So if there is a way to resolve this, it'll greatly help us in just focusing on the, what the actual journey was",
+        "speaker": "Devindersingh",
+        "timestamp": "8:39:29 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Campaign member volume metric doesn't respect attribution model selection, causing confusion",
+        "quote": "campaign member volume actually doesn't behave with the attribution model. So it's like an agnostic metric. The attribution model applies to any of the stage generated metrics",
+        "speaker": "Shantanu",
+        "timestamp": "4:37:20 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Six Sense API integration blocked in EU region, preventing anonymous account tracking",
+        "quote": "there's some issue with the API access that we are seeing in the EU region",
+        "speaker": "Shantanu",
+        "timestamp": "7:10:45 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Influenced account volume not exportable in standard export, requiring workaround",
+        "quote": "when I go to details and I do export, I don't see this in the column or am I, or am I doing something wrong here?",
+        "speaker": "Banyani Rana",
+        "timestamp": "7:00:48 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "HubSpot snippet installation issues with info subdomain requiring tag manager investigation",
+        "quote": "it seems like it's still not working. We HubSpot thing, so actually is, is trying to update the snippet and HubSpot we tried with the URL code thing, but it doesn't seem to be reflecting on the info",
+        "speaker": "Shantanu Shrivastava",
+        "timestamp": "5:03:09 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "No account-level attribution available for lead/MQL stages",
+        "quote": "that account level attribution is only applicable for opportunity stages. So the toggle itself says off attribution, so it is only applicable for let's say pipeline or booking stages, not for MQL or you know lead stages",
+        "speaker": "Shantanu",
+        "timestamp": "6:07:17 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "Excited about predictive Pipeline visibility and different way to manage marketing",
+        "quote": "I'm very excited. I, I think this is gonna be, give us a whole different way to manage marketing and to communicate value of marketing and also to prescribe some things downstream in go to market. So super helpful.",
+        "speaker": "Russ Cobb",
+        "timestamp": "11:02:26 PM"
+      },
+      {
+        "summary": "Confidence in system improving through collaborative configuration",
+        "quote": "My confidence in the system is improving so thank you for helping me with that.",
+        "speaker": "Devindersingh",
+        "timestamp": "12:19:05 AM"
+      },
+      {
+        "summary": "Pipeline projection with day-by-day tracking against prior quarters is valuable for early visibility",
+        "quote": "So this gives you predictive visibility on where your Pipeline generation will land. If you had some targets, you know, we can add targets there. So it'll tell you whether you're gonna meet your targets or not.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:38:35 PM"
+      },
+      {
+        "summary": "RevSure can see pre-Pipeline Funnel data that Clari cannot access",
+        "quote": "We've got a tool called Clari, which is very strong in Pipeline forecasting, but it does not have access to anything which is not currently in Pipeline. So all the Prefun stuff SHO has access to",
+        "speaker": "Devindersingh",
+        "timestamp": "8:34:56 PM"
+      },
+      {
+        "summary": "Traceability of attribution to specific opportunities and campaigns",
+        "quote": "The good part is here you'll get the traceable, right? If it says 10 under the blue, you can just drill down and see which 10, and you can atactually see whether there was any webinars against that opportunity.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "1:18:19 AM"
+      },
+      {
+        "summary": "Platform has much more capability than initially expected",
+        "quote": "Rev Shore has much more than what we had actually wanted initially",
+        "speaker": "Devindersingh",
+        "timestamp": "1:07:24 AM"
+      },
+      {
+        "summary": "Pipeline analytics concept is useful for tracking against goals",
+        "quote": "the pipeline analytics, which I think as a concept is pretty useful. That's the number one thing I look at because that tells me how I'm tracking against the, the goals that I have",
+        "speaker": "Devindersingh",
+        "timestamp": "10:37:41 PM"
+      },
+      {
+        "summary": "New generation approach closer to actual pain points than older tools",
+        "quote": "these, the new generation had a better approach, which was closer to what we, what our pain points were",
+        "speaker": "Devindersingh",
+        "timestamp": "10:35:20 PM"
+      },
+      {
+        "summary": "Vendor team is supportive and responsive to issues",
+        "quote": "there's excitement, everybody is supportive and they, they believe in this",
+        "speaker": "Devindersingh",
+        "timestamp": "10:49:13 PM"
+      },
+      {
+        "summary": "Custom view for funnel attribution is helpful for management reporting",
+        "quote": "This is giving me a good view right now",
+        "speaker": "Banyani Rana",
+        "timestamp": "7:20:16 PM"
+      },
+      {
+        "summary": "Influenced account volume metric is valuable for understanding campaign reach",
+        "quote": "this is definitely very good metrics because this is what even we wanted to see",
+        "speaker": "Banyani Rana",
+        "timestamp": "7:09:00 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "W-shaped attribution model implemented and showing channel-level influence on Pipeline",
+          "quote": "Let's do double shift. Yeah, let's do that. Yeah, you still have website, but there's na, the other channel is Yeah.",
+          "speaker": "Devinder Jeet Singh",
+          "timestamp": "10:31:02 PM"
+        },
+        {
+          "win": "UTM tracking and campaign type standardization being implemented to bridge data gaps",
+          "quote": "in order to bridge that gap, we are standardizing the UTM tag structure and we know that Google Analytics can read that. We know that even HubSpot to some extent will be able to capture that",
+          "speaker": "Devindersingh",
+          "timestamp": "11:12:20 PM"
+        },
+        {
+          "win": "Custom flag created for delayed campaigns to use campaign start date instead of member created date",
+          "quote": "we'll have a custom flag that will identify campaigns where there might have been a delay. And for those campaigns, the system will not use the campaign member date, but it'll use the campaign start date",
+          "speaker": "Devindersingh",
+          "timestamp": "11:08:50 PM"
+        },
+        {
+          "win": "Newsletter and nurture campaign retrospective attribution set up in RevSure",
+          "quote": "that is what we have done. Yeah. And we need to do the same thing for the newsletters now.",
+          "speaker": "Devindersingh",
+          "timestamp": "9:55:15 PM"
+        },
+        {
+          "win": "Pipeline analytics now reasonably aligned with planning, giving more confidence for board use",
+          "quote": "this quarter. I'm seeing that it's very much aligned with our planning, so it's giving me more confidence",
+          "speaker": "Devindersingh",
+          "timestamp": "9:20:34 PM"
+        },
+        {
+          "win": "UTM campaign list field added to lead prioritization for tracking campaign engagement",
+          "quote": "there's a field that is called this lead UTM campaign list. That field will capture all the UTMs that have been associated with a particular",
+          "speaker": "Shantanu",
+          "timestamp": "7:12:59 PM"
+        },
+        {
+          "win": "Visitor UTM campaign list filter added to track anonymous visitors by campaign",
+          "quote": "there's an equivalent of lead UTM Campaign list, but for visitors, which is called as visitor UTM campaign list",
+          "speaker": "Shantanu",
+          "timestamp": "7:26:22 PM"
+        },
+        {
+          "win": "Account source system dimension added to distinguish Salesforce vs other system accounts",
+          "quote": "Now you should be able to have this dimension available in the tables and that will tell you whether this account is coming from Salesforce or other systems",
+          "speaker": "Shantanu",
+          "timestamp": "7:08:16 PM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Transform conversation with finance about ROMI using attribution data by January",
+          "quote": "I'm jumping forward to January to then be able to talk, talk differently with the rest of the organizations, specifically finance about how we are looking at ROMI measures.",
+          "speaker": "Russ Cobb",
+          "timestamp": "10:35:11 PM"
+        },
+        {
+          "win": "Identify which levers to pull/not pull for Pipeline generation across all channels",
+          "quote": "Ultimately, I think based on what Ture can do functionality wise, we need to know which levers to pull and which levers not to pull. Right.",
+          "speaker": "Jesse Boland",
+          "timestamp": "10:33:16 PM"
+        },
+        {
+          "win": "Replicate successful conversion paths through AB testing based on journey analysis",
+          "quote": "So let's say 75% of the path, you know, they're all unique, but they all share one or two things in common. They all started with email, they eventually got to the Gartner asset, and then they eventually got to a ca a specific case study. Like that's a powerful thing that Liz can use to be like, Hey, I need to hypothesize and AB test off of this particular journey and figure out how I can replicate that across my other journeys.",
+          "speaker": "Nho Lam",
+          "timestamp": "11:19:05 PM"
+        },
+        {
+          "win": "Use RevSure to direct marketing actions and adjustments that lead to opportunities and revenue, not just retrospective analysis",
+          "quote": "the other aspect which is much more valuable is where Rev Shore is telling us and directing us on what to do. And once we start tapping into that, I think that's where if you can help us make changes and adjustments that lead to opportunities and revenue, that's the real story",
+          "speaker": "Devindersingh",
+          "timestamp": "1:21:25 AM"
+        },
+        {
+          "win": "Board-ready narrative showing how RevSure accelerated specific enterprise deals across quarters",
+          "quote": "it'd be great if you could do a slide at a board meeting and be this, is this how we were able to accelerate these were a couple journeys, right? A couple accounts where we moved them along. Yeah. That's huge.",
+          "speaker": "Alex Cox",
+          "timestamp": "1:21:25 AM"
+        },
+        {
+          "win": "Full end-to-end view from website visit through sales stages to closed opportunity",
+          "quote": "the ability to go from when somebody comes to our website, which is even pre pre mql prefun Yeah. To what happened to that opportunity across all the sales stages",
+          "speaker": "Devindersingh",
+          "timestamp": "11:02:34 PM"
+        },
+        {
+          "win": "Segmented goal tracking by region, enterprise/commercial, and inbound/outbound",
+          "quote": "whatever we, we, we are looking at if we can also see what was our goal and how we perform against that, whether it's a segment, it's a region, you know, whichever way we split the data",
+          "speaker": "Devindersingh",
+          "timestamp": "11:00:45 PM"
+        },
+        {
+          "win": "Board-ready projection accuracy tracking with structured lookback mechanism",
+          "quote": "if in the tool there is a structured mechanism for us to look back and see how close the initial projection was to where we ended up, that will give us more confidence and we'll start using these numbers in more serious scenarios",
+          "speaker": "Devindersingh",
+          "timestamp": "9:20:34 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Salesforce",
+      "HubSpot",
+      "Six Sense",
+      "Marketo Measure (Bizible) at prior company",
+      "Outreach",
+      "ZoomInfo",
+      "LeanData",
+      "Clari",
+      "Excel",
+      "Google Analytics",
+      "Discern (previous company)",
+      "older attribution players"
+    ],
+    "pain_summary": "No visibility into channel-level attribution; MQL-first-touch hides email marketing's true impact; Salesforce hygiene poor; sales and alliance opportunities bypass marketing tracking entirely; budget tracked manually by department not campaign; forecasting relies on sales sandbagging with no independent AI prediction",
+    "kpis_unhealthy": [
+      "campaign ROI measurement",
+      "channel attribution fidelity",
+      "Pipeline forecast accuracy",
+      "MQL cycle reporting",
+      "sales opportunity hygiene",
+      "marketing-sourced Pipeline dollar forecasting",
+      "campaign attribution accuracy",
+      "multi-touch ROI visibility",
+      "future quarter forecasting",
+      "Pipeline prediction confidence",
+      "unified lead scoring",
+      "pipeline forecast accuracy",
+      "campaign attribution",
+      "website visitor-to-lead tracking",
+      "lead source classification",
+      "opportunity value estimation"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "AI-powered Pipeline projections with stage-level breakdown; W-shaped and custom attribution models; first-party website tracking deployed; campaign-level projections for growth marketing; but still resolving data gaps (NA channel, multi-level campaign hierarchy, sales/alliance attribution) and feature activation (lead prioritization, universal search)",
+    "wins_realized": [
+      "Critical capabilities campaign tracked at $4M vs $1.5M goal",
+      "Q4 Pipeline projection of $23.5M established",
+      "First-party pixel live on website",
+      "Custom MQL-first-touch model matching Salesforce logic",
+      "Growth marketing team onboarded and excited",
+      "W-model attribution operational",
+      "UTM standardization in progress",
+      "newsletter/nurture retrospective attribution",
+      "custom delayed campaign flag",
+      "current quarter projection ~240 aligns with expectations",
+      "Pipeline analytics aligned with planning",
+      "Custom funnel attribution view for closed-won",
+      "UTM tracking fields added",
+      "Account source system visibility",
+      "Three-week data cleanup sprint planned"
+    ],
+    "open_issues": [
+      "NA channel attribution for 3,260 MQLs/$40M Pipeline",
+      "Campaign hierarchy limited to one parent level",
+      "Sales/alliance direct-entry opportunities lack attribution trail",
+      "Universal search not available",
+      "Lead prioritization/next-best-action not activated",
+      "Conversion path visualization unreadable",
+      "View/configuration naming unintuitive",
+      "Funnel-to-Pipeline projection detail severely underestimates conversions",
+      "historical projection numbers change retroactively",
+      "newsletter campaign type and date fixes pending",
+      "team enablement and adoption gaps",
+      "management demands statistically incorrect conversion reporting",
+      "need board-ready narrative and deal acceleration stories",
+      "Website tracking reliability",
+      "HubSpot-Salesforce timestamp sync",
+      "Duplicate campaign touch resolution",
+      "Google Ads UTM-campaign name matching",
+      "Six Sense EU API integration",
+      "Account-level attribution for leads",
+      "Drift chatbot capture",
+      "End-to-end website-to-close journey view",
+      "Segmented goal tracking"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - SirionLabs (All Calls).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 20,
+      "tools_switched_from": 6,
+      "political_tussles": 5,
+      "contrarians": 9,
+      "revsure_problems": 17,
+      "best_about_revsure": 11,
+      "wins_immediate": 8,
+      "wins_long_term": 8
+    }
+  }
+}

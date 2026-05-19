@@ -1,0 +1,635 @@
+{
+  "schema_version": "v1.0.0",
+  "client_name": "SimPro",
+  "call_type": "all_calls",
+  "findings": {
+    "pains": [
+      {
+        "summary": "Marketing and finance have conflicting views on actual marketing spend, with finance not counting hidden costs like hotels, flights, and meals",
+        "quote": "Lisa, but you'll have like marketing spent 10 grand on this event and we generated 500k in pipeline and then so we have 50 X ROI and finance is like, you didn't count the hotel rooms, flights and meals. It's a lot more.",
+        "speaker": "E.T. Mac",
+        "timestamp": "10:02:41 PM"
+      },
+      {
+        "summary": "Multiple versions of forecasting tools exist with no single source of truth, leading to ensemble approaches",
+        "quote": "I'm also comfortable in a world where I have three different versions of the same thing, and I take a weighted average of everything or an average of everything and an ensemble approach.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:38:11 PM"
+      },
+      {
+        "summary": "High volume sales motion with random lead flow means rep performance should be statistically similar, but hard to isolate true ability",
+        "quote": "every rep's closing enough business, I can actually get enough statistical data to determine, like, especially in that one business where everybody's closing 30 deals a month, and it's a random lead flow. There's no picking of territories or anything.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:54:52 PM"
+      },
+      {
+        "summary": "Previous attempt to build bespoke solution with data science company failed and cost ~$90K for a year",
+        "quote": "we worked with a third party and tried to do something like this, but it wasn't productized and it didn't work well. Just as a frame of reference, that investment was about $90K for a year.",
+        "speaker": "Louisa.Smythe_simpro",
+        "timestamp": "11:48:38 PM"
+      },
+      {
+        "summary": "Budget management for marketing is chaotic with every way of spending money being 'kooky'",
+        "quote": "I've spent a lot of time in the marketing ops space, and I've never seen budget management process that I want to replicate, right? Every way marketing spends money is kooky. I haven't seen anyone crack that nut.",
+        "speaker": "Louisa.Smythe_simpro",
+        "timestamp": "2:12:39 AM"
+      },
+      {
+        "summary": "Finance and marketing disagree on what was actually spent due to manual tracking in Google spreadsheets",
+        "quote": "our marketers do a great job of staying on top of what they think they've spent. But what they think they've spent is not always what... It doesn't always agree with what finance has booked.",
+        "speaker": "Louisa.Smythe_simpro",
+        "timestamp": "2:16:27 AM"
+      },
+      {
+        "summary": "SimPro's sales team failed to follow up with ~1000 inbound leads who filled out forms after SaaStr Annual",
+        "quote": "post sasser annual i was like we literally just from this sasser annual have about a thousand people our sales team we never followed up with like these are people who literally filled out that form i was talking about earlier said they wanted information about sastry annual i routed it to a rep and then the rep did nothing i found a thousand of these people",
+        "speaker": "Amelia Lerutte",
+        "timestamp": "11:33:52 PM"
+      },
+      {
+        "summary": "SimPro's RevOps process was broken before implementing AI agents",
+        "quote": "some processes were broken right like our rev ops process was pretty broken before we did this so but we figured out how to fix it and then we basically put that on acid with the ai and the agents",
+        "speaker": "Amelia Lerutte",
+        "timestamp": "11:37:53 PM"
+      },
+      {
+        "summary": "SimPro's lead and MQL definitions need updating to filter out non-SimPro business unit records from BigChange HubSpot integration",
+        "quote": "We're about to start creating a lot more leads in Salesforce that aren't simple related to think we need to add a few more filters to, um, our lead and potentially MQL definitions, just to make sure we're not pulling in records associated to non-sim pro.",
+        "speaker": "Louisa.Smythe_simpro",
+        "timestamp": "9:36:55 PM"
+      },
+      {
+        "summary": "First-touch/last-touch attribution model insufficient for complex deal cycles",
+        "quote": "i know we've very much been almost like a first touch last touch attribution uh model in the past and um as we get more complex with our deal sizes and larger deals as well um i think you know we need to be a bit more sophisticated in terms of our reporting",
+        "speaker": "Tim Lamb (Simpro)",
+        "timestamp": "8:36:09 PM"
+      },
+      {
+        "summary": "Sales team recycling old leads from paid media, making attribution difficult",
+        "quote": "the sales team are recycling a lot of old leads that might have come in one or two or three years ago, maybe through and probably through paid media. And then, you know, it's obviously turned to self-gen.",
+        "speaker": "Tim Lamb (Simpro)",
+        "timestamp": "8:44:28 PM"
+      },
+      {
+        "summary": "Data pipeline setup to RevSure was challenging due to security and nuances",
+        "quote": "I think a challenging part is getting the data from Salesforce or HubSpot into there initially just because there's a lot of nuances or security or things like that in order to get the data pipeline flowing.",
+        "speaker": "Mike Binder",
+        "timestamp": "8:37:36 PM"
+      },
+      {
+        "summary": "Catch-all campaigns in Salesforce and HubSpot creating attribution noise",
+        "quote": "We kind of have this big catchall for a lot of our form fills in Salesforce, like whether it's a paid, if they were driven from a paid, like hand raised form fill, or if it was more organic. And so it's just a catchall that's been just like an evergreen for several years, lots of campaign members.",
+        "speaker": "Mike Binder",
+        "timestamp": "9:36:37 PM"
+      },
+      {
+        "summary": "Mutiny experimentation campaigns creating attribution clutter",
+        "quote": "these experimentation ones called Mutiny. It's like a very web specific, like, we're going to give this flavor of a landing page. and another flavor of a landing page",
+        "speaker": "Mike Binder",
+        "timestamp": "9:43:27 PM"
+      }
+    ],
+    "tools_switched_from": [
+      {
+        "tool": "Clary",
+        "vendor": "Clary",
+        "reason": "Clary is on bookings, RevSure is on pipeline - different focus areas",
+        "quote": "Clary is like bookings, we are on the pipeline.",
+        "speaker": "E.T. Mac",
+        "timestamp": "11:37:43 PM"
+      },
+      {
+        "tool": "Internal build attempt",
+        "vendor": "Third party data science company",
+        "reason": "Wasn't productized and didn't work well",
+        "quote": "we were engaged with like basically a data science company who was trying to kind of build this bespoke for us.",
+        "speaker": "Louisa.Smythe_simpro",
+        "timestamp": "10:02:41 PM"
+      },
+      {
+        "tool": "Spreadsheets / manual weighted pipeline",
+        "vendor": "Internal",
+        "reason": "Wanted to get more scientific with weighted pipeline forecast",
+        "quote": "our CRO is very, attuned to and likes to see a weighted pipeline forecast. We've been playing around with internal weightings and things of that nature, and wanted to get more scientific with it.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:38:07 PM"
+      },
+      {
+        "tool": "Marketo",
+        "vendor": "Adobe",
+        "reason": "Amelia was more comfortable with Marketo than Salesforce and used to push things from Marketo to Salesforce, but now uses Salesforce-native tools",
+        "quote": "I would say in my rankings of tools in our stack six months ago, I would say I was a lot better at Marketo than Salesforce and I pushed a lot of things from Marketo to Salesforce just because that's what I was trained on in the early days as a marketer versus Salesforce, which was a sales tool. only back in the day right they just wouldn't give you access",
+        "speaker": "Amelia Lerutte",
+        "timestamp": "12:12:16 AM"
+      }
+    ],
+    "political_tussles": [
+      {
+        "actors": [
+          "Marketing",
+          "Finance"
+        ],
+        "tension_label": "Spend discrepancy and ROI calculation",
+        "summary": "Marketing calculates ROI based on flat budget while finance includes hidden costs, creating tension over true marketing performance",
+        "quote": "marketing spent 10 grand on this event and we generated 500k in pipeline and then so we have 50 X ROI and finance is like, you didn't count the hotel rooms, flights and meals.",
+        "speaker": "E.T. Mac",
+        "timestamp": "10:02:41 PM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales"
+        ],
+        "tension_label": "Lead follow-up ownership and execution failure",
+        "summary": "Sales team failed to follow up with 1000 marketing-generated inbound leads, creating tension about lead management responsibility",
+        "quote": "post sasser annual i was like we literally just from this sasser annual have about a thousand people our sales team we never followed up with like these are people who literally filled out that form i was talking about earlier said they wanted information about sastry annual i routed it to a rep and then the rep did nothing i found a thousand of these people which is all wrong like i can't kill i'm not gonna go i should email those people an apology",
+        "speaker": "Amelia Lerutte",
+        "timestamp": "11:33:52 PM"
+      },
+      {
+        "actors": [
+          "SimPro brand",
+          "Aeroflow brand"
+        ],
+        "tension_label": "Inter-brand budget competition",
+        "summary": "Two SimPro business units in Australia were competing against each other in paid media, with both brands bidding on same keywords",
+        "quote": "in australia we have simpro as a brand and aeroflow as a brand now we invest uh paid media and both of those but in a number of areas we're essentially competing against each other and we're going to try and not do that or we're going to try and optimize in some sort of way",
+        "speaker": "Tim Lamb",
+        "timestamp": "12:04:03 AM"
+      },
+      {
+        "actors": [
+          "Marketing",
+          "Sales/RevOps"
+        ],
+        "tension_label": "Forecasting tool ownership disagreement",
+        "summary": "DD (sales-focused RevOps) building in-house forecasting model instead of using RevSure's included pipeline projections",
+        "quote": "i feel like it might be more of an in-house uh like forecasting model that they're gonna go with um at the moment um so i yeah i'm not i don't i wouldn't get my hopes up that dd's gonna uh lean on uh rev sure to do that part so they basically created like a you know an in-house model and all that so i think they're gonna go with that",
+        "speaker": "Mike Binder",
+        "timestamp": "10:10:04 PM"
+      }
+    ],
+    "contrarians": [
+      {
+        "claim": "Prefers to have three different versions of forecasting tools and take weighted average rather than single source of truth",
+        "why_unusual": "Most vendors push for replacing existing tools; George explicitly embraces redundancy and ensemble approaches",
+        "quote": "I'm also comfortable in a world where I have three different versions of the same thing, and I take a weighted average of everything or an average of everything and an ensemble approach. It's all good.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:38:11 PM"
+      },
+      {
+        "claim": "Would rather buy than build despite having capability to build, but wants to thoroughly understand what he's buying",
+        "why_unusual": "Technical buyers often prefer build; George is anti-blocker but deeply skeptical of 'AI' claims, wanting to verify actual algorithmic rigor",
+        "quote": "I'd much rather buy than build. I'm not a blocker here. I just want to understand what we would be buying if we did.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:34:32 PM"
+      },
+      {
+        "claim": "Wants human bias OUT of attribution models, sees 'Wizard of Oz' AI as major industry problem",
+        "why_unusual": "Most marketers want control over weights; George sees human-set weights as introducing bias that defeats purpose of algorithmic approach",
+        "quote": "I don't want to put the weights in because now I'm not in the position to do that. You're doing what I'm introducing human bias into the model and it makes everybody think you've got a multi-touch attribution What you really got is is marketing bias or sales bias or whoever put the value in bias",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:44:15 PM"
+      },
+      {
+        "claim": "Recommends buy over build specifically because can't keep up with vendor roadmap, not just time/cost",
+        "why_unusual": "Usually build-vs-buy framed around immediate resources; George sees vendor roadmap velocity as strategic advantage",
+        "quote": "And I couldn't be able to keep up with your roadmap. So that's the logic behind it.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "12:00:36 AM"
+      },
+      {
+        "claim": "AI agents cannot figure out what isn't working; they only scale what already works",
+        "why_unusual": "Contradicts the common vendor pitch that AI will magically fix broken processes; emphasizes human process improvement first",
+        "quote": "an agent can't today figure out make something that isn't working work but if you know what's working and then this is important you train the agent with it then you get 24 7 infinite firepower backing up your best practices",
+        "speaker": "Jason Lemkin",
+        "timestamp": "11:37:27 AM"
+      },
+      {
+        "claim": "Don't hire agencies or external AI experts; figure it out yourself with your best internal people",
+        "why_unusual": "Directly contradicts the massive consulting/AI agency industry; argues no external party can know your business better",
+        "quote": "there's no like somebody else asked me yesterday like hey i you know i'm rolling out a few platforms some of the some of them are ones that sastry uses do you like recommend anybody to uh any either anybody or like an agency that can help me deploy all this i'm like that's the wrong way to go about it what you got to figure it out yourself",
+        "speaker": "Amelia Lerutte",
+        "timestamp": "12:28:28 AM"
+      },
+      {
+        "claim": "Don't over-invest in data governance before starting AI; 'too much data is too much data'",
+        "why_unusual": "Goes against the enterprise mantra of 'clean data first'; argues for starting with what's working rather than waiting for perfect data",
+        "quote": "don't get too hung up on this data governance thing a lot of folks i talk to now especially at bigger orgs um I get very concerned, I'm like, okay, if I add so many agents, I'm going to need governance as a layer, or I'm going to need to clean up all my data and cleaning up all my data or getting all the processes right, it's going to take like two years before I can even think about implementing. I think too much data is too much data.",
+        "speaker": "Amelia Lerutte",
+        "timestamp": "11:39:35 AM"
+      },
+      {
+        "claim": "Cheap AI tools ($299/month) won't work because they lack training and data ingestion depth",
+        "why_unusual": "Pushes back against the democratization narrative; argues enterprise-grade AI requires enterprise-grade investment",
+        "quote": "I am not aware of in right now, as this is recorded, I'm not aware of any cheap AI, SDR, BDR tool that works because of the training ingestion and data, rule it out for 2026 but i would budget 50 to 80 grand or more and if you can't afford that um don't expect much just don't",
+        "speaker": "Jason Lemkin",
+        "timestamp": "12:32:56 AM"
+      },
+      {
+        "claim": "MQL threshold is extremely low - essentially any lead that isn't disqualified",
+        "why_unusual": "Most B2B companies have rigorous MQL scoring; SimPro essentially treats all non-disqualified leads as MQLs",
+        "quote": "we use our lead create date. Essentially, we have a very low threshold for what actually becomes an MQL. it's really just like pretty much any lead that comes in as long as they're not like disqualified because they're an existing customer or they're just spam",
+        "speaker": "Mike Binder",
+        "timestamp": "9:51:57 PM"
+      }
+    ],
+    "revsure_problems": [
+      {
+        "category": "tool",
+        "problem": "Gen AI chatbot is identified as area where competitors have advantage",
+        "quote": "I will say where some people have is our Gen AI chatbot. Oh, gosh. Okay, fine. That's been the most recent one.",
+        "speaker": "E.T. Mac",
+        "timestamp": "11:40:22 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client questions whether data graph infographic represents actual neural network analysis or just API connections",
+        "quote": "This to me looks like a neural network. Are you actually doing that to find latent variables, or is this just an infographic to say that we connect everything?",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "11:41:26 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "No POC offered - only sandbox with dummy data or full commitment, creating friction for budget-constrained prospects",
+        "quote": "We don't do pilots or proof of concepts, just because the amount of effort to kind of ingest all that data through our AI models across all your code and market tech stack would probably make us a startup you heard about than a startup you know, sooner than later",
+        "speaker": "E.T. Mac",
+        "timestamp": "10:05:07 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Lead count showing as zero in snapshot funnel when it should be populated",
+        "quote": "i just wanted to double check some things because it was looking like this metric right here the lead one uh it was populating at zero and then the mql one just seemed huge and i wasn't sure like what uh those numbers um like maybe we're pulling from",
+        "speaker": "Mike Binder",
+        "timestamp": "9:30:59 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Salesforce read-only license for RevSure team was backlogged/not completed",
+        "quote": "the read-only license. I have not gotten an email from SFDC. like to create for it to create a read only license from us alternatively it's you exporting the details only and the formatted reports and sharing them with me",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:38:43 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "LinkedIn integration still pending due to contact on maternity leave",
+        "quote": "I think the biggest thing is, and I know we kind of left pending, was LinkedIn, the LinkedIn piece, right? Because that's, from my understanding, a major piece of your go-to-market motion.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:31:54 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Google Ads connection was interrupted and needed to be reconnected with proper account-level access",
+        "quote": "Simpro Google Ads is interrupted for some reason",
+        "speaker": "Mike Binder",
+        "timestamp": "2:15:02 AM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Sixth Sense data extraction had issues and was pending resolution",
+        "quote": "I'm having the team look at the six cents data poll. So that is on me. I'll keep you updated on that.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:35:02 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about SQL vs pre-pipeline distinction and whether they should be separate stages",
+        "quote": "sql and pre-pipeline to me are the same like i would almost just collapse the two and like",
+        "speaker": "Louisa.Smythe_simpro",
+        "timestamp": "11:36:28 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "Mountain data not showing attributed performance, only basic metrics (clicks, impressions, reactions)",
+        "quote": "as of right now in, in rapture, Mike, just because of how the mountain platform works, this is the kind of data that we get",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:51:12 PM"
+      },
+      {
+        "category": "implementation",
+        "problem": "Google Search Console data cannot be split by geo/region yet",
+        "quote": "As of this moment today, we can't split the data, but we have on our roadmap that enhancement",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "10:07:59 PM"
+      },
+      {
+        "category": "tool",
+        "problem": "LinkedIn campaign data showing only one campaign to pipeline, suggesting potential data gap",
+        "quote": "I'm having the team look into this because right now I'm only seeing this one LinkedIn campaign to pipeline.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:44:55 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about cohorted vs stage-based attribution timing",
+        "quote": "And then just, just so I'm clear, the leads ops created period. So is that a cohort of view? So it's saying, like, if the lead was created in this period, how did they progress? Or is it saying, perhaps the lead could have been created last quarter, and it like, progressed into maybe an SQO this quarter.",
+        "speaker": "Mike Binder",
+        "timestamp": "9:36:46 PM"
+      },
+      {
+        "category": "understanding",
+        "problem": "Client confusion about why cost per MQL showing NA for LinkedIn and Sixth Sense",
+        "quote": "to on some of those where it was na is that because there's no cost data associated so that is yeah",
+        "speaker": "Mike Binder",
+        "timestamp": "10:21:58 PM"
+      }
+    ],
+    "best_about_revsure": [
+      {
+        "summary": "George calls RevSure's approach 'the best approach I've seen on the market so far' and comparable to what he could build with a team",
+        "quote": "I think what you all have built, it's the best approach I've seen on the market so far. And it's in line with stuff that I could build if I had the team to do it, so.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "2:38:47 AM"
+      },
+      {
+        "summary": "Data ingest and unification capability solves problem that would take engineers and data scientists months to build",
+        "quote": "This would take me a handful of engineers and data scientists six months to build out in spreadsheets output, right? Like the models and everything that needs to be redone.",
+        "speaker": "George.Sadler_simpro",
+        "timestamp": "2:22:55 AM"
+      },
+      {
+        "summary": "Traceability and drill-down capabilities create 'aha moments' by showing exactly how attribution is calculated",
+        "quote": "If you go to the site manual, drill down to those options, you show that opportunity and that's what creates the aha moment, right? Every time, all the time.",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "12:45:49 AM"
+      },
+      {
+        "summary": "RevSure's traceability and drill-down capability to prove campaign influence on specific opportunities",
+        "quote": "this traceability is very important because you want to have that proof right from a touch base perspective with opportunities that this campaign really influenced. So you always have this traceability, right? So you can believe the attribution results, right?",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:55:19 PM"
+      },
+      {
+        "summary": "Ability to see cross-channel impact of digital marketing on sales-sourced and partner-sourced pipeline",
+        "quote": "here for example you can easily see how page search is impacting optionally source by sales right so 2.3 million dollars of the total pipeline that sales are source that actually was contributed was influenced by page search",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:59:33 PM"
+      },
+      {
+        "summary": "Marketing mix modeling quantifies both touch-based and non-touch-based channels including brand/out-of-home",
+        "quote": "that's where our marketing mix modeling comes into play that quantifies the contribution as a mix across all of the different channels both touch based and non-touch based channels",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:59:33 PM"
+      },
+      {
+        "summary": "Predictive planning and optimization with saturation curves showing incremental response by channel",
+        "quote": "what's more important is what marketing mix is help you understand the incremental response of every channel. If I start increasing spend, in this case, I'm looking at Google spend and incremental pipeline response. So as I start increasing Google spend, how much more pipeline can I generate incrementally?",
+        "speaker": "Deepinder Singh Dhingra",
+        "timestamp": "11:59:33 PM"
+      },
+      {
+        "summary": "Journey timeline view showing all touchpoints leading to opportunity progression with drill-down by contact",
+        "quote": "see here in the first page, you're seeing this is 20 touch points for all contacts on the account, right? So we're looking at all contacts on the account, 20 touch points. And then when I go here to the journey timeline, see how I can view.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:41:18 PM"
+      },
+      {
+        "summary": "Custom dimension creation for simplified bucketing of complex picklist values",
+        "quote": "you can create a custom dimension that's like, I'll just show you real quick. So if I go new and I go edit, then say here I did a new block and I do, let's see. I'm just going to pick opportunity type for the sake of a better example, right? So let's say opportunity type in. Let's see you do. I'm just gonna this is really gonna be purely directional right so I choose these three so instead of these three then this would be Expansion or",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "11:49:29 PM"
+      },
+      {
+        "summary": "Timeline journey view showing all touchpoints leading to revenue",
+        "quote": "i think it's one of the coolest views not just because i work at rupture right because here we see for the primary contact 28 touch points right both campaign touches and activities but when we expand that out to all contacts on the account right we see 66 and we see here in the timeline journey how all of those different touches lead to right hitting discovery hitting sql hitting and seeing how all those touch points, both campaign touches and activities, lead to lead stage generation pipeline and close one.",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "8:51:49 PM"
+      },
+      {
+        "summary": "Ability to drill from channel down to campaign, ad group, and keyword granularity",
+        "quote": "you can look at Google campaign performance in three different granularities. Campaign, ad group, and then keyword. And you can see the attributed performance. against that campaign against that ad group against that keyword",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:53:32 PM"
+      },
+      {
+        "summary": "Global filtering across all tabs to simplify views for different stakeholders",
+        "quote": "one of the things that we wanted to do was yeah click there is we wanted to do global filtering so let's say that you worked on this widget you got the filter and you got everything how you wanted it now you can apply that to only widgets on the current tab or all widgets in all the tabs so it's like a global filter",
+        "speaker": "Francisco Oller Garcia",
+        "timestamp": "9:56:45 PM"
+      }
+    ],
+    "wins": {
+      "immediate": [
+        {
+          "win": "Scenario planning for CMO - what to do with extra $100K or $1M in budget",
+          "quote": "the primary use case we have in mind for something like rev sure is scenario planning for the CMO, right? like an extra 100k, an extra million, and you know, how would you want to spend it and where would you see return?",
+          "speaker": "Louisa.Smythe_simpro",
+          "timestamp": "10:09:22 PM"
+        },
+        {
+          "win": "Multi-touch attribution to replace current limited visibility",
+          "quote": "having multi-touch attribution. um you know definitely been something that's been uh talked about",
+          "speaker": "Mike",
+          "timestamp": "4:39:16 AM"
+        },
+        {
+          "win": "Pipeline predictability and forecasting for business where 70% closes in 30 days",
+          "quote": "the pipeline predictability, the scenario planning, you know, I think that's, it might keep me honest here, but that's, that's really where we're primarily excited about RevSure",
+          "speaker": "Louisa.Smythe_simpro",
+          "timestamp": "10:23:23 PM"
+        },
+        {
+          "win": "All data sources flowing and funnel configured in RevSure for SimPro",
+          "quote": "all the data sources are flowing. Your funnel is configured. I just spoke to my teammate. And we've ingested, we've done the extraction from Sixth Sense. So upon this thing tomorrow, we should see Sixth Sense data in RevShare as well.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "11:30:57 PM"
+        },
+        {
+          "win": "Campaign attribution dashboard built for paid advertising performance tracking",
+          "quote": "i kind of started building this out for refining it from when we last talked so what we're looking at here is a paid advertising current quarter uh summary",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "9:35:02 PM"
+        },
+        {
+          "win": "Data validation showing 99%+ accuracy between Salesforce and RevSure (1,630 vs 1,615 wins)",
+          "quote": "it looked like everything was pretty close. Like to me, if we're off, there's 1,630 wins and you guys got like 1,615. That to me is a match. We're not splitting hairs on that.",
+          "speaker": "Mike Binder",
+          "timestamp": "9:32:22 PM"
+        },
+        {
+          "win": "AI outbound agent achieving 7% overall response rate (double industry average) and 4% positive response rate",
+          "quote": "Overall, our outbound with the AI is almost a 7% overall response rate, which is kind of double just overall averages across anything you'll see all any you know tool that does sequences and outreach a four percent positive response rate which is higher than most",
+          "speaker": "Amelia Lerutte",
+          "timestamp": "11:33:52 PM"
+        },
+        {
+          "win": "AI inbound agent responsible for $1M in revenue in just 3.5 months",
+          "quote": "the inbound agent has been responsible for already a million dollars of revenue now you could say okay some of that revenue would have closed entry right it's inbound",
+          "speaker": "Amelia Lerutte",
+          "timestamp": "11:56:07 PM"
+        },
+        {
+          "win": "AI agents now generating 20% of ticket revenue for London event",
+          "quote": "between our two agents, it's now 20% of our ticket revenue for the upcoming London event",
+          "speaker": "Amelia Lerutte",
+          "timestamp": "12:09:41 AM"
+        },
+        {
+          "win": "Demand gen dashboard created with paid advertising performance by channel",
+          "quote": "I started building something out so if you click on here campaign I think it's this one campaign attribution",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "9:49:23 PM"
+        },
+        {
+          "win": "Google Search Console successfully connected and synced",
+          "quote": "mike the team confirmed we do see a successful sync from search console so in one of our upcoming meetings i can show you how then that data",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "8:35:23 PM"
+        },
+        {
+          "win": "Mountain click and impression data now flowing after ingestion fix",
+          "quote": "Oh, I wanted to update you so we fix the ingestion with mountain So now we're getting all that like click and impression data",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "9:49:23 PM"
+        },
+        {
+          "win": "Geo-specific dashboard view created for UK director Georgia",
+          "quote": "Now you have the demand gen dashboard specifically for ASP.UK for those leads generated from the UK.",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:27:45 PM"
+        }
+      ],
+      "long_term": [
+        {
+          "win": "Cross-business-unit pipeline gap analysis - finding $500K pipeline gap across four brands",
+          "quote": "there's a, there's a 500 K pipeline gap for the business. Maybe it's a SIM pro gap, but maybe I can go find that 500 K somewhere in a different funnel, right.",
+          "speaker": "Louisa.Smythe_simpro",
+          "timestamp": "10:33:17 PM"
+        },
+        {
+          "win": "Marketing mix modeling to understand cross-channel impact and cannibalization/halo effects across business units",
+          "quote": "we are able to understand the halo or the cannibalization effect right? The halo is the positive and canonization is the negative part of it across business units, across products, as well as sometimes across regions",
+          "speaker": "Deepinder Singh Dhingra",
+          "timestamp": "12:04:29 AM"
+        },
+        {
+          "win": "Predictive pipeline forecasting to know if they'll have enough pipeline to hit close-one goals",
+          "quote": "what we want you to be able to do is with our pipeline predictabilities you can go two weeks into the quarter and see am i gonna have enough pipeline to hit the goals that I have for close one",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "12:09:35 AM"
+        },
+        {
+          "win": "Expansion funnel analytics for customer marketing and Pendo product data integration",
+          "quote": "2025 was the year of like nailing the new what we call the new customer acquisition funnel i think 2026 is the year of the expansion funnel",
+          "speaker": "Louisa.Smythe_simpro",
+          "timestamp": "12:11:05 AM"
+        },
+        {
+          "win": "Multi-business unit rollout starting with SimPro, then BigChange, then other brands",
+          "quote": "we certainly wanna start with Simpro first and then plot our next steps accordingly. And I think it's gonna be a mixture of weighing what kind of implementation is gonna have the largest business impact",
+          "speaker": "Louisa Smythe",
+          "timestamp": "12:20:13 AM"
+        },
+        {
+          "win": "Pipeline projections and forecasting for quarterly planning",
+          "quote": "one piece is the intervention piece, like going two weeks into a quarter, am I going to have enough pipeline",
+          "speaker": "Francisco Oller Garcia",
+          "timestamp": "10:12:23 PM"
+        }
+      ]
+    }
+  },
+  "before_state": {
+    "stack": [
+      "Sixth Sense",
+      "Clary",
+      "Salesforce",
+      "HubSpot",
+      "Google Sheets/Excel for budget tracking",
+      "Internal weighted pipeline spreadsheets",
+      "Looker for BI",
+      "Mixed media model",
+      "Marketo",
+      "Human SDRs",
+      "Google Ads",
+      "LinkedIn",
+      "Bing",
+      "Mutiny",
+      "Mountain",
+      "Google AdWords",
+      "Bing Ads",
+      "Google Search Console (direct)",
+      "Looker (for GSC data)"
+    ],
+    "pain_summary": "Four business units with fragmented data, manual pipeline weighting, conflicting marketing/finance spend views, no true multi-touch attribution, and inability to forecast for high-velocity sales motion where 70% of pipeline creates and closes in 30 days",
+    "kpis_unhealthy": [
+      "pipeline forecast accuracy",
+      "campaign attribution",
+      "marketing spend reconciliation with finance",
+      "cross-business-unit pipeline visibility",
+      "seller monthly forecasting",
+      "campaign attribution accuracy",
+      "lead follow-up rate",
+      "cross-business unit spend optimization",
+      "pipeline predictability",
+      "RevOps process efficiency",
+      "attribution accuracy for long deal cycles",
+      "cost per MQL by true source",
+      "cross-channel ROI visibility",
+      "regional performance tracking"
+    ]
+  },
+  "after_state": {
+    "with_revsure": "Unified full-funnel AI platform with Bayesian regression for scenario planning, algorithmic multi-touch attribution, pipeline predictability across four brands, and data write-back to Salesforce/Looker",
+    "wins_realized": [
+      "Funnel configured with 99%+ data validation accuracy",
+      "Campaign attribution dashboard for paid advertising",
+      "Journey timeline visibility across account touchpoints",
+      "Sixth Sense data integration completed",
+      "Custom dimension capabilities for marketer self-service",
+      "Paid advertising dashboard with W-shaped attribution",
+      "Google Search Console integration",
+      "Mountain data ingestion fixed",
+      "Channel classification rules for cleaner attribution",
+      "UK-specific dashboard view",
+      "User group permissions for controlled rollout"
+    ],
+    "open_issues": [
+      "Data team in Australia availability for implementation",
+      "Tim and Janelle buy-in pending",
+      "Budget timing - need to defer costs to 2026",
+      "Integration complexity with four business units merging into one tech stack",
+      "Confidence intervals not displayed in UI",
+      "LinkedIn integration pending",
+      "Bing integration pending",
+      "Salesforce read-only license for RevSure team not yet provisioned",
+      "Lead/MQL definition updates needed for BigChange HubSpot integration",
+      "Mountain attribution data limited to basic metrics",
+      "SQL vs pre-pipeline stage definition needs clarification",
+      "Google Search Console geo split not yet available",
+      "Mountain lead-level timestamp data missing",
+      "DD/sales team not adopting pipeline projections (preferring in-house model)",
+      "LinkedIn campaign data volume appears low - under investigation",
+      "Full team enablement pending for Georgia and other geo directors"
+    ]
+  },
+  "_meta": {
+    "source_files": [
+      "RevSure_  Transcript - SimPro (All Calls) (1).md"
+    ],
+    "total_chunks": 3,
+    "extracted_chunks": 3
+  },
+  "_verification": {
+    "dropped_by_category": {
+      "pains": 0,
+      "tools_switched_from": 0,
+      "political_tussles": 0,
+      "contrarians": 0,
+      "revsure_problems": 0,
+      "best_about_revsure": 0,
+      "wins_immediate": 0,
+      "wins_long_term": 0
+    },
+    "kept_by_category": {
+      "pains": 14,
+      "tools_switched_from": 4,
+      "political_tussles": 4,
+      "contrarians": 9,
+      "revsure_problems": 14,
+      "best_about_revsure": 12,
+      "wins_immediate": 13,
+      "wins_long_term": 6
+    }
+  }
+}
